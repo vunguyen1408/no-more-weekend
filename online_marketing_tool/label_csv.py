@@ -253,9 +253,9 @@ def parse_ads_creatives_json_to_label(pdate):
 
     for i in list_json:
         #print(json["image_url"])
-        print(i)
+
         print(i[0])
-        if i[0]["object_type"] == 'SHARE':
+        if i[0]["object_type"] == 'SHARE' and i[0]["call_to_action_type"] != 'INSTALL_MOBILE_APP' and :
 
             #check duplicate trong list
             # if exist then check null value
