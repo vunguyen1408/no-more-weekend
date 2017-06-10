@@ -237,7 +237,8 @@ def parse_ads_creatives_json_to_label(pdate):
         if i["object_type"] == 'SHARE':
 
             #check duplicate trong list
-            # nếu tồn tại thì kiểm trả thêm điều kiện label rỗng : do lỗi hay gì đó
+            # if exist then check null value
+            #
             exists = False
             x=0
             y=-1 #null_position
