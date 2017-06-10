@@ -20,7 +20,7 @@ import os
 
 #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
 
-def label(photo_link):
+def label(pdate,photo_link):
     # [START vision_quickstart]
     import io
     import os
@@ -54,7 +54,12 @@ def label(photo_link):
     disassembled = urlparse(picture_page)
     filename, file_ext = splitext(basename(disassembled.path))
 
-    fullfilename = join("resources", filename+file_ext)
+    #Dev env
+    #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
+    #Prod env
+    base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02/"+pdate+"/images"
+    fullfilename = join(base_dir, filename+file_ext)
+    #fullfilename = join("resources", filename+file_ext)
     urlretrieve(photo_link, fullfilename)
     photo_file=fullfilename
     print(photo_file)
@@ -146,7 +151,10 @@ def parse_ads_creatives_csv_to_json(pdate):
     import io
     import json
 
-    base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
+    #Dev env
+    #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
+    #Prod env
+    base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02/"
     wrk_dir=os.path.join(base_dir, pdate)
 
     ads_creatives_file_name = "ads_creatives_"+pdate+".json"
@@ -177,7 +185,10 @@ def parse_ads_creatives_json_to_label(pdate):
     import io
     import json
 
-    base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
+    #Dev env
+    #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
+    #Prod env
+    base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02/"
     wrk_dir=os.path.join(base_dir, pdate)
 
     ads_creatives_file_name = "ads_creatives_"+pdate+".json"
@@ -303,5 +314,5 @@ if __name__ == '__main__':
     #args = parser.parse_args()
     #main(args.image_file)
     #label(args.image_link)
-    parse_ads_creatives_csv_to_json("20170501")
-    parse_ads_creatives_json_to_label("20170501")
+    parse_ads_creatives_csv_to_json("2017-05-01")
+    parse_ads_creatives_json_to_label("2017-05-01")
