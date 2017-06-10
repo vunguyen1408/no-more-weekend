@@ -168,7 +168,7 @@ def parse_ads_creatives_csv_to_json(pdate):
 
             #if os.path.splitext(fullpath)[1] == '.txt':
             if 'creatives.txt' in fullpath:
-                #print (fullpath)
+                print (fullpath)
                 #get_json(fullpath)
                 list_file.append(fullpath)
 
