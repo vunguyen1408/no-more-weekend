@@ -20,7 +20,8 @@ import os
 
 #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
 
-def label(pdate,photo_link):
+def label(photo_link):
+
     # [START vision_quickstart]
     import io
     import os
@@ -37,12 +38,20 @@ def label(pdate,photo_link):
         from urllib import urlretrieve  # Python 2
 #import urllib.request
 
-    from urllib.parse import urlparse
+
+    try:
+        from urllib.parse import urlparse  # Python 3
+    except ImportError:
+        from urlparse import urlparse  # Python 2
+
+
     from os.path import splitext, basename, join
 
 
     # Imports the Google Cloud client library
     from google.cloud import vision
+
+    pdate=vdate
 
     #return
     list_label=[]
@@ -58,6 +67,10 @@ def label(pdate,photo_link):
     #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
     #Prod env
     base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02/"+pdate+"/images"
+
+    if not os.path.exists(base_dir):
+        os.makedirs(base_dir)
+
     fullfilename = join(base_dir, filename+file_ext)
     #fullfilename = join("resources", filename+file_ext)
     urlretrieve(photo_link, fullfilename)
@@ -94,7 +107,7 @@ def get_json(files):
     import pandas as pd
 
     with open(files) as csvfile:
-        reader = csv.reader(csvfile , delimiter='[', quoting=csv.QUOTE_NONE)
+        reader = csv.reader(csvfile , delimiter='/,/ /[', quoting=csv.QUOTE_NONE)
         for row in reader:
             print(row[1].strip("]"))
             #json.dumps( [ row for row in reader ] )
@@ -127,15 +140,19 @@ def get_json3(list_file):
     list_json = []
 
     for files_ in list_file:
-        with open(files_) as csvfile:
-            reader = csv.reader(csvfile , delimiter='[', quoting=csv.QUOTE_NONE)
-            for row in reader:
+        with open(files_) as rawfile:
+            for row in rawfile:
+                data = row.split(", ",1) # split by first comma
 
+                #get ads_id
                 pattern =  "(\d+)"
-                matchObject = re.search(pattern, row[0], flags=0)
+                matchObject = re.search(pattern, data[0], flags=0)
                 ads_id=matchObject.group()
-                json_data = json.loads(row[1].strip("]")) # loai bo dau ] sau cung
-                json_data['ad_id']=ads_id # bo sung ads_id vao json
+
+                #get json
+                json_data = json.loads(data[1])
+                json_data[0]['ad_id']=ads_id # bo sung ads_id vao json
+                #print(json_data[0]["ad_id"])
                 list_json.append(json_data)
 
 
@@ -232,9 +249,13 @@ def parse_ads_creatives_json_to_label(pdate):
             # you can print the error here, e.g.
             print(str(e))
 
+
+
     for i in list_json:
         #print(json["image_url"])
-        if i["object_type"] == 'SHARE':
+        print(i)
+        print(i[0])
+        if i[0]["object_type"] == 'SHARE':
 
             #check duplicate trong list
             # if exist then check null value
@@ -245,7 +266,7 @@ def parse_ads_creatives_json_to_label(pdate):
             for image in list_image_json:
                 #print(type(image))
                 #if image["image_url"] ==  i["image_url"] and image["image_label"] !="":
-                if image["image_url"] ==  i["image_url"]:
+                if image["image_url"] ==  i[0]["image_url"]:
                     exists = True
                     if image["image_label"]=="":
                         y=x
@@ -257,12 +278,12 @@ def parse_ads_creatives_json_to_label(pdate):
 
             #get label
             if exists == False:
-                image_label=label(i["image_url"])
+                image_label=label(i[0]["image_url"])
                 #image_label=""
 
                 #create dict
                 image_url_json={
-                                 "image_url"    : i["image_url"]
+                                 "image_url"    : i[0]["image_url"]
                                 ,"image_label"  : image_label
                                 }
                 #append
@@ -271,7 +292,7 @@ def parse_ads_creatives_json_to_label(pdate):
             # exist = True
                 if y >=0 :
                     # update value
-                    image_label=label(i["image_url"])
+                    image_label=label(i[0]["image_url"])
                     list_image_json[y]["image_label"]=image_label
 
 
@@ -315,5 +336,6 @@ if __name__ == '__main__':
     #args = parser.parse_args()
     #main(args.image_file)
     #label(args.image_link)
-    parse_ads_creatives_csv_to_json("2017-05-01")
-    parse_ads_creatives_json_to_label("2017-05-01")
+    vdate="2017-05-01"
+    parse_ads_creatives_csv_to_json(vdate)
+    parse_ads_creatives_json_to_label(vdate)
