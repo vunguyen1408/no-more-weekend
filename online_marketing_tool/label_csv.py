@@ -220,8 +220,8 @@ def parse_ads_creatives_json_to_label(pdate):
                 #print(row["image_url"])
 
 
-    #để hạn chế số luợng api call, các url cần đuợc kiểm tra đã có kết quả  chưa
-    # trong file image_ủrl_lablel_yyyymmdd.json
+    # de han che so luong call api, cac url can duoc kiem tra da co chua
+    # trong file image_url_lablel_yyyymmdd.json
     if os.path.exists( image_url_file ) and os.stat(image_url_file).st_size  > 0  :
         try:
             with open (image_url_file,'r') as file_json:
