@@ -299,8 +299,8 @@ def parse_ads_creatives_json_to_label(pdate):
 
             #label(image_url)
 
-        elif i["object_type"] == 'VIDEO':
-            print(i["object_story_spec"]["video_data"]["image_url"])
+        elif i[0]["object_type"] == 'VIDEO':
+            print(i[0]["object_story_spec"]["video_data"]["image_url"])
         #'object_type' == 'SHARE'; id, call_to_action_type, object_type, object_story_spec.link_data.link, image_url, object_story_spec.link_data.message
         #'object_type' == 'VIDEO'; id, call_to_action_type, object_type, object_story_spec.video_data.call_to_action.value.link, object_story_spec.video_data.image_url, object_story_spec.link_data.object_story_spec.video_data.description
 
