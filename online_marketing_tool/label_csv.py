@@ -192,10 +192,11 @@ def parse_ads_creatives_csv_to_json(pdate):
     #print(list_files)
     list_json = get_json3(list_file)
 
+
     with open (ads_creatives_file,'w') as f:
         json.dump(list_json,f)
 
-def parse_ads_creatives_json_to_label(pdate):
+def parse_ads_creatives_json_audit_content(pdate):
 
     import os, os.path
     #from os.path import splitext, basename, join
@@ -209,12 +210,15 @@ def parse_ads_creatives_json_to_label(pdate):
     wrk_dir=os.path.join(base_dir, pdate)
 
     ads_creatives_file_name = "ads_creatives_"+pdate+".json"
-    image_url_file_name = "image_url_"+pdate+".json"
-    image_url_file= os.path.join(wrk_dir, image_url_file_name)
+    ads_creatives_audit_content_file_name = "ads_creatives_audit_content_"+pdate+".json"
+
+    ads_creatives_audit_content_file= os.path.join(wrk_dir, ads_creatives_audit_content_file_name)
 
     list_file = []
     list_json = []
-    list_image_json = []
+
+    #audit content object
+    list_audit_context = ['image_url','thumbnail_url','link','video_id','message']
 
     #find all file
     for root, dirs, files in os.walk(wrk_dir):
@@ -236,6 +240,71 @@ def parse_ads_creatives_json_to_label(pdate):
                 list_json.append(row)
                 #print(row["image_url"])
 
+    #get audit content
+    position=0
+    for i in list_json:
+        #print(json["image_url"])
+        #print(type(i[]))
+        audit_content={}
+        #get content
+        for j in list_audit_context:
+
+            audit_content_object=j+'s' #name
+            #print(audit_content_object)
+            audit_content[audit_content_object]=[]
+
+
+            for k in _finditem2(i[0],j):
+                #add dict content
+                content = {}
+                content[j] = k
+                #print(k)
+
+                audit_content[audit_content_object].append(content)
+
+        #print(type(list_json[position][0]))
+        #print(type(list_json[i]))
+        list_json[position][0]['audit_content']=audit_content
+        position+=1
+
+
+    #print(list_json[0][0]['audit_content']['image_urls'])
+    with open (ads_creatives_audit_content_file,'w') as f:
+        json.dump(list_json,f)
+
+
+def label_ads_creatives_json_audit_content(pdate):
+
+    import os, os.path
+    #from os.path import splitext, basename, join
+    import io
+    import json
+
+    #Dev env
+    #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
+    #Prod env
+    base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02/"
+    wrk_dir=os.path.join(base_dir, pdate)
+
+    ads_creatives_file_name = "ads_creatives_"+pdate+".json"
+
+    image_url_file_name = "image_url_"+pdate+".json"
+    image_url_file= os.path.join(wrk_dir, image_url_file_name)
+    ads_creatives_audit_content_file_name = "ads_creatives_audit_content_"+pdate+".json"
+    ads_creatives_audit_content_file= os.path.join(wrk_dir, ads_creatives_audit_content_file_name)
+
+    list_file = []
+    list_json = []
+    list_image_json = []
+
+    #audit content object
+    list_audit_context = ['image_url','thumbnail_url','link','video_id','message']
+
+    #get all data
+    with open (ads_creatives_audit_content_file,'r') as file_json:
+        reader=json.load(file_json)
+        for row in reader:
+            list_json.append(row)
 
     # de han che so luong call api, cac url can duoc kiem tra da co chua
     # trong file image_url_lablel_yyyymmdd.json
@@ -249,41 +318,35 @@ def parse_ads_creatives_json_to_label(pdate):
             # you can print the error here, e.g.
             print(str(e))
 
-
-
+    position_json=0
     for i in list_json:
-        #print(json["image_url"])
-
         print(i[0])
-        if i[0]["object_type"] == 'SHARE' and i[0]["call_to_action_type"] != 'INSTALL_MOBILE_APP'  :
-
-            #check duplicate trong list
-            # if exist then check null value
-            #
+        position_image=0
+        for j in i[0]['audit_content']['image_urls']:
+            #print(j)
+            #check exists
             exists = False
             x=0
             y=-1 #null_position
+            image_label=""
             for image in list_image_json:
                 #print(type(image))
                 #if image["image_url"] ==  i["image_url"] and image["image_label"] !="":
-                if image["image_url"] ==  i[0]["image_url"]:
+                if image["image_url"] ==  j["image_url"]:
                     exists = True
                     if image["image_label"]=="":
                         y=x
                     break
                 x+=1
+            #
 
-            print(exists)
-            print (y)
-
-            #get label
             if exists == False:
-                image_label=label(i[0]["image_url"])
-                #image_label=""
+                image_label=label(j["image_url"])
+                #image_label="a"
 
                 #create dict
                 image_url_json={
-                                 "image_url"    : i[0]["image_url"]
+                                 "image_url"    : j["image_url"]
                                 ,"image_label"  : image_label
                                 }
                 #append
@@ -292,43 +355,124 @@ def parse_ads_creatives_json_to_label(pdate):
             # exist = True
                 if y >=0 :
                     # update value
-                    image_label=label(i[0]["image_url"])
+                    image_label=label(j["image_url"])
+                    #image_label="b"
                     list_image_json[y]["image_label"]=image_label
-
-
-
             #label(image_url)
+            list_json[position_json][0]['audit_content']['image_urls'][position_image]["image_label"]=image_label
+            position_image+=1
 
-        elif i[0]["object_type"] == 'VIDEO':
-            #print(i[0]["object_story_spec"]["video_data"]["image_url"])
-            print(i[0])
-        #'object_type' == 'SHARE'; id, call_to_action_type, object_type, object_story_spec.link_data.link, image_url, object_story_spec.link_data.message
-        #'object_type' == 'VIDEO'; id, call_to_action_type, object_type, object_story_spec.video_data.call_to_action.value.link, object_story_spec.video_data.image_url, object_story_spec.link_data.object_story_spec.video_data.description
+        position_json+=1
 
-
-    #print (type(list_image_json))
-    #print (list(set(list_image_json)))
+    #print(list_json[0][0]['audit_content']['image_urls'])
     with open (image_url_file,'w') as f:
         json.dump(list_image_json,f)
 
-
-        #print (json_)
-       #print(json_data)
-    #print(json_data[0]["image_url"])
-    #print(type(df))
-    #print(list_[0]["body"])
-    #print(list_json[0]["body"],list_json[0]["image_url"])
-    #frame = pd.concat(list_)
-    #'object_type' == 'SHARE'; id, call_to_action_type, object_type, object_story_spec.link_data.link, image_url, object_story_spec.link_data.message
-    #'object_type' == 'VIDEO'; id, call_to_action_type, object_type, object_story_spec.video_data.call_to_action.value.link, object_story_spec.video_data.image_url, object_story_spec.link_data.object_story_spec.video_data.description
+    with open (ads_creatives_audit_content_file,'w') as f:
+        json.dump(list_json,f)
 
 
 
 
 
+def analyze_ads_creatives_json(pdate):
+
+    import os, os.path
+    #from os.path import splitext, basename, join
+    import io
+    import json
+
+    #Dev env
+    #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
+    #Prod env
+    base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02/"
+    wrk_dir=os.path.join(base_dir, pdate)
+
+    ads_creatives_file_name = "ads_creatives_"+pdate+".json"
+    image_url_file_name = "image_url_"+pdate+".json"
+    image_url_file= os.path.join(wrk_dir, image_url_file_name)
+
+
+    list_file = []
+    list_json = []
+    list_object_type = []
+
+    #find all file
+    for root, dirs, files in os.walk(wrk_dir):
+        for f in files:
+            fullpath = os.path.join(root, f)
+
+            #if os.path.splitext(fullpath)[1] == '.txt':
+            if ads_creatives_file_name in fullpath:
+                #print (fullpath)
+                #get_json(fullpath)
+                list_file.append(fullpath)
+
+
+    #get all data
+    for file_ in list_file:
+        with open (file_,'r') as file_json:
+            reader=json.load(file_json)
+            for row in reader:
+                #print(row)
+                list_json.append(row)
+                #print(row["image_url"])
+
+    list_image_url = []
+    list_image_url = []
+    list_thumbnail_url = []
+    list_link = []
+
+    for i in list_json:
+        print(i)
+        #print(json["image_url"])
+        check1='-NO'
+        check2='-NO'
+        check3='-NO'
+        if 'image_url' in i[0]:
+            check1='-YES'
+        if 'object_story_spec' in i[0]:
+            check2='-YES'
+        if 'creative_id' in i[0]:
+            check3='-YES'
+        list_object_type.append(i[0]["object_type"]+"-"+check3)
+
+
+        #if 'call_to_action_type' in    i[0]:
+        #    list_object_type.append(i[0]["object_type"]+"-"+i[0]["call_to_action_type"])
+        #    list_object_type.append(i[0]["object_type"])
+        #else:
+        print("-")
+        print("FOUND: ")
+        #print(_finditem(i[0],'image_url'))
+        #print(_finditem2(i[0],'image_url'))
+
+        for i in _finditem2(i[0],'image_url'):
+            print(i)
+
+    print(list(set(list_object_type)))
 
 
 
+def _finditem(obj, key):
+    if key in obj:
+        return obj[key]
+    for k, v in obj.items():
+        if isinstance(v,dict):
+            item = _finditem(v, key)
+            if item is not None:
+                return item
+
+def _finditem2(obj, key):
+    list_item=[]
+    if key in obj:
+        list_item.append( obj[key] )
+    for k, v in obj.items():
+        if isinstance(v,dict):
+            item = _finditem(v, key)
+            if item is not None:
+                list_item.append(item)
+    return list(set(list_item))
 
 
 if __name__ == '__main__':
@@ -339,4 +483,6 @@ if __name__ == '__main__':
     #label(args.image_link)
     vdate="2017-05-01"
     parse_ads_creatives_csv_to_json(vdate)
-    parse_ads_creatives_json_to_label(vdate)
+    #analyze_ads_creatives_json(vdate)
+    parse_ads_creatives_json_audit_content(vdate)
+    label_ads_creatives_json_audit_content(vdate)
