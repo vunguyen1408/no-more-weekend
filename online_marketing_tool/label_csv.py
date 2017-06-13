@@ -248,6 +248,14 @@ def parse_ads_creatives_json_audit_content(pdate):
     import json
     import time
 
+    try:
+        from urllib.parse import urlparse  # Python 3
+    except ImportError:
+        from urlparse import urlparse  # Python 2
+
+
+    from os.path import splitext, basename, join
+
     #Dev env
     #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
     #Prod env
@@ -275,7 +283,6 @@ def parse_ads_creatives_json_audit_content(pdate):
                 #print (fullpath)
                 #get_json(fullpath)
                 list_file.append(fullpath)
-
 
     #get all data
     for file_ in list_file:
@@ -353,6 +360,7 @@ def label_ads_creatives_json_audit_content(pdate):
 
     # de han che so luong call api, cac url can duoc kiem tra da co chua
     # trong file image_url_lablel_yyyymmdd.json
+    # phat sinh truong hop url chi khac nhau tham so query, nen se lay netloc + path de compare
     if os.path.exists( image_url_file ) and os.stat(image_url_file).st_size  > 0  :
         try:
             with open (image_url_file,'r') as file_json:
@@ -379,7 +387,13 @@ def label_ads_creatives_json_audit_content(pdate):
             for image in list_image_json:
                 #print(type(image))
                 #if image["image_url"] ==  i["image_url"] and image["image_label"] !="":
-                if image["image_url"] ==  j["image_url"]:
+                # phat sinh truong hop url chi khac nhau tham so query, nen se lay netloc + path + params de compare
+
+                disassembled1 = urlparse(image["image_url"])
+                disassembled2 = urlparse(j["image_url"])
+
+                #if image["image_url"] ==  j["image_url"]:
+                if disassembled1.netloc == disassembled2.netloc and disassembled1.path == disassembled2.path  and disassembled1.params == disassembled2.params :
                     exists = True
                     if image["image_label"]=="":
                         y=x
