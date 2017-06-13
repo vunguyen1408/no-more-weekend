@@ -326,7 +326,7 @@ def label_ads_creatives_json_audit_content(pdate):
 
     position_json=0
     for i in list_json:
-        print(i[0])
+        #print(i[0])
         position_image=0
         for j in i[0]['audit_content']['image_urls']:
             #print(j)
@@ -342,11 +342,14 @@ def label_ads_creatives_json_audit_content(pdate):
                     exists = True
                     if image["image_label"]=="":
                         y=x
+                    else
+                        image_label=image["image_label"]
                     break
                 x+=1
             #
 
             if exists == False:
+                #get label
                 image_label=label(j["image_url"])
                 #image_label="a"
 
@@ -360,10 +363,11 @@ def label_ads_creatives_json_audit_content(pdate):
             else:
             # exist = True
                 if y >=0 :
-                    # update value
+                    # get value
                     image_label=label(j["image_url"])
                     #image_label="b"
-                    list_image_json[y]["image_label"]=image_label
+                #update value
+                list_image_json[y]["image_label"]=image_label
             #label(image_url)
             list_json[position_json][0]['audit_content']['image_urls'][position_image]["image_label"]=image_label
             position_image+=1
