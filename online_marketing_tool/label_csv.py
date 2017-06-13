@@ -385,11 +385,10 @@ def label_ads_creatives_json_audit_content(pdate):
             position_image+=1
 
         position_json+=1
-
-
-    #print(list_json[0][0]['audit_content']['image_urls'])
-    with open (image_url_file,'w') as f:
-        json.dump(list_image_json,f)
+        #write imeediate to prevent error
+        #print(list_json[0][0]['audit_content']['image_urls'])
+        with open (image_url_file,'w') as f:
+            json.dump(list_image_json,f)
 
     with open (ads_creatives_audit_content_file,'w') as f:
         json.dump(list_json,f)
