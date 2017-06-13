@@ -79,7 +79,15 @@ def label(photo_link):
 
     fullfilename = join(base_dir, filename+file_ext)
     #fullfilename = join("resources", filename+file_ext)
-    urlretrieve(photo_link, fullfilename)
+    try:
+        urlretrieve(photo_link, fullfilename)
+    except urllib2.HTTPError as err:
+        print(str(err))
+        #if err.code == 404:
+            #<whatever>
+        #else:
+       #raise
+
     photo_file=fullfilename
     #print(photo_file)
 
