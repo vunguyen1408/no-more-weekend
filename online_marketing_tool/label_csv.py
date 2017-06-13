@@ -66,7 +66,7 @@ def label(photo_link):
     #Dev env
     #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
     #Prod env
-    base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02/"+pdate+"/images"
+    base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/"+pdate+"/images"
 
     if not os.path.exists(base_dir):
         os.makedirs(base_dir)
