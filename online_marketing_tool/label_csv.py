@@ -25,6 +25,11 @@ def label(photo_link):
     # [START vision_quickstart]
     import io
     import os
+    import time
+    #because limitations, each request should wait
+    #wait 5 seconds
+    time.sleep(2)
+
 
     #import argparse
     #import base64
@@ -51,7 +56,7 @@ def label(photo_link):
     # Imports the Google Cloud client library
     from google.cloud import vision
 
-    pdate=vdate
+    pdate=g_vdate #global variable
 
     #return
     list_label=[]
@@ -97,6 +102,8 @@ def label(photo_link):
         list_label.append(label.description)
     # [END vision_quickstart]
     return         list_label
+
+
 
 
 
@@ -491,15 +498,20 @@ def _finditem2(obj, key):
     return list(set(list_item))
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('pdate', help='The date you\'d like to label.')
-    args = parser.parse_args()
-    main(args.pdate)
-    #label(args.image_link)
-    vdate=args.pdate
+def main(pdate):
+    """Run a label request """
+    vdate=pdate
     #vdate="2017-05-01"
     parse_ads_creatives_csv_to_json(vdate)
     #analyze_ads_creatives_json(vdate)
     parse_ads_creatives_json_audit_content(vdate)
     label_ads_creatives_json_audit_content(vdate)
+
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('pdate', help='The date you\'d like to label.')
+    args = parser.parse_args()
+    g_vdate=args.pdate
+    main(g_vdate)
