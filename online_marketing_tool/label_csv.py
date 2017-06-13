@@ -342,8 +342,7 @@ def label_ads_creatives_json_audit_content(pdate):
                     exists = True
                     if image["image_label"]=="":
                         y=x
-                    else
-                        image_label=image["image_label"]
+                    image_label=image["image_label"]
                     break
                 x+=1
             #
