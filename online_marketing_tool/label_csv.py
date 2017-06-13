@@ -27,8 +27,8 @@ def label(photo_link):
     import os
     import time
     #because limitations, each request should wait
-    #wait 5 seconds
-    time.sleep(2)
+    #wait 3 seconds
+    time.sleep(3)
 
 
     #import argparse
@@ -64,6 +64,7 @@ def label(photo_link):
     # Instantiates a client
     vision_client = vision.Client()
 
+    print(photo_link)
     picture_page = photo_link
     disassembled = urlparse(picture_page)
     filename, file_ext = splitext(basename(disassembled.path))
@@ -112,6 +113,7 @@ def get_json(files):
     import json
     from pprint import pprint
     import pandas as pd
+    import time
 
     with open(files) as csvfile:
         reader = csv.reader(csvfile , delimiter='/,/ /[', quoting=csv.QUOTE_NONE)
@@ -130,6 +132,7 @@ def get_json2(files):
     import csv
     import json
     from pprint import pprint
+    import time
 
     with open(files) as json_data:
         d = json.load(json_data)
@@ -142,6 +145,7 @@ def get_json3(list_file):
     import pandas as pd
     import re
     from pprint import pprint
+    import time
 
     frame = pd.DataFrame()
     list_json = []
@@ -174,6 +178,7 @@ def parse_ads_creatives_csv_to_json(pdate):
     #from os.path import splitext, basename, join
     import io
     import json
+    import time
 
     #Dev env
     #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
@@ -219,6 +224,7 @@ def parse_ads_creatives_json_audit_content(pdate):
     #from os.path import splitext, basename, join
     import io
     import json
+    import time
 
     #Dev env
     #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
