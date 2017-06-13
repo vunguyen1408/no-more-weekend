@@ -39,6 +39,7 @@ def label(photo_link):
 #
     try:
         from urllib.request import urlretrieve  # Python 3
+        from urllib.error import HTTPError
     except ImportError:
         from urllib import urlretrieve  # Python 2
 #import urllib.request
@@ -81,8 +82,9 @@ def label(photo_link):
     #fullfilename = join("resources", filename+file_ext)
     try:
         urlretrieve(photo_link, fullfilename)
+
     except HTTPError as err:
-        print(str(err))
+        print(err.code)
         #if err.code == 404:
             #<whatever>
         #else:
