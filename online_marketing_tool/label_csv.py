@@ -308,7 +308,7 @@ def label_ads_creatives_json_audit_content(pdate):
     list_image_json = []
 
     #audit content object
-    list_audit_context = ['image_url','thumbnail_url','link','video_id','message']
+    list_audit_context = ['image_url','link','video_id','message']
 
     #get all data
     with open (ads_creatives_audit_content_file,'r') as file_json:
@@ -379,52 +379,6 @@ def label_ads_creatives_json_audit_content(pdate):
 
         position_json+=1
 
-        #thumbnail_urls
-        position_image=0
-        for j in i[0]['audit_content']['thumbnail_urls']:
-            #print(j)
-            #check exists
-            exists = False
-            x=0
-            y=-1 #null_position
-            image_label=""
-            for image in list_image_json:
-                #print(type(image))
-                #if image["image_url"] ==  i["image_url"] and image["image_label"] !="":
-                if image["image_url"] ==  j["thumbnail_url"]:
-                    exists = True
-                    if image["image_label"]=="":
-                        y=x
-                    image_label=image["image_label"]
-                    break
-                x+=1
-            #
-
-            if exists == False:
-                #get label
-                image_label=label(j["thumbnail_url"])
-                #image_label="a"
-
-                #create dict
-                image_url_json={
-                                 "thumbnail_url"    : j["thumbnail_url"]
-                                ,"image_label"  : image_label
-                                }
-                #append
-                list_image_json.append(image_url_json)
-            else:
-            # exist = True
-                if y >=0 :
-                    # get value
-                    image_label=label(j["thumbnail_url"])
-                    #image_label="b"
-                #update value
-                list_image_json[y]["image_label"]=image_label
-            #label(image_url)
-            list_json[position_json][0]['audit_content']['thumbnail_urls'][position_image]["image_label"]=image_label
-            position_image+=1
-
-        position_json+=1
 
     #print(list_json[0][0]['audit_content']['image_urls'])
     with open (image_url_file,'w') as f:
