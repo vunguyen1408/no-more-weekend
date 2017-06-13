@@ -391,7 +391,7 @@ def label_ads_creatives_json_audit_content(pdate):
             for image in list_image_json:
                 #print(type(image))
                 #if image["image_url"] ==  i["image_url"] and image["image_label"] !="":
-                if image["thumbnail_url"] ==  j["thumbnail_url"]:
+                if image["image_url"] ==  j["thumbnail_url"]:
                     exists = True
                     if image["image_label"]=="":
                         y=x
