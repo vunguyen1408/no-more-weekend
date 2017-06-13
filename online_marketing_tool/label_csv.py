@@ -175,7 +175,7 @@ def parse_ads_creatives_csv_to_json(pdate):
         base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02/backup/"
     else:
         base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02/"
-        
+
     base_dir_json="/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/"
 
     wrk_dir=os.path.join(base_dir, pdate)
@@ -331,6 +331,8 @@ def label_ads_creatives_json_audit_content(pdate):
     position_json=0
     for i in list_json:
         #print(i[0])
+
+        #image_urls
         position_image=0
         for j in i[0]['audit_content']['image_urls']:
             #print(j)
@@ -373,6 +375,53 @@ def label_ads_creatives_json_audit_content(pdate):
                 list_image_json[y]["image_label"]=image_label
             #label(image_url)
             list_json[position_json][0]['audit_content']['image_urls'][position_image]["image_label"]=image_label
+            position_image+=1
+
+        position_json+=1
+
+        #thumbnail_urls
+        position_image=0
+        for j in i[0]['audit_content']['thumbnail_urls']:
+            #print(j)
+            #check exists
+            exists = False
+            x=0
+            y=-1 #null_position
+            image_label=""
+            for image in list_image_json:
+                #print(type(image))
+                #if image["image_url"] ==  i["image_url"] and image["image_label"] !="":
+                if image["thumbnail_url"] ==  j["thumbnail_url"]:
+                    exists = True
+                    if image["image_label"]=="":
+                        y=x
+                    image_label=image["image_label"]
+                    break
+                x+=1
+            #
+
+            if exists == False:
+                #get label
+                image_label=label(j["thumbnail_url"])
+                #image_label="a"
+
+                #create dict
+                image_url_json={
+                                 "thumbnail_url"    : j["thumbnail_url"]
+                                ,"image_label"  : image_label
+                                }
+                #append
+                list_image_json.append(image_url_json)
+            else:
+            # exist = True
+                if y >=0 :
+                    # get value
+                    image_label=label(j["thumbnail_url"])
+                    #image_label="b"
+                #update value
+                list_image_json[y]["image_label"]=image_label
+            #label(image_url)
+            list_json[position_json][0]['audit_content']['thumbnail_urls'][position_image]["image_label"]=image_label
             position_image+=1
 
         position_json+=1
