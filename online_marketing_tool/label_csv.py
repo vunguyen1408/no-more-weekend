@@ -172,10 +172,16 @@ def parse_ads_creatives_csv_to_json(pdate):
     #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
     #Prod env
     base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02/"
+    base_dir_json="/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/"
+
     wrk_dir=os.path.join(base_dir, pdate)
+    json_dir=os.path.join(base_dir_json, pdate)
+
+    if not os.path.exists(json_dir):
+        os.makedirs(json_dir)
 
     ads_creatives_file_name = "ads_creatives_"+pdate+".json"
-    ads_creatives_file= os.path.join(wrk_dir, ads_creatives_file_name)
+    ads_creatives_file= os.path.join(json_dir, ads_creatives_file_name)
     list_file = []
     list_json = []
 
@@ -206,7 +212,7 @@ def parse_ads_creatives_json_audit_content(pdate):
     #Dev env
     #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
     #Prod env
-    base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02/"
+    base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/"
     wrk_dir=os.path.join(base_dir, pdate)
 
     ads_creatives_file_name = "ads_creatives_"+pdate+".json"
@@ -283,7 +289,7 @@ def label_ads_creatives_json_audit_content(pdate):
     #Dev env
     #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
     #Prod env
-    base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02/"
+    base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/"
     wrk_dir=os.path.join(base_dir, pdate)
 
     ads_creatives_file_name = "ads_creatives_"+pdate+".json"
@@ -385,7 +391,7 @@ def analyze_ads_creatives_json(pdate):
     #Dev env
     #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
     #Prod env
-    base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02/"
+    base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/"
     wrk_dir=os.path.join(base_dir, pdate)
 
     ads_creatives_file_name = "ads_creatives_"+pdate+".json"
