@@ -80,6 +80,8 @@ def label(photo_link):
 
     fullfilename = join(base_dir, filename+file_ext)
     #fullfilename = join("resources", filename+file_ext)
+
+    #download
     try:
         urlretrieve(photo_link, fullfilename)
 
@@ -90,29 +92,39 @@ def label(photo_link):
         #else:
        #raise
 
+
     photo_file=fullfilename
-    #print(photo_file)
 
-    # The name of the image file to annotate
-    #file_name = os.path.join(
-    #    os.path.dirname(__file__),
-    #    'resources/wakeupcat.jpg')
+    if os.path.exists( photo_file ) :
+        try:
+            #print(photo_file)
 
-    # Loads the image into memory
-    with io.open(fullfilename, 'rb') as image_file:
-        content = image_file.read()
-        image = vision_client.image(
-            content=content)
+            # The name of the image file to annotate
+            #file_name = os.path.join(
+            #    os.path.dirname(__file__),
+            #    'resources/wakeupcat.jpg')
 
-    # Performs label detection on the image file
-    labels = image.detect_labels()
+            # Loads the image into memory
+            with io.open(fullfilename, 'rb') as image_file:
+                content = image_file.read()
+                image = vision_client.image(
+                    content=content)
 
-    print('Labels:')
-    for label in labels:
-        print(label.description)
-        list_label.append(label.description)
-    # [END vision_quickstart]
-    return         list_label
+            # Performs label detection on the image file
+            labels = image.detect_labels()
+
+            print('Labels:')
+            for label in labels:
+                print(label.description)
+                list_label.append(label.description)
+            # [END vision_quickstart]
+
+
+        except IOError as e:
+            # you can print the error here, e.g.
+            print(str(e))
+
+    return list_label
 
 
 
