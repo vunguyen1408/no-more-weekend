@@ -248,13 +248,6 @@ def parse_ads_creatives_json_audit_content(pdate):
     import json
     import time
 
-    try:
-        from urllib.parse import urlparse  # Python 3
-    except ImportError:
-        from urlparse import urlparse  # Python 2
-
-
-    from os.path import splitext, basename, join
 
     #Dev env
     #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
@@ -331,6 +324,11 @@ def label_ads_creatives_json_audit_content(pdate):
     #from os.path import splitext, basename, join
     import io
     import json
+
+    try:
+        from urllib.parse import urlparse  # Python 3
+    except ImportError:
+        from urlparse import urlparse  # Python 2
 
     #Dev env
     #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
