@@ -75,7 +75,7 @@ def label(photo_link):
     #fullfilename = join("resources", filename+file_ext)
     urlretrieve(photo_link, fullfilename)
     photo_file=fullfilename
-    print(photo_file)
+    #print(photo_file)
 
     # The name of the image file to annotate
     #file_name = os.path.join(
@@ -492,12 +492,13 @@ def _finditem2(obj, key):
 
 
 if __name__ == '__main__':
-    #parser = argparse.ArgumentParser()
-    #parser.add_argument('image_link', help='The image link you\'d like to label.')
-    #args = parser.parse_args()
-    #main(args.image_file)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('pdate', help='The date you\'d like to label.')
+    args = parser.parse_args()
+    main(args.pdate)
     #label(args.image_link)
-    vdate="2017-05-01"
+    vdate=args.pdate
+    #vdate="2017-05-01"
     parse_ads_creatives_csv_to_json(vdate)
     #analyze_ads_creatives_json(vdate)
     parse_ads_creatives_json_audit_content(vdate)
