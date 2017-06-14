@@ -437,7 +437,7 @@ def label_ads_creatives_json_audit_content(pdate):
     list_image_json = get_labled_image_url(pdate)
     list_image_json_today = []
 
-    exit()
+    
     position_json=0
     for i in list_json:
         #print(i[0])
