@@ -358,7 +358,7 @@ def get_labled_image_url(pdate):
         wrk_dir=os.path.join(base_dir, single_date.strftime('%Y-%m-%d'))
         image_url_file_name = "image_url_"+single_date.strftime('%Y-%m-%d')+".json"
         image_url_file= os.path.join(wrk_dir, image_url_file_name)
-        print(image_url_file)
+        #print(image_url_file)
 
         if os.path.exists( image_url_file ) and os.stat(image_url_file).st_size  > 0  :
             try:
@@ -384,7 +384,7 @@ def get_labled_image_url(pdate):
         wrk_dir=os.path.join(base_dir, single_date.strftime('%Y-%m-%d'))
         image_url_file_name = "image_url_"+single_date.strftime('%Y-%m-%d')+".json"
         image_url_file= os.path.join(wrk_dir, image_url_file_name)
-        print(image_url_file)
+        #print(image_url_file)
 
         if os.path.exists( image_url_file ) and os.stat(image_url_file).st_size  > 0  :
             try:
