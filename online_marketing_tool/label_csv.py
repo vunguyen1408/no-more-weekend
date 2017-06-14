@@ -39,7 +39,7 @@ def label(photo_link):
 #
     try:
         from urllib.request import urlretrieve  # Python 3
-        from urllib.error import HTTPError
+        from urllib.error import HTTPError,ContentTooShortError
     except ImportError:
         from urllib import urlretrieve  # Python 2
 #import urllib.request
@@ -87,6 +87,13 @@ def label(photo_link):
 
     except HTTPError as err:
         print(err.code)
+    except ContentTooShortError as err:
+        #retry 1 times
+        try:
+            urlretrieve(photo_link, fullfilename)
+        except ContentTooShortError as err:
+            print(err.code)
+
         #if err.code == 404:
             #<whatever>
         #else:
