@@ -336,7 +336,7 @@ def get_labled_image_url(pdate):
     #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
     #Prod env
     base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/"
-    image_url_file_name = "image_url_"+pdate+".json"
+
 
     delta=31
     vdate=datetime.strptime(pdate, '%Y-%m-%d').date()
@@ -349,6 +349,7 @@ def get_labled_image_url(pdate):
         #print( vdate - timedelta(i))
         single_date= vdate - timedelta(i+1)
         wrk_dir=os.path.join(base_dir, single_date.strftime('%Y-%m-%d'))
+        image_url_file_name = "image_url_"+single_date.strftime('%Y-%m-%d')+".json"
         image_url_file= os.path.join(wrk_dir, image_url_file_name)
         print(image_url_file)
 
@@ -374,6 +375,7 @@ def get_labled_image_url(pdate):
         #print( vdate + timedelta(i))
         single_date= vdate + timedelta(i) #prevent dup
         wrk_dir=os.path.join(base_dir, single_date.strftime('%Y-%m-%d'))
+        image_url_file_name = "image_url_"+single_date.strftime('%Y-%m-%d')+".json"
         image_url_file= os.path.join(wrk_dir, image_url_file_name)
         print(image_url_file)
 
