@@ -338,15 +338,16 @@ def get_labled_image_url(pdate):
     base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/"
     image_url_file_name = "image_url_"+pdate+".json"
 
-    delta=30
+    delta=31
     vdate=datetime.strptime(pdate, '%Y-%m-%d').date()
 
     list_image_json = []
+    json_count =0
 
     # de lui 30 ngay
     for i in range(int (delta)):
         #print( vdate - timedelta(i))
-        single_date= vdate - timedelta(i)
+        single_date= vdate - timedelta(i+1)
         wrk_dir=os.path.join(base_dir, single_date.strftime('%Y-%m-%d'))
         image_url_file= os.path.join(wrk_dir, image_url_file_name)
 
@@ -357,17 +358,20 @@ def get_labled_image_url(pdate):
                     for row in reader:
                         row['labeled_date']=single_date
                         list_image_json.append(row)
+                        json_count+=1
 
             except IOError as e:
                 # you can print the error here, e.g.
                 print(str(e))
+
+
 
 
 
     # de toi
     for i in range(int (delta)):
         #print( vdate + timedelta(i))
-        single_date= vdate + timedelta(i)
+        single_date= vdate + timedelta(i) #prevent dup
         wrk_dir=os.path.join(base_dir, single_date.strftime('%Y-%m-%d'))
         image_url_file= os.path.join(wrk_dir, image_url_file_name)
 
@@ -378,10 +382,12 @@ def get_labled_image_url(pdate):
                     for row in reader:
                         row['labeled_date']=single_date
                         list_image_json.append(row)
+                        json_count+=1
             except IOError as e:
                 # you can print the error here, e.g.
                 print(str(e))
 
+    print(json_count)
     return list_image_json
 
 
@@ -431,6 +437,7 @@ def label_ads_creatives_json_audit_content(pdate):
     list_image_json = get_labled_image_url(pdate)
     list_image_json_today = []
 
+    exit()
     position_json=0
     for i in list_json:
         #print(i[0])
@@ -503,7 +510,7 @@ def label_ads_creatives_json_audit_content(pdate):
 
     with open (ads_creatives_audit_content_file,'w') as f:
         json.dump(list_json,f)
-        
+
 
 def analyze_ads_creatives_json(pdate):
 
