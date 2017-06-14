@@ -28,7 +28,7 @@ def label(photo_link):
     import time
     #because limitations, each request should wait
     #wait 3 seconds
-    time.sleep(3)
+    time.sleep(5)
 
 
     #import argparse
@@ -118,7 +118,17 @@ def label(photo_link):
                     content=content)
 
             # Performs label detection on the image file
-            labels = image.detect_labels()
+            try:
+                labels = image.detect_labels()
+            except google.gax.errors.RetryError as err:
+                #retry 1 times
+                time.sleep(5)
+                try:
+                    labels = image.detect_labels()
+                except google.gax.errors.RetryError as err:
+                    #retry 1 times
+                    print(err.code)
+
 
             print('Labels:')
             for label in labels:
@@ -231,6 +241,7 @@ def parse_ads_creatives_csv_to_json(pdate):
     list_file = []
     list_json = []
 
+
     for root, dirs, files in os.walk(wrk_dir):
         for f in files:
             fullpath = os.path.join(root, f)
@@ -244,9 +255,10 @@ def parse_ads_creatives_csv_to_json(pdate):
     #print(list_files)
     list_json = get_json3(list_file)
 
-
+    final_json={}
+    final_json['my_json']=list_json
     with open (ads_creatives_file,'w') as f:
-        json.dump(list_json,f)
+        json.dump(final_json,f)
 
 def parse_ads_creatives_json_audit_content(pdate):
 
@@ -289,9 +301,10 @@ def parse_ads_creatives_json_audit_content(pdate):
     for file_ in list_file:
         with open (file_,'r') as file_json:
             reader=json.load(file_json)
-            for row in reader:
+            for row in reader['my_json']:
                 list_json.append(row)
                 #print(row["image_url"])
+
 
     #get audit content
     position=0
@@ -323,9 +336,11 @@ def parse_ads_creatives_json_audit_content(pdate):
         position+=1
 
 
+    final_json={}
+    final_json['my_json']=list_json
     #print(list_json[0][0]['audit_content']['image_urls'])
     with open (ads_creatives_audit_content_file,'w') as f:
-        json.dump(list_json,f)
+        json.dump(final_json,f)
 
 
 def get_labled_image_url(pdate):
@@ -357,20 +372,34 @@ def get_labled_image_url(pdate):
     # de lui 30 ngay
     for i in range(int (delta)):
         #print( vdate - timedelta(i))
-        single_date= vdate - timedelta(i+1)
+        single_date= vdate - timedelta(i)
         wrk_dir=os.path.join(base_dir, single_date.strftime('%Y-%m-%d'))
         image_url_file_name = "image_url_"+single_date.strftime('%Y-%m-%d')+".json"
         image_url_file= os.path.join(wrk_dir, image_url_file_name)
         #print(image_url_file)
 
         if os.path.exists( image_url_file ) and os.stat(image_url_file).st_size  > 0  :
+            print(image_url_file)
             try:
                 with open (image_url_file,'r') as file_json:
                     reader=json.load(file_json)
-                    for row in reader:
-                        row['labeled_date']=single_date.strftime('%Y-%m-%d')
-                        list_image_json.append(row)
-                        json_count+=1
+                    #v1 reader is list
+                    #V2 reader is dict
+                    #print(str(type(reader))
+
+                    if isinstance(reader,list):
+                        for row in reader:
+                            row['labeled_date']=single_date.strftime('%Y-%m-%d')
+                            list_image_json.append(row)
+                            json_count+=1
+
+                    else:#"<class 'dict'>":
+                        for row in reader['my_json']:
+                            row['labeled_date']=single_date.strftime('%Y-%m-%d')
+                            list_image_json.append(row)
+                            json_count+=1
+
+
 
             except IOError as e:
                 # you can print the error here, e.g.
@@ -383,25 +412,37 @@ def get_labled_image_url(pdate):
     # de toi
     for i in range(int (delta)):
         #print( vdate + timedelta(i))
-        single_date= vdate + timedelta(i) #prevent dup
+        single_date= vdate + timedelta(i+1) #prevent dup
         wrk_dir=os.path.join(base_dir, single_date.strftime('%Y-%m-%d'))
         image_url_file_name = "image_url_"+single_date.strftime('%Y-%m-%d')+".json"
         image_url_file= os.path.join(wrk_dir, image_url_file_name)
         #print(image_url_file)
 
         if os.path.exists( image_url_file ) and os.stat(image_url_file).st_size  > 0  :
+            print(image_url_file)
             try:
                 with open (image_url_file,'r') as file_json:
                     reader=json.load(file_json)
-                    for row in reader:
-                        row['labeled_date']=single_date.strftime('%Y-%m-%d')
-                        list_image_json.append(row)
-                        json_count+=1
+
+                    if isinstance(reader,list) :
+                        for row in reader:
+                            row['labeled_date']=single_date.strftime('%Y-%m-%d')
+                            list_image_json.append(row)
+                            json_count+=1
+
+                    else:#"<class 'dict'>":
+                        for row in reader['my_json']:
+                            row['labeled_date']=single_date.strftime('%Y-%m-%d')
+                            list_image_json.append(row)
+                            json_count+=1
+
             except IOError as e:
                 # you can print the error here, e.g.
                 print(str(e))
 
     print("Image labeled: " + str(json_count))
+
+
     return list_image_json
 
 
@@ -441,7 +482,7 @@ def label_ads_creatives_json_audit_content(pdate):
     #get all data
     with open (ads_creatives_audit_content_file,'r') as file_json:
         reader=json.load(file_json)
-        for row in reader:
+        for row in reader['my_json']:
             list_json.append(row)
 
     # de han che so luong call api, cac url can duoc kiem tra da co chua
@@ -536,11 +577,15 @@ def label_ads_creatives_json_audit_content(pdate):
         #write imeediate to prevent error
         #print(list_json[0][0]['audit_content']['image_urls'])
 
+        final_json_today={}
+        final_json_today['my_json']=list_image_json_today
         with open (image_url_file,'w') as f:
-            json.dump(list_image_json_today,f)
+            json.dump(final_json_today,f)
 
+    final_json={}
+    final_json['my_json']=list_json
     with open (ads_creatives_audit_content_file,'w') as f:
-        json.dump(list_json,f)
+        json.dump(final_json,f)
 
 
 def analyze_ads_creatives_json(pdate):
