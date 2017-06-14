@@ -443,7 +443,7 @@ def label_ads_creatives_json_audit_content(pdate):
     list_image_json_today = []
     json_count =0
     for image in list_image_json:
-        if image["labeled_date"] == pdate
+        if image["labeled_date"] == pdate :
             image_url_json={
                          "image_url"    : image["image_url"]
                         ,"image_label"  : image["image_label"]
