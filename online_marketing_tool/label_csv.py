@@ -193,12 +193,13 @@ def get_json3(list_file):
                 json_data = json.loads(data[1])
                 json_data[0]['ad_id']=ads_id # bo sung ads_id vao json
                 #print(json_data[0]["ad_id"])
-                list_json.append(json_data)
+                list_json.append(json_data[0])
 
 
 
     #print(list_[0]["body"])
     #print(list_json[0]["body"],list_json[0]["image_url"])
+
     return list_json;
 
 def parse_ads_creatives_csv_to_json(pdate):
@@ -306,7 +307,8 @@ def parse_ads_creatives_json_audit_content(pdate):
             audit_content[audit_content_object]=[]
 
 
-            for k in _finditem2(i[0],j):
+            #for k in _finditem2(i[0],j):
+            for k in _finditem2(i,j):
                 #add dict content
                 content = {}
                 content[j] = k
@@ -316,7 +318,8 @@ def parse_ads_creatives_json_audit_content(pdate):
 
         #print(type(list_json[position][0]))
         #print(type(list_json[i]))
-        list_json[position][0]['audit_content']=audit_content
+        #list_json[position][0]['audit_content']=audit_content
+        list_json[position]['audit_content']=audit_content
         position+=1
 
 
@@ -470,7 +473,8 @@ def label_ads_creatives_json_audit_content(pdate):
 
         #image_urls
         position_image=0
-        for j in i[0]['audit_content']['image_urls']:
+        #for j in i[0]['audit_content']['image_urls']:
+        for j in i['audit_content']['image_urls']:
             #print(j)
             #check exists
             exists = False
@@ -524,7 +528,8 @@ def label_ads_creatives_json_audit_content(pdate):
                 list_image_json[y]["image_label"]=image_label
 
             #label(image_url)
-            list_json[position_json][0]['audit_content']['image_urls'][position_image]["image_label"]=image_label
+            #list_json[position_json][0]['audit_content']['image_urls'][position_image]["image_label"]=image_label
+            list_json[position_json]['audit_content']['image_urls'][position_image]["image_label"]=image_label
             position_image+=1
 
         position_json+=1
@@ -592,13 +597,17 @@ def analyze_ads_creatives_json(pdate):
         check1='-NO'
         check2='-NO'
         check3='-NO'
-        if 'image_url' in i[0]:
+        #if 'image_url' in i[0]:
+        if 'image_url' in i:
             check1='-YES'
-        if 'object_story_spec' in i[0]:
+        #if 'object_story_spec' in i[0]:
+        if 'object_story_spec' in i:
             check2='-YES'
-        if 'creative_id' in i[0]:
+        #if 'creative_id' in i[0]:
+        if 'creative_id' in i:
             check3='-YES'
-        list_object_type.append(i[0]["object_type"]+"-"+check3)
+        #list_object_type.append(i[0]["object_type"]+"-"+check3)
+        list_object_type.append(i["object_type"]+"-"+check3)
 
 
         #if 'call_to_action_type' in    i[0]:
@@ -610,7 +619,8 @@ def analyze_ads_creatives_json(pdate):
         #print(_finditem(i[0],'image_url'))
         #print(_finditem2(i[0],'image_url'))
 
-        for i in _finditem2(i[0],'image_url'):
+        #for i in _finditem2(i[0],'image_url'):
+        for i in _finditem2(i,'image_url'):
             print(i)
 
     print(list(set(list_object_type)))
