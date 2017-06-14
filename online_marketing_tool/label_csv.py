@@ -350,6 +350,7 @@ def get_labled_image_url(pdate):
         single_date= vdate - timedelta(i+1)
         wrk_dir=os.path.join(base_dir, single_date.strftime('%Y-%m-%d'))
         image_url_file= os.path.join(wrk_dir, image_url_file_name)
+        print(image_url_file)
 
         if os.path.exists( image_url_file ) and os.stat(image_url_file).st_size  > 0  :
             try:
@@ -374,6 +375,7 @@ def get_labled_image_url(pdate):
         single_date= vdate + timedelta(i) #prevent dup
         wrk_dir=os.path.join(base_dir, single_date.strftime('%Y-%m-%d'))
         image_url_file= os.path.join(wrk_dir, image_url_file_name)
+        print(image_url_file)
 
         if os.path.exists( image_url_file ) and os.stat(image_url_file).st_size  > 0  :
             try:
@@ -437,7 +439,7 @@ def label_ads_creatives_json_audit_content(pdate):
     list_image_json = get_labled_image_url(pdate)
     list_image_json_today = []
 
-    
+
     position_json=0
     for i in list_json:
         #print(i[0])
