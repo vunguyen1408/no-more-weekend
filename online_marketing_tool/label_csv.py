@@ -398,7 +398,7 @@ def get_labled_image_url(pdate):
                 # you can print the error here, e.g.
                 print(str(e))
 
-    print("Image labeled: " + json_count)
+    print("Image labeled: " + str(json_count))
     return list_image_json
 
 
@@ -461,7 +461,7 @@ def label_ads_creatives_json_audit_content(pdate):
             #append
             list_image_json_today.append(image_url_json)
             json_count+=1
-    print("Image labeled this day: " + json_count)
+    print("Image labeled this day: " + str(json_count))
 
 
     position_json=0
