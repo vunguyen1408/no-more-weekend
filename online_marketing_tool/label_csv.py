@@ -358,7 +358,7 @@ def get_labled_image_url(pdate):
                 with open (image_url_file,'r') as file_json:
                     reader=json.load(file_json)
                     for row in reader:
-                        row['labeled_date']=single_date
+                        row['labeled_date']=single_date.strftime('%Y-%m-%d')
                         list_image_json.append(row)
                         json_count+=1
 
@@ -384,7 +384,7 @@ def get_labled_image_url(pdate):
                 with open (image_url_file,'r') as file_json:
                     reader=json.load(file_json)
                     for row in reader:
-                        row['labeled_date']=single_date
+                        row['labeled_date']=single_date.strftime('%Y-%m-%d')
                         list_image_json.append(row)
                         json_count+=1
             except IOError as e:
@@ -439,7 +439,20 @@ def label_ads_creatives_json_audit_content(pdate):
     # phat sinh truong hop url chi khac nhau tham so query, nen se lay netloc + path de compare
     # de han che them, kiem tra truoc sau 30 ngay de lay data --> chay lan luot
     list_image_json = get_labled_image_url(pdate)
+
     list_image_json_today = []
+    json_count =0
+    for image in list_image_json:
+        if image["labeled_date"] == pdate
+            image_url_json={
+                         "image_url"    : image["image_url"]
+                        ,"image_label"  : image["image_label"]
+                        #,"labeled_date" : pdate
+                        }
+            #append
+            list_image_json_today.append(image_url_json)
+            json_count+=1
+    print(json_count)
 
 
     position_json=0
