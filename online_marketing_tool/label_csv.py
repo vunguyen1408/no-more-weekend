@@ -709,4 +709,5 @@ if __name__ == '__main__':
     parser.add_argument('pdate', help='The date you\'d like to label.')
     args = parser.parse_args()
     g_vdate=args.pdate
+    print(g_vdate)
     main(g_vdate)
