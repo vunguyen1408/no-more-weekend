@@ -22,7 +22,7 @@ import os
 path_base = 'C:/Users/CPU10145-local/Desktop/Python Envirement/Data Sources/DATA/DWHVNG/APEX\MARKETING_TOOL_02_JSON'
 # path_base = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/'
 
-def label(photo_link):
+def label(photo_link, g_vdate):
     # [START vision_quickstart]
     import io
     import os
@@ -74,7 +74,8 @@ def label(photo_link):
     #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
     #Prod env
     # base_dir='E:\\VNG\\Python Envirement\\Data\\DWHVNG\\APEX\\MARKETING_TOOL_02_JSON\\'+pdate+"\\images"
-    base_dir=path_base + pdate+"\\images"
+    base_dir = join(path_base, pdate)
+    base_dir=base_dir +"\\images"
 
     if not os.path.exists(base_dir):
         os.makedirs(base_dir)
@@ -88,11 +89,13 @@ def label(photo_link):
         try:
             urlretrieve(photo_link, fullfilename)
             # print (fullfilename)
+        except KeyboardInterrupt as ki:
+            raise ki
+
         except HTTPError as err:
             # Nếu không tồn tải ảnh với url thì xem như list_label = []
             list_label = []
-            print(err.code)
-            print ("errors http")
+            # print(err.code)
         except ContentTooShortError as err:
             #retry 1 times
             print ("errors missing content")
@@ -103,7 +106,12 @@ def label(photo_link):
                 list_label = []
                 print ("don't fix errors missing content")
                 print(err.code)
-
+            except:
+                list_label = []
+                print("Unknown Error try redownload")
+        except:
+            list_label = []
+            print("Unknown Error try download")
             #if err.code == 404:
                 #<whatever>
             #else:
@@ -139,6 +147,10 @@ def label(photo_link):
                         print ("errors gax 2")
                         #retry 1 times
                         print(err.code)
+                    except:
+                        print("Unknown Error")
+                except:
+                    print("Unknown Error")
 
                 for label in labels:
                     list_label.append(label.description)
@@ -149,11 +161,12 @@ def label(photo_link):
             except IOError as e:
                 # you can print the error here, e.g.
                 print(str(e))
+            except:
+                print("Unknown Error")
 
         # Nếu ảnh quá size
         else:
             list_label = []
-
     return list_label
 
 
@@ -358,7 +371,7 @@ def label_ads_creatives_json_audit_content(pdate):
 
             if exists == False:
                 #get label
-                image_label=label(j["image_url"])
+                image_label=label(j["image_url"], pdate)
                 #image_label="a"
 
                 #create dict
@@ -374,7 +387,7 @@ def label_ads_creatives_json_audit_content(pdate):
             # exist = True
                 if y >=0 :
                     # get valu
-                    image_label=label(j["image_url"])
+                    image_label=label(j["image_url"], pdate)
                     image_url_json={
                                      "image_url"    : j["image_url"]
                                     ,"image_label"  : image_label
@@ -385,8 +398,7 @@ def label_ads_creatives_json_audit_content(pdate):
                     list_image_json[y]["image_label"]=image_label
 
             #label(image_url)
-            print (j["image_url"])
-            print (image_label)
+
             #list_json[position_json][0]['audit_content']['image_urls'][position_image]["image_label"]=image_label
             list_json[position_json]['audit_content']['image_urls'][position_image]["image_label"]=image_label
 
@@ -406,19 +418,30 @@ def label_ads_creatives_json_audit_content(pdate):
     with open (ads_creatives_audit_content_file,'w') as f:
         json.dump(final_json,f)
 
+# Lua chon chay tung ngay
 
+# def main(pdate):
+#     """Run a label request """
+#     vdate=pdate
+#     label_ads_creatives_json_audit_content(vdate)
+#
+#
+#
+# if __name__ == '__main__':
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument('pdate', help='The date you\'d like to label.')
+#     args = parser.parse_args()
+#     g_vdate=args.pdate
+#     # print(g_vdate)
+#     main(g_vdate)
 
-def main(pdate):
+# Lua chon chay full
+def main():
     """Run a label request """
-    vdate=pdate
-    label_ads_creatives_json_audit_content(vdate)
+    list_folder = next(os.walk(path_base))[1]
+    for date in list_folder:
+        print (date)
+        label_ads_creatives_json_audit_content(date)
 
 
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('pdate', help='The date you\'d like to label.')
-    args = parser.parse_args()
-    g_vdate=args.pdate
-    # print(g_vdate)
-    main(g_vdate)
+main()
