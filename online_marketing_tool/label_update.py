@@ -19,7 +19,7 @@ import base64
 import os
 
 #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
-# path_base = 'C:/Users/CPU10145-local/Desktop/Python Envirement/Data Sources/DATA/DWHVNG/APEX\MARKETING_TOOL_02_JSON'
+#path_base = 'C:/Users/CPU10145-local/Desktop/Python Envirement/Data/DWHVNG/APEX\MARKETING_TOOL_02_JSON'
 path_base = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/'
 
 def label(photo_link, g_vdate):
@@ -304,119 +304,122 @@ def label_ads_creatives_json_audit_content(pdate):
 
     #audit content object
     list_audit_context = ['image_url','link','video_id','message']
-
+    try:
     #get all data
-    with open (ads_creatives_audit_content_file,'r') as file_json:
-        reader=json.load(file_json)
-        for row in reader['my_json']:
-            list_json.append(row)
+        with open (ads_creatives_audit_content_file,'r') as file_json:
+            reader=json.load(file_json)
+            for row in reader['my_json']:
+                list_json.append(row)
+        # de han che so luong call api, cac url can duoc kiem tra da co chua
+        # trong file image_url_lablel_yyyymmdd.json
+        # phat sinh truong hop url chi khac nhau tham so query, nen se lay netloc + path de compare
+        # de han che them, kiem tra truoc sau 30 ngay de lay data --> chay lan luot
+        list_image_json = get_labled_image_url(pdate)
 
-    # de han che so luong call api, cac url can duoc kiem tra da co chua
-    # trong file image_url_lablel_yyyymmdd.json
-    # phat sinh truong hop url chi khac nhau tham so query, nen se lay netloc + path de compare
-    # de han che them, kiem tra truoc sau 30 ngay de lay data --> chay lan luot
-    list_image_json = get_labled_image_url(pdate)
-
-    # list image label trong ngay hien tai duoc giu lai de ghi xuong lai
-    # neu phat sinh se append vao
-    list_image_json_today = []
-    json_count =0
-    for image in list_image_json:
-        if image["labeled_date"] == pdate :
-            image_url_json={
-                         "image_url"    : image["image_url"]
-                        ,"image_label"  : image["image_label"]
-                        #,"labeled_date" : pdate
-                        }
-            #append
-            list_image_json_today.append(image_url_json)
-            json_count+=1
-    print("Image labeled this day: " + str(json_count))
-
-    # print (len(list_image_json_today))
-    # for image in list_image_json_today:
-    #     print (image)
-    # print ("---------------------------------------------------")
-
-    position_json=0
-    for i in list_json:
-        #print(i[0])
-
-        #image_urls
-        position_image=0
-        #for j in i[0]['audit_content']['image_urls']:
-        for j in i['audit_content']['image_urls']:
-            #check exists
-            exists = False
-            x=0
-            y=-1 #null_position
-            image_label=[]
-            for image in list_image_json:
-                #print(type(image))
-                #if image["image_url"] ==  i["image_url"] and image["image_label"] !="":
-                # phat sinh truong hop url chi khac nhau tham so query, nen se lay netloc + path + params de compare
-
-                disassembled1 = urlparse(image["image_url"])
-                disassembled2 = urlparse(j["image_url"])
-
-                #if image["image_url"] ==  j["image_url"]:
-                if disassembled1.netloc == disassembled2.netloc and disassembled1.path == disassembled2.path  and disassembled1.params == disassembled2.params :
-                    exists = True
-                    if len(image["image_label"])==0:
-                        y=x
-                    image_label=image["image_label"]
-                    break
-                x+=1
-            #
-
-            if exists == False:
-                #get label
-                image_label=label(j["image_url"], pdate)
-                #image_label="a"
-
-                #create dict
+        # list image label trong ngay hien tai duoc giu lai de ghi xuong lai
+        # neu phat sinh se append vao
+        list_image_json_today = []
+        json_count =0
+        for image in list_image_json:
+            if image["labeled_date"] == pdate :
                 image_url_json={
-                                 "image_url"    : j["image_url"]
-                                ,"image_label"  : image_label
-                                #,"labeled_date" : pdate
-                                }
+                             "image_url"    : image["image_url"]
+                            ,"image_label"  : image["image_label"]
+                            #,"labeled_date" : pdate
+                            }
                 #append
-                list_image_json.append(image_url_json)
                 list_image_json_today.append(image_url_json)
-            else:
-            # exist = True
-                if y >=0 :
-                    # get valu
+                json_count+=1
+        print("Image labeled this day: " + str(json_count))
+
+        # print (len(list_image_json_today))
+        # for image in list_image_json_today:
+        #     print (image)
+        # print ("---------------------------------------------------")
+
+        position_json=0
+        for i in list_json:
+            #print(i[0])
+
+            #image_urls
+            position_image=0
+            #for j in i[0]['audit_content']['image_urls']:
+            for j in i['audit_content']['image_urls']:
+                #check exists
+                exists = False
+                x=0
+                y=-1 #null_position
+                image_label=[]
+                for image in list_image_json:
+                    #print(type(image))
+                    #if image["image_url"] ==  i["image_url"] and image["image_label"] !="":
+                    # phat sinh truong hop url chi khac nhau tham so query, nen se lay netloc + path + params de compare
+
+                    disassembled1 = urlparse(image["image_url"])
+                    disassembled2 = urlparse(j["image_url"])
+
+                    #if image["image_url"] ==  j["image_url"]:
+                    if disassembled1.netloc == disassembled2.netloc and disassembled1.path == disassembled2.path  and disassembled1.params == disassembled2.params :
+                        exists = True
+                        if len(image["image_label"])==0:
+                            y=x
+                        image_label=image["image_label"]
+                        break
+                    x+=1
+                #
+
+                if exists == False:
+                    #get label
                     image_label=label(j["image_url"], pdate)
+                    #image_label="a"
+
+                    #create dict
                     image_url_json={
                                      "image_url"    : j["image_url"]
                                     ,"image_label"  : image_label
                                     #,"labeled_date" : pdate
                                     }
+                    #append
+                    list_image_json.append(image_url_json)
                     list_image_json_today.append(image_url_json)
-                    #update value
-                    list_image_json[y]["image_label"]=image_label
+                else:
+                # exist = True
+                    if y >=0 :
+                        # get valu
+                        image_label=label(j["image_url"], pdate)
+                        image_url_json={
+                                         "image_url"    : j["image_url"]
+                                        ,"image_label"  : image_label
+                                        #,"labeled_date" : pdate
+                                        }
+                        list_image_json_today.append(image_url_json)
+                        #update value
+                        list_image_json[y]["image_label"]=image_label
 
-            #label(image_url)
+                #label(image_url)
 
-            #list_json[position_json][0]['audit_content']['image_urls'][position_image]["image_label"]=image_label
-            list_json[position_json]['audit_content']['image_urls'][position_image]["image_label"]=image_label
+                #list_json[position_json][0]['audit_content']['image_urls'][position_image]["image_label"]=image_label
+                list_json[position_json]['audit_content']['image_urls'][position_image]["image_label"]=image_label
 
-            position_image+=1
+                position_image+=1
 
-        position_json+=1
-        #write imeediate to prevent error
-        #print(list_json[0][0]['audit_content']['image_urls'])
+            position_json+=1
+            #write imeediate to prevent error
+            #print(list_json[0][0]['audit_content']['image_urls'])
 
-        final_json_today={}
-        final_json_today['my_json']=list_image_json_today
-        with open (image_url_file,'w') as f:
-            json.dump(final_json_today,f)
+            final_json_today={}
+            final_json_today['my_json']=list_image_json_today
+            with open (image_url_file,'w') as f:
+                json.dump(final_json_today,f)
 
-    final_json={}
-    final_json['my_json']=list_json
-    with open (ads_creatives_audit_content_file,'w') as f:
-        json.dump(final_json,f)
+        final_json={}
+        final_json['my_json']=list_json
+        with open (ads_creatives_audit_content_file,'w') as f:
+            json.dump(final_json,f)
+    except:
+        print ("Open file error")
+
+
 
 
 
