@@ -19,8 +19,8 @@ import base64
 import os
 
 #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
-path_base = 'C:/Users/CPU10145-local/Desktop/Python Envirement/Data Sources/DATA/DWHVNG/APEX\MARKETING_TOOL_02_JSON'
-# path_base = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/'
+# path_base = 'C:/Users/CPU10145-local/Desktop/Python Envirement/Data Sources/DATA/DWHVNG/APEX\MARKETING_TOOL_02_JSON'
+path_base = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/'
 
 def label(photo_link, g_vdate):
     # [START vision_quickstart]
@@ -418,6 +418,9 @@ def label_ads_creatives_json_audit_content(pdate):
     with open (ads_creatives_audit_content_file,'w') as f:
         json.dump(final_json,f)
 
+
+
+
 # Lua chon chay tung ngay
 
 # def main(pdate):
@@ -434,6 +437,23 @@ def label_ads_creatives_json_audit_content(pdate):
 #     g_vdate=args.pdate
 #     # print(g_vdate)
 #     main(g_vdate)
+
+##############################################################
+# delete all file list image_label
+def remove_image_label():
+    """Run a label request """
+    list_folder = next(os.walk(path_base))[1]
+    for folder in list_folder:
+        path_folder = os.path.join(path_base, folder)
+        file_name = "image_url_"+ folder +".json"
+        path_file = os.path.join(path_folder, file_name)
+        if os.path.exists(path_file):
+            os.remove(path_file)
+
+
+remove_image_label()
+
+###########################################################
 
 # Lua chon chay full
 def main():
