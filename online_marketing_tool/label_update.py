@@ -19,8 +19,9 @@ import base64
 import os
 
 #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
-#path_base = 'C:/Users/CPU10145-local/Desktop/Python Envirement/Data/DWHVNG/APEX\MARKETING_TOOL_02_JSON'
+# path_base = 'C:/Users/CPU10145-local/Desktop/Python Envirement/Data/DWHVNG/APEX/test'
 path_base = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/'
+# path_base = 'E:\VNG\Data\DATA\DWHVNG\APEX\MARKETING_TOOL_02_JSON/'
 
 def label(photo_link, g_vdate):
     # [START vision_quickstart]
@@ -75,7 +76,7 @@ def label(photo_link, g_vdate):
     #Prod env
     # base_dir='E:\\VNG\\Python Envirement\\Data\\DWHVNG\\APEX\\MARKETING_TOOL_02_JSON\\'+pdate+"\\images"
     base_dir = join(path_base, pdate)
-    base_dir=base_dir +"\\images"
+    base_dir=base_dir +"/images"
 
     if not os.path.exists(base_dir):
         os.makedirs(base_dir)
@@ -86,6 +87,7 @@ def label(photo_link, g_vdate):
     ### Nếu có ảnh thì không cần download
     if not os.path.exists( fullfilename ):
         #download
+        print ("download ")
         try:
             urlretrieve(photo_link, fullfilename)
             # print (fullfilename)
@@ -95,23 +97,25 @@ def label(photo_link, g_vdate):
         except HTTPError as err:
             # Nếu không tồn tải ảnh với url thì xem như list_label = []
             list_label = []
-            # print(err.code)
+            print(err.code)
         except ContentTooShortError as err:
             #retry 1 times
             print ("errors missing content")
+            print (photo_link)
             try:
                 urlretrieve(photo_link, fullfilename)
             except ContentTooShortError as err:
                 # Không xử lý được except thì xem như list_label = []
                 list_label = []
                 print ("don't fix errors missing content")
+                print (photo_link)
                 print(err.code)
             except:
-                list_label = []
-                print("Unknown Error try redownload")
+                print("Unknown Error try download")
         except:
             list_label = []
             print("Unknown Error try download")
+            print (photo_link)
             #if err.code == 404:
                 #<whatever>
             #else:
@@ -119,54 +123,62 @@ def label(photo_link, g_vdate):
 
     photo_file=fullfilename
     if os.path.exists( photo_file ):
-        if (os.path.getsize(photo_file) < (1024 * 1024 * 4)):
+        if (os.path.getsize(photo_file) >= (1024 * 1024 * 4)):
+            import PIL
+            from PIL import Image
+            print ("scale iamge....")
+            print (photo_link)
+            img = Image.open(photo_file)
+            basewidth = 1300
+            wpercent = (basewidth / float(img.size[0]))
+            hsize = int((float(img.size[1]) * float(wpercent)))
+            img = img.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
+            img.save(photo_file)
+        try:
+            #print(photo_file)
+
+            # The name of the image file to annotate
+            #file_name = os.path.join(
+            #    os.path.dirname(__file__),
+            #    'resources/wakeupcat.jpg')
+
+            # Loads the image into memory
+            with io.open(fullfilename, 'rb') as image_file:
+                content = image_file.read()
+                image = vision_client.image(
+                    content=content)
+
+            # Performs label detection on the image file
             try:
-                #print(photo_file)
-
-                # The name of the image file to annotate
-                #file_name = os.path.join(
-                #    os.path.dirname(__file__),
-                #    'resources/wakeupcat.jpg')
-
-                # Loads the image into memory
-                with io.open(fullfilename, 'rb') as image_file:
-                    content = image_file.read()
-                    image = vision_client.image(
-                        content=content)
-
-                # Performs label detection on the image file
+                labels = image.detect_labels()
+            except google.gax.errors.RetryError as err:
+                print ("errors gax 1")
+                #retry 1 times
+                time.sleep(5)
                 try:
                     labels = image.detect_labels()
                 except google.gax.errors.RetryError as err:
-                    print ("errors gax 1")
+                    print ("errors gax 2")
                     #retry 1 times
-                    time.sleep(5)
-                    try:
-                        labels = image.detect_labels()
-                    except google.gax.errors.RetryError as err:
-                        print ("errors gax 2")
-                        #retry 1 times
-                        print(err.code)
-                    except:
-                        print("Unknown Error")
+                    print(err.code)
                 except:
                     print("Unknown Error")
-
-                for label in labels:
-                    list_label.append(label.description)
-                # [END vision_quickstart]
-
-
-
-            except IOError as e:
-                # you can print the error here, e.g.
-                print(str(e))
             except:
                 print("Unknown Error")
 
-        # Nếu ảnh quá size
-        else:
-            list_label = []
+            for label in labels:
+                list_label.append(label.description)
+            # [END vision_quickstart]
+
+
+
+        except IOError as e:
+            # you can print the error here, e.g.
+            print(str(e))
+        except:
+            print("Unknown Error try get label")
+            print (photo_link)
+
     return list_label
 
 
@@ -268,10 +280,24 @@ def get_labled_image_url(pdate):
                 # you can print the error here, e.g.
                 print(str(e))
 
-    print("Image labeled: " + str(json_count))
+    print("Image labeled in range: " + str(json_count))
 
 
     return list_image_json
+
+def check_link_image_in_list_link(link, list_link):
+    try:
+        from urllib.parse import urlparse  # Python 3
+    except ImportError:
+        from urlparse import urlparse  # Python 2
+    for l in list_link:
+        disassembled1 = urlparse(link["image_url"])
+        disassembled2 = urlparse(l["image_url"])
+
+        #if image["image_url"] ==  j["image_url"]:
+        if disassembled1.netloc == disassembled2.netloc and disassembled1.path == disassembled2.path  and disassembled1.params == disassembled2.params:
+            return False
+    return True
 
 def label_ads_creatives_json_audit_content(pdate):
 
@@ -304,8 +330,10 @@ def label_ads_creatives_json_audit_content(pdate):
 
     #audit content object
     list_audit_context = ['image_url','link','video_id','message']
+    print (ads_creatives_audit_content_file)
+
     try:
-    #get all data
+        #get all data
         with open (ads_creatives_audit_content_file,'r') as file_json:
             reader=json.load(file_json)
             for row in reader['my_json']:
@@ -316,6 +344,7 @@ def label_ads_creatives_json_audit_content(pdate):
         # de han che them, kiem tra truoc sau 30 ngay de lay data --> chay lan luot
         list_image_json = get_labled_image_url(pdate)
 
+        print("Number json of day: " + str(len(list_json)))
         # list image label trong ngay hien tai duoc giu lai de ghi xuong lai
         # neu phat sinh se append vao
         list_image_json_today = []
@@ -330,7 +359,7 @@ def label_ads_creatives_json_audit_content(pdate):
                 #append
                 list_image_json_today.append(image_url_json)
                 json_count+=1
-        print("Image labeled this day: " + str(json_count))
+        print("Image labeled this day in range: " + str(json_count))
 
         # print (len(list_image_json_today))
         # for image in list_image_json_today:
@@ -350,6 +379,7 @@ def label_ads_creatives_json_audit_content(pdate):
                 x=0
                 y=-1 #null_position
                 image_label=[]
+                flag = False
                 for image in list_image_json:
                     #print(type(image))
                     #if image["image_url"] ==  i["image_url"] and image["image_label"] !="":
@@ -362,7 +392,9 @@ def label_ads_creatives_json_audit_content(pdate):
                     if disassembled1.netloc == disassembled2.netloc and disassembled1.path == disassembled2.path  and disassembled1.params == disassembled2.params :
                         exists = True
                         if len(image["image_label"])==0:
-                            y=x
+                            flag = True
+                        y=x
+
                         image_label=image["image_label"]
                         break
                     x+=1
@@ -381,23 +413,31 @@ def label_ads_creatives_json_audit_content(pdate):
                                     }
                     #append
                     list_image_json.append(image_url_json)
-                    list_image_json_today.append(image_url_json)
                 else:
                 # exist = True
-                    if y >=0 :
-                        # get valu
+                    if flag :
+                        # get value
                         image_label=label(j["image_url"], pdate)
                         image_url_json={
                                          "image_url"    : j["image_url"]
                                         ,"image_label"  : image_label
                                         #,"labeled_date" : pdate
                                         }
+                    else:
+                        image_url_json={
+                                         "image_url"    : j["image_url"]
+                                        ,"image_label"  : image_label
+                                        #,"labeled_date" : pdate
+                                        }
+
+                    #update value
+                    list_image_json[y]["image_label"]=image_label
+
+                if len(image_url_json['image_label']) > 0:
+                    if (check_link_image_in_list_link(image_url_json, list_image_json_today)):
                         list_image_json_today.append(image_url_json)
-                        #update value
-                        list_image_json[y]["image_label"]=image_label
 
                 #label(image_url)
-
                 #list_json[position_json][0]['audit_content']['image_urls'][position_image]["image_label"]=image_label
                 list_json[position_json]['audit_content']['image_urls'][position_image]["image_label"]=image_label
 
@@ -416,8 +456,9 @@ def label_ads_creatives_json_audit_content(pdate):
         final_json['my_json']=list_json
         with open (ads_creatives_audit_content_file,'w') as f:
             json.dump(final_json,f)
-    except:
-        print ("Open file error")
+    except (FileNotFoundError, IOError):
+        print("Wrong file or file path")
+
 
 
 
@@ -443,18 +484,18 @@ def label_ads_creatives_json_audit_content(pdate):
 
 ##############################################################
 # delete all file list image_label
-def remove_image_label():
-    """Run a label request """
-    list_folder = next(os.walk(path_base))[1]
-    for folder in list_folder:
-        path_folder = os.path.join(path_base, folder)
-        file_name = "image_url_"+ folder +".json"
-        path_file = os.path.join(path_folder, file_name)
-        if os.path.exists(path_file):
-            os.remove(path_file)
-
-
-remove_image_label()
+# def remove_image_label():
+#     """Run a label request """
+#     list_folder = next(os.walk(path_base))[1]
+#     for folder in list_folder:
+#         path_folder = os.path.join(path_base, folder)
+#         file_name = "image_url_"+ folder +".json"
+#         path_file = os.path.join(path_folder, file_name)
+#         if os.path.exists(path_file):
+#             os.remove(path_file)
+#
+#
+# remove_image_label()
 
 ###########################################################
 
@@ -462,9 +503,12 @@ remove_image_label()
 def main():
     """Run a label request """
     list_folder = next(os.walk(path_base))[1]
+    sorted(list_folder)
     for date in list_folder:
         print (date)
         label_ads_creatives_json_audit_content(date)
 
+    # date = '2016-10-02'
+    # label_ads_creatives_json_audit_content(date)
 
 main()
