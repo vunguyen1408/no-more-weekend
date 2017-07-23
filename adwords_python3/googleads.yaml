@@ -7,6 +7,7 @@ adwords:
   #############################################################################
   # Optional Fields                                                           #
   #############################################################################
+  # client_customer_id: INSERT_CLIENT_CUSTOMER_ID_HERE
   client_customer_id: 786-689-3826
   # user_agent: INSERT_USER_AGENT_HERE
   # partial_failure: True
