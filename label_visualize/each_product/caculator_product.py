@@ -5,7 +5,9 @@ import os, os.path
 #from os.path import splitext, basename, join
 import csv
 import numpy as np
+import json
 from itertools import combinations
+import pandas as pd
 
 
 # Lấy list label chứa (label, label_count, image_count) và (array)
@@ -106,24 +108,43 @@ def caculator_percent_label(list_result, arr_relationship):
         list_result[i][2] = round((list_result[i][1] / total_label) * 100, 15)
         list_result[i][7] = round((list_result[i][6] / total_image)* 100, 15)
         list_result[i][11] = friend_edge[i]
-        #print (list_result[i])
 
     list_percent_label = caculater_percent(list_result)
     return list_percent_label
 
-def percent(path_file_content, path_out, product, date_, to_date_):
+def create_dataframe(list_percent_label):
+    df = pd.DataFrame({
+        'label': [i[0] for i in list_percent_label], 
+        'label_count': [i[1] for i in list_percent_label],
+        'percent_label': [i[2] for i in list_percent_label],
+        'previous_p_label': [i[3] for i in list_percent_label],
+        'previous_next_label': [i[4] for i in list_percent_label],
+        'sum_p_label': [i[5] for i in list_percent_label],
+        'image_count': [i[6] for i in list_percent_label],
+        'percent_image': [i[7] for i in list_percent_label],
+        'previous_p_image': [i[8] for i in list_percent_label],
+        'previous_next_image': [i[9] for i in list_percent_label],
+        'sum_p_label': [i[10] for i in list_percent_label],
+        'number_edge': [i[11] for i in list_percent_label],
+        })
+    df = df[['label', 'label_count', 'percent_label', 'previous_p_label', 'previous_next_label','sum_p_label',
+        'image_count', 'percent_image', 'previous_p_image', 'previous_next_image', 'sum_p_label', 'number_edge']]
+    return df
+
+def percent_product(path_file_content, path_out, product, date_, to_date_):
     if os.path.exists(path_file_content):
         list_result, arr_relationship, lable_unique = getData(path_file_content, product, date_, to_date_)
         list_percent_label = caculator_percent_label(list_result, arr_relationship)
+        df = create_dataframe(list_percent_label)
+        return df
+        # file_name_out = 'caculator_percent_with_' + str(product) + '.csv'
+        # file_out = os.path.join(path_out, file_name_out)
 
-        file_name_out = 'caculator_percent_with_' + str(product) + '.csv'
-        file_out = os.path.join(path_out, file_name_out)
-
-        with open(file_out, 'w+', newline="") as f:
-            wr = csv.writer(f, quoting=csv.QUOTE_ALL)
-            wr.writerow(['label', 'label_count', 'percent_label', 'previous_p_label', 'previous_next_label','sum_p_label',
-            'image_count', 'percent_image', 'previous_p_image', 'previous_next_image', 'sum_p_label', 'number_edge'])
-            wr.writerows(list_percent_label)
+        # with open(file_out, 'w+', newline="") as f:
+        #     wr = csv.writer(f, quoting=csv.QUOTE_ALL)
+        #     wr.writerow(['label', 'label_count', 'percent_label', 'previous_p_label', 'previous_next_label','sum_p_label',
+        #     'image_count', 'percent_image', 'previous_p_image', 'previous_next_image', 'sum_p_label', 'number_edge'])
+        #     wr.writerows(list_percent_label)
 
 # # Run test
 # path_out ='C:/Users/CPU10145-local/Desktop/Python Envirement/Data/Data label percent/data server new out.csv'
@@ -131,10 +152,37 @@ def percent(path_file_content, path_out, product, date_, to_date_):
 # #path_in ='C:/Users/CPU10145-local/Desktop/Python Envirement/Data/Used google cloud API/data out.csv'
 # percent(path_in, path_out)
 
-# path_file_content = 'E:/VNG/DATA/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
-# path_out = 'C:/Users/ltduo/Desktop'
-# date_ = '2017-10-01'
-# to_date_ = '0001-01-01'
-# product = "242"
+def group_by_product(path_audit_content):
+    list_folder = next(os.walk(path_audit_content))[1]
+    list_unique_product = []
+    for folder in list_folder:
+        folder_audit = os.path.join(path_audit_content, folder)
+        audit_content = "ads_creatives_audit_content_"+ folder +".json"
+        path_file_audit_content = os.path.join(folder_audit, audit_content)
+        if os.path.exists(path_file_audit_content):
+            with open(path_file_audit_content, 'r') as f_json:
+                data_json = json.load(f_json)
+            for j in data_json['my_json']:
+                list_product = j['list_product']
+                for p in list_product:
+                    if p not in list_unique_product:
+                        list_unique_product.append(p)
+    return list_unique_product
 
-# percent(path_file_content, path_out, product, date_, to_date_)
+def percent_each_product(path_file_content, path_out):
+    date_ = '2017-10-01'
+    to_date_ = '0001-01-01'
+    list_unique_product = group_by_product(path_file_content)
+
+    file_name_out = 'caculator_percent.xlsx'
+    file_out = os.path.join(path_out, file_name_out)
+    writer = pd.ExcelWriter(file_out, engine='xlsxwriter')
+    for p in list_unique_product:
+        df = percent_product(path_file_content, path_out, p, date_, to_date_)
+        df.to_excel(writer, sheet_name=str(p), index=False)
+    writer.save()
+
+# path_file_content = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
+# path_out = 'C:/Users/CPU10145-local/Desktop/report'
+
+# percent_each_product(path_file_content, path_out)

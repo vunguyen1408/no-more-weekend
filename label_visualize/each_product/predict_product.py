@@ -6,7 +6,7 @@ import csv
 import numpy as np
 from itertools import combinations
 
-
+#================================== Create predict ===============================================
 #[0 'label',1 'label_count',2 'percent_label',3 'previous_p_label',4 'previous_next_label',5'sum_p_label',
 #6 'image_count',7 'percent_image',8 'previous_p_image',9 'previous_next_image',10 'sum_p_label',11 'number_edge']
 def label_bigger_percent(percent, list_in):
@@ -15,7 +15,6 @@ def label_bigger_percent(percent, list_in):
         if label[5] <= percent:
             list_bigger.append(label[0])
     return list_bigger
-
 
 def label_relationship_bigger_percent(list_bigger, lable_unique, arr_relationship):
     # Duyet trong all label
@@ -35,21 +34,52 @@ def label_relationship_bigger_percent(list_bigger, lable_unique, arr_relationshi
                         break
     return label_relationship
 
-
-
-def get_label_bigger_and_not_exist(path_in, product, date_, to_date_):
+def create_dataset_predict(path_in, product, percent, date_, to_date_):
     if os.path.exists(path_in):
         list_result, arr_relationship, lable_unique = cd.getData(path_in, product, date_, to_date_)
         list_percent_label = cd.caculator_percent_label(list_result, arr_relationship)
-        list_bigger = label_bigger_percent(50, list_percent_label)
+        # Lấy tập label thuộc percent % 
+        list_bigger = label_bigger_percent(percent, list_percent_label)
+        # Lay tập label có quan hệ với tập percent %
         label_relationship = label_relationship_bigger_percent(list_bigger, lable_unique, arr_relationship)
-
         return (list_bigger, label_relationship)
 
 
+#==================================== Predict for each json ============================================
+def check(list_label, list_bigger, label_relationship):
+    flag = True
+    for label in list_label:
+        if label not in list_bigger:
+            if label not in label_relationship:
+                flag = False
+                break
+    return flag
+
+def predict(path_full_data, file_no_label, product, date_ = '2017-10-01', to_date_ = '0001-01-01'):
+    percent = 80
+    list_bigger, label_relationship = create_dataset_predict(path_full_data, product, percent, date_, to_date_)
+    with open(file_no_label, 'r') as f:
+        data = json.load(f)
+        for value in data['my_json']:
+            list_image_urls = value['audit_content']['image_urls']
+            print (value['list_product'])
+            print (value['audit_content'])
+            for i in range(len(list_image_urls)):
+                if 'image_label' in list_image_urls[i]:
+                    list_label = list_image_urls[i]['image_label']
+                    if list_label == []:
+                        print ("Khon thuoc product %s" %product)
+                        break
+                    result = check(list_label, list_bigger, label_relationship)
+                    print (list_image_urls[i]['image_url'])
+                    if result:
+                        print ("Thuoc product %s" %product)
+                    else:
+                        print ("Khon thuoc product %s" %product)
+            print ("=====================================================================================")
 
 
-
+#==================================== Predict on all data ===============================================
 def get_content_label_list_file(list_path_file, list_bigger, label_relationship):
     image = []
     image_not_in_dataset = []
@@ -67,10 +97,7 @@ def get_content_label_list_file(list_path_file, list_bigger, label_relationship)
                         flag = True
             if flag == True and list_image_label != []:
                 image_not_in_dataset.append(value['image_url'])
-
-    print (len(image))
     return image_not_in_dataset
-
 
 def down_load_file(photo_link, path_down_load_file):
     import io
@@ -114,10 +141,9 @@ def down_load_file(photo_link, path_down_load_file):
             except ContentTooShortError as err:
                 print(err.code)
 
-
 def image_not_in_dataset(path_content, path_full_data, path_down_load_file, product, date_, to_date_):
-    list_bigger, label_relationship = get_label_bigger_and_not_exist(path_content, product, date_, to_date_)
-
+    percent = 80
+    list_bigger, label_relationship = create_dataset_predict(path_content, product, percent, date_, to_date_)
     list_file = []
     list_folder = next(os.walk(path_full_data))[1]
     for folder in list_folder:
@@ -134,15 +160,19 @@ def image_not_in_dataset(path_content, path_full_data, path_down_load_file, prod
     #     down_load_file(link, path_down_load_file)
 
 
+
+#======================================= RUN TEST ===============================================
 # path_content = 'C:/Users/CPU10145-local/Desktop/Python Envirement/Data/Used google cloud API/data_content_local.csv'
-# path_full_data = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
+path_full_data = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 path_down_load_file = 'C:/Users/CPU10145-local/Desktop/image'
 
 
-path_content = 'E:/VNG/DATA/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
-path_full_data = 'E:/VNG/DATA/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
+# path_content = 'E:/VNG/DATA/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
+# path_full_data = 'E:/VNG/DATA/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 date_ = '2017-10-01'
 to_date_ = '0001-01-01'
 product = "242"
+file_no_label = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON/2016-10-16/ads_creatives_audit_content_2016-10-16.json'
+file = 'C:/Users/CPU10145-local/Desktop/test.json'
+predict(path_full_data, file_no_label, product, date_ = '2017-10-01', to_date_ = '0001-01-01')
 
-image_not_in_dataset(path_content, path_full_data, path_down_load_file, product, date_, to_date_)

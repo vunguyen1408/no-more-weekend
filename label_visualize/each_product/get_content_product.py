@@ -41,7 +41,7 @@ def get_content_label_list_file(list_path_file, product):
                             else:
                                 index = list_row_unique.index(label_image)
                                 list_result[index][len(list_result[index]) - 1] += 1
-
+    print ("Get data completed...!")
     return (list_result, list_row_unique)
 
 
@@ -51,7 +51,7 @@ def get_content_label_list_file(list_path_file, product):
 # to_date_ = '0001-01-01'
 # product = "242"
 
-def get_content_label_date(path, product, date_ = None, to_date_ = '0001-01-01', ):
+def get_content_label_date(path, product, date_ = None, to_date_ = '0001-01-01'):
     """
     Lấy nội dung các list label của từng ngày được chọn.
     Đầu vào:
