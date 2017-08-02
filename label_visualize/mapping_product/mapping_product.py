@@ -116,35 +116,6 @@ def add_content(list_json, path_audit_content, path_insight):
                         json.dump(data_json,f_out)
             print ("==================================================================")
         
-def statistic(path_audit_content):
-    list_folder = next(os.walk(path_audit_content))[1]
-    total = 0
-    miss = 0
-    for folder in list_folder:
-        print ("=======================================")
-        print (folder)
-        folder_audit = os.path.join(path_audit_content, folder)
-        audit_content = "ads_creatives_audit_content_"+ folder +".json"
-        path_file_audit_content = os.path.join(folder_audit, audit_content)
-        if os.path.exists(path_file_audit_content):
-            with open(path_file_audit_content, 'r') as f_json:
-                data_json = json.load(f_json)
-            print ("total json %d" %(len(data_json['my_json'])))
-            missing = 0
-            for j in data_json['my_json']:
-                try:
-                    size =  len(j['list_product'])
-                    if size < 1:
-                        missing += 1
-                except KeyError as e:
-                    # Truong hop chua co list
-                    missing += 1
-            print ("missing %d" %missing)
-            total += len(data_json['my_json'])
-            miss += missing
-        print ("========================================")
-    print (total)
-    print (miss)
 
 def group_by_product(path_audit_content):
     list_folder = next(os.walk(path_audit_content))[1]
@@ -165,7 +136,6 @@ def group_by_product(path_audit_content):
                             list_unique_product.append(p)
                 except KeyError as e:
                     print ("-")
-            print (folder)
             print (list_unique_product)
             print ("==========================================")
     for i in list_unique_product:
@@ -226,11 +196,11 @@ path_file_event_map_campaign = 'D:/DATA_CHECK/EVENT_MAP_CAMPAIGN.txt'
 # path_insight = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02'
 # path_file_event_map_campaign = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02/EXPORT_DATA/EVENT_MAP_CAMPAIGN.txt'
 
-# add_list(path_audit_content)
-# list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
-# add_content(list_json, path_audit_content, path_insight)
+add_list(path_audit_content)
+list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
+add_content(list_json, path_audit_content, path_insight)
 
 # statistic(path_audit_content)
-group_by_product(path_audit_content)
+# group_by_product(path_audit_content)
 # compare(path_audit_content, path_insight)
 # add_list(path_audit_content)

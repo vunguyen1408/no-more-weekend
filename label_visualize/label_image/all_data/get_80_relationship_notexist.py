@@ -36,19 +36,14 @@ def label_relationship_bigger_percent(list_bigger, lable_unique, arr_relationshi
     return label_relationship
 
 
-
-def get_label_bigger_and_not_exist(path_in):
+def get_label_bigger_and_not_exist(path_in, percent):
     if os.path.exists(path_in):
         list_result, arr_relationship, lable_unique = cp.getData(path_in)
         list_percent_label = cp.caculater_percent_label(list_result, arr_relationship)
-        list_bigger = label_bigger_percent(50, list_percent_label)
+        list_bigger = label_bigger_percent(percent, list_percent_label)
         label_relationship = label_relationship_bigger_percent(list_bigger, lable_unique, arr_relationship)
 
         return (list_bigger, label_relationship)
-
-
-
-
 
 def get_content_label_list_file(list_path_file, list_bigger, label_relationship):
     image = []
@@ -69,10 +64,6 @@ def get_content_label_list_file(list_path_file, list_bigger, label_relationship)
             # if flag == False:
             if flag == True and list_image_label != []:
                 image_not_in_dataset.append(value['image_url'])
-                # print (value['image_url'])
-                # print (value['image_label'])
-                # print ("=====================================================================")
-    print (len(image))
     return image_not_in_dataset
 
 
@@ -85,17 +76,11 @@ def down_load_file(photo_link, path_down_load_file):
         from urllib.error import HTTPError,ContentTooShortError
     except ImportError:
         from urllib import urlretrieve  # Python 2
-
-
-
     try:
         from urllib.parse import urlparse  # Python 3
     except ImportError:
         from urlparse import urlparse  # Python 2
-
-
     from os.path import splitext, basename, join
-
 
     picture_page = photo_link
     disassembled = urlparse(picture_page)
@@ -108,7 +93,6 @@ def down_load_file(photo_link, path_down_load_file):
         #download
         try:
             urlretrieve(photo_link, fullfilename)
-
         except HTTPError as err:
             print(err.code)
         except ContentTooShortError as err:
@@ -119,8 +103,8 @@ def down_load_file(photo_link, path_down_load_file):
                 print(err.code)
 
 
-def image_not_in_dataset(path_content, path_full_data, path_down_load_file):
-    list_bigger, label_relationship = get_label_bigger_and_not_exist(path_content)
+def image_not_in_dataset(path_content, path_full_data, path_down_load_file, percent):
+    list_bigger, label_relationship = get_label_bigger_and_not_exist(path_content, percent)
 
     list_file = []
     list_folder = next(os.walk(path_full_data))[1]
@@ -143,5 +127,5 @@ def image_not_in_dataset(path_content, path_full_data, path_down_load_file):
 path_content = 'C:/Users/CPU10145-local/Desktop/Python Envirement/Data/Used google cloud API/data_content_local.csv'
 path_full_data = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 path_down_load_file = 'C:/Users/CPU10145-local/Desktop/image'
-
-image_not_in_dataset(path_content, path_full_data, path_down_load_file)
+percent = 50
+image_not_in_dataset(path_content, path_full_data, path_down_load_file, percent)

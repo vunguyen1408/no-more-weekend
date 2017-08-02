@@ -1,6 +1,5 @@
 # package
-import get_content_product as content_product
-
+import get_content_crawler as get_content_crawler
 import os, os.path
 #from os.path import splitext, basename, join
 import csv
@@ -9,13 +8,20 @@ import json
 from itertools import combinations
 import pandas as pd
 
-
-# Lấy list label chứa (label, label_count, image_count) và (array)
-def getData(path_file_content, product, date_, to_date_):
+def getData(path_file_content):
+    """
+        Tổng kết data từ file json đã đánh label
+        + Input: Đường dẫn đến file đó
+        + Output:
+            * list_result: môt list mà một phần tử sẽ là (lable_unique, label_count, image_count)
+                (tên label, tần suất label trong all list label, tần suất label trên toàn data)
+            * arr_relationship: Array mô tả quan hệ của các label
+            * lable_unique: Danh sach các label là duy nhất
+    """
     edge_data = []
     lable_unique = []
     list_json = []
-    list_result, label_image = content_product.get_content_label_date(path_file_content, product, date_, to_date_)
+    list_result, label_image = get_content_crawler.get_content_label_file(path_file_content)
 
     for row in list_result:
         # Xóa phần tử cuối cùng của dòng (phần tử frequence)
@@ -49,10 +55,6 @@ def getData(path_file_content, product, date_, to_date_):
             arr_relationship[y][x] += 1
 
     list_result = []
-    # print (type(list_result))
-    # print (list_result[0])
-    # print (list_result[1])
-    # print (list_result[2])
     for i in range(size):
         list_result.append([0] * 12)
         list_result[i][0] = str(lable_unique[i])
@@ -63,6 +65,9 @@ def getData(path_file_content, product, date_, to_date_):
 
 
 def caculater_percent(list_result):
+    """
+        Tính các thông số phụ như: percent_label, previous_p_label, previous_next_label...
+    """
     size = len(list_result)
     list_percent_label = sorted(list_result, key=lambda list_result:list_result[2], reverse=True)
     if len(list_percent_label) > 0: 
@@ -96,9 +101,12 @@ def caculater_percent(list_result):
     return list_percent_label
 
 
-#[0 'label',1 'label_count',2 'percent_label',3 'previous_p_label',4 'previous_next_label',5'sum_p_label',
-#6 'image_count',7 'percent_image',8 'previous_p_image',9 'previous_next_image',10 'sum_p_label',11 'number_edge']
 def caculator_percent_label(list_result, arr_relationship):
+    """
+        Thực hiện tính các thông số để xuất file như sau.
+        [0 'label',1 'label_count',2 'percent_label',3 'previous_p_label',4 'previous_next_label',5'sum_p_label',
+        6 'image_count',7 'percent_image',8 'previous_p_image',9 'previous_next_image',10 'sum_p_label',11 'number_edge']
+    """
     size = len(list_result)
     list_percent_label = list(list_result)
     total_label = sum(row[1] for row in list_result)
@@ -113,6 +121,9 @@ def caculator_percent_label(list_result, arr_relationship):
     return list_percent_label
 
 def create_dataframe(list_percent_label):
+    """
+        Tạo DataFrame để xuất file excel
+    """
     df = pd.DataFrame({
         'label': [i[0] for i in list_percent_label], 
         'label_count': [i[1] for i in list_percent_label],
@@ -131,58 +142,41 @@ def create_dataframe(list_percent_label):
         'image_count', 'percent_image', 'previous_p_image', 'previous_next_image', 'sum_p_label', 'number_edge']]
     return df
 
-def percent_product(path_file_content, path_out, product, date_, to_date_):
+def percent_product(path_file_content):
     if os.path.exists(path_file_content):
-        list_result, arr_relationship, lable_unique = getData(path_file_content, product, date_, to_date_)
+        list_result, arr_relationship, lable_unique = getData(path_file_content)
         list_percent_label = caculator_percent_label(list_result, arr_relationship)
         df = create_dataframe(list_percent_label)
         return df
-        # file_name_out = 'caculator_percent_with_' + str(product) + '.csv'
-        # file_out = os.path.join(path_out, file_name_out)
 
-        # with open(file_out, 'w+', newline="") as f:
-        #     wr = csv.writer(f, quoting=csv.QUOTE_ALL)
-        #     wr.writerow(['label', 'label_count', 'percent_label', 'previous_p_label', 'previous_next_label','sum_p_label',
-        #     'image_count', 'percent_image', 'previous_p_image', 'previous_next_image', 'sum_p_label', 'number_edge'])
-        #     wr.writerows(list_percent_label)
 
-# # Run test
-# path_out ='C:/Users/CPU10145-local/Desktop/Python Envirement/Data/Data label percent/data server new out.csv'
-# path_in = 'C:/Users/CPU10145-local/Desktop/Python Envirement/Data/Used google cloud API/data new in server to content.csv'
-# #path_in ='C:/Users/CPU10145-local/Desktop/Python Envirement/Data/Used google cloud API/data out.csv'
-# percent(path_in, path_out)
-
-def group_by_product(path_audit_content):
-    list_folder = next(os.walk(path_audit_content))[1]
-    list_unique_product = []
-    for folder in list_folder:
-        folder_audit = os.path.join(path_audit_content, folder)
-        audit_content = "ads_creatives_audit_content_"+ folder +".json"
-        path_file_audit_content = os.path.join(folder_audit, audit_content)
-        if os.path.exists(path_file_audit_content):
-            with open(path_file_audit_content, 'r') as f_json:
-                data_json = json.load(f_json)
-            for j in data_json['my_json']:
-                list_product = j['list_product']
-                for p in list_product:
-                    if p not in list_unique_product:
-                        list_unique_product.append(p)
-    return list_unique_product
-
-def percent_each_product(path_file_content, path_out):
-    date_ = '2017-10-01'
-    to_date_ = '0001-01-01'
-    list_unique_product = group_by_product(path_file_content)
-
-    file_name_out = 'caculator_percent.xlsx'
-    file_out = os.path.join(path_out, file_name_out)
-    writer = pd.ExcelWriter(file_out, engine='xlsxwriter')
-    for p in list_unique_product:
-        df = percent_product(path_file_content, path_out, p, date_, to_date_)
-        df.to_excel(writer, sheet_name=str(p), index=False)
+def percent_each_product(path_file_content, file_excel):
+    """
+        Save result file excel for each product
+    """
+    writer = pd.ExcelWriter(file_excel, engine='xlsxwriter')
+    df = percent_product(path_file_content)
+    df.to_excel(writer, sheet_name='Summary', index=False)
     writer.save()
 
-# path_file_content = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
-# path_out = 'C:/Users/CPU10145-local/Desktop/report'
+def create_excel_all_product(path_in_json, path_out_excel):
 
-# percent_each_product(path_file_content, path_out)
+    list_folder = next(os.walk(path_in_json))[1]
+    for folder in list_folder:
+        file_name_json = str(folder) + '.json'
+        path_json = os.path.join(path_in_json, folder)
+        file_json_content = os.path.join(path_json, file_name_json)
+
+        # create file name excel
+        file_name_excel = str(folder) + '.xlsx'
+        path_excel = os.path.join(path_out_excel, folder)
+        file_excel = os.path.join(path_excel, file_name_excel)
+        # Create file excel
+
+        if os.path.exists(file_json_content):
+            percent_each_product(file_json_content, file_excel)
+
+path_file_content = 'C:/Users/CPU10145-local/Desktop/Python Envirement/Data_product/Json_and_report'
+
+
+create_excel_all_product(path_file_content, path_file_content)

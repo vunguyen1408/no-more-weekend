@@ -26,11 +26,6 @@ def get_content_label_list_file(list_path_file, product):
                 for i in range(len(list_image_urls)):
                     if 'image_label' in list_image_urls[i]:
                         label_image = list_image_urls[i]['image_label']
-                        # print (label_image)
-                        # print ("-------------------------------------")
-                        # for row in list_result:
-                        #     print (row)
-                        # print ("-------------------------------------")
                         if len(label_image) > 0:
                             count = count + 1
                             if label_image not in list_row_unique:

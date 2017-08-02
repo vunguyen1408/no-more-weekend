@@ -44,17 +44,13 @@ def getData(path_file_content):
             arr_relationship[y][x] += 1
 
     list_result = []
-    # print (type(list_result))
-    # print (list_result[0])
-    # print (list_result[1])
-    # print (list_result[2])
     for i in range(size):
         list_result.append([0] * 12)
         list_result[i][0] = str(lable_unique[i])
         list_result[i][1] = label_count[i]
         list_result[i][6] = image_count[i]
     # print (list_result[i])
-    return (list_result, arr_relationship)
+    return (list_result, arr_relationship, lable_unique)
 
 
 def caculater_percent(list_result):
@@ -90,7 +86,8 @@ def caculater_percent(list_result):
     return list_percent_label
 
 
-
+#[0 'label',1 'label_count',2 'percent_label',3 'previous_p_label',4 'previous_next_label',5'sum_p_label',
+#6 'image_count',7 'percent_image',8 'previous_p_image',9 'previous_next_image',10 'sum_p_label',11 'number_edge']
 def caculater_percent_label(list_result, arr_relationship):
     size = len(list_result)
     list_percent_label = list(list_result)
@@ -106,13 +103,9 @@ def caculater_percent_label(list_result, arr_relationship):
     list_percent_label = caculater_percent(list_result)
     return list_percent_label
 
-
-
-
-
 def percent(path_in, path_out):
     if os.path.exists(path_in):
-        list_result, arr_relationship = getData(path_in)
+        list_result, arr_relationship, lable_unique = getData(path_in)
         list_percent_label = caculater_percent_label(list_result, arr_relationship)
 
         with open(path_out, 'w+', newline="") as f:
@@ -123,7 +116,7 @@ def percent(path_in, path_out):
 
 
 # Run test
-path_out ='C:/Users/CPU10145-local/Desktop/Python Envirement/Data/Data label percent/data percent out.csv'
-path_in ='C:/Users/CPU10145-local/Desktop/Python Envirement/Data/Used google cloud API/data out.csv'
+path_out ='C:/Users/CPU10145-local/Desktop/Python Envirement/Data/Data label percent/data server new out.csv'
+path_in = 'C:/Users/CPU10145-local/Desktop/Python Envirement/Data/Used google cloud API/data new in server to content.csv'
 #path_in ='C:/Users/CPU10145-local/Desktop/Python Envirement/Data/Used google cloud API/data out.csv'
 percent(path_in, path_out)
