@@ -184,17 +184,17 @@ def add_list(path_audit_content):
 
 
 
-path_audit_content = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
-path_insight = 'D:/DATA_CHECK/MARKETING_TOOL_02'
-path_file_event_map_campaign = 'D:/DATA_CHECK/EVENT_MAP_CAMPAIGN.txt'
+# path_audit_content = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
+# path_insight = 'D:/DATA_CHECK/MARKETING_TOOL_02'
+# path_file_event_map_campaign = 'D:/DATA_CHECK/EVENT_MAP_CAMPAIGN.txt'
 
 # path_audit_content = 'E:/VNG/DATA/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 # path_insight = 'E:/VNG/DATA/DATA/DWHVNG/APEX/MARKETING_TOOL_02'
 # path_file_event_map_campaign = 'E:/VNG/DATA/DATA/DWHVNG/APEX/MARKETING_TOOL_02/EXPORT_DATA/EVENT_MAP_CAMPAIGN.txt'
 
-# path_audit_content = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
-# path_insight = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02'
-# path_file_event_map_campaign = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02/EXPORT_DATA/EVENT_MAP_CAMPAIGN.txt'
+path_audit_content = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+path_insight = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02'
+path_file_event_map_campaign = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02/EXPORT_DATA/EVENT_MAP_CAMPAIGN.txt'
 
 add_list(path_audit_content)
 list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
