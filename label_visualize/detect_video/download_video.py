@@ -136,7 +136,7 @@ def create_content_date(path, date_ = '2016-10-01', to_date_ = '2016-10-01'):
     list_folder = next(os.walk(path))[1]
     for folder in list_folder:
         f_date = datetime.strptime(folder, '%Y-%m-%d').date()
-        if f_date <= date and f_date >= to_date:
+        if f_date <= to_date and f_date >= date:
         # print (folder)
             path_folder = os.path.join(path, folder)
             file_name = "video_url_"+ folder +".json"
@@ -145,15 +145,13 @@ def create_content_date(path, date_ = '2016-10-01', to_date_ = '2016-10-01'):
                 # time.sleep(5)
                 down_load_file_folder(path_folder, path_file, folder)
 
-#path = 'C:\\Users\\CPU10145-local\\Desktop\\Python Envirement\\Data\\Date'
-
-path = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
-to_date_ = '2016-10-06'
 
 # path = 'D:/WorkSpace/GITHUB/DATA/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
+# path = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
+path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+to_date = '2016-10-01'
 # date_ = '2017-10-01'
-
-date_ = '2016-10-06'
-create_content_date(path, date_, to_date_)
+date = '2016-10-01'
+create_content_date(path, date, to_date)
 
 
