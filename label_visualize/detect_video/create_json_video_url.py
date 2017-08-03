@@ -37,7 +37,7 @@ def create_content_file(path_folder, path_file, folder):
 	with open (file_name,'w') as f:
 		json.dump(list_json, f)
 
-def create_content_date(path, date_ = '2017-10-11', to_date_ = '2016-10-11'):
+def create_content_date(path, date_ = '2016-10-11', to_date_ = '2017-05-01'):
 	# Lấy danh sách path của các file json cần tổng hợp data
 	list_file = []
 	date = datetime.strptime(date_, '%Y-%m-%d').date()
@@ -46,7 +46,7 @@ def create_content_date(path, date_ = '2017-10-11', to_date_ = '2016-10-11'):
 	for folder in list_folder:
 		f_date = datetime.strptime(folder, '%Y-%m-%d').date()
 		print (folder)		
-		if f_date <= date and f_date >= to_date:
+		if f_date <= to_date and f_date >= date:
 			path_folder = os.path.join(path, folder)
 			file_name = "ads_creatives_audit_content_"+ folder +".json"
 			path_file = os.path.join(path_folder, file_name)
@@ -59,7 +59,7 @@ def create_content_date(path, date_ = '2017-10-11', to_date_ = '2016-10-11'):
 #path = 'C:\\Users\\CPU10145-local\\Desktop\\Python Envirement\\Data\\Date'
 #path = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 # path = 'D:/WorkSpace/GITHUB/DATA/DATA/DWHVNG/APEX\MARKETING_TOOL_02_JSON'
-# date_ = '2017-10-01'
-# to_date_ = '0001-01-01'
+date = '2016-10-01'
+to_date = '2017-05-01'
 path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
-create_content_date(path, '2017-05-01', '2016-10-01')
+create_content_date(path, date, to_date)

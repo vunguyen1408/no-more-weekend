@@ -128,7 +128,7 @@ def down_load_file_folder(path_folder, path_file, folder):
         json.dump(data, f)
 
 
-def create_content_date(path, date_ = '2016-10-01', to_date_ = '2016-10-01'):
+def create_content_date(path, date_ = '2016-10-01', to_date_ = '2017-05-01'):
     # Lấy danh sách path của các file json cần tổng hợp data
     list_file = []
     date = datetime.strptime(date_, '%Y-%m-%d').date()
@@ -137,21 +137,21 @@ def create_content_date(path, date_ = '2016-10-01', to_date_ = '2016-10-01'):
     for folder in list_folder:
         f_date = datetime.strptime(folder, '%Y-%m-%d').date()
         if f_date <= to_date and f_date >= date:
-        # print (folder)
+            print (folder)
             path_folder = os.path.join(path, folder)
             file_name = "video_url_"+ folder +".json"
             path_file = os.path.join(path_folder, file_name)
             if os.path.exists(path_file):
                 # time.sleep(5)
                 down_load_file_folder(path_folder, path_file, folder)
+            print("---------------------------------------------------------------")
 
 
 # path = 'D:/WorkSpace/GITHUB/DATA/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 # path = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
-to_date = '2016-10-01'
-# date_ = '2017-10-01'
-date = '2016-10-01'
+date = '2016-10-02'
+to_date = '2016-12-31'
 create_content_date(path, date, to_date)
 
 
