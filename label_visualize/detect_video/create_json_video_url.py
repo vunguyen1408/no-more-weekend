@@ -58,7 +58,8 @@ def create_content_date(path, date_ = '2017-10-11', to_date_ = '2016-10-11'):
 
 #path = 'C:\\Users\\CPU10145-local\\Desktop\\Python Envirement\\Data\\Date'
 #path = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
-path = 'D:/WorkSpace/GITHUB/DATA/DATA/DWHVNG/APEX\MARKETING_TOOL_02_JSON'
-date_ = '2017-10-01'
-to_date_ = '0001-01-01'
-create_content_date(path, '2017-10-01', '2016-10-01')
+# path = 'D:/WorkSpace/GITHUB/DATA/DATA/DWHVNG/APEX\MARKETING_TOOL_02_JSON'
+# date_ = '2017-10-01'
+# to_date_ = '0001-01-01'
+path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+create_content_date(path, '2017-05-01', '2016-10-01')
