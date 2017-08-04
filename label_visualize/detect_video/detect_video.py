@@ -68,12 +68,12 @@ def get_label_videos(path, path_folder_videos):
     with open (path_file,'w') as f:
         json.dump(data, f)
 
-def add_label_video_to_data(path):
+def add_label_video_to_data(path, folder):
     # # Lấy danh sách path của các file json cần tổng hợp data
     # list_file = []
     # list_folder = next(os.walk(path))[1]
     # # for folder in list_folder:
-    folder = '2016-10-04'
+    # folder = '2016-10-04'
     path_folder = os.path.join(path, folder)
     path_folder_videos = os.path.join(path_folder, 'videos')
     path_file = os.path.join(path_folder, 'ads_creatives_audit_content_' + str(folder) + '.json')
@@ -101,7 +101,16 @@ def add_label_video_to_data(path):
             json.dump(data, f)
 
 
-path_folder_videos = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON/2016-10-02/videos'
-path = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
+# path_folder_videos = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON/2016-10-02/videos'
+# path = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 
-add_label_video_to_data(path)
+
+path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('pdate', help='The date you\'d like to label.')
+    args = parser.parse_args()
+    g_vdate=args.pdate
+    print(g_vdate)
+    add_label_video_to_data(path, g_vdate)
