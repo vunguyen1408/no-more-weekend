@@ -63,7 +63,7 @@ def down_load_file(url, filename, size):
         except urllib.request.URLError:
             print ('error : cannot open url')
         # try:
-        flag = True
+        flag = False
         while True:
             try:
                 info = h_url.read(1024 * 8)
@@ -152,7 +152,7 @@ def create_content_date(path, date_ = '2016-10-01', to_date_ = '2017-05-01'):
 # path = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
 date = '2017-01-01'
-to_date = '2017-05-01'
+to_date = '2017-04-26'
 create_content_date(path, date, to_date)
 
 
