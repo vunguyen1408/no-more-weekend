@@ -102,7 +102,7 @@ def down_load_file_folder(path_folder, path_file, folder):
         url1 = get_url_video(value1['page_id'], value1['video_id'])
         if url1 != "":
             file_name1 = parse_file_name(url1)
-            data['my_json'][i]['file_name'] = file_name1
+            data['my_json'][i1]['file_name'] = file_name1
             for i2 in range(0, i1):
                 value2 = data['my_json'][i2]
                 file_name2 = value2['file_name']
@@ -124,7 +124,7 @@ def down_load_file_folder(path_folder, path_file, folder):
                         print ("Co video---")
         else:
             print ("url hong.....")
-            data['my_json'][i]['file_name'] = ""
+            data['my_json'][i1]['file_name'] = ""
     with open (path_file,'w') as f:
         json.dump(data, f)
 
