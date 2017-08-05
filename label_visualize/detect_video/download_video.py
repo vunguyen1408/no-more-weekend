@@ -102,7 +102,7 @@ def down_load_file_folder(path_folder, path_file, folder):
         url1 = get_url_video(value1['page_id'], value1['video_id'])
         if url1 != "":
             file_name1 = parse_file_name(url1)
-            value1['file_name'] = file_name1
+            data['my_json'][i]['file_name'] = file_name1
             for i2 in range(0, i1):
                 value2 = data['my_json'][i2]
                 file_name2 = value2['file_name']
@@ -124,7 +124,7 @@ def down_load_file_folder(path_folder, path_file, folder):
                         print ("Co video---")
         else:
             print ("url hong.....")
-            value1['file_name'] = ""
+            data['my_json'][i]['file_name'] = ""
     with open (path_file,'w') as f:
         json.dump(data, f)
 
@@ -151,8 +151,8 @@ def create_content_date(path, date_ = '2016-10-01', to_date_ = '2017-05-01'):
 # path = 'D:/WorkSpace/GITHUB/DATA/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 # path = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
-date = '2017-01-01'
-to_date = '2017-04-26'
+date = '2016-10-01'
+to_date = '2016-10-01'
 create_content_date(path, date, to_date)
 
 
