@@ -504,10 +504,7 @@ def parse_ads_creatives_csv_to_json(pdate):
     #Dev env
     #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
     #Prod env
-    if pdate < "2017-05-01":
-        base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02/backup/"
-    else:
-        base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02/"
+    base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02/backup/"
 
     base_dir_json="/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/"
 
