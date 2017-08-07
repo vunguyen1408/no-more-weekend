@@ -532,7 +532,7 @@ def parse_ads_creatives_csv_to_json(pdate):
 
     #print(list_files)
     list_json = get_json3(list_file)
-
+    print (list_json)
     final_json={}
     final_json['my_json']=list_json
     with open (ads_creatives_file,'w') as f:
