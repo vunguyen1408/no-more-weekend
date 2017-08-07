@@ -194,7 +194,7 @@ def add_list(path_audit_content):
 
 path_audit_content = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
 path_insight = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02'
-path_file_event_map_campaign = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02/EXPORT_DATA/EVENT_MAP_CAMPAIGN.txt'
+path_file_event_map_campaign = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02/EXPORT_DATA/EVENT_MAP_CAMPAIGN_2017-08-06.csv'
 
 add_list(path_audit_content)
 list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
