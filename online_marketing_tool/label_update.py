@@ -646,12 +646,26 @@ def parse_ads_creatives_json_audit_content(pdate):
 
 def main(pdate):
     """Run a label request """
+    path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02/backup/'
+    list_folder = next(os.walk(path))[1]
+    date_ = '2017-05-06'
+    to_date_ = '2017-06-29'
+    date = datetime.strptime(date_, '%Y-%m-%d').date()
+    to_date = datetime.strptime(to_date_, '%Y-%m-%d').date()
+    for folder in list_folder:
+        d = datetime.strptime(folder, '%Y-%m-%d').date()
+        if d <= to_date and d >= date:
+            parse_ads_creatives_csv_to_json(folder)
+            #analyze_ads_creatives_json(vdate)
+            parse_ads_creatives_json_audit_content(folder)
+            label_ads_creatives_json_audit_content(folder)
 
-    vdate=pdate
-    parse_ads_creatives_csv_to_json(vdate)
-    #analyze_ads_creatives_json(vdate)
-    parse_ads_creatives_json_audit_content(vdate)
-    label_ads_creatives_json_audit_content(vdate)
+
+    # vdate=pdate
+    # parse_ads_creatives_csv_to_json(vdate)
+    # #analyze_ads_creatives_json(vdate)
+    # parse_ads_creatives_json_audit_content(vdate)
+    # label_ads_creatives_json_audit_content(vdate)
 
 
 
