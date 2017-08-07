@@ -460,6 +460,26 @@ def label_ads_creatives_json_audit_content(pdate):
         print("Wrong file or file path")
 
 
+def _finditem(obj, key):
+    if key in obj:
+        return obj[key]
+    for k, v in obj.items():
+        if isinstance(v,dict):
+            item = _finditem(v, key)
+            if item is not None:
+                return item
+
+def _finditem2(obj, key):
+    list_item=[]
+    if key in obj:
+        list_item.append( obj[key] )
+    for k, v in obj.items():
+        if isinstance(v,dict):
+            item = _finditem(v, key)
+            if item is not None:
+                list_item.append(item)
+    return list(set(list_item))
+
 def get_json3(list_file):
     import csv
     import json
@@ -532,7 +552,6 @@ def parse_ads_creatives_csv_to_json(pdate):
 
     #print(list_files)
     list_json = get_json3(list_file)
-    print (list_json)
     final_json={}
     final_json['my_json']=list_json
     with open (ads_creatives_file,'w') as f:
