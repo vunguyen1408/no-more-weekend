@@ -656,10 +656,13 @@ def main(pdate):
     for folder in list_folder:
         d = datetime.strptime(folder, '%Y-%m-%d').date()
         if d <= to_date and d >= date:
-            parse_ads_creatives_csv_to_json(folder)
-            #analyze_ads_creatives_json(vdate)
-            parse_ads_creatives_json_audit_content(folder)
-            label_ads_creatives_json_audit_content(folder)
+            try:
+                parse_ads_creatives_csv_to_json(folder)
+                #analyze_ads_creatives_json(vdate)
+                parse_ads_creatives_json_audit_content(folder)
+                label_ads_creatives_json_audit_content(folder)
+            except:
+                print ("Date error: %s" %folder)
 
 
     # vdate=pdate
