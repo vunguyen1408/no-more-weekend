@@ -646,6 +646,7 @@ def parse_ads_creatives_json_audit_content(pdate):
 
 def main(pdate):
     """Run a label request """
+    from datetime import datetime , timedelta, date
     path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02/backup/'
     list_folder = next(os.walk(path))[1]
     date_ = '2017-05-06'
