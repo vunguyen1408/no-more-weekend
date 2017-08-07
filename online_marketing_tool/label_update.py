@@ -488,7 +488,7 @@ def get_json3(list_file):
                 list_json.append(json_data[0])
 
 
-
+    return list_json
     #print(list_[0]["body"])
     #print(list_json[0]["body"],list_json[0]["image_url"])
 
