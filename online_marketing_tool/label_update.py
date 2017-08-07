@@ -598,7 +598,6 @@ def parse_ads_creatives_json_audit_content(pdate):
     for file_ in list_file:
         with open (file_,'r') as file_json:
             reader=json.load(file_json)
-            print (reader)
             for row in reader['my_json']:
                 list_json.append(row)
                 #print(row["image_url"])
