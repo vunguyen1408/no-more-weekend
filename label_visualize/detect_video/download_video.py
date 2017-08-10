@@ -113,15 +113,18 @@ def down_load_file_folder(path_folder, path_file, folder):
             if down:
                 #=================== Download
                 info = get_info(url1)
-                if (int(info['size'])) > 0:
-                    # print (info)
-                    file_name = os.path.join(folder_video, (str(folder) + '_' + str(i1) + '.' + info['format']))
-                    if not os.path.exists(file_name):
-                        down_load_file(url1, file_name, info['size'])
-                        list_download.append(i1)
-                        # time.sleep(5)
-                    else:
-                        print ("Co video---")
+                if not info['size'] == None:
+                    if (int(info['size'])) > 0:
+                        # print (info)
+                        file_name = os.path.join(folder_video, (str(folder) + '_' + str(i1) + '.' + info['format']))
+                        if not os.path.exists(file_name):
+                            down_load_file(url1, file_name, info['size'])
+                            list_download.append(i1)
+                            # time.sleep(5)
+                        else:
+                            print ("Co video---")
+                else:
+                    data['my_json'][i1]['file_name'] = ""
         else:
             print ("url hong.....")
             data['my_json'][i1]['file_name'] = ""
