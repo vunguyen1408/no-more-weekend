@@ -81,9 +81,9 @@ def add_label_video_to_data(path, folde):
     to_date = datetime.strptime(to_date_, '%Y-%m-%d').date()
     for folder in list_folder:
         d = datetime.strptime(folder, '%Y-%m-%d').date()
-        print (d)
-        # if d <= to_date and d >= date:
-
+        
+        if d <= to_date and d >= date:
+            print (d)
         #     #==============================================
         #     path_folder = os.path.join(path, folder)
         #     path_folder_videos = os.path.join(path_folder, 'videos')
