@@ -86,6 +86,9 @@ def create_dataset_predict(path_in, percent):
 
 #==================================== Predict for each json ============================================
 def check(list_label, list_bigger, label_relationship):
+    if list_label == []:
+        return False
+        
     flag = True
     for label in list_label:
         if label not in list_bigger:
