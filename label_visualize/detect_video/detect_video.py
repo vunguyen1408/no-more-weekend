@@ -73,6 +73,8 @@ def add_label_video_to_data(path, folder):
     list_file = []
     list_folder = next(os.walk(path))[1]
     #========================== Auto run ===================
+    from datetime import datetime , timedelta, date
+    import time
     date_ = '2016-11-16'
     to_date_ = '2016-11-25'
     date = datetime.strptime(date_, '%Y-%m-%d').date()
