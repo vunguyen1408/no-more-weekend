@@ -68,7 +68,7 @@ def get_label_videos(path, path_folder_videos):
     with open (path_file,'w') as f:
         json.dump(data, f)
 
-def add_label_video_to_data(path, folder):
+def add_label_video_to_data(path, folde):
     # Lấy danh sách path của các file json cần tổng hợp data
     list_file = []
     list_folder = next(os.walk(path))[1]
@@ -80,35 +80,36 @@ def add_label_video_to_data(path, folder):
     date = datetime.strptime(date_, '%Y-%m-%d').date()
     to_date = datetime.strptime(to_date_, '%Y-%m-%d').date()
     for folder in list_folder:
-        d = datetime.strptime(date_, '%Y-%m-%d').date()
-        if d <= to_date and d >= date:
+        d = datetime.strptime(folder, '%Y-%m-%d').date()
+        print (d)
+        # if d <= to_date and d >= date:
 
-            #==============================================
-            path_folder = os.path.join(path, folder)
-            path_folder_videos = os.path.join(path_folder, 'videos')
-            path_file = os.path.join(path_folder, 'ads_creatives_audit_content_' + str(folder) + '.json')
-            if os.path.exists(path_file):
-                get_label_videos(path, path_folder_videos)
+        #     #==============================================
+        #     path_folder = os.path.join(path, folder)
+        #     path_folder_videos = os.path.join(path_folder, 'videos')
+        #     path_file = os.path.join(path_folder, 'ads_creatives_audit_content_' + str(folder) + '.json')
+        #     if os.path.exists(path_file):
+        #         get_label_videos(path, path_folder_videos)
 
-            # for folder in list_folder:
-            path_folder = os.path.join(path, folder)
-            path_file_videos = os.path.join(path_folder, 'video_url_' + str(folder) + '.json')
-            path_file = os.path.join(path_folder, 'ads_creatives_audit_content_' + str(folder) + '.json')
-            if os.path.exists(path_file) and os.path.exists(path_file_videos):
-                with open(path_file, 'r') as f:
-                    data = json.load(f)
-                with open(path_file_videos, 'r') as f:
-                    data_video = json.load(f)
-                for vaule in data_video['my_json']:
-                    i = vaule['index_json']
-                    j = vaule['index_video']
-                    if 'video_ids' in data['my_json'][i]['audit_content']:
-                        data['my_json'][i]['audit_content']['video_ids'][j]['video_label'] = vaule['video_label']
-                        print (data['my_json'][i])
-                        print ("===============================================")
+        #     # for folder in list_folder:
+        #     path_folder = os.path.join(path, folder)
+        #     path_file_videos = os.path.join(path_folder, 'video_url_' + str(folder) + '.json')
+        #     path_file = os.path.join(path_folder, 'ads_creatives_audit_content_' + str(folder) + '.json')
+        #     if os.path.exists(path_file) and os.path.exists(path_file_videos):
+        #         with open(path_file, 'r') as f:
+        #             data = json.load(f)
+        #         with open(path_file_videos, 'r') as f:
+        #             data_video = json.load(f)
+        #         for vaule in data_video['my_json']:
+        #             i = vaule['index_json']
+        #             j = vaule['index_video']
+        #             if 'video_ids' in data['my_json'][i]['audit_content']:
+        #                 data['my_json'][i]['audit_content']['video_ids'][j]['video_label'] = vaule['video_label']
+        #                 print (data['my_json'][i])
+        #                 print ("===============================================")
                     
-                with open (path_file,'w') as f:
-                    json.dump(data, f)
+        #         with open (path_file,'w') as f:
+        #             json.dump(data, f)
 
 
 # path_folder_videos = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON/2016-10-02/videos'
