@@ -75,7 +75,7 @@ def add_label_video_to_data(path, folde):
     #========================== Auto run ===================
     from datetime import datetime , timedelta, date
     import time
-    date_ = '2016-11-17'
+    date_ = '2016-11-26'
     to_date_ = '2016-12-10'
     date = datetime.strptime(date_, '%Y-%m-%d').date()
     to_date = datetime.strptime(to_date_, '%Y-%m-%d').date()
