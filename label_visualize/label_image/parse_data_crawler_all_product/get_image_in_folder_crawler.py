@@ -89,14 +89,14 @@ def get_json_from_folder_image(path_file, folder, list_json_, path_video):
                         create_video.create_video(file_name, path_video, flag)
                         print ("Create ok.....!")
                         video_label = []
-                        if flag:
-                            try:
-                                video_label = create_video.analyze_labels(path_video)
-                            except Exception as e:
-                                print (e)
-                                video_label = []
-                        else:
-                            video_label = []
+                        # if flag:
+                        #     try:
+                        #         video_label = create_video.analyze_labels(path_video)
+                        #     except Exception as e:
+                        #         print (e)
+                        #         video_label = []
+                        # else:
+                        #     video_label = []
                         print (video_label)
                         # Get label image
                         list_label = []
