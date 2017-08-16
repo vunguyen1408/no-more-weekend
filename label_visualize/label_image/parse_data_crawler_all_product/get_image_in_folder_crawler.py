@@ -86,7 +86,7 @@ def get_json_from_folder_image(path_file, folder, list_json_, path_video):
                     if (size >= (1024 * 5)):
                         # Create video
                         flag = True
-                        create_video.create_video(file_name, path_video, flag)
+                        # create_video.create_video(file_name, path_video, flag)
                         print ("Create ok.....!")
                         video_label = []
                         # if flag:
