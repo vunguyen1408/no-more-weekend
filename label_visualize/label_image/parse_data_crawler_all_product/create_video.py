@@ -57,12 +57,6 @@ def create_video(image, video, flag):
         flag = False
         print ("=============================================================")
         return flag
-    print (width)
-    print (height)
-    print (image)
-    if width < 300 or height < 300:
-        flag = False
-        return flag
     # Define the codec and create VideoWriter object
     fourcc = cv2.VideoWriter_fourcc(*'mp4v') # Be sure to use lower case
     out = cv2.VideoWriter(video, fourcc, 20.0, (width, height))
