@@ -86,21 +86,21 @@ def get_json_from_folder_image(path_file, folder, list_json_, path_video):
                     if (size >= (1024 * 5)):
                         # Create video
                         flag = True
-                        # create_video.create_video(file_name, path_video, flag)
+                        create_video.create_video(file_name, path_video, flag)
                         print ("Create ok.....!")
                         video_label = []
-                        # if flag:
-                        #     try:
-                        #         video_label = create_video.analyze_labels(path_video)
-                        #     except Exception as e:
-                        #         print (e)
-                        #         video_label = []
-                        # else:
-                        #     video_label = []
+                        if flag:
+                            try:
+                                video_label = create_video.analyze_labels(path_video)
+                            except Exception as e:
+                                print (e)
+                                video_label = []
+                        else:
+                            video_label = []
                         print (video_label)
                         # Get label image
                         list_label = []
-                        # list_label = get_image_label_from_cloud_vision(file_name)
+                        list_label = get_image_label_from_cloud_vision(file_name)
                         print (list_label)
 
                         image = {
