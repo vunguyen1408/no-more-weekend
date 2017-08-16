@@ -142,5 +142,6 @@ def create_excel_all_product(path_in_json, path_out):
             #===========================================================
 
 path_file_content = '/u01/oracle/oradata/APEX/MARKETING_TOOL_03/Json_data_crawler'
+# path_file_content = 'C:/Users/CPU10145-local/Desktop/Server/MARKETING_TOOL_03/Json_data_crawler'
 
 create_excel_all_product(path_file_content, path_file_content)
