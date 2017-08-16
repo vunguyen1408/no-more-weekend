@@ -150,7 +150,7 @@ def get_image_folder_convert_to_json(path_in, path_out, file_json_mapping):
 
 path_in = "/u01/oracle/oradata/APEX/MARKETING_TOOL_03"
 path_out = "/u01/oracle/oradata/APEX/MARKETING_TOOL_03/Json_data_crawler"
-file_json_mapping = 'no-more-weekend/label_visualize/label_image/parse_data_crawler_all_product/mapping_folder_crawler.json'
+file_json_mapping = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/label_image/parse_data_crawler_all_product/mapping_folder_crawler.json'
 get_image_folder_convert_to_json(path_in, path_out, file_json_mapping)
 
 
