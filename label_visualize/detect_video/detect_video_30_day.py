@@ -49,7 +49,7 @@ def get_label_videos(folder, path_folder_videos, video_json):
         list_index.append(file_json)
 
     for i, value in enumerate(video_json['my_json']):
-        if not len(value['video_label']) > 0:
+        if not (len(value['video_label']) > 0):
             for file_ in list_index:
                 if file_['index'] == i:
                     link = 'gs://python_video/' + folder + '/' + file_['name']
@@ -85,10 +85,10 @@ def get_30_date(path_full_data, date, video_json):
     for value in video_json['my_json']:
         for json_ in list_video_json_before:
             if (value['file_name'] == json_['file_name']) and (len(json_['video_label']) > 0):
+                print (list(json_['video_label']))
                 value['video_label'] = list(json_['video_label'])
-    print (list_video_json_before)
-    print ("============================================================================")
-    print (video_json)
+    # print (list_video_json_before)
+    # print (video_json)
     return (list_video_json_before, video_json)
 
 def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01'):
@@ -117,9 +117,9 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
                 with open (path_file_video,'r') as file_json:
                     video_json = json.load(file_json)
                     list_video_json_before, video_json = get_30_date(path, folder, video_json)
-                    video_json = get_label_videos(folder, path_folder_videos, video_json)
-                    with open (path_file_video,'w') as f:
-                        json.dump(video_json, f)
+                    # video_json = get_label_videos(folder, path_folder_videos, video_json)
+                    # with open (path_file_video,'w') as f:
+                    #     json.dump(video_json, f)
 
                 # print ("===============================================")
                 # # for folder in list_folder:
