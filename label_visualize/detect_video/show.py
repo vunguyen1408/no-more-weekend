@@ -11,7 +11,7 @@ from google.cloud.gapic.videointelligence.v1beta1 import (
 
 
 
-def add_label_video_to_data(path, date_ = '2016-10-01'):
+def add_label_video_to_data(path, date_, to_date_):
     # Lấy danh sách path của các file json cần tổng hợp data
     list_file = []
     list_folder = next(os.walk(path))[1]
@@ -48,5 +48,5 @@ path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
 
 if __name__ == '__main__':
     from sys import argv
-    script, date = argv
-    add_label_video_to_data(path, date)
+    script, date, to_date = argv
+    add_label_video_to_data(path, date, to_date)
