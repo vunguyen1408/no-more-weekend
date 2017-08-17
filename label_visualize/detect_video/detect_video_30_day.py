@@ -140,8 +140,8 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
 
 
 # path_folder_videos = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON/2016-10-02/videos'
-# path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
-path = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
+path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+# path = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 # date_ = '2016-11-26'
 # to_date_ = '2016-12-10'
 
