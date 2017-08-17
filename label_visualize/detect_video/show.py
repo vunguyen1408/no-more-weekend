@@ -33,10 +33,13 @@ def add_label_video_to_data(path, date_, to_date_):
             print (path_file)
             print (path_file_video)
             if os.path.exists(path_file) and os.path.exists(path_file_video):
-                print ("============================================================================")
+                
                 with open (path_file_video,'r') as file_json:
                     video_json = json.load(file_json)
-                    print (video_json)
+                    for value in video_json:
+                        print ("============================================================================")
+                        print (d)
+                        print (value)
 
 
 
