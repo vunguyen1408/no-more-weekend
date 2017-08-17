@@ -51,5 +51,5 @@ path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
 
 if __name__ == '__main__':
     from sys import argv
-    script, date, to_date = argv
-    add_label_video_to_data(path, date, to_date)
+    script, date = argv
+    add_label_video_to_data(path, date, date)
