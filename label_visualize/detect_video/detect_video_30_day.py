@@ -86,8 +86,6 @@ def get_30_date(path_full_data, date, video_json):
     for value in video_json['my_json']:
         for json_ in list_video_json_before:
             if (value['file_name'] == json_['file_name']) and (len(json_['video_label']) > 0):
-                print (list(json_['video_label']))
-                print (json_['video_label'])
                 value['video_label'] = list(json_['video_label'])
     # print (list_video_json_before)
     # print (video_json)
