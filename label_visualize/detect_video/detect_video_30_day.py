@@ -75,8 +75,10 @@ def get_30_date(path_full_data, date, video_json):
         file_name = folder + '/' + 'video_url_'+ single_date.strftime('%Y-%m-%d') + '.json'
         if os.path.exists(file_name):
             with open (file_name,'r') as file_json:
+                print (folder)
                 data = json.load(file_json)
-                print (data)
+                print ("================================================================")
+                print (data['object_story_spec'])
                 for value in data['my_json']:
                     if (len(value['video_label']) > 0) and (value['file_name'] not in list_name):
                         list_name.append(value['file_name'])
