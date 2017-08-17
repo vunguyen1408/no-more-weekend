@@ -11,7 +11,7 @@ from google.cloud.gapic.videointelligence.v1beta1 import (
 
 
 
-def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01'):
+def add_label_video_to_data(path, date_ = '2016-10-01'):
     # Lấy danh sách path của các file json cần tổng hợp data
     list_file = []
     list_folder = next(os.walk(path))[1]
