@@ -132,7 +132,7 @@ def down_load_file_folder(path_folder, path_file, folder):
         json.dump(data, f)
 
 
-def create_content_date(path, date_ = '2016-10-01', to_date_ = '2017-05-01'):
+def create_content_date(path, date_, to_date_):
     # Lấy danh sách path của các file json cần tổng hợp data
     list_file = []
     date = datetime.strptime(date_, '%Y-%m-%d').date()
