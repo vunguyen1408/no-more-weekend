@@ -50,7 +50,7 @@ def get_label_videos(path, path_folder_videos):
             'index': int(file[11:-4])
         }
         list_link.append(link_json)
-        
+
 
     path_file = os.path.join(path, (str(date) + '/video_url_' + str(date) + '.json'))
     with open(path_file, 'r') as f:
@@ -68,20 +68,19 @@ def get_label_videos(path, path_folder_videos):
     with open (path_file,'w') as f:
         json.dump(data, f)
 
-def add_label_video_to_data(path, folde):
+def add_label_video_to_data(path, date_ = '2016-11-26', to_date_ = '2016-12-10'):
     # Lấy danh sách path của các file json cần tổng hợp data
     list_file = []
     list_folder = next(os.walk(path))[1]
     #========================== Auto run ===================
     from datetime import datetime , timedelta, date
     import time
-    date_ = '2016-11-26'
-    to_date_ = '2016-12-10'
+
     date = datetime.strptime(date_, '%Y-%m-%d').date()
     to_date = datetime.strptime(to_date_, '%Y-%m-%d').date()
     for folder in list_folder:
         d = datetime.strptime(folder, '%Y-%m-%d').date()
-        
+
         if d <= to_date and d >= date:
             print (d)
             #==============================================
@@ -107,7 +106,7 @@ def add_label_video_to_data(path, folde):
                         data['my_json'][i]['audit_content']['video_ids'][j]['video_label'] = vaule['video_label']
                         print (data['my_json'][i])
                         print ("===============================================")
-                    
+
                 with open (path_file,'w') as f:
                     json.dump(data, f)
 
@@ -117,7 +116,7 @@ def add_label_video_to_data(path, folde):
 
 
 path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
-add_label_video_to_data(path, '2016-10-04')
+add_label_video_to_data(path, '2016-11-26', '2016-12-10')
 
 # if __name__ == '__main__':
 #     parser = argparse.ArgumentParser()
