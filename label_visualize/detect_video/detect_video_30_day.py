@@ -87,9 +87,10 @@ def get_30_date(path_full_data, date, video_json):
             if (value['file_name'] == json_['file_name']) and (len(json_['video_label']) > 0):
                 value['video_label'] = list(json_['video_label'])
                 json_count += 1
-
+    print ("======================================================================")
     print ("Total %s" %str(len(video_json)))
     print ("Finded %s" %str(json_count))
+    print ("======================================================================")
     return (list_video_json_before, video_json)
 
 def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01'):
