@@ -54,7 +54,7 @@ def add_label_video_to_data(path, date_, to_date_, flag):
             print (path_file_video)
             if os.path.exists(path_file) and os.path.exists(path_file_video):
                 print ("===============================================")
-                if flag:
+                if flag == '1':
                     parse_label(path_file_video)
 
                 print ("===============================================")
