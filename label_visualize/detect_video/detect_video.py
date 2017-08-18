@@ -60,11 +60,11 @@ def get_label_videos(path, path_folder_videos):
     for link in list_link:
         list_label = analyze_labels(link['link'])
         index = link['index']
-        data['my_json'][index]['video_label'] = str(list_label)
+        data['my_json'][index]['video_label'] = list(list_label)
         file_name = data['my_json'][index]['file_name']
         for value in data['my_json']:
             if value['file_name'] == file_name:
-                value['video_label'] = str(list_label)
+                value['video_label'] = list(list_label)
     with open (path_file,'w') as f:
         json.dump(data, f)
 
@@ -116,12 +116,12 @@ def add_label_video_to_data(path, date_ = '2016-11-26', to_date_ = '2016-12-10')
 
 
 path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
-add_label_video_to_data(path, '2016-11-26', '2016-12-10')
+# add_label_video_to_data(path, '2016-11-26', '2016-12-10')
 
-# if __name__ == '__main__':
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument('pdate', help='The date you\'d like to label.')
-#     args = parser.parse_args()
-#     g_vdate=args.pdate
-#     print(g_vdate)
-#     add_label_video_to_data(path, g_vdate)
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('pdate', help='The date you\'d like to label.')
+    args = parser.parse_args()
+    g_vdate=args.pdate
+    print(g_vdate)
+    add_label_video_to_data(path, g_vdate)
