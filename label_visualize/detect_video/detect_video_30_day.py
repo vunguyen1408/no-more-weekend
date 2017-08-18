@@ -50,11 +50,18 @@ def get_label_videos(folder, path_folder_videos, video_json):
 
     for i, value in enumerate(video_json['my_json']):
         if not (len(value['video_label']) > 0):
-            for file_ in list_index:
-                if file_['index'] == i:
-                    link = 'gs://python_video/' + folder + '/' + file_['name']
-                    list_label = analyze_labels(link)
-                    value['video_label'] = list(list_label)
+            flag = True
+            for run in video_json['my_json']:
+                if (value['file_name'] == run['file_name']) and (len(run['video_label']) > 0):
+                    value['video_label'] = run['video_label']
+                    flag = False
+                    break
+            if flag:
+                for file_ in list_index:
+                    if file_['index'] == i:
+                        link = 'gs://python_video/' + folder + '/' + file_['name']
+                        list_label = analyze_labels(link)
+                        value['video_label'] = list(list_label)
     return video_json
 
 def get_30_date(path_full_data, date, video_json):
