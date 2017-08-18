@@ -72,7 +72,7 @@ def get_image_label_from_cloud_vision(photo_file):
     return list_label
 
 
-def get_json_from_folder_image(path_file, folder, list_json_, path_video):
+def get_json_from_folder_image(path_file, folder, list_json_, path_video, path_image_temp, flag):
     list_json = list_json_
     for root, dirs, files in os.walk(path_file):
         for file in files:
@@ -85,19 +85,15 @@ def get_json_from_folder_image(path_file, folder, list_json_, path_video):
                     size = os.path.getsize(file_name)
                     if (size >= (1024 * 5)):
                         # Create video
-                        flag = True
-                        create_video.create_video(file_name, path_video, flag)
-                        print ("Create ok.....!")
                         video_label = []
                         if flag:
+                            create_video.create_video(file_name, path_video, path_image_temp)
+                            print ("Create ok.....!")
                             try:
                                 video_label = create_video.analyze_labels(path_video)
                             except Exception as e:
                                 print (e)
-                                video_label = []
-                        else:
-                            video_label = []
-                        print (video_label)
+                            print (video_label)
                         # Get label image
                         list_label = []
                         list_label = get_image_label_from_cloud_vision(file_name)
@@ -123,10 +119,12 @@ def get_folder_product_from_excel(file_json_mapping):
     return list_folder_product
 
 def get_image_folder_convert_to_json(path_in, path_out, file_json_mapping):
+    flag = True
     if not os.path.exists(path_out):
         os.makedirs(path_out)
     list_folder_product = get_folder_product_from_excel(file_json_mapping)
     path_video = path_in + 'video_temp.mp4'
+    path_image_temp = path_in + 'image_temp.jpg'
     for product in list_folder_product:
         print (product)
         list_json = []
@@ -134,7 +132,7 @@ def get_image_folder_convert_to_json(path_in, path_out, file_json_mapping):
             print (folder)
             path_folder = os.path.join(path_in, folder)
             print(path_folder)
-            list_json = get_json_from_folder_image(path_folder, folder, list_json, path_video)
+            list_json = get_json_from_folder_image(path_folder, folder, list_json, path_video, path_image_temp, flag)
             print("==============================")
 
         file_name = product[0] + '.json'
@@ -152,13 +150,3 @@ path_in = "/u01/oracle/oradata/APEX/MARKETING_TOOL_03"
 path_out = "/u01/oracle/oradata/APEX/MARKETING_TOOL_03/Json_data_crawler"
 file_json_mapping = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/label_image/parse_data_crawler_all_product/mapping_folder_crawler.json'
 get_image_folder_convert_to_json(path_in, path_out, file_json_mapping)
-
-
-
-#get_json_from_folder_image(path)
-# list_json = get_json_from_folder_image(path)
-# file_json_out = 'D:/WorkSpace/CODE/sample_content.json'
-# final_json = {}
-# final_json['sample_json'] = list_json
-# with open(file_json_out, 'w') as f:
-#   json.dump(final_json, f)
