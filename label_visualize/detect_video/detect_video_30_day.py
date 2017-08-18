@@ -86,6 +86,10 @@ def get_30_date(path_full_data, date, video_json):
         for json_ in list_video_json_before:
             if (value['file_name'] == json_['file_name']) and (len(json_['video_label']) > 0):
                 value['video_label'] = list(json_['video_label'])
+                json_count += 1
+
+    print ("Total %s" %str(len(video_json)))
+    print ("Finded %s" %str(json_count))
     return (list_video_json_before, video_json)
 
 def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01'):
@@ -117,6 +121,7 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
                     print (video_json)
                     with open (path_file_video,'w') as f:
                         json.dump(video_json, f)
+                print ("========================= Add label to data json =========================")
                 # for folder in list_folder:
                 path_folder = os.path.join(path, folder)
                 path_file_videos = os.path.join(path_folder, 'video_url_' + str(folder) + '.json')
@@ -130,9 +135,7 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
                         i = vaule['index_json']
                         j = vaule['index_video']
                         if 'video_ids' in data['my_json'][i]['audit_content']:
-                            print (vaule['video_label'])
                             data['my_json'][i]['audit_content']['video_ids'][j]['video_label'] = vaule['video_label']
-                            print ("===============================================")
 
                     with open (path_file,'w') as f:
                         json.dump(data, f)
