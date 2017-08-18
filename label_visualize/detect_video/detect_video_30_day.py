@@ -89,8 +89,8 @@ def get_30_date(path_full_data, date, video_json):
                 json_count += 1
     print ("======================================================================")
     print (video_json)
-    print ("Total %s" %str(len(video_json)))
-    print ("Finded %s" %str(json_count))
+    print ("Total "+ str(len(video_json['my_json'])))
+    print ("Finded " + str(json_count))
     print ("======================================================================")
     return (list_video_json_before, video_json)
 
