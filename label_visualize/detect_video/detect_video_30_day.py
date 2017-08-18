@@ -61,7 +61,7 @@ def get_30_date(path_full_data, date, video_json):
     list_neighbor = []
     list_folder = next(os.walk(path))[1]
 
-    delta = 31
+    delta = 60
     vdate = datetime.strptime(date, '%Y-%m-%d').date()
 
     list_video_json_before = []
