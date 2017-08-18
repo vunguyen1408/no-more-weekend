@@ -130,6 +130,8 @@ def down_load_file_folder(path_folder, path_file, folder):
             data['my_json'][i1]['file_name'] = ""
     with open (path_file,'w') as f:
         json.dump(data, f)
+    print ("=========================== DATA =============================")
+    print (data)
 
 
 def create_content_date(path, date_, to_date_):
