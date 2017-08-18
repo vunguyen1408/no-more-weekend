@@ -31,7 +31,7 @@ def add_list_video_empty(data):
     return data
 
 
-def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01', flag):
+def add_label_video_to_data(path, date_, to_date_, flag):
     # Lấy danh sách path của các file json cần tổng hợp data
     list_file = []
     list_folder = next(os.walk(path))[1]
