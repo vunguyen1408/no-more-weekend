@@ -14,17 +14,24 @@ def parse_label(path_file_video):
                 result = value['video_label'][1:-1].split(",")
                 list_result = []
                 for i, label in enumerate(result):
+                    label = label.replace("\\", "")
                     if i == 0:
                         label = label[1:-1]
                     else:
                         label = label[2:-1]
-                    label = label.replace("\\", "")
                     list_result.append(label)
                 value['video_label'] = list(list_result)
     with open (path_file_video,'w') as f:
         json.dump(data, f)
 
-def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01'):
+def add_list_video_empty(data):
+    for value in data['my_json']:
+        for video in  value['audit_content']['video_ids']:
+            video['video_label'] = []
+    return data
+
+
+def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01', flag):
     # Lấy danh sách path của các file json cần tổng hợp data
     list_file = []
     list_folder = next(os.walk(path))[1]
@@ -47,7 +54,8 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
             print (path_file_video)
             if os.path.exists(path_file) and os.path.exists(path_file_video):
                 print ("===============================================")
-                parse_label(path_file_video)
+                if flag:
+                    parse_label(path_file_video)
 
                 print ("===============================================")
                 if os.path.exists(path_file) and os.path.exists(path_file_video):
@@ -55,6 +63,7 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
                         data = json.load(f)
                     with open(path_file_video, 'r') as f:
                         data_video = json.load(f)
+                    data = add_list_video_empty(data)
                     for vaule in data_video['my_json']:
                         i = vaule['index_json']
                         j = vaule['index_video']
@@ -76,5 +85,5 @@ path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
 
 if __name__ == '__main__':
     from sys import argv
-    script, date, to_date = argv
-    add_label_video_to_data(path, date, to_date)
+    script, date, to_date, flag = argv
+    add_label_video_to_data(path, date, to_date, flag)
