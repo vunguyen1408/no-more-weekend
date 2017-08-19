@@ -46,6 +46,8 @@ def analyze_labels(path):
 def create_video(image, video, path_temp):
     import PIL
     from PIL import Image
+    import subprocess
+
     flag = False
 
     img = Image.open(image)
