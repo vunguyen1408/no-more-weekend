@@ -123,8 +123,9 @@ def get_image_folder_convert_to_json(path_in, path_out, file_json_mapping):
     if not os.path.exists(path_out):
         os.makedirs(path_out)
     list_folder_product = get_folder_product_from_excel(file_json_mapping)
-    path_video = path_in + 'video_temp.mp4'
-    path_image_temp = path_in + 'image_temp.jpg'
+    #================ Create folder temp ==================
+    folder_temp = os.path.join(path_in, 'temp')
+    path_video = os.path.join(folder_temp, 'video_temp.mp4')
     for product in list_folder_product:
         print (product)
         list_json = []
@@ -132,7 +133,7 @@ def get_image_folder_convert_to_json(path_in, path_out, file_json_mapping):
             print (folder)
             path_folder = os.path.join(path_in, folder)
             print(path_folder)
-            list_json = get_json_from_folder_image(path_folder, folder, list_json, path_video, path_image_temp, flag)
+            list_json = get_json_from_folder_image(path_folder, folder, list_json, path_video, folder_temp, flag)
             print("==============================")
 
         file_name = product[0] + '.json'
