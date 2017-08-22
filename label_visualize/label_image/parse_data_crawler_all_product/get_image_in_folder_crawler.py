@@ -132,7 +132,7 @@ def get_image_folder_convert_to_json(path_in, path_out, file_json_mapping):
     folder_temp = os.path.join(path_in, 'temp')
     path_video = os.path.join(folder_temp, 'video_temp.mp4')
     for product in list_folder_product:
-        if product[0] != '267' and product[0] != '264':
+        if product[0] != '267' and product[0] != '264' and product[0] != '262':
             print ("================================ Product : " + product[0] + " ===================================")
             list_json = []
             for folder in product[2]:
