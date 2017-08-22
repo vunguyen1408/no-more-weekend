@@ -127,24 +127,25 @@ def get_image_folder_convert_to_json(path_in, path_out, file_json_mapping):
     folder_temp = os.path.join(path_in, 'temp')
     path_video = os.path.join(folder_temp, 'video_temp.mp4')
     for product in list_folder_product:
-        print (product)
-        list_json = []
-        for folder in product[2]:
-            print (folder)
-            path_folder = os.path.join(path_in, folder)
-            print(path_folder)
-            list_json = get_json_from_folder_image(path_folder, folder, list_json, path_video, folder_temp, flag)
-            print("==============================")
+        if product[1] != '267' and product[1] != '264'
+            print (product)
+            list_json = []
+            for folder in product[2]:
+                print (folder)
+                path_folder = os.path.join(path_in, folder)
+                print(path_folder)
+                list_json = get_json_from_folder_image(path_folder, folder, list_json, path_video, folder_temp, flag)
+                print("==============================")
 
-        file_name = product[0] + '.json'
-        path_folder_out = os.path.join(path_out, product[0])
-        file_json_out = os.path.join(path_folder_out, file_name)
-        final_json = {}
-        final_json['sample_json'] = list_json
-        if not os.path.exists(path_folder_out):
-            os.makedirs(path_folder_out)
-        with open(file_json_out, 'w') as f:
-            json.dump(final_json, f)
+            file_name = product[0] + '.json'
+            path_folder_out = os.path.join(path_out, product[0])
+            file_json_out = os.path.join(path_folder_out, file_name)
+            final_json = {}
+            final_json['sample_json'] = list_json
+            if not os.path.exists(path_folder_out):
+                os.makedirs(path_folder_out)
+            with open(file_json_out, 'w') as f:
+                json.dump(final_json, f)
 
 
 path_in = "/u01/oracle/oradata/APEX/MARKETING_TOOL_03"

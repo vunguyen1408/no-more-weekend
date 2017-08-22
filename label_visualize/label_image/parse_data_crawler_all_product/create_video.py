@@ -52,11 +52,12 @@ def create_video(image, video, path_temp):
     img = Image.open(image)
     temp_image = os.path.join(path_temp, "0.jpg")
     #img.save(temp_image)
-
+    print (image)
     #======== Convert image into .jpg ========
     if (image.find('.jpg') < 0):
         #img = Image.open(image)
-        rgb_im = img.convert('RGB')
+        if img.mode != "RGB":
+            rgb_im = img.convert('RGB')
         rgb_im.save(temp_image)
         img = Image.open(temp_image)
         flag = True
