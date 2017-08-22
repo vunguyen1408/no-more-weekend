@@ -87,13 +87,18 @@ def get_json_from_folder_image(path_file, folder, list_json_, path_video, path_i
                         # Create video
                         video_label = []
                         if flag:
-                            create_video.create_video(file_name, path_video, path_image_temp)
-                            print ("Create ok.....!")
                             try:
-                                video_label = create_video.analyze_labels(path_video)
-                            except Exception as e:
-                                print (e)
+                                create_video.create_video(file_name, path_video, path_image_temp)
+                                try:
+                                    video_label = create_video.analyze_labels(path_video)
+                                except Exception as e:
+                                    print (e)
                             print (video_label)
+                            except OSError as e:
+                                video_label = []
+                                print (e)
+                            print ("Create ok.....!")
+                            
                         # Get label image
                         list_label = []
                         list_label = get_image_label_from_cloud_vision(file_name)
