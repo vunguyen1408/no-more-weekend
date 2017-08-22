@@ -81,9 +81,8 @@ def create_video(image, video, path_temp):
         img.save(temp_image)
         flag = True
 
-    for i in range(1, 6):
-        frame_path = os.path.join(path_temp, str(i) + ".jpg")
-        img.save(frame_path)
+    frame_path = os.path.join(path_temp, "1.jpg")
+    img.save(frame_path)
 
     if flag:
         subprocess.call(["ffmpeg", "-f", "image2", "-r", "1.0/10", "-i", os.path.join(path_temp,  "%d.jpg"),"-vcodec", "mjpeg4", "-vcodec", "libx264", "-y", video])
