@@ -93,7 +93,7 @@ def get_json_from_folder_image(path_file, folder, list_json_, path_video, path_i
                                     video_label = create_video.analyze_labels(path_video)
                                 except Exception as e:
                                     print (e)
-                            print (video_label)
+                                print (video_label)
                             except OSError as e:
                                 video_label = []
                                 print (e)
