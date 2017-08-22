@@ -94,7 +94,7 @@ def get_json_from_folder_image(path_file, folder, list_json_, path_video, path_i
                                 except Exception as e:
                                     print (e)
                                 print (video_label)
-                            except OSError as e:
+                            except Exception as e:
                                 video_label = []
                                 print (e)
                             print ("Create ok.....!")
