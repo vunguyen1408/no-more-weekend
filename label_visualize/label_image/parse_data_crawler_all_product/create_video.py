@@ -58,7 +58,7 @@ def create_video(image, video, path_temp):
         #img = Image.open(image)
         if img.mode != "RGB":
             rgb_im = img.convert('RGB')
-        rgb_im.save(temp_image)
+            rgb_im.save(temp_image)
         img = Image.open(temp_image)
         flag = True
 
