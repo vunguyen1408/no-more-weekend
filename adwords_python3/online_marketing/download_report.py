@@ -38,7 +38,7 @@ def main(client):
   report_downloader = client.GetReportDownloader(version='v201708')
 
   report = {
-      'reportName': 'Last 7 days CAMPAIGN_PERFORMANCE_REPORT',
+      'reportName': 'Custom date CAMPAIGN_PERFORMANCE_REPORT',
       'dateRangeType': 'CUSTOM_DATE',
       #'dateRange':{'min':20170601,'max':20170630},
       'reportType': 'CAMPAIGN_PERFORMANCE_REPORT',
