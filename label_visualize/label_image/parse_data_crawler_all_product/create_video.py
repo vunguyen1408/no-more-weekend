@@ -77,7 +77,7 @@ def create_video(image, video, path_temp):
         img = img.resize((img.size[0], img.size[1] - 1), PIL.Image.ANTIALIAS)
         img.save(temp_image)
         flag = True
-    elif (img.size[0] % 2) != 0:
+    if (img.size[0] % 2) != 0:
         img = img.resize((img.size[0] - 1, img.size[1]), PIL.Image.ANTIALIAS)
         img.save(temp_image)
         flag = True
