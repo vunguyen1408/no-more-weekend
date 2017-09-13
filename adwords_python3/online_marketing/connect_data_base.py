@@ -15,4 +15,3 @@ row = cursor.fetchall()
 temp = list(row)
 unmap = {}
 print (row)
-	json.dump(unmap, f) 
