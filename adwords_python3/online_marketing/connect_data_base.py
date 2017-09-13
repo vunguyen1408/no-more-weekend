@@ -15,7 +15,9 @@ print (len(row))
 for i in temp:
 	for j in i:
 		if isinstance(j, datetime.datetime):
+			print (type(j))
 			j = j.strftime('%Y-%m-%d')
+			print (type(j))
 unmap['plan'] = temp
 
 with open ('plan.json','w') as f:
