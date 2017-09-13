@@ -11,4 +11,5 @@ row = cursor.fetchall()
 unmap['plan'] = row
 with open ('plan.json','w') as f:
 	json.dump(unmap, f)
+	
 print (row)
