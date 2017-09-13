@@ -8,8 +8,9 @@ query = 'select * from STG_FA_DATA_GG'
 cursor.execute(query)
 
 row = cursor.fetchall()
+unmap = {}
 unmap['plan'] = row
 with open ('plan.json','w') as f:
 	json.dump(unmap, f)
-	
+
 print (row)
