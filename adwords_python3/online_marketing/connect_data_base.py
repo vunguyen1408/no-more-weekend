@@ -78,30 +78,3 @@ for plan in temp:
 
 print (list_json)
 
-
-
-
-
-	
-
-# list_temp = []
-# for i in temp:
-#         print (type(i))
-#         print (i)
-#         print ("========================")
-
-
-
-#         for j in i:
-#                 k = j
-#                 if isinstance(j, datetime.datetime):
-#                         print (type(j))
-#                         print (j)
-#                         k = k.strftime('%Y-%m-%d')
-#                         print (type(j))
-#                 list_temp.append(k)
-
-# unmap['plan'] = temp
-
-# with open ('plan.json','w') as f:
-# 	json.dump(unmap, f) 
