@@ -66,9 +66,10 @@ for plan in temp:
 	for value in plan:
 		val = value		
 		if isinstance(value, datetime.datetime):            
-            val = value.strftime('%Y-%m-%d')
-        if (type(value) != 'int') and (value.isdigit() or value.replace(".", "").isdigit()):
+			val = value.strftime('%Y-%m-%d')
+		if (type(value) != 'int') and (value.isdigit() or value.replace(".", "").isdigit()):
 			val = float(value)
+
 		list_temp.append(val)
 
 	for i in range(len(list_key)):
