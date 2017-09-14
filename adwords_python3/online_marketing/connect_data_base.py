@@ -15,8 +15,6 @@ query = 'select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, PRODUCT, REAS
 cursor.execute(query)
 row = cursor.fetchall()
 temp = list(row)
-#print (row)
-
 
 #===================== Convert data into json =================================
 unmap = {}
