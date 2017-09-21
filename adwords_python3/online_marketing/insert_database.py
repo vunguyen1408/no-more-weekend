@@ -58,14 +58,14 @@ def InsertDataDate(path_data, connect):
 			value['REASON_CODE_ORACLE'], value['EFORM_NO'], value['START_DAY'], \
 			value['END_DAY_ESTIMATE'], value['CHANNEL'], value['UNIT_COST'], \
 			float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), float(value['IMPRESSIONS']),\
-			0, 0, float(value['CLIKE']), 0, \
-			0, float(value['CVIEWS']), 0, float(value['INSTALL']), \
+			0.0, 0.0, float(value['CLIKE']), 0.0, \
+			0.0, float(value['CVIEWS']), 0.0, float(value['INSTALL']), \
 			float(value['NRU']), value['FORM_TYPE'], value['UNIT_OPTION'], \
-			'', '', '', 0, \
-			0, float(value['DATA_MONTHLY']['CONVERSIONS']), float(value['DATA_MONTHLY']['INVALID_CLICKS']), \
-			float(value['DATA_MONTHLY']['ENGAGEMENTS']), 0, float(value['DATA_MONTHLY']['CTR']), \
+			'', '', '', 0.0, \
+			0.0, float(value['DATA_MONTHLY']['CONVERSIONS']), float(value['DATA_MONTHLY']['INVALID_CLICKS']), \
+			float(value['DATA_MONTHLY']['ENGAGEMENTS']), 0.0, float(value['DATA_MONTHLY']['CTR']), \
 			float(value['DATA_MONTHLY']['IMPRESSIONS']), float(value['DATA_MONTHLY']['INTERACTIONS']), float(value['DATA_MONTHLY']['CLICKS']), \
-			'', float(value['DATA_MONTHLY']['COST']), float(value['DATA_MONTHLY']['COST']), 0, ''))
+			'', float(value['DATA_MONTHLY']['COST']), float(value['DATA_MONTHLY']['COST']), 0.0, ''))
 
 		# value['SNAPSHOT_DATE'], value['PRODUCT_NAME']  float(value['REACH'])  float(value['FREQUENCY'])
 		# float(value['CLICKS_ALL'])   float(value['LINK_CLICKS'])  float(value['C3S_VIDEO_VIEW'])
