@@ -103,15 +103,15 @@ def InsertDataDate(path_data, connect):
 			value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT'], 
 			value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DAY'], '%Y-%m-%d'), 
 			datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d'), value['CHANNEL'], value['UNIT_COST'], 
-			float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), 
-			float(value['IMPRESSIONS']), float(value['CLIKE']),
-			float(value['CVIEWS']), float(value['INSTALL']), 
-			float(value['NRU']), value['FORM_TYPE'], value['UNIT_OPTION'], 
-			float(value['DATA_MONTHLY']['CONVERSIONS']), float(value['DATA_MONTHLY']['INVALID_CLICKS']), 
-			float(value['DATA_MONTHLY']['ENGAGEMENTS']), float(value['DATA_MONTHLY']['CTR']), 
-			float(value['DATA_MONTHLY']['IMPRESSIONS']), float(value['DATA_MONTHLY']['INTERACTIONS']), 
-			float(value['DATA_MONTHLY']['CLICKS']), 
-			float(value['DATA_MONTHLY']['COST']), float(value['DATA_MONTHLY']['COST']) ))
+			int(value['AMOUNT_USD']), int(value['CVALUE']), int(value['ENGAGEMENT']), 
+			int(value['IMPRESSIONS']), int(value['CLIKE']),
+			int(value['CVIEWS']), int(value['INSTALL']), 
+			int(value['NRU']), value['FORM_TYPE'], value['UNIT_OPTION'], 
+			int(value['DATA_MONTHLY']['CONVERSIONS']), int(value['DATA_MONTHLY']['INVALID_CLICKS']), 
+			int(value['DATA_MONTHLY']['ENGAGEMENTS']), int(value['DATA_MONTHLY']['CTR']), 
+			int(value['DATA_MONTHLY']['IMPRESSIONS']), int(value['DATA_MONTHLY']['INTERACTIONS']), 
+			int(value['DATA_MONTHLY']['CLICKS']), 
+			int(value['DATA_MONTHLY']['COST']), int(value['DATA_MONTHLY']['COST']) ))
 	# statement = """INSERT INTO DTM_GG_PIVOT_DETAIL (
 	# SNAPSHOT_DATE, \ 				#1
 	# CYEAR, \						#2
