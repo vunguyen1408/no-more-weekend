@@ -57,12 +57,10 @@ def InsertDataDate(path_data, connect):
 	GG_CLICKS, \					
 	-- GG_INTERACTION_TYPE, \			
 	GG_COST, \   					
-	GG_SPEND, \						
+	GG_SPEND \						
 	-- GG_APPSFLYER_INSTALL, \			
-	-- GG_STRATEGY_BID_TYPE) \			
-	VALUES (:2, :3, :4, :5, :6, :7, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18,\
-	:21, :24, :26, :27, :28, :29, :35, :36, :37, :39, :40, \
-	:41, :42, :44, :45)"""
+	-- GG_STRATEGY_BID_TYPE) \
+	) VALUES (:2, :3, :4, :5, :6, :7, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :21, :24, :26, :27, :28, :29, :35, :36, :37, :39, :40, :41, :42, :44, :45)"""
 
 	with open(path_data, 'r') as fi:
 		data = json.load(fi)
