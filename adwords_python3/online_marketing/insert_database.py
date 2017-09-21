@@ -55,14 +55,14 @@ def InsertDataDate(path_data, connect):
 	GG_IMPRESSIONS, \				#40
 	GG_INTERACTIONS, \				#41
 	GG_CLICKS, \					#42
-	GG_INTERACTION_TYPE, \			#43
+	-- GG_INTERACTION_TYPE, \			#43
 	GG_COST, \   					#44
 	GG_SPEND, \						#45
 	-- GG_APPSFLYER_INSTALL, \			#46
 	-- GG_STRATEGY_BID_TYPE) \			#47
 	VALUES (:2, :3, :4, :5, :6, :7, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18,\
 	:21, :24, :26, :27, :28, :29, :35, :36, :37, :39, :40, \
-	:41, :42, :43, :44, :45)"""
+	:41, :42, :44, :45)"""
 
 	with open(path_data, 'r') as fi:
 		data = json.load(fi)
@@ -72,14 +72,15 @@ def InsertDataDate(path_data, connect):
 			value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT'], \
 			value['REASON_CODE_ORACLE'], value['EFORM_NO'], value['START_DAY'], \
 			value['END_DAY_ESTIMATE'], value['CHANNEL'], value['UNIT_COST'], \
-			float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), float(value['IMPRESSIONS']),\
-			float(value['CLIKE']),\
+			float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), \
+			float(value['IMPRESSIONS']), float(value['CLIKE']),\
 			float(value['CVIEWS']), float(value['INSTALL']), \
 			float(value['NRU']), value['FORM_TYPE'], value['UNIT_OPTION'], \
 			float(value['DATA_MONTHLY']['CONVERSIONS']), float(value['DATA_MONTHLY']['INVALID_CLICKS']), \
 			float(value['DATA_MONTHLY']['ENGAGEMENTS']), float(value['DATA_MONTHLY']['CTR']), \
-			float(value['DATA_MONTHLY']['IMPRESSIONS']), float(value['DATA_MONTHLY']['INTERACTIONS']), float(value['DATA_MONTHLY']['CLICKS']), \
-			'', float(value['DATA_MONTHLY']['COST']), float(value['DATA_MONTHLY']['COST']), ))
+			float(value['DATA_MONTHLY']['IMPRESSIONS']), float(value['DATA_MONTHLY']['INTERACTIONS']), \
+			float(value['DATA_MONTHLY']['CLICKS']), \
+			float(value['DATA_MONTHLY']['COST']), float(value['DATA_MONTHLY']['COST']) ))
 	# statement = """INSERT INTO DTM_GG_PIVOT_DETAIL (
 	# SNAPSHOT_DATE, \ 				#1
 	# CYEAR, \						#2
