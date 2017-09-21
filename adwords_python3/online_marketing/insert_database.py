@@ -39,16 +39,21 @@ def InsertDataDate(path_data, connect):
 	cursor = conn.cursor()
 
 	#==================== Get data from database =================
+	# statement = '''INSERT INTO DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR, CMONTH, LEGAL, DEPARTMENT, \
+	# DEPARTMENT_NAME, PRODUCT, PRODUCT_NAME, REASON_CODE_ORACLE, EFORM_NO, START_DATE, END_DATE, \
+	# CHANNEL, UNIT_COST, AMOUNT_USD, CVALUE, ENGAGEMENT, IMPRESSIONS, REACH, FREQUENCY, CLIKE, \
+	# CLICKS_ALL, LINK_CLICKS, CVIEWS, C3S_VIDEO_VIEW, INSTALL, NRU, EFORM_TYPE, UNIT_OPTION, OBJECTIVE, \
+	# EVENT_ID, PRODUCT_ID, CCD_NRU, GG_VIEWS, GG_CONVERSION, GG_INVALID_CLICKS, GG_ENGAGEMENTS, \
+	# GG_VIDEO_VIEW, GG_CTR, GG_IMPRESSIONS, GG_INTERACTIONS, GG_CLICKS, GG_INTERACTION_TYPE, GG_COST, \
+	# GG_SPEND, GG_APPSFLYER_INSTALL, GG_STRATEGY_BID_TYPE) \
+	# VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, 19, :20, \
+	# :21, :22, :23, :24, :25, :26, :27, :28, :29, :30, :31, :32, :33, :34, :35, :36, :37, :38, :39, :40, \
+	# :41, :42, :43, :44, :45, :46, :47)'''
+
 	statement = '''INSERT INTO DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR, CMONTH, LEGAL, DEPARTMENT, \
 	DEPARTMENT_NAME, PRODUCT, PRODUCT_NAME, REASON_CODE_ORACLE, EFORM_NO, START_DATE, END_DATE, \
-	CHANNEL, UNIT_COST, AMOUNT_USD, CVALUE, ENGAGEMENT, IMPRESSIONS, REACH, FREQUENCY, CLIKE, \
-	CLICKS_ALL, LINK_CLICKS, CVIEWS, C3S_VIDEO_VIEW, INSTALL, NRU, EFORM_TYPE, UNIT_OPTION, OBJECTIVE, \
-	EVENT_ID, PRODUCT_ID, CCD_NRU, GG_VIEWS, GG_CONVERSION, GG_INVALID_CLICKS, GG_ENGAGEMENTS, \
-	GG_VIDEO_VIEW, GG_CTR, GG_IMPRESSIONS, GG_INTERACTIONS, GG_CLICKS, GG_INTERACTION_TYPE, GG_COST, \
-	GG_SPEND, GG_APPSFLYER_INSTALL, GG_STRATEGY_BID_TYPE)' \
-	VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, 19, :20, \
-	:21, :22, :23, :24, :25, :26, :27, :28, :29, :30, :31, :32, :33, :34, :35, :36, :37, :38, :39, :40, \
-	:41, :42, :43, :44, :45, :46, :47)'''
+	CHANNEL) \
+	VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13)'''
 
 
 	# with open(path_data, 'r') as fi:
@@ -70,59 +75,30 @@ def InsertDataDate(path_data, connect):
 		'EFORM_NO': 'FA-PA170427002', 
 		'START_DATE': '2017-06-01', 
 		'END_DATE': '2017-06-30', 
-		'CHANNEL': 'GG', 
-		'UNIT_COST': "", 
-		'AMOUNT_USD': '0', 
-		'CVALUE': '0', 
-		'ENGAGEMENT': '0', 
-		'IMPRESSIONS': '0', 
-		'REACH': '0', 
-		'FREQUENCY': '0', 
-		'CLIKE': '0', 
-		'CLICKS_ALL': '0', 
-		'LINK_CLICKS': '0', 
-		'CVIEWS': '0', 
-		'C3S_VIDEO_VIEW': '0', 
-		'INSTALL': '0', 
-		'NRU': '0', 
-		'EFORM_TYPE': "", 
-		'UNIT_OPTION': "", 
-		'OBJECTIVE': "", 
-		'EVENT_ID': "", 
-		'PRODUCT_ID': "", 
-		'CCD_NRU': '0', 
-		'GG_VIEWS': '0', 
-		'GG_CONVERSION': '0', 
-		'GG_INVALID_CLICKS': '0', 
-		'GG_ENGAGEMENTS': '0', 
-		'GG_VIDEO_VIEW': '0', 
-		'GG_CTR': '0', 
-		'GG_IMPRESSIONS': '0', 
-		'GG_INTERACTIONS': '0', 
-		'GG_CLICKS': '0', 
-		'GG_INTERACTION_TYPE': "", 
-		'GG_COST': '0', 
-		'GG_SPEND': '0', 
-		'GG_APPSFLYER_INSTALL': '0', 
-		'GG_STRATEGY_BID_TYPE': ""
+		'CHANNEL': 'GG'	
 	}
 
-	# for value in data:		
-		
 	cursor.execute(statement, (value['SNAPSHOT_DATE'], value['CYEAR'], value['CMONTH'], value['LEGAL'], \
 		value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT'], value['PRODUCT_NAME'], \
 		value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DATE'], '%Y-%m-%d'), \
-		datetime.strptime(value['END_DATE'], '%Y-%m-%d'), value['CHANNEL'], value['UNIT_COST'], \
-		float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), float(value['IMPRESSIONS']),\
-		float(value['REACH']), float(value['FREQUENCY']), float(value['CLIKE']), float(value['CLICKS_ALL']), \
-		float(value['LINK_CLICKS']), float(value['CVIEWS']), float(value['C3S_VIDEO_VIEW']), float(value['INSTALL']), \
-		float(value['NRU']), value['EFORM_TYPE'], value['UNIT_OPTION'], \
-		value['OBJECTIVE'], value['EVENT_ID'], value['PRODUCT_ID'], value['CCD_NRU'],\
-		float(value['GG_VIEWS']), float(value['GG_CONVERSION']), float(value['GG_INVALID_CLICKS']), \
-		float(value['GG_ENGAGEMENTS']), float(value['GG_VIDEO_VIEW']), float(value['GG_CTR']), \
-		float(value['GG_IMPRESSIONS']), float(value['GG_INTERACTIONS']), float(value['GG_CLICKS']), \
-		value['GG_INTERACTION_TYPE'], float(value['GG_COST']), float(value['GG_SPEND']), \
-		float(value['GG_APPSFLYER_INSTALL']), value['GG_STRATEGY_BID_TYPE']))
+		datetime.strptime(value['END_DATE'], '%Y-%m-%d'), value['CHANNEL']))
+
+	# for value in data:		
+		
+	# cursor.execute(statement, (value['SNAPSHOT_DATE'], value['CYEAR'], value['CMONTH'], value['LEGAL'], \
+	# 	value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT'], value['PRODUCT_NAME'], \
+	# 	value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DATE'], '%Y-%m-%d'), \
+	# 	datetime.strptime(value['END_DATE'], '%Y-%m-%d'), value['CHANNEL'], value['UNIT_COST'], \
+	# 	float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), float(value['IMPRESSIONS']),\
+	# 	float(value['REACH']), float(value['FREQUENCY']), float(value['CLIKE']), float(value['CLICKS_ALL']), \
+	# 	float(value['LINK_CLICKS']), float(value['CVIEWS']), float(value['C3S_VIDEO_VIEW']), float(value['INSTALL']), \
+	# 	float(value['NRU']), value['EFORM_TYPE'], value['UNIT_OPTION'], \
+	# 	value['OBJECTIVE'], value['EVENT_ID'], value['PRODUCT_ID'], value['CCD_NRU'],\
+	# 	float(value['GG_VIEWS']), float(value['GG_CONVERSION']), float(value['GG_INVALID_CLICKS']), \
+	# 	float(value['GG_ENGAGEMENTS']), float(value['GG_VIDEO_VIEW']), float(value['GG_CTR']), \
+	# 	float(value['GG_IMPRESSIONS']), float(value['GG_INTERACTIONS']), float(value['GG_CLICKS']), \
+	# 	value['GG_INTERACTION_TYPE'], float(value['GG_COST']), float(value['GG_SPEND']), \
+	# 	float(value['GG_APPSFLYER_INSTALL']), value['GG_STRATEGY_BID_TYPE']))
 
 
 	conn.commit()
