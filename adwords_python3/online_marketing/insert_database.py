@@ -71,7 +71,7 @@ def InsertDataDate(path_data, connect):
 		'START_DATE': '2017-06-01', 
 		'END_DATE': '2017-06-30', 
 		'CHANNEL': 'GG', 
-		'UNIT_COST': '', 
+		'UNIT_COST': "", 
 		'AMOUNT_USD': '0', 
 		'CVALUE': '0', 
 		'ENGAGEMENT': '0', 
@@ -85,11 +85,11 @@ def InsertDataDate(path_data, connect):
 		'C3S_VIDEO_VIEW': '0', 
 		'INSTALL': '0', 
 		'NRU': '0', 
-		'EFORM_TYPE': '', 
-		'UNIT_OPTION': '', 
-		'OBJECTIVE': '', 
-		'EVENT_ID': '', 
-		'PRODUCT_ID': '', 
+		'EFORM_TYPE': "", 
+		'UNIT_OPTION': "", 
+		'OBJECTIVE': "", 
+		'EVENT_ID': "", 
+		'PRODUCT_ID': "", 
 		'CCD_NRU': '0', 
 		'GG_VIEWS': '0', 
 		'GG_CONVERSION': '0', 
@@ -100,11 +100,11 @@ def InsertDataDate(path_data, connect):
 		'GG_IMPRESSIONS': '0', 
 		'GG_INTERACTIONS': '0', 
 		'GG_CLICKS': '0', 
-		'GG_INTERACTION_TYPE': '', 
+		'GG_INTERACTION_TYPE': "", 
 		'GG_COST': '0', 
 		'GG_SPEND': '0', 
 		'GG_APPSFLYER_INSTALL': '0', 
-		'GG_STRATEGY_BID_TYPE': ''
+		'GG_STRATEGY_BID_TYPE': ""
 	}
 
 	# for value in data:		
