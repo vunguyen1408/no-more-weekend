@@ -29,8 +29,8 @@ def InsertDataDate(path_data, connect):
 	for value in data['monthly']:	
 		cursor.execute(statement, ("", value['CYEAR'], value['CMONTH'], value['LEGAL'], \
 			value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT'], "", \
-			value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DAY'], '%Y-%m-%d'), \
-			datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d'), value['CHANNEL'], value['UNIT_COST'], \
+			value['REASON_CODE_ORACLE'], value['EFORM_NO'], value['START_DAY'], \
+			value['END_DAY_ESTIMATE'], value['CHANNEL'], value['UNIT_COST'], \
 			float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), float(value['IMPRESSIONS']),\
 			0, 0, float(value['CLIKE']), 0, \
 			0, float(value['CVIEWS']), 0, float(value['INSTALL']), \
@@ -46,6 +46,7 @@ def InsertDataDate(path_data, connect):
 		# value['OBJECTIVE'] value['EVENT_ID'], value['PRODUCT_ID'], value['CCD_NRU'],
 		# float(value['GG_VIEWS'])    float(value['GG_VIDEO_VIEW'])   value['GG_INTERACTION_TYPE']
 		# float(value['GG_APPSFLYER_INSTALL'])  value['GG_STRATEGY_BID_TYPE']
+		#datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d')
 	conn.commit()
 	cursor.close()
 	print("ok")
