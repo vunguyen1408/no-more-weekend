@@ -2,7 +2,7 @@ import cx_Oracle
 import json
 # import sys
 # import os
-# from datetime import datetime , timedelta, date
+from datetime import datetime , timedelta, date
 
 connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
 
@@ -71,23 +71,23 @@ def InsertDataDate(path_data, connect):
 		'START_DATE': '2017-06-01', 
 		'END_DATE': '2017-06-30', 
 		'CHANNEL': 'GG', 
-		'UNIT_COST': None, 
-		'AMOUNT_USD': None, 
-		'CVALUE': None, 
-		'ENGAGEMENT': None, 
-		'IMPRESSIONS': None, 
-		'REACH': None, 
-		'FREQUENCY': None, 
-		'CLIKE': None, 
-		'CLICKS_ALL': None, 
-		'LINK_CLICKS': None, 
-		'CVIEWS': None, 
-		'C3S_VIDEO_VIEW': None, 
-		'INSTALL': None, 
-		'NRU': None, 
-		'EFORM_TYPE': None, 
-		'UNIT_OPTION': None, 
-		'OBJECTIVE': None, 
+		'UNIT_COST': '', 
+		'AMOUNT_USD': '', 
+		'CVALUE': '', 
+		'ENGAGEMENT': '', 
+		'IMPRESSIONS': '', 
+		'REACH': '', 
+		'FREQUENCY': '', 
+		'CLIKE': '', 
+		'CLICKS_ALL': '', 
+		'LINK_CLICKS': '', 
+		'CVIEWS': '', 
+		'C3S_VIDEO_VIEW': '', 
+		'INSTALL': '', 
+		'NRU': '', 
+		'EFORM_TYPE': '', 
+		'UNIT_OPTION': '', 
+		'OBJECTIVE': '', 
 		'EVENT_ID': None, 
 		'PRODUCT_ID': None, 
 		'CCD_NRU': None, 
