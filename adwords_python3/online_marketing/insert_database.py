@@ -58,72 +58,71 @@ def InsertDataDate(path_data, connect):
 	# 	print(value, '===================')
 
 	value = {
-			'SNAPSHOT_DATE': '2017-06', 
-			'CYEAR': '2017', 
-			'CMONTH': '06', 
-			'LEGAL': 'VNG', 
-			'DEPARTMENT': '0902', 
-			'DEPARTMENT_NAME': 'PG1', 
-			'PRODUCT': '221', 
-			'PRODUCT_NAME': 'JXM Mobi', 
-			'REASON_CODE_ORACLE': '2017-06', 
-			'EFORM_NO': 'FA-PA170427002', 
-			'START_DATE': '2017-06-01', 
-			'END_DATE': '2017-06-30', 
-			'CHANNEL': 'GG', 
-			'UNIT_COST': None, 
-			'AMOUNT_USD': None, 
-			'CVALUE': None, 
-			'ENGAGEMENT': None, 
-			'IMPRESSIONS': None, 
-			'REACH': None, 
-			'FREQUENCY': None, 
-			'CLIKE': None, 
-			'CLICKS_ALL': None, 
-			'LINK_CLICKS': None, 
-			'CVIEWS': None, 
-			'C3S_VIDEO_VIEW': None, 
-			'INSTALL': None, 
-			'NRU': None, 
-			'EFORM_TYPE': None, 
-			'UNIT_OPTION': None, 
-			'OBJECTIVE': None, 
-			'EVENT_ID': None, 
-			'PRODUCT_ID': None, 
-			'CCD_NRU': None, 
-			'GG_VIEWS': None, 
-			'GG_CONVERSION': None, 
-			'GG_INVALID_CLICKS': None, 
-			'GG_ENGAGEMENTS': None, 
-			'GG_VIDEO_VIEW': None, 
-			'GG_CTR': None, 
-			'GG_IMPRESSIONS': None, 
-			'GG_INTERACTIONS': None, 
-			'GG_CLICKS': None, 
-			'GG_INTERACTION_TYPE': None, 
-			'GG_COST': None, 
-			'GG_SPEND': None, 
-			'GG_APPSFLYER_INSTALL': None, 
-			'GG_STRATEGY_BID_TYPE': None
-
+		'SNAPSHOT_DATE': '2017-06', 
+		'CYEAR': '2017', 
+		'CMONTH': '06', 
+		'LEGAL': 'VNG', 
+		'DEPARTMENT': '0902', 
+		'DEPARTMENT_NAME': 'PG1', 
+		'PRODUCT': '221', 
+		'PRODUCT_NAME': 'JXM Mobi', 
+		'REASON_CODE_ORACLE': '2017-06', 
+		'EFORM_NO': 'FA-PA170427002', 
+		'START_DATE': '2017-06-01', 
+		'END_DATE': '2017-06-30', 
+		'CHANNEL': 'GG', 
+		'UNIT_COST': None, 
+		'AMOUNT_USD': None, 
+		'CVALUE': None, 
+		'ENGAGEMENT': None, 
+		'IMPRESSIONS': None, 
+		'REACH': None, 
+		'FREQUENCY': None, 
+		'CLIKE': None, 
+		'CLICKS_ALL': None, 
+		'LINK_CLICKS': None, 
+		'CVIEWS': None, 
+		'C3S_VIDEO_VIEW': None, 
+		'INSTALL': None, 
+		'NRU': None, 
+		'EFORM_TYPE': None, 
+		'UNIT_OPTION': None, 
+		'OBJECTIVE': None, 
+		'EVENT_ID': None, 
+		'PRODUCT_ID': None, 
+		'CCD_NRU': None, 
+		'GG_VIEWS': None, 
+		'GG_CONVERSION': None, 
+		'GG_INVALID_CLICKS': None, 
+		'GG_ENGAGEMENTS': None, 
+		'GG_VIDEO_VIEW': None, 
+		'GG_CTR': None, 
+		'GG_IMPRESSIONS': None, 
+		'GG_INTERACTIONS': None, 
+		'GG_CLICKS': None, 
+		'GG_INTERACTION_TYPE': None, 
+		'GG_COST': None, 
+		'GG_SPEND': None, 
+		'GG_APPSFLYER_INSTALL': None, 
+		'GG_STRATEGY_BID_TYPE': None
 	}
 
 	# for value in data:		
 		
- 	cursor.execute(statement, (value['SNAPSHOT_DATE'], value['CYEAR'], value['CMONTH'], value['LEGAL'], \
- 		value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT'], value['PRODUCT_NAME'], \
- 		value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DATE'], '%Y-%m-%d'), \
- 		datetime.strptime(value['END_DATE'], '%Y-%m-%d'), value['CHANNEL'], value['UNIT_COST'], \
- 		float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), float(value['IMPRESSIONS']),\
- 		float(value['REACH']), float(value['FREQUENCY']), float(value['CLIKE']), float(value['CLICKS_ALL']), \
- 		float(value['LINK_CLICKS']), float(value['CVIEWS']), float(value['C3S_VIDEO_VIEW']), float(value['INSTALL']), \
- 		float(value['NRU']), value['EFORM_TYPE'], value['UNIT_OPTION'], \
- 		value['OBJECTIVE'], value['EVENT_ID'], value['PRODUCT_ID'], value['CCD_NRU'],\
- 		float(value['GG_VIEWS']), float(value['GG_CONVERSION']), float(value['GG_INVALID_CLICKS']), \
- 		float(value['GG_ENGAGEMENTS']), float(value['GG_VIDEO_VIEW']), float(value['GG_CTR']), \
- 		float(value['GG_IMPRESSIONS']), float(value['GG_INTERACTIONS']), float(value['GG_CLICKS']), \
- 		value['GG_INTERACTION_TYPE'], float(value['GG_COST']), float(value['GG_SPEND']), \
- 		float(value['GG_APPSFLYER_INSTALL']), value['GG_STRATEGY_BID_TYPE']))
+	cursor.execute(statement, (value['SNAPSHOT_DATE'], value['CYEAR'], value['CMONTH'], value['LEGAL'], \
+		value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT'], value['PRODUCT_NAME'], \
+		value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DATE'], '%Y-%m-%d'), \
+		datetime.strptime(value['END_DATE'], '%Y-%m-%d'), value['CHANNEL'], value['UNIT_COST'], \
+		float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), float(value['IMPRESSIONS']),\
+		float(value['REACH']), float(value['FREQUENCY']), float(value['CLIKE']), float(value['CLICKS_ALL']), \
+		float(value['LINK_CLICKS']), float(value['CVIEWS']), float(value['C3S_VIDEO_VIEW']), float(value['INSTALL']), \
+		float(value['NRU']), value['EFORM_TYPE'], value['UNIT_OPTION'], \
+		value['OBJECTIVE'], value['EVENT_ID'], value['PRODUCT_ID'], value['CCD_NRU'],\
+		float(value['GG_VIEWS']), float(value['GG_CONVERSION']), float(value['GG_INVALID_CLICKS']), \
+		float(value['GG_ENGAGEMENTS']), float(value['GG_VIDEO_VIEW']), float(value['GG_CTR']), \
+		float(value['GG_IMPRESSIONS']), float(value['GG_INTERACTIONS']), float(value['GG_CLICKS']), \
+		value['GG_INTERACTION_TYPE'], float(value['GG_COST']), float(value['GG_SPEND']), \
+		float(value['GG_APPSFLYER_INSTALL']), value['GG_STRATEGY_BID_TYPE']))
 
 
 	conn.commit()
