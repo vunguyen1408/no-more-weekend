@@ -8,8 +8,8 @@ connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
 def InsertDataDate(path_data, connect):
 
 	#==================== Connect database =======================
-	# conn = cx_Oracle.connect(connect)
-	# cursor = conn.cursor()
+	conn = cx_Oracle.connect(connect)
+	cursor = conn.cursor()
 
 	#==================== Get data from database =================
 	statement = '''INSERT INTO DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR, CMONTH, LEGAL, DEPARTMENT, \
@@ -34,13 +34,12 @@ def InsertDataDate(path_data, connect):
 			float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), float(value['IMPRESSIONS']),\
 			0, 0, float(value['CLIKE']), 0, \
 			0, float(value['CVIEWS']), 0, float(value['INSTALL']), \
-			float(value['NRU']), value['EFORM_TYPE'], value['UNIT_OPTION'], \
+			float(value['NRU']), value['FORM_TYPE'], value['UNIT_OPTION'], \
 			"", "", "", "", \
 			0, float(value['DATA_MONTHLY']['CONVERSIONS']), float(value['DATA_MONTHLY']['INVALID_CLICKS']), \
 			float(value['DATA_MONTHLY']['ENGAGEMENTS']), 0, float(value['DATA_MONTHLY']['CTR']), \
 			float(value['DATA_MONTHLY']['IMPRESSIONS']), float(value['DATA_MONTHLY']['INTERACTIONS']), float(value['DATA_MONTHLY']['CLICKS']), \
-			"", float(value['DATA_MONTHLY']['COST']), float(value['DATA_MONTHLY']['COST']), \
-			0, ""))
+			"", float(value['DATA_MONTHLY']['COST']), float(value['DATA_MONTHLY']['COST']), 0, ""))
 
 		# value['SNAPSHOT_DATE'], value['PRODUCT_NAME']  float(value['REACH'])  float(value['FREQUENCY'])
 		# float(value['CLICKS_ALL'])   float(value['LINK_CLICKS'])  float(value['C3S_VIDEO_VIEW'])
