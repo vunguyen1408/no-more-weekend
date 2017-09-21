@@ -88,7 +88,15 @@ def InsertDataDate(path_data, connect):
 		print('INSTALL', value['INSTALL'], type(value['INSTALL']))
 		print('NRU', value['NRU'], type(value['NRU']))
 		print('FORM_TYPE', value['FORM_TYPE'], type(value['FORM_TYPE']))
-		print('UNIT_OPTION', value['UNIT_OPTION'], type(value['UNIT_OPTION']))
+		print('CONVERSIONS', value['DATA_MONTHLY']['CONVERSIONS'], type(value['DATA_MONTHLY']['CONVERSIONS']))
+		print('INVALID_CLICKS', value['DATA_MONTHLY']['INVALID_CLICKS'], type(value['DATA_MONTHLY']['INVALID_CLICKS']))
+		print('ENGAGEMENTS', value['DATA_MONTHLY']['ENGAGEMENTS'], type(value['DATA_MONTHLY']['ENGAGEMENTS']))
+		print('CTR', value['DATA_MONTHLY']['CTR'], type(value['DATA_MONTHLY']['CTR']))
+		print('IMPRESSIONS', value['DATA_MONTHLY']['IMPRESSIONS'], type(value['DATA_MONTHLY']['IMPRESSIONS']))
+		print('INTERACTIONS', value['DATA_MONTHLY']['INTERACTIONS'], type(value['DATA_MONTHLY']['INTERACTIONS']))
+		print('CLICKS', value['DATA_MONTHLY']['CLICKS'], type(value['DATA_MONTHLY']['CLICKS']))
+		print('COST', value['DATA_MONTHLY']['COST'], type(value['DATA_MONTHLY']['COST']))
+		
 		
 		
 		cursor.execute(statement, (value['CYEAR'], value['CMONTH'], value['LEGAL'], 
