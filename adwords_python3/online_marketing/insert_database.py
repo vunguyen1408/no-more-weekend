@@ -70,8 +70,8 @@ def InsertDataDate(path_data, connect):
 	for value in data['monthly']:	
 		cursor.execute(statement, (value['CYEAR'], value['CMONTH'], value['LEGAL'], 
 			value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT'], 
-			value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DAY']), 
-			datetime.strptime(value['END_DAY_ESTIMATE']), value['CHANNEL'], value['UNIT_COST'], 
+			value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DAY'], '%Y-%m-%d'), 
+			datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d'), value['CHANNEL'], value['UNIT_COST'], 
 			float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), 
 			float(value['IMPRESSIONS']), float(value['CLIKE']),
 			float(value['CVIEWS']), float(value['INSTALL']), 
