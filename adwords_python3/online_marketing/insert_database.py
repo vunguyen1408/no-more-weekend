@@ -60,7 +60,9 @@ def InsertDataDate(path_data, connect):
 	GG_SPEND \						
 	-- GG_APPSFLYER_INSTALL, \			
 	-- GG_STRATEGY_BID_TYPE) \
-	) VALUES (:2, :3, :4, :5, :6, :7, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :21, :24, :26, :27, :28, :29, :35, :36, :37, :39, :40, :41, :42, :44, :45)"""
+	) VALUES (:2, :3, :4, :5, :6, :7, :9, :10, :11, :12, :13, :14, :15, \
+	:16, :17, :18, :21, :24, :26, :27, :28, :29, :35, \
+	:36, :37, :39, :40, :41, :42, :44, :45)"""
 
 	with open(path_data, 'r') as fi:
 		data = json.load(fi)
@@ -68,8 +70,8 @@ def InsertDataDate(path_data, connect):
 	for value in data['monthly']:	
 		cursor.execute(statement, (value['CYEAR'], value['CMONTH'], value['LEGAL'], 
 			value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT'], 
-			value['REASON_CODE_ORACLE'], value['EFORM_NO'], value['START_DAY'], 
-			value['END_DAY_ESTIMATE'], value['CHANNEL'], value['UNIT_COST'], 
+			value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DAY']), 
+			datetime.strptime(value['END_DAY_ESTIMATE']), value['CHANNEL'], value['UNIT_COST'], 
 			float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), 
 			float(value['IMPRESSIONS']), float(value['CLIKE']),
 			float(value['CVIEWS']), float(value['INSTALL']), 
