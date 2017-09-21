@@ -13,53 +13,53 @@ def InsertDataDate(path_data, connect):
 
 	#==================== Get data from database =================
 	statement = """INSERT INTO DTM_GG_PIVOT_DETAIL (
-	-- SNAPSHOT_DATE, \ 				#1
-	CYEAR, \						#2
-	CMONTH, \ 						#3
-	LEGAL, \						#4
-	DEPARTMENT, \					#5
-	DEPARTMENT_NAME, \				#6
-	PRODUCT, \						#7
-	-- PRODUCT_NAME, \					#8
-	REASON_CODE_ORACLE, \			#9
-	EFORM_NO, \						#10
-	START_DATE, \					#11
-	END_DATE, \      				#12
-	CHANNEL, \						#13
-	UNIT_COST, \					#14
-	AMOUNT_USD, \					#15
-	CVALUE, \						#16
-	ENGAGEMENT, \					#17
-	IMPRESSIONS, \					#18
-	-- REACH, \						#19
-	-- FREQUENCY, \					#20
-	CLIKE, \        				#21
-	-- CLICKS_ALL, \					#22
-	-- LINK_CLICKS, \					#23
-	CVIEWS, \						#24
-	-- C3S_VIDEO_VIEW, \				#25
-	INSTALL, \						#26
-	NRU, \							#27
-	EFORM_TYPE, \					#28
-	UNIT_OPTION, \					#29
-	-- OBJECTIVE, \					#30
-	-- EVENT_ID, \						#31
-	-- PRODUCT_ID, \					#32
-	-- CCD_NRU, \						#33
-	-- GG_VIEWS, \						#34
-	GG_CONVERSION, \				#35
-	GG_INVALID_CLICKS, \			#36
-	GG_ENGAGEMENTS, \       		#37
-	-- GG_VIDEO_VIEW, \				#38
-	GG_CTR, \						#39
-	GG_IMPRESSIONS, \				#40
-	GG_INTERACTIONS, \				#41
-	GG_CLICKS, \					#42
-	-- GG_INTERACTION_TYPE, \			#43
-	GG_COST, \   					#44
-	GG_SPEND, \						#45
-	-- GG_APPSFLYER_INSTALL, \			#46
-	-- GG_STRATEGY_BID_TYPE) \			#47
+	-- SNAPSHOT_DATE, \ 				
+	CYEAR, \						
+	CMONTH, \ 						
+	LEGAL, \						
+	DEPARTMENT, \					
+	DEPARTMENT_NAME, \				
+	PRODUCT, \						
+	-- PRODUCT_NAME, \					
+	REASON_CODE_ORACLE, \			
+	EFORM_NO, \						
+	START_DATE, \					
+	END_DATE, \      				
+	CHANNEL, \						
+	UNIT_COST, \					
+	AMOUNT_USD, \					
+	CVALUE, \						
+	ENGAGEMENT, \					
+	IMPRESSIONS, \					
+	-- REACH, \						
+	-- FREQUENCY, \					
+	CLIKE, \        				
+	-- CLICKS_ALL, \					
+	-- LINK_CLICKS, \					
+	CVIEWS, \						
+	-- C3S_VIDEO_VIEW, \				
+	INSTALL, \						
+	NRU, \							
+	EFORM_TYPE, \					
+	UNIT_OPTION, \					
+	-- OBJECTIVE, \					
+	-- EVENT_ID, \						
+	-- PRODUCT_ID, \					
+	-- CCD_NRU, \						
+	-- GG_VIEWS, \						
+	GG_CONVERSION, \				
+	GG_INVALID_CLICKS, \			
+	GG_ENGAGEMENTS, \       		
+	-- GG_VIDEO_VIEW, \				
+	GG_CTR, \						
+	GG_IMPRESSIONS, \				
+	GG_INTERACTIONS, \				
+	GG_CLICKS, \					
+	-- GG_INTERACTION_TYPE, \			
+	GG_COST, \   					
+	GG_SPEND, \						
+	-- GG_APPSFLYER_INSTALL, \			
+	-- GG_STRATEGY_BID_TYPE) \			
 	VALUES (:2, :3, :4, :5, :6, :7, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18,\
 	:21, :24, :26, :27, :28, :29, :35, :36, :37, :39, :40, \
 	:41, :42, :44, :45)"""
