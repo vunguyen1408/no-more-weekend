@@ -67,7 +67,30 @@ def InsertDataDate(path_data, connect):
 	with open(path_data, 'r') as fi:
 		data = json.load(fi)
 
+
 	for value in data['monthly']:	
+		print(value['CYEAR'], type(value['CYEAR']))
+		print('CMONTH', value['CMONTH'], type(value['CMONTH']))
+		print('DEPARTMENT', value['DEPARTMENT'], type(value['DEPARTMENT']))
+		print('DEPARTMENT_NAME', value['DEPARTMENT_NAME'], type(value['DEPARTMENT_NAME']))
+		print('PRODUCT', value['PRODUCT'], type(value['PRODUCT']))
+		print('REASON_CODE_ORACLE', value['REASON_CODE_ORACLE'], type(value['REASON_CODE_ORACLE']))
+		print('EFORM_NO', value['EFORM_NO'], type(value['EFORM_NO']))
+		print('START_DAY', value['START_DAY'], type(value['START_DAY']))
+		print('END_DAY_ESTIMATE', value['END_DAY_ESTIMATE'], type(value['END_DAY_ESTIMATE']))
+		print('UNIT_COST', value['UNIT_COST'], type(value['UNIT_COST']))
+		print('AMOUNT_USD', value['AMOUNT_USD'], type(value['AMOUNT_USD']))
+		print('CVALUE', value['CVALUE'], type(value['CVALUE']))
+		print('ENGAGEMENT', value['ENGAGEMENT'], type(value['ENGAGEMENT']))
+		print('IMPRESSIONS', value['IMPRESSIONS'], type(value['IMPRESSIONS']))
+		print('CLIKE', value['CLIKE'], type(value['CLIKE']))
+		print('CVIEWS', value['CVIEWS'], type(value['CVIEWS']))
+		print('INSTALL', value['INSTALL'], type(value['INSTALL']))
+		print('NRU', value['NRU'], type(value['NRU']))
+		print('FORM_TYPE', value['FORM_TYPE'], type(value['FORM_TYPE']))
+		print('UNIT_OPTION', value['UNIT_OPTION'], type(value['UNIT_OPTION']))
+		
+		
 		cursor.execute(statement, (value['CYEAR'], value['CMONTH'], value['LEGAL'], 
 			value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT'], 
 			value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DAY'], '%Y-%m-%d'), 
