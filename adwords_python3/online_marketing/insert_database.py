@@ -79,12 +79,12 @@ def InsertMonthlySum(value, cursor):
 def ConvertJsonMonthlySum(index, value):
 	json_ = {}	
 
-	json_['CYEAR'] = '20' + value['CYEAR']
+	json_['CYEAR'] = '20' + str(value['CYEAR'])
 	if (len(value['CMONTH']) == 1):
-		json_['CMONTH'] = '0' + value['CMONTH']
+		json_['CMONTH'] = '0' + str(value['CMONTH'])
 	else:
 		json_['CMONTH'] = value['CMONTH']
-	json_['SNAPSHOT_DATE'] = value['CYEAR'] + '-' + value['CMONTH']	
+	json_['SNAPSHOT_DATE'] = str(value['CYEAR']) + '-' + str(value['CMONTH'])
 	json_['LEGAL'] = value['LEGAL']
 	json_['DEPARTMENT'] = value['DEPARTMENT']
 
