@@ -12,8 +12,9 @@ def InsertDataDate(path_data, connect):
 	cursor = conn.cursor()
 	statement = 'insert into DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR, CMONTH, LEGAL, DEPARTMENT, \
 	DEPARTMENT_NAME, PRODUCT, PRODUCT_NAME, REASON_CODE_ORACLE, EFORM_NO, \
-	START_DATE, END_DATE, CHANNEL, UNIT_COST, AMOUNT_USD) \
-	values (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15)'
+	START_DATE, END_DATE, CHANNEL, UNIT_COST, AMOUNT_USD, \
+	CVALUE, ENGAGEMENT, IMPRESSIONS, REACH, FREQUENCY) \
+	values (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :19, :20)'
 
 	with open(path_data, 'r') as fi:
 		data = json.load(fi)
@@ -21,35 +22,13 @@ def InsertDataDate(path_data, connect):
 	for value in data['monthly']:
 		cursor.execute(statement, ('', value['CYEAR'], value['CMONTH'], value['LEGAL'], value['DEPARTMENT'], \
 			value['DEPARTMENT_NAME'], value['PRODUCT'], '', value['REASON_CODE_ORACLE'], value['EFORM_NO'], \
-			datetime.strptime(value['START_DATE'], '%Y-%m-%d'), datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d'), \
-			value['CHANNEL'], value['UNIT_COST'], float(value['AMOUNT_USD'])))
+			datetime.strptime(value['START_DAY'], '%Y-%m-%d'), datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d'), \
+			value['CHANNEL'], value['UNIT_COST'], float(value['AMOUNT_USD']), \
+			float(value['CVALUE'], float(value['ENGAGEMENT'], float(value['IMPRESSIONS'], 0, 0))
 
 	
-# 	# for value in data['MONTHLY']:
-# 	# 	print(value)
-# 	# 	print ("==============================================")
-# 	#==================== Get data from database =================
-# 	# statement = '''INSERT INTO DTM_GG_PIVOT_DETAIL (
-# 	# SNAPSHOT_DATE, \ 				
-# 	# CYEAR) \						
-# 	# -- CMONTH, \ 						
-# 	# -- LEGAL, \						
-# 	# -- DEPARTMENT, \					
-# 	# -- DEPARTMENT_NAME, \				
-# 	# -- PRODUCT \						
-# 	# -- -- PRODUCT_NAME, \					
-# 	# -- REASON_CODE_ORACLE, \			
-# 	# -- EFORM_NO, \						
-# 	# -- START_DATE, \					
-# 	# -- END_DATE, \      				
-# 	# -- CHANNEL, \						
-# 	# -- UNIT_COST, \					
-# 	# -- AMOUNT_USD, \					
-# 	# -- CVALUE, \						
-# 	# -- ENGAGEMENT, \					
-# 	# -- IMPRESSIONS, \					
-# 	# -- -- REACH, \						
-# 	# -- -- FREQUENCY, \					
+	
+					
 # 	# -- CLIKE, \        				
 # 	# -- -- CLICKS_ALL, \					
 # 	# -- -- LINK_CLICKS, \					
