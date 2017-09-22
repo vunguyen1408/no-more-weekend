@@ -28,19 +28,20 @@ def InsertDataDate(path_data, connect):
 		data = json.load(fi)
 	
 	for value in data['MONTHLY']:
-		cursor.execute(statement, ('', value['CYEAR'], value['CMONTH'], value['LEGAL'], value['DEPARTMENT'], \
-			value['DEPARTMENT_NAME'], value['PRODUCT'], '', value['REASON_CODE_ORACLE'], value['EFORM_NO'], \
-			datetime.strptime(value['START_DAY'], '%Y-%m-%d'), datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d'), \
-			value['CHANNEL'], value['UNIT_COST'], float(value['AMOUNT_USD']), \
-			float(value['CVALUE']), float(value['ENGAGEMENT']), float(value['IMPRESSIONS']), 0, 0, \
-			float(value['CLIKE']), 0, 0, float(value['CVIEWS']), 0, \
-			float(value['INSTALL']), float(value['NRU']), value['FORM_TYPE'], value['UNIT_OPTION'], '', \
-			'', value['PRODUCT'], 0,  0, float(value['MONTHLY'][0]['DATA_MONTHLY']['CONVERSIONS']), \
-			float(value['MONTHLY'][0]['DATA_MONTHLY']['INVALID_CLICKS']), float(value['MONTHLY'][0]['DATA_MONTHLY']['ENGAGEMENTS']), \
-			0, float(value['MONTHLY'][0]['DATA_MONTHLY']['CTR']), float(value['MONTHLY'][0]['DATA_MONTHLY']['IMPRESSIONS']), \
-			float(value['MONTHLY'][0]['DATA_MONTHLY']['INTERACTIONS']), float(value['MONTHLY'][0]['DATA_MONTHLY']['CLICKS']), \
-			'', float(value['MONTHLY'][0]['DATA_MONTHLY']['COST']), float(value['MONTHLY'][0]['DATA_MONTHLY']['COST']), \
-			0, ''))
+		for i in value['MONTHLY']:
+			cursor.execute(statement, ('', value['CYEAR'], value['CMONTH'], value['LEGAL'], value['DEPARTMENT'], \
+				value['DEPARTMENT_NAME'], value['PRODUCT'], '', value['REASON_CODE_ORACLE'], value['EFORM_NO'], \
+				datetime.strptime(value['START_DAY'], '%Y-%m-%d'), datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d'), \
+				value['CHANNEL'], value['UNIT_COST'], float(value['AMOUNT_USD']), \
+				float(value['CVALUE']), float(value['ENGAGEMENT']), float(value['IMPRESSIONS']), 0, 0, \
+				float(value['CLIKE']), 0, 0, float(value['CVIEWS']), 0, \
+				float(value['INSTALL']), float(value['NRU']), value['FORM_TYPE'], value['UNIT_OPTION'], '', \
+				'', value['PRODUCT'], 0,  0, float(value['MONTHLY'][i]['DATA_MONTHLY']['CONVERSIONS']), \
+				float(value['MONTHLY'][i]['DATA_MONTHLY']['INVALID_CLICKS']), float(value['MONTHLY'][i]['DATA_MONTHLY']['ENGAGEMENTS']), \
+				0, float(value['MONTHLY'][i]['DATA_MONTHLY']['CTR']), float(value['MONTHLY'][i]['DATA_MONTHLY']['IMPRESSIONS']), \
+				float(value['MONTHLY'][i]['DATA_MONTHLY']['INTERACTIONS']), float(value['MONTHLY'][i]['DATA_MONTHLY']['CLICKS']), \
+				'', float(value['MONTHLY'][i]['DATA_MONTHLY']['COST']), float(value['MONTHLY'][i]['DATA_MONTHLY']['COST']), \
+				0, ''))
 	
 	conn.commit()
 	cursor.close()
