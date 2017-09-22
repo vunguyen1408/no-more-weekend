@@ -5,16 +5,20 @@ from datetime import datetime , timedelta, date
 connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
 	
 
-# def InsertDataDate(path_data, connect):
+def InsertDataDate(path_data, connect):
 
 # 	# ==================== Connect database =======================
-# 	conn = cx_Oracle.connect(connect)
-# 	cursor = conn.cursor()
-# 	statement = 'insert into DTM_GG_PIVOT_DETAIL (CYEAR) values (:2)'
-# 	cursor.execute(statement, ('Cheryl'))
+	conn = cx_Oracle.connect(connect)
+	cursor = conn.cursor()
+	statement = 'insert into DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR) values (:1, :2)'
 
-# 	# with open(path_data, 'r') as fi:
-# 	# 	data = json.load(fi)
+	with open(path_data, 'r') as fi:
+		data = json.load(fi)
+	value = data['MONTHLY'][0]
+
+	cursor.execute(statement, (str(value['CYEAR'] + value['CMONTH']), value['CYEAR']))
+
+	
 # 	# for value in data['MONTHLY']:
 # 	# 	print(value)
 # 	# 	print ("==============================================")
@@ -96,15 +100,15 @@ connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
 # 			# float(value['DATA_MONTHLY']['COST']), float(value['DATA_MONTHLY']['COST']) ))
 
 	
-# 	conn.commit()
-# 	cursor.close()
-# 	print("ok=====================================")
+	conn.commit()
+	cursor.close()
+	print("ok=====================================")
 	
 
 
-# path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/PLAN/monthly.json'
-# # path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/monthly.json'
-# InsertDataDate(path_data, connect)
+#path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/PLAN/monthly.json'
+path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/monthly.json'
+InsertDataDate(path_data, connect)
 
 # 	# statement = """INSERT INTO DTM_GG_PIVOT_DETAIL (
 # 	# SNAPSHOT_DATE, \ 				#1
@@ -198,21 +202,21 @@ connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
 # # 		float(value['GG_APPSFLYER_INSTALL']), value['GG_STRATEGY_BID_TYPE']))
 
 
-conn = cx_Oracle.connect(connect)
-cursor = conn.cursor()
+# conn = cx_Oracle.connect(connect)
+# cursor = conn.cursor()
 
-statement = '''INSERT INTO DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR, CMONTH, LEGAL, DEPARTMENT, \
-	DEPARTMENT_NAME, PRODUCT, PRODUCT_NAME, REASON_CODE_ORACLE, EFORM_NO, START_DATE, END_DATE, \
-	CHANNEL) \
-	VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13)'''
+# statement = '''INSERT INTO DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR, CMONTH, LEGAL, DEPARTMENT, \
+# 	DEPARTMENT_NAME, PRODUCT, PRODUCT_NAME, REASON_CODE_ORACLE, EFORM_NO, START_DATE, END_DATE, \
+# 	CHANNEL) \
+# 	VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13)'''
 
-value = {
-	'SNAPSHOT_DATE': '2017-06', 
-	'CYEAR': '2017', 	
-}
+# value = {
+# 	'SNAPSHOT_DATE': '2017-06', 
+# 	'CYEAR': '2017', 	
+# }
 
-cursor.execute(statement, ('', value['CYEAR']))
+# cursor.execute(statement, ('', value['CYEAR']))
 
-conn.commit()
-cursor.close()
-print("ok=====================================")
+# conn.commit()
+# cursor.close()
+# print("ok=====================================")
