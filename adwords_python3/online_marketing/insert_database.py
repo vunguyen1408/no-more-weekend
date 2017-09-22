@@ -19,49 +19,49 @@ def InsertDataDate(path_data, connect):
 	LEGAL, \						
 	DEPARTMENT, \					
 	DEPARTMENT_NAME, \				
-	PRODUCT, \						
-	-- PRODUCT_NAME, \					
-	REASON_CODE_ORACLE, \			
-	EFORM_NO, \						
-	START_DATE, \					
-	END_DATE, \      				
-	CHANNEL, \						
-	UNIT_COST, \					
-	AMOUNT_USD, \					
-	CVALUE, \						
-	ENGAGEMENT, \					
-	IMPRESSIONS, \					
-	-- REACH, \						
-	-- FREQUENCY, \					
-	CLIKE, \        				
-	-- CLICKS_ALL, \					
-	-- LINK_CLICKS, \					
-	CVIEWS, \						
-	-- C3S_VIDEO_VIEW, \				
-	INSTALL, \						
-	NRU, \							
-	EFORM_TYPE, \					
-	UNIT_OPTION, \					
-	-- OBJECTIVE, \					
-	-- EVENT_ID, \						
-	-- PRODUCT_ID, \					
-	-- CCD_NRU, \						
-	-- GG_VIEWS, \						
-	GG_CONVERSION, \				
-	GG_INVALID_CLICKS, \			
-	GG_ENGAGEMENTS, \       		
-	-- GG_VIDEO_VIEW, \				
-	GG_CTR, \						
-	GG_IMPRESSIONS, \				
-	GG_INTERACTIONS, \				
-	GG_CLICKS, \					
-	-- GG_INTERACTION_TYPE, \			
-	GG_COST, \   					
-	GG_SPEND \						
-	-- GG_APPSFLYER_INSTALL, \			
-	-- GG_STRATEGY_BID_TYPE) \
-	) VALUES (:2, :3, :4, :5, :6, :7)''' 
-	# :9, :10, :11, :12, :13, :14, :15, \
+	PRODUCT \						
+	-- -- PRODUCT_NAME, \					
+	-- REASON_CODE_ORACLE, \			
+	-- EFORM_NO, \						
+	-- START_DATE, \					
+	-- END_DATE, \      				
+	-- CHANNEL, \						
+	-- UNIT_COST, \					
+	-- AMOUNT_USD, \					
+	-- CVALUE, \						
+	-- ENGAGEMENT, \					
+	-- IMPRESSIONS, \					
+	-- -- REACH, \						
+	-- -- FREQUENCY, \					
+	-- CLIKE, \        				
+	-- -- CLICKS_ALL, \					
+	-- -- LINK_CLICKS, \					
+	-- CVIEWS, \						
+	-- -- C3S_VIDEO_VIEW, \				
+	-- INSTALL, \						
+	-- NRU, \							
+	-- EFORM_TYPE, \					
+	-- UNIT_OPTION, \					
+	-- -- OBJECTIVE, \					
+	-- -- EVENT_ID, \						
+	-- -- PRODUCT_ID, \					
+	-- -- CCD_NRU, \						
+	-- -- GG_VIEWS, \						
+	-- GG_CONVERSION, \				
+	-- GG_INVALID_CLICKS, \			
+	-- GG_ENGAGEMENTS, \       		
+	-- -- GG_VIDEO_VIEW, \				
+	-- GG_CTR, \						
+	-- GG_IMPRESSIONS, \				
+	-- GG_INTERACTIONS, \				
+	-- GG_CLICKS, \					
+	-- -- GG_INTERACTION_TYPE, \			
+	-- GG_COST, \   					
+	-- GG_SPEND \						
+	-- -- GG_APPSFLYER_INSTALL, \			
+	-- -- GG_STRATEGY_BID_TYPE) \
+	) VALUES (:2, :3, :4, :5, :6, :7) '''
+	# , :9, :10, :11, :12, :13, :14, :15, \
 	# :16, :17, :18, :21, :24, :26, :27, :28, :29, :35, \
 	# :36, :37, :39, :40, :41, :42, :44, :45)'''
 
@@ -71,7 +71,8 @@ def InsertDataDate(path_data, connect):
 
 	for value in data['monthly']:
 		cursor.execute(statement, (value['CYEAR'], value['CMONTH'], value['LEGAL'], 
-			value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT']))#, 
+			value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT']))
+			# , 
 			# value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DAY'], '%Y-%m-%d'), 
 			# datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d'), value['CHANNEL'], value['UNIT_COST'], 
 			# float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), 
@@ -83,6 +84,17 @@ def InsertDataDate(path_data, connect):
 			# float(value['DATA_MONTHLY']['IMPRESSIONS']), float(value['DATA_MONTHLY']['INTERACTIONS']), 
 			# float(value['DATA_MONTHLY']['CLICKS']), 
 			# float(value['DATA_MONTHLY']['COST']), float(value['DATA_MONTHLY']['COST']) ))
+
+
+	conn.commit()
+	cursor.close()
+	print("ok")
+	
+
+
+# path_data = 'C:/Users/CPU10912-local/Desktop/monthly.json'
+path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/monthly.json'
+InsertDataDate(path_data, connect)
 
 	# statement = """INSERT INTO DTM_GG_PIVOT_DETAIL (
 	# SNAPSHOT_DATE, \ 				#1
@@ -154,15 +166,7 @@ def InsertDataDate(path_data, connect):
 	# 		float(value['DATA_MONTHLY']['IMPRESSIONS']), float(value['DATA_MONTHLY']['INTERACTIONS']), float(value['DATA_MONTHLY']['CLICKS']), \
 	# 		'', float(value['DATA_MONTHLY']['COST']), float(value['DATA_MONTHLY']['COST']), 0, ''))
 
-	conn.commit()
-	cursor.close()
-	print("ok")
-	
 
-
-# path_data = 'C:/Users/CPU10912-local/Desktop/monthly.json'
-path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/monthly.json'
-InsertDataDate(path_data, connect)
 
 
 
