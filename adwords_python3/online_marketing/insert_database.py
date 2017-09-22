@@ -126,6 +126,7 @@ def ReportMonthSum(path_data, connect):
 
 	for value in data['MONTHLY']:
 		for i in range(len(value['MONTHLY'])):
+			print(value)
 			json_ = ConvertJsonMonthlySum(i, value)
 			InsertMonthlySum(json_, cursor)
 
