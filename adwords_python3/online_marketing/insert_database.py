@@ -10,13 +10,15 @@ def InsertDataDate(path_data, connect):
 # 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
-	statement = 'insert into DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR) values (:1, :2)'
+	statement = 'insert into DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR, \
+	CMONTH, LEGAL, DEPARTMENT) \
+	values (:1, :2, :3, :4, :5)'
 
 	with open(path_data, 'r') as fi:
 		data = json.load(fi)
-	value = data['MONTHLY'][0]
-
-	cursor.execute(statement, (str(value['CYEAR'] + value['CMONTH']), value['CYEAR']))
+	
+	for value in data['monthly']:
+		cursor.execute(statement, ('', value['CYEAR'], value['CMONTH'], value['LEGAL'],value['DEPARTMENT']))
 
 	
 # 	# for value in data['MONTHLY']:
