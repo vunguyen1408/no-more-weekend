@@ -12,66 +12,66 @@ def InsertDataDate(path_data, connect):
 	cursor = conn.cursor()
 
 	#==================== Get data from database =================
-	statement = '''INSERT INTO DTM_GG_PIVOT_DETAIL (
-	SNAPSHOT_DATE, \ 				
-	CYEAR) \						
-	-- CMONTH, \ 						
-	-- LEGAL, \						
-	-- DEPARTMENT, \					
-	-- DEPARTMENT_NAME, \				
-	-- PRODUCT \						
-	-- -- PRODUCT_NAME, \					
-	-- REASON_CODE_ORACLE, \			
-	-- EFORM_NO, \						
-	-- START_DATE, \					
-	-- END_DATE, \      				
-	-- CHANNEL, \						
-	-- UNIT_COST, \					
-	-- AMOUNT_USD, \					
-	-- CVALUE, \						
-	-- ENGAGEMENT, \					
-	-- IMPRESSIONS, \					
-	-- -- REACH, \						
-	-- -- FREQUENCY, \					
-	-- CLIKE, \        				
-	-- -- CLICKS_ALL, \					
-	-- -- LINK_CLICKS, \					
-	-- CVIEWS, \						
-	-- -- C3S_VIDEO_VIEW, \				
-	-- INSTALL, \						
-	-- NRU, \							
-	-- EFORM_TYPE, \					
-	-- UNIT_OPTION, \					
-	-- -- OBJECTIVE, \					
-	-- -- EVENT_ID, \						
-	-- -- PRODUCT_ID, \					
-	-- -- CCD_NRU, \						
-	-- -- GG_VIEWS, \						
-	-- GG_CONVERSION, \				
-	-- GG_INVALID_CLICKS, \			
-	-- GG_ENGAGEMENTS, \       		
-	-- -- GG_VIDEO_VIEW, \				
-	-- GG_CTR, \						
-	-- GG_IMPRESSIONS, \				
-	-- GG_INTERACTIONS, \				
-	-- GG_CLICKS, \					
-	-- -- GG_INTERACTION_TYPE, \			
-	-- GG_COST, \   					
-	-- GG_SPEND \						
-	-- -- GG_APPSFLYER_INSTALL, \			
-	-- -- GG_STRATEGY_BID_TYPE) \
-	VALUES (:1, :2) '''
-	# , :3, :4, :5, :6, :7
-	# , :9, :10, :11, :12, :13, :14, :15, \
-	# :16, :17, :18, :21, :24, :26, :27, :28, :29, :35, \
-	# :36, :37, :39, :40, :41, :42, :44, :45)'''
+	# statement = '''INSERT INTO DTM_GG_PIVOT_DETAIL (
+	# SNAPSHOT_DATE, \ 				
+	# CYEAR) \						
+	# -- CMONTH, \ 						
+	# -- LEGAL, \						
+	# -- DEPARTMENT, \					
+	# -- DEPARTMENT_NAME, \				
+	# -- PRODUCT \						
+	# -- -- PRODUCT_NAME, \					
+	# -- REASON_CODE_ORACLE, \			
+	# -- EFORM_NO, \						
+	# -- START_DATE, \					
+	# -- END_DATE, \      				
+	# -- CHANNEL, \						
+	# -- UNIT_COST, \					
+	# -- AMOUNT_USD, \					
+	# -- CVALUE, \						
+	# -- ENGAGEMENT, \					
+	# -- IMPRESSIONS, \					
+	# -- -- REACH, \						
+	# -- -- FREQUENCY, \					
+	# -- CLIKE, \        				
+	# -- -- CLICKS_ALL, \					
+	# -- -- LINK_CLICKS, \					
+	# -- CVIEWS, \						
+	# -- -- C3S_VIDEO_VIEW, \				
+	# -- INSTALL, \						
+	# -- NRU, \							
+	# -- EFORM_TYPE, \					
+	# -- UNIT_OPTION, \					
+	# -- -- OBJECTIVE, \					
+	# -- -- EVENT_ID, \						
+	# -- -- PRODUCT_ID, \					
+	# -- -- CCD_NRU, \						
+	# -- -- GG_VIEWS, \						
+	# -- GG_CONVERSION, \				
+	# -- GG_INVALID_CLICKS, \			
+	# -- GG_ENGAGEMENTS, \       		
+	# -- -- GG_VIDEO_VIEW, \				
+	# -- GG_CTR, \						
+	# -- GG_IMPRESSIONS, \				
+	# -- GG_INTERACTIONS, \				
+	# -- GG_CLICKS, \					
+	# -- -- GG_INTERACTION_TYPE, \			
+	# -- GG_COST, \   					
+	# -- GG_SPEND \						
+	# -- -- GG_APPSFLYER_INSTALL, \			
+	# -- -- GG_STRATEGY_BID_TYPE) \
+	# VALUES (:1, :2) '''
+	# # , :3, :4, :5, :6, :7
+	# # , :9, :10, :11, :12, :13, :14, :15, \
+	# # :16, :17, :18, :21, :24, :26, :27, :28, :29, :35, \
+	# # :36, :37, :39, :40, :41, :42, :44, :45)'''
 
-	with open(path_data, 'r') as fi:
-		data = json.load(fi)
+	# with open(path_data, 'r') as fi:
+	# 	data = json.load(fi)
 
 
-	for value in data['monthly']:
-		cursor.execute(statement, (value['CYEAR'] + value['CMONTH'], value['CYEAR']))
+	# for value in data['monthly']:
+	# 	cursor.execute(statement, (value['CYEAR'] + value['CMONTH'], value['CYEAR']))
 		# , value['CMONTH'], value['LEGAL'], 
 		# 	value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT']))
 			# , 
@@ -87,7 +87,31 @@ def InsertDataDate(path_data, connect):
 			# float(value['DATA_MONTHLY']['CLICKS']), 
 			# float(value['DATA_MONTHLY']['COST']), float(value['DATA_MONTHLY']['COST']) ))
 
+	statement = '''INSERT INTO DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR, CMONTH, LEGAL, DEPARTMENT, \
+	DEPARTMENT_NAME, PRODUCT, PRODUCT_NAME, REASON_CODE_ORACLE, EFORM_NO, START_DATE, END_DATE, \
+	CHANNEL) \
+	VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13)'''
 
+	value = {
+		'SNAPSHOT_DATE': '2017-06', 
+		'CYEAR': '2017', 
+		'CMONTH': '06', 
+		'LEGAL': 'VNG', 
+		'DEPARTMENT': '0902', 
+		'DEPARTMENT_NAME': 'PG1', 
+		'PRODUCT': '221', 
+		'PRODUCT_NAME': 'JXM Mobi', 
+		'REASON_CODE_ORACLE': '1706123', 
+		'EFORM_NO': 'FA-PA170427002', 
+		'START_DATE': '2017-06-01', 
+		'END_DATE': '2017-06-30', 
+		'CHANNEL': 'GG'	
+	}
+
+	cursor.execute(statement, (value['SNAPSHOT_DATE'], value['CYEAR'], value['CMONTH'], value['LEGAL'], \
+		value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT'], value['PRODUCT_NAME'], \
+		value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DATE'], '%Y-%m-%d'), \
+		datetime.strptime(value['END_DATE'], '%Y-%m-%d'), value['CHANNEL']))
 	conn.commit()
 	cursor.close()
 	print("ok")
