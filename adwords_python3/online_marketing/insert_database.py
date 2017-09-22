@@ -71,18 +71,18 @@ def InsertDataDate(path_data, connect):
 
 	for value in data['monthly']:
 		cursor.execute(statement, (value['CYEAR'], value['CMONTH'], value['LEGAL'], 
-			value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT'], 
-			value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DAY'], '%Y-%m-%d'), 
-			datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d'), value['CHANNEL'], value['UNIT_COST'], 
-			float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), 
-			float(value['IMPRESSIONS']), float(value['CLIKE']),
-			float(value['CVIEWS']), float(value['INSTALL']), 
-			float(value['NRU']), value['FORM_TYPE'], value['UNIT_OPTION'], 
-			float(value['DATA_MONTHLY']['CONVERSIONS']), float(value['DATA_MONTHLY']['INVALID_CLICKS']), 
-			float(value['DATA_MONTHLY']['ENGAGEMENTS']), float(value['DATA_MONTHLY']['CTR']), 
-			float(value['DATA_MONTHLY']['IMPRESSIONS']), float(value['DATA_MONTHLY']['INTERACTIONS']), 
-			float(value['DATA_MONTHLY']['CLICKS']), 
-			float(value['DATA_MONTHLY']['COST']), float(value['DATA_MONTHLY']['COST']) ))
+			value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT']))#, 
+			# value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DAY'], '%Y-%m-%d'), 
+			# datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d'), value['CHANNEL'], value['UNIT_COST'], 
+			# float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), 
+			# float(value['IMPRESSIONS']), float(value['CLIKE']),
+			# float(value['CVIEWS']), float(value['INSTALL']), 
+			# float(value['NRU']), value['FORM_TYPE'], value['UNIT_OPTION'], 
+			# float(value['DATA_MONTHLY']['CONVERSIONS']), float(value['DATA_MONTHLY']['INVALID_CLICKS']), 
+			# float(value['DATA_MONTHLY']['ENGAGEMENTS']), float(value['DATA_MONTHLY']['CTR']), 
+			# float(value['DATA_MONTHLY']['IMPRESSIONS']), float(value['DATA_MONTHLY']['INTERACTIONS']), 
+			# float(value['DATA_MONTHLY']['CLICKS']), 
+			# float(value['DATA_MONTHLY']['COST']), float(value['DATA_MONTHLY']['COST']) ))
 
 	# statement = """INSERT INTO DTM_GG_PIVOT_DETAIL (
 	# SNAPSHOT_DATE, \ 				#1
