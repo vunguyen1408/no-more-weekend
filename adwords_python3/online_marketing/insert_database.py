@@ -10,15 +10,18 @@ def InsertDataDate(path_data, connect):
 # 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
-	statement = 'insert into DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR, \
-	CMONTH, LEGAL, DEPARTMENT) \
-	values (:1, :2, :3, :4, :5)'
+	statement = 'insert into DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR, CMONTH, LEGAL, DEPARTMENT, \
+	DEPARTMENT_NAME, PRODUCT, PRODUCT_NAME, REASON_CODE_ORACLE, EFORM_NO, \
+	START_DATE, END_DATE, CHANNEL, UNIT_COST, AMOUNT_USD) \
+	values (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15)'
 
 	with open(path_data, 'r') as fi:
 		data = json.load(fi)
 	
 	for value in data['monthly']:
-		cursor.execute(statement, ('', value['CYEAR'], value['CMONTH'], value['LEGAL'],value['DEPARTMENT']))
+		cursor.execute(statement, ('', value['CYEAR'], value['CMONTH'], value['LEGAL'], value['DEPARTMENT'], \
+			value['DEPARTMENT_NAME'], value['PRODUCT'], '', value['REASON_CODE_ORACLE'], value['EFORM_NO'], \
+			value['START_DAY'], value['END_DAY_ESTIMATE'], value['CHANNEL'], value['UNIT_COST'], float(value['AMOUNT_USD']))
 
 	
 # 	# for value in data['MONTHLY']:
