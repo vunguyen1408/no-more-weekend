@@ -78,7 +78,7 @@ def InsertMonthlySum(value, cursor):
 
 def ConvertJsonMonthlySum(index, value):
 	json_ = {}	
-	
+
 	json_['CYEAR'] = '20' + value['CYEAR']
 	if (len(value['CMONTH']) == 1):
 		json_['CMONTH'] = '0' + value['CMONTH']
@@ -212,7 +212,7 @@ def ReportMonthSum(path_data, connect):
 # InsertMonthlyDetail(path_data, connect)
 
 
-path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/monthly3.json'
+path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/monthly2.json'
 ConvertJsonMonthlySum(path_data, connect)
 
 
