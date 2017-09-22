@@ -14,7 +14,7 @@ def InsertDataDate(path_data, connect):
 	#==================== Get data from database =================
 	statement = '''INSERT INTO DTM_GG_PIVOT_DETAIL (
 	SNAPSHOT_DATE, \ 				
-	CYEAR \						
+	CYEAR) \						
 	-- CMONTH, \ 						
 	-- LEGAL, \						
 	-- DEPARTMENT, \					
@@ -60,7 +60,7 @@ def InsertDataDate(path_data, connect):
 	-- GG_SPEND \						
 	-- -- GG_APPSFLYER_INSTALL, \			
 	-- -- GG_STRATEGY_BID_TYPE) \
-	) VALUES (:SNAPSHOT_DATE, :CYEAR) '''
+	VALUES (:1, :2) '''
 	# , :3, :4, :5, :6, :7
 	# , :9, :10, :11, :12, :13, :14, :15, \
 	# :16, :17, :18, :21, :24, :26, :27, :28, :29, :35, \
