@@ -5,11 +5,22 @@ from datetime import datetime , timedelta, date
 connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
 	
 
-def InsertDataDate(path_data, connect):
+def InsertMonthlyDetail(path_data, connect):
 
-# 	# ==================== Connect database =======================
+ 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
+
+	#===================== Read data from json ==========================
+	with open(path_data, 'r') as fi:
+		data = json.load(fi)
+
+	for value in data['MONTHLY']:		
+		for i in value:		 	
+		 	if value[i] is None:
+		 		value[i] = 0		 		
+
+	#==================== Insert data into database =============================
 	statement = 'insert into DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR, CMONTH, LEGAL, DEPARTMENT, \
 	DEPARTMENT_NAME, PRODUCT, PRODUCT_NAME, REASON_CODE_ORACLE, EFORM_NO, \
 	START_DATE, END_DATE, CHANNEL, UNIT_COST, AMOUNT_USD, \
@@ -23,22 +34,20 @@ def InsertDataDate(path_data, connect):
 	values (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :19, :20, \
 	:21, :22, :23, :24, :25, :26, :27, :28, :29, :30, :31, :32, :33, :34, :35, :36, :37, :38, :39, :40, \
 	:41, :42, :43, :44, :45, :46, :47)'
-
-	with open(path_data, 'r') as fi:
-		data = json.load(fi)
+	
 	
 	for value in data['MONTHLY']:
 		for i in range(len(value['MONTHLY'])):
-			cursor.execute(statement, (str(value['CYEAR'] + value['MONTHLY'][i]['MONTH']), value['CYEAR'], value['CMONTH'], value['LEGAL'], value['DEPARTMENT'], \
+			cursor.execute(statement, (str(value['CYEAR']) + '_' + str(value['MONTHLY'][i]['MONTH']), value['CYEAR'], value['CMONTH'], value['LEGAL'], value['DEPARTMENT'], \
 				value['DEPARTMENT_NAME'], value['PRODUCT'], '', value['REASON_CODE_ORACLE'], value['EFORM_NO'], \
 				datetime.strptime(value['START_DAY'], '%Y-%m-%d'), datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d'), \
 				value['CHANNEL'], value['UNIT_COST'], float(value['AMOUNT_USD']), \
 				float(value['CVALUE']), float(value['ENGAGEMENT']), float(value['IMPRESSIONS']), 0, 0, \
 				float(value['CLIKE']), 0, 0, float(value['CVIEWS']), 0, \
 				float(value['INSTALL']), float(value['NRU']), value['FORM_TYPE'], value['UNIT_OPTION'], '', \
-				'', value['PRODUCT'], 0,  0, float(value['MONTHLY'][i]['DATA_MONTHLY']['CONVERSIONS']), \
+				'', value['PRODUCT'], 0,  float(value['MONTHLY'][i]['DATA_MONTHLY']['VIEWS']), float(value['MONTHLY'][i]['DATA_MONTHLY']['CONVERSIONS']), \
 				float(value['MONTHLY'][i]['DATA_MONTHLY']['INVALID_CLICKS']), float(value['MONTHLY'][i]['DATA_MONTHLY']['ENGAGEMENTS']), \
-				0, float(value['MONTHLY'][i]['DATA_MONTHLY']['CTR']), float(value['MONTHLY'][i]['DATA_MONTHLY']['IMPRESSIONS']), \
+				float(value['MONTHLY'][i]['DATA_MONTHLY']['VIEWS']), float(value['MONTHLY'][i]['DATA_MONTHLY']['CTR']), float(value['MONTHLY'][i]['DATA_MONTHLY']['IMPRESSIONS']), \
 				float(value['MONTHLY'][i]['DATA_MONTHLY']['INTERACTIONS']), float(value['MONTHLY'][i]['DATA_MONTHLY']['CLICKS']), \
 				'', float(value['MONTHLY'][i]['DATA_MONTHLY']['COST']), float(value['MONTHLY'][i]['DATA_MONTHLY']['COST']), \
 				0, ''))
@@ -46,82 +55,51 @@ def InsertDataDate(path_data, connect):
 	conn.commit()
 	cursor.close()
 	print("ok=====================================")
+
+
+
+# def InsertMonthlySum(value, connect):
+
+#  	# ==================== Connect database =======================
+# 	conn = cx_Oracle.connect(connect)
+# 	cursor = conn.cursor()
+
+# 	#==================== Insert data into database =============================
+# 	statement = 'insert into DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR, CMONTH, LEGAL, DEPARTMENT, \
+# 	DEPARTMENT_NAME, PRODUCT, PRODUCT_NAME, REASON_CODE_ORACLE, EFORM_NO, \
+# 	START_DATE, END_DATE, EFORM_TYPE, UNIT_OPTION, NET_BUDGET_VND, \
+# 	NET_BUDGET, UNIT_COST, VOLUMN, EVENT_ID, PRODUCT_ID	, \
+# 	NET_ACTUAL, UNIT_COST_ACTUAL, VOLUMN_ACTUAL, APPSFLYER_INSTALL) \
+# 	values (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, \
+# 	:13, :14, :15, :16, :17, :18, :19, :20,	:21, :22, :23, :24)'	
+		
+# 	cursor.execute(statement, (value['SNAPSHOT_DATE'], value['CYEAR'], value['CMONTH'], value['LEGAL'], value['DEPARTMENT'], \
+# 		value['DEPARTMENT_NAME'], value['PRODUCT'], value['PRODUCT_NAME'], value['REASON_CODE_ORACLE'], value['EFORM_NO'], \
+# 		datetime.strptime(value['START_DATE'], '%Y-%m-%d'), datetime.strptime(value['END_DATE'], '%Y-%m-%d'), \
+# 		value['EFORM_TYPE'], value['UNIT_OPTION'], float(value['NET_BUDGET_VND']), \
+# 		value['NET_BUDGET'], str(value['UNIT_COST']), float(value['VOLUMN']), value['EVENT_ID'], value['PRODUCT_ID'], \
+# 		float(value['NET_ACTUAL']), float(value['UNIT_COST_ACTUAL']), float(value['VOLUMN_ACTUAL']), float(value['APPSFLYER_INSTALL']))
 	
+# 	#==================== Commit and close connect ===============================
+# 	conn.commit()
+# 	cursor.close()
+# 	print("A row inserted!.......")
+
+# def 
+
+# def ReportMonthSum(path_data, connect):
+# 	#=================== Read data from file json ===============================
+# 	with open(path_data, 'r') as fi:
+# 		data = json.load(fi)
+
+# 	for value in data['MONTHLY']:
 
 
-#path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/PLAN/monthly.json'
+# path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/PLAN/monthly2.json'
 path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/monthly2.json'
-InsertDataDate(path_data, connect)
+InsertMonthlyDetail(path_data, connect)
 
-# 	# statement = """INSERT INTO DTM_GG_PIVOT_DETAIL (
-# 	# SNAPSHOT_DATE, \ 				#1
-# 	# CYEAR, \						#2
-# 	# CMONTH, \ 					#3
-# 	# LEGAL, \						#4
-# 	# DEPARTMENT, \					#5
-# 	# DEPARTMENT_NAME, \			#6
-# 	# PRODUCT, \					#7
-# 	# PRODUCT_NAME, \				#8
-# 	# REASON_CODE_ORACLE, \			#9
-# 	# EFORM_NO, \					#10
-# 	# START_DATE, \					#11
-# 	# END_DATE, \      				#12
-# 	# CHANNEL, \					#13
-# 	# UNIT_COST, \					#14
-# 	# AMOUNT_USD, \					#15
-# 	# CVALUE, \						#16
-# 	# ENGAGEMENT, \					#17
-# 	# IMPRESSIONS, \				#18
-# 	# REACH, \						#19
-# 	# FREQUENCY, \					#20
-# 	# CLIKE, \        				#21
-# 	# CLICKS_ALL, \					#22
-# 	# LINK_CLICKS, \				#23
-# 	# CVIEWS, \						#24
-# 	# C3S_VIDEO_VIEW, \				#25
-# 	# INSTALL, \					#26
-# 	# NRU, \						#27
-# 	# EFORM_TYPE, \					#28
-# 	# UNIT_OPTION, \				#29
-# 	# OBJECTIVE, \					#30
-# 	# EVENT_ID, \					#31
-# 	# PRODUCT_ID, \					#32
-# 	# CCD_NRU, \					#33
-# 	# GG_VIEWS, \					#34
-# 	# GG_CONVERSION, \				#35
-# 	# GG_INVALID_CLICKS, \			#36
-# 	# GG_ENGAGEMENTS, \       		#37
-# 	# GG_VIDEO_VIEW, \				#38
-# 	# GG_CTR, \						#39
-# 	# GG_IMPRESSIONS, \				#40
-# 	# GG_INTERACTIONS, \			#41
-# 	# GG_CLICKS, \					#42
-# 	# GG_INTERACTION_TYPE, \		#43
-# 	# GG_COST, \   					#44
-# 	# GG_SPEND, \					#45
-# 	# GG_APPSFLYER_INSTALL, \		#46
-# 	# GG_STRATEGY_BID_TYPE) \		#47
-# 	# VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, 19, :20, \
-# 	# :21, :22, :23, :24, :25, :26, :27, :28, :29, :30, :31, :32, :33, :34, :35, :36, :37, :38, :39, :40, \
-# 	# :41, :42, :43, :44, :45, :46, :47)"""
 
-# 	# with open(path_data, 'r') as fi:
-# 	# 	data = json.load(fi)
-
-# 	# for value in data['monthly']:	
-# 	# 	cursor.execute(statement, ('', value['CYEAR'], value['CMONTH'], value['LEGAL'], \
-# 	# 		value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT'], '', \
-# 	# 		value['REASON_CODE_ORACLE'], value['EFORM_NO'], value['START_DAY'], \
-# 	# 		value['END_DAY_ESTIMATE'], value['CHANNEL'], value['UNIT_COST'], \
-# 	# 		float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), float(value['IMPRESSIONS']),\
-# 	# 		0, 0, float(value['CLIKE']), 0, \
-# 	# 		0, float(value['CVIEWS']), 0, float(value['INSTALL']), \
-# 	# 		float(value['NRU']), value['FORM_TYPE'], value['UNIT_OPTION'], \
-# 	# 		'', '', '', 0, \
-# 	# 		0, float(value['DATA_MONTHLY']['CONVERSIONS']), float(value['DATA_MONTHLY']['INVALID_CLICKS']), \
-# 	# 		float(value['DATA_MONTHLY']['ENGAGEMENTS']), 0, float(value['DATA_MONTHLY']['CTR']), \
-# 	# 		float(value['DATA_MONTHLY']['IMPRESSIONS']), float(value['DATA_MONTHLY']['INTERACTIONS']), float(value['DATA_MONTHLY']['CLICKS']), \
-# 	# 		'', float(value['DATA_MONTHLY']['COST']), float(value['DATA_MONTHLY']['COST']), 0, ''))
 
 
 
