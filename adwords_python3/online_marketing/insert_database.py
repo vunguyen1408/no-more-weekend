@@ -14,12 +14,12 @@ def InsertDataDate(path_data, connect):
 	#==================== Get data from database =================
 	statement = '''INSERT INTO DTM_GG_PIVOT_DETAIL (
 	-- SNAPSHOT_DATE, \ 				
-	CYEAR, \						
-	CMONTH, \ 						
-	LEGAL, \						
-	DEPARTMENT, \					
-	DEPARTMENT_NAME, \				
-	PRODUCT \						
+	CYEAR \						
+	-- CMONTH, \ 						
+	-- LEGAL, \						
+	-- DEPARTMENT, \					
+	-- DEPARTMENT_NAME, \				
+	-- PRODUCT \						
 	-- -- PRODUCT_NAME, \					
 	-- REASON_CODE_ORACLE, \			
 	-- EFORM_NO, \						
@@ -60,7 +60,8 @@ def InsertDataDate(path_data, connect):
 	-- GG_SPEND \						
 	-- -- GG_APPSFLYER_INSTALL, \			
 	-- -- GG_STRATEGY_BID_TYPE) \
-	) VALUES (:2, :3, :4, :5, :6, :7) '''
+	) VALUES (:2) '''
+	# , :3, :4, :5, :6, :7
 	# , :9, :10, :11, :12, :13, :14, :15, \
 	# :16, :17, :18, :21, :24, :26, :27, :28, :29, :35, \
 	# :36, :37, :39, :40, :41, :42, :44, :45)'''
@@ -70,8 +71,9 @@ def InsertDataDate(path_data, connect):
 
 
 	for value in data['monthly']:
-		cursor.execute(statement, (value['CYEAR'], value['CMONTH'], value['LEGAL'], 
-			value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT']))
+		cursor.execute(statement, (value['CYEAR']))
+		# , value['CMONTH'], value['LEGAL'], 
+		# 	value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT']))
 			# , 
 			# value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DAY'], '%Y-%m-%d'), 
 			# datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d'), value['CHANNEL'], value['UNIT_COST'], 
