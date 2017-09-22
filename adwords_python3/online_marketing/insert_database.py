@@ -7,10 +7,17 @@ connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
 
 def InsertDataDate(path_data, connect):
 
-	#==================== Connect database =======================
+	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
+	statement = 'insert into DTM_GG_PIVOT_DETAIL (CYEAR) values (:2)'
+	cursor.execute(statement, ('Cheryl'))
 
+	# with open(path_data, 'r') as fi:
+	# 	data = json.load(fi)
+	# for value in data['MONTHLY']:
+	# 	print(value)
+	# 	print ("==============================================")
 	#==================== Get data from database =================
 	# statement = '''INSERT INTO DTM_GG_PIVOT_DETAIL (
 	# SNAPSHOT_DATE, \ 				
@@ -71,6 +78,7 @@ def InsertDataDate(path_data, connect):
 
 
 	# for value in data['monthly']:
+	# 	print(value)
 	# 	cursor.execute(statement, (value['CYEAR'] + value['CMONTH'], value['CYEAR']))
 		# , value['CMONTH'], value['LEGAL'], 
 		# 	value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT']))
@@ -87,39 +95,15 @@ def InsertDataDate(path_data, connect):
 			# float(value['DATA_MONTHLY']['CLICKS']), 
 			# float(value['DATA_MONTHLY']['COST']), float(value['DATA_MONTHLY']['COST']) ))
 
-	statement = '''INSERT INTO DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR, CMONTH, LEGAL, DEPARTMENT, \
-	DEPARTMENT_NAME, PRODUCT, PRODUCT_NAME, REASON_CODE_ORACLE, EFORM_NO, START_DATE, END_DATE, \
-	CHANNEL) \
-	VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13)'''
-
-	value = {
-		'SNAPSHOT_DATE': '2017-06', 
-		'CYEAR': '2017', 
-		'CMONTH': '06', 
-		'LEGAL': 'VNG', 
-		'DEPARTMENT': '0902', 
-		'DEPARTMENT_NAME': 'PG1', 
-		'PRODUCT': '221', 
-		'PRODUCT_NAME': 'JXM Mobi', 
-		'REASON_CODE_ORACLE': '1706123', 
-		'EFORM_NO': 'FA-PA170427002', 
-		'START_DATE': '2017-06-01', 
-		'END_DATE': '2017-06-30', 
-		'CHANNEL': 'GG'	
-	}
-
-	cursor.execute(statement, (value['SNAPSHOT_DATE'], value['CYEAR'], value['CMONTH'], value['LEGAL'], \
-		value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT'], value['PRODUCT_NAME'], \
-		value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DATE'], '%Y-%m-%d'), \
-		datetime.strptime(value['END_DATE'], '%Y-%m-%d'), value['CHANNEL']))
+	
 	conn.commit()
 	cursor.close()
-	print("ok")
+	print("ok=====================================")
 	
 
 
-# path_data = 'C:/Users/CPU10912-local/Desktop/monthly.json'
-path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/monthly.json'
+path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/PLAN/monthly.json'
+# path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/monthly.json'
 InsertDataDate(path_data, connect)
 
 	# statement = """INSERT INTO DTM_GG_PIVOT_DETAIL (
@@ -229,10 +213,14 @@ InsertDataDate(path_data, connect)
 # 		'DEPARTMENT_NAME': 'PG1', 
 # 		'PRODUCT': '221', 
 # 		'PRODUCT_NAME': 'JXM Mobi', 
-# 		'REASON_CODE_ORACLE': '2017-06', 
+# 		'REASON_CODE_ORACLE': '1706123', 
 # 		'EFORM_NO': 'FA-PA170427002', 
 # 		'START_DATE': '2017-06-01', 
 # 		'END_DATE': '2017-06-30', 
 # 		'CHANNEL': 'GG'	
 # 	}
 
+# 	cursor.execute(statement, ('', value['CYEAR'], value['CMONTH'], value['LEGAL'], \
+# 		value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT'], value['PRODUCT_NAME'], \
+# 		value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DATE'], '%Y-%m-%d'), \
+# 		datetime.strptime(value['END_DATE'], '%Y-%m-%d'), value['CHANNEL']))
