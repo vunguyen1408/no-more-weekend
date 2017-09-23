@@ -258,7 +258,7 @@ def DownloadOnDate(adwords_client, customerId, path, date):
 
   startDate = DateToString(date)
   endDate = DateToString(date)
-  path_folder = os.path.join(path, customerId + '/' + date)
+  path_folder = os.path.join(path, '/ACCOUNT_ID/'customerId + '/' + date)
   if not os.path.exists(path_folder):
     os.makedirs(path_folder)
 
@@ -311,15 +311,17 @@ def GetCampainForAccount(path, customerId, day, to_day):
 
 
 
-path = 'C:/Users/ltduo/Desktop/VNG/DATA'
+path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG'
 JXM = '5008396449'
 ZTM = '9021114325'
 JXW = '9420329501'
 v = '7976533276'
 # customerId = '9021114325'
-date = '2017-06-01' 
-to_date = '2017-06-30'
-GetCampainForAccount(path, JXW, date, to_date)
+list_customer_id = ['5008396449', '9021114325', '9420329501']
+for customer_id in list_customer_id:
+  date = '2017-06-01' 
+  to_date = '2017-06-30'
+  GetCampainForAccount(path, customer_id, date, to_date)
   
   
 
