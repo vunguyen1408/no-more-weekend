@@ -3,11 +3,19 @@ adwords:
   #############################################################################
   # Required Fields                                                           #
   #############################################################################
-  developer_token: INSERT_DEVELOPER_TOKEN_HERE
+  #developer_token: e8J9QD7swxWIdkJF9SDCEw
+  developer_token: YmIaePycpKci008hGJy_9A 
   #############################################################################
   # Optional Fields                                                           #
   #############################################################################
   # client_customer_id: INSERT_CLIENT_CUSTOMER_ID_HERE
+
+  # MCC Master - VNG : 124-370-5114  
+  # MCC - WPL : 456-672-1209 
+  # AdWords account : 657-242-6200
+ 
+  client_customer_id: 124-370-5114  
+  # client_customer_id: 456-672-1209
   # user_agent: INSERT_USER_AGENT_HERE
   # partial_failure: True
   # validate_only: True
@@ -19,9 +27,9 @@ adwords:
   #############################################################################
   # The following values configure the client for the installed application
   # flow.
-  client_id: INSERT_OAUTH_2_CLIENT_ID_HERE
-  client_secret: INSERT_CLIENT_SECRET_HERE
-  refresh_token: INSERT_REFRESH_TOKEN_HERE
+  client_id: 779214974400-8164rkr33t40k3bdm6ud617rcd90ash3.apps.googleusercontent.com
+  client_secret: KVACfu52xoaMQ7ZHFY9ITcZV
+  refresh_token: 1/wx7fVdoOh4dEzvvOPMceSqNyq2mN9VOsIHjjS4D3raU
   # The following values configure the client for the service account flow.
   # service_account_email: INSERT_SERVICE_ACCOUNT_EMAIL_HERE
   # path_to_private_key_file: INSERT_PATH_TO_FILE_HERE
@@ -36,7 +44,6 @@ adwords:
     # skip_column_header: False
     # skip_report_summary: False
     # use_raw_enum_values: False
-
 
 # DfpClient configurations
 dfp:
