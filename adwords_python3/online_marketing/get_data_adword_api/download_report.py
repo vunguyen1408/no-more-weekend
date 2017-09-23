@@ -298,7 +298,7 @@ def GetCampainForAccount(path, customerId, day, to_day):
 
 
   # Initialize client object.
-  adwords_client = adwords.AdWordsClient.LoadFromStorage()
+  adwords_client = adwords.AdWordsClient.LoadFromStorage('/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/googleads.yaml')
 
   date_ = datetime.strptime(day, '%Y-%m-%d').date()
   to_date_ = datetime.strptime(to_day, '%Y-%m-%d').date()
