@@ -260,7 +260,7 @@ def DownloadOnDate(adwords_client, customerId, path, date):
   endDate = DateToString(date)
   path_folder = os.path.join(path, 'ACCOUNT_ID/' + customerId + '/' + date)
   print (path_folder)
-  if not path_folderos.path.exists(path_folder):
+  if not os.path.exists(path_folder):
     os.makedirs(path_folder)
 
   #====================== CAMPAIGN ====================
