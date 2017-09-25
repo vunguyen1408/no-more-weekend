@@ -5,11 +5,22 @@ from datetime import datetime , timedelta, date
 connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
 	
 
-def InsertDataDate(path_data, connect):
+def InsertMonthlyDetail(path_data, connect):
 
-# 	# ==================== Connect database =======================
+ 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
+
+	#===================== Read data from json ==========================
+	with open(path_data, 'r') as fi:
+		data = json.load(fi)
+
+	for value in data['MONTHLY']:		
+		for i in value:		 	
+		 	if value[i] is None:
+		 		value[i] = 0		 		
+
+	#==================== Insert data into database =============================
 	statement = 'insert into DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR, CMONTH, LEGAL, DEPARTMENT, \
 	DEPARTMENT_NAME, PRODUCT, PRODUCT_NAME, REASON_CODE_ORACLE, EFORM_NO, \
 	START_DATE, END_DATE, CHANNEL, UNIT_COST, AMOUNT_USD, \
@@ -23,142 +34,198 @@ def InsertDataDate(path_data, connect):
 	values (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :19, :20, \
 	:21, :22, :23, :24, :25, :26, :27, :28, :29, :30, :31, :32, :33, :34, :35, :36, :37, :38, :39, :40, \
 	:41, :42, :43, :44, :45, :46, :47)'
-
-	with open(path_data, 'r') as fi:
-		data = json.load(fi)
+	
 	
 	for value in data['MONTHLY']:
-		cursor.execute(statement, ('', value['CYEAR'], value['CMONTH'], value['LEGAL'], value['DEPARTMENT'], \
-			value['DEPARTMENT_NAME'], value['PRODUCT'], '', value['REASON_CODE_ORACLE'], value['EFORM_NO'], \
-			datetime.strptime(value['START_DAY'], '%Y-%m-%d'), datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d'), \
-			value['CHANNEL'], value['UNIT_COST'], float(value['AMOUNT_USD']), \
-			float(value['CVALUE']), float(value['ENGAGEMENT']), float(value['IMPRESSIONS']), 0, 0, \
-			float(value['CLIKE']), 0, 0, float(value['CVIEWS']), 0, \
-			float(value['INSTALL']), float(value['NRU']), value['FORM_TYPE'], value['UNIT_OPTION'], '', \
-			'', value['PRODUCT'], 0,  0, float(value['MONTHLY'][0]['DATA_MONTHLY']['CONVERSIONS']), \
-			float(value['MONTHLY'][0]['DATA_MONTHLY']['INVALID_CLICKS']), float(value['MONTHLY'][0]['DATA_MONTHLY']['ENGAGEMENTS']), \
-			0, float(value['MONTHLY'][0]['DATA_MONTHLY']['CTR']), float(value['MONTHLY'][0]['DATA_MONTHLY']['IMPRESSIONS']), \
-			float(value['MONTHLY'][0]['DATA_MONTHLY']['INTERACTIONS']), float(value['MONTHLY'][0]['DATA_MONTHLY']['CLICKS']), \
-			'', float(value['MONTHLY'][0]['DATA_MONTHLY']['COST']), float(value['MONTHLY'][0]['DATA_MONTHLY']['COST']), \
-			0, ''))
+		for i in range(len(value['MONTHLY'])):
+			snapshot = '20' + str(value['CYEAR']) + '-' + str(value['MONTHLY'][i]['MONTH'])
+			if (len(value['CMONTH']) == 1):
+				month = '0' + value['CMONTH']
+			else:
+				month = value['CMONTH']
+			cursor.execute(statement, (snapshot, '20' + value['CYEAR'], month, value['LEGAL'], value['DEPARTMENT'], \
+				value['DEPARTMENT_NAME'], value['PRODUCT'], '', value['REASON_CODE_ORACLE'], value['EFORM_NO'], \
+				datetime.strptime(value['START_DAY'], '%Y-%m-%d'), datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d'), \
+				value['CHANNEL'], value['UNIT_COST'], float(value['AMOUNT_USD']), \
+				float(value['CVALUE']), float(value['ENGAGEMENT']), float(value['IMPRESSIONS']), 0, 0, \
+				float(value['CLIKE']), 0, 0, float(value['CVIEWS']), 0, \
+				float(value['INSTALL']), float(value['NRU']), value['FORM_TYPE'], value['UNIT_OPTION'], '', \
+				'', value['PRODUCT'], 0,  float(value['MONTHLY'][i]['DATA_MONTHLY']['VIEWS']), float(value['MONTHLY'][i]['DATA_MONTHLY']['CONVERSIONS']), \
+				float(value['MONTHLY'][i]['DATA_MONTHLY']['INVALID_CLICKS']), float(value['MONTHLY'][i]['DATA_MONTHLY']['ENGAGEMENTS']), \
+				float(value['MONTHLY'][i]['DATA_MONTHLY']['VIEWS']), float(value['MONTHLY'][i]['DATA_MONTHLY']['CTR']), float(value['MONTHLY'][i]['DATA_MONTHLY']['IMPRESSIONS']), \
+				float(value['MONTHLY'][i]['DATA_MONTHLY']['INTERACTIONS']), float(value['MONTHLY'][i]['DATA_MONTHLY']['CLICKS']), \
+				'', float(value['MONTHLY'][i]['DATA_MONTHLY']['COST']), float(value['MONTHLY'][i]['DATA_MONTHLY']['COST']), \
+				0, ''))
 	
 	conn.commit()
 	cursor.close()
 	print("ok=====================================")
+
+
+
+def InsertMonthlySum(value, cursor):
+	#==================== Insert data into database =============================
+	statement = 'insert into DTM_GG_MONTH_SUM (SNAPSHOT_DATE, CYEAR, CMONTH, LEGAL, DEPARTMENT, \
+	DEPARTMENT_NAME, PRODUCT, PRODUCT_NAME, REASON_CODE_ORACLE, EFORM_NO, \
+	START_DATE, END_DATE, EFORM_TYPE, UNIT_OPTION, NET_BUDGET_VND, \
+	NET_BUDGET, UNIT_COST, VOLUMN, EVENT_ID, PRODUCT_ID	, \
+	NET_ACTUAL, UNIT_COST_ACTUAL, VOLUMN_ACTUAL, APPSFLYER_INSTALL) \
+	values (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, \
+	:13, :14, :15, :16, :17, :18, :19, :20,	:21, :22, :23, :24)'	
+		
+	cursor.execute(statement, (value['SNAPSHOT_DATE'], value['CYEAR'], value['CMONTH'], value['LEGAL'], value['DEPARTMENT'], \
+		value['DEPARTMENT_NAME'], value['PRODUCT'], value['PRODUCT_NAME'], value['REASON_CODE_ORACLE'], value['EFORM_NO'], \
+		value['START_DATE'], value['END_DATE'], value['EFORM_TYPE'], value['UNIT_OPTION'], value['NET_BUDGET_VND'], \
+		value['NET_BUDGET'], value['UNIT_COST'], value['VOLUMN'], value['EVENT_ID'], value['PRODUCT_ID'], \
+		value['NET_ACTUAL'], value['UNIT_COST_ACTUAL'], value['VOLUMN_ACTUAL'], value['APPSFLYER_INSTALL']))	
 	
+	print("A row inserted!.......")
+
+def ConvertJsonMonthlySum(index, value):
+	json_ = {}	
+
+	json_['CYEAR'] = '20' + str(value['CYEAR'])
+	if (len(value['CMONTH']) == 1):
+		json_['CMONTH'] = '0' + str(value['CMONTH'])
+	else:
+		json_['CMONTH'] = value['CMONTH']
+	json_['SNAPSHOT_DATE'] = str(value['CYEAR']) + '-' + str(value['CMONTH'])
+	json_['LEGAL'] = value['LEGAL']
+	json_['DEPARTMENT'] = value['DEPARTMENT']
+
+	json_['DEPARTMENT_NAME'] = value['DEPARTMENT_NAME'] 
+	json_['PRODUCT'] = value['PRODUCT'] 
+	json_['PRODUCT_NAME'] = ''
+	json_['REASON_CODE_ORACLE'] = value['REASON_CODE_ORACLE'] 
+	json_['EFORM_NO'] = value['EFORM_NO'] 
+
+	json_['START_DATE'] = datetime.strptime(value['START_DAY'], '%Y-%m-%d')
+	json_['END_DATE'] = datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d')
+	json_['EFORM_TYPE'] = value['FORM_TYPE'] 
+	json_['UNIT_OPTION'] = value['UNIT_OPTION'] 
+	json_['NET_BUDGET_VND'] = None
+
+	json_['NET_BUDGET'] = float(value['AMOUNT_USD'])
+	json_['UNIT_COST'] = str(value['UNIT_COST'])
+	json_['VOLUMN'] = value['CVALUE'] 
+	json_['EVENT_ID'] = value['REASON_CODE_ORACLE'] 
+	json_['PRODUCT_ID'] = value['PRODUCT'] 
+
+	json_['NET_ACTUAL'] = value['MONTHLY'][index]['DATA_MONTHLY']['COST']	 
+	json_['VOLUMN_ACTUAL'] = value['MONTHLY'][index]['DATA_MONTHLY']['VOLUME_ACTUAL']
+	json_['UNIT_COST_ACTUAL'] = float(json_['NET_ACTUAL']) / json_['VOLUMN_ACTUAL']
+	json_['APPSFLYER_INSTALL'] = None
+
+	return json_
 
 
-#path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/PLAN/monthly.json'
-path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/monthly2.json'
-InsertDataDate(path_data, connect)
 
-# 	# statement = """INSERT INTO DTM_GG_PIVOT_DETAIL (
-# 	# SNAPSHOT_DATE, \ 				#1
-# 	# CYEAR, \						#2
-# 	# CMONTH, \ 					#3
-# 	# LEGAL, \						#4
-# 	# DEPARTMENT, \					#5
-# 	# DEPARTMENT_NAME, \			#6
-# 	# PRODUCT, \					#7
-# 	# PRODUCT_NAME, \				#8
-# 	# REASON_CODE_ORACLE, \			#9
-# 	# EFORM_NO, \					#10
-# 	# START_DATE, \					#11
-# 	# END_DATE, \      				#12
-# 	# CHANNEL, \					#13
-# 	# UNIT_COST, \					#14
-# 	# AMOUNT_USD, \					#15
-# 	# CVALUE, \						#16
-# 	# ENGAGEMENT, \					#17
-# 	# IMPRESSIONS, \				#18
-# 	# REACH, \						#19
-# 	# FREQUENCY, \					#20
-# 	# CLIKE, \        				#21
-# 	# CLICKS_ALL, \					#22
-# 	# LINK_CLICKS, \				#23
-# 	# CVIEWS, \						#24
-# 	# C3S_VIDEO_VIEW, \				#25
-# 	# INSTALL, \					#26
-# 	# NRU, \						#27
-# 	# EFORM_TYPE, \					#28
-# 	# UNIT_OPTION, \				#29
-# 	# OBJECTIVE, \					#30
-# 	# EVENT_ID, \					#31
-# 	# PRODUCT_ID, \					#32
-# 	# CCD_NRU, \					#33
-# 	# GG_VIEWS, \					#34
-# 	# GG_CONVERSION, \				#35
-# 	# GG_INVALID_CLICKS, \			#36
-# 	# GG_ENGAGEMENTS, \       		#37
-# 	# GG_VIDEO_VIEW, \				#38
-# 	# GG_CTR, \						#39
-# 	# GG_IMPRESSIONS, \				#40
-# 	# GG_INTERACTIONS, \			#41
-# 	# GG_CLICKS, \					#42
-# 	# GG_INTERACTION_TYPE, \		#43
-# 	# GG_COST, \   					#44
-# 	# GG_SPEND, \					#45
-# 	# GG_APPSFLYER_INSTALL, \		#46
-# 	# GG_STRATEGY_BID_TYPE) \		#47
-# 	# VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, 19, :20, \
-# 	# :21, :22, :23, :24, :25, :26, :27, :28, :29, :30, :31, :32, :33, :34, :35, :36, :37, :38, :39, :40, \
-# 	# :41, :42, :43, :44, :45, :46, :47)"""
+def ReportMonthSum(path_data, connect):
+ 	# ==================== Connect database =======================
+	conn = cx_Oracle.connect(connect)
+	cursor = conn.cursor()
 
-# 	# with open(path_data, 'r') as fi:
-# 	# 	data = json.load(fi)
+	#=================== Read data from file json ===============================
+	with open(path_data, 'r') as fi:
+		data = json.load(fi)
 
-# 	# for value in data['monthly']:	
-# 	# 	cursor.execute(statement, ('', value['CYEAR'], value['CMONTH'], value['LEGAL'], \
-# 	# 		value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT'], '', \
-# 	# 		value['REASON_CODE_ORACLE'], value['EFORM_NO'], value['START_DAY'], \
-# 	# 		value['END_DAY_ESTIMATE'], value['CHANNEL'], value['UNIT_COST'], \
-# 	# 		float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), float(value['IMPRESSIONS']),\
-# 	# 		0, 0, float(value['CLIKE']), 0, \
-# 	# 		0, float(value['CVIEWS']), 0, float(value['INSTALL']), \
-# 	# 		float(value['NRU']), value['FORM_TYPE'], value['UNIT_OPTION'], \
-# 	# 		'', '', '', 0, \
-# 	# 		0, float(value['DATA_MONTHLY']['CONVERSIONS']), float(value['DATA_MONTHLY']['INVALID_CLICKS']), \
-# 	# 		float(value['DATA_MONTHLY']['ENGAGEMENTS']), 0, float(value['DATA_MONTHLY']['CTR']), \
-# 	# 		float(value['DATA_MONTHLY']['IMPRESSIONS']), float(value['DATA_MONTHLY']['INTERACTIONS']), float(value['DATA_MONTHLY']['CLICKS']), \
-# 	# 		'', float(value['DATA_MONTHLY']['COST']), float(value['DATA_MONTHLY']['COST']), 0, ''))
+	for value in data['MONTHLY']:
+		for i in range(len(value['MONTHLY'])):
+			print(value)
+			json_ = ConvertJsonMonthlySum(i, value)
+			InsertMonthlySum(json_, cursor)
+
+	#==================== Commit and close connect ===============================
+	conn.commit()
+	print("Committed!.......")
+	cursor.close()
 
 
 
 
+# def InsertPlanSum(value, cursor):
+# 	#==================== Insert data into database =============================
+# 	statement = 'insert into DTM_GG_MONTH_SUM (CYEAR, CMONTH, LEGAL, DEPARTMENT, \
+# 	DEPARTMENT_NAME, PRODUCT, PRODUCT_NAME, REASON_CODE_ORACLE, EFORM_NO, \
+# 	START_DATE, END_DATE, EFORM_TYPE, UNIT_OPTION, NET_BUDGET_VND, \
+# 	NET_BUDGET, UNIT_COST, VOLUMN, EVENT_ID, PRODUCT_ID	, \
+# 	NET_ACTUAL, UNIT_COST_ACTUAL, VOLUMN_ACTUAL, APPSFLYER_INSTALL) \
+# 	values (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, \
+# 	:13, :14, :15, :16, :17, :18, :19, :20,	:21, :22, :23)'	
+		
+# 	cursor.execute(statement, (value['CYEAR'], value['CMONTH'], value['LEGAL'], value['DEPARTMENT'], \
+# 		value['DEPARTMENT_NAME'], value['PRODUCT'], value['PRODUCT_NAME'], value['REASON_CODE_ORACLE'], value['EFORM_NO'], \
+# 		value['START_DATE'], value['END_DATE'], value['EFORM_TYPE'], value['UNIT_OPTION'], value['NET_BUDGET_VND'], \
+# 		value['NET_BUDGET'], value['UNIT_COST'], value['VOLUMN'], value['EVENT_ID'], value['PRODUCT_ID'], \
+# 		value['NET_ACTUAL'], value['UNIT_COST_ACTUAL'], value['VOLUMN_ACTUAL'], value['APPSFLYER_INSTALL']))	
+	
+# 	print("A row inserted!.......")
+
+
+# def ConvertJsonPlanSum(value):
+# 	json_ = {}	
+# 	json_['CYEAR'] = '20' + value['CYEAR']
+# 	json_['CMONTH'] = value['CMONTH']
+# 	json_['LEGAL'] = value['LEGAL']
+# 	json_['DEPARTMENT'] = value['DEPARTMENT']
+
+# 	json_['DEPARTMENT_NAME'] = value['DEPARTMENT_NAME'] 
+# 	json_['PRODUCT'] = value['PRODUCT'] 
+# 	json_['PRODUCT_NAME'] = ''
+# 	json_['REASON_CODE_ORACLE'] = value['REASON_CODE_ORACLE'] 
+# 	json_['EFORM_NO'] = value['EFORM_NO'] 
+
+# 	json_['START_DATE'] = datetime.strptime(value['START_DAY'], '%Y-%m-%d')
+# 	json_['END_DATE'] = datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d')
+# 	json_['EFORM_TYPE'] = value['FORM_TYPE'] 
+# 	json_['UNIT_OPTION'] = value['UNIT_OPTION'] 
+# 	json_['NET_BUDGET_VND'] = None
+
+# 	json_['NET_BUDGET'] = float(value['AMOUNT_USD'])
+# 	json_['UNIT_COST'] = str(value['UNIT_COST'])
+# 	json_['VOLUMN'] = value['CVALUE'] 
+# 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE'] 
+# 	json_['PRODUCT_ID'] = value['PRODUCT'] 
+
+# 	json_['NET_ACTUAL'] = value['DATA_MONTHLY']['COST']	 
+# 	json_['VOLUMN_ACTUAL'] = value['DATA_MONTHLY']['VOLUME_ACTUAL']
+# 	json_['UNIT_COST_ACTUAL'] = float(json_['NET_ACTUAL']) / json_['VOLUMN_ACTUAL']
+# 	json_['APPSFLYER_INSTALL'] = None
+
+# 	return json_
+
+# def ReportPlanSum(path_data, connect):
+#  	# ==================== Connect database =======================
+# 	conn = cx_Oracle.connect(connect)
+# 	cursor = conn.cursor()
+
+# 	#=================== Read data from file json ===============================
+# 	with open(path_data, 'r') as fi:
+# 		data = json.load(fi)
+
+# 	for value in data['MONTHLY']:		
+# 		json_ = ConvertJsonPlanSum(value)
+# 		InsertPlanSum(json_, cursor)
+
+# 	#==================== Commit and close connect ===============================
+# 	conn.commit()
+# 	print("Committed!.......")
+# 	cursor.close()
+
+
+# path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/PLAN/monthly2.json'
+# path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/monthly2.json'
+# InsertMonthlyDetail(path_data, connect)
+
+
+path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/monthly3.json'
+InsertMonthlyDetail(path_data, connect)
 
 
 
-# # cursor.execute(statement, (value['SNAPSHOT_DATE'], value['CYEAR'], value['CMONTH'], value['LEGAL'], \
-# # 		value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT'], value['PRODUCT_NAME'], \
-# # 		value['REASON_CODE_ORACLE'], value['EFORM_NO'], datetime.strptime(value['START_DATE'], '%Y-%m-%d'), \
-# # 		datetime.strptime(value['END_DATE'], '%Y-%m-%d'), value['CHANNEL'], value['UNIT_COST'], \
-# # 		float(value['AMOUNT_USD']), float(value['CVALUE']), float(value['ENGAGEMENT']), float(value['IMPRESSIONS']),\
-# # 		float(value['REACH']), float(value['FREQUENCY']), float(value['CLIKE']), float(value['CLICKS_ALL']), \
-# # 		float(value['LINK_CLICKS']), float(value['CVIEWS']), float(value['C3S_VIDEO_VIEW']), float(value['INSTALL']), \
-# # 		float(value['NRU']), value['EFORM_TYPE'], value['UNIT_OPTION'], \
-# # 		value['OBJECTIVE'], value['EVENT_ID'], value['PRODUCT_ID'], value['CCD_NRU'],\
-# # 		float(value['GG_VIEWS']), float(value['GG_CONVERSION']), float(value['GG_INVALID_CLICKS']), \
-# # 		float(value['GG_ENGAGEMENTS']), float(value['GG_VIDEO_VIEW']), float(value['GG_CTR']), \
-# # 		float(value['GG_IMPRESSIONS']), float(value['GG_INTERACTIONS']), float(value['GG_CLICKS']), \
-# # 		value['GG_INTERACTION_TYPE'], float(value['GG_COST']), float(value['GG_SPEND']), \
-# # 		float(value['GG_APPSFLYER_INSTALL']), value['GG_STRATEGY_BID_TYPE']))
 
 
-# conn = cx_Oracle.connect(connect)
-# cursor = conn.cursor()
 
-# statement = '''INSERT INTO DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR, CMONTH, LEGAL, DEPARTMENT, \
-# 	DEPARTMENT_NAME, PRODUCT, PRODUCT_NAME, REASON_CODE_ORACLE, EFORM_NO, START_DATE, END_DATE, \
-# 	CHANNEL) \
-# 	VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13)'''
 
-# value = {
-# 	'SNAPSHOT_DATE': '2017-06', 
-# 	'CYEAR': '2017', 	
-# }
 
-# cursor.execute(statement, ('', value['CYEAR']))
 
-# conn.commit()
-# cursor.close()
-# print("ok=====================================")
