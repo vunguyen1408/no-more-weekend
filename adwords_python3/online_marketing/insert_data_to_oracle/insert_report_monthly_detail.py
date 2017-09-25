@@ -62,14 +62,14 @@ def ConvertJsonMonthlyDetail(index, value):
 	json_['CVALUE'] = value['CVALUE']
 	json_['ENGAGEMENT'] = value['ENGAGEMENT']
 	json_['IMPRESSIONS'] = value['IMPRESSIONS']
-	json_['REACH'] = None
-	json_['FREQUENCY'] = None
+	json_['REACH'] = 0
+	json_['FREQUENCY'] = 0
 
 	json_['CLIKE'] = value['CLIKE']
-	json_['CLICKS_ALL'] = None
-	json_['LINK_CLICKS'] = None
+	json_['CLICKS_ALL'] = 0
+	json_['LINK_CLICKS'] = 0
 	json_['CVIEWS'] = value['CVIEWS']
-	json_['C3S_VIDEO_VIEW'] = None
+	json_['C3S_VIDEO_VIEW'] = 0
 
 	json_['INSTALL'] = value['INSTALL']
 	json_['NRU'] = value['NRU']
@@ -79,7 +79,7 @@ def ConvertJsonMonthlyDetail(index, value):
 
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE']
 	json_['PRODUCT_ID'] = value['PRODUCT']
-	json_['CCD_NRU'] = None
+	json_['CCD_NRU'] = 0
 	json_['GG_VIEWS'] = value['MONTHLY'][index]['DATA_MONTHLY']['VIEWS']
 	json_['GG_CONVERSION'] = value['MONTHLY'][index]['DATA_MONTHLY']['CONVERSIONS']
 
@@ -95,7 +95,7 @@ def ConvertJsonMonthlyDetail(index, value):
 	json_['GG_COST'] = value['MONTHLY'][index]['DATA_MONTHLY']['COST']
 	json_['GG_SPEND'] = value['MONTHLY'][index]['DATA_MONTHLY']['COST']
 
-	json_['GG_APPSFLYER_INSTALL'] = None
+	json_['GG_APPSFLYER_INSTALL'] = 0
 	json_['GG_STRATEGY_BID_TYPE'] = None
 
 	return json_
@@ -124,5 +124,5 @@ def ReportMonthlyDetail(path_data, connect):
 
 
 
-path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/monthly3.json'
+path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/monthly3.json'
 ReportMonthlyDetail(path_data, connect)
