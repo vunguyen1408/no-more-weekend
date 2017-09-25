@@ -99,7 +99,7 @@ def ConvertJsonMonthlyDetail(index, value):
 	json_['GG_COST'] = value['MONTHLY'][index]['DATA_MONTHLY']['COST']
 	json_['GG_SPEND'] = value['MONTHLY'][index]['DATA_MONTHLY']['COST']
 
-	json_['GG_APPSFLYER_INSTALL'] = None
+	json_['GG_APPSFLYER_INSTALL'] = value['MONTHLY'][index]['DATA_MONTHLY']['INSTALL']
 	json_['GG_STRATEGY_BID_TYPE'] = ''
 
 	return json_

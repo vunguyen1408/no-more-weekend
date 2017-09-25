@@ -7,7 +7,7 @@ connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
 
 def InsertPlanSum(value, cursor):
 	#==================== Insert data into database =============================
-	statement = 'insert into DTM_GG_MONTH_SUM (CYEAR, CMONTH, LEGAL, DEPARTMENT, \
+	statement = 'insert into DTM_GG_PLAN_SUM (CYEAR, CMONTH, LEGAL, DEPARTMENT, \
 	DEPARTMENT_NAME, PRODUCT, PRODUCT_NAME, REASON_CODE_ORACLE, EFORM_NO, \
 	START_DATE, END_DATE, EFORM_TYPE, UNIT_OPTION, NET_BUDGET_VND, \
 	NET_BUDGET, UNIT_COST, VOLUMN, EVENT_ID, PRODUCT_ID	, \
