@@ -59,23 +59,23 @@ def ConvertJsonMonthlyDetail(index, value):
 	json_['UNIT_OPTION'] = value['UNIT_OPTION'] 
 	json_['AMOUNT_USD'] = float(value['AMOUNT_USD'])
 
-	json_['CVALUE'] = value['CVALUE']
-	json_['ENGAGEMENT'] = value['ENGAGEMENT']
-	json_['IMPRESSIONS'] = value['IMPRESSIONS']
+	json_['CVALUE'] = float(value['CVALUE'])
+	json_['ENGAGEMENT'] = float(value['ENGAGEMENT'])
+	json_['IMPRESSIONS'] = float(value['IMPRESSIONS'])
 	json_['REACH'] = 0
 	json_['FREQUENCY'] = 0
 
-	json_['CLIKE'] = value['CLIKE']
+	json_['CLIKE'] = float(value['CLIKE'])
 	json_['CLICKS_ALL'] = 0
 	json_['LINK_CLICKS'] = 0
-	json_['CVIEWS'] = value['CVIEWS']
+	json_['CVIEWS'] = float(value['CVIEWS'])
 	json_['C3S_VIDEO_VIEW'] = 0
 
-	json_['INSTALL'] = value['INSTALL']
-	json_['NRU'] = value['NRU']
+	json_['INSTALL'] = float(value['INSTALL'])
+	json_['NRU'] = float(value['NRU'])
 	json_['EFORM_TYPE'] = value['FORM_TYPE']
 	json_['UNIT_OPTION'] = value['UNIT_OPTION']
-	json_['OBJECTIVE'] = 0
+	json_['OBJECTIVE'] = ''
 
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE']
 	json_['PRODUCT_ID'] = value['PRODUCT']
