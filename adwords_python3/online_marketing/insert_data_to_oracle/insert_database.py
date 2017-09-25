@@ -38,7 +38,11 @@ def InsertMonthlyDetail(path_data, connect):
 	
 	for value in data['MONTHLY']:
 		for i in range(len(value['MONTHLY'])):
-			snapshot = '20' + str(value['CYEAR']) + '-' + str(value['MONTHLY'][i]['MONTH'])
+			if (len(str(value['MONTHLY'][i]['MONTH'])) == 1):
+				month = '0' + str(value['MONTHLY'][i]['MONTH'])
+			else:
+				month = str(value['MONTHLY'][i]['MONTH'])
+			snapshot = '20' + str(value['CYEAR']) + '-' + month
 			if (len(value['CMONTH']) == 1):
 				month = '0' + value['CMONTH']
 			else:
