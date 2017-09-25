@@ -38,7 +38,12 @@ def InsertMonthlyDetail(path_data, connect):
 	
 	for value in data['MONTHLY']:
 		for i in range(len(value['MONTHLY'])):
-			cursor.execute(statement, (str(value['CYEAR']) + '_' + str(value['MONTHLY'][i]['MONTH']), value['CYEAR'], value['CMONTH'], value['LEGAL'], value['DEPARTMENT'], \
+			snapshot = '20' + str(value['CYEAR']) + '-' + str(value['MONTHLY'][i]['MONTH'])
+			if (len(value['CMONTH']) == 1):
+				month = '0' + value['CMONTH']
+			else:
+				month = value['CMONTH']
+			cursor.execute(statement, (snapshot, '20' + value['CYEAR'], month, value['LEGAL'], value['DEPARTMENT'], \
 				value['DEPARTMENT_NAME'], value['PRODUCT'], '', value['REASON_CODE_ORACLE'], value['EFORM_NO'], \
 				datetime.strptime(value['START_DAY'], '%Y-%m-%d'), datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d'), \
 				value['CHANNEL'], value['UNIT_COST'], float(value['AMOUNT_USD']), \
