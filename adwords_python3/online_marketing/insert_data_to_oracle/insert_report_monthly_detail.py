@@ -75,7 +75,7 @@ def ConvertJsonMonthlyDetail(index, value):
 	json_['NRU'] = value['NRU']
 	json_['EFORM_TYPE'] = value['FORM_TYPE']
 	json_['UNIT_OPTION'] = value['UNIT_OPTION']
-	json_['OBJECTIVE'] = None
+	json_['OBJECTIVE'] = 0
 
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE']
 	json_['PRODUCT_ID'] = value['PRODUCT']
@@ -91,12 +91,12 @@ def ConvertJsonMonthlyDetail(index, value):
 
 	json_['GG_INTERACTIONS'] = value['MONTHLY'][index]['DATA_MONTHLY']['INTERACTIONS']
 	json_['GG_CLICKS'] = value['MONTHLY'][index]['DATA_MONTHLY']['CLICKS']
-	json_['GG_INTERACTION_TYPE'] = None
+	json_['GG_INTERACTION_TYPE'] = ''
 	json_['GG_COST'] = value['MONTHLY'][index]['DATA_MONTHLY']['COST']
 	json_['GG_SPEND'] = value['MONTHLY'][index]['DATA_MONTHLY']['COST']
 
 	json_['GG_APPSFLYER_INSTALL'] = 0
-	json_['GG_STRATEGY_BID_TYPE'] = None
+	json_['GG_STRATEGY_BID_TYPE'] = ''
 
 	return json_
 
@@ -111,6 +111,11 @@ def ReportMonthlyDetail(path_data, connect):
 	#=================== Read data from file json ===============================
 	with open(path_data, 'r') as fi:
 		data = json.load(fi)
+
+	for value in data['MONTHLY']:		
+		for i in value:		 	
+		 	if value[i] is None:
+		 		value[i] = 0
 
 	for value in data['MONTHLY']:
 		for i in range(len(value['MONTHLY'])):			
