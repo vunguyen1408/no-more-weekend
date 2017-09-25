@@ -61,22 +61,46 @@ def ConvertJsonMonthlyDetail(index, value):
 	json_['END_DATE'] = datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d')
 	json_['CHANNEL'] = value['CHANNEL'] 
 	json_['UNIT_COST'] = value['UNIT_COST'] 
-	json_['AMOUNT_USD'] = float(value['AMOUNT_USD'])
+	if (value['AMOUNT_USD'] is None):
+		json_['AMOUNT_USD'] = value['AMOUNT_USD']
+	else:
+		json_['AMOUNT_USD'] = float(value['AMOUNT_USD'])
 
-	json_['CVALUE'] = float(value['CVALUE'])
-	json_['ENGAGEMENT'] = float(value['ENGAGEMENT'])
-	json_['IMPRESSIONS'] = float(value['IMPRESSIONS'])
+	if (value['CVALUE'] is None):
+		json_['CVALUE'] = value['CVALUE']
+	else:
+		json_['CVALUE'] = float(value['CVALUE'])
+	if (value['ENGAGEMENT'] is None):
+		json_['ENGAGEMENT'] = value['ENGAGEMENT']
+	else:
+		json_['ENGAGEMENT'] = float(value['ENGAGEMENT'])
+	if (value['IMPRESSIONS'] is None):
+		json_['IMPRESSIONS'] = value['IMPRESSIONS']
+	else:
+		json_['IMPRESSIONS'] = float(value['IMPRESSIONS'])
 	json_['REACH'] = None
 	json_['FREQUENCY'] = None
 
-	json_['CLIKE'] = float(value['CLIKE'])
+	if (value['CLIKE'] is None):
+		json_['CLIKE'] = value['CLIKE']
+	else:
+		json_['CLIKE'] = float(value['CLIKE'])
 	json_['CLICKS_ALL'] = None
 	json_['LINK_CLICKS'] = None
-	json_['CVIEWS'] = float(value['CVIEWS'])
+	if (value['CVIEWS'] is None):
+		json_['CVIEWS'] = float(value['CVIEWS'])
+	else:
+		json_['CVIEWS'] = value['CVIEWS']
 	json_['C3S_VIDEO_VIEW'] = None
 
-	json_['INSTALL'] = float(value['INSTALL'])
-	json_['NRU'] = float(value['NRU'])
+	if (value['INSTALL'] is None):		
+		json_['INSTALL'] = value['INSTALL']
+	else:
+		json_['INSTALL'] = float(value['INSTALL'])
+	if (value['NRU'] is None):
+		json_['NRU'] = value['NRU']
+	else:
+		json_['NRU'] = float(value['NRU'])
 	json_['EFORM_TYPE'] = value['FORM_TYPE']
 	json_['UNIT_OPTION'] = value['UNIT_OPTION']
 	json_['OBJECTIVE'] = ''
