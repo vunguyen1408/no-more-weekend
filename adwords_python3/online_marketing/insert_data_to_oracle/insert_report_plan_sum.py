@@ -76,5 +76,5 @@ def ReportPlanSum(path_data, connect):
 
 
 
-path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/monthly3.json'
+path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/monthly3.json'
 ReportPlanSum(path_data, connect)
