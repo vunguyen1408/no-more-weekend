@@ -23,7 +23,7 @@ def InsertMonthlyDetail(value, cursor):
 		
 	cursor.execute(statement, (value['SNAPSHOT_DATE'], value['CYEAR'], value['CMONTH'], value['LEGAL'], value['DEPARTMENT'], \
 		value['DEPARTMENT_NAME'], value['PRODUCT'], value['PRODUCT_NAME'], value['REASON_CODE_ORACLE'], value['EFORM_NO'], \
-		value['START_DATE'], value['END_DATE'], value['EFORM_TYPE'], value['UNIT_OPTION'], value['AMOUNT_USD'], \
+		value['START_DATE'], value['END_DATE'], value['CHANNEL'], value['UNIT_COST'], value['AMOUNT_USD'], \
 		value['CVALUE'], value['ENGAGEMENT'], value['IMPRESSIONS'], value['REACH'], value['FREQUENCY'], \
 		value['CLIKE'], value['CLICKS_ALL'], value['LINK_CLICKS'], value['CVIEWS'], value['C3S_VIDEO_VIEW'], \
 		value['INSTALL'], value['NRU'], value['EFORM_TYPE'], value['UNIT_OPTION'], value['OBJECTIVE'], \
@@ -43,7 +43,11 @@ def ConvertJsonMonthlyDetail(index, value):
 		json_['CMONTH'] = '0' + value['CMONTH']
 	else:
 		json_['CMONTH'] = value['CMONTH']
-	json_['SNAPSHOT_DATE'] = json_['CYEAR'] + '-' + json_['CMONTH']
+
+	if (len(str(value['MONTHLY'][index]['MONTH'])) == 1):
+		json_['SNAPSHOT_DATE'] = json_['CYEAR'] + '-0' + str(value['MONTHLY'][index]['MONTH'])
+	else:
+		json_['SNAPSHOT_DATE'] = json_['CYEAR'] + '-' + str(value['MONTHLY'][index]['MONTH'])
 	json_['LEGAL'] = value['LEGAL']
 	json_['DEPARTMENT'] = value['DEPARTMENT']
 
@@ -55,21 +59,21 @@ def ConvertJsonMonthlyDetail(index, value):
 
 	json_['START_DATE'] = datetime.strptime(value['START_DAY'], '%Y-%m-%d')
 	json_['END_DATE'] = datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d')
-	json_['EFORM_TYPE'] = value['FORM_TYPE'] 
-	json_['UNIT_OPTION'] = value['UNIT_OPTION'] 
+	json_['CHANNEL'] = value['CHANNEL'] 
+	json_['UNIT_COST'] = value['UNIT_COST'] 
 	json_['AMOUNT_USD'] = float(value['AMOUNT_USD'])
 
 	json_['CVALUE'] = float(value['CVALUE'])
 	json_['ENGAGEMENT'] = float(value['ENGAGEMENT'])
 	json_['IMPRESSIONS'] = float(value['IMPRESSIONS'])
-	json_['REACH'] = 0
-	json_['FREQUENCY'] = 0
+	json_['REACH'] = None
+	json_['FREQUENCY'] = None
 
 	json_['CLIKE'] = float(value['CLIKE'])
-	json_['CLICKS_ALL'] = 0
-	json_['LINK_CLICKS'] = 0
+	json_['CLICKS_ALL'] = None
+	json_['LINK_CLICKS'] = None
 	json_['CVIEWS'] = float(value['CVIEWS'])
-	json_['C3S_VIDEO_VIEW'] = 0
+	json_['C3S_VIDEO_VIEW'] = None
 
 	json_['INSTALL'] = float(value['INSTALL'])
 	json_['NRU'] = float(value['NRU'])
@@ -79,7 +83,7 @@ def ConvertJsonMonthlyDetail(index, value):
 
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE']
 	json_['PRODUCT_ID'] = value['PRODUCT']
-	json_['CCD_NRU'] = 0
+	json_['CCD_NRU'] = None
 	json_['GG_VIEWS'] = value['MONTHLY'][index]['DATA_MONTHLY']['VIEWS']
 	json_['GG_CONVERSION'] = value['MONTHLY'][index]['DATA_MONTHLY']['CONVERSIONS']
 
@@ -95,7 +99,7 @@ def ConvertJsonMonthlyDetail(index, value):
 	json_['GG_COST'] = value['MONTHLY'][index]['DATA_MONTHLY']['COST']
 	json_['GG_SPEND'] = value['MONTHLY'][index]['DATA_MONTHLY']['COST']
 
-	json_['GG_APPSFLYER_INSTALL'] = 0
+	json_['GG_APPSFLYER_INSTALL'] = None
 	json_['GG_STRATEGY_BID_TYPE'] = ''
 
 	return json_
@@ -112,10 +116,10 @@ def ReportMonthlyDetail(path_data, connect):
 	with open(path_data, 'r') as fi:
 		data = json.load(fi)
 
-	for value in data['MONTHLY']:		
-		for i in value:		 	
-		 	if value[i] is None:
-		 		value[i] = 0
+	# for value in data['MONTHLY']:		
+	# 	for i in value:		 	
+	# 	 	if value[i] is None:
+	# 	 		value[i] = 0
 
 	for value in data['MONTHLY']:
 		for i in range(len(value['MONTHLY'])):			
