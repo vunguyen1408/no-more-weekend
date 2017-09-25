@@ -52,7 +52,7 @@ def ConvertJsonPlanSum(value):
 	json_['NET_ACTUAL'] = value['DATA_MONTHLY']['COST']	 
 	json_['VOLUMN_ACTUAL'] = value['DATA_MONTHLY']['VOLUME_ACTUAL']
 	json_['UNIT_COST_ACTUAL'] = float(json_['NET_ACTUAL']) / json_['VOLUMN_ACTUAL']
-	json_['APPSFLYER_INSTALL'] = value['DATA_MONTHLY']['APPSFLYER_INSTALL']
+	json_['APPSFLYER_INSTALL'] = value['DATA_MONTHLY']['INSTALL']
 
 	return json_
 
