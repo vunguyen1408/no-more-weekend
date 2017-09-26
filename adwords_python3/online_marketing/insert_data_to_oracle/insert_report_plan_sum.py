@@ -27,7 +27,10 @@ def InsertPlanSum(value, cursor):
 def ConvertJsonPlanSum(value):
 	json_ = {}	
 	json_['CYEAR'] = '20' + value['CYEAR']
-	json_['CMONTH'] = value['CMONTH']
+	if (len(value['CMONTH']) == 1):
+		json_['CMONTH'] = '0' + value['CMONTH']
+	else:
+		json_['CMONTH'] = value['CMONTH']
 	json_['LEGAL'] = value['LEGAL']
 	json_['DEPARTMENT'] = value['DEPARTMENT']
 
@@ -52,7 +55,7 @@ def ConvertJsonPlanSum(value):
 	json_['NET_ACTUAL'] = value['DATA_MONTHLY']['COST']	 
 	json_['VOLUMN_ACTUAL'] = value['DATA_MONTHLY']['VOLUME_ACTUAL']
 	json_['UNIT_COST_ACTUAL'] = float(json_['NET_ACTUAL']) / json_['VOLUMN_ACTUAL']
-	json_['APPSFLYER_INSTALL'] = value['DATA_MONTHLY']['INSTALL']
+	json_['APPSFLYER_INSTALL'] = None
 
 	return json_
 
