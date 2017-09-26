@@ -40,4 +40,5 @@ start_date = '06/01/2017'
 end_date = '06/30/2017'
 media_source = 'googleadwords_int'
 path_file = 'install.json'
-GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source, path_file)
+produtc_alias = 'jxm'
+GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source, produtc_alias, path_file)
