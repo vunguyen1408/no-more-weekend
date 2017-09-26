@@ -30,8 +30,8 @@ def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source, path_fi
         print (temp)
     install = {}
     install['list_install'] = list_out
-	with open(path_file, 'w') as f:
-		json.dump(install, f)
+    with open(path_file, 'w') as f:
+        json.dump(install, f)
 
 connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
 start_date = '06/01/2017'
