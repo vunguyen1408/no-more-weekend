@@ -24,6 +24,8 @@ def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source, path_fi
         temp.append(i[1])
         temp.append(i[2])
         temp.append(i[3])
+        temp.append(i[4])
+        temp.append(i[5])
         list_out.append(temp)
         print (temp)
     install = {}
