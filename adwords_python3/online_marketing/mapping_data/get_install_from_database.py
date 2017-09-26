@@ -9,8 +9,9 @@ def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source, path_fi
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
 
-	statement = 'select * from ods_appsflyer where SNAPSHOT_DATE >= \
-	' + start_date + ' and SNAPSHOT_DATE <=' + end_date + 'and MEDIA_SOURCE = ' + media_source
+	statement = "select * from ods_appsflyer where SNAPSHOT_DATE >= '" + start_date \
+	+ "' and SNAPSHOT_DATE <= '" + end_date + "' and MEDIA_SOURCE = '" + media_source +  "'"
+    
 	
 	cursor.execute(statement)
 
@@ -33,4 +34,3 @@ end_date = '06/30/2017'
 media_source = 'googleadwords_int'
 path_file = 'install.json'
 GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source, path_file)
-
