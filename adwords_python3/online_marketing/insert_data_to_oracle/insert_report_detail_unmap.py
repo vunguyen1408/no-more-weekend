@@ -1,5 +1,6 @@
 import cx_Oracle
 import json
+import pandas as pd
 from datetime import datetime
 connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
 	
@@ -126,14 +127,24 @@ def ConvertJsonPlan(value):
 
 	return json_
 
-
+def getProductID(value):
+	file_product = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/product.xlsx'
+	# file_product = 'C:/Users/CPU10912-local/Desktop/product.xlsx'
+	product = pd.read_excel(file_product)
+	list_pro_code = list(product['Product'])
+	list_pro_id = list(product['Product ID'])
+	product_code = value['Campaign'].split(' | ')[0]
+	for i in range(len(list_pro_code)):
+		if (product_code == list_pro_code[i]):
+			return list_pro_id[i]
+	
 
 def ConvertJsonCamp(value):
 	json_ = {}	
 
-	json_['SNAPSHOT_DATE'] = None
-	json_['CYEAR'] = None
-	json_['CMONTH'] = None
+	json_['SNAPSHOT_DATE'] = value['Date'][0:7]
+	json_['CYEAR'] = value['Date'][0:4]
+	json_['CMONTH'] = value['Date'][5:7]
 	
 	json_['LEGAL'] = None
 	json_['DEPARTMENT'] = None
@@ -169,7 +180,8 @@ def ConvertJsonCamp(value):
 	json_['OBJECTIVE'] = None
 
 	json_['EVENT_ID'] = None
-	json_['PRODUCT_ID'] = None
+	json_['PRODUCT_ID'] = getProductID(value)
+	print(json_['PRODUCT_ID'])
 	json_['CCD_NRU'] = None
 	json_['GG_VIEWS'] = value['Views']
 	json_['GG_CONVERSION'] = value['Conversions']
@@ -194,6 +206,25 @@ def ConvertJsonCamp(value):
 
 	return json_
 
+# def sumCampaign(camp):
+# 	iter = 0
+# 	list_camp = []
+# 	list_camp_id = []
+		
+# 	for value in camp:		
+# 		if (value['Campaign ID'] not in list_camp_id):
+# 			list_camp.append(value)
+# 			list_camp_id.append(value['Campaign ID'])
+# 			iter += 1
+# 			print(iter)
+# 		else:
+# 			print("trung")
+# 			index = list_camp_id.index(value['Campaign ID'])
+# 			list_camp[i][]
+# 	print(camp[0])
+
+
+
 
 
 def ReportDetailUnmap(path_data, connect):
@@ -211,18 +242,19 @@ def ReportDetailUnmap(path_data, connect):
 	for value in data['plan']:
 		if (len(value['CAMPAIGN']) == 0):
 			json_ = ConvertJsonPlan(value)
-			print(json_)
-			#InsertDetailUnmap(json_, cursor)
+			# print(json_)
+			InsertDetailUnmap(json_, cursor)
 			iter += 1
 	print("Unmap plan insert", iter, "rows success!.......")
 
 	#================== Unmap Campaign data ==============================
 	iter = 0
+	# sumCampaign(data['campaign'])
 	for value in data['campaign']:
 		if (value['Plan'] is None):
 			json_ = ConvertJsonCamp(value)
-			print(json_)
-			# InsertDetailUnmap(json_, cursor)
+			# print(json_)
+			InsertDetailUnmap(json_, cursor)
 			iter += 1
 	print("Unmap campaign insert", iter, "rows success!.......")
 
