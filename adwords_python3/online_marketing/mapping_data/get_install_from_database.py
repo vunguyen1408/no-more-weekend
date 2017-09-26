@@ -18,7 +18,7 @@ def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source, path_fi
     list_out = []
     for i in list_install:
         d = str(i[0])[:10]
-        d = str(datetime.strptimSe(d, '%Y-%m-%d').date())
+        d = str(datetime.strptime(d, '%Y-%m-%d').date())
         temp = []
         temp.append(d)
         temp.append(i[1])
@@ -26,6 +26,7 @@ def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source, path_fi
         temp.append(i[3])
         temp.append(i[4])
         temp.append(i[5])
+        temp.append(i[6])
         list_out.append(temp)
         print (temp)
     install = {}
