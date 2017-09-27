@@ -25,7 +25,8 @@ log = log_manual[0]
 
 
 print (log[7])
-d = str(log[7])[:10]
+temp = log[7].split('/')
+d = temp[2] + '-' + temp[0] + '-' + temp[1] 
 d = str(datetime.strptime(d, '%Y-%m-%d').date())
 
 print (d)
