@@ -51,7 +51,8 @@ def ReadTableManualMap(connect, path_data):
 	print (log_manual)
 	list_diff = []
 	#------------- Check manual map change ---------------------
-	if len(log_manual) != len(data_manual_map):
+	if 
+	if (len(log_manual) != len(data_manual_map) or (data_manual_map['MANUAL_MAP'] == [])):
 		for data in log_manual:
 			flag = True
 			for data_local in data_manual_map:
@@ -61,14 +62,20 @@ def ReadTableManualMap(connect, path_data):
 				and data[3] == data_local[3] \
 				and data[4] == data_local[4] \
 				and data[5] == data_local[5] \
-				and ParseFormatDate(data[6]) == ParseFormatDate(data_local[6]) \
-				and ParseFormatDate(data[7]) == ParseFormatDate(data_local[7]) \
-				and ParseFormatDate(data[8]) == ParseFormatDate(data_local[8]):
+				and ParseFormatDate(data[6]) == data_local[6] \
+				and ParseFormatDate(data[7]) == data_local[7] \
+				and ParseFormatDate(data[8]) == data_local[8]:
+					print ("---------------- Trung log")
 					flag = False
 			if flag:
-				list_diff.append(list(data))
+				temp = list(data)
+				temp[6] = ParseFormatDate(data[6])
+				temp[7] = ParseFormatDate(data[7])
+				temp[8] = ParseFormatDate(data[8])
+				list_diff.append(list(temp))
+				print ("--------------- Da add them")
 
-	list_plan = (ReadPlan(path_data))[40:-25]
+	list_plan = ReadPlan(path_data)
 	print (list_diff)
 	# --------------- Get info plan ------------
 	list_plan_diff = []
