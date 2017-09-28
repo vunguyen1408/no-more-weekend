@@ -1,4 +1,9 @@
 
+import sys
+import os
+import pandas as pd
+import numpy as np
+import json
 import cx_Oracle
 import json
 from datetime import datetime , timedelta, date
@@ -50,8 +55,8 @@ def ReadTableManualMap(connect, path_data):
 				and data[5] == data_local[5] \
 				and ParseFormatDate(data[6]) == ParseFormatDate(data_local[6]) \
 				and ParseFormatDate(data[7]) == ParseFormatDate(data_local[7]) \
-				and ParseFormatDate(data[8]) == ParseFormatDate(data_local[8]) \
-				flag = False
+				and ParseFormatDate(data[8]) == ParseFormatDate(data_local[8]):
+					flag = False
 			if flag:
 				list_diff.append(list(data))
 
