@@ -23,7 +23,7 @@ def ReadTableManualMap(connect, path_data):
 		with open (path_data_total_map,'w') as f:
 			data_manual_map = {}
 			data_manual_map['MANUAL_MAP'] = []
-			json.dump(manual_map, f)
+			json.dump(data_manual_map, f)
 
 	with open (path_data_total_map,'r') as f:
 		data_manual_map = json.load(f)
