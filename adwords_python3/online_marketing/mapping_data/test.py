@@ -87,7 +87,7 @@ def ReadTableManualMap(connect, path_data):
 		campaign = {}
 		campaign['CAMPAIGN_ID'] = plan[5]
 		flag = True
-		for plan_info in list_plan:
+		for plan_info in list_plan['plan']:
 			print (plan_info['PRODUCT'])
 			print (plan[0])
 			print (plan[1])
