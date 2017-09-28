@@ -18,7 +18,7 @@ def ReadPlan(path_folder):
   with open (file_plan, 'r') as f:
     list_plan = json.load(f)
     return list_plan
-    
+
 def ParseFormatDate(date):
 	temp = date.split('/')
 	d = temp[2] + '-' + temp[0] + '-' + temp[1] 
@@ -45,10 +45,10 @@ def ReadTableManualMap(connect, path_data):
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
 	
-	statement = 'select PRODUCT, REASON_CODE_ORACLE, \
+	statement = "select PRODUCT, REASON_CODE_ORACLE, \
 					EFORM_TYPE, UNIT_OPTION, \
 					USER_NAME, USER_CAMPAIGN_ID, \
-					UPDATE_DATE, START_DATE, END_DATE from CAMPAIGN_MAP_HIS_GG'
+					TO_CHAR(UPDATE_DATE, 'YYYY-MM-DD'), START_DATE, END_DATE from CAMPAIGN_MAP_HIS_GG"
 
 	cursor.execute(statement)
 	log_manual = cursor.fetchall()
@@ -66,14 +66,14 @@ def ReadTableManualMap(connect, path_data):
 				and data[3] == data_local[3] \
 				and data[4] == data_local[4] \
 				and data[5] == data_local[5] \
-				and ParseFormatDate(data[6]) == data_local[6] \
+				and data[6] == data_local[6] \
 				and ParseFormatDate(data[7]) == data_local[7] \
 				and ParseFormatDate(data[8]) == data_local[8]:
 					print ("---------------- Trung log")
 					flag = False
 			if flag:
 				temp = list(data)
-				temp[6] = ParseFormatDate(data[6])
+				temp[6] = data[6]
 				temp[7] = ParseFormatDate(data[7])
 				temp[8] = ParseFormatDate(data[8])
 				list_diff.append(list(temp))
