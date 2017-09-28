@@ -68,7 +68,7 @@ def ReadTableManualMap(connect, path_data):
 			if flag:
 				list_diff.append(list(data))
 
-	list_plan = ReadPlan(path_data)
+	list_plan = (ReadPlan(path_data))[40:-25]
 	print (list_diff)
 	# --------------- Get info plan ------------
 	list_plan_diff = []
@@ -80,6 +80,11 @@ def ReadTableManualMap(connect, path_data):
 		campaign['UPDATE_DATE'] = plan[7]
 		flag = True
 		for plan_info in list_plan:
+			print (plan_info['PRODUCT'])
+			print (plan[0])
+			print (plan[1])
+			print (plan_info['REASON_CODE_ORACLE'])
+			print ("======================================================")
 			if int(plan[0]) == int(plan_info['PRODUCT']) \
 				and plan[1] == plan_info['REASON_CODE_ORACLE']:
 				plan_temp = plan_info
