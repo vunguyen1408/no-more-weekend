@@ -197,11 +197,15 @@ def ConvertJsonCamp(value):
 	json_['GG_COST'] = value['Cost']
 	json_['GG_SPEND'] = value['Cost']
 
-	json_['GG_APPSFLYER_INSTALL'] = value['INSTALL']	
+	json_['GG_APPSFLYER_INSTALL'] = value['INSTALL']		
 	json_['GG_STRATEGY_BID_TYPE'] = value['Bid Strategy Type']
 	json_['CAMPAIGN_ID'] = str(value['Campaign ID'])
 	json_['CAMPAIGN_NAME'] = value['Campaign']
 	json_['UPDATE_DATE'] = datetime.strptime(value['Date'], '%Y-%m-%d')
+
+	print(type(json_['GG_APPSFLYER_INSTALL']), type(value['INSTALL']))
+	print(type(json_['CAMPAIGN_ID']), type(value['Campaign ID']))
+
 
 	return json_
 
