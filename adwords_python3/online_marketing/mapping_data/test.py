@@ -88,17 +88,17 @@ def ReadTableManualMap(connect, path_data):
 		campaign['CAMPAIGN_ID'] = plan[5]
 		flag = True
 		for plan_info in list_plan['plan']:
-			print (plan_info['PRODUCT'])
-			print (plan[0])
-			print (plan[1])
-			print (plan_info['REASON_CODE_ORACLE'])
+			# print (plan_info['PRODUCT'])
+			# print (plan[0])
+			# print (plan[1])
+			# print (plan_info['REASON_CODE_ORACLE'])
 			print ("======================================================")
 			if int(plan[0]) == int(plan_info['PRODUCT']) \
 				and plan[1] == plan_info['REASON_CODE_ORACLE']:
 				plan_temp = plan_info
 				print (plan_temp)
 
-				if plan[3] == plan_info['UNIT_OPTION'] and plan[2] == plan_info['EFORM_TYPE']:
+				if plan[3] == plan_info['UNIT_OPTION'] and plan[2] == plan_info['FORM_TYPE']:
 					temp = plan_info
 
 					temp['CAMPAIGN_MANUAL_MAP'] = []
@@ -106,15 +106,17 @@ def ReadTableManualMap(connect, path_data):
 					temp['USER_MAP'] = plan[4]
 					list_plan_diff.append(temp)
 					flag = False
+					print ("----- Tim thay plan")
 		# ----------- Plan moi duoc tao -----------------
 		if flag:
 			temp = plan_temp
-			temp['UNIT_OPTION'] = plan_info['UNIT_OPTION']
-			temp['EFORM_TYPE'] = plan_info['EFORM_TYPE']
+			temp['UNIT_OPTION'] = plan[3]
+			temp['FORM_TYPE'] = plan_info[2]
 			temp['CAMPAIGN_MANUAL_MAP'] = []
 			temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
 			temp['USER_MAP'] = plan[4]
 			list_plan_diff.append(temp)
+			print ("----- Them plan")
 
 	print (list_plan_diff)
 	return (list_plan_diff)
