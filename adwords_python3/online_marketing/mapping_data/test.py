@@ -18,7 +18,12 @@ def ReadPlan(path_folder):
   with open (file_plan, 'r') as f:
     list_plan = json.load(f)
     return list_plan
-
+    
+def ParseFormatDate(date):
+	temp = date.split('/')
+	d = temp[2] + '-' + temp[0] + '-' + temp[1] 
+	d = str(datetime.strptime(d, '%Y-%m-%d').date())
+	return d
 
 def ReadTableManualMap(connect, path_data):
 	path_folder = os.path.join(path_data, 'DATA_MAPPING/LOG_MANUAL')
@@ -51,7 +56,6 @@ def ReadTableManualMap(connect, path_data):
 	print (log_manual)
 	list_diff = []
 	#------------- Check manual map change ---------------------
-	if 
 	if (len(log_manual) != len(data_manual_map) or (data_manual_map['MANUAL_MAP'] == [])):
 		for data in log_manual:
 			flag = True
