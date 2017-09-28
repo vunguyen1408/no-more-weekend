@@ -44,7 +44,7 @@ def ConvertJsonPlan(value):
 		json_['CMONTH'] = '0' + value['CMONTH']
 	else:
 		json_['CMONTH'] = value['CMONTH']	
-	json_['SNAPSHOT_DATE'] = json_['CYEAR'] + '-' + value['CMONTH']
+	json_['SNAPSHOT_DATE'] = json_['CYEAR'] + '-' + json_['CMONTH']
 	json_['LEGAL'] = value['LEGAL']
 	json_['DEPARTMENT'] = value['DEPARTMENT']
 
@@ -142,7 +142,7 @@ def getProductID(value):
 def ConvertJsonCamp(value):
 	json_ = {}	
 
-	json_['SNAPSHOT_DATE'] = value['Date'][0:7]
+	json_['SNAPSHOT_DATE'] = value['Date']
 	json_['CYEAR'] = value['Date'][0:4]
 	json_['CMONTH'] = value['Date'][5:7]
 	
@@ -239,7 +239,7 @@ def ReportDetailUnmap(path_data, connect):
 	
 	#================== Unmap Plan data ==============================
 	iter = 0
-	for value in data['plan']:
+	for value in data['UN_PLAN']:
 		if (len(value['CAMPAIGN']) == 0):
 			json_ = ConvertJsonPlan(value)
 			# print(json_)
@@ -250,7 +250,7 @@ def ReportDetailUnmap(path_data, connect):
 	#================== Unmap Campaign data ==============================
 	iter = 0
 	# sumCampaign(data['campaign'])
-	for value in data['campaign']:
+	for value in data['UN_CAMPAIGN']:
 		if (value['Plan'] is None):
 			json_ = ConvertJsonCamp(value)
 			# print(json_)
