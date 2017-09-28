@@ -54,11 +54,11 @@ def ConvertJsonMonthlySum(index, value):
 	json_['PRODUCT_ID'] = value['PRODUCT'] 
 
 	json_['NET_ACTUAL'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['COST']	 
-	json_['VOLUMN_ACTUAL'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['VOLUMN_ACTUAL']
+	json_['VOLUMN_ACTUAL'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL']
 	if (json_['VOLUMN_ACTUAL'] == 0):
 		json_['UNIT_COST_ACTUAL'] = None
 	else:
-		json_['UNIT_COST_ACTUAL'] = float(json_['NET_ACTUAL']) / json_['VOLUMN_ACTUAL']
+		json_['UNIT_COST_ACTUAL'] = float(json_['NET_ACTUAL']) / json_['VOLUME_ACTUAL']
 	json_['APPSFLYER_INSTALL'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['INSTALL']
 
 	return json_
