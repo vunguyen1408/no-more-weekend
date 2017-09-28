@@ -66,14 +66,12 @@ def ReadTableManualMap(connect, path_data):
 				and data[3] == data_local[3] \
 				and data[4] == data_local[4] \
 				and data[5] == data_local[5] \
-				and data[6] == data_local[6] \
 				and ParseFormatDate(data[7]) == data_local[7] \
 				and ParseFormatDate(data[8]) == data_local[8]:
 					print ("---------------- Trung log")
 					flag = False
 			if flag:
 				temp = list(data)
-				temp[6] = data[6]
 				temp[7] = ParseFormatDate(data[7])
 				temp[8] = ParseFormatDate(data[8])
 				list_diff.append(list(temp))
@@ -87,8 +85,7 @@ def ReadTableManualMap(connect, path_data):
 	for plan in list_diff:
 		# ----------- Create data campaign ----------------
 		campaign = {}
-		campaign['CAMPAIGN_ID'] = plan[6]
-		campaign['UPDATE_DATE'] = plan[7]
+		campaign['CAMPAIGN_ID'] = plan[5]
 		flag = True
 		for plan_info in list_plan:
 			print (plan_info['PRODUCT'])
