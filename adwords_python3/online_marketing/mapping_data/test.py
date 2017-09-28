@@ -111,7 +111,7 @@ def ReadTableManualMap(connect, path_data):
 		if flag:
 			temp = plan_temp
 			temp['UNIT_OPTION'] = plan[3]
-			temp['FORM_TYPE'] = plan_info[2]
+			temp['FORM_TYPE'] = plan[2]
 			temp['CAMPAIGN_MANUAL_MAP'] = []
 			temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
 			temp['USER_MAP'] = plan[4]
