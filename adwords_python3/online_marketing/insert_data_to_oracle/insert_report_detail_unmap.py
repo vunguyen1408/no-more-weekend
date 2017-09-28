@@ -266,5 +266,5 @@ def ReportDetailUnmap(path_data, connect):
 
 
 # path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/DATA_MAPPING/mapping_final.json'
-path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/mapping_final.json'
+path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/total_mapping.json'
 ReportDetailUnmap(path_data, connect)

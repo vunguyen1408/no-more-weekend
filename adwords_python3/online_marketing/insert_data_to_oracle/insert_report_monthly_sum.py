@@ -82,5 +82,5 @@ def ReportMonthlySum(path_data, connect):
 	cursor.close()
 
 
-path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/monthly3.json'
+path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/total_mapping.json'
 ReportMonthlySum(path_data, connect)
