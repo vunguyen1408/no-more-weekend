@@ -205,6 +205,19 @@ def ConvertJsonCamp(value):
 
 	print(type(json_['GG_APPSFLYER_INSTALL']), type(value['INSTALL']))
 	print(type(json_['CAMPAIGN_ID']), type(value['Campaign ID']))
+	print(type(value['Views']))
+	print(type(value['Conversions']))
+	print(type(value['Invalid clicks']))
+	print(type(value['Engagements']))
+	print(type(value['CTR']))
+	print(type(value['Impressions']))
+	print(type(value['Interactions']))
+	print(type(value['Clicks']))
+	print(type(value['INSTALL']))
+	print(type(value['Bid Strategy Type']))
+	print(type(value['Campaign ID']))
+	print(type(value['Campaign']))
+	
 
 
 	return json_
