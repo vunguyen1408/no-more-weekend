@@ -38,17 +38,17 @@ def InsertMonthlyDetail(value, cursor):
 def MergerMonthlyDetail(value, cursor):
 	#==================== Insert data into database =============================
 	statement = """MERGER INTO DTM_GG_PIVOT_DETAIL \
-		ON (SNAPSHOT_DATE = :value['SNAPSHOT_DATE'] and PRODUCT = :value['PRODUCT'] and \
-		REASON_CODE_ORACLE = :value['REASON_CODE_ORACLE'] and EFORM_TYPE = :value['EFORM_TYPE'] and \
-		UNIT_OPTION = :value['UNIT_OPTION'])\
+		ON (SNAPSHOT_DATE = value['SNAPSHOT_DATE'] and PRODUCT = value['PRODUCT'] and \
+		REASON_CODE_ORACLE = value['REASON_CODE_ORACLE'] and EFORM_TYPE = value['EFORM_TYPE'] and \
+		UNIT_OPTION = value['UNIT_OPTION'])\
 	WHEN MATCHED THEN
-		UPDATE SET GG_VIEWS = :value['GG_VIEWS'] and GG_CONVERSION = :value['GG_CONVERSION'] \
-			and GG_INVALID_CLICKS = :value['GG_INVALID_CLICKS'] and GG_ENGAGEMENTS = :value['GG_ENGAGEMENTS'] \
-			and GG_VIDEO_VIEW = :value['GG_VIDEO_VIEW'] and GG_CTR = :value['GG_CTR']\
-			and GG_IMPRESSIONS = :value['GG_IMPRESSIONS'] and GG_INTERACTIONS = :value['GG_INTERACTIONS'] \
-			and GG_CLICKS = :value['GG_CLICKS'] and GG_INTERACTION_TYPE = :value['GG_INTERACTION_TYPE']\
-			and GG_COST = :value['GG_COST'] and GG_SPEND = :value['GG_SPEND'], \
-			and GG_APPSFLYER_INSTALL = :value['GG_APPSFLYER_INSTALL'] and GG_STRATEGY_BID_TYPE = :value['GG_STRATEGY_BID_TYPE']
+		UPDATE SET GG_VIEWS = value['GG_VIEWS'] and GG_CONVERSION = value['GG_CONVERSION'] \
+			and GG_INVALID_CLICKS = value['GG_INVALID_CLICKS'] and GG_ENGAGEMENTS = value['GG_ENGAGEMENTS'] \
+			and GG_VIDEO_VIEW = value['GG_VIDEO_VIEW'] and GG_CTR = value['GG_CTR']\
+			and GG_IMPRESSIONS = value['GG_IMPRESSIONS'] and GG_INTERACTIONS = value['GG_INTERACTIONS'] \
+			and GG_CLICKS = value['GG_CLICKS'] and GG_INTERACTION_TYPE = value['GG_INTERACTION_TYPE']\
+			and GG_COST = value['GG_COST'] and GG_SPEND = value['GG_SPEND'], \
+			and GG_APPSFLYER_INSTALL = value['GG_APPSFLYER_INSTALL'] and GG_STRATEGY_BID_TYPE = value['GG_STRATEGY_BID_TYPE']
 	WHEN NOT MATCHED THEN
 		INSERT (SNAPSHOT_DATE, CYEAR, CMONTH, LEGAL, DEPARTMENT, \
 		DEPARTMENT_NAME, PRODUCT, PRODUCT_NAME, REASON_CODE_ORACLE, EFORM_NO, \
@@ -60,16 +60,16 @@ def MergerMonthlyDetail(value, cursor):
 		GG_INVALID_CLICKS, GG_ENGAGEMENTS, GG_VIDEO_VIEW, GG_CTR, GG_IMPRESSIONS, \
 		GG_INTERACTIONS, GG_CLICKS, GG_INTERACTION_TYPE, GG_COST, GG_SPEND, \
 		GG_APPSFLYER_INSTALL, GG_STRATEGY_BID_TYPE) \
-		VALUES (:value['SNAPSHOT_DATE'], :value['CYEAR'], :value['CMONTH'], :value['LEGAL'], :value['DEPARTMENT'], \
-		:value['DEPARTMENT_NAME'], :value['PRODUCT'], :value['PRODUCT_NAME'], :value['REASON_CODE_ORACLE'], :value['EFORM_NO'], \
-		:value['START_DATE'], :value['END_DATE'], :value['CHANNEL'], :value['UNIT_COST'], :value['AMOUNT_USD'], \
-		:value['CVALUE'], :value['ENGAGEMENT'], :value['IMPRESSIONS'], :value['REACH'], :value['FREQUENCY'], \
-		:value['CLIKE'], :value['CLICKS_ALL'], :value['LINK_CLICKS'], :value['CVIEWS'], :value['C3S_VIDEO_VIEW'], \
-		:value['INSTALL'], :value['NRU'], :value['EFORM_TYPE'], :value['UNIT_OPTION'], :value['OBJECTIVE'], \
-		:value['EVENT_ID'], :value['PRODUCT_ID'], :value['CCD_NRU'], :value['GG_VIEWS'], :value['GG_CONVERSION'], \
-		:value['GG_INVALID_CLICKS'], :value['GG_ENGAGEMENTS'], :value['GG_VIDEO_VIEW'], :value['GG_CTR'], :value['GG_IMPRESSIONS'], \
-		:value['GG_INTERACTIONS'], :value['GG_CLICKS'], :value['GG_INTERACTION_TYPE'], :value['GG_COST'], :value['GG_SPEND'], \
-		:value['GG_APPSFLYER_INSTALL'], :value['GG_STRATEGY_BID_TYPE'])"""
+		VALUES (value['SNAPSHOT_DATE'], value['CYEAR'], value['CMONTH'], value['LEGAL'], value['DEPARTMENT'], \
+		value['DEPARTMENT_NAME'], value['PRODUCT'], value['PRODUCT_NAME'], value['REASON_CODE_ORACLE'], value['EFORM_NO'], \
+		value['START_DATE'], value['END_DATE'], value['CHANNEL'], value['UNIT_COST'], value['AMOUNT_USD'], \
+		value['CVALUE'], value['ENGAGEMENT'], value['IMPRESSIONS'], value['REACH'], value['FREQUENCY'], \
+		value['CLIKE'], value['CLICKS_ALL'], value['LINK_CLICKS'], value['CVIEWS'], value['C3S_VIDEO_VIEW'], \
+		value['INSTALL'], value['NRU'], value['EFORM_TYPE'], value['UNIT_OPTION'], value['OBJECTIVE'], \
+		value['EVENT_ID'], value['PRODUCT_ID'], value['CCD_NRU'], value['GG_VIEWS'], value['GG_CONVERSION'], \
+		value['GG_INVALID_CLICKS'], value['GG_ENGAGEMENTS'], value['GG_VIDEO_VIEW'], value['GG_CTR'], value['GG_IMPRESSIONS'], \
+		value['GG_INTERACTIONS'], value['GG_CLICKS'], value['GG_INTERACTION_TYPE'], value['GG_COST'], value['GG_SPEND'], \
+		value['GG_APPSFLYER_INSTALL'], value['GG_STRATEGY_BID_TYPE'])"""
 		
 	cursor.execute(statement)
 	
