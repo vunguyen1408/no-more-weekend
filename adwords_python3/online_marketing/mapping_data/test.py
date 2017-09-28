@@ -11,6 +11,13 @@ from datetime import datetime , timedelta, date
 
 # ==================== Connect database =======================
 
+def ReadPlan(path_folder):
+  # =============== List plan code ================  
+  file_plan = os.path.join(path_folder, 'plan.json')
+  list_plan = {}
+  with open (file_plan, 'r') as f:
+    list_plan = json.load(f)
+    return list_plan
 
 
 def ReadTableManualMap(connect, path_data):
@@ -61,7 +68,7 @@ def ReadTableManualMap(connect, path_data):
 			if flag:
 				list_diff.append(list(data))
 
-	list_plan = mapping.ReadPlan(path_data)
+	list_plan = ReadPlan(path_data)
 	print (list_diff)
 	# --------------- Get info plan ------------
 	list_plan_diff = []
