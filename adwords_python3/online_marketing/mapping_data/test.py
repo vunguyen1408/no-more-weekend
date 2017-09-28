@@ -83,6 +83,7 @@ def ReadTableManualMap(connect, path_data):
 			if int(plan[0]) == int(plan_info['PRODUCT']) \
 				and plan[1] == plan_info['REASON_CODE_ORACLE']:
 				plan_temp = plan_info
+				print (plan_temp)
 
 				if plan[3] == plan_info['UNIT_OPTION'] and plan[2] == plan_info['EFORM_TYPE']:
 					temp = plan_info
