@@ -53,10 +53,10 @@ def ConvertJsonMonthlySum(index, value):
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE'] 
 	json_['PRODUCT_ID'] = value['PRODUCT'] 
 
-	json_['NET_ACTUAL'] = value['MONTHLY'][index]['DATA_MONTHLY']['COST']	 
-	json_['VOLUMN_ACTUAL'] = value['MONTHLY'][index]['DATA_MONTHLY']['VOLUME_ACTUAL']
+	json_['NET_ACTUAL'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['COST']	 
+	json_['VOLUMN_ACTUAL'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['INSTALL']
 	json_['UNIT_COST_ACTUAL'] = float(json_['NET_ACTUAL']) / json_['VOLUMN_ACTUAL']
-	json_['APPSFLYER_INSTALL'] = value['MONTHLY'][index]['DATA_MONTHLY']['INSTALL']
+	json_['APPSFLYER_INSTALL'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['INSTALL']
 
 	return json_
 
@@ -71,7 +71,7 @@ def ReportMonthlySum(path_data, connect):
 	with open(path_data, 'r') as fi:
 		data = json.load(fi)
 
-	for value in data['MONTHLY']:
+	for value in data['TOTAL']:
 		for i in range(len(value['MONTHLY'])):			
 			json_ = ConvertJsonMonthlySum(i, value)
 			InsertMonthlySum(json_, cursor)

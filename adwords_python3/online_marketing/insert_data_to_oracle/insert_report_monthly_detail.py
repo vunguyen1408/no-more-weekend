@@ -88,9 +88,9 @@ def ConvertJsonMonthlyDetail(index, value):
 	json_['CLICKS_ALL'] = None
 	json_['LINK_CLICKS'] = None
 	if (value['CVIEWS'] is None):
-		json_['CVIEWS'] = float(value['CVIEWS'])
-	else:
 		json_['CVIEWS'] = value['CVIEWS']
+	else:
+		json_['CVIEWS'] = float(value['CVIEWS'])
 	json_['C3S_VIDEO_VIEW'] = None
 
 	if (value['INSTALL'] is None):		
@@ -108,22 +108,22 @@ def ConvertJsonMonthlyDetail(index, value):
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE']
 	json_['PRODUCT_ID'] = value['PRODUCT']
 	json_['CCD_NRU'] = None
-	json_['GG_VIEWS'] = value['MONTHLY'][index]['DATA_MONTHLY']['VIEWS']
-	json_['GG_CONVERSION'] = value['MONTHLY'][index]['DATA_MONTHLY']['CONVERSIONS']
+	json_['GG_VIEWS'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['VIEWS']
+	json_['GG_CONVERSION'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['CONVERSIONS']
 
-	json_['GG_INVALID_CLICKS'] = value['MONTHLY'][index]['DATA_MONTHLY']['INVALID_CLICKS']
-	json_['GG_ENGAGEMENTS'] = value['MONTHLY'][index]['DATA_MONTHLY']['ENGAGEMENTS']
-	json_['GG_VIDEO_VIEW'] = value['MONTHLY'][index]['DATA_MONTHLY']['VIEWS']
-	json_['GG_CTR'] = value['MONTHLY'][index]['DATA_MONTHLY']['CTR']
-	json_['GG_IMPRESSIONS'] = value['MONTHLY'][index]['DATA_MONTHLY']['IMPRESSIONS']
+	json_['GG_INVALID_CLICKS'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['INVALID_CLICKS']
+	json_['GG_ENGAGEMENTS'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['ENGAGEMENTS']
+	json_['GG_VIDEO_VIEW'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['VIEWS']
+	json_['GG_CTR'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['CTR']
+	json_['GG_IMPRESSIONS'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['IMPRESSIONS']
 
-	json_['GG_INTERACTIONS'] = value['MONTHLY'][index]['DATA_MONTHLY']['INTERACTIONS']
-	json_['GG_CLICKS'] = value['MONTHLY'][index]['DATA_MONTHLY']['CLICKS']
+	json_['GG_INTERACTIONS'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['INTERACTIONS']
+	json_['GG_CLICKS'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['CLICKS']
 	json_['GG_INTERACTION_TYPE'] = ''
-	json_['GG_COST'] = value['MONTHLY'][index]['DATA_MONTHLY']['COST']
-	json_['GG_SPEND'] = value['MONTHLY'][index]['DATA_MONTHLY']['COST']
+	json_['GG_COST'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['COST']
+	json_['GG_SPEND'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['COST']
 
-	json_['GG_APPSFLYER_INSTALL'] = value['MONTHLY'][index]['DATA_MONTHLY']['INSTALL']
+	json_['GG_APPSFLYER_INSTALL'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['INSTALL']
 	json_['GG_STRATEGY_BID_TYPE'] = ''
 
 	return json_
@@ -145,7 +145,7 @@ def ReportMonthlyDetail(path_data, connect):
 	# 	 	if value[i] is None:
 	# 	 		value[i] = 0
 
-	for value in data['MONTHLY']:
+	for value in data['TOTAL']:
 		for i in range(len(value['MONTHLY'])):			
 			json_ = ConvertJsonMonthlyDetail(i, value)
 			InsertMonthlyDetail(json_, cursor)

@@ -52,8 +52,8 @@ def ConvertJsonPlanSum(value):
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE'] 
 	json_['PRODUCT_ID'] = value['PRODUCT'] 
 
-	json_['NET_ACTUAL'] = value['DATA_MONTHLY']['COST']	 
-	json_['VOLUMN_ACTUAL'] = value['DATA_MONTHLY']['VOLUME_ACTUAL']
+	json_['NET_ACTUAL'] = value['TOTAL_CAMPAIGN']['COST']	 
+	json_['VOLUMN_ACTUAL'] = value['TOTAL_CAMPAIGN']['INSTALL']
 	json_['UNIT_COST_ACTUAL'] = float(json_['NET_ACTUAL']) / json_['VOLUMN_ACTUAL']
 	json_['APPSFLYER_INSTALL'] = None
 
@@ -68,7 +68,7 @@ def ReportPlanSum(path_data, connect):
 	with open(path_data, 'r') as fi:
 		data = json.load(fi)
 
-	for value in data['MONTHLY']:		
+	for value in data['TOTAL']:		
 		json_ = ConvertJsonPlanSum(value)
 		InsertPlanSum(json_, cursor)
 
