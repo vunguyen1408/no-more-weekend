@@ -20,11 +20,12 @@ def ReadTableManualMap(connect, path_data):
 		os.makedirs(path_folder)
 
 	if not os.path.exists(path_data_total_map):
+		data_manual_map = {}
+		data_manual_map['MANUAL_MAP'] = []
 		with open (path_data_total_map,'w') as f:
-			data_manual_map = {}
-			data_manual_map['MANUAL_MAP'] = []
 			json.dump(data_manual_map, f)
 
+	print (path_data_total_map)
 	with open (path_data_total_map,'r') as f:
 		data_manual_map = json.load(f)
 
