@@ -198,7 +198,8 @@ def ConvertJsonCamp(value):
 	json_['GG_COST'] = value['Cost']
 	json_['GG_SPEND'] = value['Cost']
 
-	json_['GG_APPSFLYER_INSTALL'] = None
+	json_['GG_APPSFLYER_INSTALL'] = value['INSTALL']
+	print(json_['GG_APPSFLYER_INSTALL'])
 	json_['GG_STRATEGY_BID_TYPE'] = value['Bid Strategy Type']
 	json_['CAMPAIGN_ID'] = value['Campaign ID']
 	json_['CAMPAIGN_NAME'] = value['Campaign']
@@ -266,5 +267,5 @@ def ReportDetailUnmap(path_data, connect):
 
 
 # path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/DATA_MAPPING/mapping_final.json'
-path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/total_mapping.json'
+path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/total_mapping1.json'
 ReportDetailUnmap(path_data, connect)
