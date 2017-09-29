@@ -111,7 +111,7 @@ def ReadPlanFromTbale(connect, path_folder, date):
   cursor.execute(query)
   row = cursor.fetchall()
   temp = list(row)
-  #print (row)
+  print (row)
 
 
   #===================== Convert data into json =================================
