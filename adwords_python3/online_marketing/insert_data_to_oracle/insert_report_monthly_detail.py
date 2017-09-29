@@ -38,18 +38,19 @@ def InsertMonthlyDetail(value, cursor):
 def UpdateMonthlyDetail(value, cursor):
 	#==================== Insert data into database =============================
 	statement = 'update DTM_GG_PIVOT_DETAIL \
-	set PRODUCT = :1 and REASON_CODE_ORACLE = :2 and EFORM_TYPE = :3 and UNIT_OPTION = :4\
-	where GG_VIEWS = :5 and GG_CONVERSION = :6 and GG_INVALID_CLICKS = :7 \
-	and GG_ENGAGEMENTS = :8 and GG_VIDEO_VIEW = :9 and GG_CTR = :10, \
-	GG_IMPRESSIONS = : 11 and GG_INTERACTIONS = :12 and GG_CLICKS = :13\
-	GG_COST = :14, GG_SPEND = :15 and GG_APPSFLYER_INSTALL = :16'
+	set GG_VIEWS = :1 and GG_CONVERSION = :2 and GG_INVALID_CLICKS = :3 \
+	and GG_ENGAGEMENTS = :4 and GG_VIDEO_VIEW = :5 and GG_CTR = :6, \
+	GG_IMPRESSIONS = : 7 and GG_INTERACTIONS = :8 and GG_CLICKS = :9\
+	GG_COST = :10, GG_SPEND = :11 and GG_APPSFLYER_INSTALL = :12 \
+	where PRODUCT = :13 and REASON_CODE_ORACLE = :14 and EFORM_TYPE = :15 and UNIT_OPTION = :16'
 	
 		
-	cursor.execute(statement, (value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION'],\
+	cursor.execute(statement, (
 		value['GG_VIEWS'], value['GG_CONVERSION'], value['GG_INVALID_CLICKS'], \
 		value['GG_ENGAGEMENTS'], value['GG_VIDEO_VIEW'], value['GG_CTR'], \
 		value['GG_IMPRESSIONS'], value['GG_INTERACTIONS'], value['GG_CLICKS'], \
-		value['GG_COST'], value['GG_SPEND'], value['GG_APPSFLYER_INSTALL']))
+		value['GG_COST'], value['GG_SPEND'], value['GG_APPSFLYER_INSTALL'], \
+		value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION']))
 
 	print("A row updated!.......")
 
@@ -61,7 +62,7 @@ def MergerMonthlyDetail(value, cursor):
 		
 	cursor.execute(statement, (value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION']))
 	res = list(cursor.fetchall())
-	
+	print(res)
 	if (len(res) == 0):
 		InsertMonthlyDetail(value, cursor)
 	else:
@@ -191,5 +192,5 @@ def ReportMonthlyDetail(path_data, connect):
 
 
 
-path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/total_mapping.json'
+path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/total_mapping1.json'
 ReportMonthlyDetail(path_data, connect)
