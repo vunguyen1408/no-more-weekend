@@ -138,7 +138,7 @@ def ReadPlanFromTable(connect, path_folder, date):
       val = value   
       if isinstance(value, datetime.datetime):            
         val = value.strftime('%Y-%m-%d')
-      elif (not isinstance(value, int)):
+      elif (not isinstance(value, int)) and (value is not None):
         if (value.isdigit() or value.replace(".", "").isdigit()):
           val = float(value)
       list_temp.append(val)
