@@ -130,13 +130,13 @@ def ReadPlanFromTbale(connect, path_folder, date):
       val = value   
       if isinstance(value, datetime.datetime):            
         val = value.strftime('%Y-%m-%d')
-      # elif (!isinstance(value, int)):
-      #   if (value.isdigit() or value.replace(".", "").isdigit()):
-      #     val = float(value)
+      elif (isinstance(value, str)):
+        if (value.isdigit() or value.replace(".", "").isdigit()):
+          val = float(value)
       list_temp.append(val)
     for i in range(len(list_key)):
       unmap[list_key[i]] = list_temp[i]
-    list_json.append(json)
+    list_json.append(unmap)
 
   with open (file_plan, 'w') as f:
     json.dump(list_json, f)
