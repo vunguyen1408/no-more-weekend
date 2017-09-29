@@ -193,6 +193,7 @@ def CaculatorTotalMonth(plan, date):
 			# So ngay tu start_day den hien tai (co the tren lech 1 ngay)
 			number_date = CaculatorNumberDate(plan['START_DAY'], date)
 			plan['MONTHLY'] = CaculatorListMonth(plan['START_DAY'], date)
+		print (plan['MONTHLY'])
 		for m in plan['MONTHLY']:
 			if m['MONTH'] <= month:
 				# Da co data
@@ -261,7 +262,6 @@ def MergeDataToTotal(path_data, date):
 	for plan in data_total['TOTAL']:
 		plan['MONTHLY'] = {}
 		plan = CaculatorTotalMonth(plan, date)
-		print (plan['MONTHLY'])
 
 	# --------------- Insert data map -------------------
 	data_total['MAP'].extend(list_data_map)
