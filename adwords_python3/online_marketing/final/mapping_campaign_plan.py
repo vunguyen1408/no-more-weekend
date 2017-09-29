@@ -52,9 +52,9 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
         camp['Plan'] = None
         camp['STATUS'] = None
       if (camp['Mapping'] == False): 
-        if eform['PRODUCT_CODE'] != '':
-          print (type(eform['PRODUCT_CODE']))
-          print (camp['Campaign'])
+        if eform['PRODUCT'] != '221' and eform['PRODUCT_CODE'] != 'JXM':
+          print (eform)
+
         if (  (eform['PRODUCT_CODE'] != '') and (camp['Campaign'].find(eform['PRODUCT_CODE']) == 0) and \
           (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
           (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) == 0) and \
@@ -177,7 +177,6 @@ def AddProductCode(path_folder, list_plan, date):
 
   for plan in list_plan['plan']:
     for alias in data['ALIAS']:
-      print (type(alias['PRODUCT_ID']))
       if alias['PRODUCT_ID'] is not None:
         if int(plan['PRODUCT']) == int(alias['PRODUCT_ID']):
           plan['PRODUCT_CODE'] = str(alias['GG_PRODUCT'])
