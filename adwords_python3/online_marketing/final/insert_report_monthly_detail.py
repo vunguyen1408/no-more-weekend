@@ -190,7 +190,7 @@ def ReportMonthlyDetail(path_data, connect):
 	cursor.close()
 
 
-def InsertMonthlyDetailToDatabase(path_data, connect, list_plan_remove, list_plan_remove, list_camp_remove):
+def InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	ReportMonthlyDetail(path_data_total_map, connect)
 
