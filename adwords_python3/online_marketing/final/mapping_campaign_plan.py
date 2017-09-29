@@ -161,9 +161,9 @@ def MapWithDate(customer_id, path_data, start_date, end_date):
     data_map = MapData(customer_id, path_data, str(date))
     date = date + timedelta(1)
 
-startDate = '2017-06-01'
-endDate = '2017-06-01'
-path_data = 'C:/Users/ltduo/Desktop/VNG/DATA/END'
-list_customer_id = ['5008396449', '9021114325', '9420329501']
-for customer_id in list_customer_id:
-  MapWithDate(customer_id, path_data, startDate, endDate)
+# startDate = '2017-06-01'
+# endDate = '2017-06-01'
+# path_data = 'C:/Users/ltduo/Desktop/VNG/DATA/END'
+# list_customer_id = ['5008396449', '9021114325', '9420329501']
+# for customer_id in list_customer_id:
+#   MapWithDate(customer_id, path_data, startDate, endDate)
