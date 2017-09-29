@@ -180,7 +180,7 @@ def CaculatorListMonth(start_date, end_date):
 def CaculatorTotalMonth(plan, date):
 	plan['NUMBER_DATE'] = CaculatorNumberDate(plan['START_DAY'], plan['END_DAY_ESTIMATE'])
 
-	if datetime.strptime(plan['START_DAY'], '%Y-%m-%d').date() < datetime.strptime(date, '%Y-%m-%d').date():
+	if datetime.strptime(plan['START_DAY'], '%Y-%m-%d').date() <= datetime.strptime(date, '%Y-%m-%d').date():
 		# Thang hien tai dang mapping
 		month = int(date[5:-3])
 		end_date = datetime.strptime(plan['END_DAY_ESTIMATE'], '%Y-%m-%d').date()
