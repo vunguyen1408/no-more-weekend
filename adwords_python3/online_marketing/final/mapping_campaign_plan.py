@@ -175,8 +175,11 @@ def AddProductCode(path_folder, list_plan, date):
 
   for plan in list_plan['plan']:
     for alias in data['ALIAS']:
-      if int(plan['PRODUCT']) == int(alias['PRODUCT_ID']):
-        plan['PRODUCT_CODE'] = str(alias['GG_PRODUCT'])
+      if alias['PRODUCT_ID'] is not None:
+        if int(plan['PRODUCT']) == int(alias['PRODUCT_ID']):
+          plan['PRODUCT_CODE'] = str(alias['GG_PRODUCT'])
+      else:
+        plan['PRODUCT_CODE'] = ''
   return list_plan
 
 #================= Read list plan, product code, save file mapping =====================
