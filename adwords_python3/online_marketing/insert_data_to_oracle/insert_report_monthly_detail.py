@@ -35,6 +35,40 @@ def InsertMonthlyDetail(value, cursor):
 	print("A row inserted!.......")
 
 
+def UpdateMonthlyDetail(value, cursor):
+	#==================== Insert data into database =============================
+	statement = 'update DTM_GG_PIVOT_DETAIL \
+	set PRODUCT = :1 and REASON_CODE_ORACLE = :2 and EFORM_TYPE = :3 and UNIT_OPTION = :4\
+	where GG_VIEWS = :5 and GG_CONVERSION = :6 and GG_INVALID_CLICKS = :7 \
+	and GG_ENGAGEMENTS = :8 and GG_VIDEO_VIEW = :9 and GG_CTR = :10, \
+	GG_IMPRESSIONS = : 11 and GG_INTERACTIONS = :12 and GG_CLICKS = :13\
+	GG_COST = :14, GG_SPEND = :15 and GG_APPSFLYER_INSTALL = :16'
+	
+		
+	cursor.execute(statement, (value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION'],\
+		value['GG_VIEWS'], value['GG_CONVERSION'], value['GG_INVALID_CLICKS'], \
+		value['GG_ENGAGEMENTS'], value['GG_VIDEO_VIEW'], value['GG_CTR'], \
+		value['GG_IMPRESSIONS'], value['GG_INTERACTIONS'], value['GG_CLICKS'], \
+		value['GG_COST'], value['GG_SPEND'], value['GG_APPSFLYER_INSTALL']))
+
+	print("A row updated!.......")
+
+
+def MergerMonthlyDetail(value, cursor):
+	#==================== Insert data into database =============================
+	statement = 'select * from DTM_GG_PIVOT_DETAIL \
+	where PRODUCT = :1 and REASON_CODE_ORACLE = :2 and EFORM_TYPE = :3 and UNIT_OPTION = :4'	
+		
+	cursor.execute(statement, (value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION']))
+	res = list(cursor.fetchall())
+	
+	if (len(res) == 0):
+		InsertMonthlyDetail(value, cursor)
+	else:
+		UpdateMonthlyDetail(value, cursor)
+	print("	A row mergered!.......")
+
+
 def ConvertJsonMonthlyDetail(index, value):
 	json_ = {}	
 
@@ -148,7 +182,7 @@ def ReportMonthlyDetail(path_data, connect):
 	for value in data['TOTAL']:
 		for i in range(len(value['MONTHLY'])):			
 			json_ = ConvertJsonMonthlyDetail(i, value)
-			InsertMonthlyDetail(json_, cursor)
+			MergerMonthlyDetail(json_, cursor)
 
 	#==================== Commit and close connect ===============================
 	conn.commit()
