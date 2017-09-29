@@ -21,7 +21,36 @@ def InsertPlanSum(value, cursor):
 		value['NET_BUDGET'], value['UNIT_COST'], value['VOLUMN'], value['EVENT_ID'], value['PRODUCT_ID'], \
 		value['NET_ACTUAL'], value['UNIT_COST_ACTUAL'], value['VOLUMN_ACTUAL'], value['APPSFLYER_INSTALL']))	
 	
-	print("A row inserted!.......")
+	print("   A row inserted!.......")
+
+def UpdatePlanSum(value, cursor):
+	#==================== Insert data into database =============================
+	statement = 'update DTM_GG_PLAN_SUM \
+	set NET_ACTUAL = :1, UNIT_COST_ACTUAL = :2, \
+	VOLUMN_ACTUAL = :3, APPSFLYER_INSTALL = :4 \
+	where PRODUCT = :5 and REASON_CODE_ORACLE = :6 and EFORM_TYPE = :7 and UNIT_OPTION = :8'
+	
+		
+	cursor.execute(statement, (value['NET_ACTUAL'], value['UNIT_COST_ACTUAL'], \
+		value['VOLUMN_ACTUAL'], value['APPSFLYER_INSTALL'], \
+		value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION']))
+
+	print("   A row updated!.......")
+
+
+def MergerPlanSum(value, cursor):
+	#==================== Insert data into database =============================
+	statement = 'select * from DTM_GG_PLAN_SUM \
+	where PRODUCT = :1 and REASON_CODE_ORACLE = :2 and EFORM_TYPE = :3 and UNIT_OPTION = :4'	
+		
+	cursor.execute(statement, (value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION']))
+	res = list(cursor.fetchall())
+	
+	if (len(res) == 0):
+		InsertPlanSum(value, cursor)
+	else:
+		UpdatePlanSum(value, cursor)
+	print("A row mergered!.......")
 
 
 def ConvertJsonPlanSum(value):
@@ -73,14 +102,15 @@ def ReportPlanSum(path_data, connect):
 
 	for value in data['TOTAL']:		
 		json_ = ConvertJsonPlanSum(value)
-		InsertPlanSum(json_, cursor)
+		MergerPlanSum(json_, cursor)
 
 	#==================== Commit and close connect ===============================
 	conn.commit()
 	print("Committed!.......")
 	cursor.close()
 
-def InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove):
+
+def InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	ReportMonthlyDetail(path_data_total_map, connect)
 

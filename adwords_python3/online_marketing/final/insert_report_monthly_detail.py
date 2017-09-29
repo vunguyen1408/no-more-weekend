@@ -1,6 +1,5 @@
 import cx_Oracle
 import json
-import os
 from datetime import datetime , timedelta, date
 
 
@@ -179,12 +178,10 @@ def ReportMonthlyDetail(path_data, connect):
 	# 	for i in value:		 	
 	# 	 	if value[i] is None:
 	# 	 		value[i] = 0
-	print ("11111111111111111111111111111111111111111111111")
+
 	for value in data['TOTAL']:
-		print ("2222222222222222222222222222222222222222222222222")
 		for i in range(len(value['MONTHLY'])):			
 			json_ = ConvertJsonMonthlyDetail(i, value)
-			print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
 			MergerMonthlyDetail(json_, cursor)
 
 	#==================== Commit and close connect ===============================
