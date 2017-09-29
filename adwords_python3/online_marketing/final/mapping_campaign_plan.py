@@ -34,10 +34,10 @@ def ChangeCampaignType(campaign_type):
   return campaign_type
 
 def LogManualMap(path_data, campaign, plan, date):
-  path_folder = os.path.join(path_data, str(date) + '/LOG_MANUAL')
-  path_data_total_map = os.path.join(path_folder, 'log_manual.json')
-  with open (path_data_total_map,'r') as f:
-    data_manual_map = json.load(f)
+  # path_folder = os.path.join(path_data, str(date) + '/LOG_MANUAL')
+  # path_data_total_map = os.path.join(path_folder, 'log_manual.json')
+  # with open (path_data_total_map,'r') as f:
+  #   data_manual_map = json.load(f)
   return False
 
 #================= Mapping campaign and plan =====================
