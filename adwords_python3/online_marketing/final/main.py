@@ -79,12 +79,12 @@ def Daily(connect, path_data, date):
 	time_insert_total = time.time() - insert_total
 	print ("            Time insert data mapping to total : ", time_insert_total)
 
-	#=============================== Manual mapping =========================================
-	# print ("\n\n============= RUN INSERT MANUAL MAPPING TO TOTAL WITH DATE : " + date + " =================")
-	# insert_manual = time.time()
-	# list_plan_remove, list_plan_remove, list_camp_remove = manual.GetCampaignUnMapForManualMap(connect, path_data, date)
-	# time_insert_manual = time.time() - insert_manual
-	# print ("---------- Time insert manual mapping to total : ", time_insert_manual)
+	# =============================== Manual mapping =========================================
+	print ("\n\n============= RUN INSERT MANUAL MAPPING TO TOTAL WITH DATE : " + date + " =================")
+	insert_manual = time.time()
+	list_plan_remove, list_plan_remove, list_camp_remove = manual.GetCampaignUnMapForManualMap(connect, path_data, date)
+	time_insert_manual = time.time() - insert_manual
+	print ("---------- Time insert manual mapping to total : ", time_insert_manual)
 
 	#=============================== Update to database =========================================
 	print ("\n\n============= RUN INSERT DATA TO DATABASE WITH DATE : " + date + " =================")
