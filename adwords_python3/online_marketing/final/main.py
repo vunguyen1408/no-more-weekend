@@ -57,7 +57,7 @@ def Daily(connect, path_data, date):
 	#======================== Mapping data for list account ============================
 	print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
 	mapping = time.time()
-	# mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
+	mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
 	time_mapping = time.time() - mapping
 	print ("---------- Time maping: ", time_mapping)
 
@@ -66,7 +66,7 @@ def Daily(connect, path_data, date):
 	#============================== Merge data ===============================
 	print ("\n\n======================= RUN MERGE WITH DATE : " + date + " =========================")
 	merge = time.time()
-	# merge_date.Merge(path_data, list_customer_id, date)
+	merge_date.Merge(path_data, list_customer_id, date)
 	time_merge = time.time() - merge
 	print ("---------- Time merge: ", time_merge)
 
@@ -91,7 +91,7 @@ def Daily(connect, path_data, date):
 	list_plan_remove = []
 	list_map = []
 	list_camp_remove = []
-	monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
 	# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove)
 	# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove)
 	# detail_map.InsertDetailMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove)
