@@ -52,7 +52,7 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
         camp['Plan'] = None
         camp['STATUS'] = None
       if (camp['Mapping'] == False):  
-        if (eform['PRODUCT_CODE'] == 'jxm'):
+        if (eform['PRODUCT_CODE'] == 'JXM'):
           print (eform['PRODUCT_CODE'])
           print (camp['Campaign'])
         if (  (eform['PRODUCT_CODE'] != '') and (camp['Campaign'].find(eform['PRODUCT_CODE']) == 0) and \
