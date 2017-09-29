@@ -48,7 +48,7 @@ def Daily(connect, path_data, date):
 	time_insert = time.time() - insert_install
 
 	#------------------ Read log manual mapping ---------------------
-	# manual.ReadTableManualMap(connect, path_data, date)
+	manual.ReadTableManualMap(connect, path_data, date)
 	#----------------------------------------------------------------
 
 	print ("---------- Time insert install: ", time_insert)

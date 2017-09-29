@@ -19,7 +19,6 @@ def GetDataSummaryAppsFlyer(connect, date, media_source, path_file):
     statement = "select * from ods_appsflyer where SNAPSHOT_DATE \
     = to_date('" + date + "', 'mm/dd/yyyy') and MEDIA_SOURCE like '" + media_source +  "'"
 
-    print (statement)
     cursor.execute(statement)
 
     list_install = cursor.fetchall()
@@ -71,7 +70,6 @@ def InsetInstallToDate(path_data, list_install, list_customer_id, date):
             list_install_date.append(install)
 
     path_list_account_id = os.path.join(path_data, str(date) + '/ACCOUNT_ID')
-    print (path_list_account_id)
     # list_folder_account = next(os.walk(path_list_account_id))[1]
     list_folder_account = list_customer_id
 
