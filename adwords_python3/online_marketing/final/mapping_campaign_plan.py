@@ -201,20 +201,30 @@ def MapData(customer, path_folder, date):
   path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
   data_map = []
   
-  if not os.path.exists(path_data_map):
-    #--------------------------------------
+  with open (file_campaign, 'r') as f:
+    list_campaign = json.load(f)
 
-    with open (file_campaign, 'r') as f:
-      list_campaign = json.load(f)
+  data_map = MapAccountWithCampaign(path_folder, list_plan['plan'], list_campaign, date)
 
-    data_map = MapAccountWithCampaign(path_folder, list_plan['plan'], list_campaign, date)
+  #----------------- Write file map and unmap ------------------
+  path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
+  with open (path_data_map,'w') as f:
+    json.dump(data_map, f)
 
-    #----------------- Write file map and unmap ------------------
-    path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
-    with open (path_data_map,'w') as f:
-      json.dump(data_map, f)
-  else:
-    print ("----------------- MAPPED -------------------")
+  # if not os.path.exists(path_data_map):
+  #   #--------------------------------------
+
+  #   with open (file_campaign, 'r') as f:
+  #     list_campaign = json.load(f)
+
+  #   data_map = MapAccountWithCampaign(path_folder, list_plan['plan'], list_campaign, date)
+
+  #   #----------------- Write file map and unmap ------------------
+  #   path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
+  #   with open (path_data_map,'w') as f:
+  #     json.dump(data_map, f)
+  # else:
+  #   print ("----------------- MAPPED -------------------")
   return data_map
 
 def MapDataForAllAccount(list_customer, path_folder, date):
