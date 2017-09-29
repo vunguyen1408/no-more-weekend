@@ -88,11 +88,11 @@ def Daily(connect, path_data, date):
 	#=============================== Update to database =========================================
 	print ("\n\n============= RUN INSERT DATA TO DATABASE WITH DATE : " + date + " =================")
 	insert_databse = time.time()
-
-	monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_plan_remove, list_plan_remove, list_camp_remove)
-	monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_plan_remove, list_plan_remove, list_camp_remove)
-	plan_sum.InsertPlanSumToDatabase(path_data, connect, list_plan_remove, list_plan_remove, list_camp_remove)
-	detail_map.InsertDetailMapToDatabase(path_data, connect, list_plan_remove, list_plan_remove, list_camp_remove)
+	
+	# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove)
+	# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove)
+	# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove)
+	# detail_map.InsertDetailMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove)
 
 	time_insert_databse = time.time() - insert_databse
 	print ("---------- Time insert data to database : ", time_insert_total)
