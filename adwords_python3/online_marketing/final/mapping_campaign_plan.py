@@ -58,8 +58,7 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
           (date_ >= datetime.strptime(eform['START_DAY'], '%Y-%m-%d')) and \
           (date_ <= datetime.strptime(eform['END_DAY_ESTIMATE'], '%Y-%m-%d')) and (now <= datetime.strptime(eform['START_DAY'], '%Y-%m-%d')) ) \
           or \
-          ( LogManualMap(path_folder, camp, eform, date) ): 
-          print ("111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")  
+          ( LogManualMap(path_folder, camp, eform, date) ):   
           camp['Mapping'] = True
           plan = {}
           plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
