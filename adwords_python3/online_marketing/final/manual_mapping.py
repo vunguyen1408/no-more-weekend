@@ -79,7 +79,7 @@ def ReadTableManualMap(connect, path_data, date):
 				list_diff.append(list(temp))
 				print ("--------------- Da add them")
 
-	list_plan = mapping.ReadPlan(path_data)
+	list_plan = mapping.ReadPlan(path_data, str(date))
 	# --------------- Get info plan ------------
 	list_plan_diff = []
 	plan_temp = None
