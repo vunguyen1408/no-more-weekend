@@ -57,6 +57,7 @@ def AddInstall(path_file, list_install):
                 if str(campaign['Campaign ID']) == str(install[2]):
                     campaign['INSTALL'] = install[3]
                     print (campaign)
+    print (data['INSTALL'])
     with open(path_file, 'w') as f:
         json.dump(data, f)
 
