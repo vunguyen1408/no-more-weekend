@@ -35,7 +35,6 @@ def GetDataSummaryAppsFlyer(connect, date, media_source, path_file):
         temp.append(i[5])
         temp.append(i[6])
         list_out.append(temp)
-        print (temp)
     install = {}
     install['list_install'] = list_out
     with open(path_file, 'w') as f:

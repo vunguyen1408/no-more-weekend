@@ -140,7 +140,6 @@ def ReadPlanFromTable(connect, path_folder, date):
     list_json.append(unmap)
   plan_ = {}
   plan_['plan'] = list_json
-  print (plan_)
   with open (file_plan, 'w') as f:
     json.dump(plan_, f)
 

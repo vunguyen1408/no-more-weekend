@@ -44,12 +44,12 @@ def Daily(connect, path_data, date):
 	#======================== Insert install to data date ==============================
 	print ("\n\n======================= RUN INSTALL WITH DATE : " + date + " =========================")
 	insert_install = time.time()
-	install.RunInsertInstall(connect, path_data, list_customer_id, date)
+	# install.RunInsertInstall(connect, path_data, list_customer_id, date)
 	time_insert = time.time() - insert_install
 
 	#------------------ Read log manual mapping and get plan ---------------------
-	mapping_data.ReadPlanFromTable(connect, path_data, date)
-	manual.ReadTableManualMap(connect, path_data, date)
+	# mapping_data.ReadPlanFromTable(connect, path_data, date)
+	# manual.ReadTableManualMap(connect, path_data, date)
 	#----------------------------------------------------------------
 
 	print ("---------- Time insert install: ", time_insert)
@@ -58,7 +58,7 @@ def Daily(connect, path_data, date):
 	#======================== Mapping data for list account ============================
 	print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
 	mapping = time.time()
-	# mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
+	mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
 	time_mapping = time.time() - mapping
 	print ("---------- Time maping: ", time_mapping)
 
