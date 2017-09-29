@@ -7,15 +7,15 @@ import json
 from datetime import datetime , timedelta, date
 
 
-def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source, path_file):
+def GetDataSummaryAppsFlyer(connect, date, media_source, path_file):
     # ==================== Connect database =======================
     conn = cx_Oracle.connect(connect)
     cursor = conn.cursor()
 
-    # statement = statement = "select * from ods_appsflyer where SNAPSHOT_DATE >= to_date('" + start_date \
-    # + "', 'mm/dd/yyyy') and SNAPSHOT_DATE <= to_date('" + end_date + "', 'mm/dd/yyyy') and MEDIA_SOURCE like '" + media_source +  "'"
+    statement = "select * from ods_appsflyer where SNAPSHOT_DATE \
+    <= to_date('" + date + "', 'mm/dd/yyyy') and MEDIA_SOURCE like '" + media_source +  "'"
 
-    statement = statement = "select * from ods_appsflyer "
+    print (statement)
     cursor.execute(statement)
 
     list_install = cursor.fetchall()
@@ -98,7 +98,7 @@ def RunInsertInstall(connect, path_data, list_customer_id, date):
         os.makedirs(path_folder_appsflyer)
     path_file = os.path.join(path_folder_appsflyer, 'install.json')
 
-    GetDataSummaryAppsFlyer(connect, str(date), str(date), media_source, path_file)
+    GetDataSummaryAppsFlyer(connect, str(date), media_source, path_file)
     list_install = ReadDataInstall(path_file)
     InsetInstallToDate(path_data, list_install, list_customer_id, date)
     # print ("================= Insert install campleted ===================")
