@@ -13,17 +13,6 @@ from datetime import datetime , timedelta, date
 # logging.basicConfig(level=logging.INFO)
 # logging.getLogger('suds.transport').setLevel(logging.DEBUG)
 
-def loadProductToListjson(file_product, list_json):
-  product = pd.read_excel(file_product)
-  list_pro_code = list(product['Product'])
-  list_pro_id = list(product['Product ID'])
-  for value in list_json:
-    if (int(value['PRODUCT']) in list_pro_id):  
-      value['PRODUCT_CODE'] = list_pro_code[list_pro_id.index(int(value['PRODUCT']))]
-    else:
-      value['PRODUCT_CODE'] = ""
-  return list_json
-
 def ChangeCampaignType(campaign_type):
   if campaign_type.find('Multi Channel') == 0:
     campaign_type = 'UNIVERSAL_APP_CAMPAIGN'
@@ -116,6 +105,7 @@ def ReadPlanFromTable(connect, path_folder, date):
   cursor.execute(query)
   row = cursor.fetchall()
   temp = list(row)
+  cursor.close()
   
 
 
@@ -155,11 +145,38 @@ def ReadPlan(path_folder, date):
     list_plan = json.load(f)
     return list_plan
 
-def GetProductCode(path_folder, list_plan, date):
-  #================ Add product id to plan =================
-  file_product = os.path.join(path_folder, str(date) + '/PLAN/product.xlsx')
+def ReadProductAlias(connect, path_data, date):
+  file_product = os.path.join(path_folder, str(date) + '/PLAN/product_alias.json')
+  # ==================== Connect database =======================
+  conn = cx_Oracle.connect(connect)
+  cursor = conn.cursor()
+  statement = 'select PRODUCT_ID, GG_PRODUCT, CCD_PRODUCT from ODS_META_PRODUCT'        
+  cursor.execute(statement)
+  res = list(cursor.fetchall())
+  list_json = []
+  for product in res:
+    json_ = {
+      'PRODUCT_ID': product[0],
+      'GG_PRODUCT': product[1],
+      'CCD_PRODUCT' : product[2]
+    }
+    list_json.append(json_)
+  data_json = {}
+  data_json['ALIAS'] = list_json
+  with open(file_product, 'w') as fo:
+    json.dump(data_json, fo)
+  cursor.close()
 
-  list_plan['plan'] = loadProductToListjson(file_product, list_plan['plan'])
+def AddProductCode(path_folder, list_plan, date):
+  #================ Add product id to plan =================
+  file_product = os.path.join(path_folder, str(date) + '/PLAN/product_alias.json')
+  with open(file_product, 'r') as fo:
+    data = json.load(fo)
+
+  for plan in list_plan['plan']:
+    for alias in data['ALIAS']:
+      if int(plan['PRODUCT']) == int(alias['PRODUCT_ID']):
+        plan['PRODUCT_CODE'] = str(alias['GG_PRODUCT'])
   return list_plan
 
 #================= Read list plan, product code, save file mapping =====================
@@ -169,7 +186,7 @@ def MapData(customer, path_folder, date):
   list_plan = ReadPlan(path_folder, date)
 
   #================ Add product id to plan =================
-  list_plan = GetProductCode(path_folder, list_plan, date)
+  list_plan = AddProductCode(path_folder, list_plan, date)
 
   # # #=========== Map Account with Campaign =======================  
   path = os.path.join(path_folder, str(date) + '/ACCOUNT_ID/' + customer)
