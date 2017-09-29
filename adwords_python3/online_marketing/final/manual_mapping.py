@@ -219,6 +219,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 		plan = insert_data.CaculatorTotalMonth(plan, date)
 
 	insert_data.CreateListPlanMonthly(path_data, date)
+	
 	with open (path_data_total_map,'w') as f:
 		json.dump(data_total, f)
 

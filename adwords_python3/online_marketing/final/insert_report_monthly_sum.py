@@ -106,7 +106,8 @@ def ReportMonthlySum(path_data, connect):
 		data = json.load(fi)
 
 	for value in data['TOTAL']:
-		for i in range(len(value['MONTHLY'])):			
+		for i in range(len(value['MONTHLY'])):
+			print (value)			
 			json_ = ConvertJsonMonthlySum(i, value)
 			MergerMonthlySum(json_, cursor)
 
