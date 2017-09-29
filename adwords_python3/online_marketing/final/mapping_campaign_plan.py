@@ -62,6 +62,7 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
         camp['Plan'] = None
         camp['STATUS'] = None
       if (camp['Mapping'] == False):  
+        print (eform)
         if str(eform['PRODUCT']) == '221' and str(eform['CMONTH']) == '6':
           print (eform)
 
