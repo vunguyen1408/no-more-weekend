@@ -137,9 +137,10 @@ def ReadPlanFromTbale(connect, path_folder, date):
     for i in range(len(list_key)):
       unmap[list_key[i]] = list_temp[i]
     list_json.append(unmap)
-
+  plan_ = {}
+  plan_['plan'] = list_json
   with open (file_plan, 'w') as f:
-    json.dump(list_json, f)
+    json.dump(plan_, f)
 
 
 def ReadPlan(path_folder, date):
