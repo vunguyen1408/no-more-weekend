@@ -12,8 +12,12 @@ def GetDataSummaryAppsFlyer(connect, date, media_source, path_file):
     conn = cx_Oracle.connect(connect)
     cursor = conn.cursor()
 
+    day = date[8:]
+    month = date[5:-3]
+    year = date[:4]
+    date = month + '-' + day + '-' + year
     statement = "select * from ods_appsflyer where SNAPSHOT_DATE \
-    <= to_date('" + date + "', 'mm/dd/yyyy') and MEDIA_SOURCE like '" + media_source +  "'"
+    = to_date('" + date + "', 'mm/dd/yyyy') and MEDIA_SOURCE like '" + media_source +  "'"
 
     print (statement)
     cursor.execute(statement)
