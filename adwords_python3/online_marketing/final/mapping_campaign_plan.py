@@ -180,6 +180,7 @@ def AddProductCode(path_folder, list_plan, date):
       if alias['PRODUCT_ID'] is not None:
         if int(plan['PRODUCT']) == int(alias['PRODUCT_ID']):
           plan['PRODUCT_CODE'] = str(alias['GG_PRODUCT'])
+          print (plan['PRODUCT_CODE'])
       else:
         plan['PRODUCT_CODE'] = ''
   return list_plan
