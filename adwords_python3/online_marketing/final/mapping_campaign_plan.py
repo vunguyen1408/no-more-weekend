@@ -129,8 +129,9 @@ def ReadPlanFromTbale(connect, path_folder, date):
       val = value   
       if isinstance(value, datetime.datetime):            
         val = value.strftime('%Y-%m-%d')
-      elif (type(value) != 'int') and (value.isdigit() or value.replace(".", "").isdigit()):
-        val = float(value)
+      elif (type(value) != 'int'):
+        if (value.isdigit() or value.replace(".", "").isdigit()):
+          val = float(value)
       list_temp.append(val)
     for i in range(len(list_key)):
       unmap[list_key[i]] = list_temp[i]
