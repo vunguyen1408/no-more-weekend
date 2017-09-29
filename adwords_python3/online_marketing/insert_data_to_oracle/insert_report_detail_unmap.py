@@ -264,15 +264,16 @@ conn = cx_Oracle.connect(connect)
 cursor = conn.cursor()
 
 #==================== Insert data into database =============================
-statement = """MERGER INTO CAMPAIGN_MAP_HIS_GG \
+statement = 'MERGER INTO CAMPAIGN_MAP_HIS_GG \
 	ON (PRODUCT =  :value_PRODUCT and REASON_CODE_ORACLE =  :value_REASON_CODE_ORACLE)\
-WHEN MATCHED THEN
-	UPDATE SET UPDATE_DATE = :value_UPDATE_DATE
-WHEN NOT MATCHED THEN
+WHEN MATCHED THEN \
+	UPDATE SET UPDATE_DATE = :value_UPDATE_DATE \
+WHEN NOT MATCHED THEN \
 	INSERT (PRODUCT, REASON_CODE_ORACLE, EFORM_TYPE, UNIT_OPTION, USER_NAME, \
 	USER_CAMPAIGN_ID, UPDATE_DATE, START_DATE, END_DATE) \
-	VALUES (:value_PRODUCT, :value_REASON_CODE_ORACLE, :value_EFORM_TYPE, :value_UNIT_OPTION, :value_USER_NAME, \
-	:value_USER_CAMPAIGN_ID, :value_UPDATE_DATE, :value_START_DATE, :value_END_DATE)"""
+	VALUES (:value_PRODUCT, :value_REASON_CODE_ORACLE, :value_EFORM_TYPE, :value_UNIT_OPTION,\
+	:value_USER_NAME, \
+	:value_USER_CAMPAIGN_ID, :value_UPDATE_DATE, :value_START_DATE, :value_END_DATE)'
 	
 cursor.execute(statement, \
 	{'value_PRODUCT': value['PRODUCT'], \
