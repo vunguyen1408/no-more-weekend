@@ -38,10 +38,10 @@ def InsertMonthlyDetail(value, cursor):
 def UpdateMonthlyDetail(value, cursor):
 	#==================== Insert data into database =============================
 	statement = 'update DTM_GG_PIVOT_DETAIL \
-	set GG_VIEWS = :1 and GG_CONVERSION = :2 and GG_INVALID_CLICKS = :3 \
-	and GG_ENGAGEMENTS = :4 and GG_VIDEO_VIEW = :5 and GG_CTR = :6 \
-	and GG_IMPRESSIONS = : 7 and GG_INTERACTIONS = :8 and GG_CLICKS = :9\
-	and GG_COST = :10 and GG_SPEND = :11 and GG_APPSFLYER_INSTALL = :12 \
+	set GG_VIEWS = :1, GG_CONVERSION = :2, GG_INVALID_CLICKS = :3, \
+	GG_ENGAGEMENTS = :4, GG_VIDEO_VIEW = :5, GG_CTR = :6, \
+	GG_IMPRESSIONS = :7, GG_INTERACTIONS = :8, GG_CLICKS = :9,\
+	GG_COST = :10, GG_SPEND = :11, GG_APPSFLYER_INSTALL = :12 \
 	where PRODUCT = :13 and REASON_CODE_ORACLE = :14 and EFORM_TYPE = :15 and UNIT_OPTION = :16'
 	
 		
