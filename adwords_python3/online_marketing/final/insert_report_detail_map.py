@@ -252,6 +252,7 @@ def ReportDetailUnmap(path_data, connect):
 	#=================== Read data from file json ===============================
 	with open(path_data, 'r') as fi:
 		data = json.load(fi)
+	print (data)
 	
 	#================== Unmap Plan data ==============================
 	iter = 0
