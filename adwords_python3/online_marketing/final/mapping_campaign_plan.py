@@ -51,7 +51,7 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
       if 'Plan' not in camp:
         camp['Plan'] = None
         camp['STATUS'] = None
-      if (camp['Mapping'] == False):  S
+      if (camp['Mapping'] == False): 
           print (type(eform['PRODUCT_CODE']))
           print (camp['Campaign'])
         if (  (eform['PRODUCT_CODE'] is not None) and (camp['Campaign'].find(eform['PRODUCT_CODE']) == 0) and \
