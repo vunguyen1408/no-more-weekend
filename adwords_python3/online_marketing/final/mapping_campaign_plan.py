@@ -96,6 +96,7 @@ def ReadPlanFromTbale(connect, path_folder, date):
   folder = os.path.join(path_folder, str(date) + '/PLAN')
   if not os.path.exists(folder):
     os.makedirs(folder)
+  print (foldero)
   file_plan = os.path.join(folder, str(date) +  '/plan.json')
 
   #============================== Connect database =============================
