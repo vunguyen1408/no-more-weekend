@@ -183,6 +183,7 @@ def ReportMonthlyDetail(path_data, connect):
 	for value in data['TOTAL']:
 		for i in range(len(value['MONTHLY'])):			
 			json_ = ConvertJsonMonthlyDetail(i, value)
+			print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
 			MergerMonthlyDetail(json_, cursor)
 
 	#==================== Commit and close connect ===============================
