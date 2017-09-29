@@ -12,26 +12,27 @@ def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source, path_fi
     conn = cx_Oracle.connect(connect)
     cursor = conn.cursor()
 
-    statement = statement = "select * from ods_appsflyer where SNAPSHOT_DATE >= to_date('" + start_date \
-    + "', 'mm/dd/yyyy') and SNAPSHOT_DATE <= to_date('" + end_date + "', 'mm/dd/yyyy') and MEDIA_SOURCE like '" + media_source +  "'"
+    # statement = statement = "select * from ods_appsflyer where SNAPSHOT_DATE >= to_date('" + start_date \
+    # + "', 'mm/dd/yyyy') and SNAPSHOT_DATE <= to_date('" + end_date + "', 'mm/dd/yyyy') and MEDIA_SOURCE like '" + media_source +  "'"
 
+    statement = statement = "select * from ods_appsflyer "
     cursor.execute(statement)
 
     list_install = cursor.fetchall()
     list_out = []
-    for i in list_install:
-        d = str(i[0])[:10]
-        d = str(datetime.strptime(d, '%Y-%m-%d').date())
-        temp = []
-        temp.append(d)
-        temp.append(i[1])
-        temp.append(i[2])
-        temp.append(i[3])
-        temp.append(i[4])
-        temp.append(i[5])
-        temp.append(i[6])
-        list_out.append(temp)
-        print (temp)
+    # for i in list_install:
+    #     d = str(i[0])[:10]
+    #     d = str(datetime.strptime(d, '%Y-%m-%d').date())
+    #     temp = []
+    #     temp.append(d)
+    #     temp.append(i[1])
+    #     temp.append(i[2])
+    #     temp.append(i[3])
+    #     temp.append(i[4])
+    #     temp.append(i[5])
+    #     temp.append(i[6])
+    #     list_out.append(temp)
+    #     print (temp)
     install = {}
     install['list_install'] = list_out
     with open(path_file, 'w') as f:
