@@ -21,7 +21,7 @@ import insert_report_detail_map as detail_map
 def Daily(connect, path_data, date):
 	"""
 		Run daily: 
-		1. Duyệt account - download report, lưu trữ
+		1. Duyet account - download report, luu tru
 		2. Select install, mapping install.
 		3. 
 	"""
