@@ -32,7 +32,7 @@ def Daily(connect, path_data, date):
 	print ("======================= RUN GET REPORT WITH DATE : " + date + " =========================")
 	download_report = time.time()
 	# # --------- Đọc list account
-	# list_customer_id = ['5008396449', '9021114325', '9420329501']
+	list_customer_id = ['5008396449', '9021114325', '9420329501']
 	# # Initialize client object.
 	# adwords_client = adwords.AdWordsClient.LoadFromStorage()
 	# for account in list_customer_id:
@@ -88,7 +88,7 @@ def Daily(connect, path_data, date):
 	#=============================== Update to database =========================================
 	print ("\n\n============= RUN INSERT DATA TO DATABASE WITH DATE : " + date + " =================")
 	insert_databse = time.time()
-	
+
 	# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove)
 	# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove)
 	# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove)
