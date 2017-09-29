@@ -124,7 +124,7 @@ def ReadTableManualMap(connect, path_data, date):
 	return (list_plan_diff)
 
 #--- Vào data unmap sum các camp cho một plan ----------
-def GetCampaignUnMapForPlan(path_data, plan):
+def GetCampaignUnMapForPlan(path_data, plan, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	print (plan)
 
@@ -183,7 +183,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 	print ("9999999999999999999999")
 	list_camp_remove = []
 	for plan in list_plan:
-		plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(path_data, plan)
+		plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(path_data, plan, date)
 		#------------- Insert data map ------------
 		data_total['MAP'].extend(list_map)
 
