@@ -38,7 +38,7 @@ def Daily(connect, path_data, date):
 	# for account in list_customer_id:
 	# 	download.DownloadOnDate(adwords_client, account, path_data, date)
 	time_download_report = time.time() - download_report
-	print ("---------- Time get report: ", time_download_report)
+	print ("            Time get report: ", time_download_report)
 
 
 	#======================== Insert install to data date ==============================
@@ -53,14 +53,14 @@ def Daily(connect, path_data, date):
 	manual.ReadTableManualMap(connect, path_data, date)
 	#----------------------------------------------------------------
 
-	print ("---------- Time insert install: ", time_insert)
+	print ("             Time insert install: ", time_insert)
 
 	#======================== Mapping data for list account ============================
 	print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
 	mapping = time.time()
 	mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
 	time_mapping = time.time() - mapping
-	print ("---------- Time maping: ", time_mapping)
+	print ("             Time maping: ", time_mapping)
 
 
 
@@ -69,7 +69,7 @@ def Daily(connect, path_data, date):
 	merge = time.time()
 	merge_date.Merge(path_data, list_customer_id, date)
 	time_merge = time.time() - merge
-	print ("---------- Time merge: ", time_merge)
+	print ("             Time merge: ", time_merge)
 
 
 	#============================== Insert data mapping to total ===============================
@@ -77,7 +77,7 @@ def Daily(connect, path_data, date):
 	insert_total = time.time()
 	insert_to_total.InsertDateToTotal(path_data, date)
 	time_insert_total = time.time() - insert_total
-	print ("---------- Time insert data mapping to total : ", time_insert_total)
+	print ("            Time insert data mapping to total : ", time_insert_total)
 
 	#=============================== Manual mapping =========================================
 	# print ("\n\n============= RUN INSERT MANUAL MAPPING TO TOTAL WITH DATE : " + date + " =================")
@@ -98,7 +98,7 @@ def Daily(connect, path_data, date):
 	# detail_map.InsertDetailMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
 
 	time_insert_databse = time.time() - insert_databse
-	print ("---------- Time insert data to database : ", time_insert_total)
+	print ("            Time insert data to database : ", time_insert_total)
 
 	#----------------------------------------- END ---------------------------------------------
 	time_run_work_flow  = time.time() - start_work_flow
