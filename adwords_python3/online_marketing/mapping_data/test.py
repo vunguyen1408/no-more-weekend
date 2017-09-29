@@ -8,121 +8,17 @@ import cx_Oracle
 import json
 from datetime import datetime , timedelta, date
 
+connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+
+statement = "select * from DTM_GG_PIVOT_DETAIL"
 
 # ==================== Connect database =======================
+conn = cx_Oracle.connect(connect)
+cursor = conn.cursor()
+cursor.execute(statement)
+log_manual = cursor.fetchall()
+print (log_manual)
 
-def ReadPlan(path_folder):
-  # =============== List plan code ================  
-  file_plan = os.path.join(path_folder, 'plan.json')
-  list_plan = {}
-  with open (file_plan, 'r') as f:
-    list_plan = json.load(f)
-    return list_plan
-
-def ParseFormatDate(date):
-	temp = date.split('/')
-	d = temp[2] + '-' + temp[0] + '-' + temp[1] 
-	d = str(datetime.strptime(d, '%Y-%m-%d').date())
-	return d
-
-def ReadTableManualMap(connect, path_data):
-	path_folder = os.path.join(path_data, 'DATA_MAPPING/LOG_MANUAL')
-	path_data_total_map = os.path.join(path_folder, 'log_manual.json')
-	if not os.path.exists(path_folder):
-		os.makedirs(path_folder)
-
-	if not os.path.exists(path_data_total_map):
-		data_manual_map = {}
-		data_manual_map['MANUAL_MAP'] = []
-		with open (path_data_total_map,'w') as f:
-			json.dump(data_manual_map, f)
-
-	print (path_data_total_map)
-	with open (path_data_total_map,'r') as f:
-		data_manual_map = json.load(f)
-
-	 # ==================== Connect database =======================
-	conn = cx_Oracle.connect(connect)
-	cursor = conn.cursor()
-	
-	statement = "select PRODUCT, REASON_CODE_ORACLE, \
-					EFORM_TYPE, UNIT_OPTION, \
-					USER_NAME, USER_CAMPAIGN_ID, \
-					TO_CHAR(UPDATE_DATE, 'YYYY-MM-DD'), START_DATE, END_DATE from CAMPAIGN_MAP_HIS_GG"
-
-	cursor.execute(statement)
-	log_manual = cursor.fetchall()
-
-	print (log_manual)
-	list_diff = []
-	#------------- Check manual map change ---------------------
-	if (len(log_manual) != len(data_manual_map) or (data_manual_map['MANUAL_MAP'] == [])):
-		for data in log_manual:
-			flag = True
-			for data_local in data_manual_map:
-				if data[0] == data_local[0] \
-				and data[1] == data_local[1] \
-				and data[2] == data_local[2] \
-				and data[3] == data_local[3] \
-				and data[4] == data_local[4] \
-				and data[5] == data_local[5] \
-				and ParseFormatDate(data[7]) == data_local[7] \
-				and ParseFormatDate(data[8]) == data_local[8]:
-					print ("---------------- Trung log")
-					flag = False
-			if flag:
-				temp = list(data)
-				temp[7] = ParseFormatDate(data[7])
-				temp[8] = ParseFormatDate(data[8])
-				list_diff.append(list(temp))
-				print ("--------------- Da add them")
-
-	list_plan = ReadPlan(path_data)
-	print (list_diff)
-	# --------------- Get info plan ------------
-	list_plan_diff = []
-	plan_temp = None
-	for plan in list_diff:
-		# ----------- Create data campaign ----------------
-		campaign = {}
-		campaign['CAMPAIGN_ID'] = plan[5]
-		campaign['UPDATE_DATE'] = str(plan[6])
-		flag = True
-		for plan_info in list_plan['plan']:
-			# print (plan_info['PRODUCT'])
-			# print (plan[0])
-			# print (plan[1])
-			# print (plan_info['REASON_CODE_ORACLE'])
-			print ("======================================================")
-			if int(plan[0]) == int(plan_info['PRODUCT']) \
-				and plan[1] == plan_info['REASON_CODE_ORACLE']:
-				plan_temp = plan_info
-				print (plan_temp)
-
-				if plan[3] == plan_info['UNIT_OPTION'] and plan[2] == plan_info['FORM_TYPE']:
-					temp = plan_info
-
-					temp['CAMPAIGN_MANUAL_MAP'] = []
-					temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
-					temp['USER_MAP'] = plan[4]
-					list_plan_diff.append(temp)
-					flag = False
-					print ("----- Tim thay plan")
-		# ----------- Plan moi duoc tao -----------------
-		if flag:
-			temp = plan_temp
-			temp['UNIT_OPTION'] = plan[3]
-			temp['FORM_TYPE'] = plan[2]
-			temp['CAMPAIGN_MANUAL_MAP'] = []
-			temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
-			temp['USER_MAP'] = plan[4]
-			list_plan_diff.append(temp)
-			print ("----- Them plan")
-
-	print (list_plan_diff)
-	return (list_plan_diff)
-
-
-path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/mapping_data'
-connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
-ReadTableManualMap(connect, path_data)
+# path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/mapping_data'
+# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+# ReadTableManualMap(connect, path_data)
