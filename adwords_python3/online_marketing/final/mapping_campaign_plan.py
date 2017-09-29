@@ -59,7 +59,9 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
       if 'Plan' not in camp:
         camp['Plan'] = None
         camp['STATUS'] = None
-      if (camp['Mapping'] == False):   
+      if (camp['Mapping'] == False): 
+        print (type(eform['PRODUCT_CODE']))  
+        print (eform['PRODUCT_CODE'])
         if (  (eform['PRODUCT_CODE'] != '') and (camp['Campaign'].find(eform['PRODUCT_CODE']) == 0) and \
           (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
           (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) == 0) and \
@@ -67,7 +69,6 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
           (date_ <= datetime.strptime(eform['END_DAY_ESTIMATE'], '%Y-%m-%d'))  ) \
           or \
           ( LogManualMap(path_folder, camp, eform, date) ):  
-          print ("------------------------map completed----------------------------------")
           camp['Mapping'] = True
           plan = {}
           plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
