@@ -52,6 +52,7 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
         camp['Plan'] = None
         camp['STATUS'] = None
       if (camp['Mapping'] == False): 
+        print (eform['PRODUCT_CODE'])
         if eform['PRODUCT'] != '221' and eform['PRODUCT_CODE'] == 'JXM':
           print (eform)
 
@@ -157,12 +158,13 @@ def ReadProductAlias(connect, path_data, date):
   res = list(cursor.fetchall())
   list_json = []
   for product in res:
-    json_ = {
-      'PRODUCT_ID': product[0],
-      'GG_PRODUCT': product[1],
-      'CCD_PRODUCT' : product[2]
-    }
-    list_json.append(json_)
+    if product[0] is not None:
+      json_ = {
+        'PRODUCT_ID': product[0],
+        'GG_PRODUCT': product[1],
+        'CCD_PRODUCT' : product[2]
+      }
+      list_json.append(json_)
   data_json = {}
   data_json['ALIAS'] = list_json
   with open(file_product, 'w') as fo:
