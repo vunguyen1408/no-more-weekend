@@ -97,7 +97,7 @@ def ReadPlanFromTbale(connect, path_folder, date):
   if not os.path.exists(folder):
     os.makedirs(folder)
   print (folder)
-  file_plan = os.path.join(folder, str(date) +  '/plan.json')
+  file_plan = os.path.join(folder, '/plan.json')
 
   #============================== Connect database =============================
   conn = cx_Oracle.connect('MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV')
