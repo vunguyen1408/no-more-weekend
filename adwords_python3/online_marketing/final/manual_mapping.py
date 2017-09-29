@@ -200,8 +200,6 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 	for plan in list_plan:
 		flag = True
 		for plan_total in data_total['TOTAL']:
-			print (plan)
-			print (plan_total)
 			if plan_total['PRODUCT'] == plan['PRODUCT'] \
 				and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 				and plan_total['FORM_TYPE'] == plan['FORM_TYPE']:
@@ -219,7 +217,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 		plan = insert_data.CaculatorTotalMonth(plan, date)
 
 	insert_data.CreateListPlanMonthly(path_data, date)
-	
+
 	with open (path_data_total_map,'w') as f:
 		json.dump(data_total, f)
 

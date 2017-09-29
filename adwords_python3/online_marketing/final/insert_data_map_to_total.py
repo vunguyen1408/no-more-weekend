@@ -351,6 +351,7 @@ def CreateListPlanMonthly(path_data, date):
 		plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = GetVolumeActualTotal(plan)
 		for m in plan['MONTHLY']:
 			m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = GetVolumeActualMonthly(plan, m)
+		print (plan)
 
 	sum_ = 0
 	for camp in data_map['UN_CAMPAIGN']:
