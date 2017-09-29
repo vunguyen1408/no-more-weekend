@@ -146,7 +146,7 @@ def ReadPlan(path_folder, date):
     return list_plan
 
 def ReadProductAlias(connect, path_data, date):
-  file_product = os.path.join(path_folder, str(date) + '/PLAN/product_alias.json')
+  file_product = os.path.join(path_data, str(date) + '/PLAN/product_alias.json')
   # ==================== Connect database =======================
   conn = cx_Oracle.connect(connect)
   cursor = conn.cursor()
