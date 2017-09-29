@@ -160,9 +160,10 @@ def ReadPlan(path_folder, date):
     list_plan = json.load(f)
     return list_plan
 
-def GetProductCode(path_folder, list_plan, date):
+def GetProductCode(connect, path_folder, list_plan, date):
   #================ Add product id to plan =================
   file_product = os.path.join(path_folder, str(date) + '/PLAN/product.xlsx')
+
   list_plan['plan'] = loadProductToListjson(file_product, list_plan['plan'])
   return list_plan
 
