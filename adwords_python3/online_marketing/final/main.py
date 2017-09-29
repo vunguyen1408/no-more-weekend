@@ -32,7 +32,7 @@ def Daily(connect, path_data, date):
 	print ("======================= RUN GET REPORT WITH DATE : " + date + " =========================")
 	download_report = time.time()
 	# # --------- Đọc list account
-	list_customer_id = ['5008396449', '9021114325', '9420329501']
+	list_customer_id = ['5008396449']
 	# # Initialize client object.
 	# adwords_client = adwords.AdWordsClient.LoadFromStorage()
 	# for account in list_customer_id:
