@@ -1,6 +1,7 @@
 import sys
 import os
 import pandas as pd
+import cx_Oracle
 import numpy as np
 import json
 from datetime import datetime , timedelta, date
