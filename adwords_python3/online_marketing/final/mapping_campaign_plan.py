@@ -51,8 +51,7 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
       if 'Plan' not in camp:
         camp['Plan'] = None
         camp['STATUS'] = None
-      if (camp['Mapping'] == False):  
-        if (eform['PRODUCT_CODE'] is not None):
+      if (camp['Mapping'] == False):  S
           print (type(eform['PRODUCT_CODE']))
           print (camp['Campaign'])
         if (  (eform['PRODUCT_CODE'] is not None) and (camp['Campaign'].find(eform['PRODUCT_CODE']) == 0) and \
@@ -177,11 +176,12 @@ def AddProductCode(path_folder, list_plan, date):
 
   for plan in list_plan['plan']:
     for alias in data['ALIAS']:
+      print (type(alias['PRODUCT_ID']))
       if alias['PRODUCT_ID'] is not None:
         if int(plan['PRODUCT']) == int(alias['PRODUCT_ID']):
           plan['PRODUCT_CODE'] = str(alias['GG_PRODUCT'])
       else:
-        plan['PRODUCT_CODE'] = None
+        plan['PRODUCT_CODE'] = ''
   return list_plan
 
 #================= Read list plan, product code, save file mapping =====================
