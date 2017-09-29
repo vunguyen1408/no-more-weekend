@@ -173,7 +173,7 @@ def GetCampaignUnMapForPlan(path_data, plan, date):
 
 def GetCampaignUnMapForManualMap(connect, path_data, date):
 	# ------------- Get manual map from table log ----------------
-	list_diff = ReadTableManualMap(connect, path_data, date)
+	# list_diff = ReadTableManualMap(connect, path_data, date)
 
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	with open (path_data_total_map,'r') as f:
@@ -197,7 +197,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 
 
 	#------------- Insert total ------------
-	for plan in list_diff:
+	for plan in list_plan:
 		flag = True
 		for plan_total in data_total['TOTAL']:
 			print (plan)
