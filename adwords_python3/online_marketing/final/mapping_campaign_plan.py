@@ -53,7 +53,7 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
         camp['STATUS'] = None
       if (camp['Mapping'] == False):  
         if (eform['PRODUCT_CODE'] is not None):
-          print (eform['PRODUCT_CODE'])
+          print (type(eform['PRODUCT_CODE']))
           print (camp['Campaign'])
         if (  (eform['PRODUCT_CODE'] is not None) and (camp['Campaign'].find(eform['PRODUCT_CODE']) == 0) and \
           (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
@@ -181,7 +181,7 @@ def AddProductCode(path_folder, list_plan, date):
         if int(plan['PRODUCT']) == int(alias['PRODUCT_ID']):
           plan['PRODUCT_CODE'] = str(alias['GG_PRODUCT'])
       else:
-        plan['PRODUCT_CODE'] = ''
+        plan['PRODUCT_CODE'] = None
   return list_plan
 
 #================= Read list plan, product code, save file mapping =====================
