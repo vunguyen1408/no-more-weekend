@@ -9,13 +9,13 @@ from datetime import datetime , timedelta, date
 import insert_data_map_to_total as insert_data
 import mapping_campaign_plan as mapping
 
-list_plan = [{'CYEAR': '17', 'CMONTH': '6', 'LEGAL': 'VNG', 'DEPARTMENT': '0902', 'DEPARTMENT_NAME': 'PG1',\
- 'PRODUCT': '221', 'REASON_CODE_ORACLE': '1706008', 'EFORM_NO': 'FA-PA170529003', 'START_DAY': '2017-06-01', \
- 'END_DAY_ESTIMATE': '2017-06-30', 'CHANNEL': 'GG', 'FORM_TYPE': 'SEARCH', 'UNIT_OPTION': 'CPI', 'UNIT_COST': '1.3', \
- 'AMOUNT_USD': 39000, 'CVALUE': 30000, 'ENGAGEMENT': None, 'IMPRESSIONS': None, 'CLIKE': None, 'CVIEWS': None, \
- 'INSTALL': 30000, 'NRU': None, 'INSERT_DATE': '2017-09-13', \
- 'CAMPAIGN_MANUAL_MAP': [{'CAMPAIGN_ID': '682545537', 'UPDATE_DATE': '2017-09-27'}], \
- 'USER_MAP': 'HIENNTV'}]
+# list_plan = [{'CYEAR': '17', 'CMONTH': '6', 'LEGAL': 'VNG', 'DEPARTMENT': '0902', 'DEPARTMENT_NAME': 'PG1',\
+#  'PRODUCT': '221', 'REASON_CODE_ORACLE': '1706008', 'EFORM_NO': 'FA-PA170529003', 'START_DAY': '2017-06-01', \
+#  'END_DAY_ESTIMATE': '2017-06-30', 'CHANNEL': 'GG', 'FORM_TYPE': 'SEARCH', 'UNIT_OPTION': 'CPI', 'UNIT_COST': '1.3', \
+#  'AMOUNT_USD': 39000, 'CVALUE': 30000, 'ENGAGEMENT': None, 'IMPRESSIONS': None, 'CLIKE': None, 'CVIEWS': None, \
+#  'INSTALL': 30000, 'NRU': None, 'INSERT_DATE': '2017-09-13', \
+#  'CAMPAIGN_MANUAL_MAP': [{'CAMPAIGN_ID': '682545537', 'UPDATE_DATE': '2017-09-27'}], \
+#  'USER_MAP': 'HIENNTV'}]
 
 
 def ParseFormatDate(date):
@@ -125,7 +125,7 @@ def ReadTableManualMap(connect, path_data, date):
 
 #--- Vào data unmap sum các camp cho một plan ----------
 def GetCampaignUnMapForPlan(path_data, plan):
-	path_data_total_map = os.path.join(path_data + '/DATA_MAPPING', 'total_mapping' + '.json')
+	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	print (plan)
 
 	if not os.path.exists(path_data_total_map):
@@ -178,7 +178,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	with open (path_data_total_map,'r') as f:
 		data_total = json.load(f)
-
+	list_plan = ReadTableManualMap(connect, path_data, date)
 	list_camp_remove = []
 	for plan in list_plan:
 		plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(path_data, plan)
