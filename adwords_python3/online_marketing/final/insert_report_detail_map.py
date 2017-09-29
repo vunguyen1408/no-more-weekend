@@ -3,7 +3,7 @@ import json
 import pandas as pd
 import os
 from datetime import datetime
-
+# connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
 	
 
 def InsertDetailUnmap(value, cursor):
@@ -181,7 +181,7 @@ def ConvertJsonCamp(value):
 	json_['OBJECTIVE'] = None
 
 	json_['EVENT_ID'] = None
-	json_['PRODUCT_ID'] = getProductID(value)	
+	json_['PRODUCT_ID'] = str(getProductID(value))
 	json_['CCD_NRU'] = None
 	json_['GG_VIEWS'] = value['Views']
 	json_['GG_CONVERSION'] = value['Conversions']
@@ -204,45 +204,100 @@ def ConvertJsonCamp(value):
 	json_['CAMPAIGN_NAME'] = value['Campaign']
 	json_['UPDATE_DATE'] = datetime.strptime(value['Date'], '%Y-%m-%d')
 
-	print(type(json_['GG_APPSFLYER_INSTALL']), type(value['INSTALL']))
-	print(type(json_['CAMPAIGN_ID']), type(value['Campaign ID']))
-	print(type(value['Views']))
-	print(type(value['Conversions']))
-	print(type(value['Invalid clicks']))
-	print(type(value['Engagements']))
-	print(type(value['CTR']))
-	print(type(value['Impressions']))
-	print(type(value['Interactions']))
-	print(type(value['Clicks']))
-	print(type(value['INSTALL']))
-	print(type(value['Bid Strategy Type']))
-	print(type(value['Campaign ID']))
-	print(type(value['Campaign']))
-	
-
-
 	return json_
 
-# def sumCampaign(camp):
-# 	iter = 0
-# 	list_camp = []
-# 	list_camp_id = []
-		
-# 	for value in camp:		
-# 		if (value['Campaign ID'] not in list_camp_id):
-# 			list_camp.append(value)
-# 			list_camp_id.append(value['Campaign ID'])
-# 			iter += 1
-# 			print(iter)
-# 		else:
-# 			print("trung")
-# 			index = list_camp_id.index(value['Campaign ID'])
-# 			list_camp[i][]
-# 	print(camp[0])
 
+def ConvertJsonMap(value):
+	json_ = {}	
 
+	json_['SNAPSHOT_DATE'] = value['Date']
+	json_['CYEAR'] = '20' + value['CYEAR']
+	if (len(value['CMONTH']) == 1):
+		json_['CMONTH'] = '0' + value['CMONTH']
+	else:
+		json_['CMONTH'] = value['CMONTH']	
+	json_['LEGAL'] = value['LEGAL']
+	json_['DEPARTMENT'] = value['DEPARTMENT']
 
+	json_['DEPARTMENT_NAME'] = value['DEPARTMENT_NAME'] 
+	json_['PRODUCT'] = value['PRODUCT'] 
+	json_['PRODUCT_NAME'] = ''
+	json_['REASON_CODE_ORACLE'] = value['REASON_CODE_ORACLE'] 
+	json_['EFORM_NO'] = value['EFORM_NO'] 
 
+	json_['START_DATE'] = datetime.strptime(value['START_DAY'], '%Y-%m-%d')
+	json_['END_DATE'] = datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d')
+	json_['CHANNEL'] = value['CHANNEL'] 
+	json_['UNIT_COST'] = value['UNIT_COST'] 
+	if (value['AMOUNT_USD'] is None):
+		json_['AMOUNT_USD'] = value['AMOUNT_USD']
+	else:
+		json_['AMOUNT_USD'] = float(value['AMOUNT_USD'])
+
+	if (value['CVALUE'] is None):
+		json_['CVALUE'] = value['CVALUE']
+	else:
+		json_['CVALUE'] = float(value['CVALUE'])
+	if (value['ENGAGEMENT'] is None):
+		json_['ENGAGEMENT'] = value['ENGAGEMENT']
+	else:
+		json_['ENGAGEMENT'] = float(value['ENGAGEMENT'])
+	if (value['IMPRESSIONS'] is None):
+		json_['IMPRESSIONS'] = value['IMPRESSIONS']
+	else:
+		json_['IMPRESSIONS'] = float(value['IMPRESSIONS'])
+	json_['REACH'] = None
+	json_['FREQUENCY'] = None
+
+	if (value['CLIKE'] is None):
+		json_['CLIKE'] = value['CLIKE']
+	else:
+		json_['CLIKE'] = float(value['CLIKE'])
+	json_['CLICKS_ALL'] = None
+	json_['LINK_CLICKS'] = None
+	if (value['CVIEWS'] is None):
+		json_['CVIEWS'] = value['CVIEWS']
+	else:
+		json_['CVIEWS'] = float(value['CVIEWS'])
+	json_['C3S_VIDEO_VIEW'] = None
+
+	if (value['INSTALL'] is None):		
+		json_['INSTALL'] = value['INSTALL']
+	else:
+		json_['INSTALL'] = float(value['INSTALL'])
+	if (value['NRU'] is None):
+		json_['NRU'] = value['NRU']
+	else:
+		json_['NRU'] = float(value['NRU'])
+	json_['EFORM_TYPE'] = value['FORM_TYPE']
+	json_['UNIT_OPTION'] = value['UNIT_OPTION']
+	json_['OBJECTIVE'] = ''
+
+	json_['EVENT_ID'] = value['REASON_CODE_ORACLE']
+	json_['PRODUCT_ID'] = value['PRODUCT']
+	json_['CCD_NRU'] = None
+	json_['GG_VIEWS'] = value['Views']
+	json_['GG_CONVERSION'] = value['Conversions']
+
+	json_['GG_INVALID_CLICKS'] = value['Invalid clicks']
+	json_['GG_ENGAGEMENTS'] = value['Engagements']
+	json_['GG_VIDEO_VIEW'] = value['Views']
+	json_['GG_CTR'] = value['CTR']
+	json_['GG_IMPRESSIONS'] = value['Impressions']
+
+	json_['GG_INTERACTIONS'] = value['Interactions']
+	json_['GG_CLICKS'] = value['Clicks']
+	json_['GG_INTERACTION_TYPE'] = ''
+	json_['GG_COST'] = value['Cost']
+	json_['GG_SPEND'] = value['Cost']
+
+	json_['GG_APPSFLYER_INSTALL'] = value['INSTALL']		
+	json_['GG_STRATEGY_BID_TYPE'] = value['Bid Strategy Type']
+	json_['CAMPAIGN_ID'] = str(value['Campaign ID'])
+	json_['CAMPAIGN_NAME'] = value['Campaign']
+	json_['UPDATE_DATE'] = datetime.strptime(value['Date'], '%Y-%m-%d')
+
+	return json_
 
 def ReportDetailUnmap(path_data, connect):
 
@@ -253,14 +308,12 @@ def ReportDetailUnmap(path_data, connect):
 	#=================== Read data from file json ===============================
 	with open(path_data, 'r') as fi:
 		data = json.load(fi)
-	print (data)
 	
 	#================== Unmap Plan data ==============================
 	iter = 0
 	for value in data['UN_PLAN']:
 		if (len(value['CAMPAIGN']) == 0):
-			json_ = ConvertJsonPlan(value)
-			# print(json_)
+			json_ = ConvertJsonPlan(value)			
 			InsertDetailUnmap(json_, cursor)
 			iter += 1
 	print("Unmap plan insert", iter, "rows success!.......")
@@ -270,8 +323,7 @@ def ReportDetailUnmap(path_data, connect):
 	# sumCampaign(data['campaign'])
 	for value in data['UN_CAMPAIGN']:
 		if (value['Plan'] is None):
-			json_ = ConvertJsonCamp(value)
-			# print(json_)
+			json_ = ConvertJsonCamp(value)			
 			InsertDetailUnmap(json_, cursor)
 			iter += 1
 	print("Unmap campaign insert", iter, "rows success!.......")
@@ -281,11 +333,36 @@ def ReportDetailUnmap(path_data, connect):
 	print("Committed!.......")
 	cursor.close()
 
-def InsertDetailMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove):
+def ReportDetailMap(path_data, connect):
+
+ 	# ==================== Connect database =======================
+	conn = cx_Oracle.connect(connect)
+	cursor = conn.cursor()
+
+	#=================== Read data from file json ===============================
+	with open(path_data, 'r') as fi:
+		data = json.load(fi)
+	
+	#================== Data Map ==============================
+	iter = 0
+	for value in data['MAP']:		
+		json_ = ConvertJsonMap(value)			
+		InsertDetailUnmap(json_, cursor)
+		iter += 1
+	print("Map data insert", iter, "rows success!.......")
+
+	#==================== Commit and close connect ===============================
+	conn.commit()
+	print("Committed!.......")
+	cursor.close()
+
+def InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-	ReportMonthlyDetail(path_data_total_map, connect)
+	ReportDetailMap(path_data, connect)
+	ReportDetailUnmap(path_data, connect)
 
-
-# # path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/DATA_MAPPING/mapping_final.json'
+# path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/DATA_MAPPING/mapping_final.json'
 # path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/total_mapping1.json'
 # ReportDetailUnmap(path_data, connect)
+
+
