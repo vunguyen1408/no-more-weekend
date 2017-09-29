@@ -179,6 +179,8 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 	with open (path_data_total_map,'r') as f:
 		data_total = json.load(f)
 	list_plan = ReadTableManualMap(connect, path_data, date)
+	print (len(list_plan))
+	print ("9999999999999999999999")
 	list_camp_remove = []
 	for plan in list_plan:
 		plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(path_data, plan)
