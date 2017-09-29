@@ -6,7 +6,7 @@ import numpy as np
 import json
 import cx_Oracle
 from datetime import datetime , timedelta, date
-import datetime
+
 
 
 
@@ -93,6 +93,7 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
   return data_map
 
 def ReadPlanFromTbale(connect, path_folder, date):
+  import datetime
   folder = os.path.join(path_folder, str(date) + '/PLAN')
   if not os.path.exists(folder):
     os.makedirs(folder)
