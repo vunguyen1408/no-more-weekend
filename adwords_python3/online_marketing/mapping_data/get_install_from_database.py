@@ -4,14 +4,13 @@ from datetime import datetime , timedelta, date
 
 
 
-def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source, produtc_alias, path_file):
+def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source, path_file):
     # ==================== Connect database =======================
     conn = cx_Oracle.connect(connect)
     cursor = conn.cursor()
 
     statement = statement = "select * from ods_appsflyer where SNAPSHOT_DATE >= to_date('" + start_date \
-    + "', 'mm/dd/yyyy') and SNAPSHOT_DATE <= to_date('" + end_date + "', 'mm/dd/yyyy') and MEDIA_SOURCE like '" + media_source +  "'"\
-    + " and PRODUCT_ALIAS like '" + produtc_alias + "'"
+    + "', 'mm/dd/yyyy') and SNAPSHOT_DATE <= to_date('" + end_date + "', 'mm/dd/yyyy') and MEDIA_SOURCE like '" + media_source +  "'"
 
     cursor.execute(statement)
 
@@ -41,4 +40,4 @@ end_date = '06/30/2017'
 media_source = 'googleadwords_int'
 path_file = 'install.json'
 produtc_alias = 'jxm'
-GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source, produtc_alias, path_file)
+GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source, path_file)
