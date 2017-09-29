@@ -193,11 +193,6 @@ def CaculatorTotalMonth(plan, date):
 			# So ngay tu start_day den hien tai (co the tren lech 1 ngay)
 			number_date = CaculatorNumberDate(plan['START_DAY'], date)
 			plan['MONTHLY'] = CaculatorListMonth(plan['START_DAY'], date)
-
-		print (plan['START_DAY'])
-		print (plan['END_DAY_ESTIMATE'])
-		print (date)
-		print (plan['MONTHLY'])
 		for m in plan['MONTHLY']:
 			if m['MONTH'] <= month:
 				# Da co data
@@ -227,10 +222,25 @@ def MergeDataToTotal(path_data, date):
 	path_folder = path_data + '/' + str(date) +  '/DATA_MAPPING'
 	if not os.path.exists(path_folder):
 		os.makedirs(path_folder)
-	path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
-	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 
-	if not os.path.exists(path_data_total_map):
+	i = 0
+	find = True
+	date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+	path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+	print (date_before)
+	print (path_data_total_map)
+	while not os.path.exists(path_data_total_map):
+		i = i + 1
+		date_before = date_before - timedelta(1)
+		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		if i == 30:
+			find = False
+			break
+
+
+	path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
+	if not find:
+		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 		data_total = {}
 		data_total['TOTAL'] = []
 		data_total['MAP'] = []
@@ -238,7 +248,6 @@ def MergeDataToTotal(path_data, date):
 		data_total['UN_CAMPAIGN'] = []
 		with open (path_data_total_map,'w') as f:
 			json.dump(data_total, f)
-
 	with open (path_data_map,'r') as f:
 		data_date = json.load(f)
 
@@ -266,6 +275,8 @@ def MergeDataToTotal(path_data, date):
 	for plan in data_total['TOTAL']:
 		plan['MONTHLY'] = {}
 		plan = CaculatorTotalMonth(plan, date)
+		print (plan['MONTHLY'])
+		print ("==================================================================")
 
 	# --------------- Insert data map -------------------
 	data_total['MAP'].extend(list_data_map)
@@ -299,11 +310,11 @@ def MergeDataToTotal(path_data, date):
 		if flag:
 			data_total['UN_PLAN'].append(plan_un)
 
+	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	#-------------------------- Write total lần 1------------------
 	with open (path_data_total_map,'w') as f:
 		json.dump(data_total, f)
 
-	# ----------------------- Tạo data map ----------------------
 
 #--------------- Insert Volume actual --------------------
 def GetVolumeActualMonthly(plan, month):
