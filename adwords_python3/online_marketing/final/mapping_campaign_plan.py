@@ -173,16 +173,19 @@ def AddProductCode(path_folder, list_plan, date):
   with open(file_product, 'r') as fo:
     data = json.load(fo)
 
+  list_temp = []
   for plan in list_plan['plan']:
+    temp = plan
+    temp['PRODUCT_CODE'] = ''
     for alias in data['ALIAS']:
-      if (alias['PRODUCT_ID'] is not None):
-        if (int(plan['PRODUCT']) == int(alias['PRODUCT_ID'])) and (alias['GG_PRODUCT'] is not None):
-          plan['PRODUCT_CODE'] = str(alias['GG_PRODUCT'])
-          print (plan['PRODUCT_CODE'])
-        else:
-          plan['PRODUCT_CODE'] = ''
-      else:
-        plan['PRODUCT_CODE'] = ''
+      if (alias['PRODUCT_ID'] is not None) and (alias['GG_PRODUCT'] is not None) \
+      and (int(plan['PRODUCT']) == int(alias['PRODUCT_ID'])):
+        temp['PRODUCT_CODE'] = str(alias['GG_PRODUCT'])     
+    list_temp.append(temp)
+  # for p in list_temp:
+  #   print (p['PRODUCT_CODE'])
+  
+  list_plan['plan'] = list_temp
   return list_plan
 
 #================= Read list plan, product code, save file mapping =====================
