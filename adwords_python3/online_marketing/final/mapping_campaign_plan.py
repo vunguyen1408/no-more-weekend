@@ -4,6 +4,7 @@ import os
 import pandas as pd
 import numpy as np
 import json
+import cx_Oracle
 from datetime import datetime , timedelta, date
 
 
@@ -89,6 +90,54 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
   data_map['campaign'] = list_campaign_map
   data_map['plan'] = list_plan
   return data_map
+
+def ReadPlanFromTbale(connect, path_folder, date):
+  folder = os.path.join(path_folder, str(date) + '/PLAN')
+  if not os.path.exists(folder):
+    os.makedirs(folder)
+  file_plan = os.path.join(folder, str(date) +  '/plan.json')
+
+  #============================== Connect database =============================
+  conn = cx_Oracle.connect('MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV')
+  cursor = conn.cursor()
+
+  #======================= Get data from database ==============================
+  query = 'select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, PRODUCT, REASON_CODE_ORACLE, EFORM_NO, \
+          START_DAY, END_DAY_ESTIMATE, CHANNEL, EFORM_TYPE, UNIT_OPTION, UNIT_COST, AMOUNT_USD, CVALUE, \
+          ENGAGEMENT, IMPRESSIONS, CLIKE, CVIEWS, INSTALL, NRU, INSERT_DATE \
+      from STG_FA_DATA_GG'
+
+  cursor.execute(query)
+  row = cursor.fetchall()
+  temp = list(row)
+  #print (row)
+
+
+  #===================== Convert data into json =================================
+
+  list_key = ['CYEAR', 'CMONTH', 'LEGAL', 'DEPARTMENT', 'DEPARTMENT_NAME', 'PRODUCT', 
+        'REASON_CODE_ORACLE', 'EFORM_NO', 'START_DAY', 'END_DAY_ESTIMATE', 'CHANNEL', 
+        'FORM_TYPE', 'UNIT_OPTION', 'UNIT_COST', 'AMOUNT_USD', 'CVALUE', 'ENGAGEMENT', 
+        'IMPRESSIONS', 'CLIKE', 'CVIEWS', 'INSTALL', 'NRU', 'INSERT_DATE']
+
+  list_json= []
+  for plan in temp: 
+    list_temp = []
+    unmap = {}
+    for value in plan:
+      val = value   
+      if isinstance(value, datetime.datetime):            
+        val = value.strftime('%Y-%m-%d')
+      if (type(value) != 'int') and (value.isdigit() or value.replace(".", "").isdigit()):
+        val = float(value)
+      list_temp.append(val)
+    for i in range(len(list_key)):
+      unmap[list_key[i]] = list_temp[i]
+    list_json.append(json)
+
+  with open (file_plan, 'w') as f:
+    json.dump(list_json, f)
+
 
 def ReadPlan(path_folder, date):
   # =============== List plan code ================  

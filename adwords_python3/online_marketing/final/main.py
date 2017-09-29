@@ -47,7 +47,8 @@ def Daily(connect, path_data, date):
 	install.RunInsertInstall(connect, path_data, list_customer_id, date)
 	time_insert = time.time() - insert_install
 
-	#------------------ Read log manual mapping ---------------------
+	#------------------ Read log manual mapping and get plan ---------------------
+	mapping_data.ReadPlanFromTbale(connect, path_folder, date)
 	manual.ReadTableManualMap(connect, path_data, date)
 	#----------------------------------------------------------------
 
