@@ -39,7 +39,6 @@ def ReadTableManualMap(connect, path_data, date):
 		with open (path_data_total_map,'w') as f:
 			json.dump(data_manual_map, f)
 
-	print (path_data_total_map)
 	with open (path_data_total_map,'r') as f:
 		data_manual_map = json.load(f)
 
@@ -55,7 +54,6 @@ def ReadTableManualMap(connect, path_data, date):
 	cursor.execute(statement)
 	log_manual = cursor.fetchall()
 
-	print (log_manual)
 	list_diff = []
 	#------------- Check manual map change ---------------------
 	if (len(log_manual) != len(data_manual_map) or (data_manual_map['MANUAL_MAP'] == [])):
@@ -117,7 +115,6 @@ def ReadTableManualMap(connect, path_data, date):
 			temp['STATUS'] = 'USER'
 			list_plan_diff.append(temp)
 			list_plan_new.append(temp)
-	print (list_plan_diff)
 
 	#------------------------ Insert database ------------------------------
 	connect = ''

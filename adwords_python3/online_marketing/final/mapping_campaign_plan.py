@@ -92,7 +92,7 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
   data_map['plan'] = list_plan
   return data_map
 
-def ReadPlanFromTbale(connect, path_folder, date):
+def ReadPlanFromTable(connect, path_folder, date):
   import datetime
   folder = os.path.join(path_folder, str(date) + '/PLAN')
   if not os.path.exists(folder):
@@ -113,7 +113,7 @@ def ReadPlanFromTbale(connect, path_folder, date):
   cursor.execute(query)
   row = cursor.fetchall()
   temp = list(row)
-  print (row)
+  
 
 
   #===================== Convert data into json =================================
@@ -140,6 +140,7 @@ def ReadPlanFromTbale(connect, path_folder, date):
     list_json.append(unmap)
   plan_ = {}
   plan_['plan'] = list_json
+  print (plan_)
   with open (file_plan, 'w') as f:
     json.dump(plan_, f)
 
