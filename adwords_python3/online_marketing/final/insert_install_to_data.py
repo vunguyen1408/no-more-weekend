@@ -96,7 +96,7 @@ def RunInsertInstall(connect, path_data, list_customer_id, date):
         os.makedirs(path_folder_appsflyer)
     path_file = os.path.join(path_folder_appsflyer, 'install.json')
 
-    # GetDataSummaryAppsFlyer(connect, str(date), str(date), media_source, path_file)
+    GetDataSummaryAppsFlyer(connect, str(date), str(date), media_source, path_file)
     list_install = ReadDataInstall(path_file)
     InsetInstallToDate(path_data, list_install, list_customer_id, date)
     # print ("================= Insert install campleted ===================")

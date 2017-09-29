@@ -44,7 +44,7 @@ def Daily(connect, path_data, date):
 	#======================== Insert install to data date ==============================
 	print ("\n\n======================= RUN INSTALL WITH DATE : " + date + " =========================")
 	insert_install = time.time()
-	# install.RunInsertInstall(connect, path_data, list_customer_id, date)
+	install.RunInsertInstall(connect, path_data, list_customer_id, date)
 	time_insert = time.time() - insert_install
 
 	#------------------ Read log manual mapping ---------------------
@@ -91,9 +91,9 @@ def Daily(connect, path_data, date):
 	list_plan_remove = []
 	list_map = []
 	list_camp_remove = []
-	monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
 	# detail_map.InsertDetailMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
 
 	time_insert_databse = time.time() - insert_databse
