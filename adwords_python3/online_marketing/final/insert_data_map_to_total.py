@@ -227,8 +227,6 @@ def MergeDataToTotal(path_data, date):
 	find = True
 	date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
 	path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
-	print (date_before)
-	print (path_data_total_map)
 	while not os.path.exists(path_data_total_map):
 		i = i + 1
 		date_before = date_before - timedelta(1)
@@ -275,8 +273,6 @@ def MergeDataToTotal(path_data, date):
 	for plan in data_total['TOTAL']:
 		plan['MONTHLY'] = {}
 		plan = CaculatorTotalMonth(plan, date)
-		print (plan['MONTHLY'])
-		print ("==================================================================")
 
 	# --------------- Insert data map -------------------
 	data_total['MAP'].extend(list_data_map)
