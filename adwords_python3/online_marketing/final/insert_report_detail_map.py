@@ -369,34 +369,34 @@ def ReportDetailUnmap(path_data, connect):
 	cursor.close()
 
 def ReportDetailMap(path_data, connect):
+	if os.path.exists(path_data_total_map):
+	 	# ==================== Connect database =======================
+		conn = cx_Oracle.connect(connect)
+		cursor = conn.cursor()
 
- 	# ==================== Connect database =======================
-	conn = cx_Oracle.connect(connect)
-	cursor = conn.cursor()
+		#=================== Read data from file json ===============================
+		with open(path_data, 'r') as fi:
+			data = json.load(fi)
+		list_unmap = SelectDetailUnmap(cursor)
+		#================== Data Map ==============================
+		iter = 0
+		for value in data['MAP']:
+			flag = False	
+			for val in list_unmap:
+				if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
+				str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
+				str(value['Date']) == str(val[0]) and str(value['Campaign ID']) == str(val[1]):
+					flag = True
+			if flag == False:				
+				json_ = ConvertJsonMap(value)			
+				InsertDetailUnmap(json_, cursor)
+				iter += 1
+		print("Map data insert", iter, "rows success!.......")
 
-	#=================== Read data from file json ===============================
-	with open(path_data, 'r') as fi:
-		data = json.load(fi)
-	list_unmap = SelectDetailUnmap(cursor)
-	#================== Data Map ==============================
-	iter = 0
-	for value in data['MAP']:
-		flag = False	
-		for val in list_unmap:
-			if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
-			str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
-			str(value['Date']) == str(val[0]) and str(value['Campaign ID']) == str(val[1]):
-				flag = True
-		if flag == False:				
-			json_ = ConvertJsonMap(value)			
-			InsertDetailUnmap(json_, cursor)
-			iter += 1
-	print("Map data insert", iter, "rows success!.......")
-
-	#==================== Commit and close connect ===============================
-	conn.commit()
-	print("Committed!.......")
-	cursor.close()
+		#==================== Commit and close connect ===============================
+		conn.commit()
+		print("Committed!.......")
+		cursor.close()
 
 def InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')

@@ -97,24 +97,25 @@ def ConvertJsonMonthlySum(index, value):
 
 
 def ReportMonthlySum(path_data, connect):
- 	# ==================== Connect database =======================
-	conn = cx_Oracle.connect(connect)
-	cursor = conn.cursor()
+	if os.path.exists(path_data_total_map):
+	 	# ==================== Connect database =======================
+		conn = cx_Oracle.connect(connect)
+		cursor = conn.cursor()
 
-	#=================== Read data from file json ===============================
-	with open(path_data, 'r') as fi:
-		data = json.load(fi)
+		#=================== Read data from file json ===============================
+		with open(path_data, 'r') as fi:
+			data = json.load(fi)
 
-	for value in data['TOTAL']:
-		for i in range(len(value['MONTHLY'])):
-			print (value)			
-			json_ = ConvertJsonMonthlySum(i, value)
-			MergerMonthlySum(json_, cursor)
+		for value in data['TOTAL']:
+			for i in range(len(value['MONTHLY'])):
+				print (value)			
+				json_ = ConvertJsonMonthlySum(i, value)
+				MergerMonthlySum(json_, cursor)
 
-	#==================== Commit and close connect ===============================
-	conn.commit()
-	print("Committed!.......")
-	cursor.close()
+		#==================== Commit and close connect ===============================
+		conn.commit()
+		print("Committed!.......")
+		cursor.close()
 
 def InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')

@@ -166,29 +166,29 @@ def ConvertJsonMonthlyDetail(index, value):
 
 
 def ReportMonthlyDetail(path_data, connect):
+	if os.path.exists(path_data_total_map):
+	 	# ==================== Connect database =======================
+		conn = cx_Oracle.connect(connect)
+		cursor = conn.cursor()
 
- 	# ==================== Connect database =======================
-	conn = cx_Oracle.connect(connect)
-	cursor = conn.cursor()
+		#=================== Read data from file json ===============================
+		with open(path_data, 'r') as fi:
+			data = json.load(fi)
 
-	#=================== Read data from file json ===============================
-	with open(path_data, 'r') as fi:
-		data = json.load(fi)
+		# for value in data['MONTHLY']:		
+		# 	for i in value:		 	
+		# 	 	if value[i] is None:
+		# 	 		value[i] = 0
 
-	# for value in data['MONTHLY']:		
-	# 	for i in value:		 	
-	# 	 	if value[i] is None:
-	# 	 		value[i] = 0
+		for value in data['TOTAL']:
+			for i in range(len(value['MONTHLY'])):			
+				json_ = ConvertJsonMonthlyDetail(i, value)
+				MergerMonthlyDetail(json_, cursor)
 
-	for value in data['TOTAL']:
-		for i in range(len(value['MONTHLY'])):			
-			json_ = ConvertJsonMonthlyDetail(i, value)
-			MergerMonthlyDetail(json_, cursor)
-
-	#==================== Commit and close connect ===============================
-	conn.commit()
-	print("Committed!.......")
-	cursor.close()
+		#==================== Commit and close connect ===============================
+		conn.commit()
+		print("Committed!.......")
+		cursor.close()
 
 
 def InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date):
