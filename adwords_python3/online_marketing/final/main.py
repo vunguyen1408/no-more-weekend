@@ -56,12 +56,12 @@ def Daily(connect, path_data, date):
 	#======================== Insert install to data date ==============================
 	print ("\n\n======================= RUN INSERT INSTALL WITH DATE : " + date + " =========================")
 	insert_install = time.time()
-	install.RunInsertInstall(connect, path_data, list_customer_id, date)
+	# install.RunInsertInstall(connect, path_data, list_customer_id, date)
 	time_insert = time.time() - insert_install
 
 	#------------------ Read log manual mapping and get plan ---------------------
 	mapping_data.ReadPlanFromTable(connect, path_data, date)
-	mapping_data.ReadProductAlias(connect, path_data, date)
+	# mapping_data.ReadProductAlias(connect, path_data, date)
 	manual.ReadTableManualMap(connect, path_data, date)
 	#----------------------------------------------------------------
 
@@ -70,7 +70,7 @@ def Daily(connect, path_data, date):
 	#======================== Mapping data for list account ============================
 	print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
 	mapping = time.time()
-	mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
+	# mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
 	time_mapping = time.time() - mapping
 	print ("             Time maping: ", time_mapping)
 
@@ -87,7 +87,7 @@ def Daily(connect, path_data, date):
 	#============================== Insert data mapping to total ===============================
 	print ("\n\n============= RUN INSERT DATA MAPPING TO TOTAL WITH DATE : " + date + " =================")
 	insert_total = time.time()
-	insert_to_total.InsertDateToTotal(path_data, date)
+	# insert_to_total.InsertDateToTotal(path_data, date)
 	time_insert_total = time.time() - insert_total
 	print ("            Time insert data mapping to total : ", time_insert_total)
 
@@ -104,10 +104,10 @@ def Daily(connect, path_data, date):
 	list_plan_remove = []
 	list_map = []
 	list_camp_remove = []
-	monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	# detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
 
 	time_insert_databse = time.time() - insert_databse
 	print ("            Time insert data to database : ", time_insert_total)
