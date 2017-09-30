@@ -129,6 +129,9 @@ def InsertHistoryName(connect, path_data, list_account, date):
 				data = json.load(f)
 			for i in data['HISTORY']:
 				MergerCampList(i, cursor)
+	conn.commit()
+	print("Committed!.......")
+	cursor.close()
 
 
 
