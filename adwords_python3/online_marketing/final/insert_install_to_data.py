@@ -77,6 +77,7 @@ def InsetInstallToDate(path_data, list_install, list_customer_id, date):
         path_file = os.path.join(path_list_account_id, account + '/campaign_' + str (date) + '.json')
         print (path_file)
         if os.path.exists(path_file):
+            print ("File co ton tai")
             AddInstall(path_file, list_install_date)
 
 
