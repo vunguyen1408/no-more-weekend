@@ -352,15 +352,14 @@ def CreateListPlanMonthly(path_data, date):
 		plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = GetVolumeActualTotal(plan)
 		for m in plan['MONTHLY']:
 			m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = GetVolumeActualMonthly(plan, m)
-		print (plan)
 
 	sum_ = 0
 	for camp in data_map['UN_CAMPAIGN']:
 		# print (camp)
 		sum_ += camp['Cost']
-	print ("----------- SUM COST : " , sum_)
-	print (len(data_map['MAP']))
-	print (len(data_map['UN_CAMPAIGN']))
+	print ("=================================== SUM COST : " , sum_)
+	print ("=================================== MAP ", len(data_map['MAP']))
+	print ("=================================== UM MAP ", len(data_map['UN_CAMPAIGN']))
 	with open (path_data_total_map,'w') as f:
 		json.dump(data_map, f)
 
