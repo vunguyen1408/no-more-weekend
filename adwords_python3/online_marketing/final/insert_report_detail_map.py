@@ -339,10 +339,10 @@ def ReportDetailUnmap(path_data, connect):
 		flag = False
 		if plan['REASON_CODE_ORACLE'] is not None:
 			for value in list_unmap:
-				if ((str(plan['PRODUCT']) == str(value[2])) \
-				 and (str(plan['REASON_CODE_ORACLE']) == str(value[3])) \
-				 and (str(plan['EFORM_TYPE']) == str(value[4])) \
-				 and (str(plan['UNIT_OPTION']) == str(value[5]))):
+				if str(plan['PRODUCT']) == str(value[2]) \
+				 and str(plan['REASON_CODE_ORACLE']) == str(value[3]) \
+				 and str(plan['EFORM_TYPE']) == str(value[4]) \
+				 and str(plan['UNIT_OPTION']) == str(value[5]):
 						flag = True
 			if (flag == False) and (len(plan['CAMPAIGN']) == 0):
 				json_ = ConvertJsonPlan(plan)			
@@ -385,10 +385,10 @@ def ReportDetailMap(path_data, connect):
 	iter = 0
 	for value in data['MAP']:
 		flag = False	
-		for value in list_unmap:
-			if (str(plan['PRODUCT']) == str(value[2])) and (str(plan['REASON_CODE_ORACLE']) == str(value[3])) and \
-			(plan['EFORM_TYPE'] == value[4]) and (plan['UNIT_OPTION'] == value[5]) and \
-			str(camp['SNAPSHOT_DATE']) == str(value[0]) and str((camp['CAMPAIGN_ID']) == str(value[1])):
+		for val in list_unmap:
+			if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
+			str(value['EFORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
+			str(camp['SNAPSHOT_DATE']) == str(val[0]) and str(camp['CAMPAIGN_ID']) == str(val[1]):
 				flag = True
 		if flag == False:				
 			json_ = ConvertJsonMap(value)			
