@@ -216,7 +216,6 @@ def ConvertJsonCamp(value):
 	json_['GG_INTERACTION_TYPE'] = ''
 	json_['GG_COST'] = value['Cost']
 	json_['GG_SPEND'] = value['Cost']
-
 	json_['GG_APPSFLYER_INSTALL'] = value['INSTALL']		
 	json_['GG_STRATEGY_BID_TYPE'] = value['Bid Strategy Type']
 	json_['CAMPAIGN_ID'] = str(value['Campaign ID'])
