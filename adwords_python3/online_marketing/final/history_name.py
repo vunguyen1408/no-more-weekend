@@ -114,7 +114,8 @@ def MergerCampList(value, cursor):
 	cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID']))
 	res = cursor.fetchall()
 	print (res)
-	if (res is None):
+	if (len(res) == 0):
+		print ("==========================================================================")
 		print (res)
 		InsertCampList(value, cursor)
 	elif (value['CAMPAIGN_NAME'] != res):
