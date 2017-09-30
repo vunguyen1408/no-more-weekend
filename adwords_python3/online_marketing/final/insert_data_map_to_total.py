@@ -359,6 +359,7 @@ def CreateListPlanMonthly(path_data, date):
 		sum_ += camp['Cost']
 	print ("----------- SUM COST : " , sum_)
 	print (len(data_map['MAP']))
+	print (len(data_map['UN_CAMPAIGN']))
 	with open (path_data_total_map,'w') as f:
 		json.dump(data_map, f)
 
