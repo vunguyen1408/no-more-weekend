@@ -309,6 +309,7 @@ def ConvertJsonMap(value):
 
 	return json_
 
+
 def ReportDetailUnmap(path_data, connect):
 
  	# ==================== Connect database =======================
@@ -318,12 +319,19 @@ def ReportDetailUnmap(path_data, connect):
 	#=================== Read data from file json ===============================
 	with open(path_data, 'r') as fi:
 		data = json.load(fi)
-	
+
+	#============== Load table unmap =================================
+	list_unmap = SelectDetailUnmap(cursor)
 	#================== Unmap Plan data ==============================
 	iter = 0
-	for value in data['UN_PLAN']:
-		if (len(value['CAMPAIGN']) == 0):
-			json_ = ConvertJsonPlan(value)			
+	for plan in data['UN_PLAN']:
+		flag = False
+		for value in list_unmap:
+			if ((str(plan['PRODUCT']) == str(value[2])) and (str(plan['REASON_CODE_ORACLE']) == str(value[3])) and \
+			(plan['EFORM_TYPE'] == value[4]) and (plan['UNIT_OPTION'] == value[5]):
+				flag = True
+		if (flag == False) and (len(plan['CAMPAIGN']) == 0):
+			json_ = ConvertJsonPlan(plan)			
 			InsertDetailUnmap(json_, cursor)
 			iter += 1
 	print("Unmap plan insert", iter, "rows success!.......")
@@ -331,9 +339,14 @@ def ReportDetailUnmap(path_data, connect):
 	#================== Unmap Campaign data ==============================
 	iter = 0
 	# sumCampaign(data['campaign'])
-	for value in data['UN_CAMPAIGN']:
-		if (value['Plan'] is None):
-			json_ = ConvertJsonCamp(value)			
+
+	for camp in data['UN_CAMPAIGN']:
+		flag = False
+		for value in list_unmap:
+			if str((camp['SNAPSHOT_DATE']) == str(value[0])) and str(camp['CAMPAIGN_ID']) == str(value[1])):		
+				flag = True
+		if (flag == False) and (camp['Plan'] is None):
+			json_ = ConvertJsonCamp(camp)			
 			InsertDetailUnmap(json_, cursor)
 			iter += 1
 	print("Unmap campaign insert", iter, "rows success!.......")
@@ -355,10 +368,17 @@ def ReportDetailMap(path_data, connect):
 	
 	#================== Data Map ==============================
 	iter = 0
-	for value in data['MAP']:		
-		json_ = ConvertJsonMap(value)			
-		InsertDetailUnmap(json_, cursor)
-		iter += 1
+	for value in data['MAP']:
+		flag = False	
+		for value in list_unmap:
+			if (str(plan['PRODUCT']) == str(value[2])) and (str(plan['REASON_CODE_ORACLE']) == str(value[3])) and \
+			(plan['EFORM_TYPE'] == value[4]) and (plan['UNIT_OPTION'] == value[5]) and \
+			str((camp['SNAPSHOT_DATE']) == str(value[0])) and str((camp['CAMPAIGN_ID']) == str(value[1])):
+				flag = True
+		if flag == False:				
+			json_ = ConvertJsonMap(value)			
+			InsertDetailUnmap(json_, cursor)
+			iter += 1
 	print("Map data insert", iter, "rows success!.......")
 
 	#==================== Commit and close connect ===============================
