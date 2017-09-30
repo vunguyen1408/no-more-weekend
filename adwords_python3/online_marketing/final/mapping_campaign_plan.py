@@ -193,7 +193,8 @@ def AddProductCode(path_folder, list_plan, date):
 
 #================= Read list plan, product code, save file mapping =====================
 def MapData(customer, path_folder, date): 
-
+  
+  file_campaign = os.path.join(path, 'campaign_' + str(date) + '.json')
   with open (file_campaign, 'r') as f:
     list_campaign = json.load(f)
   data_map = []
@@ -205,13 +206,13 @@ def MapData(customer, path_folder, date):
     #================ Add product id to plan =================
     list_plan = AddProductCode(path_folder, list_plan, date)
 
-    # # #=========== Map Account with Campaign =======================  
-    path = os.path.join(path_folder, str(date) + '/ACCOUNT_ID/' + customer)
-    file_campaign = os.path.join(path, 'campaign_' + str(date) + '.json')
+
 
     #-------------- Check mapped ----------
     data_map = MapAccountWithCampaign(path_folder, list_plan['plan'], list_campaign, date)
 
+  # # #=========== Map Account with Campaign =======================  
+  path = os.path.join(path_folder, str(date) + '/ACCOUNT_ID/' + customer)
   #----------------- Write file map and unmap ------------------
   path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
   with open (path_data_map,'w') as f:
