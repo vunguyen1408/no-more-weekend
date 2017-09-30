@@ -56,8 +56,9 @@ def AccountFrmCampaign(customer, path_data, date):
 					'CAMPAIGN_ID' : camp['Campaign ID'],
 
 					'CAMPAIGN_NAME' :camp['Campaign'],
-					'DATE_GET' :camp['Date'],
-					'UPDATE_DATE': str(date)
+					'INSERT_DATE' :camp['Date'],
+					'UPDATE_DATE': str(date),
+					'IMPORT_DATE' : None
 				}
 				data_total['HISTORY'].append(temp)
 		path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
@@ -96,10 +97,10 @@ def ConvertJsonPlan(value):
 	json_['CAMPAIGN_ID'] = value['CAMPAIGN_ID']
 	json_['CAMPAIGN_NAME'] = value['CAMPAIGN_NAME']
 
-	json_['INSERT_DATE'] = value['DATE_GET']
+	json_['INSERT_DATE'] = value['INSERT_DATE']
 	json_['UPDATE_DATE'] = value['UPDATE_DATE']
 	json_['STATUS'] = ''
-	json_['IMPORT_DATE'] = datetime.now().date()
+	json_['IMPORT_DATE'] = None
 	
 	return json_
 
