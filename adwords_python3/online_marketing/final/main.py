@@ -59,7 +59,7 @@ def Daily(connect, path_data, date):
 	#======================== Insert install to data date ==============================
 	print ("\n\n======================= RUN INSERT INSTALL WITH DATE : " + date + " =========================")
 	insert_install = time.time()
-	# install.RunInsertInstall(connect, path_data, list_customer_id, date)
+	install.RunInsertInstall(connect, path_data, list_customer_id, date)
 
 	time_insert = time.time() - insert_install
 
