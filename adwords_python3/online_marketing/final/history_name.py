@@ -70,7 +70,7 @@ def InsertCampList(value, cursor):
 	#==================== Insert data into database =============================
 	statement = 'insert into STG_CAMPAIGN_LIST_GG ( \
 	ACCOUNT_ID, CAMPAIGN_ID, CAMPAIGN_NAME, INSERT_DATE, \
-	UPDATE_DATE, STATUS, IMPORT_DATE \
+	UPDATE_DATE, STATUS, IMPORT_DATE) \
 	values (:1, :2, :3, :4, :5, :6, :7) '
 		
 	cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID'], value['CAMPAIGN_NAME'].encode('utf-8'), \
