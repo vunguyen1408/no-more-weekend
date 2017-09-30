@@ -57,6 +57,7 @@ def AddInstall(path_file, list_install):
             for install in list_install:
                 if str(campaign['Campaign ID']) == str(install[2]):
                     campaign['INSTALL'] = install[3]
+            print (campaign)
     with open(path_file, 'w') as f:
         json.dump(data, f)
 
@@ -73,7 +74,7 @@ def InsetInstallToDate(path_data, list_install, list_customer_id, date):
     list_folder_account = list_customer_id
 
     for account in list_folder_account:
-        path_file = os.path.join(path_list_account_id, 'campaign_' + str (date) + '.json')
+        path_file = os.path.join(path_list_account_id, account + '/campaign_' + str (date) + '.json')
         print (path_file)
         if os.path.exists(path_file):
             AddInstall(path_file, list_install_date)
