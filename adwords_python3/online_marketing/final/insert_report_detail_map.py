@@ -164,6 +164,8 @@ def getProductID(value):
 def ConvertJsonCamp(value):
 	json_ = {}	
 	print (value)
+	print (value['Date'])
+	print (value['Campaign ID'])
 	json_['SNAPSHOT_DATE'] = value['Date']
 	json_['CYEAR'] = value['Date'][0:4]
 	json_['CMONTH'] = value['Date'][5:7]
@@ -202,7 +204,7 @@ def ConvertJsonCamp(value):
 	json_['OBJECTIVE'] = None
 
 	json_['EVENT_ID'] = None
-	json_['PRODUCT_ID'] = str(getProductID(value))
+	json_['PRODUCT_ID'] = None
 	json_['CCD_NRU'] = None
 	json_['GG_VIEWS'] = value['Views']
 	json_['GG_CONVERSION'] = value['Conversions']
