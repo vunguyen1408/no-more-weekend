@@ -216,6 +216,7 @@ def ConvertJsonCamp(value):
 	json_['GG_INTERACTION_TYPE'] = ''
 	json_['GG_COST'] = value['Cost']
 	json_['GG_SPEND'] = value['Cost']
+
 	json_['GG_APPSFLYER_INSTALL'] = value['INSTALL']		
 	json_['GG_STRATEGY_BID_TYPE'] = value['Bid Strategy Type']
 	json_['CAMPAIGN_ID'] = str(value['Campaign ID'])
@@ -399,9 +400,8 @@ def ReportDetailMap(path_data, connect):
 
 def InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-	if os.path.exists(path_data_total_map):
-		ReportDetailMap(path_data_total_map, connect)
-		ReportDetailUnmap(path_data_total_map, connect)
+	ReportDetailMap(path_data_total_map, connect)
+	ReportDetailUnmap(path_data_total_map, connect)
 
 # path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/DATA_MAPPING/mapping_final.json'
 # path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/total_mapping1.json'
