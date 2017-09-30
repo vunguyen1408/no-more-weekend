@@ -36,6 +36,7 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
   date_ = datetime.strptime(date, '%Y-%m-%d') 
   now = datetime.strptime('2017-03-01', '%Y-%m-%d')
   list_campaign_map = []
+  number = 0
   for j, camp in enumerate(list_campaign):
     if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
       list_campaign_map.append(camp)
@@ -75,10 +76,12 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
 
           camp['STATUS'] = 'SYS'
           eform['STATUS'] = 'SYS'
+          number += 1
 
   data_map = {}
   data_map['campaign'] = list_campaign_map
   data_map['plan'] = list_plan
+  print (" -------------- Mapping------ ", number)
   return data_map
 
 def ReadPlanFromTable(connect, path_folder, date):
