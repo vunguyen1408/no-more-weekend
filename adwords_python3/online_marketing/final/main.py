@@ -77,7 +77,7 @@ def Daily(connect, path_data, date):
 	#======================== Mapping data for list account ============================
 	print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
 	mapping = time.time()
-	# mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
+	mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
 	time_mapping = time.time() - mapping
 	print ("             Time maping: ", time_mapping)
 
@@ -94,7 +94,7 @@ def Daily(connect, path_data, date):
 	#============================== Insert data mapping to total ===============================
 	print ("\n\n============= RUN INSERT DATA MAPPING TO TOTAL WITH DATE : " + date + " =================")
 	insert_total = time.time()
-	# insert_to_total.InsertDateToTotal(path_data, date)
+	insert_to_total.InsertDateToTotal(path_data, date)
 	time_insert_total = time.time() - insert_total
 	print ("            Time insert data mapping to total : ", time_insert_total)
 
