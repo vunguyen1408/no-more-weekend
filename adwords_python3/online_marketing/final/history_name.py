@@ -82,7 +82,7 @@ def UpdateCampList(value, cursor):
 	#==================== Insert data into database =============================
 	print (value)
 	statement = 'update STG_CAMPAIGN_LIST_GG \
-	set CAMPAIGN_NAME = :1, INSERT_DATE = :2, UPDATE_DATE = :3, \
+	set CAMPAIGN_NAME = :1, INSERT_DATE = :2, UPDATE_DATE = :3 \
 	where ACCOUNT_ID = :4 and CAMPAIGN_ID = :5'
 	
 	print (value)
