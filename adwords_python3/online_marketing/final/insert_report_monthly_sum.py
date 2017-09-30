@@ -97,7 +97,7 @@ def ConvertJsonMonthlySum(index, value):
 
 
 def ReportMonthlySum(path_data, connect):
-	if os.path.exists(path_data_total_map):
+	if os.path.exists(path_data):
 	 	# ==================== Connect database =======================
 		conn = cx_Oracle.connect(connect)
 		cursor = conn.cursor()
