@@ -74,9 +74,10 @@ def InsetInstallToDate(path_data, list_install, list_customer_id, date):
 
     for account in list_folder_account:
         path_account_id = os.path.join(path_list_account_id, account)
-        path_file = os.path.join(path_account_id, 'campaign_' + str (date) + '.json')
-        if os.path.exists(path_file):
-            AddInstall(path_file, list_install_date)
+        if os.path.exists(path_account_id):
+            path_file = os.path.join(path_account_id, 'campaign_' + str (date) + '.json')
+            if os.path.exists(path_file):
+                AddInstall(path_file, list_install_date)
 
 
 def InsetInstall(path_data, path_file_install, start_date, end_date):

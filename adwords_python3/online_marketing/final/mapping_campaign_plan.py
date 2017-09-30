@@ -82,6 +82,7 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
   data_map['campaign'] = list_campaign_map
   data_map['plan'] = list_plan
   print (" -------------- Mapping------ ", number)
+  print (" -------------- Un mapping------ ", len(list_campaign_map) - number)
   return data_map
 
 def ReadPlanFromTable(connect, path_folder, date):
@@ -198,24 +199,25 @@ def MapData(customer, path_folder, date):
   #================ Add product id to plan =================
   list_plan = AddProductCode(path_folder, list_plan, date)
 
+  data_map = []
+
   # # #=========== Map Account with Campaign =======================  
   path = os.path.join(path_folder, str(date) + '/ACCOUNT_ID/' + customer)
   file_campaign = os.path.join(path, 'campaign_' + str(date) + '.json')
+  # Neu list campaign lay duoc ve khac rong
+  if os.path.exists(path_customer)
+    with open (file_campaign, 'r') as f:
+      list_campaign = json.load(f)
 
-  #-------------- Check mapped ----------
-  path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
-  data_map = []
-  
-  with open (file_campaign, 'r') as f:
-    list_campaign = json.load(f)
+    data_map = MapAccountWithCampaign(path_folder, list_plan['plan'], list_campaign, date)
 
-  data_map = MapAccountWithCampaign(path_folder, list_plan['plan'], list_campaign, date)
-
-  #----------------- Write file map and unmap ------------------
+    #----------------- Write file map and unmap ------------------
   path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
   with open (path_data_map,'w') as f:
     json.dump(data_map, f)
 
+  #-------------- Check mapped ----------
+  # path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
   # if not os.path.exists(path_data_map):
   #   #--------------------------------------
 
