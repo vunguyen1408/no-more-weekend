@@ -73,7 +73,7 @@ def InsertCampList(value, cursor):
 	UPDATE_DATE, STATUS, IMPORT_DATE \
 	values (:1, :2, :3, :4, :5, :6, :7) '
 		
-	cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID'], value['CAMPAIGN_NAME'], \
+	cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID'], value['CAMPAIGN_NAME'].encode('utf-8'), \
 		value['DATE_GET'], value['UPDATE_DATE'], value['STATUS'], value['IMPORT_DATE']))
 	
 	print("A row inserted!.......")
@@ -86,7 +86,7 @@ def UpdateCampList(value, cursor):
 	where ACCOUNT_ID = :4 and CAMPAIGN_ID = :5'
 	
 	print (value)
-	cursor.execute(statement, (value['CAMPAIGN_NAME'], value['DATE_GET'], \
+	cursor.execute(statement, (value['CAMPAIGN_NAME'].encode('utf-8'), value['DATE_GET'], \
 		value['UPDATE_DATE'], value['ACCOUNT_ID'], value['CAMPAIGN_ID']))
 
 	print("   A row updated!.......")
