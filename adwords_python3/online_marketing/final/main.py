@@ -95,7 +95,7 @@ def Daily(connect, path_data, date):
 	# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
 	# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
 	# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	# detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
 
 	time_insert_databse = time.time() - insert_databse
 	print ("            Time insert data to database : ", time_insert_total)
@@ -121,6 +121,6 @@ def ManyDate(connect, path_data, start_date, end_date):
 start_date = '2017-06-30'
 end_date = '2017-06-30'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
-connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
+connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 ManyDate(connect, path_data, start_date, end_date)
 
