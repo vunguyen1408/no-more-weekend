@@ -369,7 +369,7 @@ def ReportDetailMap(path_data, connect):
 	#=================== Read data from file json ===============================
 	with open(path_data, 'r') as fi:
 		data = json.load(fi)
-	
+	list_unmap = SelectDetailUnmap(cursor)
 	#================== Data Map ==============================
 	iter = 0
 	for value in data['MAP']:
