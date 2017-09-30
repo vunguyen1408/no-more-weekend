@@ -35,7 +35,7 @@ def MergerDataAccount(path_data, customer_id, date):
 
   with open (path_data_map,'r') as f:
     data_map = json.load(f)
-
+  print (data_map_date)
   if len(data_map_date['campaign']):
   
     #--------------------- DATA MAP ---------------------
