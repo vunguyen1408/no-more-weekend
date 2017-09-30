@@ -326,14 +326,15 @@ def ReportDetailUnmap(path_data, connect):
 	iter = 0
 	for plan in data['UN_PLAN']:
 		flag = False
-		for value in list_unmap:
-			if ((str(plan['PRODUCT']) == str(value[2])) and (str(plan['REASON_CODE_ORACLE']) == str(value[3])) and \
-			(plan['EFORM_TYPE'] == value[4]) and (plan['UNIT_OPTION'] == value[5]):
-				flag = True
-		if (flag == False) and (len(plan['CAMPAIGN']) == 0):
-			json_ = ConvertJsonPlan(plan)			
-			InsertDetailUnmap(json_, cursor)
-			iter += 1
+		if plan['REASON_CODE_ORACLE'] is not None:
+			for value in list_unmap:
+					if ((str(plan['PRODUCT']) == str(value[2])) and (str(plan['REASON_CODE_ORACLE']) == str(value[3])) and \
+					(str(plan['EFORM_TYPE']) == str(value[4])) and (str(plan['UNIT_OPTION']) == str(value[5])):
+						flag = True
+			if (flag == False) and (len(plan['CAMPAIGN']) == 0):
+				json_ = ConvertJsonPlan(plan)			
+				InsertDetailUnmap(json_, cursor)
+				iter += 1
 	print("Unmap plan insert", iter, "rows success!.......")
 
 	#================== Unmap Campaign data ==============================
@@ -342,13 +343,14 @@ def ReportDetailUnmap(path_data, connect):
 
 	for camp in data['UN_CAMPAIGN']:
 		flag = False
-		for value in list_unmap:
-			if str((camp['SNAPSHOT_DATE']) == str(value[0])) and str(camp['CAMPAIGN_ID']) == str(value[1])):		
-				flag = True
-		if (flag == False) and (camp['Plan'] is None):
-			json_ = ConvertJsonCamp(camp)			
-			InsertDetailUnmap(json_, cursor)
-			iter += 1
+		if camp['CAMPAIGN_ID'] is not None:
+			for value in list_unmap:
+					if str((camp['SNAPSHOT_DATE']) == str(value[0])) and str(camp['CAMPAIGN_ID']) == str(value[1])):		
+						flag = True
+			if (flag == False) and (camp['Plan'] is None):
+				json_ = ConvertJsonCamp(camp)			
+				InsertDetailUnmap(json_, cursor)
+				iter += 1
 	print("Unmap campaign insert", iter, "rows success!.......")
 
 	#==================== Commit and close connect ===============================
