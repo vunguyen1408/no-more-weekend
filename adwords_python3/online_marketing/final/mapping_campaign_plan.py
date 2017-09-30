@@ -205,7 +205,7 @@ def MapData(customer, path_folder, date):
   path = os.path.join(path_folder, str(date) + '/ACCOUNT_ID/' + customer)
   file_campaign = os.path.join(path, 'campaign_' + str(date) + '.json')
   # Neu list campaign lay duoc ve khac rong
-  if os.path.exists(path_customer)
+  if os.path.exists(path_customer):
     with open (file_campaign, 'r') as f:
       list_campaign = json.load(f)
 
