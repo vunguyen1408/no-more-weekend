@@ -223,7 +223,9 @@ def MergeDataToTotal(path_data, date):
 	if not os.path.exists(path_folder):
 		os.makedirs(path_folder)
 	path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
-	if os.path.exists(path_data_map):
+	with open (path_data_map,'r') as f:
+		data_date = json.load(f)
+	if (len(data_date['campaign']) > 0) or (len(data_date['plan']) > 0):
 
 		i = 0
 		find = True
@@ -236,8 +238,6 @@ def MergeDataToTotal(path_data, date):
 			if i == 30:
 				find = False
 				break
-
-
 		
 		if not find:
 			path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
@@ -248,8 +248,6 @@ def MergeDataToTotal(path_data, date):
 			data_total['UN_CAMPAIGN'] = []
 			with open (path_data_total_map,'w') as f:
 				json.dump(data_total, f)
-		with open (path_data_map,'r') as f:
-			data_date = json.load(f)
 
 		with open (path_data_total_map,'r') as f:
 			data_total = json.load(f)

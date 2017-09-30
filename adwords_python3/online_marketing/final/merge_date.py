@@ -14,25 +14,27 @@ def MergerDataAccount(path_data, customer_id, date):
 
   #------------------- Open json ma and un map on date ------------------------------
   path_data_map_date = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
-  if os.path.exists(path_data_map_date):
-    with open (path_data_map_date,'r') as f:
-      data_map_date = json.load(f)
 
+  with open (path_data_map_date,'r') as f:
+    data_map_date = json.load(f)
+
+  if not os.path.exists(path_folder):
+    os.makedirs(path_folder)
+  #-------------------- Init file -----------------------------
+  if not os.path.exists(path_data_map):
+    data_map = {}
+    data_map['campaign'] = []
+    data_map['plan'] = []
+    with open (path_data_map,'w') as f:
+      json.dump(data_map, f)
+  #-----------------------------------------------------------
+
+  path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
+  if len(data_map_date['campaign']) > 0 or len(data_map_date['plan']) > 0:
     #------------------- Open json ma and un map on date ------------------------------
+    print ("Co data de merge")
     path_folder = path_data + '/' + str(date) + '/DATA_MAPPING'
     # print (path_folder)
-    if not os.path.exists(path_folder):
-      os.makedirs(path_folder)
-    path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
-
-    #-------------------- Init file -----------------------------
-    if not os.path.exists(path_data_map):
-      data_map = {}
-      data_map['campaign'] = []
-      data_map['plan'] = []
-      with open (path_data_map,'w') as f:
-        json.dump(data_map, f)
-    #-----------------------------------------------------------
 
     with open (path_data_map,'r') as f:
       data_map = json.load(f)
@@ -59,8 +61,8 @@ def MergerDataAccount(path_data, customer_id, date):
             if (len(temp) > 0):
               plan['STATUS'] = 'SYS'
 
-    with open (path_data_map,'w') as f:
-      json.dump(data_map, f)
+  with open (path_data_map,'w') as f:
+    json.dump(data_map, f)
 
 
 def Merge(path_data, list_customer_id, date):
