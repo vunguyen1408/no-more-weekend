@@ -111,10 +111,10 @@ def MergerCampList(value, cursor):
 		
 	cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID']))
 	res = cursor.fetchall()
-	
+	print (res)
 	if (res is None):
 		InsertCampList(value, cursor)
-	elif (value['CAMPAIGN_NAME'] == res):
+	elif (value['CAMPAIGN_NAME'] != res):
 		UpdateCampList(value, cursor)
 	print("	A row mergered!.......")
 
