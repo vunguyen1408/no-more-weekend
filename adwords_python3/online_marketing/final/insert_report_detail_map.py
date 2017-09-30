@@ -138,6 +138,17 @@ def ConvertJsonPlan(value):
 
 	return json_
 
+def SelectDetailUnmap(cursor):
+	#==================== Insert data into database =============================
+	statement = 'Select SNAPSHOT_DATE, CAMPAIGN_ID, \
+	PRODUCT, REASON_CODE_ORACLE, EFORM_TYPE, UNIT_OPTION \
+	from DTM_GG_PIVOT_DETAIL_UNMAP'
+		
+	cursor.execute(statement)	
+	list_unmap = list(cursor.fetchall())
+	
+	return list_unmap
+
 def getProductID(value):
 	file_product = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/product.xlsx'
 	# file_product = 'C:/Users/CPU10912-local/Desktop/product.xlsx'
