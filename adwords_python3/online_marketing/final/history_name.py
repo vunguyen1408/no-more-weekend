@@ -80,6 +80,7 @@ def InsertCampList(value, cursor):
 
 def UpdateCampList(value, cursor):
 	#==================== Insert data into database =============================
+	print (value)
 	statement = 'update STG_CAMPAIGN_LIST_GG \
 	set CAMPAIGN_NAME = :1, INSERT_DATE = :2, UPDATE_DATE = :3, \
 	where ACCOUNT_ID = :4 and CAMPAIGN_ID = :5'
@@ -114,6 +115,7 @@ def MergerCampList(value, cursor):
 	res = cursor.fetchall()
 	print (res)
 	if (res is None):
+		print (res)
 		InsertCampList(value, cursor)
 	elif (value['CAMPAIGN_NAME'] != res):
 		UpdateCampList(value, cursor)
