@@ -225,7 +225,7 @@ def ConvertJsonCamp(value):
 	json_['GG_STRATEGY_BID_TYPE'] = value['Bid Strategy Type']
 	json_['CAMPAIGN_ID'] = str(value['Campaign ID'])
 	print (value['Campaign'])
-	json_['CAMPAIGN_NAME'] = value['Campaign']
+	json_['CAMPAIGN_NAME'] = value['Campaign'].encode('utf-8')
 	json_['UPDATE_DATE'] = datetime.strptime(value['Date'], '%Y-%m-%d')
 
 	return json_
