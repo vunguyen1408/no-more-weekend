@@ -328,8 +328,10 @@ def ReportDetailUnmap(path_data, connect):
 		flag = False
 		if plan['REASON_CODE_ORACLE'] is not None:
 			for value in list_unmap:
-				if ((str(plan['PRODUCT']) == str(value[2])) and (str(plan['REASON_CODE_ORACLE']) == str(value[3])) and \
-					(str(plan['EFORM_TYPE']) == str(value[4])) and (str(plan['UNIT_OPTION']) == str(value[5])):
+				if ((str(plan['PRODUCT']) == str(value[2])) \
+				 and (str(plan['REASON_CODE_ORACLE']) == str(value[3])) \
+				 and (str(plan['EFORM_TYPE']) == str(value[4])) \
+				 and (str(plan['UNIT_OPTION']) == str(value[5]))):
 						flag = True
 			if (flag == False) and (len(plan['CAMPAIGN']) == 0):
 				json_ = ConvertJsonPlan(plan)			
