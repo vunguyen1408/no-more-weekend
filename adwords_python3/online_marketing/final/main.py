@@ -89,12 +89,12 @@ def Daily(connect, path_data, date):
 	time_insert_total = time.time() - insert_total
 	print ("            Time insert data mapping to total : ", time_insert_total)
 
-	# =============================== Manual mapping =========================================
-	print ("\n\n============= RUN INSERT MANUAL MAPPING TO TOTAL WITH DATE : " + date + " =================")
-	insert_manual = time.time()
-	list_plan_remove, list_plan_remove, list_camp_remove = manual.GetCampaignUnMapForManualMap(connect, path_data, date)
-	time_insert_manual = time.time() - insert_manual
-	print ("---------- Time insert manual mapping to total : ", time_insert_manual)
+	# # =============================== Manual mapping =========================================
+	# print ("\n\n============= RUN INSERT MANUAL MAPPING TO TOTAL WITH DATE : " + date + " =================")
+	# insert_manual = time.time()
+	# list_plan_remove, list_plan_remove, list_camp_remove = manual.GetCampaignUnMapForManualMap(connect, path_data, date)
+	# time_insert_manual = time.time() - insert_manual
+	# print ("---------- Time insert manual mapping to total : ", time_insert_manual)
 
 	#=============================== Update to database =========================================
 	print ("\n\n============= RUN INSERT DATA TO DATABASE WITH DATE : " + date + " =================")
@@ -129,7 +129,7 @@ def ManyDate(connect, path_data, start_date, end_date):
 		Daily(connect, path_data, str(d))
 
 
-start_date = '2017-07-01'
+start_date = '2017-08-01'
 end_date = '2017-08-31'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
