@@ -347,23 +347,24 @@ def GetVolumeActualTotal(plan):
 
 def CreateListPlanMonthly(path_data, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-	with open (path_data_total_map,'r') as f:
-		data_map = json.load(f)
-	for plan in data_map['TOTAL']:
-		plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = GetVolumeActualTotal(plan)
-		for m in plan['MONTHLY']:
-			m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = GetVolumeActualMonthly(plan, m)
-		print (plan)
+	if os.path.exists(path_data_total_map):
+		with open (path_data_total_map,'r') as f:
+			data_map = json.load(f)
+		for plan in data_map['TOTAL']:
+			plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = GetVolumeActualTotal(plan)
+			for m in plan['MONTHLY']:
+				m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = GetVolumeActualMonthly(plan, m)
+			print (plan)
 
-	sum_ = 0
-	for camp in data_map['UN_CAMPAIGN']:
-		# print (camp)
-		sum_ += camp['Cost']
-	print ("----------- SUM COST : " , sum_)
-	print (len(data_map['MAP']))
-	print (len(data_map['UN_CAMPAIGN']))
-	with open (path_data_total_map,'w') as f:
-		json.dump(data_map, f)
+		sum_ = 0
+		for camp in data_map['UN_CAMPAIGN']:
+			# print (camp)
+			sum_ += camp['Cost']
+		print ("----------- SUM COST : " , sum_)
+		print (len(data_map['MAP']))
+		print (len(data_map['UN_CAMPAIGN']))
+		with open (path_data_total_map,'w') as f:
+			json.dump(data_map, f)
 
 
 def InsertDateToTotal(path_data, date):
