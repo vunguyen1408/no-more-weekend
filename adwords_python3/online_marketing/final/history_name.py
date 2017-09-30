@@ -74,7 +74,7 @@ def InsertCampList(value, cursor):
 	values (:1, :2, :3, :4, :5, :6, :7) '
 		
 	cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID'], value['CAMPAIGN_NAME'].encode('utf-8'), \
-		value['DATE_GET'], value['UPDATE_DATE'], value['STATUS'], value['IMPORT_DATE']))
+		value['DATE_GET'], value['UPDATE_DATE'], None, value['IMPORT_DATE']))
 	
 	print("A row inserted!.......")
 
@@ -90,20 +90,6 @@ def UpdateCampList(value, cursor):
 		value['UPDATE_DATE'], value['ACCOUNT_ID'], value['CAMPAIGN_ID']))
 
 	print("   A row updated!.......")
-
-def ConvertJsonPlan(value):
-	json_ = {}
-		
-	json_['ACCOUNT_ID'] = value['ACCOUNT_ID']
-	json_['CAMPAIGN_ID'] = value['CAMPAIGN_ID']
-	json_['CAMPAIGN_NAME'] = value['CAMPAIGN_NAME']
-
-	json_['DATE_GET'] = value['DATE_GET']
-	json_['UPDATE_DATE'] = value['UPDATE_DATE']
-	json_['STATUS'] = ''
-	json_['IMPORT_DATE'] = None
-	
-	return json_
 
 
 def MergerCampList(value, cursor):
