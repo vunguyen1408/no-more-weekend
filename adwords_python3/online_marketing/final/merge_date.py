@@ -35,15 +35,13 @@ def MergerDataAccount(path_data, customer_id, date):
 
   with open (path_data_map,'r') as f:
     data_map = json.load(f)
-  print (data_map_date == [])
-  if len(data_map_date['campaign']):
-  
+    
+  if data_map_date != []:
     #--------------------- DATA MAP ---------------------
     temp_date = data_map_date['campaign']
     temp = data_map['campaign']
     temp.extend(temp_date)
     data_map['campaign'] = temp
-  if len(data_map_date['plan']) > 0:
     #------------------- DATA UN MAP PLAN -------------------
     if len(data_map['plan']) == 0:
       data_map['plan'] = list(data_map_date['plan'])
