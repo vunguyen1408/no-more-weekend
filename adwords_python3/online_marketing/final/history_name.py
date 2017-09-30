@@ -119,6 +119,8 @@ def MergerCampList(value, cursor):
 	print("	A row mergered!.......")
 
 def InsertHistoryName(connect, path_data, list_account, date):
+	conn = cx_Oracle.connect(connect)
+	cursor = conn.cursor()
 	for account in list_account:
 		AccountFrmCampaign(account, path_data, date)
 		path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
