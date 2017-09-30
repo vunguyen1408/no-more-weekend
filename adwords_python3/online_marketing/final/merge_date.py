@@ -35,28 +35,30 @@ def MergerDataAccount(path_data, customer_id, date):
 
   with open (path_data_map,'r') as f:
     data_map = json.load(f)
-  
-  #--------------------- DATA MAP ---------------------
-  temp_date = data_map_date['campaign']
-  temp = data_map['campaign']
-  temp.extend(temp_date)
-  data_map['campaign'] = temp
 
-  #------------------- DATA UN MAP PLAN -------------------
-  if len(data_map['plan']) == 0:
-    data_map['plan'] = list(data_map_date['plan'])
-  else:
-    for plan_date in data_map_date['plan']:
-      for plan in data_map['plan']:
-        if plan['PRODUCT_CODE'] == plan_date['PRODUCT_CODE'] \
-          and plan['REASON_CODE_ORACLE'] == plan_date['REASON_CODE_ORACLE'] \
-          and plan['FORM_TYPE'] == plan_date['FORM_TYPE']:
-          temp_date = plan_date['CAMPAIGN']
-          temp = plan['CAMPAIGN']
-          temp.extend(temp_date)
-          plan['CAMPAIGN'] = temp
-          if (len(temp) > 0):
-            plan['STATUS'] = 'SYS'
+  if len(data_map_date['campaign']):
+  
+    #--------------------- DATA MAP ---------------------
+    temp_date = data_map_date['campaign']
+    temp = data_map['campaign']
+    temp.extend(temp_date)
+    data_map['campaign'] = temp
+  if len(data_map_date['plan']) > 0:
+    #------------------- DATA UN MAP PLAN -------------------
+    if len(data_map['plan']) == 0:
+      data_map['plan'] = list(data_map_date['plan'])
+    else:
+      for plan_date in data_map_date['plan']:
+        for plan in data_map['plan']:
+          if plan['PRODUCT_CODE'] == plan_date['PRODUCT_CODE'] \
+            and plan['REASON_CODE_ORACLE'] == plan_date['REASON_CODE_ORACLE'] \
+            and plan['FORM_TYPE'] == plan_date['FORM_TYPE']:
+            temp_date = plan_date['CAMPAIGN']
+            temp = plan['CAMPAIGN']
+            temp.extend(temp_date)
+            plan['CAMPAIGN'] = temp
+            if (len(temp) > 0):
+              plan['STATUS'] = 'SYS'
 
   with open (path_data_map,'w') as f:
     json.dump(data_map, f)
