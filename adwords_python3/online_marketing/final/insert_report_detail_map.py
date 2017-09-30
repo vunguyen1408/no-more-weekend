@@ -319,54 +319,54 @@ def ConvertJsonMap(value):
 
 
 def ReportDetailUnmap(path_data, connect):
+	if os.path.exists(path_data):
+	 	# ==================== Connect database =======================
+		conn = cx_Oracle.connect(connect)
+		cursor = conn.cursor()
 
- 	# ==================== Connect database =======================
-	conn = cx_Oracle.connect(connect)
-	cursor = conn.cursor()
+		#=================== Read data from file json ===============================
+		with open(path_data, 'r') as fi:
+			data = json.load(fi)
 
-	#=================== Read data from file json ===============================
-	with open(path_data, 'r') as fi:
-		data = json.load(fi)
+		#============== Load table unmap =================================
+		list_unmap = SelectDetailUnmap(cursor)
+		#================== Unmap Plan data ==============================
+		iter = 0
+		for plan in data['UN_PLAN']:
+			flag = False
+			if plan['REASON_CODE_ORACLE'] is not None:
+				for value in list_unmap:
+					if str(plan['PRODUCT']) == str(value[2]) \
+					 and str(plan['REASON_CODE_ORACLE']) == str(value[3]) \
+					 and str(plan['FORM_TYPE']) == str(value[4]) \
+					 and str(plan['UNIT_OPTION']) == str(value[5]):
+							flag = True
+				if (flag == False) and (len(plan['CAMPAIGN']) == 0):
+					json_ = ConvertJsonPlan(plan)			
+					InsertDetailUnmap(json_, cursor)
+					iter += 1
+		print("Unmap plan insert", iter, "rows success!.......")
 
-	#============== Load table unmap =================================
-	list_unmap = SelectDetailUnmap(cursor)
-	#================== Unmap Plan data ==============================
-	iter = 0
-	for plan in data['UN_PLAN']:
-		flag = False
-		if plan['REASON_CODE_ORACLE'] is not None:
-			for value in list_unmap:
-				if str(plan['PRODUCT']) == str(value[2]) \
-				 and str(plan['REASON_CODE_ORACLE']) == str(value[3]) \
-				 and str(plan['FORM_TYPE']) == str(value[4]) \
-				 and str(plan['UNIT_OPTION']) == str(value[5]):
-						flag = True
-			if (flag == False) and (len(plan['CAMPAIGN']) == 0):
-				json_ = ConvertJsonPlan(plan)			
-				InsertDetailUnmap(json_, cursor)
-				iter += 1
-	print("Unmap plan insert", iter, "rows success!.......")
+		#================== Unmap Campaign data ==============================
+		iter = 0
+		# sumCampaign(data['campaign'])
 
-	#================== Unmap Campaign data ==============================
-	iter = 0
-	# sumCampaign(data['campaign'])
+		for camp in data['UN_CAMPAIGN']:
+			flag = False
+			if camp['Campaign ID'] is not None:
+				for value in list_unmap:
+					if str(camp['Date']) == str(value[0]) and str(camp['Campaign ID']) == str(value[1]):		
+							flag = True
+				if (flag == False) and (camp['Plan'] is None):
+					json_ = ConvertJsonCamp(camp)			
+					InsertDetailUnmap(json_, cursor)
+					iter += 1
+		print("Unmap campaign insert", iter, "rows success!.......")
 
-	for camp in data['UN_CAMPAIGN']:
-		flag = False
-		if camp['Campaign ID'] is not None:
-			for value in list_unmap:
-				if str(camp['Date']) == str(value[0]) and str(camp['Campaign ID']) == str(value[1]):		
-						flag = True
-			if (flag == False) and (camp['Plan'] is None):
-				json_ = ConvertJsonCamp(camp)			
-				InsertDetailUnmap(json_, cursor)
-				iter += 1
-	print("Unmap campaign insert", iter, "rows success!.......")
-
-	#==================== Commit and close connect ===============================
-	conn.commit()
-	print("Committed!.......")
-	cursor.close()
+		#==================== Commit and close connect ===============================
+		conn.commit()
+		print("Committed!.......")
+		cursor.close()
 
 def ReportDetailMap(path_data, connect):
 	if os.path.exists(path_data):
