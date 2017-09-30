@@ -71,7 +71,6 @@ def TSVtoJson(report_string, date):
 def DownloadCampaignOfCustomer(adwords_client, customerId, startDate, endDate):
 
   adwords_client.SetClientCustomerId(customerId)
-  print (customerId)
   report_downloader = adwords_client.GetReportDownloader(version='v201708')
   result = []
   report = {

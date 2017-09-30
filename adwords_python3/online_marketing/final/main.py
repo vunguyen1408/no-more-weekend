@@ -25,24 +25,27 @@ def Daily(connect, path_data, date):
 		2. Select install, mapping install.
 		3. 
 	"""
-	
+
+	# # --------- Doc list account
+	list_customer_id = ['6223856123', '5558683488', '4888935554', '5879354452', '5881347043', \
+		'1373058452', '3699371994', '1496752295', '6787284625', '4780719992', \
+		'5515537799', '3436962801', '7802963373', '5925380036', '3836577058', \
+		'1163330677', '1057617213', '4798268655', '8812868246', '7976533276', \
+		'9420329501', '3785612315', '9719199461', '1912353902', '4585745870', \
+		'9358928000', '4566721209', '1547282976', '1359687200', '1124503774', \
+		'5219026641', '8760733662', '5460890494', '4270191371', '4219579467', \
+		'3959508668', '1954002502', '6585673574', '5993679244', '5990401446', \
+		'7498338868', '9392975361', '9294243048', '7886422201', '6940796638', \
+		'6942753385', '3818588895', '8640138177', '1493302671', '7539462658', \
+		'5243164713', '9019703669', '3764021980', '8024455693', '7077229774', \
+		'6708858633', '1066457627', '4092061132', '3346913196', '5886101084', \
+		'3752996996', '8353864179', '1033505012', '5008396449', '6319649915', \
+		'6376833586', '6493618146', '9021114325']
 
 	start_work_flow = time.time()
 	#========================== Download report =================================
 	print ("======================= RUN GET REPORT WITH DATE : " + date + " =========================")
 	download_report = time.time()
-	# # --------- Doc list account
-	list_customer_id = ['5515537799', '3436962801', '7802963373', '5925380036', \
-	'3836577058', '1163330677', '1057617213', \
-	'4798268655', '8812868246', '7976533276', '9420329501', \
-	 '3785612315', '9719199461', '1912353902', '4585745870', '9358928000', '4566721209', \
-	'1547282976', '1359687200', '1124503774', '5219026641', '8760733662', \
-	'5460890494', '4270191371', '4219579467', '3959508668', '1954002502', \
-	'6585673574', '5993679244', '5990401446', '7498338868', '9392975361', '9294243048', '7886422201', '6940796638', \
-	'6942753385', '3818588895', '8640138177', '1493302671', '7539462658', '5243164713', \
-	'9019703669', '3764021980', '8024455693', '7077229774', '6708858633', '1066457627', \
-	'4092061132', '3346913196', '5886101084', '3752996996', '8353864179', '1033505012', \
-	'5008396449', '6319649915', '6376833586', '6493618146', '9021114325']
 	# # Initialize client object.
 	# adwords_client = adwords.AdWordsClient.LoadFromStorage()
 	# for account in list_customer_id:
@@ -50,22 +53,26 @@ def Daily(connect, path_data, date):
 	time_download_report = time.time() - download_report
 	print ("            Time get report: ", time_download_report)
 
-	#================ History name ==================================
+	#======================== History name ==================================
 	history.InsertHistoryName(connect, path_data, list_customer_id, date)
 
 	#======================== Insert install to data date ==============================
 	print ("\n\n======================= RUN INSERT INSTALL WITH DATE : " + date + " =========================")
 	insert_install = time.time()
 	# install.RunInsertInstall(connect, path_data, list_customer_id, date)
+
 	time_insert = time.time() - insert_install
 
-	#------------------ Read log manual mapping and get plan ---------------------
+
+
+	#------------------ Read log manual mapping and get plan NRU ---------------------
 	mapping_data.ReadPlanFromTable(connect, path_data, date)
-	# mapping_data.ReadProductAlias(connect, path_data, date)
+	mapping_data.ReadProductAlias(connect, path_data, date)
 	manual.ReadTableManualMap(connect, path_data, date)
 	#----------------------------------------------------------------
-
 	print ("             Time insert install: ", time_insert)
+
+
 
 	#======================== Mapping data for list account ============================
 	print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
@@ -104,17 +111,17 @@ def Daily(connect, path_data, date):
 	list_plan_remove = []
 	list_map = []
 	list_camp_remove = []
-	# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	# detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
 
 	time_insert_databse = time.time() - insert_databse
 	print ("            Time insert data to database : ", time_insert_total)
 
 	#----------------------------------------- END ---------------------------------------------
 	time_run_work_flow  = time.time() - start_work_flow
-	print (time_run_work_flow)
+	print ("            TOTAL TIME : ",time_run_work_flow)
 
 def ManyDate(connect, path_data, start_date, end_date):
 	# Initialize client object.

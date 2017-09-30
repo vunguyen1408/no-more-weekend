@@ -162,9 +162,6 @@ def getProductID(value):
 
 def ConvertJsonCamp(value):
 	json_ = {}	
-	print (value)
-	print (value['Date'])
-	print (value['Campaign ID'])
 	json_['SNAPSHOT_DATE'] = value['Date']
 	json_['CYEAR'] = value['Date'][0:4]
 	json_['CMONTH'] = value['Date'][5:7]
@@ -223,7 +220,6 @@ def ConvertJsonCamp(value):
 	json_['GG_APPSFLYER_INSTALL'] = value['INSTALL']		
 	json_['GG_STRATEGY_BID_TYPE'] = value['Bid Strategy Type']
 	json_['CAMPAIGN_ID'] = str(value['Campaign ID'])
-	print (value['Campaign'])
 	json_['CAMPAIGN_NAME'] = value['Campaign'].encode('utf-8')
 	json_['UPDATE_DATE'] = datetime.strptime(value['Date'], '%Y-%m-%d')
 
@@ -335,8 +331,6 @@ def ReportDetailUnmap(path_data, connect):
 	#============== Load table unmap =================================
 	list_unmap = SelectDetailUnmap(cursor)
 	#================== Unmap Plan data ==============================
-	for i in list_unmap:
-		print (i)
 	iter = 0
 	for plan in data['UN_PLAN']:
 		flag = False
@@ -406,7 +400,6 @@ def ReportDetailMap(path_data, connect):
 
 def InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-	print (path_data_total_map)
 	ReportDetailMap(path_data_total_map, connect)
 	ReportDetailUnmap(path_data_total_map, connect)
 

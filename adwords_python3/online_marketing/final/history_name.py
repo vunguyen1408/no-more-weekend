@@ -47,7 +47,7 @@ def AccountFrmCampaign(customer, path_data, date):
 					flag = False
 					if camp['Campaign'] != name['CAMPAIGN_NAME']:
 						name['CAMPAIGN_NAME'] = camp['Campaign']
-						print ("trung ====================================")
+						
 			if flag:
 				# ----------------- Add new -----------------------
 				# print (camp)
@@ -80,12 +80,12 @@ def InsertCampList(value, cursor):
 
 def UpdateCampList(value, cursor):
 	#==================== Insert data into database =============================
-	print (value)
+
 	statement = 'update STG_CAMPAIGN_LIST_GG \
 	set CAMPAIGN_NAME = :1, INSERT_DATE = :2, UPDATE_DATE = :3 \
 	where ACCOUNT_ID = :4 and CAMPAIGN_ID = :5'
 	
-	print (value)
+
 	cursor.execute(statement, (value['CAMPAIGN_NAME'].encode('utf-8'), datetime.strptime(value['DATE_GET'], '%Y-%m-%d'), \
 		datetime.strptime(value['UPDATE_DATE'], '%Y-%m-%d'), value['ACCOUNT_ID'], value['CAMPAIGN_ID']))
 
@@ -99,10 +99,8 @@ def MergerCampList(value, cursor):
 		
 	cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID']))
 	res = cursor.fetchall()
-	print (res)
+
 	if (len(res) == 0):
-		print ("==========================================================================")
-		print (res)
 		InsertCampList(value, cursor)
 	elif (value['CAMPAIGN_NAME'] != res):
 		UpdateCampList(value, cursor)
@@ -111,11 +109,6 @@ def MergerCampList(value, cursor):
 def InsertHistoryName(connect, path_data, list_account, date):
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
-
-	statement = 'select * from STG_CAMPAIGN_LIST_GG '
-	cursor.execute(statement)
-	print (cursor.fetchall())
-
 	for account in list_account:
 		AccountFrmCampaign(account, path_data, date)
 		path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
