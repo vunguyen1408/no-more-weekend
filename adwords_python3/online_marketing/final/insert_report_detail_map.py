@@ -341,7 +341,7 @@ def ReportDetailUnmap(path_data, connect):
 			for value in list_unmap:
 				if str(plan['PRODUCT']) == str(value[2]) \
 				 and str(plan['REASON_CODE_ORACLE']) == str(value[3]) \
-				 and str(plan['EFORM_TYPE']) == str(value[4]) \
+				 and str(plan['FORM_TYPE']) == str(value[4]) \
 				 and str(plan['UNIT_OPTION']) == str(value[5]):
 						flag = True
 			if (flag == False) and (len(plan['CAMPAIGN']) == 0):
@@ -387,7 +387,7 @@ def ReportDetailMap(path_data, connect):
 		flag = False	
 		for val in list_unmap:
 			if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
-			str(value['EFORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
+			str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
 			str(camp['SNAPSHOT_DATE']) == str(val[0]) and str(camp['CAMPAIGN_ID']) == str(val[1]):
 				flag = True
 		if flag == False:				
