@@ -388,7 +388,7 @@ def ReportDetailMap(path_data, connect):
 		for val in list_unmap:
 			if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
 			str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
-			str(camp['SNAPSHOT_DATE']) == str(val[0]) and str(camp['CAMPAIGN_ID']) == str(val[1]):
+			str(value['SNAPSHOT_DATE']) == str(val[0]) and str(value['CAMPAIGN_ID']) == str(val[1]):
 				flag = True
 		if flag == False:				
 			json_ = ConvertJsonMap(value)			
