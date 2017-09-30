@@ -86,7 +86,7 @@ def UpdateCampList(value, cursor):
 	
 	print (value)
 	cursor.execute(statement, (value['CAMPAIGN_NAME'], value['DATE_GET'], \
-		value['UPDATE_DATE'], value['ACCOUNT_ID'], value['CAMPAIGN_ID'],))
+		value['UPDATE_DATE'], value['ACCOUNT_ID'], value['CAMPAIGN_ID']))
 
 	print("   A row updated!.......")
 
