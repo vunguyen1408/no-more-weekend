@@ -223,7 +223,7 @@ def MergeDataToTotal(path_data, date):
 	if not os.path.exists(path_folder):
 		os.makedirs(path_folder)
 	path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
-	if os.path.exists(path_data_map)
+	if os.path.exists(path_data_map):
 
 		i = 0
 		find = True
