@@ -49,7 +49,6 @@ def SelectMap(cursor):
 
 def ConvertJsonPlan(value):
 	json_ = {}	
-	print (value)
 	json_['CYEAR'] = '20' + value['CYEAR']
 	if (len(value['CMONTH']) == 1):
 		json_['CMONTH'] = '0' + value['CMONTH']
@@ -233,7 +232,6 @@ def ConvertJsonCamp(value):
 
 def ConvertJsonMap(value):
 	json_ = {}	
-	print (value)
 	json_['SNAPSHOT_DATE'] = value['Date']
 	json_['CYEAR'] = '20' + value['CYEAR']
 	if (len(value['CMONTH']) == 1):

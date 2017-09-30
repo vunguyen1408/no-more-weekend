@@ -35,7 +35,6 @@ def GetDataSummaryAppsFlyer(connect, date, media_source, path_file):
         temp.append(i[5])
         temp.append(i[6])
         list_out.append(temp)
-        print (temp)
     install = {}
     install['list_install'] = list_out
     with open(path_file, 'w') as f:
@@ -45,7 +44,7 @@ def GetDataSummaryAppsFlyer(connect, date, media_source, path_file):
 def ReadDataInstall(path_file_install):
     with open(path_file_install, 'r') as f:
         data = json.load(f)
-        print ("doc duoc file install")
+        print ("==========================doc duoc file install====================")
         return data['list_install']
         
 def AddInstall(path_file, list_install):
