@@ -84,7 +84,7 @@ def UpdateCampList(value, cursor):
 	set CAMPAIGN_NAME = :1, INSERT_DATE = :2, UPDATE_DATE = :3, \
 	where ACCOUNT_ID = :4 and CAMPAIGN_ID = :5'
 	
-		
+	print (value)
 	cursor.execute(statement, (value['CAMPAIGN_NAME'], value['INSERT_DATE'], \
 		value['UPDATE_DATE'], value['ACCOUNT_ID'], value['CAMPAIGN_ID'],))
 
