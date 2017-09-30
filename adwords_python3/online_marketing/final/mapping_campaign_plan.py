@@ -233,7 +233,9 @@ def MapData(customer, path_folder, date):
 
 def MapDataForAllAccount(list_customer, path_folder, date):
   for customer in list_customer:
-    MapData(customer, path_folder, date)
+    path_customer = os.path.join(path_folder, str(date) + '/ACCOUNT_ID/' + customer)
+    if os.path.exists(path_customer):
+      MapData(customer, path_folder, date)
 
 
 

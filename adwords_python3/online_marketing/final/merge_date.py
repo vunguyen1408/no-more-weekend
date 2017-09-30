@@ -64,7 +64,9 @@ def MergerDataAccount(path_data, customer_id, date):
 
 def Merge(path_data, list_customer_id, date):
   for account in list_customer_id:
-    MergerDataAccount(path_data, account, date)
+    path_customer = os.path.join(path_data, str(date) + '/ACCOUNT_ID/' + account)
+    if os.path.exists(path_customer):
+      MergerDataAccount(path_data, account, date)
 
 
 def MergeWithDate(customer_id, path_data, start_date, end_date):
