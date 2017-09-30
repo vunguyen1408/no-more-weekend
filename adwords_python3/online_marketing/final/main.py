@@ -17,7 +17,7 @@ import insert_report_monthly_detail as monthly_detail
 import insert_report_monthly_sum as monthly_sum
 import insert_report_plan_sum as plan_sum
 import insert_report_detail_map as detail_map
-
+import history_name as history
 def Daily(connect, path_data, date):
 	"""
 		Run daily: 
@@ -49,9 +49,9 @@ def Daily(connect, path_data, date):
 	# 	download.DownloadOnDate(adwords_client, account, path_data, date)
 	time_download_report = time.time() - download_report
 	print ("            Time get report: ", time_download_report)
-	
+
 	#================ History name ==================================
-	InsertHistoryName(connect, path_data, list_customer_id, date)
+	history.InsertHistoryName(connect, path_data, list_customer_id, date)
 
 	#======================== Insert install to data date ==============================
 	print ("\n\n======================= RUN INSERT INSTALL WITH DATE : " + date + " =========================")
