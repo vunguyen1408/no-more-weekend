@@ -14,52 +14,53 @@ def MergerDataAccount(path_data, customer_id, date):
 
   #------------------- Open json ma and un map on date ------------------------------
   path_data_map_date = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
-  with open (path_data_map_date,'r') as f:
-    data_map_date = json.load(f)
+  if os.path.exists(path_data_map_date):
+    with open (path_data_map_date,'r') as f:
+      data_map_date = json.load(f)
 
-  #------------------- Open json ma and un map on date ------------------------------
-  path_folder = path_data + '/' + str(date) + '/DATA_MAPPING'
-  # print (path_folder)
-  if not os.path.exists(path_folder):
-    os.makedirs(path_folder)
-  path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
+    #------------------- Open json ma and un map on date ------------------------------
+    path_folder = path_data + '/' + str(date) + '/DATA_MAPPING'
+    # print (path_folder)
+    if not os.path.exists(path_folder):
+      os.makedirs(path_folder)
+    path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
 
-  #-------------------- Init file -----------------------------
-  if not os.path.exists(path_data_map):
-    data_map = {}
-    data_map['campaign'] = []
-    data_map['plan'] = []
+    #-------------------- Init file -----------------------------
+    if not os.path.exists(path_data_map):
+      data_map = {}
+      data_map['campaign'] = []
+      data_map['plan'] = []
+      with open (path_data_map,'w') as f:
+        json.dump(data_map, f)
+    #-----------------------------------------------------------
+
+    with open (path_data_map,'r') as f:
+      data_map = json.load(f)
+    
+    #--------------------- DATA MAP ---------------------
+    temp_date = data_map_date['campaign']
+    temp = data_map['campaign']
+    temp.extend(temp_date)
+    data_map['campaign'] = temp
+
+    #------------------- DATA UN MAP PLAN -------------------
+    if len(data_map['plan']) == 0:
+      data_map['plan'] = list(data_map_date['plan'])
+    else:
+      for plan_date in data_map_date['plan']:
+        for plan in data_map['plan']:
+          if plan['PRODUCT_CODE'] == plan_date['PRODUCT_CODE'] \
+            and plan['REASON_CODE_ORACLE'] == plan_date['REASON_CODE_ORACLE'] \
+            and plan['FORM_TYPE'] == plan_date['FORM_TYPE']:
+            temp_date = plan_date['CAMPAIGN']
+            temp = plan['CAMPAIGN']
+            temp.extend(temp_date)
+            plan['CAMPAIGN'] = temp
+            if (len(temp) > 0):
+              plan['STATUS'] = 'SYS'
+
     with open (path_data_map,'w') as f:
       json.dump(data_map, f)
-  #-----------------------------------------------------------
-
-  with open (path_data_map,'r') as f:
-    data_map = json.load(f)
-  
-  #--------------------- DATA MAP ---------------------
-  temp_date = data_map_date['campaign']
-  temp = data_map['campaign']
-  temp.extend(temp_date)
-  data_map['campaign'] = temp
-
-  #------------------- DATA UN MAP PLAN -------------------
-  if len(data_map['plan']) == 0:
-    data_map['plan'] = list(data_map_date['plan'])
-  else:
-    for plan_date in data_map_date['plan']:
-      for plan in data_map['plan']:
-        if plan['PRODUCT_CODE'] == plan_date['PRODUCT_CODE'] \
-          and plan['REASON_CODE_ORACLE'] == plan_date['REASON_CODE_ORACLE'] \
-          and plan['FORM_TYPE'] == plan_date['FORM_TYPE']:
-          temp_date = plan_date['CAMPAIGN']
-          temp = plan['CAMPAIGN']
-          temp.extend(temp_date)
-          plan['CAMPAIGN'] = temp
-          if (len(temp) > 0):
-            plan['STATUS'] = 'SYS'
-
-  with open (path_data_map,'w') as f:
-    json.dump(data_map, f)
 
 
 def Merge(path_data, list_customer_id, date):

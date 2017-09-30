@@ -222,94 +222,96 @@ def MergeDataToTotal(path_data, date):
 	path_folder = path_data + '/' + str(date) +  '/DATA_MAPPING'
 	if not os.path.exists(path_folder):
 		os.makedirs(path_folder)
-
-	i = 0
-	find = True
-	date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
-	path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
-	while not os.path.exists(path_data_total_map):
-		i = i + 1
-		date_before = date_before - timedelta(1)
-		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		if i == 30:
-			find = False
-			break
-
-
 	path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
-	if not find:
+	if os.path.exists(path_data_map)
+
+		i = 0
+		find = True
+		date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		while not os.path.exists(path_data_total_map):
+			i = i + 1
+			date_before = date_before - timedelta(1)
+			path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			if i == 30:
+				find = False
+				break
+
+
+		
+		if not find:
+			path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			data_total = {}
+			data_total['TOTAL'] = []
+			data_total['MAP'] = []
+			data_total['UN_PLAN'] = []
+			data_total['UN_CAMPAIGN'] = []
+			with open (path_data_total_map,'w') as f:
+				json.dump(data_total, f)
+		with open (path_data_map,'r') as f:
+			data_date = json.load(f)
+
+		with open (path_data_total_map,'r') as f:
+			data_total = json.load(f)
+
+		# -------------------- Tính total cho các plan mapping được của ngày -------------------
+		list_plan_total_date, list_data_map = SumTotalManyPlan(data_date['plan'], data_date['campaign'])
+		for plan_date in list_plan_total_date:
+			flag = True
+			for plan_total in data_total['TOTAL']:
+				if plan_total['PRODUCT'] == plan_date['PRODUCT'] \
+					and plan_total['REASON_CODE_ORACLE'] == plan_date['REASON_CODE_ORACLE'] \
+					and plan_total['FORM_TYPE'] == plan_date['FORM_TYPE']:
+					plan_total['TOTAL_CAMPAIGN'] = SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan_date['TOTAL_CAMPAIGN'])
+					plan_total['CAMPAIGN'].extend(plan_date['CAMPAIGN'])
+					flag = False
+
+			#----- Không tìm thấy trong total ------
+			if flag:
+				# --------------- Tạo các thông tin month cho plan trước khi add --------------
+				data_total['TOTAL'].append(plan_date)
+
+		# --------------- Tinh total month cho cac plan --------------
+		for plan in data_total['TOTAL']:
+			plan['MONTHLY'] = {}
+			plan = CaculatorTotalMonth(plan, date)
+
+		# --------------- Insert data map -------------------
+		data_total['MAP'].extend(list_data_map)
+
+		#---------------- Insert data un map -------------------
+		#------- campaign --------------
+		list_campaign_un_map = []
+		for camp in data_date['campaign']:
+			if camp['Plan'] == None:
+				list_campaign_un_map.append(camp)
+
+		temp = data_total['UN_CAMPAIGN']
+		temp.extend(list_campaign_un_map)
+		data_total['UN_CAMPAIGN'] = temp
+
+		#--------- plan -----------
+		list_plan_un_map = []
+		for plan in data_date['plan']:
+			if plan['CAMPAIGN'] == []:
+				list_plan_un_map.append(plan)
+
+		# print (len(list_plan_un_map))
+		for plan_un in list_plan_un_map:
+			flag = True
+			# print (data_total['UN_PLAN'])
+			for plan in data_total['UN_PLAN']:
+				if plan_un['PRODUCT'] == plan['PRODUCT'] \
+					and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+					and plan_un['FORM_TYPE'] == plan['FORM_TYPE']:
+					flag = False
+			if flag:
+				data_total['UN_PLAN'].append(plan_un)
+
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		data_total = {}
-		data_total['TOTAL'] = []
-		data_total['MAP'] = []
-		data_total['UN_PLAN'] = []
-		data_total['UN_CAMPAIGN'] = []
+		#-------------------------- Write total lần 1------------------
 		with open (path_data_total_map,'w') as f:
 			json.dump(data_total, f)
-	with open (path_data_map,'r') as f:
-		data_date = json.load(f)
-
-	with open (path_data_total_map,'r') as f:
-		data_total = json.load(f)
-
-	# -------------------- Tính total cho các plan mapping được của ngày -------------------
-	list_plan_total_date, list_data_map = SumTotalManyPlan(data_date['plan'], data_date['campaign'])
-	for plan_date in list_plan_total_date:
-		flag = True
-		for plan_total in data_total['TOTAL']:
-			if plan_total['PRODUCT'] == plan_date['PRODUCT'] \
-				and plan_total['REASON_CODE_ORACLE'] == plan_date['REASON_CODE_ORACLE'] \
-				and plan_total['FORM_TYPE'] == plan_date['FORM_TYPE']:
-				plan_total['TOTAL_CAMPAIGN'] = SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan_date['TOTAL_CAMPAIGN'])
-				plan_total['CAMPAIGN'].extend(plan_date['CAMPAIGN'])
-				flag = False
-
-		#----- Không tìm thấy trong total ------
-		if flag:
-			# --------------- Tạo các thông tin month cho plan trước khi add --------------
-			data_total['TOTAL'].append(plan_date)
-
-	# --------------- Tinh total month cho cac plan --------------
-	for plan in data_total['TOTAL']:
-		plan['MONTHLY'] = {}
-		plan = CaculatorTotalMonth(plan, date)
-
-	# --------------- Insert data map -------------------
-	data_total['MAP'].extend(list_data_map)
-
-	#---------------- Insert data un map -------------------
-	#------- campaign --------------
-	list_campaign_un_map = []
-	for camp in data_date['campaign']:
-		if camp['Plan'] == None:
-			list_campaign_un_map.append(camp)
-
-	temp = data_total['UN_CAMPAIGN']
-	temp.extend(list_campaign_un_map)
-	data_total['UN_CAMPAIGN'] = temp
-
-	#--------- plan -----------
-	list_plan_un_map = []
-	for plan in data_date['plan']:
-		if plan['CAMPAIGN'] == []:
-			list_plan_un_map.append(plan)
-
-	# print (len(list_plan_un_map))
-	for plan_un in list_plan_un_map:
-		flag = True
-		# print (data_total['UN_PLAN'])
-		for plan in data_total['UN_PLAN']:
-			if plan_un['PRODUCT'] == plan['PRODUCT'] \
-				and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-				and plan_un['FORM_TYPE'] == plan['FORM_TYPE']:
-				flag = False
-		if flag:
-			data_total['UN_PLAN'].append(plan_un)
-
-	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-	#-------------------------- Write total lần 1------------------
-	with open (path_data_total_map,'w') as f:
-		json.dump(data_total, f)
 
 
 #--------------- Insert Volume actual --------------------

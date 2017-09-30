@@ -194,29 +194,32 @@ def AddProductCode(path_folder, list_plan, date):
 #================= Read list plan, product code, save file mapping =====================
 def MapData(customer, path_folder, date): 
 
-  # =============== List plan code ================
-  list_plan = ReadPlan(path_folder, date)
-
-  #================ Add product id to plan =================
-  list_plan = AddProductCode(path_folder, list_plan, date)
-
-  # # #=========== Map Account with Campaign =======================  
-  path = os.path.join(path_folder, str(date) + '/ACCOUNT_ID/' + customer)
-  file_campaign = os.path.join(path, 'campaign_' + str(date) + '.json')
-
-  #-------------- Check mapped ----------
-  path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
-  data_map = []
-  
   with open (file_campaign, 'r') as f:
     list_campaign = json.load(f)
+  
+  # --------- Co campaign ----------
+  if len(list_campaign) > 0:
+    # =============== List plan code ================
+    list_plan = ReadPlan(path_folder, date)
 
-  data_map = MapAccountWithCampaign(path_folder, list_plan['plan'], list_campaign, date)
+    #================ Add product id to plan =================
+    list_plan = AddProductCode(path_folder, list_plan, date)
 
-  #----------------- Write file map and unmap ------------------
-  path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
-  with open (path_data_map,'w') as f:
-    json.dump(data_map, f)
+    # # #=========== Map Account with Campaign =======================  
+    path = os.path.join(path_folder, str(date) + '/ACCOUNT_ID/' + customer)
+    file_campaign = os.path.join(path, 'campaign_' + str(date) + '.json')
+
+    #-------------- Check mapped ----------
+    path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
+    data_map = []
+
+
+    data_map = MapAccountWithCampaign(path_folder, list_plan['plan'], list_campaign, date)
+
+    #----------------- Write file map and unmap ------------------
+    path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
+    with open (path_data_map,'w') as f:
+      json.dump(data_map, f)
 
   # if not os.path.exists(path_data_map):
   #   #--------------------------------------
