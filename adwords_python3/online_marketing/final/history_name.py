@@ -125,7 +125,7 @@ def InsertHistoryName(connect, path_data, list_account, date):
 		if os.path.exists(path_data_his):
 			with open (path_data_his,'r') as f:
 				data = json.load(f)
-			for i in date['HISTORY']:
+			for i in data['HISTORY']:
 				MergerCampList(value, cursor)
 
 
