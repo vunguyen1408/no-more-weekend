@@ -119,7 +119,7 @@ def ManyDate(connect, path_data, start_date, end_date):
 		Daily(connect, path_data, str(d))
 
 
-start_date = '2017-06-01'
+start_date = '2017-06-30'
 end_date = '2017-06-30'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
 connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
