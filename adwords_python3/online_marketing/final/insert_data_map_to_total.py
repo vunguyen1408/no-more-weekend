@@ -244,8 +244,8 @@ def MergeDataToTotal(path_data, date):
 		data_total['MAP'] = []
 		data_total['UN_PLAN'] = []
 		data_total['UN_CAMPAIGN'] = []
-	with open (path_data_total_map,'w') as f:
-		json.dump(data_total, f)
+		with open (path_data_total_map,'w') as f:
+			json.dump(data_total, f)
 	if os.path.exists(path_data_map):
 		with open (path_data_map,'r') as f:
 			data_date = json.load(f)
