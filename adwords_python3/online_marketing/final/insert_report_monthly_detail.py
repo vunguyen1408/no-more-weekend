@@ -193,6 +193,7 @@ def ReportMonthlyDetail(path_data, connect):
 
 def InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+	print (path_data_total_map)
 	ReportMonthlyDetail(path_data_total_map, connect)
 
 

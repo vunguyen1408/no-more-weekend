@@ -114,6 +114,7 @@ def ReportPlanSum(path_data, connect):
 def InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	ReportPlanSum(path_data_total_map, connect)
+	print (path_data_total_map)
 
 
 

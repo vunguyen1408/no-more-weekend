@@ -37,6 +37,16 @@ def InsertDetailUnmap(value, cursor):
 	print("A row inserted!.......")
 
 
+def SelectMap(cursor):
+	#==================== Insert data into database =============================
+	statement = 'select SNAPSHOT_DATE, CAMPAIGN_ID, PRODUCT, REASON_CODE_ORACLE, \
+	EFORM_NO, EFORM_TYPE, UNIT_OPTION from DTM_GG_PIVOT_DETAIL_UNMAP'	
+		
+	cursor.execute(statement)
+	list_data = cursor.fetchall()
+	return list_data
+
+
 def ConvertJsonPlan(value):
 	json_ = {}	
 
@@ -358,6 +368,7 @@ def ReportDetailMap(path_data, connect):
 
 def InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+	print (path_data_total_map)
 	ReportDetailMap(path_data_total_map, connect)
 	ReportDetailUnmap(path_data_total_map, connect)
 
