@@ -56,7 +56,7 @@ def AccountFrmCampaign(customer, path_data, date):
 					'CAMPAIGN_ID' : camp['Campaign ID'],
 
 					'CAMPAIGN_NAME' :camp['Campaign'],
-					'INSERT_DATE' :camp['Date'],
+					'DATE_GET' :camp['Date'],
 					'UPDATE_DATE': str(date),
 					'IMPORT_DATE' : None
 				}
@@ -74,7 +74,7 @@ def InsertCampList(value, cursor):
 	values (:1, :2, :3, :4, :5, :6) '
 		
 	cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID'], value['CAMPAIGN_NAME'], \
-		value['INSERT_DATE'], value['UPDATE_DATE'], value['STATUS'], value['IMPORT_DATE']))
+		value['DATE_GET'], value['UPDATE_DATE'], value['STATUS'], value['IMPORT_DATE']))
 	
 	print("A row inserted!.......")
 
@@ -85,7 +85,7 @@ def UpdateCampList(value, cursor):
 	where ACCOUNT_ID = :4 and CAMPAIGN_ID = :5'
 	
 	print (value)
-	cursor.execute(statement, (value['CAMPAIGN_NAME'], value['INSERT_DATE'], \
+	cursor.execute(statement, (value['CAMPAIGN_NAME'], value['DATE_GET'], \
 		value['UPDATE_DATE'], value['ACCOUNT_ID'], value['CAMPAIGN_ID'],))
 
 	print("   A row updated!.......")
@@ -97,7 +97,7 @@ def ConvertJsonPlan(value):
 	json_['CAMPAIGN_ID'] = value['CAMPAIGN_ID']
 	json_['CAMPAIGN_NAME'] = value['CAMPAIGN_NAME']
 
-	json_['INSERT_DATE'] = value['INSERT_DATE']
+	json_['DATE_GET'] = value['DATE_GET']
 	json_['UPDATE_DATE'] = value['UPDATE_DATE']
 	json_['STATUS'] = ''
 	json_['IMPORT_DATE'] = None
