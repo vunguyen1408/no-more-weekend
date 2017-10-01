@@ -29,103 +29,6 @@ def ParseFormatDate(date):
 def InsertPlanToDataBase(connect, plan):
 	return 0
 #-------------- Read database , lấy các data thay đổi, thay đổi bảng plan  ----------
-def ReadTableManualMap(connect, path_data, date):
-	path_folder = os.path.join(path_data, str(date) + '/LOG_MANUAL')
-	path_data_total_map = os.path.join(path_folder, 'log_manual.json')
-	if not os.path.exists(path_folder):
-		os.makedirs(path_folder)
-
-	if not os.path.exists(path_data_total_map):
-		data_manual_map = {}
-		data_manual_map['MANUAL_MAP'] = []
-		with open (path_data_total_map,'w') as f:
-			json.dump(data_manual_map, f)
-
-	with open (path_data_total_map,'r') as f:
-		data_manual_map = json.load(f)
-
-	 # ==================== Connect database =======================
-	conn = cx_Oracle.connect(connect)
-	cursor = conn.cursor()
-	
-	statement = "select PRODUCT, REASON_CODE_ORACLE, \
-					EFORM_TYPE, UNIT_OPTION, \
-					USER_NAME, USER_CAMPAIGN_ID, \
-					TO_CHAR(UPDATE_DATE, 'YYYY-MM-DD'), START_DATE, END_DATE from CAMPAIGN_MAP_HIS_GG"
-
-	cursor.execute(statement)
-	log_manual = cursor.fetchall()
-
-	list_diff = []
-	#------------- Check manual map change ---------------------
-	if (len(log_manual) != len(data_manual_map) or (data_manual_map['MANUAL_MAP'] == [])):
-		for data in log_manual:
-			flag = True
-			for data_local in data_manual_map:
-				if data[0] == data_local[0] \
-				and data[1] == data_local[1] \
-				and data[2] == data_local[2] \
-				and data[3] == data_local[3] \
-				and data[4] == data_local[4] \
-				and data[5] == data_local[5] \
-				and ParseFormatDate(data[7]) == data_local[7] \
-				and ParseFormatDate(data[8]) == data_local[8]:
-					print ("---------------- Trung log")
-					flag = False
-			if flag:
-				temp = list(data)
-				temp[7] = ParseFormatDate(data[7])
-				temp[8] = ParseFormatDate(data[8])
-				list_diff.append(list(temp))
-				print ("--------------- Da add them")
-
-	list_plan = mapping.ReadPlan(path_data, str(date))
-	# --------------- Get info plan ------------
-	list_plan_diff = []
-	plan_temp = None
-	list_plan_new = []
-	for plan in list_diff:
-		# ----------- Create data campaign ----------------
-		campaign = {}
-		campaign['CAMPAIGN_ID'] = plan[5]
-		campaign['UPDATE_DATE'] = str(plan[6])
-		flag = True
-		for plan_info in list_plan['plan']:
-			# print (plan_info['PRODUCT'])
-			# print (plan[0])
-			# print (plan[1])
-			# print (plan_info['REASON_CODE_ORACLE'])
-			if int(plan[0]) == int(plan_info['PRODUCT']) \
-				and plan[1] == plan_info['REASON_CODE_ORACLE']:
-				plan_temp = plan_info
-				if plan[3] == plan_info['UNIT_OPTION'] and plan[2] == plan_info['FORM_TYPE']:
-					temp = plan_info
-
-					temp['CAMPAIGN_MANUAL_MAP'] = []
-					temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
-					temp['USER_MAP'] = plan[4]
-					list_plan_diff.append(temp)
-					flag = False
-		# ----------- Plan moi duoc tao -----------------
-		if flag:
-			temp = plan_temp
-			temp['UNIT_OPTION'] = plan[3]
-			temp['FORM_TYPE'] = plan[2]
-			temp['CAMPAIGN_MANUAL_MAP'] = []
-			temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
-			temp['USER_MAP'] = plan[4]
-			temp['STATUS'] = 'USER'
-			list_plan_diff.append(temp)
-			list_plan_new.append(temp)
-
-	#------------------------ Insert database ------------------------------
-	connect = ''
-	for plan in list_plan_new:
-		InsertPlanToDataBase(connect, plan)
-	print (list_plan_diff)
-	return (list_plan_diff)
-
-
 # def ReadTableManualMap(connect, path_data, date):
 # 	path_folder = os.path.join(path_data, str(date) + '/LOG_MANUAL')
 # 	path_data_total_map = os.path.join(path_folder, 'log_manual.json')
@@ -147,8 +50,8 @@ def ReadTableManualMap(connect, path_data, date):
 	
 # 	statement = "select PRODUCT, REASON_CODE_ORACLE, \
 # 					EFORM_TYPE, UNIT_OPTION, \
-# 					USER_NAME, ACCOUNT_ID, \
-# 					START_DATE, END_DATE from ODS_CAMP_FA_MAPPING_GG"
+# 					USER_NAME, USER_CAMPAIGN_ID, \
+# 					TO_CHAR(UPDATE_DATE, 'YYYY-MM-DD'), START_DATE, END_DATE from CAMPAIGN_MAP_HIS_GG"
 
 # 	cursor.execute(statement)
 # 	log_manual = cursor.fetchall()
@@ -221,6 +124,103 @@ def ReadTableManualMap(connect, path_data, date):
 # 		InsertPlanToDataBase(connect, plan)
 # 	print (list_plan_diff)
 # 	return (list_plan_diff)
+
+
+def ReadTableManualMap(connect, path_data, date):
+	path_folder = os.path.join(path_data, str(date) + '/LOG_MANUAL')
+	path_data_total_map = os.path.join(path_folder, 'log_manual.json')
+	if not os.path.exists(path_folder):
+		os.makedirs(path_folder)
+
+	if not os.path.exists(path_data_total_map):
+		data_manual_map = {}
+		data_manual_map['MANUAL_MAP'] = []
+		with open (path_data_total_map,'w') as f:
+			json.dump(data_manual_map, f)
+
+	with open (path_data_total_map,'r') as f:
+		data_manual_map = json.load(f)
+
+	 # ==================== Connect database =======================
+	conn = cx_Oracle.connect(connect)
+	cursor = conn.cursor()
+	
+	statement = "select PRODUCT, REASON_CODE_ORACLE, \
+					EFORM_TYPE, UNIT_OPTION, \
+					USER_NAME, ACCOUNT_ID, \
+					START_DATE, END_DATE from ODS_CAMP_FA_MAPPING_GG"
+
+	cursor.execute(statement)
+	log_manual = cursor.fetchall()
+
+	list_diff = []
+	#------------- Check manual map change ---------------------
+	if (len(log_manual) != len(data_manual_map) or (data_manual_map['MANUAL_MAP'] == [])):
+		for data in log_manual:
+			flag = True
+			for data_local in data_manual_map:
+				if data[0] == data_local[0] \
+				and data[1] == data_local[1] \
+				and data[2] == data_local[2] \
+				and data[3] == data_local[3] \
+				and data[4] == data_local[4] \
+				and data[5] == data_local[5] \
+				and ParseFormatDate(data[6]) == data_local[6] \
+				and ParseFormatDate(data[7]) == data_local[7]:
+					print ("---------------- Trung log")
+					flag = False
+			if flag:
+				temp = list(data)
+				temp[6] = ParseFormatDate(data[6])
+				temp[7] = ParseFormatDate(data[7])
+				list_diff.append(list(temp))
+				print ("--------------- Da add them")
+
+	list_plan = mapping.ReadPlan(path_data, str(date))
+	# --------------- Get info plan ------------
+	list_plan_diff = []
+	plan_temp = None
+	list_plan_new = []
+	for plan in list_diff:
+		# ----------- Create data campaign ----------------
+		campaign = {}
+		campaign['CAMPAIGN_ID'] = plan[5]
+		# campaign['UPDATE_DATE'] = str(plan[6])
+		flag = True
+		for plan_info in list_plan['plan']:
+			# print (plan_info['PRODUCT'])
+			# print (plan[0])
+			# print (plan[1])
+			# print (plan_info['REASON_CODE_ORACLE'])
+			if int(plan[0]) == int(plan_info['PRODUCT']) \
+				and plan[1] == plan_info['REASON_CODE_ORACLE']:
+				plan_temp = plan_info
+				if plan[3] == plan_info['UNIT_OPTION'] and plan[2] == plan_info['FORM_TYPE']:
+					temp = plan_info
+
+					temp['CAMPAIGN_MANUAL_MAP'] = []
+					temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
+					temp['USER_MAP'] = plan[4]
+					list_plan_diff.append(temp)
+					flag = False
+		# ----------- Plan moi duoc tao -----------------
+		if flag:
+			temp = plan_temp
+			temp['UNIT_OPTION'] = plan[3]
+			temp['FORM_TYPE'] = plan[2]
+			temp['CAMPAIGN_MANUAL_MAP'] = []
+			temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
+			temp['USER_MAP'] = plan[4]
+			temp['STATUS'] = 'USER'
+			list_plan_diff.append(temp)
+			list_plan_new.append(temp)
+
+	#------------------------ Insert database ------------------------------
+	connect = ''
+	for plan in list_plan_new:
+		InsertPlanToDataBase(connect, plan)
+	print (list_plan_diff)
+	return (list_plan_diff)
 
 
 
