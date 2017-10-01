@@ -237,9 +237,10 @@ def AddNRU(path_folder, list_plan, date):
   file_product = os.path.join(path_folder, str(date) + '/PLAN/nru.json')
   with open(file_product, 'r') as fi:
     data = json.load(fi)
+  print(data)
 
   list_temp = []
-  for plan in list_plan:    
+  for plan in list_plan['plan']:    
     for nru in data['NRU']:
       date = datetime.strptime(nru['SNAPSHOT_DATE'], '%Y-%m-%d')
       if (nru['PRODUCT_ID'] is not None) \
