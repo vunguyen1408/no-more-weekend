@@ -89,7 +89,7 @@ def ConvertJsonMonthlySum(index, value):
 		json_['VOLUMN_ACTUAL'] = None
 	else:
 		json_['VOLUMN_ACTUAL'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL']
-	if (json_['VOLUMN_ACTUAL'] == 0):
+	if (json_['VOLUMN_ACTUAL'] == 0) or (json_['VOLUMN_ACTUAL'] == None):
 		json_['UNIT_COST_ACTUAL'] = None
 	else:
 		json_['UNIT_COST_ACTUAL'] = float(json_['NET_ACTUAL']) / json_['VOLUMN_ACTUAL']
