@@ -33,10 +33,10 @@ def ReadNRU(connect, path_data, date):
   list_json = []
   for nru in list_NRU:
     json_ = {
-    'SNAPSHOT_DATE' = nru[0],
-    'PRODUCT_CODE' = nru[1],
-    'NRU' = nru[2],
-    'PRODUCT_ID' = nru[3]
+    'SNAPSHOT_DATE': nru[0].strftime('%Y-%m-%d'),
+    'PRODUCT_CODE': nru[1],
+    'NRU': nru[2],
+    'PRODUCT_ID': nru[3]
     }
     list_json.append(json_)
 
@@ -56,10 +56,11 @@ def AddNRU(path_folder, list_plan, date):
   list_temp = []
   for plan in list_plan['plan']:    
     for nru in data['NRU']:
+      date = datetime.strptime(nru['SNAPSHOT_DATE'], '%Y-%m-%d')
       if (nru['PRODUCT_ID'] is not None) \
       and (int(plan['PRODUCT']) == int(nru['PRODUCT_ID'])) \
-      and (nru['SNAPSHOT_DATE'] >= datetime.strptime(plan['START_DAY'], '%Y-%m-%d')) \
-      and (nru['SNAPSHOT_DATE'] <= datetime.strptime(plan['START_DAY'], '%Y-%m-%d')):
+      and (date >= datetime.strptime(plan['START_DAY'], '%Y-%m-%d')) \
+      and (date <= datetime.strptime(plan['END_DAY_ESTIMATE'], '%Y-%m-%d')):
         plan['NRU'] = nru['NRU']    
   
   return list_plan
