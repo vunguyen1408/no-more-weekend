@@ -17,21 +17,24 @@ def ReadNRU(connect):
 
 
   #==================== Get NRU =============================
-  statement = 'Select SNAPSHOT_DATE, PRODUCT_CODE, NRU from STG_NRU where CHANNEL = :1'
-  cursor.execute(statement, ('Google'))
-  list_NRU = list(cursor.fetchall())
-  print(list_NRU)
-
-  print('==============================')
+  statement = "Select SNAPSHOT_DATE, PRODUCT_CODE, NRU from STG_NRU where CHANNEL = 'Google'"
+  cursor.execute(statement)
+  list_NRU = list(cursor.fetchall())  
+  
+  #==================== Get prodcut ID ===================
   statement = 'Select PRODUCT_ID, CCD_PRODUCT from ODS_META_PRODUCT'
   cursor.execute(statement)
-  list_product = list(cursor.fetchall())
-  print(list_product)
+  list_product = list(cursor.fetchall())  
 
   for nru in list_NRU:
     for pro in list_product:
       if (nru[1] == pro[1]):
-        print(pro[0])
+        nru.append(pro[0])
+      else:
+        nru.append('')
+
+  for nru in list_NRU:
+    print(nru)
 
   cursor.close()
 
