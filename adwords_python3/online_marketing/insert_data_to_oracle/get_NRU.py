@@ -24,15 +24,16 @@ def ReadNRU(connect):
   #==================== Get prodcut ID ===================
   statement = 'Select PRODUCT_ID, CCD_PRODUCT from ODS_META_PRODUCT'
   cursor.execute(statement)
-  list_product = list(cursor.fetchall())  
+  list_product = list(cursor.fetchall())
 
-  for nru in list_NRU:
+  for i in range(len(list_NRU)):
+    list_NRU[i] = list(list_NRU[i])
+    list_NRU[i].append('')
     for pro in list_product:
-      if (nru[1] == pro[1]):
-        nru.append(pro[0])
-      else:
-        nru.append('')
-
+      if (list_NRU[i][1] == pro[1]):    
+        list_NRU[i][3] = pro[0]  
+      
+  
   for nru in list_NRU:
     print(nru)
 
