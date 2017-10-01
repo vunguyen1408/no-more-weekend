@@ -25,8 +25,15 @@ def ManualMapping (connect, path_data, date):
 	plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
 
 
+start = time.time()
 
-date = '2017-06-30'
+from sys import argv
+script, date = argv
+
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
 connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
 ManualMapping (connect, path_data, date)
+
+
+time_flow = time.time() - start
+print ("Time flow 5 min: ", time_flow)
