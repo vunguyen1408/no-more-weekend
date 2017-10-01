@@ -54,7 +54,7 @@ def ManualFlow(connect, path_data, date):
 	cursor.execute(statement)
 	running = cursor.fetchall()
 
-	if (running is None):
+	if (len(running) == 0):
 		statement = "insert into DTM_GG_RUN_FLAG (FLAG_RUNNING, FINAL_RUNTIME) values (:1, :2)"
 		cursor.execute(statement, ('False', None))
 		conn.commit()
