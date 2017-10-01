@@ -84,8 +84,11 @@ def ConvertJsonMonthlySum(index, value):
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE'] 
 	json_['PRODUCT_ID'] = value['PRODUCT'] 
 
-	json_['NET_ACTUAL'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['COST']	 
-	json_['VOLUMN_ACTUAL'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL']
+	json_['NET_ACTUAL'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['COST']	
+	if ('VOLUME_ACTUAL' not in value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']):
+		json_['VOLUMN_ACTUAL'] = None
+	else:
+		json_['VOLUMN_ACTUAL'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL']
 	if (json_['VOLUMN_ACTUAL'] == 0):
 		json_['UNIT_COST_ACTUAL'] = None
 	else:

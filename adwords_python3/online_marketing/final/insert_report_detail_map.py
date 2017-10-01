@@ -114,7 +114,7 @@ def ConvertJsonPlan(value):
 
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE']
 	json_['PRODUCT_ID'] = value['PRODUCT']
-	json_['CCD_NRU'] = None
+	json_['CCD_NRU'] = json_['NRU']
 	json_['GG_VIEWS'] = None
 	json_['GG_CONVERSION'] = None
 	json_['GG_INVALID_CLICKS'] = None
@@ -293,7 +293,7 @@ def ConvertJsonMap(value):
 
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE']
 	json_['PRODUCT_ID'] = value['PRODUCT']
-	json_['CCD_NRU'] = None
+	json_['CCD_NRU'] = json_['NRU']
 	json_['GG_VIEWS'] = value['Views']
 	json_['GG_CONVERSION'] = value['Conversions']
 

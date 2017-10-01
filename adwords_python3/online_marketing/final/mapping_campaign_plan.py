@@ -236,8 +236,7 @@ def AddNRU(path_folder, list_plan, date):
   #================ Add product id to plan =================
   file_product = os.path.join(path_folder, str(date) + '/PLAN/nru.json')
   with open(file_product, 'r') as fi:
-    data = json.load(fi)
-  print(data)
+    data = json.load(fi)  
 
   list_temp = []
   for plan in list_plan['plan']:    
