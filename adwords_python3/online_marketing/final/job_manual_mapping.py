@@ -2,6 +2,7 @@ import sys
 import json
 import os
 import time
+import cx_Oracle
 from datetime import datetime , timedelta, date
 
 
@@ -58,7 +59,11 @@ def ManualFlow(connect, path_data, date):
 		cursor.execute(statement, ('False', None))
 		conn.commit()
 
-	if (running['0'] = 'False'):
+		statement = 'select * from DTM_GG_RUN_FLAG'		
+		cursor.execute(statement)
+		running = cursor.fetchall()
+
+	if (running[0] == 'False'):
 		#======= Turn on flag running ==================		
 		statement = "update DTM_GG_RUN_FLAG set FLAG_RUNNING = 'True' when FLAG_RUNNING = 'False'"
 		cursor.execute(statement)
