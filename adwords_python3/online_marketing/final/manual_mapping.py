@@ -19,6 +19,8 @@ import mapping_campaign_plan as mapping
 
 
 def ParseFormatDate(date):
+	if (Date is None):
+		return None
 	temp = date.split('/')
 	d = temp[2] + '-' + temp[0] + '-' + temp[1] 
 	d = str(datetime.strptime(d, '%Y-%m-%d').date())
