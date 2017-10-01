@@ -19,6 +19,8 @@ import mapping_campaign_plan as mapping
 
 
 def ParseFormatDate(date):
+	if (date is None):
+		print None
 	temp = date.split('/')
 	d = temp[2] + '-' + temp[0] + '-' + temp[1] 
 	d = str(datetime.strptime(d, '%Y-%m-%d').date())
@@ -66,14 +68,14 @@ def ReadTableManualMap(connect, path_data, date):
 				and data[3] == data_local[3] \
 				and data[4] == data_local[4] \
 				and data[5] == data_local[5] \
-				and ParseFormatDate(data[7]) == data_local[7] \
-				and ParseFormatDate(data[8]) == data_local[8]:
+				and ParseFormatDate(data[6]) == data_local[6] \
+				and ParseFormatDate(data[7]) == data_local[7]:
 					print ("---------------- Trung log")
 					flag = False
 			if flag:
 				temp = list(data)
+				temp[6] = ParseFormatDate(data[6])
 				temp[7] = ParseFormatDate(data[7])
-				temp[8] = ParseFormatDate(data[8])
 				list_diff.append(list(temp))
 				print ("--------------- Da add them")
 
