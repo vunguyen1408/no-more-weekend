@@ -88,7 +88,7 @@ def ConvertJsonPlanSum(value):
 		json_['UNIT_COST_ACTUAL'] = None
 	else:
 		json_['UNIT_COST_ACTUAL'] = float(json_['NET_ACTUAL']) / json_['VOLUMN_ACTUAL']
-	json_['APPSFLYER_INSTALL'] = None
+	json_['APPSFLYER_INSTALL'] = value['TOTAL_CAMPAIGN']['INSTALL']
 
 	return json_
 
