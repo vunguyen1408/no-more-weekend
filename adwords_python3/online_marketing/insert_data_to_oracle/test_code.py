@@ -11,7 +11,7 @@ def ManualFlow(connect, path_data, date):
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
 
-	path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/TEMP_DATA/2017-08-30/ACCOUNT_ID'
+	path = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/ACCOUNT_ID/TEMP_DATA/2017-08-30/ACCOUNT_ID'
 
 	list_folder = next(os.walk(path))[1]
 	for folder in list_folder:	
