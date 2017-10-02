@@ -220,7 +220,7 @@ def ConvertJsonCamp(value):
 	json_['GG_APPSFLYER_INSTALL'] = value['INSTALL']		
 	json_['GG_STRATEGY_BID_TYPE'] = value['Bid Strategy Type']
 	json_['CAMPAIGN_ID'] = str(value['Campaign ID'])
-	json_['CAMPAIGN_NAME'] = value['Campaign'].encode('unicode')
+	json_['CAMPAIGN_NAME'] = value['Campaign']#.encode('unicode')
 	json_['UPDATE_DATE'] = datetime.strptime(value['Date'], '%Y-%m-%d')
 
 	return json_
