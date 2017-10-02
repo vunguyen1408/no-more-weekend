@@ -18,20 +18,21 @@ def ManualFlow(connect):
 		path_file = os.path.join(path, folder)	
 		list_file = next(os.walk(path_file))[2]	
 		for file in list_file:
-			f = os.path.join(path_file, file)		
-			with open(f , 'r') as fi:
-				data = json.load(fi)
-			
-			for value in data:					
-				name = value['Campaign']
-				name = value['Campaign'].encode('utf-8').strip()
+			if (file[0:9] == 'campaign_'):
+				f = os.path.join(path_file, file)		
+				with open(f , 'r') as fi:
+					data = json.load(fi)
+				
+				for value in data:
+					name = value['Campaign']
+					name = value['Campaign'].encode('utf-8').strip()
 
-	
-				statement = "insert into DTM_GG_RUN_FLAG (FLAG_RUNNING, FINAL_RUNTIME) values (:1, :2)"
-				print('Insert!...')
-				cursor.execute(statement, (name, None))
-				conn.commit()	
-				print('Committed!........')
+		
+					statement = "insert into DTM_GG_RUN_FLAG (FLAG_RUNNING, FINAL_RUNTIME) values (:1, :2)"
+					print('Insert!...')
+					cursor.execute(statement, (name, None))
+					conn.commit()	
+					print('Committed!........')
 	cursor.close()
 
 
