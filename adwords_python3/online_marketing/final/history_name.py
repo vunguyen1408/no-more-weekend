@@ -73,7 +73,7 @@ def InsertCampList(value, cursor):
 	UPDATE_DATE, STATUS, IMPORT_DATE) \
 	values (:1, :2, :3, :4, :5, :6, :7) '
 		
-	cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID'], value['CAMPAIGN_NAME'].encode('utf-8'), \
+	cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID'], value['CAMPAIGN_NAME'], \
 		datetime.strptime(value['DATE_GET'], '%Y-%m-%d'), datetime.strptime(value['UPDATE_DATE'], '%Y-%m-%d'), None, None))
 	
 	print("A row inserted!.......")

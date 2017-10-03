@@ -173,7 +173,7 @@ def ReadTableManualMap(connect, path_data, date):
 				temp[6] = ParseFormatDate(data[6])
 				temp[7] = ParseFormatDate(data[7])
 				list_diff.append(list(temp))
-				print ("--------------- Da add them")
+				print ("--------------- Da add them ---------------")
 
 	list_plan = mapping.ReadPlan(path_data, str(date))
 	# --------------- Get info plan ------------
@@ -214,8 +214,15 @@ def ReadTableManualMap(connect, path_data, date):
 			list_plan_diff.append(temp)
 			list_plan_new.append(temp)
 
-	#------------------------ Insert database ------------------------------
+	#------------------------ Insert database plan new------------------------------
 	connect = ''
+	# list_plan_new chua duy nhat can check lai
+	for plan1 in list_plan_new:
+		for plan2 in list_plan_new:
+			if plan1['PRODUCT'] == plan2['PRODUCT'] \
+				and plan1['REASON_CODE_ORACLE'] == plan2['REASON_CODE_ORACLE'] \
+				and plan1['FORM_TYPE'] == plan2['FORM_TYPE']:
+
 	for plan in list_plan_new:
 		InsertPlanToDataBase(connect, plan)
 	print (list_plan_diff)
@@ -223,19 +230,8 @@ def ReadTableManualMap(connect, path_data, date):
 
 
 
-#--- Vào data unmap sum các camp cho một plan ----------
-def GetCampaignUnMapForPlan(path_data, plan, date):
-	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-	print (plan)
-
-	if not os.path.exists(path_data_total_map):
-		data_total = {}
-		data_total['TOTAL'] = []
-		data_total['MAP'] = []
-		data_total['UN_PLAN'] = []
-		data_total['UN_CAMPAIGN'] = []
-		with open (path_data_total_map,'w') as f:
-			json.dump(data_total, f)
+#-------- Vào data unmap sum các camp cho một plan ----------
+def GetCampaignUnMapForPlan(path_data, plan, path_data_total_map, date):
 
 	with open (path_data_total_map,'r') as f:
 		data_total = json.load(f)
@@ -264,28 +260,45 @@ def GetCampaignUnMapForPlan(path_data, plan, date):
 			plan['CAMPAIGN'].append(campaign)
 			list_camp_need_remove.append(camp)
 
+	list_map_temp = []
+	plan_sum = []
+
 	for camp in list_camp_need_remove:
 		list_campaign.remove(camp)
 	plan_sum, list_map_temp = insert_data.SumTotalPlan(plan, list_camp)
 	print (list_campaign)
-	return (plan_sum, list_map, list_camp_need_remove)
+	return (plan_sum, list_map_temp, list_camp_need_remove)
 
 
 def GetCampaignUnMapForManualMap(connect, path_data, date):
 	# ------------- Get manual map from table log ----------------
 	# list_diff = ReadTableManualMap(connect, path_data, date)
-
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+
+	#--------------- Tim file total hien tai or ngay gan nhat -------------------------
+	if not os.path.exists(path_data_total_map):
+		data_total = {}
+		data_total['TOTAL'] = []
+		data_total['MAP'] = []
+		data_total['UN_PLAN'] = []
+		data_total['UN_CAMPAIGN'] = []
+		with open (path_data_total_map,'w') as f:
+			json.dump(data_total, f)
+	#-----------------------------------------------------------------------------------
+
+
 	with open (path_data_total_map,'r') as f:
 		data_total = json.load(f)
 	list_plan = ReadTableManualMap(connect, path_data, date)
 	print (len(list_plan))
 	print ("9999999999999999999999")
 	list_camp_remove = []
+	list_map_all = []
 	for plan in list_plan:
-		plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(path_data, plan, date)
+		plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(path_data, plan, path_data_total_map, date)
 		#------------- Insert data map ------------
 		data_total['MAP'].extend(list_map)
+		list_map_all.extend(list_camp)
 
 		#----------- Remove unmap ---------------------
 		list_camp_remove.extend(list_camp_need_remove)
@@ -302,7 +315,8 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 		for plan_total in data_total['TOTAL']:
 			if plan_total['PRODUCT'] == plan['PRODUCT'] \
 				and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-				and plan_total['FORM_TYPE'] == plan['FORM_TYPE']:
+				and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
+				and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
 				plan_total['TOTAL_CAMPAIGN'] = insert_data.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
 				flag = False
 
@@ -318,12 +332,13 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 
 	insert_data.CreateListPlanMonthly(path_data, date)
 
+
+	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	with open (path_data_total_map,'w') as f:
 		json.dump(data_total, f)
 
-	list_map_remove = []
 	list_plan_remove = []
-	return (list_plan_remove, list_plan_remove, list_camp_remove)
+	return (list_map_all, list_plan_remove, list_camp_remove)
 
 
 # connect = ''

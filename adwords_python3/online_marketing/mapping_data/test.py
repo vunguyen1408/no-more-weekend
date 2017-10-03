@@ -8,27 +8,25 @@ import cx_Oracle
 import json
 from datetime import datetime , timedelta, date
 
-connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
 
-statement = "select * from DTM_GG_PIVOT_DETAIL"
+statement = "insert into CAMPAIGN_MAP_HIS_GG (PRODUCT, REASON_CODE_ORACLE, \
+				EFORM_TYPE, UNIT_OPTION, \
+				USER_NAME, USER_CAMPAIGN_ID, \
+				UPDATE_DATE, START_DATE, END_DATE) values(:1, :2, :3, :4, :5, :6, :7, :8, :9)"
 
 def loadProductAlias(path_data, connect):
 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
-	statement = 'select PRODUCT_ID, GG_PRODUCT, CCD_PRODUCT from ODS_META_PRODUCT'        
-	cursor.execute(statement)
-	res = list(cursor.fetchall())
-	list_json = []
-	for product in res:
-		json_ = {
-			'PRODUCT_ID': product[0],
-			'GG_PRODUCT': product[1],
-			'CCD_PRODUCT' : product[2]
-		}
-		list_json.append(json_)
-	print (list_json)
+	statement = "insert into CAMPAIGN_MAP_HIS_GG (PRODUCT, REASON_CODE_ORACLE, \
+				EFORM_TYPE, UNIT_OPTION, \
+				USER_NAME, USER_CAMPAIGN_ID, \
+				UPDATE_DATE, START_DATE, END_DATE) values(:1, :2, :3, :4, :5, :6, :7, :8, :9)"
 
-	# with open(path_data, 'w') as fo:
-	#     json.dump(list_json, fo)
-	# cursor.close()
+	cursor.execute(statement, (None, 'một â', None, None, None, None, None, None, None))
+	conn.commit()
+	print("Committed!.......")
+	cursor.close()
+
+loadProductAlias(connect)
