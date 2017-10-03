@@ -81,7 +81,7 @@ def InsertCampList(value, cursor):
 			datetime.strptime(value['DATE_GET'], '%Y-%m-%d'), datetime.strptime(value['UPDATE_DATE'], '%Y-%m-%d'), None, None))
 		print (e)
 	
-	print("A row inserted!.......")
+	# print("A row inserted!.......")
 
 def UpdateCampList(value, cursor):
 	#==================== Insert data into database =============================
@@ -98,7 +98,7 @@ def UpdateCampList(value, cursor):
 			datetime.strptime(value['UPDATE_DATE'], '%Y-%m-%d'), value['ACCOUNT_ID'], value['CAMPAIGN_ID']))
 		print (e)
 
-	print("   A row updated!.......")
+	# print("   A row updated!.......")
 
 
 def MergerCampList(value, cursor):
@@ -113,7 +113,7 @@ def MergerCampList(value, cursor):
 		InsertCampList(value, cursor)
 	elif (value['CAMPAIGN_NAME'] != res):
 		UpdateCampList(value, cursor)
-	print("	A row mergered!.......")
+	# print("	A row mergered!.......")
 
 def InsertHistoryName(connect, path_data, list_account, date):
 	conn = cx_Oracle.connect(connect)
@@ -127,7 +127,7 @@ def InsertHistoryName(connect, path_data, list_account, date):
 			for i in data['HISTORY']:
 				MergerCampList(i, cursor)
 	conn.commit()
-	print("Committed!.......")
+	# print("Committed!.......")
 	cursor.close()
 
 

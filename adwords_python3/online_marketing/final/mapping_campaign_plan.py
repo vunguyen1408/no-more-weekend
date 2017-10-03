@@ -90,7 +90,7 @@ def ReadPlanFromTable(connect, path_folder, date):
   folder = os.path.join(path_folder, str(date) + '/PLAN')
   if not os.path.exists(folder):
     os.makedirs(folder)
-  print (folder)
+  # print (folder)
   file_plan = os.path.join(folder, 'plan.json')
 
   #============================== Connect database =============================
@@ -207,7 +207,7 @@ def MapData(customer, path_folder, date):
   # Neu list campaign lay duoc ve khac rong
   with open (file_campaign, 'r') as f:
     list_campaign = json.load(f)
-  print (len(list_campaign))
+  # print (len(list_campaign))
   if len(list_campaign) > 0:
 
     data_map = MapAccountWithCampaign(path_folder, list_plan['plan'], list_campaign, date)
@@ -253,8 +253,8 @@ def MapWithDate(customer_id, path_data, start_date, end_date):
   list_eform_unmapping = []
 
   while(date <= endDate):
-    print ("===========================================================")
-    print (date)
+    # print ("===========================================================")
+    # print (date)
     #========== map data ============
     path_folder = os.path.join(path_data, customer_id)
     path_date = os.path.join(path_folder, str(date))

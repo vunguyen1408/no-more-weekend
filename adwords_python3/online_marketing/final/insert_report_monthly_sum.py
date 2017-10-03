@@ -21,7 +21,7 @@ def InsertMonthlySum(value, cursor):
 		value['NET_BUDGET'], value['UNIT_COST'], value['VOLUMN'], value['EVENT_ID'], value['PRODUCT_ID'], \
 		value['NET_ACTUAL'], value['UNIT_COST_ACTUAL'], value['VOLUMN_ACTUAL'], value['APPSFLYER_INSTALL']))	
 	
-	print("   A row inserted!.......")
+	# print("   A row inserted!.......")
 
 
 def UpdateMonthlySum(value, cursor):
@@ -36,7 +36,7 @@ def UpdateMonthlySum(value, cursor):
 		value['VOLUMN_ACTUAL'], value['APPSFLYER_INSTALL'], \
 		value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION']))
 
-	print("   A row updated!.......")
+	# print("   A row updated!.......")
 
 
 def MergerMonthlySum(value, cursor):
@@ -51,7 +51,7 @@ def MergerMonthlySum(value, cursor):
 		InsertMonthlySum(value, cursor)
 	else:
 		UpdateMonthlySum(value, cursor)
-	print("A row mergered!.......")
+	# print("A row mergered!.......")
 
 
 def ConvertJsonMonthlySum(index, value):
@@ -114,7 +114,7 @@ def ReportMonthlySum(path_data, connect):
 
 		#==================== Commit and close connect ===============================
 		conn.commit()
-		print("Committed!.......")
+		# print("Committed!.......")
 		cursor.close()
 
 def InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date):

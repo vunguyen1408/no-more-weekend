@@ -226,7 +226,7 @@ def ReadTableManualMap(connect, path_data, date):
 
 	for plan in list_plan_new:
 		InsertPlanToDataBase(connect, plan)
-	print (list_plan_diff)
+	# print (list_plan_diff)
 	return (list_plan_diff)
 
 
@@ -267,7 +267,7 @@ def GetCampaignUnMapForPlan(path_data, plan, path_data_total_map, date):
 	for camp in list_camp_need_remove:
 		list_campaign.remove(camp)
 	plan_sum, list_map_temp = insert_data.SumTotalPlan(plan, list_camp)
-	print (list_campaign)
+	# print (list_campaign)
 	return (plan_sum, list_map_temp, list_camp_need_remove)
 
 
@@ -291,8 +291,8 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 	with open (path_data_total_map,'r') as f:
 		data_total = json.load(f)
 	list_plan = ReadTableManualMap(connect, path_data, date)
-	print (len(list_plan))
-	print ("9999999999999999999999")
+	# print (len(list_plan))
+	# print ("9999999999999999999999")
 	list_camp_remove = []
 	list_map_all = []
 	for plan in list_plan:
@@ -328,7 +328,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 
 	# --------------- Tinh total month cho cac plan --------------
 	for plan in data_total['TOTAL']:
-		print (plan['TOTAL_CAMPAIGN'])
+		# print (plan['TOTAL_CAMPAIGN'])
 		plan = insert_data.CaculatorTotalMonth(plan, date)
 
 	insert_data.CreateListPlanMonthly(path_data, date)

@@ -36,7 +36,7 @@ def InsertDetailUnmap(value, cursor):
 		value['GG_APPSFLYER_INSTALL'], value['GG_STRATEGY_BID_TYPE'], value['CAMPAIGN_ID'], value['CAMPAIGN_NAME'], value['UPDATE_DATE'], \
 		value['GG_MCC_ID'], value['GG_MCC_NAME']))	
 	
-	print("A row inserted!.......")
+	# print("A row inserted!.......")
 
 
 def SelectDetailUnmap(cursor):
@@ -341,7 +341,7 @@ def ReportDetailUnmap(path_data, connect):
 					json_ = ConvertJsonPlan(plan)			
 					InsertDetailUnmap(json_, cursor)
 					iter += 1
-		print("Unmap plan insert", iter, "rows success!.......")
+		# print("Unmap plan insert", iter, "rows success!.......")
 
 		#================== Unmap Campaign data ==============================
 		iter = 0
@@ -361,11 +361,11 @@ def ReportDetailUnmap(path_data, connect):
 						json_['CAMPAIGN_NAME'] = camp['Campaign'].encode('utf-8')
 						InsertDetailUnmap(json_, cursor)
 					iter += 1
-		print("Unmap campaign insert", iter, "rows success!.......")
+		# print("Unmap campaign insert", iter, "rows success!.......")
 
 		#==================== Commit and close connect ===============================
 		conn.commit()
-		print("Committed!.......")
+		# print("Committed!.......")
 		cursor.close()
 
 def ReportDetailMap(path_data, connect):
@@ -398,12 +398,12 @@ def ReportDetailMap(path_data, connect):
 					InsertDetailUnmap(json_, cursor)
 					print ("-------------- Erros ------------" + e)
 				iter += 1
-		print("Map data insert", iter, "rows success!.......")
-		print("Number erros UnicodeEncodeError", i)
+		# print("Map data insert", iter, "rows success!.......")
+		# print("Number erros UnicodeEncodeError", i)
 
 		#==================== Commit and close connect ===============================
 		conn.commit()
-		print("Committed!.......")
+		# print("Committed!.......")
 		cursor.close()
 
 def InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date):

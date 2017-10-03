@@ -78,8 +78,8 @@ def MergeWithDate(customer_id, path_data, start_date, end_date):
   list_eform_unmapping = []
 
   while(date <= endDate):
-    print ("===========================================================")
-    print (date)
+    # print ("===========================================================")
+    # print (date)
     MergerDataAccount(path_data, customer_id, str(date))
     date = date + timedelta(1)
 

@@ -22,7 +22,7 @@ def InsertPlanSum(value, cursor):
 		value['NET_BUDGET'], value['UNIT_COST'], value['VOLUMN'], value['EVENT_ID'], value['PRODUCT_ID'], \
 		value['NET_ACTUAL'], value['UNIT_COST_ACTUAL'], value['VOLUMN_ACTUAL'], value['APPSFLYER_INSTALL']))	
 	
-	print("   A row inserted!.......")
+	# print("   A row inserted!.......")
 
 def UpdatePlanSum(value, cursor):
 	#==================== Insert data into database =============================
@@ -36,7 +36,7 @@ def UpdatePlanSum(value, cursor):
 		value['VOLUMN_ACTUAL'], value['APPSFLYER_INSTALL'], \
 		value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION']))
 
-	print("   A row updated!.......")
+	# print("   A row updated!.......")
 
 
 def MergerPlanSum(value, cursor):
@@ -51,7 +51,7 @@ def MergerPlanSum(value, cursor):
 		InsertPlanSum(value, cursor)
 	else:
 		UpdatePlanSum(value, cursor)
-	print("A row mergered!.......")
+	# print("A row mergered!.......")
 
 
 def ConvertJsonPlanSum(value):
@@ -108,7 +108,7 @@ def ReportPlanSum(path_data, connect):
 
 		#==================== Commit and close connect ===============================
 		conn.commit()
-		print("Committed!.......")
+		# print("Committed!.......")
 		cursor.close()
 
 

@@ -378,8 +378,8 @@ def InsertManyDate(path_data, start_date, end_date):
 		MergeDataToTotal(path_data, str(date))
 		CreateListPlanMonthly(path_data, str(date))
 		date = date + timedelta(1)
-		print (date)
-		print ("------------------------")
+		# print (date)
+		# print ("------------------------")
 	
 
 

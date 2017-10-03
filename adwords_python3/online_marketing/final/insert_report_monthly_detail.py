@@ -33,7 +33,7 @@ def InsertMonthlyDetail(value, cursor):
 		value['GG_INTERACTIONS'], value['GG_CLICKS'], value['GG_INTERACTION_TYPE'], value['GG_COST'], value['GG_SPEND'], \
 		value['GG_APPSFLYER_INSTALL'], value['GG_STRATEGY_BID_TYPE']))	
 	
-	print("A row inserted!.......")
+	# print("A row inserted!.......")
 
 
 def UpdateMonthlyDetail(value, cursor):
@@ -52,7 +52,7 @@ def UpdateMonthlyDetail(value, cursor):
 		value['GG_COST'], value['GG_SPEND'], value['GG_APPSFLYER_INSTALL'], \
 		value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION']))
 
-	print("A row updated!.......")
+	# print("A row updated!.......")
 
 
 def MergerMonthlyDetail(value, cursor):
@@ -187,7 +187,7 @@ def ReportMonthlyDetail(path_data, connect):
 
 		#==================== Commit and close connect ===============================
 		conn.commit()
-		print("Committed!.......")
+		# print("Committed!.......")
 		cursor.close()
 
 

@@ -44,7 +44,7 @@ def GetDataSummaryAppsFlyer(connect, date, media_source, path_file):
 def ReadDataInstall(path_file_install):
     with open(path_file_install, 'r') as f:
         data = json.load(f)
-        print ("==========================doc duoc file install====================")
+        # print ("==========================doc duoc file install====================")
         return data['list_install']
         
 def AddInstall(path_file, list_install):
@@ -86,8 +86,8 @@ def InsetInstall(path_data, path_file_install, start_date, end_date):
     date = startDate
 
     while(date <= endDate):
-        print ("===========================================================")
-        print (date)
+        # print ("===========================================================")
+        # print (date)
         list_install = ReadDataInstall(path_file_install)
         InsetInstallToDate(path_data, list_install, str(date))
         date = date + timedelta(1)

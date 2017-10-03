@@ -132,8 +132,8 @@ def DateToString(date):
 def DownloadOnDate(adwords_client, customerId, path, date):
   startDate = DateToString(date)
   endDate = DateToString(date)
-  print (date)
-  print (endDate)
+  # print (date)
+  # print (endDate)
   path_folder = os.path.join(path, date + '/ACCOUNT_ID/' + customerId)
   if not os.path.exists(path_folder):
     os.makedirs(path_folder)
