@@ -216,8 +216,8 @@ def ConvertJsonCamp(value):
 	json_['CAMPAIGN_ID'] = str(value['Campaign ID'])
 	json_['CAMPAIGN_NAME'] = value['Campaign']
 	json_['UPDATE_DATE'] = datetime.strptime(value['Date'], '%Y-%m-%d')
-	json_['GG_MCC_ID'] = None
-	json_['GG_MCC_NAME'] = None
+	json_['GG_MCC_ID'] = value['Account ID']
+	json_['GG_MCC_NAME'] = value['Account Name']
 
 	return json_
 
@@ -309,8 +309,8 @@ def ConvertJsonMap(value):
 	json_['CAMPAIGN_ID'] = str(value['Campaign ID'])
 	json_['CAMPAIGN_NAME'] = value['Campaign']
 	json_['UPDATE_DATE'] = datetime.strptime(value['Date'], '%Y-%m-%d')
-	json_['GG_MCC_ID'] = None
-	json_['GG_MCC_NAME'] = None
+	json_['GG_MCC_ID'] = value['Account ID']
+	json_['GG_MCC_NAME'] = value['Account Name']
 
 	return json_
 
