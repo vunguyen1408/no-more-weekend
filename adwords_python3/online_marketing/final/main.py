@@ -137,11 +137,13 @@ def ManyDate(connect, path_data, start_date, end_date):
 	date_ = datetime.strptime(start_date, '%Y-%m-%d').date()
 	to_date_ = datetime.strptime(end_date, '%Y-%m-%d').date()
 	n = int((to_date_ - date_).days)
-
+	s = time.time()
 	for i in range(n + 1):
 		single_date = date_ + timedelta(i)
 		d = single_date.strftime('%Y-%m-%d')
 		Daily(connect, path_data, str(d))
+	e = time.time() - s
+	print (" TIME : ", e)
 
 
 start_date = '2017-06-01'
