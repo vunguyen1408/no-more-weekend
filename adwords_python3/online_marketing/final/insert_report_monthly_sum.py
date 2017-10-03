@@ -161,10 +161,10 @@ def ReportMonthlySum(path_data, connect):
 				MergerMonthlySum(json_, cursor)
 
 		#=================..........=====================
-		for value in data['UN_PLAN']:	
-			for i in range(len(value['MONTHLY'])):
-				json_ = ConvertJsonMonthlySumUnMap(i, value)
-				MergerMonthlySum(json_, cursor)
+		# for value in data['UN_PLAN']:	
+		# 	for i in range(len(value['MONTHLY'])):
+		# 		json_ = ConvertJsonMonthlySumUnMap(i, value)
+		# 		MergerMonthlySum(json_, cursor)
 		#=================..........=====================
 
 		#==================== Commit and close connect ===============================
