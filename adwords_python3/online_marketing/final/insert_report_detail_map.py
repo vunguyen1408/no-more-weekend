@@ -376,6 +376,7 @@ def ReportDetailMap(path_data, connect):
 		list_unmap = SelectDetailUnmap(cursor)
 		#================== Data Map ==============================
 		iter = 0
+		i = 0
 		for value in data['MAP']:
 			flag = False	
 			for val in list_unmap:
@@ -384,10 +385,17 @@ def ReportDetailMap(path_data, connect):
 				str(value['Date']) == str(val[0]) and str(value['Campaign ID']) == str(val[1]):
 					flag = True
 			if flag == False:				
-				json_ = ConvertJsonMap(value)			
-				InsertDetailUnmap(json_, cursor)
+				json_ = ConvertJsonMap(value)	
+				try:		
+					InsertDetailUnmap(json_, cursor)
+				except UnicodeEncodeError as e:
+					i = i + 1
+					json_['CAMPAIGN_NAME'] = value['Campaign'].encode('utf-8')
+					InsertDetailUnmap(json_, cursor)
+					print ("-------------- Erros ------------" + e)
 				iter += 1
 		print("Map data insert", iter, "rows success!.......")
+		print("Number erros UnicodeEncodeError", i)
 
 		#==================== Commit and close connect ===============================
 		conn.commit()
