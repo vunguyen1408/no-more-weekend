@@ -18,10 +18,10 @@ import mapping_campaign_plan as mapping
 #  'USER_MAP': 'HIENNTV'}]
 
 
-def ParseFormatDate(date):
-	if (date is None):
+def ParseFormatDate(data):
+	if (data is None):
 		return None
-	temp = date.split('/')
+	temp = data.split('/')
 	d = temp[2] + '-' + temp[0] + '-' + temp[1] 
 	d = str(datetime.strptime(d, '%Y-%m-%d').date())
 	return d
@@ -222,7 +222,7 @@ def ReadTableManualMap(connect, path_data, date):
 	# 		if plan1['PRODUCT'] == plan2['PRODUCT'] \
 	# 			and plan1['REASON_CODE_ORACLE'] == plan2['REASON_CODE_ORACLE'] \
 	# 			and plan1['FORM_TYPE'] == plan2['FORM_TYPE']:
-				
+
 
 	for plan in list_plan_new:
 		InsertPlanToDataBase(connect, plan)
