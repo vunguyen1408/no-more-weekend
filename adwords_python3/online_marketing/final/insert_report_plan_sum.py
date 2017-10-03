@@ -2,8 +2,9 @@ import cx_Oracle
 import json
 import os
 from datetime import datetime , timedelta, date
-
-
+#=================..........=====================
+import insert_data_map_to_total as insert_to_total
+#=================..........=====================
 
 
 def InsertPlanSum(value, cursor):
@@ -92,6 +93,46 @@ def ConvertJsonPlanSum(value):
 
 	return json_
 
+
+#=================..........=====================
+def ConvertJsonPlanSumUnMap(value):
+	json_ = {}	
+	json_['CYEAR'] = '20' + value['CYEAR']
+	if (len(value['CMONTH']) == 1):
+		json_['CMONTH'] = '0' + value['CMONTH']
+	else:
+		json_['CMONTH'] = value['CMONTH']
+	json_['LEGAL'] = value['LEGAL']
+	json_['DEPARTMENT'] = value['DEPARTMENT']
+
+	json_['DEPARTMENT_NAME'] = value['DEPARTMENT_NAME'] 
+	json_['PRODUCT'] = value['PRODUCT'] 
+	json_['PRODUCT_NAME'] = ''
+	json_['REASON_CODE_ORACLE'] = value['REASON_CODE_ORACLE'] 
+	json_['EFORM_NO'] = value['EFORM_NO'] 
+
+	json_['START_DATE'] = datetime.strptime(value['START_DAY'], '%Y-%m-%d')
+	json_['END_DATE'] = datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d')
+	json_['EFORM_TYPE'] = value['FORM_TYPE'] 
+	json_['UNIT_OPTION'] = value['UNIT_OPTION'] 
+	json_['NET_BUDGET_VND'] = None
+
+	json_['NET_BUDGET'] = float(value['AMOUNT_USD'])
+	json_['UNIT_COST'] = str(value['UNIT_COST'])
+	json_['VOLUMN'] = value['CVALUE'] 
+	json_['EVENT_ID'] = value['REASON_CODE_ORACLE'] 
+	json_['PRODUCT_ID'] = value['PRODUCT'] 
+
+	json_['NET_ACTUAL'] = None
+	json_['VOLUMN_ACTUAL'] = None	
+	json_['UNIT_COST_ACTUAL'] = None	
+	json_['APPSFLYER_INSTALL'] = None
+
+	return json_
+#=================..........=====================
+
+
+
 def ReportPlanSum(path_data, connect):
 	if os.path.exists(path_data):
 	 	# ==================== Connect database =======================
@@ -105,6 +146,12 @@ def ReportPlanSum(path_data, connect):
 		for value in data['TOTAL']:		
 			json_ = ConvertJsonPlanSum(value)
 			MergerPlanSum(json_, cursor)
+
+		#=================..........=====================
+		for value in data['UN_PLAN']:		
+			json_ = ConvertJsonPlanSumUnMap(value)
+			MergerPlanSum(json_, cursor)
+		#=================..........=====================
 
 		#==================== Commit and close connect ===============================
 		conn.commit()
