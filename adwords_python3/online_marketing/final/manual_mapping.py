@@ -216,12 +216,13 @@ def ReadTableManualMap(connect, path_data, date):
 
 	#------------------------ Insert database plan new------------------------------
 	connect = ''
-	# list_plan_new chua duy nhat can check lai
-	for plan1 in list_plan_new:
-		for plan2 in list_plan_new:
-			if plan1['PRODUCT'] == plan2['PRODUCT'] \
-				and plan1['REASON_CODE_ORACLE'] == plan2['REASON_CODE_ORACLE'] \
-				and plan1['FORM_TYPE'] == plan2['FORM_TYPE']:
+	# # list_plan_new chua duy nhat can check lai
+	# for plan1 in list_plan_new:
+	# 	for plan2 in list_plan_new:
+	# 		if plan1['PRODUCT'] == plan2['PRODUCT'] \
+	# 			and plan1['REASON_CODE_ORACLE'] == plan2['REASON_CODE_ORACLE'] \
+	# 			and plan1['FORM_TYPE'] == plan2['FORM_TYPE']:
+				
 
 	for plan in list_plan_new:
 		InsertPlanToDataBase(connect, plan)
