@@ -354,8 +354,12 @@ def ReportDetailUnmap(path_data, connect):
 					if str(camp['Date']) == str(value[0]) and str(camp['Campaign ID']) == str(value[1]):		
 							flag = True
 				if (flag == False) and (camp['Plan'] is None):
-					json_ = ConvertJsonCamp(camp)			
-					InsertDetailUnmap(json_, cursor)
+					json_ = ConvertJsonCamp(camp)		
+					try:	
+						InsertDetailUnmap(json_, cursor)
+					except UnicodeEncodeError as e:
+						json_['CAMPAIGN_NAME'] = value['Campaign'].encode('utf-8')
+						InsertDetailUnmap(json_, cursor)
 					iter += 1
 		print("Unmap campaign insert", iter, "rows success!.......")
 
