@@ -18,15 +18,15 @@ def ManualMapping (connect, path_data, date):
 	insert_manual = time.time()
 	list_map, list_plan_remove, list_camp_remove = manual.GetCampaignUnMapForManualMap(connect, path_data, date)
 	time_insert_manual = time.time() - insert_manual
-	print ("---------- Time insert manual mapping to total : ", time_insert_manual)
+	# print ("---------- Time insert manual mapping to total : ", time_insert_manual)
 	
-	monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
 
 
 
-date = '2017-06-30'
+date = '2017-08-31'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
-connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
+connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 ManualMapping (connect, path_data, date)

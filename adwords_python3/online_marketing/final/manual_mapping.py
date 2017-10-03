@@ -272,20 +272,20 @@ def GetCampaignUnMapForPlan(path_data, plan, path_data_total_map, date):
 
 
 def GetCampaignUnMapForManualMap(connect, path_data, date):
-	# ------------- Get manual map from table log ----------------
-	# list_diff = ReadTableManualMap(connect, path_data, date)
-	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+	# # ------------- Get manual map from table log ----------------
+	# # list_diff = ReadTableManualMap(connect, path_data, date)
+	# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 
-	#--------------- Tim file total hien tai or ngay gan nhat -------------------------
-	if not os.path.exists(path_data_total_map):
-		data_total = {}
-		data_total['TOTAL'] = []
-		data_total['MAP'] = []
-		data_total['UN_PLAN'] = []
-		data_total['UN_CAMPAIGN'] = []
-		with open (path_data_total_map,'w') as f:
-			json.dump(data_total, f)
-	#-----------------------------------------------------------------------------------
+	# #--------------- Tim file total hien tai or ngay gan nhat -------------------------
+	# if not os.path.exists(path_data_total_map):
+	# 	data_total = {}
+	# 	data_total['TOTAL'] = []
+	# 	data_total['MAP'] = []
+	# 	data_total['UN_PLAN'] = []
+	# 	data_total['UN_CAMPAIGN'] = []
+	# 	with open (path_data_total_map,'w') as f:
+	# 		json.dump(data_total, f)
+	# #-----------------------------------------------------------------------------------
 
 
 	with open (path_data_total_map,'r') as f:
