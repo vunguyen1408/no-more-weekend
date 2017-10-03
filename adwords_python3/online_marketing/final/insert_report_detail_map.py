@@ -358,7 +358,7 @@ def ReportDetailUnmap(path_data, connect):
 					try:	
 						InsertDetailUnmap(json_, cursor)
 					except UnicodeEncodeError as e:
-						json_['CAMPAIGN_NAME'] = value['Campaign'].encode('utf-8')
+						json_['CAMPAIGN_NAME'] = camp['Campaign'].encode('utf-8')
 						InsertDetailUnmap(json_, cursor)
 					iter += 1
 		print("Unmap campaign insert", iter, "rows success!.......")
