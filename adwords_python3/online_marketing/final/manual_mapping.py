@@ -22,7 +22,7 @@ def ParseFormatDate(data):
 	print (data)
 	if (data is None):
 		return None
-	temp = data.split('/')
+	temp = data.split('-')
 	d = temp[2] + '-' + temp[0] + '-' + temp[1] 
 	d = str(datetime.strptime(d, '%Y-%m-%d').date())
 	return d
@@ -167,14 +167,14 @@ def ReadTableManualMap(connect, path_data, date):
 				and data[3] == data_local[3] \
 				and data[4] == data_local[4] \
 				and data[5] == data_local[5] \
-				and ParseFormatDate(data[6]) == data_local[6] \
-				and ParseFormatDate(data[7]) == data_local[7]:
+				and data[6] == data_local[6] \
+				and data[7] == data_local[7]:
 					print ("---------------- Trung log")
 					flag = False
 			if flag:
 				temp = list(data)
-				temp[6] = ParseFormatDate(data[6])
-				temp[7] = ParseFormatDate(data[7])
+				temp[6] = data[6]
+				temp[7] = data[7]
 				list_diff.append(list(temp))
 				print ("--------------- Da add them ---------------")
 
