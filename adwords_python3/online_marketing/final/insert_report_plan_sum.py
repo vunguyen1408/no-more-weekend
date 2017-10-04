@@ -2,9 +2,6 @@ import cx_Oracle
 import json
 import os
 from datetime import datetime , timedelta, date
-#=================..........=====================
-import insert_data_map_to_total as insert_to_total
-#=================..........=====================
 
 
 def InsertPlanSum(value, cursor):
@@ -146,6 +143,7 @@ def ReportPlanSum(path_data, connect):
 		for value in data['TOTAL']:		
 			json_ = ConvertJsonPlanSum(value)
 			MergerPlanSum(json_, cursor)
+
 
 		#=================..........=====================
 		for value in data['UN_PLAN']:		

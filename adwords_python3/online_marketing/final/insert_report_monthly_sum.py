@@ -2,9 +2,6 @@ import cx_Oracle
 import json
 import os
 from datetime import datetime , timedelta, date
-#=================..........=====================
-import insert_data_map_to_total as insert_to_total
-#=================..........=====================
 
 
 
