@@ -254,6 +254,7 @@ def MergeDataToTotal(path_data, date):
 		print (path_data_total_map)
 		with open (path_data_total_map,'r') as f:
 			data_total = json.load(f)
+		print (len(data_total['TOTAL']))
 
 		# -------------------- Tính total cho các plan mapping được của ngày -------------------
 		list_plan_total_date, list_data_map = SumTotalManyPlan(data_date['plan'], data_date['campaign'])
@@ -317,8 +318,11 @@ def MergeDataToTotal(path_data, date):
 			plan['MONTHLY'] = {}
 			plan = CaculatorTotalMonth(plan, date)
 			# print (plan)
+		print (len(data_total['TOTAL']))
+		print ("=================== LUU FILE ===========================")
 
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		print (path_data_total_map)
 		#-------------------------- Write total lần 1------------------
 		with open (path_data_total_map,'w') as f:
 			json.dump(data_total, f)
