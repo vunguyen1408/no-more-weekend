@@ -172,5 +172,6 @@ def InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, l
 	ReportMonthlySum(path_data_total_map, connect)
 
 
+
 # path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/total_mapping1.json'
 # ReportMonthlySum(path_data, connect)

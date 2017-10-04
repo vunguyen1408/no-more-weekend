@@ -3,8 +3,6 @@ import json
 import pandas as pd
 import os
 from datetime import datetime
-# connect = 'MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV'
-	
 
 def InsertDetailUnmap(value, cursor):
 	#==================== Insert data into database =============================

@@ -292,6 +292,5 @@ def InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove
 	ReportMonthlyDetail(path_data_total_map, connect)
 
 
-
 # path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/total_mapping.json'
 # ReportMonthlyDetail(path_data, connect)

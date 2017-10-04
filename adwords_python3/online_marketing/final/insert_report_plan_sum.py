@@ -4,6 +4,7 @@ import os
 from datetime import datetime , timedelta, date
 
 
+
 def InsertPlanSum(value, cursor):
 	#==================== Insert data into database =============================
 	statement = 'insert into DTM_GG_PLAN_SUM (CYEAR, CMONTH, LEGAL, DEPARTMENT, \
