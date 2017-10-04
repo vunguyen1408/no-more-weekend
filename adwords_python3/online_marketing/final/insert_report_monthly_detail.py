@@ -65,7 +65,7 @@ def MergerMonthlyDetail(value, cursor):
 	
 	if (len(res) == 0):
 		InsertMonthlyDetail(value, cursor)
-	else:
+	elif (len(res) != 0) and (res[0][45] is not None):
 		UpdateMonthlyDetail(value, cursor)
 	# print("	A row mergered!.......")
 
@@ -278,7 +278,7 @@ def ReportMonthlyDetail(path_data, connect):
 		#=================..........=====================
 		for value in data['UN_PLAN']:	
 			# print (value)
-			for i in range(len(value['MONTHLY'])):		
+			for i in range(len(value['MONTHLY'])):
 				json_ = ConvertJsonMonthlyDetailUnMap(i, value)
 				MergerMonthlyDetail(json_, cursor)
 		#=================..........=====================
