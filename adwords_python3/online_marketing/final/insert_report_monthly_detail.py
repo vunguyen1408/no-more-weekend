@@ -65,7 +65,7 @@ def MergerMonthlyDetail(value, cursor):
 	
 	if (len(res) == 0):
 		InsertMonthlyDetail(value, cursor)
-	elif (len(res) != 0) and (res[0][45] is not None):
+	else:
 		UpdateMonthlyDetail(value, cursor)
 	# print("	A row mergered!.......")
 

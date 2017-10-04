@@ -49,7 +49,7 @@ def MergerMonthlySum(value, cursor):
 	
 	if (len(res) == 0):
 		InsertMonthlySum(value, cursor)
-	elif (len(res) != 0) and (res[0][21] is not None):
+	else:
 		UpdateMonthlySum(value, cursor)
 	# print("A row mergered!.......")
 
