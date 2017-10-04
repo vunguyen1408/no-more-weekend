@@ -263,7 +263,9 @@ def MergeDataToTotal(path_data, date):
 			for plan_total in data_total['TOTAL']:
 				if plan_total['PRODUCT'] == plan_date['PRODUCT'] \
 					and plan_total['REASON_CODE_ORACLE'] == plan_date['REASON_CODE_ORACLE'] \
-					and plan_total['FORM_TYPE'] == plan_date['FORM_TYPE']:
+					and plan_total['FORM_TYPE'] == plan_date['FORM_TYPE'] \
+					and plan_total['START_DAY'] == plan_date['START_DAY'] \
+					and plan_total['END_DAY_ESTIMATE'] == plan_date['END_DAY_ESTIMATE']:
 					plan_total['TOTAL_CAMPAIGN'] = SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan_date['TOTAL_CAMPAIGN'])
 					plan_total['CAMPAIGN'].extend(plan_date['CAMPAIGN'])
 					flag = False
