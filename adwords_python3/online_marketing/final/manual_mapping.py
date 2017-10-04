@@ -148,13 +148,14 @@ def ReadTableManualMap(connect, path_data, date):
 	
 	statement = "select PRODUCT, REASON_CODE_ORACLE, \
 					EFORM_TYPE, UNIT_OPTION, \
-					USER_NAME, ACCOUNT_ID, \
+					USER_NAME, ACCOUNT_ID, CAMPAIGN_ID \
 					TO_CHAR(START_DATE, 'YYYY-MM-DD'), TO_CHAR(END_DATE, 'YYYY-MM-DD') from ODS_CAMP_FA_MAPPING_GG"
 	cursor.execute(statement)
 	log_manual = cursor.fetchall()
 
 	list_diff = []
-	#------------- Check manual map change ---------------------
+	#------------- Check manual map change --------------------
+	print (log_manual)
 	if (len(log_manual) != len(data_manual_map) or (data_manual_map['MANUAL_MAP'] == [])):
 		for data in log_manual:
 			flag = True
@@ -173,11 +174,9 @@ def ReadTableManualMap(connect, path_data, date):
 					flag = False
 			if flag:
 				temp = list(data)
-				temp[6] = data[6]
-				temp[7] = data[7]
 				list_diff.append(list(temp))
 				print ("--------------- Da add them ---------------")
-
+	print (list_diff)
 	list_plan = mapping.ReadPlan(path_data, str(date))
 	# --------------- Get info plan ------------
 	list_plan_diff = []
