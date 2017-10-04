@@ -7,6 +7,9 @@ import json
 import cx_Oracle
 from datetime import datetime , timedelta, date
 
+#-------------- import package -----------------
+import insert_nru_to_data as nru
+
 
 
 
@@ -85,6 +88,53 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
   # print (" -------------- Un mapping------ ", len(list_campaign_map) - number)
   return data_map
 
+
+def ReadProductAlias(connect, path_data, date):
+  file_product = os.path.join(path_data, str(date) + '/PLAN/product_alias.json')
+  # ==================== Connect database =======================
+  conn = cx_Oracle.connect(connect)
+  cursor = conn.cursor()
+  statement = 'select PRODUCT_ID, GG_PRODUCT, CCD_PRODUCT from ODS_META_PRODUCT'        
+  cursor.execute(statement)
+  res = list(cursor.fetchall())
+  list_json = []
+  for product in res:
+    if product[0] is not None:
+      json_ = {
+        'PRODUCT_ID': product[0],
+        'GG_PRODUCT': product[1],
+        'CCD_PRODUCT' : product[2]
+      }
+      list_json.append(json_)
+  data_json = {}
+  data_json['ALIAS'] = list_json
+  with open(file_product, 'w') as fo:
+    json.dump(data_json, fo)
+  cursor.close()
+
+
+def AddProductCode(path_folder, list_plan, date):
+  #================ Add product id to plan =================
+  file_product = os.path.join(path_folder, str(date) + '/PLAN/product_alias.json')
+  with open(file_product, 'r') as fo:
+    data = json.load(fo)
+
+  list_temp = []
+  for plan in list_plan['plan']:
+    temp = plan
+    temp['PRODUCT_CODE'] = ''
+    for alias in data['ALIAS']:
+      if (alias['PRODUCT_ID'] is not None) and (alias['GG_PRODUCT'] is not None) \
+      and (int(plan['PRODUCT']) == int(alias['PRODUCT_ID'])):
+        temp['PRODUCT_CODE'] = str(alias['GG_PRODUCT'])     
+    list_temp.append(temp)
+  # for p in list_temp:
+  #   print (p['PRODUCT_CODE'])
+  
+  list_plan['plan'] = list_temp
+  return list_plan
+
+
 def ReadPlanFromTable(connect, path_folder, date):
   import datetime
   folder = os.path.join(path_folder, str(date) + '/PLAN')
@@ -154,49 +204,7 @@ def ReadPlan(path_folder, date):
     list_plan = json.load(f)
     return list_plan
 
-def ReadProductAlias(connect, path_data, date):
-  file_product = os.path.join(path_data, str(date) + '/PLAN/product_alias.json')
-  # ==================== Connect database =======================
-  conn = cx_Oracle.connect(connect)
-  cursor = conn.cursor()
-  statement = 'select PRODUCT_ID, GG_PRODUCT, CCD_PRODUCT from ODS_META_PRODUCT'        
-  cursor.execute(statement)
-  res = list(cursor.fetchall())
-  list_json = []
-  for product in res:
-    if product[0] is not None:
-      json_ = {
-        'PRODUCT_ID': product[0],
-        'GG_PRODUCT': product[1],
-        'CCD_PRODUCT' : product[2]
-      }
-      list_json.append(json_)
-  data_json = {}
-  data_json['ALIAS'] = list_json
-  with open(file_product, 'w') as fo:
-    json.dump(data_json, fo)
-  cursor.close()
 
-def AddProductCode(path_folder, list_plan, date):
-  #================ Add product id to plan =================
-  file_product = os.path.join(path_folder, str(date) + '/PLAN/product_alias.json')
-  with open(file_product, 'r') as fo:
-    data = json.load(fo)
-
-  list_temp = []
-  for plan in list_plan['plan']:
-    temp = plan
-    temp['PRODUCT_CODE'] = ''
-    for alias in data['ALIAS']:
-      if (alias['PRODUCT_ID'] is not None) and (alias['GG_PRODUCT'] is not None) \
-      and (int(plan['PRODUCT']) == int(alias['PRODUCT_ID'])):
-        temp['PRODUCT_CODE'] = str(alias['GG_PRODUCT'])     
-    list_temp.append(temp)
-  # for p in list_temp:
-  #   print (p['PRODUCT_CODE'])
-  
-  list_plan['plan'] = list_temp
-  return list_plan
 
 #================= Read list plan, product code, save file mapping =====================
 def MapData(customer, path_folder, date): 
