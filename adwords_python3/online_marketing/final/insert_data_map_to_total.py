@@ -275,14 +275,6 @@ def MergeDataToTotal(path_data, date):
 			plan['MONTHLY'] = {}
 			plan = CaculatorTotalMonth(plan, date)
 
-			# --------------- Tinh total month cho cac plan --------------
-		print (data_total['UN_PLAN'])
-		print ("=======================================")
-		for plan in data_total['UN_PLAN']:
-			plan['MONTHLY'] = {}
-			plan = CaculatorTotalMonth(plan, date)
-			print (plan)
-
 
 		# --------------- Insert data map -------------------
 		data_total['MAP'].extend(list_data_map)
@@ -315,6 +307,14 @@ def MergeDataToTotal(path_data, date):
 					flag = False
 			if flag:
 				data_total['UN_PLAN'].append(plan_un)
+
+		# --------------- Tinh total month cho cac plan --------------
+		print (data_total['UN_PLAN'])
+		print ("=======================================")
+		for plan in data_total['UN_PLAN']:
+			plan['MONTHLY'] = {}
+			plan = CaculatorTotalMonth(plan, date)
+			print (plan)
 
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 		#-------------------------- Write total lần 1------------------
