@@ -167,8 +167,8 @@ def ReadTableManualMap(connect, path_data, date):
 				and data[2] == data_local[2] \
 				and data[3] == data_local[3] \
 				and data[4] == data_local[4] \
-				and data[5] == data_local[5] \
 				and data[6] == data_local[6] \
+				and data[7] == data_local[7] \
 				and data[7] == data_local[7]:
 					print ("---------------- Trung log")
 					flag = False
@@ -185,7 +185,9 @@ def ReadTableManualMap(connect, path_data, date):
 	for plan in list_diff:
 		# ----------- Create data campaign ----------------
 		campaign = {}
-		campaign['CAMPAIGN_ID'] = plan[5]
+		campaign['CAMPAIGN_ID'] = plan[6]
+		campaign['START_DATE_MANUAL_MAP'] = plan[7]
+		campaign['END_DATE_MANUAL_MAP'] = plan[8]
 		# campaign['UPDATE_DATE'] = str(plan[6])
 		flag = True
 		for plan_info in list_plan['plan']:
@@ -202,6 +204,7 @@ def ReadTableManualMap(connect, path_data, date):
 					temp['CAMPAIGN_MANUAL_MAP'] = []
 					temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
 					temp['USER_MAP'] = plan[4]
+					temp['STATUS'] = 'USER'
 					list_plan_diff.append(temp)
 					flag = False
 		# ----------- Plan moi duoc tao -----------------
@@ -225,7 +228,7 @@ def ReadTableManualMap(connect, path_data, date):
 	# 			and plan1['REASON_CODE_ORACLE'] == plan2['REASON_CODE_ORACLE'] \
 	# 			and plan1['FORM_TYPE'] == plan2['FORM_TYPE']:
 
-
+	print (list_plan_diff)
 	for plan in list_plan_new:
 		InsertPlanToDataBase(connect, plan)
 	# print (list_plan_diff)
