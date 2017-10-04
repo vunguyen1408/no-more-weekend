@@ -134,6 +134,14 @@ def ReadPlanFromTable(connect, path_folder, date):
     list_json.append(unmap)
   plan_ = {}
   plan_['plan'] = list_json
+
+  #================ Add product id to plan =================
+  ReadProductAlias(connect, path_folder, date)
+  nru.ReadNRU(connect, path_folder, date)
+
+  list_json = AddProductCode(path_folder, list_json, date)
+  list_json = nru.AddNRU(path_folder, list_json, date)
+  
   with open (file_plan, 'w') as f:
     json.dump(plan_, f)
 
@@ -197,7 +205,7 @@ def MapData(customer, path_folder, date):
   list_plan = ReadPlan(path_folder, date)
 
   #================ Add product id to plan =================
-  list_plan = AddProductCode(path_folder, list_plan, date)
+  # list_plan = AddProductCode(path_folder, list_plan, date)
 
   data_map = []
 
