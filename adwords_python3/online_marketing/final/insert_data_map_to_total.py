@@ -315,6 +315,7 @@ def MergeDataToTotal(path_data, date):
 					and plan_un['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE']:
 					flag = False
 			if flag:
+				print(plan_un)
 				data_total['UN_PLAN'].append(plan_un)
 		print (" length un map total after : ", len(data_total['UN_PLAN']))
 		# --------------- Tinh total month cho cac plan --------------
