@@ -302,6 +302,8 @@ def MergeDataToTotal(path_data, date):
 				list_plan_un_map.append(plan)
 
 		# print (len(list_plan_un_map))
+		print (" length un map : ", len(list_plan_un_map))
+		print (" length un map total before : ", len(data_total['UN_PLAN']))
 		for plan_un in list_plan_un_map:
 			flag = True
 			# print (data_total['UN_PLAN'])
@@ -314,7 +316,7 @@ def MergeDataToTotal(path_data, date):
 					flag = False
 			if flag:
 				data_total['UN_PLAN'].append(plan_un)
-
+		print (" length un map total after : ", len(data_total['UN_PLAN']))
 		# --------------- Tinh total month cho cac plan --------------
 		# print (data_total['UN_PLAN'])
 		# print ("=======================================")
