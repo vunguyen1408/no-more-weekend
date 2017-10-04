@@ -145,11 +145,11 @@ def ReportPlanSum(path_data, connect):
 			json_ = ConvertJsonPlanSum(value)
 			MergerPlanSum(json_, cursor)
 
-
+		print (len(data['UN_PLAN']))
 		#=================..........=====================
-		for value in data['UN_PLAN']:		
-			json_ = ConvertJsonPlanSumUnMap(value)
-			MergerPlanSum(json_, cursor)
+		# for value in data['UN_PLAN']:		
+		# 	json_ = ConvertJsonPlanSumUnMap(value)
+		# 	MergerPlanSum(json_, cursor)
 		#=================..........=====================
 
 		#==================== Commit and close connect ===============================

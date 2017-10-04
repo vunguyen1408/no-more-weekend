@@ -276,11 +276,11 @@ def ReportMonthlyDetail(path_data, connect):
 				MergerMonthlyDetail(json_, cursor)
 
 		#=================..........=====================
-		for value in data['UN_PLAN']:	
-			# print (value)
-			for i in range(len(value['MONTHLY'])):
-				json_ = ConvertJsonMonthlyDetailUnMap(i, value)
-				MergerMonthlyDetail(json_, cursor)
+		# for value in data['UN_PLAN']:	
+		# 	# print (value)
+		# 	for i in range(len(value['MONTHLY'])):
+		# 		json_ = ConvertJsonMonthlyDetailUnMap(i, value)
+		# 		MergerMonthlyDetail(json_, cursor)
 		#=================..........=====================
 
 
