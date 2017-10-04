@@ -3,8 +3,6 @@ import json
 import os
 from datetime import datetime , timedelta, date
 
-
-
 def InsertMonthlySum(value, cursor):
 	#==================== Insert data into database =============================
 	statement = 'insert into DTM_GG_MONTH_SUM (SNAPSHOT_DATE, CYEAR, CMONTH, LEGAL, DEPARTMENT, \

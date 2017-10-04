@@ -280,6 +280,7 @@ def ReportMonthlyDetail(path_data, connect):
 				MergerMonthlySum(json_, cursor)
 		#=================..........=====================
 
+
 		#==================== Commit and close connect ===============================
 		conn.commit()
 		# print("Committed!.......")
