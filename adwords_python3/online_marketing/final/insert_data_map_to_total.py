@@ -306,7 +306,9 @@ def MergeDataToTotal(path_data, date):
 			for plan in data_total['UN_PLAN']:
 				if plan_un['PRODUCT'] == plan['PRODUCT'] \
 					and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-					and plan_un['FORM_TYPE'] == plan['FORM_TYPE']:
+					and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
+					and plan_un['START_DAY'] == plan_date['START_DAY'] \
+					and plan_un['END_DAY_ESTIMATE'] == plan_date['END_DAY_ESTIMATE']:
 					flag = False
 			if flag:
 				data_total['UN_PLAN'].append(plan_un)

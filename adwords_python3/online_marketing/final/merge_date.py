@@ -50,7 +50,9 @@ def MergerDataAccount(path_data, customer_id, date):
         for plan in data_map['plan']:
           if plan['PRODUCT_CODE'] == plan_date['PRODUCT_CODE'] \
             and plan['REASON_CODE_ORACLE'] == plan_date['REASON_CODE_ORACLE'] \
-            and plan['FORM_TYPE'] == plan_date['FORM_TYPE']:
+            and plan['FORM_TYPE'] == plan_date['FORM_TYPE'] \
+            and plan['START_DAY'] == plan_date['START_DAY'] \
+            and plan['END_DAY_ESTIMATE'] == plan_date['END_DAY_ESTIMATE']:
             temp_date = plan_date['CAMPAIGN']
             temp = plan['CAMPAIGN']
             temp.extend(temp_date)
