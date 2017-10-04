@@ -292,60 +292,71 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 	# 		json.dump(data_total, f)
 	# #-----------------------------------------------------------------------------------
 
+	i = 0
+	find = True
+	date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+	path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+	while not os.path.exists(path_data_total_map):
+		i = i + 1
+		date_before = date_before - timedelta(1)
+		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		if i == 60:
+			find = False
+			break
+	# ---- Neu tim thay file total truoc do -----
+	if find:
+		with open (path_data_total_map,'r') as f:
+			data_total = json.load(f)
+		list_plan = ReadTableManualMap(connect, path_data, date)
+		print (list_plan)
+		print (len(list_plan))
+		list_camp_remove = []
+		list_map_all = []
+		for plan in list_plan:
+			plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(path_data, plan, path_data_total_map, date)
+			#------------- Insert data map ------------
+			data_total['MAP'].extend(list_map)
+			list_map_all.extend(list_camp)
 
-	with open (path_data_total_map,'r') as f:
-		data_total = json.load(f)
-	list_plan = ReadTableManualMap(connect, path_data, date)
-	print (list_plan)
-	# print (len(list_plan))
-	# print ("9999999999999999999999")
-	# list_camp_remove = []
-	# list_map_all = []
-	# for plan in list_plan:
-	# 	plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(path_data, plan, path_data_total_map, date)
-	# 	#------------- Insert data map ------------
-	# 	data_total['MAP'].extend(list_map)
-	# 	list_map_all.extend(list_camp)
-
-	# 	#----------- Remove unmap ---------------------
-	# 	list_camp_remove.extend(list_camp_need_remove)
-	# 	for camp in list_camp_need_remove:
-	# 		for campaign in data_total['UN_CAMPAIGN']:
-	# 			if camp['Campaign ID'] == campaign['Campaign ID'] \
-	# 				and camp['Date'] == campaign['Date']:
-	# 				data_total['UN_CAMPAIGN'].remove(campaign)
-
-
-	# #------------- Insert total ------------
-	# for plan in list_plan:
-	# 	flag = True
-	# 	for plan_total in data_total['TOTAL']:
-	# 		if plan_total['PRODUCT'] == plan['PRODUCT'] \
-	# 			and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-	# 			and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
-	# 			and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
-	# 			plan_total['TOTAL_CAMPAIGN'] = insert_data.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
-	# 			flag = False
-
-	# 	#----- Không tìm thấy trong total ------
-	# 	if flag:
-	# 		# --------------- Tạo các thông tin month cho plan trước khi add --------------
-	# 		data_total['TOTAL'].append(plan)
-
-	# # --------------- Tinh total month cho cac plan --------------
-	# for plan in data_total['TOTAL']:
-	# 	# print (plan['TOTAL_CAMPAIGN'])
-	# 	plan = insert_data.CaculatorTotalMonth(plan, date)
-
-	# insert_data.CreateListPlanMonthly(path_data, date)
+			# #----------- Remove unmap ---------------------
+			# list_camp_remove.extend(list_camp_need_remove)
+			# for camp in list_camp_need_remove:
+			# 	for campaign in data_total['UN_CAMPAIGN']:
+			# 		if camp['Campaign ID'] == campaign['Campaign ID'] \
+			# 			and camp['Date'] == campaign['Date']:
+			# 			data_total['UN_CAMPAIGN'].remove(campaign)
 
 
-	# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-	# with open (path_data_total_map,'w') as f:
-	# 	json.dump(data_total, f)
+		# #------------- Insert total ------------
+		# for plan in list_plan:
+		# 	flag = True
+		# 	for plan_total in data_total['TOTAL']:
+		# 		if plan_total['PRODUCT'] == plan['PRODUCT'] \
+		# 			and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+		# 			and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
+		# 			and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
+		# 			plan_total['TOTAL_CAMPAIGN'] = insert_data.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
+		# 			flag = False
 
-	# list_plan_remove = []
-	# return (list_map_all, list_plan_remove, list_camp_remove)
+		# 	#----- Không tìm thấy trong total ------
+		# 	if flag:
+		# 		# --------------- Tạo các thông tin month cho plan trước khi add --------------
+		# 		data_total['TOTAL'].append(plan)
+
+		# # --------------- Tinh total month cho cac plan --------------
+		# for plan in data_total['TOTAL']:
+		# 	# print (plan['TOTAL_CAMPAIGN'])
+		# 	plan = insert_data.CaculatorTotalMonth(plan, date)
+
+		# insert_data.CreateListPlanMonthly(path_data, date)
+
+
+		# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		# with open (path_data_total_map,'w') as f:
+		# 	json.dump(data_total, f)
+
+		# list_plan_remove = []
+		# return (list_map_all, list_plan_remove, list_camp_remove)
 
 
 # connect = ''
