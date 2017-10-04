@@ -148,7 +148,7 @@ def ManyDate(connect, path_data, start_date, end_date):
 
 
 start_date = '2017-06-01'
-end_date = '2017-08-31'
+end_date = '2017-06-30'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 ManyDate(connect, path_data, start_date, end_date)
