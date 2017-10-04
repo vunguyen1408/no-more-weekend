@@ -230,7 +230,7 @@ def MergeDataToTotal(path_data, date):
 		i = i + 1
 		date_before = date_before - timedelta(1)
 		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		if i == 30:
+		if i == 60:
 			find = False
 			break
 
