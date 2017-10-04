@@ -4,8 +4,6 @@ import os
 from datetime import datetime , timedelta, date
 
 
-	
-
 def InsertMonthlyDetail(value, cursor):
 	#==================== Insert data into database =============================
 	statement = 'insert into DTM_GG_PIVOT_DETAIL (SNAPSHOT_DATE, CYEAR, CMONTH, LEGAL, DEPARTMENT, \
@@ -164,6 +162,101 @@ def ConvertJsonMonthlyDetail(index, value):
 	return json_
 
 
+#=================..........=====================
+def ConvertJsonMonthlyDetailUnMap(index, value):
+	json_ = {}	
+
+	json_['CYEAR'] = '20' + value['CYEAR']
+	if (len(value['CMONTH']) == 1):
+		json_['CMONTH'] = '0' + value['CMONTH']
+	else:
+		json_['CMONTH'] = value['CMONTH']
+
+	if (len(str(value['MONTHLY'][index]['MONTH'])) == 1):
+		json_['SNAPSHOT_DATE'] = json_['CYEAR'] + '-0' + str(value['MONTHLY'][index]['MONTH'])
+	else:
+		json_['SNAPSHOT_DATE'] = json_['CYEAR'] + '-' + str(value['MONTHLY'][index]['MONTH'])
+	json_['LEGAL'] = value['LEGAL']
+	json_['DEPARTMENT'] = value['DEPARTMENT']
+
+	json_['DEPARTMENT_NAME'] = value['DEPARTMENT_NAME'] 
+	json_['PRODUCT'] = value['PRODUCT'] 
+	json_['PRODUCT_NAME'] = ''
+	json_['REASON_CODE_ORACLE'] = value['REASON_CODE_ORACLE'] 
+	json_['EFORM_NO'] = value['EFORM_NO'] 
+
+	json_['START_DATE'] = datetime.strptime(value['START_DAY'], '%Y-%m-%d')
+	json_['END_DATE'] = datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d')
+	json_['CHANNEL'] = value['CHANNEL'] 
+	json_['UNIT_COST'] = value['UNIT_COST'] 
+	if (value['AMOUNT_USD'] is None):
+		json_['AMOUNT_USD'] = value['AMOUNT_USD']
+	else:
+		json_['AMOUNT_USD'] = float(value['AMOUNT_USD'])
+
+	if (value['CVALUE'] is None):
+		json_['CVALUE'] = value['CVALUE']
+	else:
+		json_['CVALUE'] = float(value['CVALUE'])
+	if (value['ENGAGEMENT'] is None):
+		json_['ENGAGEMENT'] = value['ENGAGEMENT']
+	else:
+		json_['ENGAGEMENT'] = float(value['ENGAGEMENT'])
+	if (value['IMPRESSIONS'] is None):
+		json_['IMPRESSIONS'] = value['IMPRESSIONS']
+	else:
+		json_['IMPRESSIONS'] = float(value['IMPRESSIONS'])
+	json_['REACH'] = None
+	json_['FREQUENCY'] = None
+
+	if (value['CLIKE'] is None):
+		json_['CLIKE'] = value['CLIKE']
+	else:
+		json_['CLIKE'] = float(value['CLIKE'])
+	json_['CLICKS_ALL'] = None
+	json_['LINK_CLICKS'] = None
+	if (value['CVIEWS'] is None):
+		json_['CVIEWS'] = value['CVIEWS']
+	else:
+		json_['CVIEWS'] = float(value['CVIEWS'])
+	json_['C3S_VIDEO_VIEW'] = None
+
+	if (value['INSTALL'] is None):		
+		json_['INSTALL'] = value['INSTALL']
+	else:
+		json_['INSTALL'] = float(value['INSTALL'])
+	if (value['NRU'] is None):
+		json_['NRU'] = value['NRU']
+	else:
+		json_['NRU'] = float(value['NRU'])
+	json_['EFORM_TYPE'] = value['FORM_TYPE']
+	json_['UNIT_OPTION'] = value['UNIT_OPTION']
+	json_['OBJECTIVE'] = ''
+
+	json_['EVENT_ID'] = value['REASON_CODE_ORACLE']
+	json_['PRODUCT_ID'] = value['PRODUCT']
+	json_['CCD_NRU'] = None
+	json_['GG_VIEWS'] = None
+	json_['GG_CONVERSION'] = None
+
+	json_['GG_INVALID_CLICKS'] = None
+	json_['GG_ENGAGEMENTS'] = None
+	json_['GG_VIDEO_VIEW'] = None
+	json_['GG_CTR'] = None
+	json_['GG_IMPRESSIONS'] = None
+
+	json_['GG_INTERACTIONS'] = None
+	json_['GG_CLICKS'] = None
+	json_['GG_INTERACTION_TYPE'] = None
+	json_['GG_COST'] = None
+	json_['GG_SPEND'] = None
+
+	json_['GG_APPSFLYER_INSTALL'] = None
+	json_['GG_STRATEGY_BID_TYPE'] = None
+
+	return json_
+#=================..........=====================
+
 
 def ReportMonthlyDetail(path_data, connect):
 	if os.path.exists(path_data):
@@ -175,15 +268,17 @@ def ReportMonthlyDetail(path_data, connect):
 		with open(path_data, 'r') as fi:
 			data = json.load(fi)
 
-		# for value in data['MONTHLY']:		
-		# 	for i in value:		 	
-		# 	 	if value[i] is None:
-		# 	 		value[i] = 0
-
 		for value in data['TOTAL']:
 			for i in range(len(value['MONTHLY'])):			
 				json_ = ConvertJsonMonthlyDetail(i, value)
 				MergerMonthlyDetail(json_, cursor)
+
+		#=================..........=====================
+		for value in data['UN_PLAN']:	
+			for i in range(len(value['MONTHLY'])):		
+				json_ = ConvertJsonMonthlyDetailUnMap(i, value)
+				MergerMonthlySum(json_, cursor)
+		#=================..........=====================
 
 		#==================== Commit and close connect ===============================
 		conn.commit()
