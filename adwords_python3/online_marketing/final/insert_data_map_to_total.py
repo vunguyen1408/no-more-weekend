@@ -232,9 +232,8 @@ def MergeDataToTotal(path_data, date):
 		date_before = date_before - timedelta(1)
 		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
 		if i == 60:
+			find = False
 			break
-	if not os.path.exists(path_data_total_map):
-		find = False
 
 	print (find)
 	print (path_data_total_map)
