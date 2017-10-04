@@ -148,8 +148,8 @@ def DownloadOnDate(adwords_client, customerId, path, date):
     result_json = TSVtoJson(result_campaign, date)
     with open (path_file_campaign, 'w') as f:
       json.dump(result_json, f)
-  else:
-    print ("--------------- Report is exists --------------------")
+  # else:
+    # print ("--------------- Report is exists --------------------")
 
 
 def GetCampainForAccount(path, customerId, day, to_day):
