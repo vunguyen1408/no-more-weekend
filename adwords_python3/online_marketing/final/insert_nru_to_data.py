@@ -1,7 +1,10 @@
+import sys
 import os
+import pandas as pd
+import numpy as np
 import json
 import cx_Oracle
-
+from datetime import datetime , timedelta, date
 
 def ReadNRU(connect, path_data, date):  
   file_nru = os.path.join(path_data, str(date) + '/PLAN/nru.json')
