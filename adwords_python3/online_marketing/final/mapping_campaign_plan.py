@@ -189,7 +189,7 @@ def ReadPlanFromTable(connect, path_folder, date):
   ReadProductAlias(connect, path_folder, date)
   nru.ReadNRU(connect, path_folder, date)
 
-  plan_ = AddProductCode(path_folder, plan_['plan'], date)
+  plan_ = AddProductCode(path_folder, plan_, date)
   list_json = plan_['plan']
   list_json = nru.AddNRU(path_folder, list_json, date)
   plan_['plan'] = list_json
