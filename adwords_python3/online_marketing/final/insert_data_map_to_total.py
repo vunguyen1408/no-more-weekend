@@ -255,6 +255,7 @@ def MergeDataToTotal(path_data, date):
 		print (path_data_total_map)
 		with open (path_data_total_map,'r') as f:
 			data_total = json.load(f)
+		print (len(data_total['TOTAL']))
 
 		# -------------------- Tính total cho các plan mapping được của ngày -------------------
 		list_plan_total_date, list_data_map = SumTotalManyPlan(data_date['plan'], data_date['campaign'])
