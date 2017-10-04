@@ -251,7 +251,7 @@ def MergeDataToTotal(path_data, date):
 	if os.path.exists(path_data_map):
 		with open (path_data_map,'r') as f:
 			data_date = json.load(f)
-
+		print (path_data_total_map)
 		with open (path_data_total_map,'r') as f:
 			data_total = json.load(f)
 
