@@ -79,7 +79,7 @@ def InsertCampList(value, cursor):
 	except UnicodeEncodeError as e:
 		cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID'], value['CAMPAIGN_NAME'].encode('utf-8'), \
 			datetime.strptime(value['DATE_GET'], '%Y-%m-%d'), datetime.strptime(value['UPDATE_DATE'], '%Y-%m-%d'), None, None))
-		print (e)
+		# print (e)
 	
 	# print("A row inserted!.......")
 
@@ -96,7 +96,7 @@ def UpdateCampList(value, cursor):
 	except UnicodeEncodeError as e:
 		cursor.execute(statement, (value['CAMPAIGN_NAME'].encode('utf-8'), datetime.strptime(value['DATE_GET'], '%Y-%m-%d'), \
 			datetime.strptime(value['UPDATE_DATE'], '%Y-%m-%d'), value['ACCOUNT_ID'], value['CAMPAIGN_ID']))
-		print (e)
+		# print (e)
 
 	# print("   A row updated!.......")
 
