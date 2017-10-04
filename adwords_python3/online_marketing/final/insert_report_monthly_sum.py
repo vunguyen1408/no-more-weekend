@@ -27,12 +27,14 @@ def UpdateMonthlySum(value, cursor):
 	statement = 'update DTM_GG_MONTH_SUM \
 	set NET_ACTUAL = :1, UNIT_COST_ACTUAL = :2, \
 	VOLUMN_ACTUAL = :3, APPSFLYER_INSTALL = :4 \
-	where PRODUCT = :5 and REASON_CODE_ORACLE = :6 and EFORM_TYPE = :7 and UNIT_OPTION = :8'
+	where PRODUCT = :5 and REASON_CODE_ORACLE = :6 and EFORM_TYPE = :7 \
+	and UNIT_OPTION = :8 and SNAPSHOT_DATE = :9'
 	
 		
 	cursor.execute(statement, (value['NET_ACTUAL'], value['UNIT_COST_ACTUAL'], \
 		value['VOLUMN_ACTUAL'], value['APPSFLYER_INSTALL'], \
-		value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION']))
+		value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], \
+		value['UNIT_OPTION'], value['SNAPSHOT_DATE']))
 
 	# print("   A row updated!.......")
 
@@ -40,9 +42,9 @@ def UpdateMonthlySum(value, cursor):
 def MergerMonthlySum(value, cursor):
 	#==================== Insert data into database =============================
 	statement = 'select * from DTM_GG_MONTH_SUM \
-	where PRODUCT = :1 and REASON_CODE_ORACLE = :2 and EFORM_TYPE = :3 and UNIT_OPTION = :4'	
+	where PRODUCT = :1 and REASON_CODE_ORACLE = :2 and EFORM_TYPE = :3 and UNIT_OPTION = :4 and SNAPSHOT_DATE = :5'	
 		
-	cursor.execute(statement, (value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION']))
+	cursor.execute(statement, (value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION'], value['SNAPSHOT_DATE']))
 	res = list(cursor.fetchall())
 	
 	if (len(res) == 0):

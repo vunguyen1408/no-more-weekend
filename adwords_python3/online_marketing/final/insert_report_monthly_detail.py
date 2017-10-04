@@ -41,14 +41,16 @@ def UpdateMonthlyDetail(value, cursor):
 	GG_ENGAGEMENTS = :4, GG_VIDEO_VIEW = :5, GG_CTR = :6, \
 	GG_IMPRESSIONS = :7, GG_INTERACTIONS = :8, GG_CLICKS = :9,\
 	GG_COST = :10, GG_SPEND = :11, GG_APPSFLYER_INSTALL = :12 \
-	where PRODUCT = :13 and REASON_CODE_ORACLE = :14 and EFORM_TYPE = :15 and UNIT_OPTION = :16'
+	where PRODUCT = :13 and REASON_CODE_ORACLE = :14 and EFORM_TYPE = :15 \
+	and UNIT_OPTION = :16 and SNAPSHOT_DATE = :17'
 	
 		
 	cursor.execute(statement, (value['GG_VIEWS'], value['GG_CONVERSION'], value['GG_INVALID_CLICKS'], \
 		value['GG_ENGAGEMENTS'], value['GG_VIDEO_VIEW'], value['GG_CTR'], \
 		value['GG_IMPRESSIONS'], value['GG_INTERACTIONS'], value['GG_CLICKS'], \
 		value['GG_COST'], value['GG_SPEND'], value['GG_APPSFLYER_INSTALL'], \
-		value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION']))
+		value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], \
+		value['UNIT_OPTION'], value['SNAPSHOT_DATE']))
 
 	# print("A row updated!.......")
 
@@ -56,9 +58,9 @@ def UpdateMonthlyDetail(value, cursor):
 def MergerMonthlyDetail(value, cursor):
 	#==================== Insert data into database =============================
 	statement = 'select * from DTM_GG_PIVOT_DETAIL \
-	where PRODUCT = :1 and REASON_CODE_ORACLE = :2 and EFORM_TYPE = :3 and UNIT_OPTION = :4'	
+	where PRODUCT = :1 and REASON_CODE_ORACLE = :2 and EFORM_TYPE = :3 and UNIT_OPTION = :4 and SNAPSHOT_DATE=:5'	
 		
-	cursor.execute(statement, (value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION']))
+	cursor.execute(statement, (value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION'], value['SNAPSHOT_DATE']))
 	res = list(cursor.fetchall())
 	
 	if (len(res) == 0):
