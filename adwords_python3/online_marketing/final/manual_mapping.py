@@ -19,6 +19,7 @@ import mapping_campaign_plan as mapping
 
 
 def ParseFormatDate(data):
+	print (data)
 	if (data is None):
 		return None
 	temp = data.split('/')
