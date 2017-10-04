@@ -65,7 +65,7 @@ def MergerMonthlyDetail(value, cursor):
 		InsertMonthlyDetail(value, cursor)
 	else:
 		UpdateMonthlyDetail(value, cursor)
-	print("	A row mergered!.......")
+	# print("	A row mergered!.......")
 
 
 def ConvertJsonMonthlyDetail(index, value):
@@ -278,7 +278,7 @@ def ReportMonthlyDetail(path_data, connect):
 			print (value)
 			for i in range(len(value['MONTHLY'])):		
 				json_ = ConvertJsonMonthlyDetailUnMap(i, value)
-				MergerMonthlySum(json_, cursor)
+				MergerMonthlyDetail(json_, cursor)
 		#=================..........=====================
 
 
