@@ -118,7 +118,6 @@ def ReadPlanFromTable(connect, path_folder, date):
         'IMPRESSIONS', 'CLIKE', 'CVIEWS', 'INSTALL', 'NRU', 'INSERT_DATE']
 
   list_json= []
-  print ("length ------ plan ---- ", len(temp))
   for plan in temp: 
     list_temp = []
     unmap = {}

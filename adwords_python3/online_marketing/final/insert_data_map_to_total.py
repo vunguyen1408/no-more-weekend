@@ -251,10 +251,10 @@ def MergeDataToTotal(path_data, date):
 	if os.path.exists(path_data_map):
 		with open (path_data_map,'r') as f:
 			data_date = json.load(f)
-		print (path_data_total_map)
+		# print (path_data_total_map)
 		with open (path_data_total_map,'r') as f:
 			data_total = json.load(f)
-		print (len(data_total['TOTAL']))
+		# print (len(data_total['TOTAL']))
 
 		# -------------------- Tính total cho các plan mapping được của ngày -------------------
 		list_plan_total_date, list_data_map = SumTotalManyPlan(data_date['plan'], data_date['campaign'])
@@ -300,8 +300,6 @@ def MergeDataToTotal(path_data, date):
 				list_plan_un_map.append(plan)
 
 		# print (len(list_plan_un_map))
-		print (" length un map : ", len(list_plan_un_map))
-		print (" length un map total before : ", len(data_total['UN_PLAN']))
 		temp_un = []
 		if len(data_total['UN_PLAN']) == 0:
 			data_total['UN_PLAN'] = list_plan_un_map
@@ -319,7 +317,6 @@ def MergeDataToTotal(path_data, date):
 				# 	print(plan_un)
 				# 	data_total['UN_PLAN'].append(plan_un)
 			data_total['UN_PLAN'] = temp_un
-		print (" length un map total after : ", len(data_total['UN_PLAN']))
 		# --------------- Tinh total month cho cac plan --------------
 		# print (data_total['UN_PLAN'])
 		# print ("=======================================")
