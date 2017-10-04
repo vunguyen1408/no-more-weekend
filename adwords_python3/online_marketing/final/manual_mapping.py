@@ -236,15 +236,34 @@ def ReadTableManualMap(connect, path_data, date):
 
 
 
+def ChooseTimeManualMap(plan):
+	#------------ Lay time start và end  ----------------------
+	start_plan = datetime.strptime(plan['START_DAY'], '%Y-%m-%d').date()
+	end_plan = datetime.strptime(plan['END_DAY_ESTIMATE'], '%Y-%m-%d').date()
+
+	start_camp = datetime.strptime(plan['CAMPAIGN_MANUAL_MAP'][0]['START_DATE_MANUAL_MAP'], '%Y-%m-%d').date()
+	end_camp = datetime.strptime(plan['CAMPAIGN_MANUAL_MAP'][0]['END_DATE_MANUAL_MAP'], '%Y-%m-%d').date()
+
+	if start_plan > start_camp:
+		start = start_camp
+	else:
+		start = start_plan
+
+	if end_plan > end_camp:
+		end = end_camp
+	else:
+		end = end_plan
+
+	return (start, end)
+
 #-------- Vào data unmap sum các camp cho một plan ----------
-def GetCampaignUnMapForPlan(path_data, plan, path_data_total_map, date):
+def GetCampaignUnMapForPlan(plan, path_data_total_map):
 
 	with open (path_data_total_map,'r') as f:
 		data_total = json.load(f)
 
 	list_campaign = data_total['UN_CAMPAIGN']
-	start = datetime.strptime(plan['START_DAY'], '%Y-%m-%d').date()
-	end = datetime.strptime(plan['END_DAY_ESTIMATE'], '%Y-%m-%d').date()
+	start, end = ChooseTimeManualMap(plan)
 
 	list_map = []
 	list_camp = []
@@ -269,8 +288,6 @@ def GetCampaignUnMapForPlan(path_data, plan, path_data_total_map, date):
 	list_map_temp = []
 	plan_sum = []
 
-	for camp in list_camp_need_remove:
-		list_campaign.remove(camp)
 	plan_sum, list_map_temp = insert_data.SumTotalPlan(plan, list_camp)
 	# print (list_campaign)
 	return (plan_sum, list_map_temp, list_camp_need_remove)
@@ -313,7 +330,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 		list_camp_remove = []
 		list_map_all = []
 		for plan in list_plan:
-			plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(path_data, plan, path_data_total_map, date)
+			plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(plan, path_data_total_map)
 			#------------- Insert data map ------------
 			data_total['MAP'].extend(list_map)
 			list_map_all.extend(list_camp)
