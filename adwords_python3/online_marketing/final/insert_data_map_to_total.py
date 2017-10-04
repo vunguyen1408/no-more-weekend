@@ -309,12 +309,12 @@ def MergeDataToTotal(path_data, date):
 				data_total['UN_PLAN'].append(plan_un)
 
 		# --------------- Tinh total month cho cac plan --------------
-		print (data_total['UN_PLAN'])
-		print ("=======================================")
+		# print (data_total['UN_PLAN'])
+		# print ("=======================================")
 		for plan in data_total['UN_PLAN']:
 			plan['MONTHLY'] = {}
 			plan = CaculatorTotalMonth(plan, date)
-			print (plan)
+			# print (plan)
 
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 		#-------------------------- Write total lần 1------------------
@@ -367,9 +367,9 @@ def CreateListPlanMonthly(path_data, date):
 		for camp in data_map['UN_CAMPAIGN']:
 			# print (camp)
 			sum_ += camp['Cost']
-		print ("=================================== SUM COST : " , sum_)
-		print ("=================================== MAP ", len(data_map['MAP']))
-		print ("=================================== UM MAP ", len(data_map['UN_CAMPAIGN']))
+		# print ("=================================== SUM COST : " , sum_)
+		# print ("=================================== MAP ", len(data_map['MAP']))
+		# print ("=================================== UM MAP ", len(data_map['UN_CAMPAIGN']))
 		with open (path_data_total_map,'w') as f:
 			json.dump(data_map, f)
 

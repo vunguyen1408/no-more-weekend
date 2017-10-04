@@ -275,7 +275,7 @@ def ReportMonthlyDetail(path_data, connect):
 
 		#=================..........=====================
 		for value in data['UN_PLAN']:	
-			print (value)
+			# print (value)
 			for i in range(len(value['MONTHLY'])):		
 				json_ = ConvertJsonMonthlyDetailUnMap(i, value)
 				MergerMonthlyDetail(json_, cursor)

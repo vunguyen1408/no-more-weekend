@@ -394,7 +394,7 @@ def ReportDetailMap(path_data, connect):
 					i = i + 1
 					json_['CAMPAIGN_NAME'] = value['Campaign'].encode('utf-8')
 					InsertDetailUnmap(json_, cursor)
-					print ("-------------- Erros ------------" + e)
+					# print ("-------------- Erros ------------" + e)
 				iter += 1
 		# print("Map data insert", iter, "rows success!.......")
 		# print("Number erros UnicodeEncodeError", i)
