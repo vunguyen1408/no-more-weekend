@@ -277,6 +277,7 @@ def MergeDataToTotal(path_data, date):
 
 			# --------------- Tinh total month cho cac plan --------------
 		print (data_total['UN_PLAN'])
+		print ("=======================================")
 		for plan in data_total['UN_PLAN']:
 			plan['MONTHLY'] = {}
 			plan = CaculatorTotalMonth(plan, date)
