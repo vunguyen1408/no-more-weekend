@@ -91,7 +91,7 @@ def InsertMCCListToDatabase(path_data, connect):
 
 
 
-path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/LIST_ACCOUNT'
+path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT'
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 InsertMCCListToDatabase(path_data, connect)
 
