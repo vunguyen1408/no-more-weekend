@@ -116,7 +116,6 @@ def CaculatorListMonth(start_date, end_date):
 			+ endDate = '2017-07-05'
 		Output:
 			[{'MONTH': 6, 'DAY': 30, 'DATA': False}, {'MONTH': 7, 'DAY': 5, 'DATA': False}]
-
 	"""
 	year = start_date[:-6]
 
@@ -231,12 +230,11 @@ def MergeDataToTotal(path_data, date):
 		i = i + 1
 		date_before = date_before - timedelta(1)
 		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		if i == 60:
+		if i == 30:
 			find = False
 			break
 
-	print (find)
-	print (path_data_total_map)
+
 	path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
 	if not find:
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
@@ -247,14 +245,12 @@ def MergeDataToTotal(path_data, date):
 		data_total['UN_CAMPAIGN'] = []
 		with open (path_data_total_map,'w') as f:
 			json.dump(data_total, f)
-
 	if os.path.exists(path_data_map):
 		with open (path_data_map,'r') as f:
 			data_date = json.load(f)
-		print (path_data_total_map)
+
 		with open (path_data_total_map,'r') as f:
 			data_total = json.load(f)
-		print (len(data_total['TOTAL']))
 
 		# -------------------- Tính total cho các plan mapping được của ngày -------------------
 		list_plan_total_date, list_data_map = SumTotalManyPlan(data_date['plan'], data_date['campaign'])
@@ -400,4 +396,3 @@ def InsertManyDate(path_data, start_date, end_date):
 # endDate = '2017-06-01'
 # path_data = 'C:/Users/ltduo/Desktop/VNG/DATA/END'
 # InsertManyDate(path_data, startDate, endDate)
-
