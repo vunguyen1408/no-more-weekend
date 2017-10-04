@@ -126,6 +126,7 @@ def Daily(connect, path_data, date):
 
 	#----------------------------------------- END ---------------------------------------------
 	time_run_work_flow  = time.time() - start_work_flow
+	print (date)
 	print ("            TOTAL TIME : ",time_run_work_flow)
 	print ("\n\n")
 
