@@ -243,12 +243,12 @@ def ChooseTimeManualMap(plan):
 	start_camp = datetime.strptime(plan['CAMPAIGN_MANUAL_MAP'][0]['START_DATE_MANUAL_MAP'], '%Y-%m-%d').date()
 	end_camp = datetime.strptime(plan['CAMPAIGN_MANUAL_MAP'][0]['END_DATE_MANUAL_MAP'], '%Y-%m-%d').date()
 
-	if start_plan > start_camp:
+	if start_plan < start_camp:
 		start = start_camp
 	else:
 		start = start_plan
 
-	if end_plan > end_camp:
+	if end_plan < end_camp:
 		end = end_camp
 	else:
 		end = end_plan
