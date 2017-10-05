@@ -353,10 +353,10 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 		print (list_plan)
 
 		list_plan = mapping.AddProductCode(path_data, list_plan, date)
-		list_plan = mapping.AddProductCode(path_data, list_plan, date)
+		# list_plan = mapping.AddProductCode(path_data, list_plan, date)
 
-		list_plan = nru.AddNRU(path_data, list_plan, date)
-		list_plan = nru.AddNRU(path_data, list_plan, date)
+		# list_plan = nru.AddNRU(path_data, list_plan, date)
+		# list_plan = nru.AddNRU(path_data, list_plan, date)
 
 		print (len(data_total['UN_CAMPAIGN']))
 
