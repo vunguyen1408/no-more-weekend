@@ -322,7 +322,10 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 			find = False
 			break
 	# ---- Neu tim thay file total truoc do -----
+
 	if find:
+		
+		list_remove = []
 		with open (path_data_total_map,'r') as f:
 			data_total = json.load(f)
 		list_plan = ReadTableManualMap(connect, path_data, date)
