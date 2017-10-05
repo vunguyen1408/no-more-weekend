@@ -392,6 +392,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 		return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap)
 
 
+
 # connect = ''
 # path_data = 'C:/Users/ltduo/Desktop/VNG/DATA'
 # date = '2017-08-31'

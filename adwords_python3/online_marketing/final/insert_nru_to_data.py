@@ -64,6 +64,7 @@ def AddNRU(path_folder, list_plan, date):
   return list_plan
 
 
+
 # connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 
 # conn = cx_Oracle.connect(connect)
