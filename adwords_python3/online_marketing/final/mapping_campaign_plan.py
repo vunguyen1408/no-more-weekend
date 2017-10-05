@@ -188,10 +188,10 @@ def ReadPlanFromTable(connect, path_folder, date):
   #================ Add product id to plan =================
   ReadProductAlias(connect, path_folder, date)
   nru.ReadNRU(connect, path_folder, date)
-  # print(plan_['plan'][0])
+  
   plan_ = AddProductCode(path_folder, plan_, date)
   plan_ = nru.AddNRU(path_folder, plan_, date)
-  # print(plan_['plan'][0])
+  
   with open (file_plan, 'w') as f:
     json.dump(plan_, f)
 
@@ -211,7 +211,7 @@ def MapData(customer, path_folder, date):
 
   # =============== List plan code ================
   list_plan = ReadPlan(path_folder, date)
-  print(list_plan['plan'][0])
+  
   #================ Add product id to plan =================
   # list_plan = AddProductCode(path_folder, list_plan, date)
 
