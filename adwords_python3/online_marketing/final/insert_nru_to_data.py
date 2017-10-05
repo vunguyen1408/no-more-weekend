@@ -70,8 +70,8 @@ cursor = conn.cursor()
 date = '2017-06-01'
 
 #==================== Get NRU =============================
-statement = "Select SNAPSHOT_DATE, PRODUCT_CODE, NRU from STG_NRU where CHANNEL = 'Google' and = to_date('" + date + "', 'mm/dd/yyyy')"
-cursor.execute(statement)
+statement = "Select SNAPSHOT_DATE, PRODUCT_CODE, NRU from STG_NRU where CHANNEL = 'Google' and SNAPSHOT_DATE = :1"
+cursor.execute(statement, (datetime.strptime(date, '%Y-%m-%d')))
 list_NRU = list(cursor.fetchall()) 
 cursor.close()
 print(len(list_NRU))
