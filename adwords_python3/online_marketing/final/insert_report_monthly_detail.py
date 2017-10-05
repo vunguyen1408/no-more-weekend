@@ -283,16 +283,16 @@ def ReportMonthlyDetail(path_data, connect):
 				MergerMonthlyDetail(json_, cursor)
 		#=================..........=====================
 
-		i = 6
+		i = 0
 		while i < 10:
 			for value in data['UN_PLAN']:
 				number = 0
 				if value['CMONTH'] == str(i):
 					number += 1
-			i += 1
 			print (i)
 			print (number)
 			print ("=======================")
+			i += 1
 
 		print (len(data['TOTAL']))
 		print (len(data['UN_PLAN']))
