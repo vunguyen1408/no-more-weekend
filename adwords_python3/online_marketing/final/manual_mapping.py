@@ -335,6 +335,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 			#------------- Insert data map ------------
 			data_total['MAP'].extend(list_map)
 			list_remove.extend(list_camp_need_remove)
+			print (len(list_camp_need_remove))
 
 			# #----------- Remove unmap ---------------------
 			# list_camp_remove.extend(list_camp_need_remove)
