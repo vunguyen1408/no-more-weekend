@@ -144,7 +144,7 @@ def ReadPlanFromTable(connect, path_folder, date):
   file_plan = os.path.join(folder, 'plan.json')
 
   #============================== Connect database =============================
-  conn = cx_Oracle.connect('MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV')
+  conn = cx_Oracle.connect(connect)
   cursor = conn.cursor()
 
   #======================= Get data from database ==============================
@@ -167,7 +167,7 @@ def ReadPlanFromTable(connect, path_folder, date):
         'FORM_TYPE', 'UNIT_OPTION', 'UNIT_COST', 'AMOUNT_USD', 'CVALUE', 'ENGAGEMENT', 
         'IMPRESSIONS', 'CLIKE', 'CVIEWS', 'INSTALL', 'NRU', 'INSERT_DATE']
 
-  list_json= []
+  list_json = []
   for plan in temp: 
     list_temp = []
     unmap = {}
