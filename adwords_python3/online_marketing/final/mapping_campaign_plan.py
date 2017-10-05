@@ -144,7 +144,8 @@ def ReadPlanFromTable(connect, path_folder, date):
   file_plan = os.path.join(folder, 'plan.json')
 
   #============================== Connect database =============================
-  conn = cx_Oracle.connect('MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV')
+  # conn = cx_Oracle.connect('MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV')
+  conn = cx_Oracle.connect(connect)
   cursor = conn.cursor()
 
   #======================= Get data from database ==============================
@@ -187,11 +188,11 @@ def ReadPlanFromTable(connect, path_folder, date):
 
   #================ Add product id to plan =================
   ReadProductAlias(connect, path_folder, date)
-  nru.ReadNRU(connect, path_folder, date)
+  # nru.ReadNRU(connect, path_folder, date)
 
   plan_ = AddProductCode(path_folder, plan_, date)
-  plan_ = nru.AddNRU(path_folder, plan_, date)
-  plan_['plan'] = list_json
+  # plan_ = nru.AddNRU(path_folder, plan_, date)
+  # plan_['plan'] = list_json
   
   with open (file_plan, 'w') as f:
     json.dump(plan_, f)
