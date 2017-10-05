@@ -305,17 +305,13 @@ def MergeDataToTotal(path_data, date):
 			data_total['UN_PLAN'] = list_plan_un_map
 		else:
 			for plan_un in list_plan_un_map:
-				flag = True
 				# print (data_total['UN_PLAN'])
 				for plan in data_total['UN_PLAN']:
 					if plan_un['PRODUCT'] == plan['PRODUCT'] \
 						and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-						and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] :
+						and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
+						and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
 						temp_un.append(plan_un)
-				# 		flag = False
-				# if flag:
-				# 	print(plan_un)
-				# 	data_total['UN_PLAN'].append(plan_un)
 			data_total['UN_PLAN'] = temp_un
 		# --------------- Tinh total month cho cac plan --------------
 		# print (data_total['UN_PLAN'])
