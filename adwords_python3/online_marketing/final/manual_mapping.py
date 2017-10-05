@@ -248,7 +248,7 @@ def ChooseTimeManualMap(plan):
 	else:
 		start = start_plan
 
-	if end_plan < end_camp:
+	if end_plan > end_camp:
 		end = end_camp
 	else:
 		end = end_plan
