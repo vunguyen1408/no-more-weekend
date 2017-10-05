@@ -60,14 +60,14 @@ def AddNRU(path_folder, list_plan, date):
 	list_temp = []
 	for plan in list_plan:
 		temp = plan    	
-		temp['CCD_NRU'] = None    
+		temp['CCD_NRU'] = 0    
 		for nru in data['NRU']:
 			date = datetime.strptime(nru['SNAPSHOT_DATE'], '%Y-%m-%d')
 			if (nru['PRODUCT_ID'] is not None) \
 			and (int(plan['PRODUCT']) == int(nru['PRODUCT_ID'])) \
 			and (date >= datetime.strptime(plan['START_DAY'], '%Y-%m-%d')) \
 			and (date <= datetime.strptime(plan['END_DAY_ESTIMATE'], '%Y-%m-%d')):
-				temp['CCD_NRU'] = nru['NRU']  
+				temp['CCD_NRU'] += nru['NRU']  
 		list_temp.append(temp) 
 	list_plan = list_temp 
 

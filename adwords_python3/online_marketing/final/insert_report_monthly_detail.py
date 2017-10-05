@@ -240,7 +240,10 @@ def ConvertJsonMonthlyDetailUnMap(index, value):
 
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE']
 	json_['PRODUCT_ID'] = value['PRODUCT']
-	json_['CCD_NRU'] = None
+	if (value['CCD_NRU'] is None):
+		json_['CCD_NRU'] = value['CCD_NRU']
+	else:
+		json_['CCD_NRU'] = float(value['CCD_NRU'])
 	json_['GG_VIEWS'] = None
 	json_['GG_CONVERSION'] = None
 
