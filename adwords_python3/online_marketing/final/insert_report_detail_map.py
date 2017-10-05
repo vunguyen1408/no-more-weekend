@@ -325,7 +325,7 @@ def DeletePlan(value, cursor):
 		
 	cursor.execute(statement, (value['PRODUCT'], value['REASON_CODE_ORACLE'], value['FORM_TYPE'], value['UNIT_OPTION']))	
 	
-	print("A plan deleted!.......")
+	# print("A plan deleted!.......")
 
 
 def DeleteCamp(value, cursor):
@@ -335,7 +335,7 @@ def DeleteCamp(value, cursor):
 		
 	cursor.execute(statement, (value['Campaign ID'], value['Date']))	
 	
-	print("A campaign deleted!.......")
+	# print("A campaign deleted!.......")
 
 
 
@@ -350,10 +350,10 @@ def DeleteListPlan(list_plan_remove, connect):
 	else:
 		for plan in list_plan_remove:
 			DeletePlan(plan, cursor)
-		print("Delete", len(list_plan_remove), "plan!.........")
+		# print("Delete", len(list_plan_remove), "plan!.........")
 
 	conn.commit()
-	print("Committed!.......")
+	# print("Committed!.......")
 	cursor.close()
 
 
@@ -369,10 +369,10 @@ def DeleteListCamp(list_camp_remove, connect):
 	else:
 		for camp in list_camp_remove:
 			DeleteCamp(camp, cursor)
-		print("Delete", len(list_camp_remove), "plan!.........")
+		# print("Delete", len(list_camp_remove), "plan!.........")
 
 	conn.commit()
-	print("Committed!.......")
+	# print("Committed!.......")
 	cursor.close()
 
 
