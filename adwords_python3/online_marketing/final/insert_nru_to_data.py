@@ -35,13 +35,14 @@ def ReadNRU(connect, path_data, date):
 		if (list_NRU[i][1] == pro[1]):    
 			list_NRU[i][3] = pro[0]    
   
-    json_ = {
-      'SNAPSHOT_DATE': list_NRU[i][0].strftime('%Y-%m-%d'),
-      'PRODUCT_CODE': list_NRU[i][1],
-      'NRU': list_NRU[i][2],
-      'PRODUCT_ID': list_NRU[i][3]
-    }
-    list_json.append(json_)
+	json_ = {
+		'SNAPSHOT_DATE': list_NRU[i][0].strftime('%Y-%m-%d'),
+		'PRODUCT_CODE': list_NRU[i][1],
+		'NRU': list_NRU[i][2],
+		'PRODUCT_ID': list_NRU[i][3]
+	}
+
+	list_json.append(json_)
 
 	data_json = {}
 	data_json['NRU'] = list_json
