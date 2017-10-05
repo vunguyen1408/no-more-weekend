@@ -1,4 +1,3 @@
-
 import sys
 import os
 import pandas as pd
@@ -120,7 +119,7 @@ def AddProductCode(path_folder, list_plan, date):
     data = json.load(fo)
 
   list_temp = []
-  for plan in list_plan:
+  for plan in list_plan['plan']:
     temp = plan
     temp['PRODUCT_CODE'] = ''
     for alias in data['ALIAS']:
@@ -131,7 +130,7 @@ def AddProductCode(path_folder, list_plan, date):
   # for p in list_temp:
   #   print (p['PRODUCT_CODE'])
   
-  list_plan = list_temp
+  list_plan['plan'] = list_temp
   return list_plan
 
 
@@ -188,11 +187,11 @@ def ReadPlanFromTable(connect, path_folder, date):
   #================ Add product id to plan =================
   ReadProductAlias(connect, path_folder, date)
   nru.ReadNRU(connect, path_folder, date)
-  
-  list_json = AddProductCode(path_folder, list_json, date)
-  list_json = nru.AddNRU(path_folder, list_json, date)
-  
+
+  plan_ = AddProductCode(path_folder, plan_, date)
+  plan_ = nru.AddNRU(path_folder, plan_, date)
   plan_['plan'] = list_json
+  
   with open (file_plan, 'w') as f:
     json.dump(plan_, f)
 
@@ -212,7 +211,7 @@ def MapData(customer, path_folder, date):
 
   # =============== List plan code ================
   list_plan = ReadPlan(path_folder, date)
-  
+
   #================ Add product id to plan =================
   # list_plan = AddProductCode(path_folder, list_plan, date)
 
