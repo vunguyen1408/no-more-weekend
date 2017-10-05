@@ -188,7 +188,7 @@ def ReadPlanFromTable(connect, path_folder, date):
   #================ Add product id to plan =================
   ReadProductAlias(connect, path_folder, date)
   nru.ReadNRU(connect, path_folder, date)
-
+  print(plan_['plan'][0])
   plan_ = AddProductCode(path_folder, plan_, date)
   plan_ = nru.AddNRU(path_folder, plan_, date)
   print(plan_['plan'][0])
