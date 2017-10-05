@@ -349,7 +349,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 						list_camp_remove_unmap.append(campaign)
 
 
-		print (list_plan)
+		# print (list_plan)
 
 		list_plan = mapping.AddProductCode(path_data, list_plan, date)
 		list_plan = mapping.AddProductCode(path_data, list_plan, date)
@@ -357,7 +357,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 		list_plan = nru.AddNRU(path_data, list_plan, date)
 		list_plan = nru.AddNRU(path_data, list_plan, date)
 
-		print (list_plan)
+		# print (list_plan)
 
 		#------------- Insert total ------------
 		for plan in list_plan:
@@ -403,6 +403,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 		print (len(data_total['UN_CAMPAIGN']))
 		print (len(list_plan_remove_unmap))
 		print (len(list_camp_remove_unmap))
+		print (list_camp_remove_unmap)
 		return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap)
 
 
