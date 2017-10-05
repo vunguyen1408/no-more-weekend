@@ -474,8 +474,8 @@ def InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap
 	ReportDetailUnmap(path_data_total_map, connect)
 
 	#---------- Delete plan and camp ---------------
-	DeleteListPlan(list_plan_remove_unmap, connect)
-	DeleteListCamp(list_camp_remove_unmap, connect)
+	# DeleteListPlan(list_plan_remove_unmap, connect)
+	# DeleteListCamp(list_camp_remove_unmap, connect)
 
 
 # path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/DATA_MAPPING/mapping_final.json'
