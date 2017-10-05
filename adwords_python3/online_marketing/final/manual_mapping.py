@@ -219,7 +219,7 @@ def ReadTableManualMap(connect, path_data, date):
 			list_plan_new.append(temp)
 
 	#------------------------ Insert database plan new------------------------------
-	connect = ''
+	# connect = ''
 	# # list_plan_new chua duy nhat can check lai
 	# for plan1 in list_plan_new:
 	# 	for plan2 in list_plan_new:
@@ -263,7 +263,8 @@ def GetCampaignUnMapForPlan(plan, path_data_total_map):
 
 	list_campaign = data_total['UN_CAMPAIGN']
 	start, end = ChooseTimeManualMap(plan)
-
+	print (start)
+	print (end)
 	list_map = []
 	list_camp = []
 	plan['CAMPAIGN'] = []
