@@ -191,7 +191,6 @@ def ReadPlanFromTable(connect, path_folder, date):
 
   plan_ = AddProductCode(path_folder, plan_, date)
   plan_ = nru.AddNRU(path_folder, plan_, date)
-  plan_['plan'] = list_json
   
   with open (file_plan, 'w') as f:
     json.dump(plan_, f)
