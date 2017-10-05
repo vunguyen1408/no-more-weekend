@@ -37,6 +37,7 @@ def InsertMCCListToDatabase(path_data, connect):
 		list_acc.append(value['name'])
 		list_acc_id.append(str(value['customerId']))
 		list_dept_id.append(value['deptId'])
+	print(len(list_acc))
 
 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect)
@@ -47,14 +48,14 @@ def InsertMCCListToDatabase(path_data, connect):
 		
 	cursor.execute(statement)
 	res = list(cursor.fetchall())
-	list_mcc_id = ['9247463240', '9719199461']
-	list_dept = ['PG2', 'GS5']
+	list_mcc_id = []
+	list_dept = []
 	for acc in res:
 		acc = list(acc)
 		list_mcc_id.append(acc[1])
 		list_dept.append(acc[3])
 
-
+	print(len(list_mcc_id), len(list_dept))
 	for i in range(len(list_acc_id)):
 		if (list_acc_id[i] not in list_mcc_id):
 			if (list_dept_id[i] in list_mcc_id):
@@ -77,11 +78,11 @@ def InsertMCCListToDatabase(path_data, connect):
 				}
 				
 			print(value)
-			try:
-				InsertMCCList(value, cursor)
-			except UnicodeEncodeError as e:				
-				value['MCC'] = value['MCC'].encode('utf-8')
-				InsertMCCList(value, cursor)
+			# try:
+			# 	InsertMCCList(value, cursor)
+			# except UnicodeEncodeError as e:				
+			# 	value['MCC'] = value['MCC'].encode('utf-8')
+			# 	InsertMCCList(value, cursor)
 
 
 
