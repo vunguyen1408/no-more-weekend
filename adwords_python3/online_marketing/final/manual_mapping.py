@@ -381,7 +381,9 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 			plan['MONTHLY'] = {}
 			plan = insert_data.CaculatorTotalMonth(plan, date)
 
-
+		data_total['TOTAL'] = mapping.AddProductCode(path_data, data_total['TOTAL'], date)
+		data_total['UN_PLAN'] = mapping.AddProductCode(path_data, data_total['UN_PLAN'], date)
+		
 
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 		with open (path_data_total_map,'w') as f:

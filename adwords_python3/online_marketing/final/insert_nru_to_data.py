@@ -58,7 +58,7 @@ def AddNRU(path_folder, list_plan, date):
 		data = json.load(fi)  
 
 	list_temp = []
-	for plan in list_plan['plan']:
+	for plan in list_plan:
 		temp = plan    	
 		temp['CCD_NRU'] = None    
 		for nru in data['NRU']:
@@ -69,7 +69,7 @@ def AddNRU(path_folder, list_plan, date):
 			and (date <= datetime.strptime(plan['END_DAY_ESTIMATE'], '%Y-%m-%d')):
 				temp['CCD_NRU'] = nru['NRU']  
 		list_temp.append(temp) 
-	list_plan['plan'] = list_temp 
+	list_plan = list_temp 
 
 	return list_plan
 

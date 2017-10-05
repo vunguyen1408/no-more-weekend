@@ -120,7 +120,7 @@ def AddProductCode(path_folder, list_plan, date):
     data = json.load(fo)
 
   list_temp = []
-  for plan in list_plan['plan']:
+  for plan in list_plan:
     temp = plan
     temp['PRODUCT_CODE'] = ''
     for alias in data['ALIAS']:
@@ -131,7 +131,7 @@ def AddProductCode(path_folder, list_plan, date):
   # for p in list_temp:
   #   print (p['PRODUCT_CODE'])
   
-  list_plan['plan'] = list_temp
+  list_plan = list_temp
   return list_plan
 
 
@@ -189,8 +189,8 @@ def ReadPlanFromTable(connect, path_folder, date):
   ReadProductAlias(connect, path_folder, date)
   nru.ReadNRU(connect, path_folder, date)
   
-  plan_ = AddProductCode(path_folder, plan_, date)
-  plan_ = nru.AddNRU(path_folder, plan_, date)
+  plan_['plan'] = AddProductCode(path_folder, plan_['plan'], date)
+  plan_['plan'] = nru.AddNRU(path_folder, plan_['plan'], date)
   
   with open (file_plan, 'w') as f:
     json.dump(plan_, f)
