@@ -21,7 +21,7 @@ def ReadNRU(connect, path_data, date):
 	and SNAPSHOT_DATE = to_date('" + date + "', 'mm/dd/yyyy')"
 	cursor.execute(statement)
 	list_NRU = list(cursor.fetchall())  
-	print('Len NRU:', list_NRU)
+	
   #==================== Get product ID ===================
 	statement = 'Select PRODUCT_ID, CCD_PRODUCT from ODS_META_PRODUCT'
 	cursor.execute(statement)
