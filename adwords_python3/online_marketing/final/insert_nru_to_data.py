@@ -18,7 +18,7 @@ def ReadNRU(connect, path_data, date):
 	year = date[:4]
 	date = month + '-' + day + '-' + year
 	statement = "Select SNAPSHOT_DATE, PRODUCT_CODE, NRU from STG_NRU where CHANNEL = 'Google' \
-	and SNAPSHOT_DATE = = to_date('" + date + "', 'mm/dd/yyyy')"
+	and SNAPSHOT_DATE = to_date('" + date + "', 'mm/dd/yyyy')"
 	cursor.execute(statement)
 	list_NRU = list(cursor.fetchall())  
   
