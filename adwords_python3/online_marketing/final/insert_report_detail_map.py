@@ -319,6 +319,7 @@ def ConvertJsonMap(value):
 	return json_
 
 def DeletePlan(value, cursor):
+	print (value)
 	#==================== Remove plan from database =============================
 	statement = 'delete from DTM_GG_PIVOT_DETAIL_UNMAP \
 	where PRODUCT = :1 and REASON_CODE_ORACLE = :2 and EFORM_TYPE = :3 and UNIT_OPTION = :4'
@@ -329,6 +330,7 @@ def DeletePlan(value, cursor):
 
 
 def DeleteCamp(value, cursor):
+	print (value)
 	#==================== Remove campaign from database =============================
 	statement = 'delete from DTM_GG_PIVOT_DETAIL_UNMAP \
 	where CAMPAIGN_ID = :1 and SNAPSHOT_DATE = :2'
