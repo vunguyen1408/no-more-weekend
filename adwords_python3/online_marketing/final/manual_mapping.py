@@ -8,6 +8,7 @@ from datetime import datetime , timedelta, date
 #-------------- import file ---------------
 import insert_data_map_to_total as insert_data
 import mapping_campaign_plan as mapping
+import insert_nru_to_data as nru
 
 # list_plan = [{'CYEAR': '17', 'CMONTH': '6', 'LEGAL': 'VNG', 'DEPARTMENT': '0902', 'DEPARTMENT_NAME': 'PG1',\
 #  'PRODUCT': '221', 'REASON_CODE_ORACLE': '1706008', 'EFORM_NO': 'FA-PA170529003', 'START_DAY': '2017-06-01', \
@@ -383,7 +384,10 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 
 		data_total['TOTAL'] = mapping.AddProductCode(path_data, data_total['TOTAL'], date)
 		data_total['UN_PLAN'] = mapping.AddProductCode(path_data, data_total['UN_PLAN'], date)
-		
+
+		data_total['TOTAL'] = nru.AddNRU(path_data, data_total['TOTAL'], date)
+		data_total['UN_PLAN'] = nru.AddNRU(path_data, data_total['UN_PLAN'], date)
+
 
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 		with open (path_data_total_map,'w') as f:
