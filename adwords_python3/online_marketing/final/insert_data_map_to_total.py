@@ -305,13 +305,17 @@ def MergeDataToTotal(path_data, date):
 			data_total['UN_PLAN'] = list_plan_un_map
 		else:
 			for plan_un in list_plan_un_map:
+				flag = True
 				# print (data_total['UN_PLAN'])
 				for plan in data_total['UN_PLAN']:
 					if plan_un['PRODUCT'] == plan['PRODUCT'] \
 						and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-						and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
-						and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+						and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] :
 						temp_un.append(plan_un)
+				# 		flag = False
+				# if flag:
+				# 	print(plan_un)
+				# 	data_total['UN_PLAN'].append(plan_un)
 			data_total['UN_PLAN'] = temp_un
 		# --------------- Tinh total month cho cac plan --------------
 		# print (data_total['UN_PLAN'])
@@ -325,7 +329,6 @@ def MergeDataToTotal(path_data, date):
 
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 		print (path_data_total_map)
-		
 		#-------------------------- Write total lần 1------------------
 		with open (path_data_total_map,'w') as f:
 			json.dump(data_total, f)
@@ -368,12 +371,6 @@ def CreateListPlanMonthly(path_data, date):
 		with open (path_data_total_map,'r') as f:
 			data_map = json.load(f)
 		for plan in data_map['TOTAL']:
-			plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = GetVolumeActualTotal(plan)
-			for m in plan['MONTHLY']:
-				m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = GetVolumeActualMonthly(plan, m)
-
-
-		for plan in data_map['UN_PLAN']:
 			plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = GetVolumeActualTotal(plan)
 			for m in plan['MONTHLY']:
 				m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = GetVolumeActualMonthly(plan, m)
