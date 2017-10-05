@@ -141,8 +141,11 @@ def ConvertJsonMonthlyDetail(index, value):
 	json_['OBJECTIVE'] = ''
 
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE']
-	json_['PRODUCT_ID'] = value['PRODUCT']
-	json_['CCD_NRU'] = value['CCD_NRU']
+	json_['PRODUCT_ID'] = value['PRODUCT']	
+	if (value['CCD_NRU'] is None):
+		json_['CCD_NRU'] = value['CCD_NRU']
+	else:
+		json_['CCD_NRU'] = float(value['CCD_NRU'])
 	json_['GG_VIEWS'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['VIEWS']
 	json_['GG_CONVERSION'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['CONVERSIONS']
 
