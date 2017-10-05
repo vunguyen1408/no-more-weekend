@@ -349,7 +349,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 						list_camp_remove_unmap.append(campaign)
 
 
-		# print (list_plan)
+		print (list_plan)
 
 		list_plan = mapping.AddProductCode(path_data, list_plan, date)
 		list_plan = mapping.AddProductCode(path_data, list_plan, date)
@@ -357,7 +357,9 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 		list_plan = nru.AddNRU(path_data, list_plan, date)
 		list_plan = nru.AddNRU(path_data, list_plan, date)
 
-		# print (list_plan)
+		print (len(data_total['UN_CAMPAIGN']))
+
+		print (list_plan)
 
 		#------------- Insert total ------------
 		for plan in list_plan:
@@ -384,6 +386,8 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 					data_total['UN_PLAN'].remove(plan_un)
 					list_plan_remove_unmap.append(plan_un)
 
+		print (len(data_total['UN_CAMPAIGN']))
+
 		# --------------- Tinh total month cho cac plan --------------
 		for plan in data_total['TOTAL']:
 			plan['MONTHLY'] = {}
@@ -394,9 +398,9 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 			plan = insert_data.CaculatorTotalMonth(plan, date)
 
 
-		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		with open (path_data_total_map,'w') as f:
-			json.dump(data_total, f)
+		# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		# with open (path_data_total_map,'w') as f:
+		# 	json.dump(data_total, f)
 
 		insert_data.CreateListPlanMonthly(path_data, date)
 
