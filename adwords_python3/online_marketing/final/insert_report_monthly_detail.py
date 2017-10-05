@@ -282,7 +282,8 @@ def ReportMonthlyDetail(path_data, connect):
 				json_ = ConvertJsonMonthlyDetailUnMap(i, value)
 				MergerMonthlyDetail(json_, cursor)
 		#=================..........=====================
-
+		print (len(data['TOTAL']))
+		print (len(data['UN_PLAN']))
 
 		#==================== Commit and close connect ===============================
 		conn.commit()
