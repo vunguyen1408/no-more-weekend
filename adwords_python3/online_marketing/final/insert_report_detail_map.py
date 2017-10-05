@@ -312,6 +312,64 @@ def ConvertJsonMap(value):
 
 	return json_
 
+def DeletePlan(value, cursor):
+	#==================== Remove plan from database =============================
+	statement = 'delete from DTM_GG_PIVOT_DETAIL_UNMAP \
+	where PRODUCT = :1 and REASON_CODE_ORACLE = :2 and EFORM_TYPE = :3 and UNIT_OPTION = :4'
+		
+	cursor.execute(statement, (value['PRODUCT'], value['REASON_CODE_ORACLE'], value['FORM_TYPE'], value['UNIT_OPTION']))	
+	
+	print("A plan deleted!.......")
+
+
+def DeleteCamp(value, cursor):
+	#==================== Remove campaign from database =============================
+	statement = 'delete from DTM_GG_PIVOT_DETAIL_UNMAP \
+	where CAMPAIGN_ID = :1 and SNAPSHOT_DATE = :2'
+		
+	cursor.execute(statement, (value['Campaign ID'], value['Date']))	
+	
+	print("A campaign deleted!.......")
+
+
+
+def DeleteListPlan(list_plan_remove, connect):
+	# ==================== Connect database =======================
+	conn = cx_Oracle.connect(connect)
+	cursor = conn.cursor()
+
+	#=================== Read data from file json ==================
+	if (len(list_plan_remove) == 0):
+		print("List plan empty...")
+	else:
+		for plan in list_plan_remove:
+			DeletePlan(plan, cursor)
+		print("Delete", len(list_plan_remove), "plan!.........")
+
+	conn.commit()
+	print("Committed!.......")
+	cursor.close()
+
+
+
+def DeleteListCamp(list_camp_remove, connect):
+	# ==================== Connect database =======================
+	conn = cx_Oracle.connect(connect)
+	cursor = conn.cursor()
+
+	#=================== Read data from file json ==================
+	if (len(list_camp_remove) == 0):
+		print("List campaign empty...")
+	else:
+		for camp in list_camp_remove:
+			DeleteCamp(camp, cursor)
+		print("Delete", len(list_camp_remove), "plan!.........")
+
+	conn.commit()
+	print("Committed!.......")
+	cursor.close()
+
+
 def ReportDetailUnmap(path_data, connect):
 	if os.path.exists(path_data):
 	 	# ==================== Connect database =======================
@@ -404,10 +462,15 @@ def ReportDetailMap(path_data, connect):
 		# print("Committed!.......")
 		cursor.close()
 
-def InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date):
+def InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	ReportDetailMap(path_data_total_map, connect)
 	ReportDetailUnmap(path_data_total_map, connect)
+
+	#---------- Delete plan and camp ---------------
+	DeleteListPlan(list_plan_remove_unmap, connect)
+	DeleteListCamp(list_camp_remove_unmap, connect)
+
 
 # path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/DATA_MAPPING/mapping_final.json'
 # path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/total_mapping1.json'
