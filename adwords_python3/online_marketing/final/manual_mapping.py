@@ -330,9 +330,9 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 		list_plan = ReadTableManualMap(connect, path_data, date)
 		print (list_plan)
 		print (len(list_plan))
-		list_camp_remove = []
+		list_camp_remove_unmap = []
 		list_map_all = []
-		list_plan_remove = []
+		list_plan_remove_unmap = []
 		for plan in list_plan:
 			plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(plan, path_data_total_map)
 			#------------- Insert data map ------------
@@ -345,7 +345,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 					if camp['Campaign ID'] == campaign['Campaign ID'] \
 						and camp['Date'] == campaign['Date']:
 						data_total['UN_CAMPAIGN'].remove(campaign)
-						list_camp_remove.append(campaign)
+						list_camp_remove_unmap.append(campaign)
 
 		#------------- Insert total ------------
 		for plan in list_plan:
@@ -370,7 +370,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 					and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
 					and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
 					data_total['UN_PLAN'].remove(plan_un)
-					list_plan_remove.append(plan_un)
+					list_plan_remove_unmap.append(plan_un)
 
 		# --------------- Tinh total month cho cac plan --------------
 		for plan in data_total['TOTAL']:
@@ -382,11 +382,13 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 			plan = insert_data.CaculatorTotalMonth(plan, date)
 
 
-		# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		# with open (path_data_total_map,'w') as f:
-		# 	json.dump(data_total, f)
+		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		with open (path_data_total_map,'w') as f:
+			json.dump(data_total, f)
 
 		print (len(data_total['UN_CAMPAIGN']))
+		print (len(list_plan_remove_unmap))
+		print (len(list_camp_remove_unmap))
 		return (list_map_all, list_plan_remove, list_camp_remove)
 
 
