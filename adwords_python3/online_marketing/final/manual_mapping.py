@@ -289,6 +289,7 @@ def GetCampaignUnMapForPlan(plan, path_data_total_map):
 	plan_sum = []
 
 	plan_sum, list_map_temp = insert_data.SumTotalPlan(plan, list_camp)
+	print (plan_sum)
 	# print (list_campaign)
 	return (plan_sum, list_map_temp, list_camp_need_remove)
 
