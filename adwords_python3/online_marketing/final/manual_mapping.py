@@ -379,7 +379,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 
 		for plan in data_total['UN_PLAN']:
 			plan['MONTHLY'] = {}
-			plan = CaculatorTotalMonth(plan, date)
+			plan = insert_data.CaculatorTotalMonth(plan, date)
 
 
 		# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
