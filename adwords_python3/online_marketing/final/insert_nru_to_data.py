@@ -21,7 +21,7 @@ def ReadNRU(connect, path_data, date):
 	and SNAPSHOT_DATE = to_date('" + date + "', 'mm/dd/yyyy')"
 	cursor.execute(statement)
 	list_NRU = list(cursor.fetchall())  
-  
+  	print('Len NRU:', list_NRU)
   #==================== Get product ID ===================
 	statement = 'Select PRODUCT_ID, CCD_PRODUCT from ODS_META_PRODUCT'
 	cursor.execute(statement)
@@ -31,18 +31,18 @@ def ReadNRU(connect, path_data, date):
 	for i in range(len(list_NRU)):
 		list_NRU[i] = list(list_NRU[i])
 		list_NRU[i].append(None)
-	for pro in list_product:
-		if (list_NRU[i][1] == pro[1]):    
-			list_NRU[i][3] = pro[0]    
+		for pro in list_product:
+			if (list_NRU[i][1] == pro[1]):    
+				list_NRU[i][3] = pro[0]    
   
-	json_ = {
-		'SNAPSHOT_DATE': list_NRU[i][0].strftime('%Y-%m-%d'),
-		'PRODUCT_CODE': list_NRU[i][1],
-		'NRU': list_NRU[i][2],
-		'PRODUCT_ID': list_NRU[i][3]
-	}
+		json_ = {
+			'SNAPSHOT_DATE': list_NRU[i][0].strftime('%Y-%m-%d'),
+			'PRODUCT_CODE': list_NRU[i][1],
+			'NRU': list_NRU[i][2],
+			'PRODUCT_ID': list_NRU[i][3]
+		}
 
-	list_json.append(json_)
+		list_json.append(json_)
 
 	data_json = {}
 	data_json['NRU'] = list_json
