@@ -166,10 +166,9 @@ def ReadTableManualMap(connect, path_data, date):
 				and data[1] == data_local[1] \
 				and data[2] == data_local[2] \
 				and data[3] == data_local[3] \
-				and data[4] == data_local[4] \
 				and data[6] == data_local[6] \
 				and data[7] == data_local[7] \
-				and data[7] == data_local[7]:
+				and data[8] == data_local[8]:
 					print ("---------------- Trung log")
 					flag = False
 			if flag:
@@ -188,6 +187,8 @@ def ReadTableManualMap(connect, path_data, date):
 		campaign['CAMPAIGN_ID'] = plan[6]
 		campaign['START_DATE_MANUAL_MAP'] = plan[7]
 		campaign['END_DATE_MANUAL_MAP'] = plan[8]
+		campaign['USER_MAP'] = plan[4]
+		campaign['STATUS'] = 'USER'
 		# campaign['UPDATE_DATE'] = str(plan[6])
 		flag = True
 		for plan_info in list_plan['plan']:
@@ -203,8 +204,6 @@ def ReadTableManualMap(connect, path_data, date):
 
 					temp['CAMPAIGN_MANUAL_MAP'] = []
 					temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
-					temp['USER_MAP'] = plan[4]
-					temp['STATUS'] = 'USER'
 					list_plan_diff.append(temp)
 					flag = False
 		# ----------- Plan moi duoc tao -----------------
