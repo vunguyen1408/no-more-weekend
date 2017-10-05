@@ -285,13 +285,13 @@ def ReportMonthlyDetail(path_data, connect):
 
 		i = 0
 		while i < 10:
+			number = 0
 			for value in data['UN_PLAN']:
-				number = 0
 				if value['CMONTH'] == str(i):
 					number += 1
-			print (i)
+			print ("========= ", i)
 			print (number)
-			print ("=======================")
+			print ("========---------------===============")
 			i += 1
 
 		print (len(data['TOTAL']))
