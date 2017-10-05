@@ -58,7 +58,8 @@ def AddNRU(path_folder, list_plan, date):
 		data = json.load(fi)  
 
 	list_temp = []
-	for plan in list_plan['plan']:    
+	for plan in list_plan['plan']:
+		plan['CCD_NRU'] = None    
 		for nru in data['NRU']:
 			date = datetime.strptime(nru['SNAPSHOT_DATE'], '%Y-%m-%d')
 			if (nru['PRODUCT_ID'] is not None) \
