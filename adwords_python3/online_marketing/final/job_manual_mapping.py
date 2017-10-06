@@ -18,7 +18,7 @@ def ManualMapping (connect, path_data, date):
 	caculator_manual = time.time()
 	list_map, list_plan_remove_unmap, list_camp_remove_unmap = manual.GetCampaignUnMapForManualMap(connect, path_data, date)
 	time_caculator_manual = time.time() - caculator_manual
-	print ("---------- Time caculator manual mapping to total : ", time_insert_manual)
+	print ("---------- Time caculator manual mapping to total : ", time_caculator_manual)
 
 	print (list_plan_remove_unmap)
 	print (list_camp_remove_unmap)
