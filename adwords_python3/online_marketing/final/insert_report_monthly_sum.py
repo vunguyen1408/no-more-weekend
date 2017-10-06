@@ -99,8 +99,49 @@ def ConvertJsonMonthlySum(index, value):
 	return json_
 
 
+
 #=================..........=====================
-def ConvertJsonMonthlySumUnMap(index, value):
+def ConvertJsonMonthlySumUnMap_1(value):
+	json_ = {}	
+
+	json_['CYEAR'] = '20' + value['CYEAR']
+	if (len(value['CMONTH']) == 1):
+		json_['CMONTH'] = '0' + value['CMONTH']
+	else:
+		json_['CMONTH'] = value['CMONTH']
+	json_['SNAPSHOT_DATE'] = json_['CYEAR'] + json_['CMONTH']
+	json_['LEGAL'] = value['LEGAL']
+	json_['DEPARTMENT'] = value['DEPARTMENT']
+
+	json_['DEPARTMENT_NAME'] = value['DEPARTMENT_NAME'] 
+	json_['PRODUCT'] = value['PRODUCT'] 
+	json_['PRODUCT_NAME'] = ''
+	json_['REASON_CODE_ORACLE'] = value['REASON_CODE_ORACLE'] 
+	json_['EFORM_NO'] = value['EFORM_NO'] 
+
+	json_['START_DATE'] = datetime.strptime(value['START_DAY'], '%Y-%m-%d')
+	json_['END_DATE'] = datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d')
+	json_['EFORM_TYPE'] = value['FORM_TYPE'] 
+	json_['UNIT_OPTION'] = value['UNIT_OPTION'] 
+	json_['NET_BUDGET_VND'] = None
+
+	json_['NET_BUDGET'] = float(value['AMOUNT_USD'])
+	json_['UNIT_COST'] = str(value['UNIT_COST'])
+	json_['VOLUMN'] = value['CVALUE'] 
+	json_['EVENT_ID'] = value['REASON_CODE_ORACLE'] 
+	json_['PRODUCT_ID'] = value['PRODUCT'] 
+
+	json_['NET_ACTUAL'] = None
+	json_['VOLUMN_ACTUAL'] = None
+	json_['UNIT_COST_ACTUAL'] = None	
+	json_['APPSFLYER_INSTALL'] = None
+
+	return json_
+#=================..........=====================
+
+
+#=================..........=====================
+def ConvertJsonMonthlySumUnMap_2(index, value):
 	json_ = {}	
 
 	json_['CYEAR'] = '20' + value['CYEAR']
@@ -142,6 +183,7 @@ def ConvertJsonMonthlySumUnMap(index, value):
 #=================..........=====================
 
 
+
 def ReportMonthlySum(path_data, connect):
 	if os.path.exists(path_data):
 	 	# ==================== Connect database =======================
@@ -152,29 +194,30 @@ def ReportMonthlySum(path_data, connect):
 		with open(path_data, 'r') as fi:
 			data = json.load(fi)
 
-		print(len(data['TOTAL']))
-		print(len(data['UN_PLAN']))
-
+		
 		for value in data['TOTAL']:
-			for i in range(len(value['MONTHLY'])):
-				# print (value)			
+			for i in range(len(value['MONTHLY'])):						
 				json_ = ConvertJsonMonthlySum(i, value)
-				# MergerMonthlySum(json_, cursor)
+				MergerMonthlySum(json_, cursor)
 
 
 		# =================..........=====================
 		for value in data['UN_PLAN']:
 			print(value['REASON_CODE_ORACLE'], '==============', value['MONTHLY'])
-			num = 0	
-			for i in range(len(value['MONTHLY'])):		
-				num += 1
-				json_ = ConvertJsonMonthlySumUnMap(i, value)
-				# MergerMonthlySum(json_, cursor)
-			# print(num)
+			num = 0
+
+			if (len(value['MONTHLY']) == 0):
+				json_ = ConvertJsonMonthlySumUnMap_1(i, value)
+				MergerMonthlySum(json_, cursor)
+			else:
+				for i in range(len(value['MONTHLY'])):	
+					json_ = ConvertJsonMonthlySumUnMap(i, value)
+					MergerMonthlySum(json_, cursor)
+			
 		# =================..........=====================
 
 		#==================== Commit and close connect ===============================
-		# conn.commit()
+		conn.commit()
 		# print("Committed!.......")
 		cursor.close()
 
