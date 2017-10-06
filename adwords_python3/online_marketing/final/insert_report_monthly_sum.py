@@ -49,8 +49,7 @@ def MergerMonthlySum(value, cursor):
 	
 	if (len(res) == 0):
 		InsertMonthlySum(value, cursor)
-	else:
-		print('update')
+	else:		
 		UpdateMonthlySum(value, cursor)
 	# print("A row mergered!.......")
 
@@ -203,9 +202,7 @@ def ReportMonthlySum(path_data, connect):
 
 		# =================..........=====================
 		for value in data['UN_PLAN']:
-			print(value['REASON_CODE_ORACLE'], '==============', value['MONTHLY'])
-			num = 0
-
+			
 			if (len(value['MONTHLY']) == 0):
 				json_ = ConvertJsonMonthlySumUnMap_1(value)
 				MergerMonthlySum(json_, cursor)
