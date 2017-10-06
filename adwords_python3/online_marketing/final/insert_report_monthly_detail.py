@@ -164,7 +164,7 @@ def ConvertJsonMonthlyDetail(index, value):
 	return json_
 
 #=================..........=====================
-def ConvertJsonMonthlyDetailUnMap_1(index, value):
+def ConvertJsonMonthlyDetailUnMap_1(value):
 	json_ = {}	
 
 	json_['CYEAR'] = '20' + value['CYEAR']
