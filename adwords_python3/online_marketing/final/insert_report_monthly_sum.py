@@ -164,7 +164,7 @@ def ReportMonthlySum(path_data, connect):
 
 		# =================..........=====================
 		for value in data['UN_PLAN']:
-			print(value['MONTHLY'])
+			print(value['REASON_CODE_ORACLE'], '==============', value['MONTHLY'])
 			num = 0	
 			for i in range(len(value['MONTHLY'])):		
 				num += 1
