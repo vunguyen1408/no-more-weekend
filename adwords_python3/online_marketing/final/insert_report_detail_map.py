@@ -461,7 +461,7 @@ def ReportDetailMap(path_data, connect):
 		# print("Committed!.......")
 		cursor.close()
 
-def InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date):
+def InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	ReportDetailMap(path_data_total_map, connect)
 	ReportDetailUnmap(path_data_total_map, connect)
