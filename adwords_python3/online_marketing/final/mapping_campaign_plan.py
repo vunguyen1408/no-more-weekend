@@ -37,7 +37,6 @@ def LogManualMap(path_data, campaign, plan, date):
 #================= Mapping campaign and plan =====================
 def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
   date_ = datetime.strptime(date, '%Y-%m-%d') 
-  now = datetime.strptime('2017-03-01', '%Y-%m-%d')
   list_campaign_map = []
   number = 0
   for j, camp in enumerate(list_campaign):
@@ -58,7 +57,7 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
           (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
           (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) == 0) and \
           (date_ >= datetime.strptime(eform['START_DAY'], '%Y-%m-%d')) and \
-          (date_ <= datetime.strptime(eform['END_DAY_ESTIMATE'], '%Y-%m-%d')) and (now <= datetime.strptime(eform['START_DAY'], '%Y-%m-%d')) ) \
+          (date_ <= datetime.strptime(eform['END_DAY_ESTIMATE'], '%Y-%m-%d')) ) \
           or \
           ( LogManualMap(path_folder, camp, eform, date) ):   
           camp['Mapping'] = True
