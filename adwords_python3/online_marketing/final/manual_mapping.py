@@ -156,7 +156,7 @@ def ReadTableManualMap(connect, path_data, date):
 
 	list_diff = []
 	#------------- Check manual map change --------------------
-	print (log_manual)
+	# print (log_manual)
 	if (len(log_manual) != len(data_manual_map) or (data_manual_map['MANUAL_MAP'] == [])):
 		for data in log_manual:
 			flag = True
@@ -176,7 +176,7 @@ def ReadTableManualMap(connect, path_data, date):
 				temp = list(data)
 				list_diff.append(list(temp))
 				print ("--------------- Da add them ---------------")
-	print (list_diff)
+	# print (list_diff)
 	list_plan = mapping.ReadPlan(path_data, str(date))
 	# --------------- Get info plan ------------
 	list_plan_diff = []
@@ -228,9 +228,9 @@ def ReadTableManualMap(connect, path_data, date):
 	# 			and plan1['REASON_CODE_ORACLE'] == plan2['REASON_CODE_ORACLE'] \
 	# 			and plan1['FORM_TYPE'] == plan2['FORM_TYPE']:
 
-	print (list_plan_diff)
-	for plan in list_plan_new:
-		InsertPlanToDataBase(connect, plan)
+	# print (list_plan_diff)
+	# for plan in list_plan_new:
+	# 	InsertPlanToDataBase(connect, plan)
 	# print (list_plan_diff)
 	return (list_plan_diff)
 
@@ -333,7 +333,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 		list_camp_remove_unmap = []
 		list_map_all = []
 		list_plan_remove_unmap = []
-		print (len(data_total['UN_CAMPAIGN']))
+		# print (len(data_total['UN_CAMPAIGN']))
 		for plan in list_plan:
 			plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(plan, path_data_total_map)
 			#------------- Insert data map ------------
@@ -349,7 +349,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 						list_camp_remove_unmap.append(campaign)
 
 
-		print (list_plan)
+		# print (list_plan)
 
 		list_plan = mapping.AddProductCode(path_data, list_plan, date)
 		# list_plan = mapping.AddProductCode(path_data, list_plan, date)
@@ -357,9 +357,9 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 		# list_plan = nru.AddNRU(path_data, list_plan, date)
 		# list_plan = nru.AddNRU(path_data, list_plan, date)
 
-		print (len(data_total['UN_CAMPAIGN']))
+		# print (len(data_total['UN_CAMPAIGN']))
 
-		print (list_plan)
+		# print (list_plan)
 
 		#------------- Insert total ------------
 		for plan in list_plan:
@@ -386,7 +386,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 					data_total['UN_PLAN'].remove(plan_un)
 					list_plan_remove_unmap.append(plan_un)
 
-		print (len(data_total['UN_CAMPAIGN']))
+		# print (len(data_total['UN_CAMPAIGN']))
 
 		# --------------- Tinh total month cho cac plan --------------
 		print ("---------------------------------------------------")
@@ -407,11 +407,11 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 
 		insert_data.CreateListPlanMonthly(path_data, date)
 
-		print (len(data_total['UN_CAMPAIGN']))
-		print (len(list_plan_remove_unmap))
-		print (len(list_camp_remove_unmap))
-		# print (list_camp_remove_unmap)
-		print (list_plan_remove_unmap)
+		# print (len(data_total['UN_CAMPAIGN']))
+		# print (len(list_plan_remove_unmap))
+		# print (len(list_camp_remove_unmap))
+		# # print (list_camp_remove_unmap)
+		# print (list_plan_remove_unmap)
 		return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap)
 
 

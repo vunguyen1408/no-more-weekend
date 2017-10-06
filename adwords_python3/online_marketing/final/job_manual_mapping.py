@@ -19,11 +19,13 @@ def ManualMapping (connect, path_data, date):
 	list_map, list_plan_remove_unmap, list_camp_remove_unmap = manual.GetCampaignUnMapForManualMap(connect, path_data, date)
 	time_insert_manual = time.time() - insert_manual
 	# print ("---------- Time insert manual mapping to total : ", time_insert_manual)
+	print (list_plan_remove_unmap)
+	print (list_camp_remove_unmap)
 	
-	monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
-	monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
-	plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
-	detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+	# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+	# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+	# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+	# detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 
 
 
