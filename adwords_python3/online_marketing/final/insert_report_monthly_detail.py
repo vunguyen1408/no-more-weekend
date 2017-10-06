@@ -372,7 +372,7 @@ def ReportMonthlyDetail(path_data, connect):
 		for value in data['UN_PLAN']:	
 			if (len(value['MONTHLY']) == 0):
 				json_ = ConvertJsonMonthlyDetailUnMap_1(value)
-				MergerMonthlySum(json_, cursor)
+				MergerMonthlyDetail(json_, cursor)
 			else:
 				for i in range(len(value['MONTHLY'])):
 					json_ = ConvertJsonMonthlyDetailUnMap_2(i, value)
