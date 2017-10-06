@@ -389,10 +389,12 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 		print (len(data_total['UN_CAMPAIGN']))
 
 		# --------------- Tinh total month cho cac plan --------------
+		print ("---------------------------------------------------")
 		for plan in data_total['TOTAL']:
 			plan['MONTHLY'] = {}
 			plan = insert_data.CaculatorTotalMonth(plan, date)
 			print (plan)
+		print ("---------------------------------------------------")
 
 		for plan in data_total['UN_PLAN']:
 			plan['MONTHLY'] = {}
