@@ -173,7 +173,7 @@ def ConvertJsonMonthlyDetailUnMap_1(value):
 	else:
 		json_['CMONTH'] = value['CMONTH']
 
-	json_['SNAPSHOT_DATE'] = json_['CYEAR'] + json_['CMONTH']
+	json_['SNAPSHOT_DATE'] = json_['CYEAR'] + '-' + json_['CMONTH']
 	json_['LEGAL'] = value['LEGAL']
 	json_['DEPARTMENT'] = value['DEPARTMENT']
 
