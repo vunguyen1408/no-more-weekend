@@ -83,8 +83,8 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
   data_map = {}
   data_map['campaign'] = list_campaign_map
   data_map['plan'] = list_plan
-  # print (" -------------- Mapping------ ", number)
-  # print (" -------------- Un mapping------ ", len(list_campaign_map) - number)
+  print (" -------------- Mapping------ ", number)
+  print (" -------------- Un mapping------ ", len(list_campaign_map) - number)
   return data_map
 
 
