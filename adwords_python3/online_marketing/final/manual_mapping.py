@@ -232,6 +232,7 @@ def ReadTableManualMap(connect, path_data, date):
 	# for plan in list_plan_new:
 	# 	InsertPlanToDataBase(connect, plan)
 	# print (list_plan_diff)
+	print (list_plan_diff)
 	return (list_plan_diff)
 
 
