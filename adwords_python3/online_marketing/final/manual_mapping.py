@@ -202,7 +202,7 @@ def ReadTableManualMap(connect, path_data, date):
 			if flag:
 				temp = ParseLogManualToJson(data)
 				print (temp)
-				list_diff.append(list(temp))
+				list_diff.append(temp)
 				print ("--------------- Da add them ---------------")
 		# print (list_diff)
 		list_plan = mapping.ReadPlan(path_data, str(date))
