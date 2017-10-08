@@ -129,16 +129,26 @@ def InsertPlanToDataBase(connect, plan):
 
 
 def ParseLogManualToJson(log):
-	temp = {}
-	temp['PRODUCT'] = log[0]
-	temp['REASON_CODE_ORACLE'] = log[1]
-	temp['EFORM_TYPE'] = log[2]
-	temp['UNIT_OPTION'] = log[3]
-	temp['USER_NAME'] = log[4]
-	temp['ACCOUNT_ID'] = log[5]
-	temp['CAMPAIGN_ID'] = log[6]
-	temp['START_DATE'] = log[7]
-	temp['END_DATE'] = log[8]
+	temp = {
+		'PRODUCT' : log[0],
+		'REASON_CODE_ORACLE' : log[1],
+		'EFORM_TYPE' : log[2],
+		'UNIT_OPTION' : log[3],
+		'USER_NAME' : log[4],
+		'ACCOUNT_ID' : log[5],
+		'CAMPAIGN_ID' : log[6],
+		'START_DATE' : log[7],
+		'END_DATE' : log[8]
+	}
+	# temp['PRODUCT'] = log[0]
+	# temp['REASON_CODE_ORACLE'] = log[1]
+	# temp['EFORM_TYPE'] = log[2]
+	# temp['UNIT_OPTION'] = log[3]
+	# temp['USER_NAME'] = log[4]
+	# temp['ACCOUNT_ID'] = log[5]
+	# temp['CAMPAIGN_ID'] = log[6]
+	# temp['START_DATE'] = log[7]
+	# temp['END_DATE'] = log[8]
 	return temp
 
 def ReadTableManualMap(connect, path_data, date):
@@ -191,6 +201,7 @@ def ReadTableManualMap(connect, path_data, date):
 					flag = False
 			if flag:
 				temp = ParseLogManualToJson(data)
+				print (temp)
 				list_diff.append(list(temp))
 				print ("--------------- Da add them ---------------")
 		# print (list_diff)
@@ -203,10 +214,10 @@ def ReadTableManualMap(connect, path_data, date):
 		for plan in list_diff:
 			# ----------- Create data campaign ----------------
 			campaign = {}
-			campaign['CAMPAIGN_ID'] = plan[6]
-			campaign['START_DATE_MANUAL_MAP'] = plan[7]
-			campaign['END_DATE_MANUAL_MAP'] = plan[8]
-			campaign['USER_MAP'] = plan[4]
+			campaign['CAMPAIGN_ID'] = plan['CAMPAIGN_ID']
+			campaign['START_DATE_MANUAL_MAP'] = plan['START_DATE']
+			campaign['END_DATE_MANUAL_MAP'] = plan['END_DATE']
+			campaign['USER_MAP'] = plan['USER_NAME']
 			campaign['STATUS'] = 'USER'
 			# campaign['UPDATE_DATE'] = str(plan[6])
 			flag = True
@@ -215,10 +226,10 @@ def ReadTableManualMap(connect, path_data, date):
 				# print (plan[0])
 				# print (plan[1])
 				# print (plan_info['REASON_CODE_ORACLE'])
-				if int(plan[0]) == int(plan_info['PRODUCT']) \
-					and plan[1] == plan_info['REASON_CODE_ORACLE']:
+				if int(plan['PRODUCT']) == int(plan_info['PRODUCT']) \
+					and plan['REASON_CODE_ORACLE'] == plan_info['REASON_CODE_ORACLE']:
 					plan_temp = plan_info
-					if plan[3] == plan_info['UNIT_OPTION'] and plan[2] == plan_info['FORM_TYPE']:
+					if plan['UNIT_OPTION'] == plan_info['UNIT_OPTION'] and plan['EFORM_TYPE'] == plan_info['FORM_TYPE']:
 						temp = plan_temp.copy()
 						print (temp)
 						print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
