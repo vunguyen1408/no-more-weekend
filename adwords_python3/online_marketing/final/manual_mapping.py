@@ -184,7 +184,7 @@ def ReadTableManualMap(connect, path_data, date):
 	list_out = []
 	#------------- Check manual map change --------------------
 	# print (log_manual)
-	if (len(log_manual) != len(manual_map) or (manual_map['MANUAL_MAP'] == [])):
+	if (len(log_manual) != len(manual_map) or (manual_map == [])):
 		for data in log_manual:
 			print (data)
 			list_out.append(ParseLogManualToJson(data))
