@@ -181,11 +181,13 @@ def ReadTableManualMap(connect, path_data, date):
 
 	list_diff = []
 	list_plan_diff = []
+	list_out = []
 	#------------- Check manual map change --------------------
 	# print (log_manual)
 	if (len(log_manual) != len(manual_map) or (manual_map['MANUAL_MAP'] == [])):
 		for data in log_manual:
 			print (data)
+			list_out.append(ParseLogManualToJson(data))
 			flag = True
 			print (data[6])
 			print (type(data[6]))
@@ -205,6 +207,12 @@ def ReadTableManualMap(connect, path_data, date):
 				list_diff.append(temp)
 				print ("--------------- Da add them ---------------")
 		# print (list_diff)
+
+		#--------------- Write file manual log -------------------
+		data_manual_map['LOG'] = list_out
+		with open (path_data_total_map,'w') as f:
+			json.dump(data_manual_map, f)
+
 		list_plan = mapping.ReadPlan(path_data, str(date))
 		print (list_diff)
 		# --------------- Get info plan ------------
