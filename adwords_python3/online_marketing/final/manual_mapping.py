@@ -155,9 +155,10 @@ def ReadTableManualMap(connect, path_data, date):
 	log_manual = cursor.fetchall()
 
 	list_diff = []
+	list_plan_diff = []
 	#------------- Check manual map change --------------------
 	# print (log_manual)
-	if (len(log_manual) != len(data_manual_map) or (data_manual_map['MANUAL_MAP'] != [])):
+	if (len(log_manual) != len(data_manual_map) or (data_manual_map['MANUAL_MAP'] == [])):
 		for data in log_manual:
 			print (data)
 			flag = True
