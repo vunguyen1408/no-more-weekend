@@ -331,8 +331,10 @@ def GetCampaignUnMapForPlan(plan, path_data_total_map):
 	plan_sum = []
 
 	plan_sum, list_map_temp = insert_data.SumTotalPlan(plan, list_camp)
+	print (list_map_temp)
+	print (list_camp)
 	# print (list_campaign)
-	return (plan_sum, list_map_temp, list_camp_need_remove)
+	return (plan_sum, list_camp, list_camp_need_remove)
 
 
 def GetCampaignUnMapForManualMap(connect, path_data, date):
