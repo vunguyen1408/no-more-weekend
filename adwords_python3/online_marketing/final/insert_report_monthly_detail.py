@@ -158,7 +158,7 @@ def ConvertJsonMonthlyDetail(index, value):
 	json_['GG_COST'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['COST']
 	json_['GG_SPEND'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['COST']
 
-	json_['GG_APPSFLYER_INSTALL'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['INSTALL']
+	json_['GG_APPSFLYER_INSTALL'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']
 	json_['GG_STRATEGY_BID_TYPE'] = ''
 
 	return json_

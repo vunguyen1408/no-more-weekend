@@ -351,7 +351,7 @@ def GetVolumeActualMonthly(plan, month):
 	if unit_option == 'CPA':
 		return month['TOTAL_CAMPAIGN_MONTHLY']['INTERACTIONS'] #CCD_NRU
 	if unit_option == 'CPI':
-		return month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL']  # Install
+		return month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']  # Install
 	if unit_option == 'CPV':
 		return month['TOTAL_CAMPAIGN_MONTHLY']['VIEWS']
 	return ''
@@ -366,7 +366,7 @@ def GetVolumeActualTotal(plan):
 	if unit_option == 'CPA':
 		return plan['TOTAL_CAMPAIGN']['INTERACTIONS'] #CCD_NRU
 	if unit_option == 'CPI':
-		return plan['TOTAL_CAMPAIGN']['INSTALL']  # Install
+		return plan['TOTAL_CAMPAIGN']['INSTALL_CAMP']  # Install
 	if unit_option == 'CPV':
 		return plan['TOTAL_CAMPAIGN']['VIEWS']
 	return ''
