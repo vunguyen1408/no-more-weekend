@@ -204,6 +204,8 @@ def ReadTableManualMap(connect, path_data, date):
 					plan_temp = plan_info
 					if plan[3] == plan_info['UNIT_OPTION'] and plan[2] == plan_info['FORM_TYPE']:
 						temp = plan_info
+						print (temp)
+						print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 
 						temp['CAMPAIGN_MANUAL_MAP'] = []
 						temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
