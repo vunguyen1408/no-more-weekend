@@ -20,9 +20,9 @@ def ManualMapping (connect, path_data, date):
 	time_caculator_manual = time.time() - caculator_manual
 	print ("---------- Time caculator manual mapping to total : ", time_caculator_manual)
 
-	print (list_plan_remove_unmap)
-	print (list_camp_remove_unmap)
-	if not (list_plan_remove_unmap == [] and list_camp_remove_unmap == []):
+	print (list_plan_remove_unmap != [])
+	print (list_camp_remove_unmap != [])
+	if list_plan_remove_unmap != [] or list_camp_remove_unmap != []:
 		update_manual = time.time()
 		monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 		monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
@@ -30,6 +30,8 @@ def ManualMapping (connect, path_data, date):
 		detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 		time_update_manual = time.time() - update_manual
 		print ("---------- Time update manual mapping to total : ", time_update_manual)
+	else:
+		print (" Not change")
 
 
 date = '2017-08-31'
