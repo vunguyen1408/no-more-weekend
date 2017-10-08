@@ -22,6 +22,7 @@ def ManualMapping (connect, path_data, date):
 
 	print (list_plan_remove_unmap != [])
 	print (list_camp_remove_unmap != [])
+	print (len(print (list_camp_remove_unmap))
 	if list_plan_remove_unmap != [] or list_camp_remove_unmap != []:
 		update_manual = time.time()
 		monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
