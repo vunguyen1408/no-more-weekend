@@ -159,6 +159,7 @@ def ReadTableManualMap(connect, path_data, date):
 	# print (log_manual)
 	if (len(log_manual) != len(data_manual_map) or (data_manual_map['MANUAL_MAP'] == [])):
 		for data in log_manual:
+			print (data)
 			flag = True
 			print (data[6])
 			print (type(data[6]))
@@ -265,12 +266,13 @@ def GetCampaignUnMapForPlan(plan, path_data_total_map):
 
 	list_campaign = data_total['UN_CAMPAIGN']
 	start, end = ChooseTimeManualMap(plan)
-	print (start)
-	print (end)
+	# print (start)
+	# print (end)
 	list_map = []
 	list_camp = []
 	plan['CAMPAIGN'] = []
 	list_camp_need_remove = []
+	# print (len(list_campaign))
 	for camp in list_campaign:
 		d = datetime.strptime(camp['Date'], '%Y-%m-%d').date()
 		if str(plan['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID']) == str(camp['Campaign ID']) \
@@ -339,10 +341,10 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 		# print (len(data_total['UN_CAMPAIGN']))
 		for plan in list_plan:
 			plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(plan, path_data_total_map)
-			print ("--------------- gggg---------------")
-			print (plan)
-			print (list_camp_need_remove)
-			print ("---------------gggg ---------------")
+			# print ("--------------- gggg---------------")
+			# print (plan)
+			# print (list_camp_need_remove)
+			# print ("---------------gggg ---------------")
 			#------------- Insert data map ------------
 			data_total['MAP'].extend(list_map)
 			# print (len(list_camp_need_remove))
