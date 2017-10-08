@@ -186,11 +186,11 @@ def ReadTableManualMap(connect, path_data, date):
 	# print (log_manual)
 	if (len(log_manual) != len(manual_map) or (manual_map == [])):
 		for data in log_manual:
-			print (data)
+			# print (data)
 			list_out.append(ParseLogManualToJson(data))
 			flag = True
-			print (data[6])
-			print (type(data[6]))
+			# print (data[6])
+			# print (type(data[6]))
 			for data_local in manual_map:
 				if data[0] == data_local['PRODUCT'] \
 				and data[1] == data_local['REASON_CODE_ORACLE'] \
@@ -203,7 +203,7 @@ def ReadTableManualMap(connect, path_data, date):
 					flag = False
 			if flag:
 				temp = ParseLogManualToJson(data)
-				print (temp)
+				# print (temp)
 				list_diff.append(temp)
 				print ("--------------- Da add them ---------------")
 		# print (list_diff)
@@ -214,7 +214,7 @@ def ReadTableManualMap(connect, path_data, date):
 			json.dump(data_manual_map, f)
 
 		list_plan = mapping.ReadPlan(path_data, str(date))
-		print (list_diff)
+		# print (list_diff)
 		# --------------- Get info plan ------------
 		list_plan_diff = []
 		plan_temp = None
@@ -331,10 +331,11 @@ def GetCampaignUnMapForPlan(plan, path_data_total_map):
 	plan_sum = []
 
 	plan_sum, list_map_temp = insert_data.SumTotalPlan(plan, list_camp)
+	print (" TEST")
 	print (list_map_temp)
 	print (list_camp)
 	# print (list_campaign)
-	return (plan_sum, list_camp, list_camp_need_remove)
+	return (plan_sum, list_map_temp, list_camp_need_remove)
 
 
 def GetCampaignUnMapForManualMap(connect, path_data, date):
