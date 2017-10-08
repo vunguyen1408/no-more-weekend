@@ -463,12 +463,13 @@ def ReportDetailMap(path_data, connect):
 
 def InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-	ReportDetailMap(path_data_total_map, connect)
-	ReportDetailUnmap(path_data_total_map, connect)
-
-	#---------- Delete plan and camp ---------------
+		#---------- Delete plan and camp ---------------
 	DeleteListPlan(list_plan_remove_unmap, connect)
 	DeleteListCamp(list_camp_remove_unmap, connect)
+
+	
+	ReportDetailMap(path_data_total_map, connect)
+	ReportDetailUnmap(path_data_total_map, connect)
 
 # path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/DATA_MAPPING/mapping_final.json'
 # path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/total_mapping1.json'
