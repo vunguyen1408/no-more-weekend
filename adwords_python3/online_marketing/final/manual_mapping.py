@@ -203,7 +203,7 @@ def ReadTableManualMap(connect, path_data, date):
 					and plan[1] == plan_info['REASON_CODE_ORACLE']:
 					plan_temp = plan_info
 					if plan[3] == plan_info['UNIT_OPTION'] and plan[2] == plan_info['FORM_TYPE']:
-						temp = plan_info
+						temp = list(plan_temp)
 						print (temp)
 						print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 
@@ -213,7 +213,7 @@ def ReadTableManualMap(connect, path_data, date):
 						flag = False
 			# ----------- Plan moi duoc tao -----------------
 			if flag:
-				temp = plan_temp
+				temp = list(plan_temp)
 				temp['UNIT_OPTION'] = plan[3]
 				temp['FORM_TYPE'] = plan[2]
 				temp['CAMPAIGN_MANUAL_MAP'] = []
