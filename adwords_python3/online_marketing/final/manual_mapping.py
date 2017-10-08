@@ -128,6 +128,19 @@ def InsertPlanToDataBase(connect, plan):
 # 	return (list_plan_diff)
 
 
+def ParseLogManualToJson(log):
+	temp = {}
+	temp['PRODUCT'] = log[0]
+	temp['REASON_CODE_ORACLE'] = log[1]
+	temp['EFORM_TYPE'] = log[2]
+	temp['UNIT_OPTION'] = log[3]
+	temp['USER_NAME'] = log[4]
+	temp['ACCOUNT_ID'] = log[5]
+	temp['CAMPAIGN_ID'] = log[6]
+	temp['START_DATE'] = log[7]
+	temp['END_DATE'] = log[8]
+	return temp
+
 def ReadTableManualMap(connect, path_data, date):
 	path_folder = os.path.join(path_data, str(date) + '/LOG_MANUAL')
 	path_data_total_map = os.path.join(path_folder, 'log_manual.json')
@@ -143,6 +156,7 @@ def ReadTableManualMap(connect, path_data, date):
 	with open (path_data_total_map,'r') as f:
 		data_manual_map = json.load(f)
 
+	manual_map = data_manual_map['LOG']
 	 # ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
@@ -158,24 +172,24 @@ def ReadTableManualMap(connect, path_data, date):
 	list_plan_diff = []
 	#------------- Check manual map change --------------------
 	# print (log_manual)
-	if (len(log_manual) != len(data_manual_map) or (data_manual_map['MANUAL_MAP'] == [])):
+	if (len(log_manual) != len(manual_map) or (manual_map['MANUAL_MAP'] == [])):
 		for data in log_manual:
 			print (data)
 			flag = True
 			print (data[6])
 			print (type(data[6]))
-			for data_local in data_manual_map:
-				if data[0] == data_local[0] \
-				and data[1] == data_local[1] \
-				and data[2] == data_local[2] \
-				and data[3] == data_local[3] \
-				and data[6] == data_local[6] \
-				and data[7] == data_local[7] \
-				and data[8] == data_local[8]:
+			for data_local in manual_map:
+				if data[0] == data_local['PRODUCT'] \
+				and data[1] == data_local['REASON_CODE_ORACLE'] \
+				and data[2] == data_local['EFORM_TYPE'] \
+				and data[3] == data_local['UNIT_OPTION'] \
+				and data[6] == data_local['CAMPAIGN_ID'] \
+				and data[7] == data_local['START_DATE'] \
+				and data[8] == data_local['END_DATE']:
 					print ("---------------- Trung log")
 					flag = False
 			if flag:
-				temp = list(data)
+				temp = ParseLogManualToJson(data)
 				list_diff.append(list(temp))
 				print ("--------------- Da add them ---------------")
 		# print (list_diff)
