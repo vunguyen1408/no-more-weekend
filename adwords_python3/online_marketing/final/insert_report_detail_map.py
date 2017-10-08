@@ -209,7 +209,7 @@ def ConvertJsonCamp(value):
 	json_['GG_CAMPAIGN_TYPE'] = value['Advertising Channel']	
 	json_['GG_SPEND'] = value['Cost']
 
-	json_['GG_APPSFLYER_INSTALL'] = value['INSTALL']		
+	json_['GG_APPSFLYER_INSTALL'] = value['INSTALL_CAMP']		
 	json_['GG_STRATEGY_BID_TYPE'] = value['Bid Strategy Type']
 	json_['CAMPAIGN_ID'] = str(value['Campaign ID'])
 	json_['CAMPAIGN_NAME'] = value['Campaign']
@@ -302,7 +302,7 @@ def ConvertJsonMap(value):
 	json_['GG_CAMPAIGN_TYPE'] = value['Advertising Channel']	
 	json_['GG_SPEND'] = value['Cost']
 
-	json_['GG_APPSFLYER_INSTALL'] = value['INSTALL']		
+	json_['GG_APPSFLYER_INSTALL'] = float(value['INSTALL_CAMP'])
 	json_['GG_STRATEGY_BID_TYPE'] = value['Bid Strategy Type']
 	json_['CAMPAIGN_ID'] = str(value['Campaign ID'])
 	json_['CAMPAIGN_NAME'] = value['Campaign']
@@ -467,7 +467,7 @@ def InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap
 	DeleteListPlan(list_plan_remove_unmap, connect)
 	DeleteListCamp(list_camp_remove_unmap, connect)
 
-	
+
 	ReportDetailMap(path_data_total_map, connect)
 	ReportDetailUnmap(path_data_total_map, connect)
 

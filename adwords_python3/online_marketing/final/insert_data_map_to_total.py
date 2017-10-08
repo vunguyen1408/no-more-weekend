@@ -25,7 +25,7 @@ def CreateSum():
 	sum_plan['AVG_CPV'] = 0
 	sum_plan['INTERACTIONS'] = 0
 	sum_plan['VIEWS'] = 0
-	sum_plan['INSTALL'] = 0
+	sum_plan['INSTALL_CAMP'] = 0
 	return sum_plan
 
 def SumTotalPlan(plan, list_campaign):
@@ -53,9 +53,9 @@ def SumTotalPlan(plan, list_campaign):
 				sum_plan['AVG_CPV'] += float(campaign['Avg. CPV'])
 				sum_plan['INTERACTIONS'] += float(campaign['Interactions'])
 				sum_plan['VIEWS'] += float(campaign['Views'])
-				if 'INSTALL' not in campaign:
-					campaign['INSTALL'] = 0
-				sum_plan['INSTALL'] += float(campaign['INSTALL'])
+				if 'INSTALL_CAMP' not in campaign:
+					campaign['INSTALL_CAMP'] = 0
+				sum_plan['INSTALL_CAMP'] += float(campaign['INSTALL_CAMP'])
 
 				#---------------- Add data map ------------------
 				z = campaign.copy()
@@ -97,7 +97,7 @@ def SumTwoTotal(sum_plan1, sum_plan2):
 	sum_plan['AVG_CPV'] = sum_plan1['AVG_CPV'] + sum_plan2['AVG_CPV']
 	sum_plan['INTERACTIONS'] = sum_plan1['INTERACTIONS'] + sum_plan2['INTERACTIONS']
 	sum_plan['VIEWS'] = sum_plan1['VIEWS'] + sum_plan2['VIEWS']
-	sum_plan['INSTALL'] = sum_plan1['INSTALL'] + sum_plan2['INSTALL']
+	sum_plan['INSTALL_CAMP'] = sum_plan1['INSTALL_CAMP'] + sum_plan2['INSTALL_CAMP']
 	return sum_plan
 
 #====================================== Total plan ===========================================
@@ -212,7 +212,7 @@ def CaculatorTotalMonth(plan, date):
 				sum_plan['AVG_CPV'] = (float(plan['TOTAL_CAMPAIGN']['AVG_CPV']) / number_date) * m['DAY']
 				sum_plan['INTERACTIONS'] = (float(plan['TOTAL_CAMPAIGN']['INTERACTIONS']) / number_date) * m['DAY']
 				sum_plan['VIEWS'] = (float(plan['TOTAL_CAMPAIGN']['VIEWS']) / number_date) * m['DAY']
-				sum_plan['INSTALL'] = (float(plan['TOTAL_CAMPAIGN']['INSTALL']) / number_date) * m['DAY']
+				sum_plan['INSTALL_CAMP'] = (float(plan['TOTAL_CAMPAIGN']['INSTALL_CAMP']) / number_date) * m['DAY']
 				m['TOTAL_CAMPAIGN_MONTHLY'] = sum_plan
 	return plan
 

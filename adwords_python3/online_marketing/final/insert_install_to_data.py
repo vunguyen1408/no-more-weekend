@@ -52,11 +52,11 @@ def AddInstall(path_file, list_install):
         data = json.load(f)
 
     for campaign in data:
-        if 'INSTALL' not in campaign:
-            campaign['INSTALL'] = 0
+        if 'INSTALL_CAMP' not in campaign:
+            campaign['INSTALL_CAMP'] = 0
             for install in list_install:
                 if str(campaign['Campaign ID']) == str(install[2]):
-                    campaign['INSTALL'] = install[3]
+                    campaign['INSTALL_CAMP'] = install[3]
     with open(path_file, 'w') as f:
         json.dump(data, f)
 
