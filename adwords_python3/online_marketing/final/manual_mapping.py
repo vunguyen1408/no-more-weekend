@@ -155,7 +155,8 @@ def ReadTableManualMap(connect, path_data, date):
 
 	with open (path_data_total_map,'r') as f:
 		data_manual_map = json.load(f)
-
+	if 'LOG' not in data_manual_map:
+		data_manual_map['LOG'] = []
 	manual_map = data_manual_map['LOG']
 	 # ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect)
