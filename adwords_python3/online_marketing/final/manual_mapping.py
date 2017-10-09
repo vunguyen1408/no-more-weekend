@@ -184,94 +184,93 @@ def ReadTableManualMap(connect, path_data, date):
 	list_out = []
 	#------------- Check manual map change --------------------
 	# print (log_manual)
-	if (len(log_manual) != len(manual_map) or (manual_map == [])):
-		for data in log_manual:
-			# print (data)
-			list_out.append(ParseLogManualToJson(data))
-			flag = True
-			# print (data[6])
-			# print (type(data[6]))
-			for data_local in manual_map:
-				if data[0] == data_local['PRODUCT'] \
-				and data[1] == data_local['REASON_CODE_ORACLE'] \
-				and data[2] == data_local['EFORM_TYPE'] \
-				and data[3] == data_local['UNIT_OPTION'] \
-				and data[6] == data_local['CAMPAIGN_ID'] \
-				and data[7] == data_local['START_DATE'] \
-				and data[8] == data_local['END_DATE']:
-					print ("---------------- Trung log")
+	for data in log_manual:
+		# print (data)
+		list_out.append(ParseLogManualToJson(data))
+		flag = True
+		# print (data[6])
+		# print (type(data[6]))
+		for data_local in manual_map:
+			if data[0] == data_local['PRODUCT'] \
+			and data[1] == data_local['REASON_CODE_ORACLE'] \
+			and data[2] == data_local['EFORM_TYPE'] \
+			and data[3] == data_local['UNIT_OPTION'] \
+			and data[6] == data_local['CAMPAIGN_ID'] \
+			and data[7] == data_local['START_DATE'] \
+			and data[8] == data_local['END_DATE']:
+				print ("---------------- Trung log")
+				flag = False
+		if flag:
+			temp = ParseLogManualToJson(data)
+			# print (temp)
+			list_diff.append(temp)
+			print ("--------------- Da add them ---------------")
+	# print (list_diff)
+
+	#--------------- Write file manual log -------------------
+	data_manual_map['LOG'] = list_out
+	with open (path_data_total_map,'w') as f:
+		json.dump(data_manual_map, f)
+
+	list_plan = mapping.ReadPlan(path_data, str(date))
+	# print (list_diff)
+	# --------------- Get info plan ------------
+	list_plan_diff = []
+	plan_temp = None
+	list_plan_new = []
+	for plan in list_diff:
+		# ----------- Create data campaign ----------------
+		campaign = {}
+		campaign['CAMPAIGN_ID'] = plan['CAMPAIGN_ID']
+		campaign['START_DATE_MANUAL_MAP'] = plan['START_DATE']
+		campaign['END_DATE_MANUAL_MAP'] = plan['END_DATE']
+		campaign['USER_MAP'] = plan['USER_NAME']
+		campaign['STATUS'] = 'USER'
+		# campaign['UPDATE_DATE'] = str(plan[6])
+		flag = True
+		for plan_info in list_plan['plan']:
+			# print (plan_info['PRODUCT'])
+			# print (plan[0])
+			# print (plan[1])
+			# print (plan_info['REASON_CODE_ORACLE'])
+			if int(plan['PRODUCT']) == int(plan_info['PRODUCT']) \
+				and plan['REASON_CODE_ORACLE'] == plan_info['REASON_CODE_ORACLE']:
+				plan_temp = plan_info
+				if plan['UNIT_OPTION'] == plan_info['UNIT_OPTION'] and plan['EFORM_TYPE'] == plan_info['FORM_TYPE']:
+					temp = plan_temp.copy()
+					print (temp)
+					print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+
+					temp['CAMPAIGN_MANUAL_MAP'] = []
+					temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
+					list_plan_diff.append(temp)
 					flag = False
-			if flag:
-				temp = ParseLogManualToJson(data)
-				# print (temp)
-				list_diff.append(temp)
-				print ("--------------- Da add them ---------------")
-		# print (list_diff)
+		# ----------- Plan moi duoc tao -----------------
+		if flag:
+			temp = plan_temp.copy()
+			temp['UNIT_OPTION'] = plan[3]
+			temp['FORM_TYPE'] = plan[2]
+			temp['CAMPAIGN_MANUAL_MAP'] = []
+			temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
+			temp['USER_MAP'] = plan[4]
+			temp['STATUS'] = 'USER'
+			list_plan_diff.append(temp)
+			list_plan_new.append(temp)
 
-		#--------------- Write file manual log -------------------
-		data_manual_map['LOG'] = list_out
-		with open (path_data_total_map,'w') as f:
-			json.dump(data_manual_map, f)
+	#------------------------ Insert database plan new------------------------------
+	# connect = ''
+	# # list_plan_new chua duy nhat can check lai
+	# for plan1 in list_plan_new:
+	# 	for plan2 in list_plan_new:
+	# 		if plan1['PRODUCT'] == plan2['PRODUCT'] \
+	# 			and plan1['REASON_CODE_ORACLE'] == plan2['REASON_CODE_ORACLE'] \
+	# 			and plan1['FORM_TYPE'] == plan2['FORM_TYPE']:
 
-		list_plan = mapping.ReadPlan(path_data, str(date))
-		# print (list_diff)
-		# --------------- Get info plan ------------
-		list_plan_diff = []
-		plan_temp = None
-		list_plan_new = []
-		for plan in list_diff:
-			# ----------- Create data campaign ----------------
-			campaign = {}
-			campaign['CAMPAIGN_ID'] = plan['CAMPAIGN_ID']
-			campaign['START_DATE_MANUAL_MAP'] = plan['START_DATE']
-			campaign['END_DATE_MANUAL_MAP'] = plan['END_DATE']
-			campaign['USER_MAP'] = plan['USER_NAME']
-			campaign['STATUS'] = 'USER'
-			# campaign['UPDATE_DATE'] = str(plan[6])
-			flag = True
-			for plan_info in list_plan['plan']:
-				# print (plan_info['PRODUCT'])
-				# print (plan[0])
-				# print (plan[1])
-				# print (plan_info['REASON_CODE_ORACLE'])
-				if int(plan['PRODUCT']) == int(plan_info['PRODUCT']) \
-					and plan['REASON_CODE_ORACLE'] == plan_info['REASON_CODE_ORACLE']:
-					plan_temp = plan_info
-					if plan['UNIT_OPTION'] == plan_info['UNIT_OPTION'] and plan['EFORM_TYPE'] == plan_info['FORM_TYPE']:
-						temp = plan_temp.copy()
-						print (temp)
-						print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-
-						temp['CAMPAIGN_MANUAL_MAP'] = []
-						temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
-						list_plan_diff.append(temp)
-						flag = False
-			# ----------- Plan moi duoc tao -----------------
-			if flag:
-				temp = plan_temp.copy()
-				temp['UNIT_OPTION'] = plan[3]
-				temp['FORM_TYPE'] = plan[2]
-				temp['CAMPAIGN_MANUAL_MAP'] = []
-				temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
-				temp['USER_MAP'] = plan[4]
-				temp['STATUS'] = 'USER'
-				list_plan_diff.append(temp)
-				list_plan_new.append(temp)
-
-		#------------------------ Insert database plan new------------------------------
-		# connect = ''
-		# # list_plan_new chua duy nhat can check lai
-		# for plan1 in list_plan_new:
-		# 	for plan2 in list_plan_new:
-		# 		if plan1['PRODUCT'] == plan2['PRODUCT'] \
-		# 			and plan1['REASON_CODE_ORACLE'] == plan2['REASON_CODE_ORACLE'] \
-		# 			and plan1['FORM_TYPE'] == plan2['FORM_TYPE']:
-
-		# print (list_plan_diff)
-		# for plan in list_plan_new:
-		# 	InsertPlanToDataBase(connect, plan)
-		# print (list_plan_diff)
-		print (list_plan_diff)
+	# print (list_plan_diff)
+	# for plan in list_plan_new:
+	# 	InsertPlanToDataBase(connect, plan)
+	# print (list_plan_diff)
+	print (list_plan_diff)
 	return (list_plan_diff)
 
 
