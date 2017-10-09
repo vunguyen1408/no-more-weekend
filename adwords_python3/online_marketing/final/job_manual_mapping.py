@@ -22,7 +22,9 @@ def ManualMapping (connect, path_data, date):
 
 
 	with open('/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/log.txt', 'a') as f:
-		f.write(str(time.time()) + '\n')
+		import datetime
+		i = datetime.datetime.now()
+		f.write("Current date & time = %s" % i)
 		f.write(str(list_plan_remove_unmap) + '\n')
 		f.write("==========================================================")
 		f.write(str(list_camp_remove_unmap) + '\n')
