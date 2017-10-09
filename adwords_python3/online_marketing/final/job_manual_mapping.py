@@ -24,7 +24,7 @@ def ManualMapping (connect, path_data, date):
 		f.write(list_plan_remove_unmap)
 		f.write("==========================================================")
 		f.write(list_camp_remove_unmap)
-		f.write("DONNNNNNNNNNNNNNNNNE")
+		f.write("DONNNNNNNNNNNNNNNNNE\n\n")
 	print (list_plan_remove_unmap != [])
 	print (list_camp_remove_unmap != [])
 	print (len(list_camp_remove_unmap))
