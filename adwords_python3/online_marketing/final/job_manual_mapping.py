@@ -20,10 +20,10 @@ def ManualMapping (connect, path_data, date):
 	time_caculator_manual = time.time() - caculator_manual
 	print ("---------- Time caculator manual mapping to total : ", time_caculator_manual)
 	with open('/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/log.txt', 'a') as f:
-		f.write(time.time())
-		f.write(list_plan_remove_unmap)
+		f.write(str(time.time()))
+		f.write(str(list_plan_remove_unmap))
 		f.write("==========================================================")
-		f.write(list_camp_remove_unmap)
+		f.write(str(list_camp_remove_unmap))
 		f.write("DONNNNNNNNNNNNNNNNNE\n\n")
 	print (list_plan_remove_unmap != [])
 	print (list_camp_remove_unmap != [])
