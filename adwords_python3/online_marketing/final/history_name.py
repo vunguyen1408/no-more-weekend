@@ -47,6 +47,7 @@ def AccountFrmCampaign(customer, path_data, date):
 					flag = False
 					if camp['Campaign'] != name['CAMPAIGN_NAME']:
 						name['CAMPAIGN_NAME'] = camp['Campaign']
+						name['UPDATE_DATE'] = str(date)
 						
 			if flag:
 				# ----------------- Add new -----------------------
