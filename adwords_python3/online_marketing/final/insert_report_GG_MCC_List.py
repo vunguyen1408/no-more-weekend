@@ -47,12 +47,11 @@ def InsertMCCListToDatabase(path_data, connect):
 		
 	cursor.execute(statement)
 	res = list(cursor.fetchall())
-	# list_mcc_id = ['9247463240', '9719199461']
-	# list_dept = ['PG2', 'GS5']
+	list_mcc_id = []	
 	for acc in res:
 		acc = list(acc)
 		list_mcc_id.append(acc[1])
-		list_dept.append(acc[3])
+		# list_dept.append(acc[3])
 
 
 	for i in range(len(list_acc)):
