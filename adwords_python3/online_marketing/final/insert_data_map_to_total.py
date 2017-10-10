@@ -331,6 +331,7 @@ def MergeDataToTotal(path_data, date):
 			plan = CaculatorTotalMonth(plan, date)
 			# print (plan)
 		print (len(data_total['TOTAL']))
+		print (len(data_total['UN_PLAN']))
 		print ("=================== LUU FILE ===========================")
 
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
