@@ -58,7 +58,7 @@ def Daily(connect, path_data, date):
 	# print ("            Time get report: ", time_download_report)
 
 	#======================== History name ==================================
-	history.InsertHistoryName(connect, path_data, list_customer_id, date)
+	# history.InsertHistoryName(connect, path_data, list_customer_id, date)
 
 	#======================== Insert install to data date ==============================
 	# print ("\n\n======================= RUN INSERT INSTALL WITH DATE : " + date + " =========================")
