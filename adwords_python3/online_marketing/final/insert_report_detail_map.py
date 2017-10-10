@@ -383,6 +383,7 @@ def ReportDetailUnmap(path_data, connect):
 		list_unmap = SelectDetailUnmap(cursor)
 		#================== Unmap Plan data ==============================
 		iter = 0
+		print (len (data['UN_PLAN']))
 		for plan in data['UN_PLAN']:
 			flag = False
 			if plan['REASON_CODE_ORACLE'] is not None:
@@ -436,6 +437,7 @@ def ReportDetailMap(path_data, connect):
 		#================== Data Map ==============================
 		iter = 0
 		i = 0
+		print (len (data['MAP']))
 		for value in data['MAP']:
 			flag = False	
 			for val in list_unmap:
