@@ -36,14 +36,14 @@ def LogManualMap(path_data, campaign, plan, date):
 
 def ChooseTime(plan):
   if plan['REAL_START_DATE'] is not None:
-    start_plan = datetime.strptime(plan['REAL_START_DATE'], '%Y-%m-%d').date()
+    start_plan = datetime.strptime(plan['REAL_START_DATE'], '%Y-%m-%d')
   else:
-    start_plan = datetime.strptime(plan['START_DAY'], '%Y-%m-%d').date()
+    start_plan = datetime.strptime(plan['START_DAY'], '%Y-%m-%d')
     
   if plan['REAL_END_DATE'] is not None:
-    end_plan = datetime.strptime(plan['REAL_END_DATE'], '%Y-%m-%d').date()
+    end_plan = datetime.strptime(plan['REAL_END_DATE'], '%Y-%m-%d')
   else:
-    end_plan = datetime.strptime(plan['END_DAY_ESTIMATE'], '%Y-%m-%d').date()
+    end_plan = datetime.strptime(plan['END_DAY_ESTIMATE'], '%Y-%m-%d')
 
   return (start_plan, end_plan)
 
