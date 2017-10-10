@@ -18,25 +18,25 @@ def InsertMCCList(value, cursor):
 
 def InsertMCCListToDatabase(path_data, connect):
 	#================ Get full account get from Adwords ===============
-	path_mcc  = os.path.join(path_data, 'get_account_MCC_new.json')
-	path_wpl  = os.path.join(path_data, 'get_account_WPL_new.json')
+	path_mcc  = os.path.join(path_data, 'MCC.json')
+	path_wpl  = os.path.join(path_data, 'WPL.json')
 	list_acc = []
 	list_acc_id = []
-	list_dept_id = []
+	list_dept = []
 
 	with open(path_mcc, 'r') as fi:
 		data = json.load(fi)
 	for value in data:
 		list_acc.append(value['name'])
 		list_acc_id.append(str(value['customerId']))
-		list_dept_id.append(value['deptId'])
+		list_dept.append(value['dept'])
 
 	with open(path_wpl, 'r') as fi:
 		data = json.load(fi)
 	for value in data:
 		list_acc.append(value['name'])
 		list_acc_id.append(str(value['customerId']))
-		list_dept_id.append(value['deptId'])
+		list_dept.append(value['dept'])
 
 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect)
@@ -47,22 +47,22 @@ def InsertMCCListToDatabase(path_data, connect):
 		
 	cursor.execute(statement)
 	res = list(cursor.fetchall())
-	list_mcc_id = ['9247463240', '9719199461']
-	list_dept = ['PG2', 'GS5']
+	# list_mcc_id = ['9247463240', '9719199461']
+	# list_dept = ['PG2', 'GS5']
 	for acc in res:
 		acc = list(acc)
 		list_mcc_id.append(acc[1])
 		list_dept.append(acc[3])
 
 
-	for i in range(len(list_acc_id)):
-		if (list_acc_id[i] not in list_mcc_id):
-			if (list_dept_id[i] in list_mcc_id):
+	for i in range(len(list_acc)):
+		if (list_acc[i] not in list_mcc_id):
+			if (list_dept[i] is not None):
 				value = {
 					'MCC': list_acc[i], 
 					'MCC_ID': list_acc_id[i], 
 					'ENTITY': None, 
-					'DEPT': list_dept[list_mcc_id.index(list_dept_id[i])], 
+					'DEPT': list_dept[list_mcc_id.index(list_dept[i])], 
 					'STATUS': None, 
 					'CONTACT_POINT': None
 				}
