@@ -28,7 +28,7 @@ def AccountFrmCampaign(customer, path_data, date):
 				i = i + 1
 				date_before = date_before - timedelta(1)
 				path_data_his = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'history_name' + '.json')
-				if i == 30:
+				if i == 60:
 					find = False
 					break
 			if not find:

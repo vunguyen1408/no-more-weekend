@@ -276,9 +276,19 @@ def ReadTableManualMap(connect, path_data, date):
 
 
 def ChooseTimeManualMap(plan):
+	if plan['REAL_START_DATE'] is not None:
+		start_plan = datetime.strptime(plan['REAL_START_DATE'], '%Y-%m-%d').date()
+	else:
+		start_plan = datetime.strptime(plan['START_DAY'], '%Y-%m-%d').date()
+		
+	if plan['REAL_END_DATE'] is not None:
+		end_plan = datetime.strptime(plan['REAL_END_DATE'], '%Y-%m-%d').date()
+	else:
+		end_plan = datetime.strptime(plan['END_DAY_ESTIMATE'], '%Y-%m-%d').date()
+
 	#------------ Lay time start và end  ----------------------
-	start_plan = datetime.strptime(plan['START_DAY'], '%Y-%m-%d').date()
-	end_plan = datetime.strptime(plan['END_DAY_ESTIMATE'], '%Y-%m-%d').date()
+	# start_plan = datetime.strptime(plan['START_DAY'], '%Y-%m-%d').date()
+	# end_plan = datetime.strptime(plan['END_DAY_ESTIMATE'], '%Y-%m-%d').date()
 
 	start_camp = datetime.strptime(plan['CAMPAIGN_MANUAL_MAP'][0]['START_DATE_MANUAL_MAP'], '%Y-%m-%d').date()
 	end_camp = datetime.strptime(plan['CAMPAIGN_MANUAL_MAP'][0]['END_DATE_MANUAL_MAP'], '%Y-%m-%d').date()

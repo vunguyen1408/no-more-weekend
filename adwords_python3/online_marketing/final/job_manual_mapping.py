@@ -14,22 +14,11 @@ import insert_report_detail_map as detail_map
 
 def ManualMapping (connect, path_data, date):
 	# =============================== Manual mapping =========================================
-	print ("\n\n============= RUN INSERT MANUAL MAPPING TO TOTAL WITH DATE : " + date + " =================")
+	print ("\n\n============= RUN INSERT MANUAL MAPPING TO TOTAL WITH DATE : " + time.strftime("%c") + " =================")
 	caculator_manual = time.time()
 	list_map, list_plan_remove_unmap, list_camp_remove_unmap = manual.GetCampaignUnMapForManualMap(connect, path_data, date)
 	time_caculator_manual = time.time() - caculator_manual
 	print ("---------- Time caculator manual mapping to total : ", time_caculator_manual)
-
-
-	with open('/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/log.txt', 'a') as f:
-		import datetime
-		i = datetime.datetime.now()
-		f.write("Current date & time = %s" % i)
-		f.write(str(list_plan_remove_unmap) + '\n')
-		f.write("==========================================================")
-		f.write(str(list_camp_remove_unmap) + '\n')
-		f.write("DONNNNNNNNNNNNNNNNNE\n\n")
-
 
 	print (list_plan_remove_unmap != [])
 	print (list_camp_remove_unmap != [])
