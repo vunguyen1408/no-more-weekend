@@ -56,6 +56,8 @@ def InsertMCCListToDatabase(path_data, connect):
 
 	for i in range(len(list_acc)):
 		if (list_acc_id[i] not in list_mcc_id):
+			if list_acc[i] is None:
+				print(list_acc_id[i])
 			if (list_dept[i] is not None):
 				value = {
 					'MCC': list_acc[i], 
