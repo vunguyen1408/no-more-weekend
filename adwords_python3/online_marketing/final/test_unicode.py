@@ -18,7 +18,9 @@ PAGE_SIZE = 100
 def GetCampaign(client, acccount_id):
   # Initialize appropriate service.
   client.SetClientCustomerId(str(acccount_id))
+  print ("================================================================")
   campaign_service = client.GetService('CampaignService', version='v201708')
+  print ("================================================================")
 
   # Construct selector and get all campaigns.
   offset = 0
