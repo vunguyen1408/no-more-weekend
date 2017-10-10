@@ -34,9 +34,22 @@ def LogManualMap(path_data, campaign, plan, date):
   #   data_manual_map = json.load(f)
   return False
 
+def ChooseTime(plan):
+  if plan['REAL_START_DATE'] is not None:
+    start_plan = datetime.strptime(plan['REAL_START_DATE'], '%Y-%m-%d').date()
+  else:
+    start_plan = datetime.strptime(plan['START_DAY'], '%Y-%m-%d').date()
+    
+  if plan['REAL_END_DATE'] is not None:
+    end_plan = datetime.strptime(plan['REAL_END_DATE'], '%Y-%m-%d').date()
+  else:
+    end_plan = datetime.strptime(plan['END_DAY_ESTIMATE'], '%Y-%m-%d').date()
+
+  return (start_plan, end_plan)
+
 #================= Mapping campaign and plan =====================
 def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
-  date_ = datetime.strptime(date, '%Y-%m-%d') 
+  # date_ = datetime.strptime(date, '%Y-%m-%d') 
   list_campaign_map = []
   number = 0
   for j, camp in enumerate(list_campaign):
@@ -47,17 +60,24 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
     flag = True
     eform['CAMPAIGN'] = []
     eform['STATUS'] = None
+
+    # -------------------- Choose time real ------------------------
+    start, end = ChooseTime(eform)
+
     for j, camp in enumerate(list_campaign_map):
       camp['Advertising Channel'] = ChangeCampaignType(camp['Advertising Channel'])
       if 'Plan' not in camp:
         camp['Plan'] = None
         camp['STATUS'] = None
+
+      date_ = datetime.strptime(camp['Date'], '%Y-%m-%d')
+
       if (camp['Mapping'] == False): 
         if (  (eform['PRODUCT_CODE'] != '') and (camp['Campaign'].find(eform['PRODUCT_CODE']) == 0) and \
           (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
           (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) == 0) and \
-          (date_ >= datetime.strptime(eform['START_DAY'], '%Y-%m-%d')) and \
-          (date_ <= datetime.strptime(eform['END_DAY_ESTIMATE'], '%Y-%m-%d')) ) \
+          (date_ >= start) and \
+          (date_ <= end) ) \
           or \
           ( LogManualMap(path_folder, camp, eform, date) ):   
           camp['Mapping'] = True
@@ -70,7 +90,7 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
 
           campaign = {}
           campaign['CAMPAIGN_ID'] = camp['Campaign ID']
-          campaign['Date'] = date
+          campaign['Date'] = camp['Date']
 
           temp = eform['CAMPAIGN']
           temp.append(campaign)
