@@ -75,7 +75,7 @@ def GetCampaign(client, acccount_id):
 
 
 acccount_id = '6493618146'
-adwords_client = adwords.AdWordsClient.LoadFromStorage()
+adwords_client = adwords.AdWordsClient.LoadFromStorage('/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/googleads.yaml')
 
 list_camp = GetCampaign(adwords_client, acccount_id)
 
