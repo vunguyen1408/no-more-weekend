@@ -112,8 +112,7 @@ def MergerCampList(value, cursor):
 
 	if (len(res) == 0):
 		InsertCampList(value, cursor)
-	elif (value['CAMPAIGN_NAME'] != res):
-		print (res[0][0])
+	elif (value['CAMPAIGN_NAME'] != res[0][0]):
 		print ("---------------------------- UPDATE NAME ----------------------------------")
 		UpdateCampList(value, cursor)
 	# print("	A row mergered!.......")
