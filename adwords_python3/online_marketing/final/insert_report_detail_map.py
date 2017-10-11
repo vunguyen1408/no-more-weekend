@@ -359,7 +359,8 @@ def DeleteListCamp(list_camp_remove, connect):
 
 	#=================== Read data from file json ==================
 	if (len(list_camp_remove) == 0):
-		print("List campaign empty...")
+		# print("List campaign empty...")
+		pass
 	else:
 		for camp in list_camp_remove:
 			DeleteCamp(camp, cursor)
