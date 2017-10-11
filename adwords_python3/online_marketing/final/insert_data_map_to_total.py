@@ -186,7 +186,7 @@ def CaculatorTotalMonth(plan, date):
 	if datetime.strptime(start_plan, '%Y-%m-%d').date() <= datetime.strptime(date, '%Y-%m-%d').date():
 		# Thang hien tai dang mapping
 		month = int(date[5:-3])
-		end_date = datetime.strptime(end_plan '%Y-%m-%d').date()
+		end_date = datetime.strptime(end_plan, '%Y-%m-%d').date()
 		now = datetime.strptime(date, '%Y-%m-%d').date()
 
 		if now > end_date:
