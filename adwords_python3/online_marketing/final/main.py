@@ -82,7 +82,7 @@ def Daily(connect, path_data, date):
 	#======================== Mapping data for list account ============================
 	# print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
 	# mapping = time.time()
-	# mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
+	mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
 	# time_mapping = time.time() - mapping
 	# print ("             Time maping: ", time_mapping)
 
