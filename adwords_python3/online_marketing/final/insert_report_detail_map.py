@@ -453,7 +453,7 @@ def ReportDetailMap(path_data, connect):
 				str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
 				str(value['Date']) == str(val[0]) and (str(value['Campaign ID']) is None):
 					DeletePlan(value, cursor)
-		print(flag)
+			print(flag)
 			if flag == False:				
 				json_ = ConvertJsonMap(value)	
 				try:		
