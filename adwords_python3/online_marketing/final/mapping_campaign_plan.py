@@ -36,14 +36,14 @@ def LogManualMap(path_data, campaign, plan, date):
 
 def ChooseTime(plan):
   if plan['REAL_START_DATE'] is not None:
-    start_plan = datetime.strptime(plan['REAL_START_DATE'], '%Y-%m-%d')
+    start_plan = plan['REAL_START_DATE']
   else:
-    start_plan = datetime.strptime(plan['START_DAY'], '%Y-%m-%d')
+    start_plan = plan['START_DAY']
     
   if plan['REAL_END_DATE'] is not None:
-    end_plan = datetime.strptime(plan['REAL_END_DATE'], '%Y-%m-%d')
+    end_plan = plan['REAL_END_DATE']
   else:
-    end_plan = datetime.strptime(plan['END_DAY_ESTIMATE'], '%Y-%m-%d')
+    end_plan = plan['END_DAY_ESTIMATE']
 
   return (start_plan, end_plan)
 
@@ -63,6 +63,8 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
 
     # -------------------- Choose time real ------------------------
     start, end = ChooseTime(eform)
+    start = datetime.strptime(start, '%Y-%m-%d')
+    end = datetime.strptime(end, '%Y-%m-%d')
 
     for j, camp in enumerate(list_campaign_map):
       camp['Advertising Channel'] = ChangeCampaignType(camp['Advertising Channel'])
