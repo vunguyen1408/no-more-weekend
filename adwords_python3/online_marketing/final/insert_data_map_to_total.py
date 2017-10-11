@@ -249,21 +249,6 @@ def AddToTotal (data_total, data_date, date):
 	# --------------- Insert data map -------------------
 	data_total['MAP'].extend(list_data_map)
 
-	print (len(data_date['campaign']))
-	print (len(list_data_map))
-	for camp in data_total['MAP']:
-		loop = 0
-		for c in data_total['MAP']:
-			if camp['PRODUCT'] == c['PRODUCT'] \
-				and camp['REASON_CODE_ORACLE'] == c['REASON_CODE_ORACLE'] \
-				and camp['FORM_TYPE'] == c['FORM_TYPE'] \
-				and camp['Campaign ID'] == c['Campaign ID'] \
-				and camp['Date'] == c['Date']:
-				loop += 1
-		if loop > 1:
-			print ("//////////////////////////////////////////////////////////////////")
-			print (camp)
-
 	#---------------- Insert data un map -------------------
 	#------- campaign --------------
 	list_campaign_un_map = []
@@ -349,9 +334,28 @@ def MergeDataToTotal(path_data, date):
 		# print (len(data_total['TOTAL']))
 
 		data_total = AddToTotal (data_total, data_date, date)
+
+
 			# print (plan)
 		print (len(data_total['TOTAL']))
 		print (len(data_total['UN_PLAN']))
+		for camp in data_total['MAP']:
+			loop = 0
+			for c in data_total['MAP']:
+				if camp['PRODUCT'] == c['PRODUCT'] \
+					and camp['REASON_CODE_ORACLE'] == c['REASON_CODE_ORACLE'] \
+					and camp['FORM_TYPE'] == c['FORM_TYPE'] \
+					and camp['Campaign ID'] == c['Campaign ID'] \
+					and camp['Date'] == c['Date']:
+					loop += 1
+			if loop > 1:
+				print ("//////////////////////////////////////////////////////////////////")
+				print ("//////////////////////////////////////////////////////////////////")
+				print ("//////////////////////////////////////////////////////////////////")
+				print (camp)
+
+
+
 		print ("=================== LUU FILE ===========================")
 
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')

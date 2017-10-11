@@ -382,7 +382,7 @@ def ReportDetailUnmap(path_data, connect):
 			data = json.load(fi)
 
 		#============== Load table unmap =================================
-		list_unmap = SelectDetailUnmap(cursor)
+		# list_unmap = SelectDetailUnmap(cursor)
 		
 		#================== Unmap Plan data ==============================
 		# iter = 0
@@ -442,18 +442,36 @@ def ReportDetailMap(path_data, connect):
 		iter = 0
 		i = 0
 		
-		print ('len data map:', len (data['MAP']))
+		# print ('len data map:', len (data['MAP']))
 
-		for value in data['MAP']:
-			num = 0
-			for val in data['MAP']:
-				if str(value['PRODUCT']) == str(val['PRODUCT']) and str(value['REASON_CODE_ORACLE']) == str(val['REASON_CODE_ORACLE']) and \
-				str(value['FORM_TYPE']) == str(val['FORM_TYPE']) and str(value['UNIT_OPTION']) == str(val['UNIT_OPTION']) and \
-				str(value['Date']) == str(val['Date']) and str(value['Campaign ID']) == str(val['Campaign ID']):
-					num += 1
-			if (num > 1):
-				# print('Trung===================================')
-				print(value['Date'], value['Campaign ID'])
+		# for value in data['MAP']:
+		# 	num = 0
+		# 	for val in data['MAP']:
+		# 		if str(value['PRODUCT']) == str(val['PRODUCT']) and str(value['REASON_CODE_ORACLE']) == str(val['REASON_CODE_ORACLE']) and \
+		# 		str(value['FORM_TYPE']) == str(val['FORM_TYPE']) and str(value['UNIT_OPTION']) == str(val['UNIT_OPTION']) and \
+		# 		str(value['Date']) == str(val['Date']) and str(value['Campaign ID']) == str(val['Campaign ID']):
+		# 			num += 1
+		# 	if (num > 1):
+		# 		# print('Trung===================================')
+		# 		print(value['Date'], value['Campaign ID'])
+
+
+		print (len(data_total['TOTAL']))
+		print (len(data_total['UN_PLAN']))
+		for camp in data_total['MAP']:
+			loop = 0
+			for c in data_total['MAP']:
+				if camp['PRODUCT'] == c['PRODUCT'] \
+					and camp['REASON_CODE_ORACLE'] == c['REASON_CODE_ORACLE'] \
+					and camp['FORM_TYPE'] == c['FORM_TYPE'] \
+					and camp['Campaign ID'] == c['Campaign ID'] \
+					and camp['Date'] == c['Date']:
+					loop += 1
+			if loop > 1:
+				print ("//////////////////////////////////////////////////////////////////")
+				print ("//////////////////////////////////////////////////////////////////")
+				print ("//////////////////////////////////////////////////////////////////")
+				print (camp)
 
 
 		
