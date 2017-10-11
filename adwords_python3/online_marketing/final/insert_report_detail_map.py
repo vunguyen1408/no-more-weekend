@@ -451,7 +451,7 @@ def ReportDetailMap(path_data, connect):
 				str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
 				str(value['Date']) == str(val[0]) and str(value['Campaign ID']) == str(val[1]):
 					flag = True
-			if (flag):
+			if (flag == True):
 				num += 1
 		print('so map trung', num)
 				
