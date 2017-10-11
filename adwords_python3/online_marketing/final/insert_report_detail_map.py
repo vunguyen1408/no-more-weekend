@@ -381,11 +381,11 @@ def ReportDetailUnmap(path_data, connect):
 
 		#============== Load table unmap =================================
 		list_unmap = SelectDetailUnmap(cursor)
-		print('========================')
-		print(len(list_unmap))
+		
 		#================== Unmap Plan data ==============================
 		iter = 0
 		print (len (data['UN_PLAN']))
+		print (len (data['UN_CAMPAIGN']))
 		# for plan in data['UN_PLAN']:
 		# 	flag = False
 		# 	if plan['REASON_CODE_ORACLE'] is not None:
@@ -439,7 +439,7 @@ def ReportDetailMap(path_data, connect):
 		#================== Data Map ==============================
 		iter = 0
 		i = 0
-		print(len(list_unmap))
+		
 		print (len (data['MAP']))
 		# for value in data['MAP']:
 		# 	flag = False	
@@ -448,6 +448,12 @@ def ReportDetailMap(path_data, connect):
 		# 		str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
 		# 		str(value['Date']) == str(val[0]) and str(value['Campaign ID']) == str(val[1]):
 		# 			flag = True
+
+		# 		if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
+		# 		str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
+		# 		str(value['Date']) == str(val[0]) and (str(value['Campaign ID']) is None):
+		# 			DeletePlan(value, cursor)
+
 		# 	if flag == False:				
 		# 		json_ = ConvertJsonMap(value)	
 		# 		try:		
