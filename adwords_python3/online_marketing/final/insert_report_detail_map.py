@@ -386,8 +386,8 @@ def ReportDetailUnmap(path_data, connect):
 		
 		#================== Unmap Plan data ==============================
 		# iter = 0
-		# print ('len un plan: ', len (data['UN_PLAN']))
-		# print ('len un camp', len (data['UN_CAMPAIGN']))
+		print ('len un plan: ', len (data['UN_PLAN']))
+		print ('len un camp', len (data['UN_CAMPAIGN']))
 		# for plan in data['UN_PLAN']:
 		# 	flag = False
 		# 	if plan['REASON_CODE_ORACLE'] is not None:
