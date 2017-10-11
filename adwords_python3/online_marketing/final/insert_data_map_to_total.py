@@ -5,7 +5,7 @@ import numpy as np
 import json
 from datetime import datetime , timedelta, date
 
-
+import mapping_campaign_plan as mapping_data
 
 
 def CreateSum():
@@ -175,23 +175,27 @@ def CaculatorListMonth(start_date, end_date):
 		month.append(json_)
 	return month
 
+
 # ----------- Tính total từng month -------------
 def CaculatorTotalMonth(plan, date):
-	plan['NUMBER_DATE'] = CaculatorNumberDate(plan['START_DAY'], plan['END_DAY_ESTIMATE'])
+	# ---------------- Choose time real ----------------------
+	start_plan, end_plan = mapping_data.ChooseTime(plan)
 
-	if datetime.strptime(plan['START_DAY'], '%Y-%m-%d').date() <= datetime.strptime(date, '%Y-%m-%d').date():
+	plan['NUMBER_DATE'] = CaculatorNumberDate(start_plan, end_plan)
+
+	if datetime.strptime(start_plan, '%Y-%m-%d').date() <= datetime.strptime(date, '%Y-%m-%d').date():
 		# Thang hien tai dang mapping
 		month = int(date[5:-3])
-		end_date = datetime.strptime(plan['END_DAY_ESTIMATE'], '%Y-%m-%d').date()
+		end_date = datetime.strptime(end_plan '%Y-%m-%d').date()
 		now = datetime.strptime(date, '%Y-%m-%d').date()
 
 		if now > end_date:
-			plan['MONTHLY'] = CaculatorListMonth(plan['START_DAY'], plan['END_DAY_ESTIMATE'])
+			plan['MONTHLY'] = CaculatorListMonth(start_plan, end_plan)
 			number_date = plan['NUMBER_DATE']
 		else:
 			# So ngay tu start_day den hien tai (co the tren lech 1 ngay)
-			number_date = CaculatorNumberDate(plan['START_DAY'], date)
-			plan['MONTHLY'] = CaculatorListMonth(plan['START_DAY'], date)
+			number_date = CaculatorNumberDate(start_plan, date)
+			plan['MONTHLY'] = CaculatorListMonth(start_plan, date)
 		for m in plan['MONTHLY']:
 			if m['MONTH'] <= month:
 				# Da co data
