@@ -451,7 +451,7 @@ def ReportDetailMap(path_data, connect):
 
 				if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
 				str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
-				str(value['Date'])[0:-3] == str(val[0]) and (str(value['Campaign ID']) is None):
+				str(value['Date'])[0:-3] == str(val[0]) and (str(val[1]) is None):
 					print('Delete ===================')
 					DeletePlan(value, cursor)
 			
