@@ -216,7 +216,7 @@ def CaculatorTotalMonth(plan, date):
 				m['TOTAL_CAMPAIGN_MONTHLY'] = sum_plan
 	return plan
 
-def AddToTotal (data_total, data_date):
+def AddToTotal (data_total, data_date, date):
 	# -------------------- Tính total cho các plan mapping được của ngày -------------------
 	list_plan_total_date, list_data_map = SumTotalManyPlan(data_date['plan'], data_date['campaign'])
 	for i in list_plan_total_date:
@@ -346,7 +346,7 @@ def MergeDataToTotal(path_data, date):
 			data_total = json.load(f)
 		# print (len(data_total['TOTAL']))
 
-		data_total = AddToTotal (data_total, data_date)
+		data_total = AddToTotal (data_total, data_date, date)
 			# print (plan)
 		print (len(data_total['TOTAL']))
 		print (len(data_total['UN_PLAN']))
