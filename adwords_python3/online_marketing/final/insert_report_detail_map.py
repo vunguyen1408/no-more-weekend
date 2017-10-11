@@ -460,7 +460,7 @@ def ReportDetailMap(path_data, connect):
 		print (len(data['UN_PLAN']))
 		for camp in data['MAP']:
 			loop = 0
-			for c in data_total['MAP']:
+			for c in data['MAP']:
 				if camp['PRODUCT'] == c['PRODUCT'] \
 					and camp['REASON_CODE_ORACLE'] == c['REASON_CODE_ORACLE'] \
 					and camp['FORM_TYPE'] == c['FORM_TYPE'] \
