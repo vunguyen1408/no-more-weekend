@@ -498,7 +498,7 @@ def ReportDetailMap(path_data, connect):
 		# print("Number erros UnicodeEncodeError", i)
 
 		#==================== Commit and close connect ===============================
-		conn.commit()
+		# conn.commit()
 		# print("Committed!.......")
 		cursor.close()
 
