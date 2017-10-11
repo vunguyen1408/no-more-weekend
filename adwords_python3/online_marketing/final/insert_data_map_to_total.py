@@ -223,7 +223,7 @@ def CaculatorTotalMonth(plan, date):
 def AddToTotal (data_total, data_date, date):
 	# -------------------- Tính total cho các plan mapping được của ngày -------------------
 	list_plan_total_date, list_data_map = SumTotalManyPlan(data_date['plan'], data_date['campaign'])
-	for i in list_plan_total_date:
+	# for i in list_plan_total_date:
 		# print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 		# print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 		# print (i)
