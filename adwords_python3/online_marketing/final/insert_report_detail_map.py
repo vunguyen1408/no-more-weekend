@@ -452,7 +452,8 @@ def ReportDetailMap(path_data, connect):
 				str(value['Date']) == str(val['Date']) and str(value['Campaign ID']) == str(val['Campaign ID']):
 					num += 1
 			if (num > 1):
-				print('Trung===================================')
+				# print('Trung===================================')
+				print(value['Date'], value['Campaign ID'])
 
 
 		
