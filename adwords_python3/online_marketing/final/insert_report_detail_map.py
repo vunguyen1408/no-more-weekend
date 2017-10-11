@@ -443,11 +443,11 @@ def ReportDetailMap(path_data, connect):
 		i = 0
 		num = 0
 		print ('len data map:', len (data['MAP']))
-		list_plan_remove = []	
-		list_camp_remove = []
+		
 		for value in data['MAP']:
 			flag = False
-				
+			list_plan_remove = []	
+			list_camp_remove = []
 			for val in list_unmap:
 				if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
 				str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
@@ -466,7 +466,7 @@ def ReportDetailMap(path_data, connect):
 				if (val[3] is None) and \
 				str(value['Date']) == str(val[0]) and str(value['Campaign ID']) == str(val[1]):
 					list_camp_remove.append(value)
-					# print('Delete ===================')				
+					print('Delete ===================')				
 			
 			if flag == False:				
 				json_ = ConvertJsonMap(value)	
@@ -479,8 +479,8 @@ def ReportDetailMap(path_data, connect):
 					# print ("-------------- Erros ------------" + e)
 				iter += 1
 
-		DeleteListPlan(list_plan_remove, connect)
-		DeleteListCamp(list_camp_remove, connect)
+			DeleteListPlan(list_plan_remove, connect)
+			DeleteListCamp(list_camp_remove, connect)
 
 
 
