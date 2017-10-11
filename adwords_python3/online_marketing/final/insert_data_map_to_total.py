@@ -249,6 +249,8 @@ def AddToTotal (data_total, data_date, date):
 	# --------------- Insert data map -------------------
 	data_total['MAP'].extend(list_data_map)
 
+	print (len(data_date['campaign']))
+	print (len(list_data_map))
 	for camp in data_total['MAP']:
 		loop = 0
 		for c in data_total['MAP']:
