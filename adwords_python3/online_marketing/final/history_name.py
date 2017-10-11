@@ -107,7 +107,7 @@ def MergerCampList(value, cursor):
 	statement = 'select CAMPAIGN_NAME from STG_CAMPAIGN_LIST_GG \
 	where ACCOUNT_ID = :1 and CAMPAIGN_ID = :2 and INSERT_DATE = :3'	
 		
-	cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID'], value['DATE_GET']))
+	cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID'], datetime.strptime(value['DATE_GET'], '%Y-%m-%d')))
 	res = cursor.fetchall()
 
 	if (len(res) == 0):
