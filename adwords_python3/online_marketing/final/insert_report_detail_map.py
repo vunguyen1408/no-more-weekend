@@ -385,46 +385,46 @@ def ReportDetailUnmap(path_data, connect):
 		list_unmap = SelectDetailUnmap(cursor)
 		
 		#================== Unmap Plan data ==============================
-		iter = 0
-		print ('len un plan: ', len (data['UN_PLAN']))
-		print ('len un camp', len (data['UN_CAMPAIGN']))
-		for plan in data['UN_PLAN']:
-			flag = False
-			if plan['REASON_CODE_ORACLE'] is not None:
-				for value in list_unmap:
-					if str(plan['PRODUCT']) == str(value[2]) \
-					 and str(plan['REASON_CODE_ORACLE']) == str(value[3]) \
-					 and str(plan['FORM_TYPE']) == str(value[4]) \
-					 and str(plan['UNIT_OPTION']) == str(value[5]):
-							flag = True
-				if (flag == False) and (len(plan['CAMPAIGN']) == 0):
-					json_ = ConvertJsonPlan(plan)			
-					InsertDetailUnmap(json_, cursor)
-					iter += 1
-		# print("Unmap plan insert", iter, "rows success!.......")
+		# iter = 0
+		# print ('len un plan: ', len (data['UN_PLAN']))
+		# print ('len un camp', len (data['UN_CAMPAIGN']))
+		# for plan in data['UN_PLAN']:
+		# 	flag = False
+		# 	if plan['REASON_CODE_ORACLE'] is not None:
+		# 		for value in list_unmap:
+		# 			if str(plan['PRODUCT']) == str(value[2]) \
+		# 			 and str(plan['REASON_CODE_ORACLE']) == str(value[3]) \
+		# 			 and str(plan['FORM_TYPE']) == str(value[4]) \
+		# 			 and str(plan['UNIT_OPTION']) == str(value[5]):
+		# 					flag = True
+		# 		if (flag == False) and (len(plan['CAMPAIGN']) == 0):
+		# 			json_ = ConvertJsonPlan(plan)			
+		# 			InsertDetailUnmap(json_, cursor)
+		# 			iter += 1
+		# # print("Unmap plan insert", iter, "rows success!.......")
 
-		#================== Unmap Campaign data ==============================
-		iter = 0
-		# sumCampaign(data['campaign'])
+		# #================== Unmap Campaign data ==============================
+		# iter = 0
+		# # sumCampaign(data['campaign'])
 
-		for camp in data['UN_CAMPAIGN']:
-			flag = False
-			if camp['Campaign ID'] is not None:
-				for value in list_unmap:
-					if str(camp['Date']) == str(value[0]) and str(camp['Campaign ID']) == str(value[1]):		
-						flag = True
-				if (flag == False) and (camp['Plan'] is None):
-					json_ = ConvertJsonCamp(camp)		
-					try:	
-						InsertDetailUnmap(json_, cursor)
-					except UnicodeEncodeError as e:
-						json_['CAMPAIGN_NAME'] = camp['Campaign'].encode('utf-8')
-						InsertDetailUnmap(json_, cursor)
-					iter += 1
-		print("Unmap campaign insert", iter, "rows success!.......")
+		# for camp in data['UN_CAMPAIGN']:
+		# 	flag = False
+		# 	if camp['Campaign ID'] is not None:
+		# 		for value in list_unmap:
+		# 			if str(camp['Date']) == str(value[0]) and str(camp['Campaign ID']) == str(value[1]):		
+		# 				flag = True
+		# 		if (flag == False) and (camp['Plan'] is None):
+		# 			json_ = ConvertJsonCamp(camp)		
+		# 			try:	
+		# 				InsertDetailUnmap(json_, cursor)
+		# 			except UnicodeEncodeError as e:
+		# 				json_['CAMPAIGN_NAME'] = camp['Campaign'].encode('utf-8')
+		# 				InsertDetailUnmap(json_, cursor)
+		# 			iter += 1
+		# print("Unmap campaign insert", iter, "rows success!.......")
 
 		# # ==================== Commit and close connect ===============================
-		conn.commit()
+		# conn.commit()
 		# print("Committed!.......")
 		cursor.close()
 
@@ -442,7 +442,7 @@ def ReportDetailMap(path_data, connect):
 		iter = 0
 		i = 0
 		
-		# print ('len data map:', len (data['MAP']))
+		print ('len data map:', len (data['MAP']))
 
 		# for value in data['MAP']:
 		# 	num = 0
@@ -457,40 +457,40 @@ def ReportDetailMap(path_data, connect):
 
 
 		
-		for value in data['MAP']:
-			flag = False
-			list_plan_remove = []	
-			list_camp_remove = []
-			for val in list_unmap:
-				if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
-				str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
-				str(value['Date']) == str(val[0]) and str(value['Campaign ID']) == str(val[1]):
-					flag = True
+		# for value in data['MAP']:
+		# 	flag = False
+		# 	list_plan_remove = []	
+		# 	list_camp_remove = []
+		# 	for val in list_unmap:
+		# 		if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
+		# 		str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
+		# 		str(value['Date']) == str(val[0]) and str(value['Campaign ID']) == str(val[1]):
+		# 			flag = True
 						
-				if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
-				str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
-				str(value['Date'])[0:-3] == str(val[0]) and (val[1] is None):
-					list_plan_remove.append(value)
-					# print('Delete ===================')
+		# 		if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
+		# 		str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
+		# 		str(value['Date'])[0:-3] == str(val[0]) and (val[1] is None):
+		# 			list_plan_remove.append(value)
+		# 			# print('Delete ===================')
 
-				if (val[3] is None) and \
-				str(value['Date']) == str(val[0]) and str(value['Campaign ID']) == str(val[1]):
-					list_camp_remove.append(value)
-					print('Delete ===================')				
+		# 		if (val[3] is None) and \
+		# 		str(value['Date']) == str(val[0]) and str(value['Campaign ID']) == str(val[1]):
+		# 			list_camp_remove.append(value)
+		# 			print('Delete ===================')				
 			
-			if flag == False:				
-				json_ = ConvertJsonMap(value)	
-				try:		
-					InsertDetailUnmap(json_, cursor)
-				except UnicodeEncodeError as e:
-					i = i + 1
-					json_['CAMPAIGN_NAME'] = value['Campaign'].encode('utf-8')
-					InsertDetailUnmap(json_, cursor)
-					# print ("-------------- Erros ------------" + e)
-				iter += 1
+		# 	if flag == False:				
+		# 		json_ = ConvertJsonMap(value)	
+		# 		try:		
+		# 			InsertDetailUnmap(json_, cursor)
+		# 		except UnicodeEncodeError as e:
+		# 			i = i + 1
+		# 			json_['CAMPAIGN_NAME'] = value['Campaign'].encode('utf-8')
+		# 			InsertDetailUnmap(json_, cursor)
+		# 			# print ("-------------- Erros ------------" + e)
+		# 		iter += 1
 
-			DeleteListPlan(list_plan_remove, connect)
-			DeleteListCamp(list_camp_remove, connect)
+		# 	DeleteListPlan(list_plan_remove, connect)
+		# 	DeleteListCamp(list_camp_remove, connect)
 
 
 

@@ -224,11 +224,11 @@ def AddToTotal (data_total, data_date, date):
 	# -------------------- Tính total cho các plan mapping được của ngày -------------------
 	list_plan_total_date, list_data_map = SumTotalManyPlan(data_date['plan'], data_date['campaign'])
 	for i in list_plan_total_date:
-		print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-		print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-		print (i)
-		print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-		print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+		# print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+		# print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+		# print (i)
+		# print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+		# print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 	for plan_date in list_plan_total_date:
 		flag = True
 		for plan_total in data_total['TOTAL']:
@@ -340,23 +340,23 @@ def MergeDataToTotal(path_data, date):
 		data_total = AddToTotal (data_total, data_date, date)
 
 
-			# print (plan)
-		print (len(data_total['TOTAL']))
-		print (len(data_total['UN_PLAN']))
-		for camp in data_total['MAP']:
-			loop = 0
-			for c in data_total['MAP']:
-				if camp['PRODUCT'] == c['PRODUCT'] \
-					and camp['REASON_CODE_ORACLE'] == c['REASON_CODE_ORACLE'] \
-					and camp['FORM_TYPE'] == c['FORM_TYPE'] \
-					and camp['Campaign ID'] == c['Campaign ID'] \
-					and camp['Date'] == c['Date']:
-					loop += 1
-			if loop > 1:
-				print ("//////////////////////////////////////////////////////////////////")
-				print ("//////////////////////////////////////////////////////////////////")
-				print ("//////////////////////////////////////////////////////////////////")
-				print (camp)
+		# 	# print (plan)
+		# print (len(data_total['TOTAL']))
+		# print (len(data_total['UN_PLAN']))
+		# for camp in data_total['MAP']:
+		# 	loop = 0
+		# 	for c in data_total['MAP']:
+		# 		if camp['PRODUCT'] == c['PRODUCT'] \
+		# 			and camp['REASON_CODE_ORACLE'] == c['REASON_CODE_ORACLE'] \
+		# 			and camp['FORM_TYPE'] == c['FORM_TYPE'] \
+		# 			and camp['Campaign ID'] == c['Campaign ID'] \
+		# 			and camp['Date'] == c['Date']:
+		# 			loop += 1
+		# 	if loop > 1:
+		# 		print ("//////////////////////////////////////////////////////////////////")
+		# 		print ("//////////////////////////////////////////////////////////////////")
+		# 		print ("//////////////////////////////////////////////////////////////////")
+		# 		print (camp)
 
 
 
