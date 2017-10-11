@@ -442,7 +442,7 @@ def ReportDetailMap(path_data, connect):
 		iter = 0
 		i = 0
 		
-		print (len (data['MAP']))
+		print ('len data map:', len (data['MAP']))
 		for value in data['MAP']:
 			flag = False
 			list_remove = []	
@@ -452,7 +452,7 @@ def ReportDetailMap(path_data, connect):
 				str(value['Date']) == str(val[0]) and str(value['Campaign ID']) == str(val[1]):
 					flag = True
 					i += 1
-		print(i)
+		print('so map trung', i)
 				
 		# 		if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
 		# 		str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
