@@ -479,7 +479,7 @@ def ReportDetailMap(path_data, connect):
 					# print ("-------------- Erros ------------" + e)
 				iter += 1
 
-		DeleteListPlan(list_remove, connect)
+		DeleteListPlan(list_plan_remove, connect)
 		DeleteListCamp(list_camp_remove, connect)
 
 
