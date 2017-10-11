@@ -444,6 +444,7 @@ def ReportDetailMap(path_data, connect):
 		for value in data['MAP']:
 			flag = False	
 			for val in list_unmap:
+				print(val[1])
 				if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
 				str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
 				str(value['Date']) == str(val[0]) and str(value['Campaign ID']) == str(val[1]):
@@ -451,7 +452,7 @@ def ReportDetailMap(path_data, connect):
 
 				if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
 				str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
-				str(value['Date'])[0:-3] == str(val[0]) and (str(val[1]) is None):
+				str(value['Date'])[0:-3] == str(val[0]) and (val[1] is None):
 					print('Delete ===================')
 					DeletePlan(value, cursor)
 			
