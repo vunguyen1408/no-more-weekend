@@ -381,6 +381,8 @@ def ReportDetailUnmap(path_data, connect):
 
 		#============== Load table unmap =================================
 		list_unmap = SelectDetailUnmap(cursor)
+		print('========================')
+		print(len(list_unmap))
 		#================== Unmap Plan data ==============================
 		iter = 0
 		print (len (data['UN_PLAN']))
@@ -437,6 +439,7 @@ def ReportDetailMap(path_data, connect):
 		#================== Data Map ==============================
 		iter = 0
 		i = 0
+		print(len(list_unmap))
 		print (len (data['MAP']))
 		# for value in data['MAP']:
 		# 	flag = False	
