@@ -216,7 +216,7 @@ def CaculatorTotalMonth(plan, date):
 				m['TOTAL_CAMPAIGN_MONTHLY'] = sum_plan
 	return plan
 
-def AdToTotal (data_total, data_date):
+def AddToTotal (data_total, data_date):
 	# -------------------- Tính total cho các plan mapping được của ngày -------------------
 	list_plan_total_date, list_data_map = SumTotalManyPlan(data_date['plan'], data_date['campaign'])
 	for i in list_plan_total_date:
@@ -261,7 +261,7 @@ def AdToTotal (data_total, data_date):
 		if loop > 1:
 			print ("//////////////////////////////////////////////////////////////////")
 			print (camp)
-			
+
 	#---------------- Insert data un map -------------------
 	#------- campaign --------------
 	list_campaign_un_map = []
