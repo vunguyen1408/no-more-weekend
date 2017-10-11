@@ -456,9 +456,9 @@ def ReportDetailMap(path_data, connect):
 		# 		print(value['Date'], value['Campaign ID'])
 
 
-		print (len(data_total['TOTAL']))
-		print (len(data_total['UN_PLAN']))
-		for camp in data_total['MAP']:
+		print (len(data['TOTAL']))
+		print (len(data['UN_PLAN']))
+		for camp in data['MAP']:
 			loop = 0
 			for c in data_total['MAP']:
 				if camp['PRODUCT'] == c['PRODUCT'] \
