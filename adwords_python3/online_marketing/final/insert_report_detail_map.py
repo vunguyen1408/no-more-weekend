@@ -451,7 +451,7 @@ def ReportDetailMap(path_data, connect):
 
 				if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
 				str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
-				str(value['Date']) == str(val[0]) and (str(value['Campaign ID']) is None):
+				str(value['Date'])[0:-3] == str(val[0]) and (str(value['Campaign ID']) is None):
 					print('Delete ===================')
 					DeletePlan(value, cursor)
 			
@@ -465,7 +465,7 @@ def ReportDetailMap(path_data, connect):
 					InsertDetailUnmap(json_, cursor)
 					# print ("-------------- Erros ------------" + e)
 				iter += 1
-			
+
 		print("Map data insert", iter, "rows success!.......")
 		print("Number erros UnicodeEncodeError", i)
 
