@@ -216,6 +216,83 @@ def CaculatorTotalMonth(plan, date):
 				m['TOTAL_CAMPAIGN_MONTHLY'] = sum_plan
 	return plan
 
+def AdToTotal (data_total, data_date):
+	# -------------------- Tính total cho các plan mapping được của ngày -------------------
+	list_plan_total_date, list_data_map = SumTotalManyPlan(data_date['plan'], data_date['campaign'])
+	for i in list_plan_total_date:
+		print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+		print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+		print (i)
+		print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+		print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+	for plan_date in list_plan_total_date:
+		flag = True
+		for plan_total in data_total['TOTAL']:
+			if plan_total['PRODUCT'] == plan_date['PRODUCT'] \
+				and plan_total['REASON_CODE_ORACLE'] == plan_date['REASON_CODE_ORACLE'] \
+				and plan_total['FORM_TYPE'] == plan_date['FORM_TYPE']:
+				plan_total['TOTAL_CAMPAIGN'] = SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan_date['TOTAL_CAMPAIGN'])
+				plan_total['CAMPAIGN'].extend(plan_date['CAMPAIGN'])
+				flag = False
+
+		#----- Không tìm thấy trong total ------
+		if flag:
+			# --------------- Tạo các thông tin month cho plan trước khi add --------------
+			data_total['TOTAL'].append(plan_date)
+
+	# --------------- Tinh total month cho cac plan --------------
+	for plan in data_total['TOTAL']:
+		plan['MONTHLY'] = {}
+		plan = CaculatorTotalMonth(plan, date)
+
+
+	# --------------- Insert data map -------------------
+	data_total['MAP'].extend(list_data_map)
+
+	#---------------- Insert data un map -------------------
+	#------- campaign --------------
+	list_campaign_un_map = []
+	for camp in data_date['campaign']:
+		if camp['Plan'] == None:
+			list_campaign_un_map.append(camp)
+
+	temp = data_total['UN_CAMPAIGN']
+	temp.extend(list_campaign_un_map)
+	data_total['UN_CAMPAIGN'] = temp
+
+	#--------- plan -----------
+	list_plan_un_map = []
+	for plan in data_date['plan']:
+		if plan['CAMPAIGN'] == []:
+			list_plan_un_map.append(plan)
+
+	# print (len(list_plan_un_map))
+	temp_un = []
+	if len(data_total['UN_PLAN']) == 0:
+		data_total['UN_PLAN'] = list_plan_un_map
+	else:
+		for plan_un in list_plan_un_map:
+			flag = True
+			# print (data_total['UN_PLAN'])
+			for plan in data_total['UN_PLAN']:
+				if plan_un['PRODUCT'] == plan['PRODUCT'] \
+					and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+					and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] :
+					temp_un.append(plan_un)
+			# 		flag = False
+			# if flag:
+			# 	print(plan_un)
+			# 	data_total['UN_PLAN'].append(plan_un)
+		data_total['UN_PLAN'] = temp_un
+	# --------------- Tinh total month cho cac plan --------------
+	# print (data_total['UN_PLAN'])
+	# print ("=======================================")
+	for plan in data_total['UN_PLAN']:
+		plan['MONTHLY'] = {}
+		plan = CaculatorTotalMonth(plan, date)
+
+		
+
 def MergeDataToTotal(path_data, date):
 
 	path_folder = path_data + '/' + str(date) +  '/DATA_MAPPING'
@@ -256,79 +333,7 @@ def MergeDataToTotal(path_data, date):
 			data_total = json.load(f)
 		# print (len(data_total['TOTAL']))
 
-		# -------------------- Tính total cho các plan mapping được của ngày -------------------
-		list_plan_total_date, list_data_map = SumTotalManyPlan(data_date['plan'], data_date['campaign'])
-		for i in list_plan_total_date:
-			print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-			print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-			print (i)
-			print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-			print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-		for plan_date in list_plan_total_date:
-			flag = True
-			for plan_total in data_total['TOTAL']:
-				if plan_total['PRODUCT'] == plan_date['PRODUCT'] \
-					and plan_total['REASON_CODE_ORACLE'] == plan_date['REASON_CODE_ORACLE'] \
-					and plan_total['FORM_TYPE'] == plan_date['FORM_TYPE']:
-					plan_total['TOTAL_CAMPAIGN'] = SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan_date['TOTAL_CAMPAIGN'])
-					plan_total['CAMPAIGN'].extend(plan_date['CAMPAIGN'])
-					flag = False
-
-			#----- Không tìm thấy trong total ------
-			if flag:
-				# --------------- Tạo các thông tin month cho plan trước khi add --------------
-				data_total['TOTAL'].append(plan_date)
-
-		# --------------- Tinh total month cho cac plan --------------
-		for plan in data_total['TOTAL']:
-			plan['MONTHLY'] = {}
-			plan = CaculatorTotalMonth(plan, date)
-
-
-		# --------------- Insert data map -------------------
-		data_total['MAP'].extend(list_data_map)
-
-		#---------------- Insert data un map -------------------
-		#------- campaign --------------
-		list_campaign_un_map = []
-		for camp in data_date['campaign']:
-			if camp['Plan'] == None:
-				list_campaign_un_map.append(camp)
-
-		temp = data_total['UN_CAMPAIGN']
-		temp.extend(list_campaign_un_map)
-		data_total['UN_CAMPAIGN'] = temp
-
-		#--------- plan -----------
-		list_plan_un_map = []
-		for plan in data_date['plan']:
-			if plan['CAMPAIGN'] == []:
-				list_plan_un_map.append(plan)
-
-		# print (len(list_plan_un_map))
-		temp_un = []
-		if len(data_total['UN_PLAN']) == 0:
-			data_total['UN_PLAN'] = list_plan_un_map
-		else:
-			for plan_un in list_plan_un_map:
-				flag = True
-				# print (data_total['UN_PLAN'])
-				for plan in data_total['UN_PLAN']:
-					if plan_un['PRODUCT'] == plan['PRODUCT'] \
-						and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-						and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] :
-						temp_un.append(plan_un)
-				# 		flag = False
-				# if flag:
-				# 	print(plan_un)
-				# 	data_total['UN_PLAN'].append(plan_un)
-			data_total['UN_PLAN'] = temp_un
-		# --------------- Tinh total month cho cac plan --------------
-		# print (data_total['UN_PLAN'])
-		# print ("=======================================")
-		for plan in data_total['UN_PLAN']:
-			plan['MONTHLY'] = {}
-			plan = CaculatorTotalMonth(plan, date)
+		data_total = AddToTotal (data_total, data_date)
 			# print (plan)
 		print (len(data_total['TOTAL']))
 		print (len(data_total['UN_PLAN']))
