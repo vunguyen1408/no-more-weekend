@@ -306,7 +306,7 @@ def AddToTotal (data_total, data_date, date):
 		plan['MONTHLY'] = {}
 		plan = CaculatorTotalMonth(plan, date)
 
-		
+	return data_total
 
 def MergeDataToTotal(path_data, date):
 
@@ -357,8 +357,8 @@ def MergeDataToTotal(path_data, date):
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 		print (path_data_total_map)
 		#-------------------------- Write total lần 1------------------
-		with open (path_data_total_map,'w') as f:
-			json.dump(data_total, f)
+		# with open (path_data_total_map,'w') as f:
+		# 	json.dump(data_total, f)
 
 
 #--------------- Insert Volume actual --------------------
