@@ -105,14 +105,16 @@ def UpdateCampList(value, cursor):
 def MergerCampList(value, cursor):
 	#==================== Insert data into database =============================
 	statement = 'select CAMPAIGN_NAME from STG_CAMPAIGN_LIST_GG \
-	where ACCOUNT_ID = :1 and CAMPAIGN_ID = :2'	
+	where ACCOUNT_ID = :1 and CAMPAIGN_ID = :2 and INSERT_DATE = :3'	
 		
-	cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID']))
+	cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID'], datetime.strptime(value['DATE_GET'], '%Y-%m-%d')))
 	res = cursor.fetchall()
 
 	if (len(res) == 0):
 		InsertCampList(value, cursor)
 	elif (value['CAMPAIGN_NAME'] != res):
+		print (type(res[0][0]))
+		print ("---------------------------- UPDATE NAME ----------------------------------")
 		UpdateCampList(value, cursor)
 	# print("	A row mergered!.......")
 
