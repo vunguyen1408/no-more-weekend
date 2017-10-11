@@ -340,7 +340,8 @@ def DeleteListPlan(list_plan_remove, connect):
 
 	#=================== Read data from file json ==================
 	if (len(list_plan_remove) == 0):
-		print("List plan empty...")
+		# print("List plan empty...")
+		pass
 	else:
 		for plan in list_plan_remove:
 			DeletePlan(plan, cursor)
