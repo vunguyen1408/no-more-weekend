@@ -261,6 +261,7 @@ def AdToTotal (data_total, data_date):
 		if loop > 1:
 			print ("//////////////////////////////////////////////////////////////////")
 			print (camp)
+			
 	#---------------- Insert data un map -------------------
 	#------- campaign --------------
 	list_campaign_un_map = []
