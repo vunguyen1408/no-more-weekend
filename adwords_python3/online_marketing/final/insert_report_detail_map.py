@@ -412,7 +412,7 @@ def ReportDetailUnmap(path_data, connect):
 			if camp['Campaign ID'] is not None:
 				for value in list_unmap:
 					if str(camp['Date']) == str(value[0]) and str(camp['Campaign ID']) == str(value[1]):		
-							flag = True
+						flag = True
 				if (flag == False) and (camp['Plan'] is None):
 					json_ = ConvertJsonCamp(camp)		
 					try:	
@@ -453,10 +453,7 @@ def ReportDetailMap(path_data, connect):
 				str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
 				str(value['Date']) == str(val[0]) and str(value['Campaign ID']) == str(val[1]):
 					flag = True
-		# 	if (flag == True):
-		# 		num += 1
-		# print('so map trung', num)
-				
+						
 				if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
 				str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
 				str(value['Date'])[0:-3] == str(val[0]) and (val[1] is None):
