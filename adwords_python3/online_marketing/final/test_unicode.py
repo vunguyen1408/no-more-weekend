@@ -121,8 +121,10 @@ def Read_NRU_for_month(cursor, month, product):
 			if (list_NRU[i][1] == pro[1]):
 				data = [list_NRU[i][0], list_NRU[i][1], list_NRU[i][2], pro[0], pro[1]]
 				if data not in list_nru:
+					print(data)
 					list_nru.append(data)
 					ccd_nru += list_NRU[i][2] 
+	print(len(list_nru))
 
 	return ccd_nru 
         
