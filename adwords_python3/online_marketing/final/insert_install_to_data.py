@@ -17,7 +17,7 @@ def GetDataSummaryAppsFlyer(connect, date, media_source, path_file):
     year = date[:4]
     date = month + '-' + day + '-' + year
     statement = "select * from ods_appsflyer where SNAPSHOT_DATE \
-    = to_date('" + date + "', 'mm/dd/yyyy') and MEDIA_SOURCE like '" + media_source +  "'"
+    = to_date('" + date + "', 'mm/dd/yyyy') and (MEDIA_SOURCE like '" + media_source +  "' or MEDIA_SOURCE like '" + media_source +  "')"
 
     cursor.execute(statement)
 
@@ -93,13 +93,14 @@ def InsetInstall(path_data, path_file_install, start_date, end_date):
         date = date + timedelta(1)
 
 def RunInsertInstall(connect, path_data, list_customer_id, date):
-    media_source = 'googleadwords_int'
+    media_source1 = 'googleadwords_int'
+    media_source2 = 'googleadwords_sem'
     path_folder_appsflyer = os.path.join(path_data, str(date) + '/APPS_FLYER')
     if not os.path.exists(path_folder_appsflyer):
         os.makedirs(path_folder_appsflyer)
     path_file = os.path.join(path_folder_appsflyer, 'install.json')
 
-    GetDataSummaryAppsFlyer(connect, str(date), media_source, path_file)
+    GetDataSummaryAppsFlyer(connect, str(date), media_source1, media_source2, path_file)
     list_install = ReadDataInstall(path_file)
     InsetInstallToDate(path_data, list_install, list_customer_id, date)
     # print ("================= Insert install campleted ===================")

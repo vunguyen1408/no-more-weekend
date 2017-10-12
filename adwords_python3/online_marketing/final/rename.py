@@ -1,31 +1,3 @@
-#!/usr/bin/env python
-#
-# Copyright 2016 Google Inc. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-"""This example gets all campaigns.
-
-To add a campaign, run add_campaign.py.
-
-The LoadFromStorage method is pulling credentials and properties from a
-"googleads.yaml" file. By default, it looks for this file in your home
-directory. For more information, see the "Caching authentication information"
-section of our README.
-
-"""
-
-
 import logging
 import time
 import logging
@@ -189,15 +161,12 @@ def CacualatorChange(path_data, list_customer, date):
   else:
     find = True
 
-  print ("============================================")
-  print (path_data_total_map)
   if find:
     with open (path_data_total_map,'r') as f:
       data_total = json.load(f)
 
     list_camp_find = []
-    print ("============================================")
-    print (list_diff)
+
     for camp in list_diff:
       for campaign in data_total['UN_CAMPAIGN']:
         if camp['CAMPAIGN_ID'] == campaign['Campaign ID'] and camp['CAMPAIGN_NAME'] != campaign['Campaign']:
@@ -207,28 +176,24 @@ def CacualatorChange(path_data, list_customer, date):
           #-------------------------------------
           list_camp_find.append(campaign)
 
-    print (list_camp_find)
+
 
     list_plan = mapping.ReadPlan(path_data, date)
-    print (type(list_plan))
-    print ("============================================")
+
     # -------------- Call mapping ----------------
     data_map = mapping.MapAccountWithCampaign(path_data, list_plan['plan'], list_camp_find, date)
 
-    print (data_map)
 
-    # # ------------- Remove campaign mapped ----------------
-    # for camp in data_map['campaign']:
-    #   if camp['Plan'] == None:
-    #     list_camp_need_removed.append(camp)
-    #     for campaign in data_total['UN_CAMPAIGN']:
-    #       if camp['Campaign ID'] == campaign['Campaign ID'] and camp['Date'] == campaign['Date']:
-    #         print (campaign)
-    #         data_total['UN_CAMPAIGN'].remove(campaign)
+    # ------------- Remove campaign mapped ----------------
+    for camp in data_map['campaign']:
+      if camp['Plan'] == None:
+        list_camp_need_removed.append(camp)
+        for campaign in data_total['UN_CAMPAIGN']:
+          if camp['Campaign ID'] == campaign['Campaign ID'] and camp['Date'] == campaign['Date']:
+            print (campaign)
+            data_total['UN_CAMPAIGN'].remove(campaign)
 
     data_total = insert_to_total.AddToTotal(data_total, data_map, date)
-    print ("============================================")
-    print (data_map)
 
     path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_123' + '.json')
     with open (path_data_total_map,'w') as f:
