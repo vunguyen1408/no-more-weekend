@@ -121,7 +121,7 @@ def Daily(connect, path_data, date):
 	# time_insert_manual = time.time() - insert_manual
 	# print ("---------- Time insert manual mapping to total : ", time_insert_manual)
 
-
+	
 	#======================== Insert nru to plan ==============================
 	# print ("\n\n======================= RUN INSERT NRU WITH DATE : " + date + " =========================")
 	# insert_nru = time.time()
