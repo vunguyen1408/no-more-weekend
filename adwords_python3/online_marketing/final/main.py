@@ -18,6 +18,7 @@ import insert_report_monthly_sum as monthly_sum
 import insert_report_plan_sum as plan_sum
 import insert_report_detail_map as detail_map
 import history_name as history
+import insert_nru_to_plan as nru
 def Daily(connect, path_data, date):
 	"""
 		Run daily: 
@@ -119,6 +120,13 @@ def Daily(connect, path_data, date):
 	# list_plan_remove, list_plan_remove, list_camp_remove = manual.GetCampaignUnMapForManualMap(connect, path_data, date)
 	# time_insert_manual = time.time() - insert_manual
 	# print ("---------- Time insert manual mapping to total : ", time_insert_manual)
+
+
+	#======================== Insert nru to plan ==============================
+	# print ("\n\n======================= RUN INSERT NRU WITH DATE : " + date + " =========================")
+	# insert_nru = time.time()
+	nru.Add_Data_To_Plan(connect, path_data, date)
+	# time_insert = time.time() - insert_install
 
 	#=============================== Update to database =========================================
 	# print ("\n\n============= RUN INSERT DATA TO DATABASE WITH DATE : " + date + " =================")

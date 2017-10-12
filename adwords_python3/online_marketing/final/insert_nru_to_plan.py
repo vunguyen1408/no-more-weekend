@@ -229,11 +229,9 @@ def Add_NRU_for_monthly(connect, list_plan):
 
 
 def Add_Data_To_Plan(connect, path_data, date):
-	#============ Add Plan to Total================================
-
-
-
+	#============= Add Plan to Total================================
 	# ============ Add Plan To Monthly ============================
+
 	file_plan = os.path.join(path_data, str(date) + '/DATA_MAPPING/total_mapping.json')
 	with open(file_plan, 'r') as fi:
 		list_plan = json.load(fi)
@@ -247,10 +245,10 @@ def Add_Data_To_Plan(connect, path_data, date):
 
 
 
-connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
-date = '2017-08-30'
-Add_Data_To_Plan(connect, path_data, date)
+# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+# path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
+# date = '2017-08-30'
+# Add_Data_To_Plan(connect, path_data, date)
 
 
 
