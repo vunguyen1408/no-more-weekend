@@ -175,7 +175,7 @@ conn = cx_Oracle.connect(connect)
 cursor = conn.cursor()
 start_date = datetime.strptime('08/01/2017', '%m/%d/%Y')
 end_date = datetime.strptime('09/01/2017', '%m/%d/%Y')
-nru = (cursor, start_date, end_date, '219')
+nru = Read_NRU_for_total(cursor, start_date, end_date, '219')
 print(nru)
 
 
