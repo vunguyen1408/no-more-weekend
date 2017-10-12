@@ -66,6 +66,36 @@ from datetime import datetime , timedelta, date
 #   return list_plan
 
 
+def Read_NRU_for_total(cursor, start_date, end_date, product):
+	#==================== Get NRU =============================
+	statement = "Select SNAPSHOT_DATE, PRODUCT_CODE, NRU from STG_NRU where CHANNEL = 'Google' \
+	and  SNAPSHOT_DATE >= :1 and SNAPSHOT_DATE <= :2"
+	cursor.execute(statement, (start_date, end_date))
+	list_NRU = list(cursor.fetchall())  
+	# print(list_NRU)
+
+	#==================== Get product ID ===================
+	statement = "Select PRODUCT_ID, CCD_PRODUCT from ODS_META_PRODUCT where PRODUCT_ID = '" + product +  "'"
+	cursor.execute(statement)
+	list_product = list(cursor.fetchall())
+
+	ccd_nru = 0  
+	list_nru = []
+	for i in range(len(list_NRU)):
+		list_NRU[i] = list(list_NRU[i])    
+		for pro in list_product:
+			if (list_NRU[i][1] == pro[1]):
+				data = [list_NRU[i][0], list_NRU[i][1], list_NRU[i][2], pro[0], pro[1]]
+				if data not in list_nru:					
+					list_nru.append(data)
+					ccd_nru += list_NRU[i][2] 
+	
+	return ccd_nru
+
+
+
+
+
 def Read_NRU_for_month(cursor, year, month, product):
 	#==================== Get NRU =============================
 	statement = "Select SNAPSHOT_DATE, PRODUCT_CODE, NRU from STG_NRU where CHANNEL = 'Google' \
@@ -139,9 +169,15 @@ def Add_Data_To_Plan(connect, path_data, date):
 # Add_Data_To_Plan(connect, path_data, date)
 
 
+
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 conn = cx_Oracle.connect(connect)
 cursor = conn.cursor()
-nru = Read_NRU_for_month(cursor, '2017', '8', '219')
+start_date = datetime.strptime('08/01/2017', '%m/%d/%Y')
+end_date = datetime.strptime('09/01/2017', '%m/%d/%Y')
+nru = (cursor, start_date, end_date, '219')
 print(nru)
+
+
+
 
