@@ -7,7 +7,7 @@ import json
 from datetime import datetime , timedelta, date
 
 
-def GetDataSummaryAppsFlyer(connect, date, media_source, path_file):
+def GetDataSummaryAppsFlyer(connect, date, media_source1, media_source2, path_file):
     # ==================== Connect database =======================
     conn = cx_Oracle.connect(connect)
     cursor = conn.cursor()
@@ -17,7 +17,7 @@ def GetDataSummaryAppsFlyer(connect, date, media_source, path_file):
     year = date[:4]
     date = month + '-' + day + '-' + year
     statement = "select * from ods_appsflyer where SNAPSHOT_DATE \
-    = to_date('" + date + "', 'mm/dd/yyyy') and (MEDIA_SOURCE like '" + media_source +  "' or MEDIA_SOURCE like '" + media_source +  "')"
+    = to_date('" + date + "', 'mm/dd/yyyy') and (MEDIA_SOURCE like '" + media_source1 +  "' or MEDIA_SOURCE like '" + media_source2 +  "')"
 
     cursor.execute(statement)
 
