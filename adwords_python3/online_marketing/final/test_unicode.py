@@ -105,7 +105,7 @@ def Read_NRU_for_month(cursor, month, product):
 	and  extract (Month from SNAPSHOT_DATE) = :1"
 	cursor.execute(statement, (month))
 	list_NRU = list(cursor.fetchall())  
-
+	print(list_NRU)
 	#==================== Get product ID ===================
 	statement = 'Select PRODUCT_ID, CCD_PRODUCT from ODS_META_PRODUCT where PRODUCT_ID = :1'
 	cursor.execute(statement, (product))
