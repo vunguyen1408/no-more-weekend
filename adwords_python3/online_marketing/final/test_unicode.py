@@ -106,9 +106,11 @@ def Read_NRU_for_month(cursor, month, product):
 	cursor.execute(statement, (month))
 	list_NRU = list(cursor.fetchall())  
 	# print(list_NRU)
+
+
 	#==================== Get product ID ===================
-	statement_1 = "Select PRODUCT_ID, CCD_PRODUCT from ODS_META_PRODUCT where PRODUCT_ID = :1"
-	cursor.execute(statement_1, (product))
+	statement = "Select PRODUCT_ID, CCD_PRODUCT from ODS_META_PRODUCT where PRODUCT_ID = '" + product +  "'"
+	cursor.execute(statement)
 	list_product = list(cursor.fetchall())
 
 	ccd_nru = 0  
