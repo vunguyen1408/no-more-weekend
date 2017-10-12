@@ -127,7 +127,7 @@ def Read_NRU_for_month(cursor, month, product):
 
 
 
-def add_NRU_monthly_for plan(connect, path_folder, list_plan):
+def add_NRU_monthly_for_plan(connect, path_folder, list_plan):
 # ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
