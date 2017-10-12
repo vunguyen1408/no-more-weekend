@@ -103,12 +103,12 @@ def Read_NRU_for_month(cursor, month, product):
 	#==================== Get NRU =============================
 	statement = "Select SNAPSHOT_DATE, PRODUCT_CODE, NRU from STG_NRU where CHANNEL = 'Google' \
 	and  extract (Month from SNAPSHOT_DATE) = :1"
-	cursor.execute(statement, (month))
+	cursor.execute(statement, (str(month))
 	list_NRU = list(cursor.fetchall())  
-	print(list_NRU)
+	# print(list_NRU)
 	#==================== Get product ID ===================
-	statement = 'Select PRODUCT_ID, CCD_PRODUCT from ODS_META_PRODUCT where PRODUCT_ID = :1'
-	cursor.execute(statement, (product))
+	statement = "Select PRODUCT_ID, CCD_PRODUCT from ODS_META_PRODUCT where PRODUCT_ID = :1"
+	cursor.execute(statement, (str(product))
 	list_product = list(cursor.fetchall())
 
 	ccd_nru = 0  
