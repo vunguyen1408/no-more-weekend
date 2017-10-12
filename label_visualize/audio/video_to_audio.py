@@ -34,7 +34,7 @@ def convertVideoToAudio(path_data, start_date, end_date):
 # file_audio = 'C:/Users/CPU10912-local/Desktop/test.flac'
 
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
-convertVideoToAudio(path_data, '2016-10-01', '2016-10-01')
+convertVideoToAudio(path_data, '2016-10-01', '2017-06-29')
 
 
 
