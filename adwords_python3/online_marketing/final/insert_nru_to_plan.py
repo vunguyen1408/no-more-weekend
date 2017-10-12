@@ -93,6 +93,59 @@ def Read_NRU_for_total(cursor, start_date, end_date, product):
 	return ccd_nru
 
 
+def Add_NRU_for_total(connect, list_plan):
+# ==================== Connect database =======================
+	conn = cx_Oracle.connect(connect)
+	cursor = conn.cursor()
+
+	for plan in list_plan['UN_PLAN']:
+
+		day = plan['START_DAY'][8:]
+    	month = plan['START_DAY'][5:-3]
+    	year = plan['START_DAY'][:4]
+    	start_date = month + '/' + day + '/' + year
+		start_date = datetime.strptime(start_date, '%m/%d/%Y')
+
+		day = plan['END_DAY_ESTIMATE'][8:]
+    	month = plan['END_DAY_ESTIMATE'][5:-3]
+    	year = plan['END_DAY_ESTIMATE'][:4]
+    	end_date = month + '/' + day + '/' + year
+		end_date = datetime.strptime('08/01/2017', '%m/%d/%Y')	
+
+		plan['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
+		
+
+	cursor.close()
+	return list_plan
+
+
+
+def Add_NRU_for_map(connect, list_plan):
+# ==================== Connect database =======================
+	conn = cx_Oracle.connect(connect)
+	cursor = conn.cursor()
+
+	for plan in list_plan['MAP']:
+
+		day = plan['START_DAY'][8:]
+    	month = plan['START_DAY'][5:-3]
+    	year = plan['START_DAY'][:4]
+    	start_date = month + '/' + day + '/' + year
+		start_date = datetime.strptime(start_date, '%m/%d/%Y')
+
+		day = plan['END_DAY_ESTIMATE'][8:]
+    	month = plan['END_DAY_ESTIMATE'][5:-3]
+    	year = plan['END_DAY_ESTIMATE'][:4]
+    	end_date = month + '/' + day + '/' + year
+		end_date = datetime.strptime('08/01/2017', '%m/%d/%Y')	
+		
+		plan['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
+			
+
+	cursor.close()
+	return list_plan
+
+
 
 
 
@@ -139,6 +192,37 @@ def Add_NRU_for_monthly(connect, list_plan):
 			for i in range(len(plan['MONTHLY'])):
 				plan['MONTHLY'][i]['CCD_NRU'] = Read_NRU_for_month(cursor, str(plan['MONTHLY'][i]['MONTH']), '20' + str(plan['CYEAR']), plan['PRODUCT'])
 
+		day = plan['START_DAY'][8:]
+    	month = plan['START_DAY'][5:-3]
+    	year = plan['START_DAY'][:4]
+    	start_date = month + '/' + day + '/' + year
+		start_date = datetime.strptime(start_date, '%m/%d/%Y')
+
+		day = plan['END_DAY_ESTIMATE'][8:]
+    	month = plan['END_DAY_ESTIMATE'][5:-3]
+    	year = plan['END_DAY_ESTIMATE'][:4]
+    	end_date = month + '/' + day + '/' + year
+		end_date = datetime.strptime('08/01/2017', '%m/%d/%Y')	
+
+		plan['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
+
+
+	for plan in list_plan['MAP']:
+
+		day = plan['START_DAY'][8:]
+    	month = plan['START_DAY'][5:-3]
+    	year = plan['START_DAY'][:4]
+    	start_date = month + '/' + day + '/' + year
+		start_date = datetime.strptime(start_date, '%m/%d/%Y')
+
+		day = plan['END_DAY_ESTIMATE'][8:]
+    	month = plan['END_DAY_ESTIMATE'][5:-3]
+    	year = plan['END_DAY_ESTIMATE'][:4]
+    	end_date = month + '/' + day + '/' + year
+		end_date = datetime.strptime('08/01/2017', '%m/%d/%Y')	
+		
+		plan['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
+
 	cursor.close()
 	return list_plan
 
@@ -163,20 +247,20 @@ def Add_Data_To_Plan(connect, path_data, date):
 
 
 
-# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-# path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
-# date = '2017-08-31'
-# Add_Data_To_Plan(connect, path_data, date)
-
-
-
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-conn = cx_Oracle.connect(connect)
-cursor = conn.cursor()
-start_date = datetime.strptime('08/01/2017', '%m/%d/%Y')
-end_date = datetime.strptime('09/01/2017', '%m/%d/%Y')
-nru = Read_NRU_for_total(cursor, start_date, end_date, '219')
-print(nru)
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
+date = '2017-08-31'
+Add_Data_To_Plan(connect, path_data, date)
+
+
+
+# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+# conn = cx_Oracle.connect(connect)
+# cursor = conn.cursor()
+# start_date = datetime.strptime('08/01/2017', '%m/%d/%Y')
+# end_date = datetime.strptime('09/01/2017', '%m/%d/%Y')
+# nru = Read_NRU_for_total(cursor, start_date, end_date, '219')
+# print(nru)
 
 
 
