@@ -101,15 +101,15 @@ def Add_NRU_for_total(connect, list_plan):
 	for plan in list_plan['UN_PLAN']:
 
 		day = plan['START_DAY'][8:]
-    	month = plan['START_DAY'][5:-3]
-    	year = plan['START_DAY'][:4]
-    	start_date = month + '/' + day + '/' + year
+		month = plan['START_DAY'][5:-3]
+		year = plan['START_DAY'][:4]
+		start_date = month + '/' + day + '/' + year
 		start_date = datetime.strptime(start_date, '%m/%d/%Y')
 
 		day = plan['END_DAY_ESTIMATE'][8:]
-    	month = plan['END_DAY_ESTIMATE'][5:-3]
-    	year = plan['END_DAY_ESTIMATE'][:4]
-    	end_date = month + '/' + day + '/' + year
+		month = plan['END_DAY_ESTIMATE'][5:-3]
+		year = plan['END_DAY_ESTIMATE'][:4]
+		end_date = month + '/' + day + '/' + year
 		end_date = datetime.strptime('08/01/2017', '%m/%d/%Y')	
 
 		plan['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
@@ -128,17 +128,17 @@ def Add_NRU_for_map(connect, list_plan):
 	for plan in list_plan['MAP']:
 
 		day = plan['START_DAY'][8:]
-    	month = plan['START_DAY'][5:-3]
-    	year = plan['START_DAY'][:4]
-    	start_date = month + '/' + day + '/' + year
+		month = plan['START_DAY'][5:-3]
+		year = plan['START_DAY'][:4]
+		start_date = month + '/' + day + '/' + year
 		start_date = datetime.strptime(start_date, '%m/%d/%Y')
 
 		day = plan['END_DAY_ESTIMATE'][8:]
-    	month = plan['END_DAY_ESTIMATE'][5:-3]
-    	year = plan['END_DAY_ESTIMATE'][:4]
-    	end_date = month + '/' + day + '/' + year
+		month = plan['END_DAY_ESTIMATE'][5:-3]
+		year = plan['END_DAY_ESTIMATE'][:4]
+		end_date = month + '/' + day + '/' + year
 		end_date = datetime.strptime('08/01/2017', '%m/%d/%Y')	
-		
+
 		plan['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
 			
 
@@ -193,15 +193,15 @@ def Add_NRU_for_monthly(connect, list_plan):
 				plan['MONTHLY'][i]['CCD_NRU'] = Read_NRU_for_month(cursor, str(plan['MONTHLY'][i]['MONTH']), '20' + str(plan['CYEAR']), plan['PRODUCT'])
 
 		day = plan['START_DAY'][8:]
-    	month = plan['START_DAY'][5:-3]
-    	year = plan['START_DAY'][:4]
-    	start_date = month + '/' + day + '/' + year
+		month = plan['START_DAY'][5:-3]
+		year = plan['START_DAY'][:4]
+		start_date = month + '/' + day + '/' + year
 		start_date = datetime.strptime(start_date, '%m/%d/%Y')
 
 		day = plan['END_DAY_ESTIMATE'][8:]
-    	month = plan['END_DAY_ESTIMATE'][5:-3]
-    	year = plan['END_DAY_ESTIMATE'][:4]
-    	end_date = month + '/' + day + '/' + year
+		month = plan['END_DAY_ESTIMATE'][5:-3]
+		year = plan['END_DAY_ESTIMATE'][:4]
+		end_date = month + '/' + day + '/' + year
 		end_date = datetime.strptime('08/01/2017', '%m/%d/%Y')	
 
 		plan['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
@@ -210,17 +210,17 @@ def Add_NRU_for_monthly(connect, list_plan):
 	for plan in list_plan['MAP']:
 
 		day = plan['START_DAY'][8:]
-    	month = plan['START_DAY'][5:-3]
-    	year = plan['START_DAY'][:4]
-    	start_date = month + '/' + day + '/' + year
+		month = plan['START_DAY'][5:-3]
+		year = plan['START_DAY'][:4]
+		start_date = month + '/' + day + '/' + year
 		start_date = datetime.strptime(start_date, '%m/%d/%Y')
 
 		day = plan['END_DAY_ESTIMATE'][8:]
-    	month = plan['END_DAY_ESTIMATE'][5:-3]
-    	year = plan['END_DAY_ESTIMATE'][:4]
-    	end_date = month + '/' + day + '/' + year
+		month = plan['END_DAY_ESTIMATE'][5:-3]
+		year = plan['END_DAY_ESTIMATE'][:4]
+		end_date = month + '/' + day + '/' + year
 		end_date = datetime.strptime('08/01/2017', '%m/%d/%Y')	
-		
+
 		plan['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
 
 	cursor.close()
