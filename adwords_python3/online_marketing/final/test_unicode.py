@@ -141,8 +141,9 @@ def add_NRU_monthly_for_plan(connect, path_folder, list_plan):
 	return list_plan
 
 
-
-
+connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+conn = cx_Oracle.connect(connect)
+cursor = conn.cursor()
 nru = Read_NRU_for_month(cursor, '8', '219')
 print(nru)
 
