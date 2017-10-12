@@ -213,6 +213,7 @@ def ReadTableManualMap(connect, path_data, date):
 		json.dump(data_manual_map, f)
 
 	list_plan = mapping.ReadPlan(path_data, str(date))
+	print (data_manual_map)
 	# print (list_diff)
 	# --------------- Get info plan ------------
 	list_plan_diff = []
