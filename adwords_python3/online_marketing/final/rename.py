@@ -169,12 +169,10 @@ def CacualatorChange(path_data, list_customer, date):
 
     for camp in list_diff:
       for campaign in data_total['UN_CAMPAIGN']:
-        if camp['CAMPAIGN_ID'] == campaign['Campaign ID'] and camp['CAMPAIGN_NAME'] != campaign['Campaign']:
-          campaign['Campaign'] = camp['CAMPAIGN_NAME']
-          #------------------------------------
-          campaign['INSTALL_CAMP'] = 0
-          #-------------------------------------
-          list_camp_find.append(campaign)
+        if camp['CAMPAIGN_ID'] == campaign['Campaign ID'] and camp['CAMPAIGN_NAME'] != campaign['Campaign']:       
+          temp = campaign
+          temp['Campaign'] = camp['CAMPAIGN_NAME']
+          list_camp_find.append(camptempaign)
 
 
 

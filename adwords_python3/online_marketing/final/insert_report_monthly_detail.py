@@ -142,7 +142,10 @@ def ConvertJsonMonthlyDetail(index, value):
 
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE']
 	json_['PRODUCT_ID'] = value['PRODUCT']
-	json_['CCD_NRU'] = None
+	if 'CCD_NRU' in value['MONTHLY'][index]:
+		json_['CCD_NRU'] = value['MONTHLY'][index]['CCD_NRU']
+	else:
+		json_['CCD_NRU'] = None
 	json_['GG_VIEWS'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['VIEWS']
 	json_['GG_CONVERSION'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['CONVERSIONS']
 
@@ -233,7 +236,10 @@ def ConvertJsonMonthlyDetailUnMap_1(value):
 
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE']
 	json_['PRODUCT_ID'] = value['PRODUCT']
-	json_['CCD_NRU'] = None
+	if 'CCD_NRU' in value:
+		json_['CCD_NRU'] = value['CCD_NRU']
+	else:
+		json_['CCD_NRU'] = None
 	json_['GG_VIEWS'] = None
 	json_['GG_CONVERSION'] = None
 
@@ -330,7 +336,10 @@ def ConvertJsonMonthlyDetailUnMap_2(index, value):
 
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE']
 	json_['PRODUCT_ID'] = value['PRODUCT']
-	json_['CCD_NRU'] = None
+	if 'CCD_NRU' in value:
+		json_['CCD_NRU'] = value['CCD_NRU']
+	else:
+		json_['CCD_NRU'] = None
 	json_['GG_VIEWS'] = None
 	json_['GG_CONVERSION'] = None
 

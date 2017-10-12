@@ -99,11 +99,11 @@ import json
 import cx_Oracle
 from datetime import datetime , timedelta, date
 
-def Read_NRU_for_month(cursor, month, product):
+def Read_NRU_for_month(cursor, year, month, product):
 	#==================== Get NRU =============================
 	statement = "Select SNAPSHOT_DATE, PRODUCT_CODE, NRU from STG_NRU where CHANNEL = 'Google' \
-	and  extract (Month from SNAPSHOT_DATE) = :1"
-	cursor.execute(statement, (month))
+	and extract (Year from SNAPSHOT_DATE) = :1 and extract (Month from SNAPSHOT_DATE) = :2 "
+	cursor.execute(statement, (year, month))
 	list_NRU = list(cursor.fetchall())  
 	# print(list_NRU)
 
@@ -137,11 +137,15 @@ def add_NRU_monthly_for_plan(connect, path_folder, list_plan):
 	for plan in list_plan:
 		if ('MONTHLY' in value):
 			for i in range(len(value['MONTHLY'])):
-				plan['MONTHLY']['CCD_NRU'] = Read_NRU_for_month(cursor, str(value['MONTHLY'][i]['MONTH']), value['PRODUCT'])
+				plan['MONTHLY']['CCD_NRU'] = Read_NRU_for_month(cursor, value['CYEAR'], str(value['MONTHLY'][i]['MONTH']), value['PRODUCT'])
 
 	cursor.close()
 	return list_plan
 
+
+
+def AddNRU(connect, path_data, date):
+	
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 conn = cx_Oracle.connect(connect)
