@@ -133,8 +133,15 @@ def Add_Data_To_Plan(connect, path_data, date):
 
 
 
+# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+# path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
+# date = '2017-08-31'
+# Add_Data_To_Plan(connect, path_data, date)
+
+
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
-date = '2017-08-31'
-Add_Data_To_Plan(connect, path_data, date)
+conn = cx_Oracle.connect(connect)
+cursor = conn.cursor()
+nru = Read_NRU_for_month(cursor, '2017', '8', '219')
+print(nru)
 
