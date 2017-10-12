@@ -99,7 +99,12 @@ def Add_NRU_for_monthly(connect, list_plan):
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
 
-	for plan in list_plan:
+	for plan in list_plan['TOTAL']:
+		if ('MONTHLY' in plan):
+			for i in range(len(plan['MONTHLY'])):
+				plan['MONTHLY'][i]['CCD_NRU'] = Read_NRU_for_month(cursor, str(plan['MONTHLY'][i]['MONTH']), '20' + str(plan['CYEAR']), plan['PRODUCT'])
+
+	for plan in list_plan['UN_PLAN']:
 		if ('MONTHLY' in plan):
 			for i in range(len(plan['MONTHLY'])):
 				plan['MONTHLY'][i]['CCD_NRU'] = Read_NRU_for_month(cursor, str(plan['MONTHLY'][i]['MONTH']), '20' + str(plan['CYEAR']), plan['PRODUCT'])
@@ -119,9 +124,8 @@ def Add_Data_To_Plan(connect, path_data, date):
 	with open(file_plan, 'r') as fi:
 		list_plan = json.load(fi)
 
-	list_plan = Add_NRU_for_monthly(connect, list_plan['TOTAL'])
-	list_plan = Add_NRU_for_monthly(connect, list_plan['UN_PLAN'])
-
+	list_plan = Add_NRU_for_monthly(connect, list_plan)
+	
 	with open (file_plan,'w') as f:
 		json.dump(list_plan, f)
 	print('Add nru====================')
