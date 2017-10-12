@@ -100,9 +100,9 @@ def Add_NRU_for_monthly(connect, list_plan):
 	cursor = conn.cursor()
 
 	for plan in list_plan:
-		if ('MONTHLY' in value):
-			for i in range(len(value['MONTHLY'])):
-				plan['MONTHLY']['CCD_NRU'] = Read_NRU_for_month(cursor, str(value['MONTHLY'][i]['MONTH']), '20' + str(value['CYEAR']), value['PRODUCT'])
+		if ('MONTHLY' in plan):
+			for i in range(len(plan['MONTHLY'])):
+				plan['MONTHLY']['CCD_NRU'] = Read_NRU_for_month(cursor, str(plan['MONTHLY'][i]['MONTH']), '20' + str(plan['CYEAR']), plan['PRODUCT'])
 
 	cursor.close()
 	return list_plan
