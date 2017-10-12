@@ -466,11 +466,11 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 
 		insert_data.CreateListPlanMonthly(path_data, date)
 
-		# print (len(data_total['UN_CAMPAIGN']))
-		# print (len(list_plan_remove_unmap))
-		# print (len(list_camp_remove_unmap))
-		# # print (list_camp_remove_unmap)
-		# print (list_plan_remove_unmap)
+		print (len(data_total['UN_CAMPAIGN']))
+		print (len(list_plan_remove_unmap))
+		print (len(list_camp_remove_unmap))
+		# print (list_camp_remove_unmap)
+		print (list_plan_remove_unmap)
 		return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap)
 
 
