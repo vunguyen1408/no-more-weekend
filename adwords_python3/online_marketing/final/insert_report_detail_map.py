@@ -118,7 +118,10 @@ def ConvertJsonPlan(value):
 
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE']
 	json_['PRODUCT_ID'] = value['PRODUCT']
-	json_['CCD_NRU'] = None	
+	if 'CCD_NRU' in value:
+		json_['CCD_NRU'] = value['CCD_NRU']
+	else:
+		json_['CCD_NRU'] = None
 	json_['GG_CONVERSION'] = None
 	json_['GG_INVALID_CLICKS'] = None
 	json_['GG_ENGAGEMENTS'] = None
@@ -288,7 +291,10 @@ def ConvertJsonMap(value):
 
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE']
 	json_['PRODUCT_ID'] = value['PRODUCT']
-	json_['CCD_NRU'] = None	
+	if 'CCD_NRU' in value:
+		json_['CCD_NRU'] = value['CCD_NRU']
+	else:
+		json_['CCD_NRU'] = None
 	json_['GG_CONVERSION'] = value['Conversions']
 
 	json_['GG_INVALID_CLICKS'] = value['Invalid clicks']
