@@ -10,9 +10,8 @@ import subprocess
 
 
 def getLength(input_video):
-	result = subprocess.Popen('ffprobe -i ' + input_video + " -show_entries format=duration -v quiet -of csv='p=0'", stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
-	output = result.communicate()
-	return float(output[0])
+	result = subprocess.check_output(['ffprobe', '-i', input_video, '-show_entries', 'format=duration', '-v', 'quiet', '-of', 'csv=%s' % ("p=0")])
+	return float(result)
 
 
 
