@@ -32,12 +32,12 @@ def Daily(path_data, date):
 	if os.path.exists(path_video_folder):
 		dir_ = next(os.walk(path_video_folder))[0]
 		list_file = next(os.walk(path_video_folder))[2]
-		for file in list_file:
-			file = dir_ + '/' + file
-			print (file)
-			if os.path.exists(file):
-				number_video += getLength(file)
-
+		# for file in list_file:
+		# 	# file = dir_ + '/' + file
+		# 	# print (file)
+		# 	# if os.path.exists(file):
+		# 		number_video += getLength(file)
+		number_video += len (list_file)
 	return (number_image, number_video)
 
 
