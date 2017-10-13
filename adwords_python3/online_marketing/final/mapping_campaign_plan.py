@@ -8,7 +8,6 @@ import cx_Oracle
 from datetime import datetime , timedelta, date
 
 #-------------- import package -----------------
-import insert_nru_to_data as nru
 
 
 
