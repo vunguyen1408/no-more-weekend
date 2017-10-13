@@ -14,6 +14,7 @@ filename = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/2016-10-01/videos/20
 
 def getLength(input_video):
 	result = subprocess.check_output(['ffprobe', '-i', input_video, '-show_entries', 'format=duration', '-v', 'quiet', '-of', 'csv=%s' % ("p=0")])
+	print (result)
 	return float(result)
 
 print (getLength(filename))
