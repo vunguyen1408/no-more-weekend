@@ -35,7 +35,8 @@ def Daily(path_data, date):
 		list_file = next(os.walk(path_video_folder))[2]
 		for file in list_file:
 			file = dir_ + '/' + file
-			number_video += getLength(file)
+			if os.path.exists(file)
+				number_video += getLength(file)
 
 	return (number_image, number_video)
 
