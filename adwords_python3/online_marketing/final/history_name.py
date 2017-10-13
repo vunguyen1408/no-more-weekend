@@ -123,14 +123,14 @@ def InsertHistoryName(connect, path_data, list_account, date):
 	for account in list_account:
 		AccountFrmCampaign(account, path_data, date)
 		path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
-		if os.path.exists(path_data_his):
-			with open (path_data_his,'r') as f:
-				data = json.load(f)
-			for i in data['HISTORY']:
-				MergerCampList(i, cursor)
-	conn.commit()
-	# print("Committed!.......")
-	cursor.close()
+	# 	if os.path.exists(path_data_his):
+	# 		with open (path_data_his,'r') as f:
+	# 			data = json.load(f)
+	# 		for i in data['HISTORY']:
+	# 			MergerCampList(i, cursor)
+	# conn.commit()
+	# # print("Committed!.......")
+	# cursor.close()
 
 
 
