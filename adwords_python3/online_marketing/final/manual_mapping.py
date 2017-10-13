@@ -8,7 +8,7 @@ from datetime import datetime , timedelta, date
 #-------------- import file ---------------
 import insert_data_map_to_total as insert_data
 import mapping_campaign_plan as mapping
-import insert_nru_to_data as nru
+# import insert_nru_to_data as nru
 
 # list_plan = [{'CYEAR': '17', 'CMONTH': '6', 'LEGAL': 'VNG', 'DEPARTMENT': '0902', 'DEPARTMENT_NAME': 'PG1',\
 #  'PRODUCT': '221', 'REASON_CODE_ORACLE': '1706008', 'EFORM_NO': 'FA-PA170529003', 'START_DAY': '2017-06-01', \
@@ -213,7 +213,7 @@ def ReadTableManualMap(connect, path_data, date):
 		json.dump(data_manual_map, f)
 
 	list_plan = mapping.ReadPlan(path_data, str(date))
-	print (data_manual_map)
+	# print (data_manual_map)
 	# print (list_diff)
 	# --------------- Get info plan ------------
 	list_plan_diff = []
