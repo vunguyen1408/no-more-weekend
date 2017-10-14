@@ -46,6 +46,13 @@ def ChooseTime(plan):
 
   return (start_plan, end_plan)
 
+def checkProductCode(name, list_product_code):
+  for product in list_product_code:
+    if name.find(product) >= 0:
+      return True
+  return False
+
+
 #================= Mapping campaign and plan =====================
 def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
   # date_ = datetime.strptime(date, '%Y-%m-%d') 
@@ -74,7 +81,7 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
       date_ = datetime.strptime(camp['Date'], '%Y-%m-%d')
 
       if (camp['Mapping'] == False): 
-        if (  (eform['PRODUCT_CODE'] != '') and (camp['Campaign'].find(eform['PRODUCT_CODE']) >= 0) and \
+        if (  (eform['PRODUCT_CODE'] != []) and checkProductCode(camp['Campaign'], eform['PRODUCT_CODE']) and \
           (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
           (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) == 0) and \
           (date_ >= start) and \
@@ -142,16 +149,16 @@ def AddProductCode(path_folder, list_plan, date):
   list_temp = []
   for plan in list_plan:
     temp = plan
-    temp['PRODUCT_CODE'] = ''
+    temp['PRODUCT_CODE'] = []
     for alias in data['ALIAS']:
       if (alias['PRODUCT_ID'] is not None) and (alias['GG_PRODUCT'] is not None) \
       and (int(plan['PRODUCT']) == int(alias['PRODUCT_ID'])):
-        temp['PRODUCT_CODE'] = str(alias['GG_PRODUCT'])     
+        temp['PRODUCT_CODE'].append(str(alias['GG_PRODUCT']))     
     list_temp.append(temp)
   # for p in list_temp:
   #   print (p['PRODUCT_CODE'])
   
-  list_plan= list_temp
+  list_plan = list_temp
   return list_plan
 
 
