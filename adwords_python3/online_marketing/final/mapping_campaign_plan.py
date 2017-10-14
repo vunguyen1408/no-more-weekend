@@ -74,7 +74,7 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
       date_ = datetime.strptime(camp['Date'], '%Y-%m-%d')
 
       if (camp['Mapping'] == False): 
-        if (  (eform['PRODUCT_CODE'] != '') and (camp['Campaign'].find(eform['PRODUCT_CODE']) == 0) and \
+        if (  (eform['PRODUCT_CODE'] != '') and (camp['Campaign'].find(eform['PRODUCT_CODE']) >= 0) and \
           (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
           (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) == 0) and \
           (date_ >= start) and \
