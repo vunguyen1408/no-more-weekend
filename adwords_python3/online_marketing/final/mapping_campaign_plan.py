@@ -48,7 +48,7 @@ def ChooseTime(plan):
 
 def checkProductCode(name, list_product_code):
   for product in list_product_code:
-    if name.find(product) >= 0:
+    if (name.find(product.upper()) >= 0) or (name.find(product.lower()) >= 0):
       return True
   return False
 
