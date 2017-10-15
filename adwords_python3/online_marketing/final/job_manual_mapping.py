@@ -10,6 +10,7 @@ import insert_report_monthly_detail as monthly_detail
 import insert_report_monthly_sum as monthly_sum
 import insert_report_plan_sum as plan_sum
 import insert_report_detail_map as detail_map
+import insert_nru_to_plan as nru
 
 
 def ManualMapping (connect, path_data, date):
@@ -19,6 +20,9 @@ def ManualMapping (connect, path_data, date):
 	list_map, list_plan_remove_unmap, list_camp_remove_unmap = manual.GetCampaignUnMapForManualMap(connect, path_data, date)
 	time_caculator_manual = time.time() - caculator_manual
 	print ("---------- Time caculator manual mapping to total : ", time_caculator_manual)
+
+	# --------------- 
+	nru.Add_Data_To_Plan(connect, path_data, date)
 
 	print (list_plan_remove_unmap != [])
 	print (list_camp_remove_unmap != [])

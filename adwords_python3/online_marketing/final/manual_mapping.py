@@ -212,7 +212,13 @@ def ReadTableManualMap(connect, path_data, date):
 	with open (path_data_total_map,'w') as f:
 		json.dump(data_manual_map, f)
 
+
+	# ------------ Cần đọc thông tin plan mới nhất --------------------
+	mapping.ReadPlanFromTable(connect, path_data, str(date))
+	mapping.ReadProductAlias(connect, path_data, str(date))
 	list_plan = mapping.ReadPlan(path_data, str(date))
+
+
 	# print (data_manual_map)
 	# print (list_diff)
 	# --------------- Get info plan ------------
