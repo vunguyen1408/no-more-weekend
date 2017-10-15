@@ -24,161 +24,161 @@ path_base = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/'
 # path_base = 'E:\VNG\Data\DATA\DWHVNG\APEX\MARKETING_TOOL_02_JSON/'
 
 def label(photo_link, g_vdate):
-    # [START vision_quickstart]
-    import io
-    import os
-    import time
-    #because limitations, each request should wait
-    #wait 3 seconds
-    #time.sleep(5)
+    # # [START vision_quickstart]
+    # import io
+    # import os
+    # import time
+    # #because limitations, each request should wait
+    # #wait 3 seconds
+    # #time.sleep(5)
 
 
-    #import argparse
-    #import base64
+    # #import argparse
+    # #import base64
 
-    #import googleapiclient.discovery
+    # #import googleapiclient.discovery
 
-    #
-    try:
-        from urllib.request import urlretrieve  # Python 3
-        from urllib.error import HTTPError,ContentTooShortError
-    except ImportError:
-        from urllib import urlretrieve  # Python 2
-    #import urllib.request
-
-
-    try:
-        from urllib.parse import urlparse  # Python 3
-    except ImportError:
-        from urlparse import urlparse  # Python 2
-
-    from os.path import splitext, basename, join
+    # #
+    # try:
+    #     from urllib.request import urlretrieve  # Python 3
+    #     from urllib.error import HTTPError,ContentTooShortError
+    # except ImportError:
+    #     from urllib import urlretrieve  # Python 2
+    # #import urllib.request
 
 
-    # Imports the Google Cloud client library
-    from google.cloud import vision
+    # try:
+    #     from urllib.parse import urlparse  # Python 3
+    # except ImportError:
+    #     from urlparse import urlparse  # Python 2
 
-    pdate=g_vdate #global variable
-
-    #return
-    list_label=[]
-
-    # Instantiates a client
-    vision_client = vision.Client()
+    # from os.path import splitext, basename, join
 
 
-    picture_page = photo_link
-    disassembled = urlparse(picture_page)
-    filename, file_ext = splitext(basename(disassembled.path))
+    # # Imports the Google Cloud client library
+    # from google.cloud import vision
 
-    #Dev env
-    #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
-    #Prod env
-    # base_dir='E:\\VNG\\Python Envirement\\Data\\DWHVNG\\APEX\\MARKETING_TOOL_02_JSON\\'+pdate+"\\images"
-    base_dir = join(path_base, pdate)
-    base_dir=base_dir +"/images"
+    # pdate=g_vdate #global variable
 
-    if not os.path.exists(base_dir):
-        os.makedirs(base_dir)
+    # #return
+    # list_label=[]
 
-    fullfilename = join(base_dir, filename+file_ext)
-    #fullfilename = join("resources", filename+file_ext)
-
-    ### Nếu có ảnh thì không cần download
-    if not os.path.exists( fullfilename ):
-        #download
-        print ("download ")
-        try:
-            urlretrieve(photo_link, fullfilename)
-            # print (fullfilename)
-        except KeyboardInterrupt as ki:
-            raise ki
-
-        except HTTPError as err:
-            # Nếu không tồn tải ảnh với url thì xem như list_label = []
-            list_label = []
-            print(err.code)
-        except ContentTooShortError as err:
-            #retry 1 times
-            print ("errors missing content")
-            print (photo_link)
-            try:
-                urlretrieve(photo_link, fullfilename)
-            except ContentTooShortError as err:
-                # Không xử lý được except thì xem như list_label = []
-                list_label = []
-                print ("don't fix errors missing content")
-                print (photo_link)
-                print(err.code)
-            except:
-                print("Unknown Error try download")
-        except:
-            list_label = []
-            print("Unknown Error try download")
-            print (photo_link)
-            #if err.code == 404:
-                #<whatever>
-            #else:
-           #raise
-
-    photo_file=fullfilename
-    if os.path.exists( photo_file ):
-        if (os.path.getsize(photo_file) >= (1024 * 1024 * 4)):
-            import PIL
-            from PIL import Image
-            print ("scale iamge....")
-            print (photo_link)
-            img = Image.open(photo_file)
-            basewidth = 1300
-            wpercent = (basewidth / float(img.size[0]))
-            hsize = int((float(img.size[1]) * float(wpercent)))
-            img = img.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
-            img.save(photo_file)
-        try:
-            #print(photo_file)
-
-            # The name of the image file to annotate
-            #file_name = os.path.join(
-            #    os.path.dirname(__file__),
-            #    'resources/wakeupcat.jpg')
-
-            # Loads the image into memory
-            with io.open(fullfilename, 'rb') as image_file:
-                content = image_file.read()
-                image = vision_client.image(
-                    content=content)
-
-            # Performs label detection on the image file
-            try:
-                labels = image.detect_labels()
-            except google.gax.errors.RetryError as err:
-                print ("errors gax 1")
-                #retry 1 times
-                time.sleep(5)
-                try:
-                    labels = image.detect_labels()
-                except google.gax.errors.RetryError as err:
-                    print ("errors gax 2")
-                    #retry 1 times
-                    print(err.code)
-                except:
-                    print("Unknown Error")
-            except:
-                print("Unknown Error")
-
-            for label in labels:
-                list_label.append(label.description)
-            # [END vision_quickstart]
+    # # Instantiates a client
+    # vision_client = vision.Client()
 
 
+    # picture_page = photo_link
+    # disassembled = urlparse(picture_page)
+    # filename, file_ext = splitext(basename(disassembled.path))
 
-        except IOError as e:
-            # you can print the error here, e.g.
-            print(str(e))
-        except:
-            print("Unknown Error try get label")
-            print (photo_link)
+    # #Dev env
+    # #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
+    # #Prod env
+    # # base_dir='E:\\VNG\\Python Envirement\\Data\\DWHVNG\\APEX\\MARKETING_TOOL_02_JSON\\'+pdate+"\\images"
+    # base_dir = join(path_base, pdate)
+    # base_dir=base_dir +"/images"
 
+    # if not os.path.exists(base_dir):
+    #     os.makedirs(base_dir)
+
+    # fullfilename = join(base_dir, filename+file_ext)
+    # #fullfilename = join("resources", filename+file_ext)
+
+    # ### Nếu có ảnh thì không cần download
+    # if not os.path.exists( fullfilename ):
+    #     #download
+    #     print ("download ")
+    #     try:
+    #         urlretrieve(photo_link, fullfilename)
+    #         # print (fullfilename)
+    #     except KeyboardInterrupt as ki:
+    #         raise ki
+
+    #     except HTTPError as err:
+    #         # Nếu không tồn tải ảnh với url thì xem như list_label = []
+    #         list_label = []
+    #         print(err.code)
+    #     except ContentTooShortError as err:
+    #         #retry 1 times
+    #         print ("errors missing content")
+    #         print (photo_link)
+    #         try:
+    #             urlretrieve(photo_link, fullfilename)
+    #         except ContentTooShortError as err:
+    #             # Không xử lý được except thì xem như list_label = []
+    #             list_label = []
+    #             print ("don't fix errors missing content")
+    #             print (photo_link)
+    #             print(err.code)
+    #         except:
+    #             print("Unknown Error try download")
+    #     except:
+    #         list_label = []
+    #         print("Unknown Error try download")
+    #         print (photo_link)
+    #         #if err.code == 404:
+    #             #<whatever>
+    #         #else:
+    #        #raise
+
+    # photo_file=fullfilename
+    # if os.path.exists( photo_file ):
+    #     if (os.path.getsize(photo_file) >= (1024 * 1024 * 4)):
+    #         import PIL
+    #         from PIL import Image
+    #         print ("scale iamge....")
+    #         print (photo_link)
+    #         img = Image.open(photo_file)
+    #         basewidth = 1300
+    #         wpercent = (basewidth / float(img.size[0]))
+    #         hsize = int((float(img.size[1]) * float(wpercent)))
+    #         img = img.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
+    #         img.save(photo_file)
+    #     try:
+    #         #print(photo_file)
+
+    #         # The name of the image file to annotate
+    #         #file_name = os.path.join(
+    #         #    os.path.dirname(__file__),
+    #         #    'resources/wakeupcat.jpg')
+
+    #         # Loads the image into memory
+    #         with io.open(fullfilename, 'rb') as image_file:
+    #             content = image_file.read()
+    #             image = vision_client.image(
+    #                 content=content)
+
+    #         # Performs label detection on the image file
+    #         try:
+    #             labels = image.detect_labels()
+    #         except google.gax.errors.RetryError as err:
+    #             print ("errors gax 1")
+    #             #retry 1 times
+    #             time.sleep(5)
+    #             try:
+    #                 labels = image.detect_labels()
+    #             except google.gax.errors.RetryError as err:
+    #                 print ("errors gax 2")
+    #                 #retry 1 times
+    #                 print(err.code)
+    #             except:
+    #                 print("Unknown Error")
+    #         except:
+    #             print("Unknown Error")
+
+    #         for label in labels:
+    #             list_label.append(label.description)
+    #         # [END vision_quickstart]
+
+
+
+    #     except IOError as e:
+    #         # you can print the error here, e.g.
+    #         print(str(e))
+    #     except:
+    #         print("Unknown Error try get label")
+    #         print (photo_link)
+    list_label = []
     return list_label
 
 
