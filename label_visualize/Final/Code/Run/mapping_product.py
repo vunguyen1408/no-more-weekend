@@ -190,7 +190,8 @@ def add_list(path_audit_content, date_, to_date_):
                         with open(path_file_audit_content, 'r') as f_json:
                             data_json = json.load(f_json)
                             for j in data_json['my_json']:
-                                j['list_product'] = []
+                                if 'list_product' not in j:
+                                    j['list_product'] = []
                             with open (path_file_audit_content,'w') as f_out:
                     json.dump(data_json,f_out)
                 except:
