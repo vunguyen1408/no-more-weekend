@@ -193,7 +193,7 @@ def add_list(path_audit_content, date_, to_date_):
                                 if 'list_product' not in j:
                                     j['list_product'] = []
                             with open (path_file_audit_content,'w') as f_out:
-                    json.dump(data_json,f_out)
+                                json.dump(data_json,f_out)
                 except:
                     print ("Date error: %s" %folder)
 
