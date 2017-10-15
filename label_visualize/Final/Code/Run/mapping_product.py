@@ -210,7 +210,8 @@ def FindNewFileEventMapCamp(path_file_event_map_campaign):
             if now > date:
                 date = now
 
-    path_file = 'EVENT_MAP_CAMPAIGN_' + str(date) + '.csv'
+    temp = str(date).replace('-', '_')
+    path_file = 'EVENT_MAP_CAMPAIGN_' + temp + '.csv'
     return path_file
 
 
