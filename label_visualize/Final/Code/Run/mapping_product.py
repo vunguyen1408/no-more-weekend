@@ -204,7 +204,7 @@ def FindNewFileEventMapCamp(path_file_event_map_campaign):
     date = datetime.strptime(d, '%Y-%m-%d').date()
     for file in list_file:
         if file.find('EVENT_MAP_CAMPAIGN_20') >= 0:
-            now = datetime.strptime(file[-10:], '%Y-%m-%d').date()
+            now = datetime.strptime(file[-14:][:10], '%Y-%m-%d').date()
             if now > date:
                 date = now
 
