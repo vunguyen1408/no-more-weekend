@@ -5,8 +5,8 @@ from datetime import datetime , timedelta, date
 
 
 
-file_video = 'C:/Users/CPU10912-local/Desktop/2016-10-01_98.mp4'
-file_audio = 'C:/Users/CPU10912-local/Desktop/2016-10-01_98.flac'
+file_video = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/2016-10-01_98.mp4'
+file_audio = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/2016-10-01_98.flac'
 print('11111111111111111111111111111')
 subprocess.call(["ffmpeg", "-i", file_video,"-c:a", "flac", file_audio])
 print()
