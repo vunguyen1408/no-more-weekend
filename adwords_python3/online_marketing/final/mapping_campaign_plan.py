@@ -167,6 +167,9 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
         print (eform['CCD_PRODUCT'])
         print (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']))
         print (camp['Account Name'])
+        print (camp['Campaign ID'])
+        if camp['Campaign ID'] == '260088164':
+          print (' nnnnnnnnnnnnnnnnnnnnnno oooooooooooooooooo kìa.....')
         print ("===============================================")
 
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == 'WPL'): 
