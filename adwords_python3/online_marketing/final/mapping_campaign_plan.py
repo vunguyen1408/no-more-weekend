@@ -329,7 +329,7 @@ def CheckIsAccountWPL(path_folder, account_id):
     list_campaign = json.load(f)
 
   for account in list_campaign:
-    if account_id == account['customerId']:
+    if str(account_id) == str(account['customerId']):
       return True
   return False
 
@@ -355,12 +355,12 @@ def MapData(customer, path_folder, date):
   # print (len(list_campaign))
   if len(list_campaign) > 0:
 
-    #------------- Check account ----------------
-    # if CheckIsAccountWPL(path_folder, customer): # La account WPL
-    #   print ("=========== WPL ======================")
-    #   data_map = MapAccountWithCampaignWPL(path_folder, list_plan['plan'], list_campaign, date)
-    # else:
-    data_map = MapAccountWithCampaign(path_folder, list_plan['plan'], list_campaign, date)
+    # ------------- Check account ----------------
+    if CheckIsAccountWPL(path_folder, customer): # La account WPL
+      print ("=========== WPL ======================")
+      data_map = MapAccountWithCampaignWPL(path_folder, list_plan['plan'], list_campaign, date)
+    else:
+      data_map = MapAccountWithCampaign(path_folder, list_plan['plan'], list_campaign, date)
 
     #----------------- Write file map and unmap ------------------
   path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
