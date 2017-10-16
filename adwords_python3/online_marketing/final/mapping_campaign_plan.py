@@ -134,7 +134,7 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
   #     and eform['DEPARTMENT_NAME'] == 'WPL':
   #     list_plan_WPL.append(eform.copy())
 
-
+  import time 
 
   list_campaign_map = []
   number = 0
@@ -188,7 +188,11 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
           eform['STATUS'] = 'SYS'
           number += 1
         else:
+          time.sleep(10)
           print (camp)
+          import getch
+          # ...
+          char = getch.getch()
 
   data_map = {}
   data_map['campaign'] = list_campaign_map
