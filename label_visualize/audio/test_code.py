@@ -17,8 +17,8 @@ subprocess.call(["sox", file_audio, "--channels=1", "--bits=16", file_video + '.
 print()
 
 print('33333333333333333333333333333')
-subprocess.call(["ffprobe", file_audio[0:-4] + '.16.flac', "-show_streams|", "grep", "sample_rate"])
+subprocess.call(["ffprobe", file_video + '.16.flac', "-show_streams|", "grep", "sample_rate"])
 print()
 
 # ffprobe 2016-11-01_243_0.16.flac  -show_streams| grep  sample_rate
-# sample_rate=48000
+# sample_rate=48000 file_audio[0:-4]
