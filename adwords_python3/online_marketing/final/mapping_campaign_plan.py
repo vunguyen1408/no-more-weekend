@@ -48,7 +48,7 @@ def ChooseTime(plan):
 
 def checkProductCode(name, list_product_code):
   for product in list_product_code:
-    if (name.find(product.upper()) >= 0) or (name.find(product.lower()) >= 0):
+    if (name.find(product.upper()) >= 0) or (name.find(product.lower()) >= 0) or (name.find(product) >= 0) :
       return True
   return False
 
@@ -83,6 +83,86 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
       if (camp['Mapping'] == False): 
         if (  (eform['PRODUCT_CODE'] != []) and checkProductCode(camp['Campaign'], eform['PRODUCT_CODE']) and \
           (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
+          (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) == 0) and \
+          (date_ >= start) and \
+          (date_ <= end) ) \
+          or \
+          ( LogManualMap(path_folder, camp, eform, date) ):   
+          camp['Mapping'] = True
+          plan = {}
+          plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
+          plan['REASON_CODE_ORACLE'] = eform['REASON_CODE_ORACLE']
+          plan['FORM_TYPE'] = eform['FORM_TYPE']
+
+          camp['Plan'] = plan
+
+          campaign = {}
+          campaign['CAMPAIGN_ID'] = camp['Campaign ID']
+          campaign['Date'] = camp['Date']
+
+          temp = eform['CAMPAIGN']
+          temp.append(campaign)
+          eform['CAMPAIGN'] = temp
+
+          camp['STATUS'] = 'SYS'
+          eform['STATUS'] = 'SYS'
+          number += 1
+
+  data_map = {}
+  data_map['campaign'] = list_campaign_map
+  data_map['plan'] = list_plan
+  print (" -------------- Mapping------ ", number)
+  print (" -------------- Un mapping------ ", len(list_campaign_map) - number)
+  return data_map
+
+
+#================= Mapping campaign and plan WPL =====================
+def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
+  # d = datetime.strptime(date, '%Y-%m-%d')
+  # #------------- Filter all plan in date ------------------
+  # list_plan_WPL = []
+  # for i, eform in enumerate(list_plan):  
+  #   flag = True
+  #   eform['CAMPAIGN'] = []
+  #   eform['STATUS'] = None
+
+  #   # -------------------- Choose time real ------------------------
+  #   start, end = ChooseTime(eform)
+  #   start = datetime.strptime(start, '%Y-%m-%d')
+  #   end = datetime.strptime(end, '%Y-%m-%d')
+  #   if start <= d and end d <= end \
+  #     and eform['DEPARTMENT_NAME'] == 'WPL':
+  #     list_plan_WPL.append(eform.copy())
+
+
+
+  list_campaign_map = []
+  number = 0
+  for j, camp in enumerate(list_campaign):
+    if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
+      list_campaign_map.append(camp)
+
+  for i, eform in enumerate(list_plan):  
+    flag = True
+    eform['CAMPAIGN'] = []
+    eform['STATUS'] = None
+
+    # -------------------- Choose time real ------------------------
+    start, end = ChooseTime(eform)
+    start = datetime.strptime(start, '%Y-%m-%d')
+    end = datetime.strptime(end, '%Y-%m-%d')
+
+    for j, camp in enumerate(list_campaign_map):
+      camp['Advertising Channel'] = ChangeCampaignType(camp['Advertising Channel'])
+      if 'Plan' not in camp:
+        camp['Plan'] = None
+        camp['STATUS'] = None
+
+      date_ = datetime.strptime(camp['Date'], '%Y-%m-%d')
+
+      if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == 'WPL'): 
+        if (  (eform['PRODUCT_CODE'] != []) and checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) and \
+          # (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
           (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) == 0) and \
           (date_ >= start) and \
           (date_ <= end) ) \
@@ -154,6 +234,13 @@ def AddProductCode(path_folder, list_plan, date):
       if (alias['PRODUCT_ID'] is not None) and (alias['GG_PRODUCT'] is not None) \
       and (int(plan['PRODUCT']) == int(alias['PRODUCT_ID'])):
         temp['PRODUCT_CODE'].append(str(alias['GG_PRODUCT']))     
+
+    temp['CCD_PRODUCT'] = []
+    for alias in data['ALIAS']:
+      if (alias['PRODUCT_ID'] is not None) and (alias['CCD_PRODUCT'] is not None) \
+      and (int(plan['PRODUCT']) == int(alias['PRODUCT_ID'])):
+        temp['CCD_PRODUCT'].append(str(alias['CCD_PRODUCT']))  
+
     list_temp.append(temp)
   # for p in list_temp:
   #   print (p['PRODUCT_CODE'])
@@ -235,6 +322,17 @@ def ReadPlan(path_folder, date):
     return list_plan
 
 
+def CheckIsAccountWPL(path_folder, account_id):
+  file_ = path_folder[:-4] + '/' + 'LIST_ACCOUNT/WPL.json'
+  with open (file_, 'r') as f:
+    list_campaign = json.load(f)
+
+  for account in list_campaign:
+    if account_id == account['customerId']:
+      return True
+  return False
+
+
 
 #================= Read list plan, product code, save file mapping =====================
 def MapData(customer, path_folder, date): 
@@ -256,7 +354,11 @@ def MapData(customer, path_folder, date):
   # print (len(list_campaign))
   if len(list_campaign) > 0:
 
-    data_map = MapAccountWithCampaign(path_folder, list_plan['plan'], list_campaign, date)
+    #------------- Check account ----------------
+    if CheckIsAccountWPL(path_folder, customer): # La account WPL
+      data_map = MapAccountWithCampaignWPL(path_folder, list_plan['plan'], list_campaign, date)
+    else:
+      data_map = MapAccountWithCampaign(path_folder, list_plan['plan'], list_campaign, date)
 
     #----------------- Write file map and unmap ------------------
   path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
