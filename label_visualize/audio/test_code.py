@@ -25,7 +25,7 @@ print(file_audio[0:-5] + '.16.flac')
 # print("====================================")
 # a = out.stdout.close()
 # out = subprocess.getoutput(cmd)
-out = subprocess.call(["ffprobe", file_audio[0:-5] + '.16.flac', "-show_streams", "stream=sample_rate"]) 
+out = subprocess.call(["ffprobe", file_audio[0:-5] + '.16.flac', "-show_entries", "stream=sample_rate"]) 
 
 print(out)
 print(type(out))
