@@ -164,14 +164,14 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
 
       date_ = datetime.strptime(camp['Date'], '%Y-%m-%d')
 
-      if str(eform['REASON_CODE_ORACLE']) == '1708039' and int(eform['PRODUCT']) == 160:
-        print (eform['CCD_PRODUCT'])
-        print (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']))
-        print (camp['Account Name'])
-        print (camp['Campaign ID'])
-        if camp['Campaign ID'] == '260088164':
-          print (' nnnnnnnnnnnnnnnnnnnnnno oooooooooooooooooo kìa.....')
-        print ("===============================================")
+      # if str(eform['REASON_CODE_ORACLE']) == '1708039' and int(eform['PRODUCT']) == 160:
+      #   print (eform['CCD_PRODUCT'])
+      #   print (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']))
+      #   print (camp['Account Name'])
+      #   print (camp['Campaign ID'])
+      #   if camp['Campaign ID'] == '260088164':
+      #     print (' nnnnnnnnnnnnnnnnnnnnnno oooooooooooooooooo kìa.....')
+      #   print ("===============================================")
 
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == 'WPL'): 
         if (  (eform['CCD_PRODUCT'] != []) and checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) and \
@@ -203,14 +203,14 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
           number += 1
 
   # ------------- Check mapping --------------
-  print (len(list_campaign_map))
-  for camp in list_campaign_map:
-    if camp['Plan'] == None:
-          time.sleep(10)
-          print (camp)
-          import getch
-          # ...
-          char = getch.getch()
+  # print (len(list_campaign_map))
+  # for camp in list_campaign_map:
+  #   if camp['Plan'] == None:
+  #         time.sleep(10)
+  #         print (camp)
+  #         import getch
+  #         # ...
+  #         char = getch.getch()
 
   data_map = {}
   data_map['campaign'] = list_campaign_map
