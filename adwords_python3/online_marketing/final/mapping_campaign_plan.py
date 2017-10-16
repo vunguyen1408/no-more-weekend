@@ -356,11 +356,11 @@ def MapData(customer, path_folder, date):
   if len(list_campaign) > 0:
 
     #------------- Check account ----------------
-    if CheckIsAccountWPL(path_folder, customer): # La account WPL
-      print ("=========== WPL ======================")
-      data_map = MapAccountWithCampaignWPL(path_folder, list_plan['plan'], list_campaign, date)
-    else:
-      data_map = MapAccountWithCampaign(path_folder, list_plan['plan'], list_campaign, date)
+    # if CheckIsAccountWPL(path_folder, customer): # La account WPL
+    #   print ("=========== WPL ======================")
+    #   data_map = MapAccountWithCampaignWPL(path_folder, list_plan['plan'], list_campaign, date)
+    # else:
+    data_map = MapAccountWithCampaign(path_folder, list_plan['plan'], list_campaign, date)
 
     #----------------- Write file map and unmap ------------------
   path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
