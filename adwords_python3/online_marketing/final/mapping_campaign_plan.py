@@ -242,6 +242,7 @@ def AddProductCode(path_folder, list_plan, date):
         temp['CCD_PRODUCT'].append(str(alias['CCD_PRODUCT']))  
 
     list_temp.append(temp)
+    print (temp['CCD_PRODUCT'])
   # for p in list_temp:
   #   print (p['PRODUCT_CODE'])
   
@@ -356,6 +357,7 @@ def MapData(customer, path_folder, date):
 
     #------------- Check account ----------------
     if CheckIsAccountWPL(path_folder, customer): # La account WPL
+      print ("=========== WPL ======================")
       data_map = MapAccountWithCampaignWPL(path_folder, list_plan['plan'], list_campaign, date)
     else:
       data_map = MapAccountWithCampaign(path_folder, list_plan['plan'], list_campaign, date)
