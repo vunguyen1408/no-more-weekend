@@ -485,9 +485,16 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 						and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION']:
 						list_plan_update.append(plan)
 
-			path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-			with open (path_data_total_map,'w') as f:
-				json.dump(data_total, f)
+
+			for plan in data_total['TOTAL']:
+				plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_data.GetVolumeActualTotal(plan)
+				for m in plan['MONTHLY']:
+					m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_data.GetVolumeActualMonthly(plan, m)
+
+
+			# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			# with open (path_data_total_map,'w') as f:
+			# 	json.dump(data_total, f)
 
 			insert_data.CreateListPlanMonthly(path_data, date)
 
