@@ -165,6 +165,9 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
 
       if str(eform['REASON_CODE_ORACLE']) == '1708039' and int(eform['PRODUCT']) == 160:
         print (eform['CCD_PRODUCT'])
+        print (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']))
+        print (camp['Account Name'])
+        print ("===============================================")
 
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == 'WPL'): 
         if (  (eform['PRODUCT_CODE'] != []) and checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) and \
