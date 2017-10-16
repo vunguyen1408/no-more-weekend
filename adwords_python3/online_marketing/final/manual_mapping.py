@@ -449,8 +449,9 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 					and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 					and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
 					and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
-					data_total['UN_PLAN'].remove(plan_un)
 					list_plan_remove_unmap.append(plan_un)
+					data_total['UN_PLAN'].remove(plan_un)
+					
 
 		# print (len(data_total['UN_CAMPAIGN']))
 
@@ -478,7 +479,8 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 		print (len(list_camp_remove_unmap))
 		# print (list_camp_remove_unmap)
 		print (list_plan_remove_unmap)
-		return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap)
+		list_plan_update = list_plan
+		return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
 
 
 # connect = ''

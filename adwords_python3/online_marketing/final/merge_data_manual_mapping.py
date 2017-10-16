@@ -9,6 +9,7 @@ import insert_report_detail_map as detail_map
 
 
 
+
 def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update):
 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect)
