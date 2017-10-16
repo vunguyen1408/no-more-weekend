@@ -48,7 +48,10 @@ def ChooseTime(plan):
 
 def checkProductCode(name, list_product_code):
   for product in list_product_code:
-    if (name.find(product.upper()) >= 0) or (name.find(product.lower()) >= 0) or (name.find(product) >= 0) :
+    if (name.find(product.upper()) >= 0) \
+      or (name.find(product.lower()) >= 0) \
+      or (name.find(product) >= 0) \
+      or (name.upper().find(product) >= 0):
       return True
   return False
 
@@ -189,14 +192,14 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
           number += 1
 
   #------------- Check mapping --------------
-  print (len(list_campaign_map))
-  for camp in list_campaign_map:
-    if camp['Plan'] == None:
-          time.sleep(10)
-          print (camp)
-          import getch
-          # ...
-          char = getch.getch()
+  # print (len(list_campaign_map))
+  # for camp in list_campaign_map:
+  #   if camp['Plan'] == None:
+  #         time.sleep(10)
+  #         print (camp)
+  #         import getch
+  #         # ...
+  #         char = getch.getch()
 
   data_map = {}
   data_map['campaign'] = list_campaign_map
