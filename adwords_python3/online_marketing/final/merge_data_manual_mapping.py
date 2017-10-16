@@ -52,15 +52,15 @@ def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_c
 					monthly_detail.UpdateMonthlyDetail(json_, cursor)
 
 	#=================== Commit and close connect =================
-	# conn.commit()
+	conn.commit()
 	print("Committed!.......")
 	cursor.close()
 
 
-connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-list_map = []
-list_plan_remove_unmap = []
-list_camp_remove_unmap = []
-list_plan_update = []
+# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+# list_map = []
+# list_plan_remove_unmap = []
+# list_camp_remove_unmap = []
+# list_plan_update = []
 
-merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
+# merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
