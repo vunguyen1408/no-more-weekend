@@ -19,12 +19,12 @@ file_audio = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visuali
 print('33333333333333333333333333333')
 print(file_audio[0:-5] + '.16.flac')
 # subprocess.call(["ffprobe", file_audio[0:-5] + '.16.flac', "-show_streams| grep", "sample_rate"]) 
-# cmd = "ffprobe " + file_audio[0:-5] + '.16.flac'
+cmd = "ffprobe " + file_audio[0:-5] + '.16.flac'
 # out = subprocess.Popen(["ffprobe", file_audio[0:-5] + '.16.flac'])
 # stdout, stderr = out.communicate()
 # print("====================================")
 # a = out.stdout.close()
-out = subprocess.getoutput(["ffprobe", file_audio[0:-5] + '.16.flac'])
+out = subprocess.getoutput(cmd)
 
 print(out)
 print(type(out))
