@@ -20,7 +20,7 @@ print('33333333333333333333333333333')
 print(file_audio[0:-5] + '.16.flac')
 # subprocess.call(["ffprobe", file_audio[0:-5] + '.16.flac', "-show_streams| grep", "sample_rate"]) 
 cmd = "ffprobe " + file_audio[0:-5] + '.16.flac'
-out = subprocess.Popen(["ffprobe", file_audio[0:-5] + '.16.flac', "-show_streams| grep", "sample_rate"], stdout=subprocess.PIPE,)
+out = subprocess.Popen(["ffprobe", file_audio[0:-5] + '.16.flac'], stdout=subprocess.PIPE,)
 a = out.stdout
 print(len(a))
 print(a)
