@@ -138,7 +138,7 @@ def ConvertJsonMonthlyDetail(index, value):
 		json_['NRU'] = float(value['NRU'])
 	json_['EFORM_TYPE'] = value['FORM_TYPE']
 	json_['UNIT_OPTION'] = value['UNIT_OPTION']
-	if ('Advertising Channel' in value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY'])
+	if ('Advertising Channel' in value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']):
 		json_['OBJECTIVE'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['Advertising Channel']
 	else:
 		json_['OBJECTIVE'] = ''
@@ -165,7 +165,7 @@ def ConvertJsonMonthlyDetail(index, value):
 	json_['GG_SPEND'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['COST']
 
 	json_['GG_APPSFLYER_INSTALL'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']
-	if ('Bid Strategy Type' in value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY'])
+	if ('Bid Strategy Type' in value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']):
 		json_['GG_STRATEGY_BID_TYPE'] = value['MONTHLY'][index]['TOTAL_CAMPAIGN_MONTHLY']['Bid Strategy Type']
 	else:
 		json_['GG_STRATEGY_BID_TYPE'] = ''
