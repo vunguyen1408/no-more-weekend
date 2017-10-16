@@ -21,10 +21,11 @@ print(file_audio[0:-5] + '.16.flac')
 # subprocess.call(["ffprobe", file_audio[0:-5] + '.16.flac', "-show_streams| grep", "sample_rate"]) 
 cmd = "ffprobe " + file_audio[0:-5] + '.16.flac'
 out = subprocess.Popen(["ffprobe", file_audio[0:-5] + '.16.flac'])
+out.communicate()
 print("====================================")
-a = out.stdout.close()
-print(len(a))
-print(a)
+# a = out.stdout.close()
+print(len(out))
+print(out)
 
 # ffprobe 2016-11-01_243_0.16.flac  -show_streams| grep  sample_rate
 # sample_rate=48000 file_audio[0:-4] | grep , shell=True
