@@ -23,7 +23,7 @@ cmd =  ["ffprobe", file_audio[0:-5] + '.16.flac', "-show_streams| grep", "sample
 p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 out, err =  p.communicate()
 print (out)
-print(a)
+# print(a)
 
 # ffprobe 2016-11-01_243_0.16.flac  -show_streams| grep  sample_rate
 # sample_rate=48000 file_audio[0:-4] | grep
