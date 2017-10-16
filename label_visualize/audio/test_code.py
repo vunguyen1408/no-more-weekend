@@ -31,9 +31,10 @@ out = subprocess.check_output(cmd)
 
 print(out)
 print('+++++++++++++++++++++++++++++++++')
-print(out['sample_rate'])
-# print(out[0])
+# print(out['sample_rate'])
+print(out[0])
 print('+++++++++++++++++++++++++++++++++')
+print(out[1])
 print(type(out))
 
 # ffprobe 2016-11-01_243_0.16.flac  -show_streams| grep  sample_rate
