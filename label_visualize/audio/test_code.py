@@ -30,6 +30,9 @@ cmd = "ffprobe " + file_audio[0:-5] + '.16.flac' + " -show_entries" + " stream=s
 out = subprocess.check_output(cmd) 
 
 print(out)
+print('+++++++++++++++++++++++++++++++++')
+print(out)
+print('+++++++++++++++++++++++++++++++++')
 print(type(out))
 
 # ffprobe 2016-11-01_243_0.16.flac  -show_streams| grep  sample_rate
