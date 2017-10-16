@@ -174,7 +174,8 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
       #   print ("===============================================")
 
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == 'WPL'): 
-        if (  (eform['CCD_PRODUCT'] != []) and checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) and \
+        if (  (eform['CCD_PRODUCT'] != []) and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
+          or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])) and \
           # (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
           (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) and \
           (date_ >= start) and \
@@ -266,7 +267,7 @@ def AddProductCode(path_folder, list_plan, date):
         temp['CCD_PRODUCT'].append(str(alias['CCD_PRODUCT']))  
 
     list_temp.append(temp)
-    print (temp['CCD_PRODUCT'])
+    # print (temp['CCD_PRODUCT'])
   # for p in list_temp:
   #   print (p['PRODUCT_CODE'])
   
