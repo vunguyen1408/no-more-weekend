@@ -25,7 +25,7 @@ out.communicate()
 print("====================================")
 # a = out.stdout.close()
 
-print(out)
+print(out[0])
 print(type(out))
 
 # ffprobe 2016-11-01_243_0.16.flac  -show_streams| grep  sample_rate
