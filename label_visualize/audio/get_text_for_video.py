@@ -98,8 +98,8 @@ file_video = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visuali
 file_audio = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/2016-10-01_98.flac'
 file_history = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/history.json'
 
-# get_text_from_video(file_video, file_audio, file_history)
-print(datetime.now())
+get_text_from_video(file_video, file_audio, file_history)
+
 
 
 
