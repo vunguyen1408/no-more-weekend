@@ -17,7 +17,7 @@ file_audio = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visuali
 # print()
 
 print('33333333333333333333333333333')
-subprocess.call(["ffprobe", "-i", file_audio[0:-5] + '.16.flac', "-show_streams |", "grep", "sample_rate=48000"])
+subprocess.call(["ffprobe", file_audio[0:-5] + '.16.flac', "-show_streams| grep", "sample_rate"])
 print()
 
 # ffprobe 2016-11-01_243_0.16.flac  -show_streams| grep  sample_rate
