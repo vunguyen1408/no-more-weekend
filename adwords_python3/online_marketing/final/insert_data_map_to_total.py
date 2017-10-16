@@ -293,7 +293,8 @@ def AddToTotal (data_total, data_date, date):
 	# print ("=======================================")
 	for plan in data_total['UN_PLAN']:
 		plan['MONTHLY'] = {}
-		plan = CaculatorTotalMonth(plan, date)
+		s, e = mapping_data.ChooseTime(plan)
+		plan = CaculatorTotalMonth(plan, e)
 
 	return data_total
 
