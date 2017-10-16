@@ -88,7 +88,7 @@ def get_text_from_video(file_video, file_audio, file_history):
 	list_history['Detail'].append(json_)
 
 	with open(file_history, 'w') as fo:
-		json.dump(file_history, fo)
+		json.dump(list_history, fo)
 
 
 
