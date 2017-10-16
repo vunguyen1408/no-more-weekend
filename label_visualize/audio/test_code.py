@@ -22,7 +22,7 @@ print(file_audio[0:-5] + '.16.flac')
 cmd = "ffprobe " + file_audio[0:-5] + '.16.flac'
 out = subprocess.Popen(["ffprobe", file_audio[0:-5] + '.16.flac'])
 print("====================================")
-a = out.stdout
+a = out.stdout.close()
 print(len(a))
 print(a)
 
