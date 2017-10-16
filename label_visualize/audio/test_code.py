@@ -25,8 +25,8 @@ stdout, stderr = out.communicate()
 print("====================================")
 # a = out.stdout.close()
 
-print(out)
-print(type(out))
+print(stdout)
+print(type(stdout))
 
 # ffprobe 2016-11-01_243_0.16.flac  -show_streams| grep  sample_rate
 # sample_rate=48000 file_audio[0:-4] | grep , shell=True
