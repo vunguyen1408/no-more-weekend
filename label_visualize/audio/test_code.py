@@ -26,7 +26,7 @@ print(file_audio[0:-5] + '.16.flac')
 # a = out.stdout.close()
 # out = subprocess.getoutput(cmd)
 
-cmd = "ffprobe " + file_audio[0:-5] + '.16.flac' + " -show_entries" + " stream=sample_rate"#["ffprobe", file_audio[0:-5] + '.16.flac', "-show_entries", "stream=sample_rate"]
+cmd = "ffprobe " + file_audio[0:-5] + '.16.flac' + " -show_entries" + " stream=duration" #sample_rate"#["ffprobe", file_audio[0:-5] + '.16.flac', "-show_entries", "stream=sample_rate"]
 out = subprocess.check_output(cmd) 
 
 sample_rate = int(out[out.find('=') + 1:out.rfind('[')])
@@ -36,3 +36,12 @@ print('+++++++++++++++++++++++++++++++++')
 
 # ffprobe 2016-11-01_243_0.16.flac  -show_streams| grep  sample_rate
 # sample_rate=48000 file_audio[0:-4] | grep , shell=True
+
+
+
+# def get_text_from_video(file_video, file_audio):
+# 	#================== Convert video ====================
+# 	subprocess.call(["ffmpeg", "-i", file_video,"-c:a", "flac", file_audio])
+
+
+# 	#================== 
