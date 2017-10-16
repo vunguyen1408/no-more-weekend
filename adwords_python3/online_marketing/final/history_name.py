@@ -37,7 +37,7 @@ def AccountFromCampaign(customer, path_data, date):
 				data_total['HISTORY'] = []
 				with open (path_data_his,'w') as f:
 					json.dump(data_total, f)
-
+		print (path_data_his)
 		with open (path_data_his,'r') as f:
 			data_total = json.load(f)
 		for camp in data:
