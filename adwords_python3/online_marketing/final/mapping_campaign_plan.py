@@ -94,6 +94,7 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
           camp['Mapping'] = True
           plan = {}
           plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
+          plan['CCD_PRODUCT'] = eform['CCD_PRODUCT']
           plan['REASON_CODE_ORACLE'] = eform['REASON_CODE_ORACLE']
           plan['FORM_TYPE'] = eform['FORM_TYPE']
 
@@ -173,7 +174,7 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
         print ("===============================================")
 
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == 'WPL'): 
-        if (  (eform['PRODUCT_CODE'] != []) and checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) and \
+        if (  (eform['CCD_PRODUCT'] != []) and checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) and \
           # (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
           (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) and \
           (date_ >= start) and \
@@ -183,6 +184,7 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
           camp['Mapping'] = True
           plan = {}
           plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
+          plan['CCD_PRODUCT'] = eform['CCD_PRODUCT']
           plan['REASON_CODE_ORACLE'] = eform['REASON_CODE_ORACLE']
           plan['FORM_TYPE'] = eform['FORM_TYPE']
 
