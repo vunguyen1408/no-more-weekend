@@ -76,7 +76,7 @@ def get_text_from_video(file_video, file_audio, file_history):
 		}
 
 	json_ = {
-		'Date': datetime.datetime.now(),
+		'Date': datetime.now(),
 		'Video': file_video,
 		'Audio': file_audio,
 		'Transcript': transcript,
