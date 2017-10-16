@@ -191,15 +191,15 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
           eform['STATUS'] = 'SYS'
           number += 1
 
-  #------------- Check mapping --------------
-  # print (len(list_campaign_map))
-  # for camp in list_campaign_map:
-  #   if camp['Plan'] == None:
-  #         time.sleep(10)
-  #         print (camp)
-  #         import getch
-  #         # ...
-  #         char = getch.getch()
+  # ------------- Check mapping --------------
+  print (len(list_campaign_map))
+  for camp in list_campaign_map:
+    if camp['Plan'] == None:
+          time.sleep(10)
+          print (camp)
+          import getch
+          # ...
+          char = getch.getch()
 
   data_map = {}
   data_map['campaign'] = list_campaign_map
