@@ -27,7 +27,7 @@ print(file_audio[0:-5] + '.16.flac')
 # out = subprocess.getoutput(cmd)
 
 cmd = "ffprobe" + file_audio[0:-5] + '.16.flac' + "-show_entries" + "stream=sample_rate"#["ffprobe", file_audio[0:-5] + '.16.flac', "-show_entries", "stream=sample_rate"]
-out = subprocess.getoutput(cmd) 
+out = subprocess.check_output(cmd) 
 
 print(out)
 print(type(out))
