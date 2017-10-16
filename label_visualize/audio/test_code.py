@@ -31,7 +31,8 @@ out = subprocess.check_output(cmd)
 
 print(out)
 print('+++++++++++++++++++++++++++++++++')
-print(out)
+print(out['sample_rate'])
+# print(out[0])
 print('+++++++++++++++++++++++++++++++++')
 print(type(out))
 
