@@ -347,9 +347,8 @@ def GetCampaignUnMapForPlan(plan, path_data_total_map):
 	plan_sum = []
 
 	plan_sum, list_map_temp = insert_data.SumTotalPlan(plan, list_camp)
-	print (" TEST")
-	print (list_map_temp)
-	print (list_camp)
+	# print (list_map_temp)
+	# print (list_camp)
 	# print (list_campaign)
 	return (plan_sum, list_map_temp, list_camp_need_remove)
 
@@ -393,6 +392,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 		with open (path_data_total_map,'r') as f:
 			data_total = json.load(f)
 		list_plan = ReadTableManualMap(connect, path_data, date)
+		print (len(list_plan))
 		if len(list_plan) > 0:
 			# print (list_plan)
 			# print (len(list_plan))
@@ -495,7 +495,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 			# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 			# with open (path_data_total_map,'w') as f:
 			# 	json.dump(data_total, f)
-			
+
 			print (list_plan_update)
 			insert_data.CreateListPlanMonthly(path_data, date)
 
