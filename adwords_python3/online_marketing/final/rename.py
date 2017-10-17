@@ -128,7 +128,7 @@ def CheckNameChange(path_data, list_customer, date):
       for camp_ in list_camp:
         if str(camp['CAMPAIGN_ID']) == str(camp_['CAMPAIGN_ID']) \
           and camp['CAMPAIGN_NAME'] != camp_['CAMPAIGN_NAME'] \
-          and camp['ACCOUNT_ID'] == camp_['ACCOUNT_ID']:
+          and str(camp['ACCOUNT_ID']) == str(camp_['ACCOUNT_ID']):
           camp['CAMPAIGN_NAME'] = camp_['CAMPAIGN_NAME']
           list_diff.append(camp)
           print (camp)
