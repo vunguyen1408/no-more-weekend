@@ -331,7 +331,7 @@ def AddProductCode(path_folder, list_plan, date):
         temp['CCD_PRODUCT'].append(str(alias['CCD_PRODUCT']))  
 
     list_temp.append(temp)
-    print (temp['CCD_PRODUCT'])
+    # print (temp['CCD_PRODUCT'])
   # for p in list_temp:
   #   print (p['PRODUCT_CODE'])
   
