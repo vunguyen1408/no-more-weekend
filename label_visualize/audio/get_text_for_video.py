@@ -104,11 +104,12 @@ def Convert_Standar_Audio(file_video, file_audio):
 	print("standar.............")
 
 	#============== Get sample rate ==================
-	# cmd = "ffprobe " + file_audio[0:-5] + '.16.flac' + " -show_entries" + " stream=sample_rate"
-	# out = subprocess.check_output(cmd) 
+	cmd = "ffprobe " + file_audio + " -show_entries" + " stream=sample_rate"
+	out = subprocess.check_output(cmd) 
 	# print(out[(out.find('=') + 1) : (out.rfind('['))])
-	# sample_rate = int(out[(out.find('=') + 1) : (out.rfind('['))])
-	# print("===============", sample_rate, "=========================")
+	sample_rate = int(out[(out.find('=') + 1) : (out.rfind('['))])
+	print("===============", sample_rate, "=========================")
+	
 
 	
 
