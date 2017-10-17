@@ -135,7 +135,7 @@ def SaveAccountTree(account, accounts, links, level, list_acc, list_mcc, list_mc
 
 def GetAllAcount():
   # Initialize appropriate service.
-  adwords_client = adwords.AdWordsClient.LoadFromStorage('D:/WorkSpace/Adwords/Finanlly/AdWords/adwords_python3/googleads.yaml')
+  adwords_client = adwords.AdWordsClient.LoadFromStorage('/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads.yaml')
   managed_customer_service = adwords_client.GetService(
       'ManagedCustomerService', version='v201708')
 
