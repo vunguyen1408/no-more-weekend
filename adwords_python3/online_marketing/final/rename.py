@@ -172,12 +172,12 @@ def Map(path_folder, list_plan, list_campaign, date):
     eform['STATUS'] = None
 
     # -------------------- Choose time real ------------------------
-    start, end = ChooseTime(eform)
+    start, end = mapping.ChooseTime(eform)
     start = datetime.strptime(start, '%Y-%m-%d')
     end = datetime.strptime(end, '%Y-%m-%d')
 
     for j, camp in enumerate(list_campaign_map):
-      camp['Advertising Channel'] = ChangeCampaignType(camp['Advertising Channel'])
+      camp['Advertising Channel'] = mapping.ChangeCampaignType(camp['Advertising Channel'])
       if 'Plan' not in camp:
         camp['Plan'] = None
         camp['STATUS'] = None
@@ -187,8 +187,8 @@ def Map(path_folder, list_plan, list_campaign, date):
       if (camp['Mapping'] == False): 
         flag = False
         if camp['Account name'].find('WPL') >= 0:
-          if (  (eform['CCD_PRODUCT'] != []) and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
-            or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])) and \
+          if (  (eform['CCD_PRODUCT'] != []) and (mapping.checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
+            or mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])) and \
             # (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
             (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) and \
             (date_ >= start)  and eform['DEPARTMENT_NAME'] == 'WPL'and \
@@ -197,8 +197,8 @@ def Map(path_folder, list_plan, list_campaign, date):
             ( LogManualMap(path_folder, camp, eform, date) ):
             flag = True
         else:
-          if (  (eform['PRODUCT_CODE'] != []) and ( checkProductCode(camp['Campaign'], eform['PRODUCT_CODE']) or \
-            (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])))
+          if (  (eform['PRODUCT_CODE'] != []) and ( mapping.checkProductCode(camp['Campaign'], eform['PRODUCT_CODE']) or \
+            (mapping.checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) or mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])))
             and \
             (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
             (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) and \
