@@ -179,7 +179,7 @@ def Insert(name, cursor):
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 conn = cx_Oracle.connect(connect)
 cursor = conn.cursor()
-path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST_UNICODE.json'
+path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST.json'
 # path = 'D:/WorkSpace/GG_Tool/New folder/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST_UNICODE.json'
 with open(path, 'r') as fi:
 	data = json.load(fi)
@@ -187,13 +187,14 @@ with open(path, 'r') as fi:
 for acc in data:
 	if (str(acc["customerId"]) == '4476024314'):
 		print(acc["name"])
+		Insert(acc["name"].encode('utf-8'), cursor)
 		Insert(acc["name"], cursor)
 
-		print(acc["name"][2:-1])
-		Insert(acc["name"][2:-1], cursor)
+		# print(acc["name"][2:-1])
+		# Insert(acc["name"][2:-1], cursor)
 
-	conn.commit()
-	print("Committed!.......")
+conn.commit()
+print("Committed!.......")
 cursor.close()
 
 
