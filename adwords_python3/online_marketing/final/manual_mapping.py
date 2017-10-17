@@ -464,12 +464,6 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 			for plan in data_total['TOTAL']:
 				plan['MONTHLY'] = {}
 				plan = insert_data.CaculatorTotalMonth(plan, date)
-				for plan_un in list_plan:
-					if plan_un['PRODUCT'] == plan['PRODUCT'] \
-						and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-						and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
-						and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION']:
-						list_plan_update.append(plan)
 
 				# print (plan)
 			print ("---------------------------------------------------")
@@ -478,12 +472,12 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 				plan['MONTHLY'] = {}
 				plan = insert_data.CaculatorTotalMonth(plan, date)
 
-				for plan_un in list_plan:
-					if plan_un['PRODUCT'] == plan['PRODUCT'] \
-						and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-						and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
-						and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION']:
-						list_plan_update.append(plan)
+			# 	for plan_un in list_plan:
+			# 		if plan_un['PRODUCT'] == plan['PRODUCT'] \
+			# 			and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+			# 			and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
+			# 			and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION']:
+			# 			list_plan_update.append(plan)
 
 
 			for plan in data_total['TOTAL']:
@@ -491,11 +485,17 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 				for m in plan['MONTHLY']:
 					m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_data.GetVolumeActualMonthly(plan, m)
 
+				for plan_un in list_plan:
+					if plan_un['PRODUCT'] == plan['PRODUCT'] \
+						and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+						and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
+						and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION']:
+						list_plan_update.append(plan)
 
-			# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-			# with open (path_data_total_map,'w') as f:
-			# 	json.dump(data_total, f)
-
+			path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			with open (path_data_total_map,'w') as f:
+				json.dump(data_total, f)
+			print (list_plan_update)
 			insert_data.CreateListPlanMonthly(path_data, date)
 
 			print (len(data_total['UN_CAMPAIGN']))
