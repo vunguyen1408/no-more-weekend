@@ -497,7 +497,8 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 			# 	json.dump(data_total, f)
 
 			print (list_plan_update)
-			insert_data.CreateListPlanMonthly(path_data, date)
+			# list_plan_temp = []
+			# insert_data.CreateListPlanMonthly(path_data, date, list_plan_temp)
 
 			print (len(data_total['UN_CAMPAIGN']))
 			print (len(list_plan_remove_unmap))
