@@ -183,6 +183,9 @@ def Map(path_folder, list_plan, list_campaign, date):
         camp['STATUS'] = None
 
       date_ = datetime.strptime(camp['Date'], '%Y-%m-%d')
+      if camp['Campaign'].find('JXM') >= 0:
+        print (camp)
+
       if (camp['Mapping'] == False): 
         flag = False
         if camp['Account Name'].find('WPL') >= 0:
