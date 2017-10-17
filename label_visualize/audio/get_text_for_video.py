@@ -94,23 +94,45 @@ def get_text_from_video(file_video, file_audio, file_history):
 
 
 
+def Convert_Standar_Audio(file_video, file_audio):
+	#================== Convert video ====================
+	subprocess.call(["ffmpeg", "-i", file_video,"-c:a", "flac", file_audio])
+	print("convert...............")
+
+	#================= Standardlize Audio ==============
+	subprocess.call(["sox", file_audio, "--channels=1", "--bits=16", file_audio])
+	print("standar.............")
+
+	#============== Get sample rate ==================
+	# cmd = "ffprobe " + file_audio[0:-5] + '.16.flac' + " -show_entries" + " stream=sample_rate"
+	# out = subprocess.check_output(cmd) 
+	# print(out[(out.find('=') + 1) : (out.rfind('['))])
+	# sample_rate = int(out[(out.find('=') + 1) : (out.rfind('['))])
+	# print("===============", sample_rate, "=========================")
+
+	
 
 
-# file_video = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/2016-10-01_98.mp4'
-# file_audio = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/2016-10-01_98.flac'
+
+
+
+
+file_video = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/2016-10-01_98.mp4'
+file_audio = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/2016-10-01_98.flac'
 # file_history = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/history.json'
+Convert_Standar_Audio(file_video, file_audio)
 
-path_video = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/videos'
-path_audio = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/audios'
-file_history = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/history.json'
-# path_std_audio = 'D:/WorkSpace/Audit audio/std_audios'
-list_video = next(os.walk(path_video))[2]
-for video in list_video:
-	file_video = os.path.join(path_video, video)
-	file_audio = os.path.join(path_audio, video[0:-4] + '.flac')
+# path_video = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/videos'
+# path_audio = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/audios'
+# file_history = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/history.json'
+# # path_std_audio = 'D:/WorkSpace/Audit audio/std_audios'
+# list_video = next(os.walk(path_video))[2]
+# for video in list_video:
+# 	file_video = os.path.join(path_video, video)
+# 	file_audio = os.path.join(path_audio, video[0:-4] + '.flac')
 
-	get_text_from_video(file_video, file_audio, file_history)
-	print(file_video)
+# 	get_text_from_video(file_video, file_audio, file_history)
+# 	print(file_video)
 
 
 
