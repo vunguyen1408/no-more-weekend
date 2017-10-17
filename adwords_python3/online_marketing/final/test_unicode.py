@@ -191,7 +191,7 @@ for acc in data:
 	if (str(acc["customerId"]) == '4476024314'):
 		print(acc["name"])
 
-		Insert(acc["name"].encode('utf-8'), cursor)
+		# Insert(acc["name"].encode('utf-8'), cursor)
 		Insert(acc["name"], cursor)
 		
 		# print(acc["name"][2:-1])
