@@ -82,12 +82,16 @@ def GetListCampOfAccount(list_customer):
     temp = GetCampaign(adwords_client, acccount)
     list_camp.extend(temp)
 
+
+
   list_camp_json = {}
   list_camp_json['history_name'] = list_camp
 
   path_data_total_map = 'C:/Users/ltduo/Desktop/history_name.json'
   with open (path_data_total_map,'w') as f:
     json.dump(list_camp_json, f)
+
+
 
   return list_camp
 
@@ -123,7 +127,7 @@ def CheckNameChange(path_data, list_customer, date):
     list_camp = []
     with open (path,'r') as f:
       list_camp = json.load(f)
-
+    list_camp = list_camp['history_name']
     for camp in data_total['HISTORY']:
       for camp_ in list_camp:
         if str(camp['CAMPAIGN_ID']) == str(camp_['CAMPAIGN_ID']) \
