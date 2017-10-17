@@ -183,10 +183,9 @@ def Map(path_folder, list_plan, list_campaign, date):
         camp['STATUS'] = None
 
       date_ = datetime.strptime(camp['Date'], '%Y-%m-%d')
-      print (camp)
       if (camp['Mapping'] == False): 
         flag = False
-        if camp['Account name'].find('WPL') >= 0:
+        if camp['Account Name'].find('WPL') >= 0:
           if (  (eform['CCD_PRODUCT'] != []) and (mapping.checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
             or mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])) and \
             # (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
