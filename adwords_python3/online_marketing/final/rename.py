@@ -135,7 +135,6 @@ def CheckNameChange(path_data, list_customer, date):
           and str(camp['ACCOUNT_ID']) == str(camp_['ACCOUNT_ID']):
           camp['CAMPAIGN_NAME'] = camp_['CAMPAIGN_NAME']
           list_diff.append(camp)
-          print (camp)
 
     #----------- Write file history new ----------------------
     path_folder = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING')
@@ -146,7 +145,8 @@ def CheckNameChange(path_data, list_customer, date):
     path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
     # with open (path_data_his,'w') as f:
     #   json.dump(data_total, f)
-    
+  print ("====================== Length =================")
+  print (len(list_diff))
   return list_diff
 
 
