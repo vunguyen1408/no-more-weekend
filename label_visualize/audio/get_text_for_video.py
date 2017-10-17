@@ -56,10 +56,10 @@ def get_text_from_video(file_video, file_audio, file_history):
 	sample_rate = int(out[out.find('=') + 1:out.rfind('[')])
 
 	#============== Get text of audio ===================
-	transcript, confidence = transcribe_file(file_audio[0:-5] + '.16.flac', sample_rate)
-	print(file_audio[0:-5] + '.16.flac')
-	print('Transcript:', transcript)
-	print('Confidence:', confidence)
+	# transcript, confidence = transcribe_file(file_audio[0:-5] + '.16.flac', sample_rate)
+	# print(file_audio[0:-5] + '.16.flac')
+	# print('Transcript:', transcript)
+	# print('Confidence:', confidence)
 
 	# ============= Get Time of audio ====================
 	cmd = "ffprobe " + file_audio[0:-5] + '.16.flac' + " -show_entries" + " stream=duration"
@@ -79,8 +79,8 @@ def get_text_from_video(file_video, file_audio, file_history):
 		'Date': datetime.now().strftime('%Y-%m-%d'),
 		'Video': file_video,
 		'Audio': file_audio,
-		'Transcript': transcript,
-		'Confidence': confidence,
+		'Transcript': 'transcript',
+		'Confidence': 'confidence',
 		'Time': duration
 	}
 
@@ -94,11 +94,21 @@ def get_text_from_video(file_video, file_audio, file_history):
 
 
 
-file_video = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/2016-10-01_98.mp4'
-file_audio = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/2016-10-01_98.flac'
-file_history = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/history.json'
+# file_video = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/2016-10-01_98.mp4'
+# file_audio = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/2016-10-01_98.flac'
+# file_history = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/history.json'
 
-get_text_from_video(file_video, file_audio, file_history)
+path_video = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/videos'
+path_audio = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/audios'
+file_history = '/home/marketingtool/Workspace/Python/no-more-weekend/label_visualize/audio/history.json'
+# path_std_audio = 'D:/WorkSpace/Audit audio/std_audios'
+list_video = next(os.walk(path_video))[2]
+for video in list_video:
+	file_video = os.path.join(path_video, video)
+	file_audio = os.path.join(path_audio, video[0:-4] + '.flac')
+
+	get_text_from_video(file_video, file_audio, file_history)
+	print(file_video)
 
 
 
