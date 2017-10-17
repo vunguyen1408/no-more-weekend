@@ -272,6 +272,7 @@ def AddToTotal (data_total, data_date, date):
 
 	# print (len(list_plan_un_map))
 	temp_un = []
+	list_plan_remove = []
 	if len(data_total['UN_PLAN']) == 0:
 		data_total['UN_PLAN'] = list_plan_un_map
 	else:
@@ -283,10 +284,10 @@ def AddToTotal (data_total, data_date, date):
 					and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 					and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] :
 					temp_un.append(plan_un)
-			# 		flag = False
-			# if flag:
-			# 	print(plan_un)
-			# 	data_total['UN_PLAN'].append(plan_un)
+					flag = False
+			if flag:
+				list_plan_remove.append(plan_un)
+
 		data_total['UN_PLAN'] = temp_un
 	# --------------- Tinh total month cho cac plan --------------
 	# print (data_total['UN_PLAN'])
@@ -295,12 +296,15 @@ def AddToTotal (data_total, data_date, date):
 		plan['MONTHLY'] = {}
 		s, e = mapping_data.ChooseTime(plan)
 		plan = CaculatorTotalMonth(plan, e)
-
-	return data_total
+	list_plan_update = list_plan_total_date
+	return (data_total, list_data_map, list_plan_remove, list_plan_update)
 
 def MergeDataToTotal(path_data, date):
 
 	path_folder = path_data + '/' + str(date) +  '/DATA_MAPPING'
+	list_data_map = []
+	list_plan_remove = []
+	list_plan_update = []
 	if not os.path.exists(path_folder):
 		os.makedirs(path_folder)
 
@@ -338,7 +342,7 @@ def MergeDataToTotal(path_data, date):
 			data_total = json.load(f)
 		# print (len(data_total['TOTAL']))
 
-		data_total = AddToTotal (data_total, data_date, date)
+		data_total, list_data_map, list_plan_remove, list_plan_update = AddToTotal (data_total, data_date, date)
 
 
 		# 	# print (plan)
@@ -368,6 +372,7 @@ def MergeDataToTotal(path_data, date):
 		#-------------------------- Write total lần 1------------------
 		with open (path_data_total_map,'w') as f:
 			json.dump(data_total, f)
+	return (list_data_map, list_plan_remove, list_plan_update)
 
 
 #--------------- Insert Volume actual --------------------
@@ -401,8 +406,10 @@ def GetVolumeActualTotal(plan):
 		return plan['TOTAL_CAMPAIGN']['VIEWS']
 	return ''
 
-def CreateListPlanMonthly(path_data, date):
+def CreateListPlanMonthly(path_data, date, list_plan_update):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+
+	list_temp = []
 	if os.path.exists(path_data_total_map):
 		with open (path_data_total_map,'r') as f:
 			data_map = json.load(f)
@@ -410,6 +417,14 @@ def CreateListPlanMonthly(path_data, date):
 			plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = GetVolumeActualTotal(plan)
 			for m in plan['MONTHLY']:
 				m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = GetVolumeActualMonthly(plan, m)
+
+
+			# --------- List plan update ---------------
+			for p in list_plan_update:
+				if p['PRODUCT'] == plan['PRODUCT'] \
+					and p['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+					and p['FORM_TYPE'] == plan['FORM_TYPE'] :
+					list_temp.append(plan)
 
 		sum_ = 0
 		for camp in data_map['UN_CAMPAIGN']:
@@ -419,13 +434,17 @@ def CreateListPlanMonthly(path_data, date):
 		# print ("=================================== MAP ", len(data_map['MAP']))
 		# print ("=================================== UM MAP ", len(data_map['UN_CAMPAIGN']))
 		with open (path_data_total_map,'w') as f:
-			json.dump(data_map, f)
+			json.dump(data_map, f)	
+
+	return list_temp
 
 
 def InsertDateToTotal(path_data, date):
-	MergeDataToTotal(path_data, str(date))
-	CreateListPlanMonthly(path_data, str(date))
+	list_data_map, list_plan_remove, list_plan_update = MergeDataToTotal(path_data, str(date))
+	list_plan_update = CreateListPlanMonthly(path_data, str(date), list_plan_update)
 
+	return (list_data_map, list_plan_remove, list_plan_update)
+	
 def InsertManyDate(path_data, start_date, end_date):
 	startDate = datetime.strptime(start_date, '%Y-%m-%d').date()  
 	endDate = datetime.strptime(end_date, '%Y-%m-%d').date()   
