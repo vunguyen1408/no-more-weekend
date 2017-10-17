@@ -193,7 +193,7 @@ def Map(path_folder, list_plan, list_campaign, date):
             (date_ >= start)  and eform['DEPARTMENT_NAME'] == 'WPL'and \
             (date_ <= end) ) \
             or \
-            ( LogManualMap(path_folder, camp, eform, date) ):
+            ( mapping.LogManualMap(path_folder, camp, eform, date) ):
             flag = True
         else:
           if (  (eform['PRODUCT_CODE'] != []) and ( mapping.checkProductCode(camp['Campaign'], eform['PRODUCT_CODE']) or \
@@ -204,7 +204,7 @@ def Map(path_folder, list_plan, list_campaign, date):
             (date_ >= start) and \
             (date_ <= end) ) \
             or \
-            ( LogManualMap(path_folder, camp, eform, date) ): 
+            ( mapping.LogManualMap(path_folder, camp, eform, date) ): 
             flag = True
 
 
