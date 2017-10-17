@@ -55,6 +55,7 @@ def get_text_from_video(file_video, file_audio, file_history):
 	out = subprocess.check_output(cmd) 
 	print(out[(out.find('=') + 1) : (out.rfind('['))])
 	sample_rate = int(out[(out.find('=') + 1) : (out.rfind('['))])
+	print("===============", sample_rate, "=========================")
 
 	#============== Get text of audio ===================
 	# transcript, confidence = transcribe_file(file_audio[0:-5] + '.16.flac', sample_rate)
