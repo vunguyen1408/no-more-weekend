@@ -97,11 +97,11 @@ def get_text_from_video(file_video, file_audio, file_history):
 def Convert_Standar_Audio(file_video, file_audio):
 	#================== Convert video ====================
 	subprocess.call(["ffmpeg", "-i", file_video,"-c:a", "flac", file_audio])
-
+	print("convert...............")
 
 	#================= Standardlize Audio ==============
 	subprocess.call(["sox", file_audio, "--channels=1", "--bits=16", file_audio])
-
+	print("standar.............")
 
 	#============== Get sample rate ==================
 	# cmd = "ffprobe " + file_audio[0:-5] + '.16.flac' + " -show_entries" + " stream=sample_rate"
