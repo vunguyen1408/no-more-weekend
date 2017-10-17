@@ -209,8 +209,8 @@ def ReadTableManualMap(connect, path_data, date):
 
 	#--------------- Write file manual log -------------------
 	data_manual_map['LOG'] = list_out
-	with open (path_data_total_map,'w') as f:
-		json.dump(data_manual_map, f)
+	# with open (path_data_total_map,'w') as f:
+	# 	json.dump(data_manual_map, f)
 
 
 	# ------------ Cần đọc thông tin plan mới nhất --------------------
