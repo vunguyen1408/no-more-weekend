@@ -275,7 +275,7 @@ def CacualatorChange(path_data, list_customer, date):
       for campaign in data_total['UN_CAMPAIGN']:
         if camp['CAMPAIGN_ID'] == campaign['Campaign ID'] and camp['CAMPAIGN_NAME'] != campaign['Campaign']:       
           temp = campaign
-          temp['Campaign'] = camp['CAMPAIGN_NAME']
+          # temp['Campaign'] = camp['CAMPAIGN_NAME']
           list_camp_find.append(temp)
 
 
@@ -283,6 +283,7 @@ def CacualatorChange(path_data, list_customer, date):
     list_plan = mapping.ReadPlan(path_data, date)
 
     # -------------- Call mapping ----------------
+    print (len(list_camp_find))
     data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
 
 
