@@ -192,7 +192,7 @@ for acc in data:
 		print(acc["name"])
 
 		Insert(acc["name"].encode('utf-8'), cursor)
-		Insert(acc["name"].encode('cp437'), cursor)
+		# Insert(acc["name"].encode('cp437'), cursor)
 		Insert(acc["name"].encode('ISO-8859-1'), cursor)
 		# Insert(acc["name"], cursor)
 		
