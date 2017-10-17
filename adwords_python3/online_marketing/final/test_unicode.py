@@ -173,6 +173,8 @@ def Insert(name, cursor):
 	cursor.execute(statement, (name, None))
 	
 	print("A row inserted!.......")
+	conn.commit()
+	print("Committed!.......")
 
 
 
@@ -193,8 +195,7 @@ for acc in data:
 		# print(acc["name"][2:-1])
 		# Insert(acc["name"][2:-1], cursor)
 
-conn.commit()
-print("Committed!.......")
+
 cursor.close()
 
 
