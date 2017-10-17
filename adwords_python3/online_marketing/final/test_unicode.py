@@ -185,15 +185,15 @@ path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/onl
 # path = 'D:/WorkSpace/GG_Tool/New folder/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST_UNICODE.json'
 with open(path, 'r') as fi:
 	data = json.load(fi)
-import _locale
-_locale._getdefaultlocale = (lambda *args: ['vi-VN', 'utf-8'])
+# import _locale
+# _locale._getdefaultlocale = (lambda *args: ['vi-VN', 'utf-8'])
 for acc in data:
 	if (str(acc["customerId"]) == '4476024314'):
 		print(acc["name"])
 
-		Insert(acc["name"].encode('utf-8'), cursor)
-		# Insert(acc["name"].encode('cp437'), cursor)
-		Insert(acc["name"].encode('ISO-8859-1'), cursor)
+		# Insert(acc["name"].encode('utf-8'), cursor)
+		# # Insert(acc["name"].encode('cp437'), cursor)
+		# Insert(acc["name"].encode('ISO-8859-1'), cursor)
 		# Insert(acc["name"], cursor)
 		
 		# print(acc["name"][2:-1])
