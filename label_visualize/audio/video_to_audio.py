@@ -23,8 +23,11 @@ def convertVideoToAudio(path_data, start_date, end_date):
 				file_name = video[0:video.rfind('.') ] + '.flac'
 				file_audio = os.path.join(path_audio, file_name)
 				if not os.path.exists(file_audio):				
-					subprocess.call(["ffmpeg", "-i", file_video,"-c:a", "flac", file_audio])
+					subprocess.call(["ffmpeg", "-i", file_video,"-c:a", "flac", file_audio])					
 					print(file_audio)
+				if os.path.exists(file_audio):
+					subprocess.call(["sox", file_audio, "--channels=1", "--bits=16", file_audio])
+					print("Standar.............", file_audio)
 
 		start += timedelta(1)
 		
