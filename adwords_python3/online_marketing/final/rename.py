@@ -183,8 +183,6 @@ def Map(path_folder, list_plan, list_campaign, date):
         camp['STATUS'] = None
 
       date_ = datetime.strptime(camp['Date'], '%Y-%m-%d')
-      if camp['Campaign'].find('JXM') >= 0:
-        print (camp)
 
       if (camp['Mapping'] == False): 
         flag = False
@@ -277,7 +275,7 @@ def CacualatorChange(path_data, list_customer, date):
       for campaign in data_total['UN_CAMPAIGN']:
         if camp['CAMPAIGN_ID'] == campaign['Campaign ID'] and camp['CAMPAIGN_NAME'] != campaign['Campaign']:       
           temp = campaign
-          # temp['Campaign'] = camp['CAMPAIGN_NAME']
+          temp['Campaign'] = camp['CAMPAIGN_NAME']
           list_camp_find.append(temp)
 
 
@@ -286,7 +284,10 @@ def CacualatorChange(path_data, list_customer, date):
 
     # -------------- Call mapping ----------------
     print (len(list_camp_find))
-    data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
+    for camp in list_camp_find:
+      if camp['Campaign'].find('JXM') >= 0:
+        print (camp)
+    # data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
 
 
     # # ------------- Remove campaign mapped ----------------
