@@ -190,9 +190,10 @@ _locale._getdefaultlocale = (lambda *args: ['vi-VN', 'utf-8'])
 for acc in data:
 	if (str(acc["customerId"]) == '4476024314'):
 		print(acc["name"])
-		Insert(acc["name"].encode('utf-8'), cursor)
-		Insert(acc["name"].decode('utf-8'), cursor)
 
+		Insert(acc["name"].encode('utf-8'), cursor)
+		Insert(acc["name"], cursor)
+		
 		# print(acc["name"][2:-1])
 		# Insert(acc["name"][2:-1], cursor)
 
