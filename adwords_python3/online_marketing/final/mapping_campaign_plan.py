@@ -119,6 +119,70 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
   print (" -------------- Un mapping------ ", len(list_campaign_map) - number)
   return data_map
 
+#================= Mapping campaign and plan =====================
+def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
+  # date_ = datetime.strptime(date, '%Y-%m-%d') 
+  list_campaign_map = []
+  number = 0
+  for j, camp in enumerate(list_campaign):
+    if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
+      list_campaign_map.append(camp)
+
+  for i, eform in enumerate(list_plan):  
+    flag = True
+    eform['CAMPAIGN'] = []
+    eform['STATUS'] = None
+
+    # -------------------- Choose time real ------------------------
+    start, end = ChooseTime(eform)
+    start = datetime.strptime(start, '%Y-%m-%d')
+    end = datetime.strptime(end, '%Y-%m-%d')
+
+    for j, camp in enumerate(list_campaign_map):
+      camp['Advertising Channel'] = ChangeCampaignType(camp['Advertising Channel'])
+      if 'Plan' not in camp:
+        camp['Plan'] = None
+        camp['STATUS'] = None
+
+      date_ = datetime.strptime(camp['Date'], '%Y-%m-%d')
+
+      if (camp['Mapping'] == False): 
+        if (  (eform['PRODUCT_CODE'] != []) and ( checkProductCode(camp['Campaign'], eform['PRODUCT_CODE']) or \
+          (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])))
+          and \
+          (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
+          (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) and \
+          (date_ >= start) and \
+          (date_ <= end) ) \
+          or \
+          ( LogManualMap(path_folder, camp, eform, date) ):   
+          camp['Mapping'] = True
+          plan = {}
+          plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
+          plan['CCD_PRODUCT'] = eform['CCD_PRODUCT']
+          plan['REASON_CODE_ORACLE'] = eform['REASON_CODE_ORACLE']
+          plan['FORM_TYPE'] = eform['FORM_TYPE']
+
+          camp['Plan'] = plan
+
+          campaign = {}
+          campaign['CAMPAIGN_ID'] = camp['Campaign ID']
+          campaign['Date'] = camp['Date']
+
+          temp = eform['CAMPAIGN']
+          temp.append(campaign)
+          eform['CAMPAIGN'] = temp
+
+          camp['STATUS'] = 'SYS'
+          eform['STATUS'] = 'SYS'
+          number += 1
+
+  data_map = {}
+  data_map['campaign'] = list_campaign_map
+  data_map['plan'] = list_plan
+  print (" -------------- Mapping------ ", number)
+  print (" -------------- Un mapping------ ", len(list_campaign_map) - number)
+  return data_map
 
 #================= Mapping campaign and plan WPL =====================
 def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
@@ -267,7 +331,7 @@ def AddProductCode(path_folder, list_plan, date):
         temp['CCD_PRODUCT'].append(str(alias['CCD_PRODUCT']))  
 
     list_temp.append(temp)
-    # print (temp['CCD_PRODUCT'])
+    print (temp['CCD_PRODUCT'])
   # for p in list_temp:
   #   print (p['PRODUCT_CODE'])
   
