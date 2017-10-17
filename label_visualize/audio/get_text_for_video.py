@@ -53,7 +53,8 @@ def get_text_from_video(file_video, file_audio, file_history):
 	#============== Get sample rate ==================
 	cmd = "ffprobe " + file_audio[0:-5] + '.16.flac' + " -show_entries" + " stream=sample_rate"
 	out = subprocess.check_output(cmd) 
-	sample_rate = int(out[out.find('=') + 1:out.rfind('[')])
+	print(out[(out.find('=') + 1) : (out.rfind('['))])
+	sample_rate = int(out[(out.find('=') + 1) : (out.rfind('['))])
 
 	#============== Get text of audio ===================
 	# transcript, confidence = transcribe_file(file_audio[0:-5] + '.16.flac', sample_rate)
