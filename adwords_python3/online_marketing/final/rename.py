@@ -210,8 +210,6 @@ def Map(path_folder, list_plan, list_campaign, date):
 
 
           if flag:
-            print (camp)
-            print (eform)
             camp['Mapping'] = True
             plan = {}
             plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
@@ -282,12 +280,17 @@ def CacualatorChange(path_data, list_customer, date):
 
     list_plan = mapping.ReadPlan(path_data, date)
 
-    # -------------- Call mapping ----------------
-    print (len(list_camp_find))
-    for camp in list_camp_find:
-      if camp['Campaign'].find('JXM') >= 0:
-        print (camp)
-    # data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
+    # # -------------- Call mapping ----------------
+    # print (len(list_camp_find))
+    # for camp in list_camp_find:
+    #   if camp['Campaign'].find('JXM') >= 0:
+    #     print (camp)
+    data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
+
+    plan_sum, list_map_temp = insert_to_total.SumTotalManyPlan(list_plan, list_campaign)
+
+    for camp in plan_sum:
+      print (camp)
 
 
     # # ------------- Remove campaign mapped ----------------
