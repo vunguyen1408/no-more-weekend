@@ -156,6 +156,91 @@ def CheckNameChange(path_data, list_customer, date):
 # list_diff = CheckNameChange(path_data, list_customer, date)
 # print (list_diff)
 
+#================= Mapping campaign and plan WPL =====================
+def Map(path_folder, list_plan, list_campaign, date):
+  import time 
+
+  list_campaign_map = []
+  number = 0
+  for j, camp in enumerate(list_campaign):
+    if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
+      list_campaign_map.append(camp)
+
+  for i, eform in enumerate(list_plan):  
+    flag = True
+    eform['CAMPAIGN'] = []
+    eform['STATUS'] = None
+
+    # -------------------- Choose time real ------------------------
+    start, end = ChooseTime(eform)
+    start = datetime.strptime(start, '%Y-%m-%d')
+    end = datetime.strptime(end, '%Y-%m-%d')
+
+    for j, camp in enumerate(list_campaign_map):
+      camp['Advertising Channel'] = ChangeCampaignType(camp['Advertising Channel'])
+      if 'Plan' not in camp:
+        camp['Plan'] = None
+        camp['STATUS'] = None
+
+      date_ = datetime.strptime(camp['Date'], '%Y-%m-%d')
+
+      if (camp['Mapping'] == False): 
+        flag = False
+        if camp['Account name'].find('WPL') >= 0:
+          if (  (eform['CCD_PRODUCT'] != []) and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
+            or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])) and \
+            # (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
+            (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) and \
+            (date_ >= start)  and eform['DEPARTMENT_NAME'] == 'WPL'and \
+            (date_ <= end) ) \
+            or \
+            ( LogManualMap(path_folder, camp, eform, date) ):
+            flag = True
+        else:
+          if (  (eform['PRODUCT_CODE'] != []) and ( checkProductCode(camp['Campaign'], eform['PRODUCT_CODE']) or \
+            (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])))
+            and \
+            (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
+            (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) and \
+            (date_ >= start) and \
+            (date_ <= end) ) \
+            or \
+            ( LogManualMap(path_folder, camp, eform, date) ): 
+            flag = True
+
+
+          if flag:
+            print (camp)
+            print (plan)
+            camp['Mapping'] = True
+            plan = {}
+            plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
+            plan['CCD_PRODUCT'] = eform['CCD_PRODUCT']
+            plan['REASON_CODE_ORACLE'] = eform['REASON_CODE_ORACLE']
+            plan['FORM_TYPE'] = eform['FORM_TYPE']
+
+            camp['Plan'] = plan
+
+            campaign = {}
+            campaign['CAMPAIGN_ID'] = camp['Campaign ID']
+            campaign['Date'] = camp['Date']
+
+            temp = eform['CAMPAIGN']
+            temp.append(campaign)
+            eform['CAMPAIGN'] = temp
+
+            camp['STATUS'] = 'SYS'
+            eform['STATUS'] = 'SYS'
+            number += 1
+
+  data_map = {}
+  data_map['campaign'] = list_campaign_map
+  data_map['plan'] = list_plan
+  print (" -------------- Mapping------ ", number)
+  print (" -------------- Un mapping------ ", len(list_campaign_map) - number)
+  return data_map
+
+
 
 def CacualatorChange(path_data, list_customer, date):
 
@@ -180,6 +265,7 @@ def CacualatorChange(path_data, list_customer, date):
     find = True
 
   if find:
+    print (path_data_total_map)
     with open (path_data_total_map,'r') as f:
       data_total = json.load(f)
 
@@ -190,30 +276,30 @@ def CacualatorChange(path_data, list_customer, date):
         if camp['CAMPAIGN_ID'] == campaign['Campaign ID'] and camp['CAMPAIGN_NAME'] != campaign['Campaign']:       
           temp = campaign
           temp['Campaign'] = camp['CAMPAIGN_NAME']
-          list_camp_find.append(camptempaign)
+          list_camp_find.append(temp)
 
 
 
     list_plan = mapping.ReadPlan(path_data, date)
 
     # -------------- Call mapping ----------------
-    data_map = mapping.MapAccountWithCampaign(path_data, list_plan['plan'], list_camp_find, date)
+    data_map = mapping.Map(path_data, list_plan['plan'], list_camp_find, date)
 
 
-    # ------------- Remove campaign mapped ----------------
-    for camp in data_map['campaign']:
-      if camp['Plan'] == None:
-        list_camp_need_removed.append(camp)
-        for campaign in data_total['UN_CAMPAIGN']:
-          if camp['Campaign ID'] == campaign['Campaign ID'] and camp['Date'] == campaign['Date']:
-            print (campaign)
-            data_total['UN_CAMPAIGN'].remove(campaign)
+    # # ------------- Remove campaign mapped ----------------
+    # for camp in data_map['campaign']:
+    #   if camp['Plan'] == None:
+    #     list_camp_need_removed.append(camp)
+    #     for campaign in data_total['UN_CAMPAIGN']:
+    #       if camp['Campaign ID'] == campaign['Campaign ID'] and camp['Date'] == campaign['Date']:
+    #         print (campaign)
+    #         data_total['UN_CAMPAIGN'].remove(campaign)
 
-    data_total = insert_to_total.AddToTotal(data_total, data_map, date)
+    # data_total = insert_to_total.AddToTotal(data_total, data_map, date)
 
-    path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_123' + '.json')
-    with open (path_data_total_map,'w') as f:
-      json.dump(data_total, f)
+    # path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_123' + '.json')
+    # with open (path_data_total_map,'w') as f:
+    #   json.dump(data_total, f)
 
   return list_camp_need_removed
 
@@ -261,4 +347,5 @@ path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
 date = '2017-08-31'
 # CacualatorChange(path_data, list_customer, date)
 
-CheckNameChange(path_data, list_customer_id, date)
+# CheckNameChange(path_data, list_customer_id, date)
+CacualatorChange(path_data, list_customer_id, date)
