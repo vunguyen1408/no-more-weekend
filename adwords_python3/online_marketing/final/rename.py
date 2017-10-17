@@ -210,7 +210,7 @@ def Map(path_folder, list_plan, list_campaign, date):
 
           if flag:
             print (camp)
-            print (plan)
+            print (eform)
             camp['Mapping'] = True
             plan = {}
             plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
