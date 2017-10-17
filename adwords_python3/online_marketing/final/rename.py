@@ -283,7 +283,7 @@ def CacualatorChange(path_data, list_customer, date):
     list_plan = mapping.ReadPlan(path_data, date)
 
     # -------------- Call mapping ----------------
-    data_map = mapping.Map(path_data, list_plan['plan'], list_camp_find, date)
+    data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
 
 
     # # ------------- Remove campaign mapped ----------------
