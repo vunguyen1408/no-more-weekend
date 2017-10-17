@@ -287,7 +287,7 @@ def CacualatorChange(path_data, list_customer, date):
     #     print (camp)
     data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
 
-    plan_sum, list_map_temp = insert_to_total.SumTotalManyPlan(list_plan, list_campaign)
+    plan_sum, list_map_temp = insert_to_total.SumTotalManyPlan(data_map['plan'], data_map['campaign'])
 
     for camp in plan_sum:
       print (camp)
