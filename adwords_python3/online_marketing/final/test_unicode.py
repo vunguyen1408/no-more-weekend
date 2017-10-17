@@ -91,6 +91,71 @@
 # campaign_service = adwords_client.GetService('CampaignService', version='v201708')
 
 
+# import sys
+# import os
+# import pandas as pd
+# import numpy as np
+# import json
+# import cx_Oracle
+# from datetime import datetime , timedelta, date
+
+# def Read_NRU_for_month(cursor, year, month, product):
+# 	#==================== Get NRU =============================
+# 	statement = "Select SNAPSHOT_DATE, PRODUCT_CODE, NRU from STG_NRU where CHANNEL = 'Google' \
+# 	and extract (Year from SNAPSHOT_DATE) = :1 and extract (Month from SNAPSHOT_DATE) = :2 "
+# 	cursor.execute(statement, (year, month))
+# 	list_NRU = list(cursor.fetchall())  
+# 	# print(list_NRU)
+
+
+# 	#==================== Get product ID ===================
+# 	statement = "Select PRODUCT_ID, CCD_PRODUCT from ODS_META_PRODUCT where PRODUCT_ID = '" + product +  "'"
+# 	cursor.execute(statement)
+# 	list_product = list(cursor.fetchall())
+
+# 	ccd_nru = 0  
+# 	list_nru = []
+# 	for i in range(len(list_NRU)):
+# 		list_NRU[i] = list(list_NRU[i])    
+# 		for pro in list_product:
+# 			if (list_NRU[i][1] == pro[1]):
+# 				data = [list_NRU[i][0], list_NRU[i][1], list_NRU[i][2], pro[0], pro[1]]
+# 				if data not in list_nru:					
+# 					list_nru.append(data)
+# 					ccd_nru += list_NRU[i][2] 
+	
+# 	return ccd_nru 
+        
+
+
+
+# def add_NRU_monthly_for_plan(connect, path_folder, list_plan):
+# # ==================== Connect database =======================
+# 	conn = cx_Oracle.connect(connect)
+# 	cursor = conn.cursor()
+
+# 	for plan in list_plan:
+# 		if ('MONTHLY' in value):
+# 			for i in range(len(value['MONTHLY'])):
+# 				plan['MONTHLY']['CCD_NRU'] = Read_NRU_for_month(cursor, value['CYEAR'], str(value['MONTHLY'][i]['MONTH']), value['PRODUCT'])
+
+# 	cursor.close()
+# 	return list_plan
+
+
+
+# def AddNRU(connect, path_data, date):
+	
+
+# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+# conn = cx_Oracle.connect(connect)
+# cursor = conn.cursor()
+# nru = Read_NRU_for_month(cursor, '8', '219')
+# print(nru)
+
+
+
+
 import sys
 import os
 import pandas as pd
@@ -99,59 +164,34 @@ import json
 import cx_Oracle
 from datetime import datetime , timedelta, date
 
-def Read_NRU_for_month(cursor, year, month, product):
-	#==================== Get NRU =============================
-	statement = "Select SNAPSHOT_DATE, PRODUCT_CODE, NRU from STG_NRU where CHANNEL = 'Google' \
-	and extract (Year from SNAPSHOT_DATE) = :1 and extract (Month from SNAPSHOT_DATE) = :2 "
-	cursor.execute(statement, (year, month))
-	list_NRU = list(cursor.fetchall())  
-	# print(list_NRU)
 
-
-	#==================== Get product ID ===================
-	statement = "Select PRODUCT_ID, CCD_PRODUCT from ODS_META_PRODUCT where PRODUCT_ID = '" + product +  "'"
-	cursor.execute(statement)
-	list_product = list(cursor.fetchall())
-
-	ccd_nru = 0  
-	list_nru = []
-	for i in range(len(list_NRU)):
-		list_NRU[i] = list(list_NRU[i])    
-		for pro in list_product:
-			if (list_NRU[i][1] == pro[1]):
-				data = [list_NRU[i][0], list_NRU[i][1], list_NRU[i][2], pro[0], pro[1]]
-				if data not in list_nru:					
-					list_nru.append(data)
-					ccd_nru += list_NRU[i][2] 
+def Insert(name, cursor):
+	#==================== Insert data into database =============================
+	statement = 'insert into DTM_GG_RUN_FLAG (FLAG_RUNNING, FINAL_RUNTIME) \
+	values (:1, :2) '
+		
+	cursor.execute(statement, (name, None))
 	
-	return ccd_nru 
-        
+	print("A row inserted!.......")
 
 
-
-def add_NRU_monthly_for_plan(connect, path_folder, list_plan):
-# ==================== Connect database =======================
-	conn = cx_Oracle.connect(connect)
-	cursor = conn.cursor()
-
-	for plan in list_plan:
-		if ('MONTHLY' in value):
-			for i in range(len(value['MONTHLY'])):
-				plan['MONTHLY']['CCD_NRU'] = Read_NRU_for_month(cursor, value['CYEAR'], str(value['MONTHLY'][i]['MONTH']), value['PRODUCT'])
-
-	cursor.close()
-	return list_plan
-
-
-
-def AddNRU(connect, path_data, date):
-	
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 conn = cx_Oracle.connect(connect)
 cursor = conn.cursor()
-nru = Read_NRU_for_month(cursor, '8', '219')
-print(nru)
+path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST_UNICODE.json'
+# path = 'D:/WorkSpace/GG_Tool/New folder/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST_UNICODE.json'
+with open(path, 'r') as fi:
+	data = json.load(fi)
+
+for acc in data:
+	if (str(acc["customerId"]) == '4476024314'):
+		print(acc["name"])
+		Insert(acc["name"], cursor)
+	conn.commit()
+	print("Committed!.......")
+	cursor.close()
+
 
 
 
