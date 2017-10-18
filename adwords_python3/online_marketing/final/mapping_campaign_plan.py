@@ -449,7 +449,7 @@ def MapData(customer, path_folder, date):
       print ("=========== WPL ======================")
       data_map = MapAccountWithCampaignWPL(path_folder, list_plan['plan'], list_campaign, date)
     else:
-      data_map = MapAccountWithCampaign(path_folder, list_plan['plan'], list_campaign, date)
+      data_map = MapAccountWithCampaignAll(path_folder, list_plan['plan'], list_campaign, date)
 
     #----------------- Write file map and unmap ------------------
   path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
