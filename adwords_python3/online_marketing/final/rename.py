@@ -131,7 +131,7 @@ def CheckNameChange(path_data, list_customer, date):
     list_camp = list_camp['history_name']
 
     for camp_ in list_camp:
-      flag = FindNameNew(data_total['HISTORY'], camp_['CAMPAIGN_ID'], camp_['CAMPAIGN_NAME'])
+      flag = history_name.FindNameNew(data_total['HISTORY'], camp_['CAMPAIGN_ID'], camp_['CAMPAIGN_NAME'])
       if flag == -1:
         list_diff.append(camp_)
         temp = {
