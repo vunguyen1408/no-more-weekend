@@ -86,6 +86,7 @@ from googleads import adwords
 import json
 import os
 import pandas as pd
+from urllib.request import urlopen
 
 PAGE_SIZE = 500
 
@@ -135,9 +136,15 @@ def SaveAccountTree(account, accounts, links, level, list_acc, list_mcc, list_mc
 
 def GetAllAcount():
   # Initialize appropriate service.
-  adwords_client = adwords.AdWordsClient.LoadFromStorage('/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads.yaml')
-  managed_customer_service = adwords_client.GetService(
-      'ManagedCustomerService', version='v201708')
+	adwords_client = adwords.AdWordsClient.LoadFromStorage('/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads.yaml')
+	print("begin")
+	managed_customer_service = adwords_client.GetService(
+	'ManagedCustomerService', version='v201708')
+
+	print("continue")
+	html = urlopen("http://www.google.com/")
+	print(html.read)
+	print("ok")
 
   # Construct selector to get all accounts.
   offset = 0
