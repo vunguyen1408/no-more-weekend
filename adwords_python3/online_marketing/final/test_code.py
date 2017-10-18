@@ -163,13 +163,13 @@ def GetAllAcount():
 	root_account = None
 
 	while more_pages:
-		print(managed_customer_service)
-		print("continue")
-		html = urlopen("http://www.google.com/")
-		print(html.read)
-		print("ok")
+		print("start")
+		managed_customer_service = adwords_client.GetService(
+		'ManagedCustomerService', version='v201708')
+		print("end")
+		
 		# Get serviced account graph.
-		print(managed_customer_service.get(selector))
+		# print(managed_customer_service.get(selector))
 		page = managed_customer_service.get(selector)
 		if 'entries' in page and page['entries']:
 		  # Create map from customerId to parent and child links.
