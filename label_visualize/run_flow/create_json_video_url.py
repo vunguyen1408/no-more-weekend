@@ -1,3 +1,11 @@
+
+"""
+    Run test:
+    python create_json_video_url.py 2016-10-01 2017-06-29
+"""
+
+
+
 # Tong ket danh sach cac label cua file Json
 import os, os.path
 import json

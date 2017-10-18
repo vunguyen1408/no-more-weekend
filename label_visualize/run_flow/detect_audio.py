@@ -1,3 +1,11 @@
+"""
+    Run test:
+    python detect_audio.py 2016-10-01 2017-06-29
+"""
+
+
+
+
 import argparse
 import sys
 import os
