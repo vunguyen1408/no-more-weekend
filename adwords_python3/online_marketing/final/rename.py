@@ -11,6 +11,7 @@ from googleads import adwords
 # ----------------- package -----------------
 import mapping_campaign_plan as mapping
 import insert_data_map_to_total as insert_to_total
+import history_name as history_name
 
 logging.basicConfig(level=logging.INFO)
 logging.getLogger('suds.transport').setLevel(logging.DEBUG)
@@ -128,14 +129,21 @@ def CheckNameChange(path_data, list_customer, date):
     with open (path,'r') as f:
       list_camp = json.load(f)
     list_camp = list_camp['history_name']
-    for camp in data_total['HISTORY']:
-      for camp_ in list_camp:
-        if str(camp['CAMPAIGN_ID']) == str(camp_['CAMPAIGN_ID']) \
-          and camp['CAMPAIGN_NAME'] != camp_['CAMPAIGN_NAME'] \
-          and str(camp['ACCOUNT_ID']) == str(camp_['ACCOUNT_ID']):
-          camp['CAMPAIGN_NAME'] = camp_['CAMPAIGN_NAME']
-          list_diff.append(camp)
 
+    for camp_ in list_camp:
+      flag = FindNameNew(data_total['HISTORY'], camp_['CAMPAIGN_ID'], camp_['CAMPAIGN_NAME'])
+        if flag == -1:
+          list_diff.append(camp_)
+          temp = {
+            'ACCOUNT_ID': camp_['ACCOUNT_ID'],
+            'CAMPAIGN_ID' : camp_['CAMPAIGN_ID'],
+
+            'CAMPAIGN_NAME' : camp_['CAMPAIGN_NAME'],
+            'DATE_GET' : str(date),
+            'UPDATE_DATE': str(date),
+            'IMPORT_DATE' : None
+          }
+          data_total['HISTORY'].append(temp)
     #----------- Write file history new ----------------------
     path_folder = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING')
     print (path_folder)
@@ -424,5 +432,5 @@ path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
 date = '2017-08-31'
 # CacualatorChange(path_data, list_customer, date)
 
-# CheckNameChange(path_data, list_customer_id, date)
-CacualatorChange(path_data, list_customer_id, date)
+CheckNameChange(path_data, list_customer_id, date)
+# CacualatorChange(path_data, list_customer_id, date)
