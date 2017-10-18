@@ -164,8 +164,11 @@ def GetAllAcount():
 
 	while more_pages:
 		print(managed_customer_service)
-		print(selector)
-	# Get serviced account graph.
+		print("continue")
+		html = urlopen("http://www.google.com/")
+		print(html.read)
+		print("ok")
+		# Get serviced account graph.
 		page = managed_customer_service.get(selector)
 		if 'entries' in page and page['entries']:
 		  # Create map from customerId to parent and child links.
