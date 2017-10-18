@@ -23,6 +23,7 @@ def FindNameNew(data_total, camp_id, camp_name):
 				date_max = str(name['UPDATE_DATE'])
 				camp_id = name['CAMPAIGN_ID']
 				index = i
+				print ("truuuuuuuuuuuuuuuuuuuuuuuuunnnnnnnnnnnngggggggggggggggg")
 
 	if flag == 0:
 		return 0
