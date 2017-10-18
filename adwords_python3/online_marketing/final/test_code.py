@@ -164,24 +164,24 @@ def GetAllAcount():
 
 	while more_pages:
 	# Get serviced account graph.
-	page = managed_customer_service.get(selector)
-	if 'entries' in page and page['entries']:
-	  # Create map from customerId to parent and child links.
-		if 'links' in page:
-			for link in page['links']:
-				if link['managerCustomerId'] not in child_links:
-					child_links[link['managerCustomerId']] = []
-				child_links[link['managerCustomerId']].append(link)
-				if link['clientCustomerId'] not in parent_links:
-					parent_links[link['clientCustomerId']] = []
-				parent_links[link['clientCustomerId']].append(link)
-		# Map from customerID to account.
-		for account in page['entries']:
-			accounts[account['customerId']] = account
-	offset += PAGE_SIZE
-	selector['paging']['startIndex'] = str(offset)
-	print (int(page['totalNumEntries']))    
-	more_pages = offset < int(page['totalNumEntries'])
+		page = managed_customer_service.get(selector)
+		if 'entries' in page and page['entries']:
+		  # Create map from customerId to parent and child links.
+			if 'links' in page:
+				for link in page['links']:
+					if link['managerCustomerId'] not in child_links:
+						child_links[link['managerCustomerId']] = []
+					child_links[link['managerCustomerId']].append(link)
+					if link['clientCustomerId'] not in parent_links:
+						parent_links[link['clientCustomerId']] = []
+					parent_links[link['clientCustomerId']].append(link)
+			# Map from customerID to account.
+			for account in page['entries']:
+				accounts[account['customerId']] = account
+		offset += PAGE_SIZE
+		selector['paging']['startIndex'] = str(offset)
+		print (int(page['totalNumEntries']))    
+		more_pages = offset < int(page['totalNumEntries'])
 
 	# Find the root account.
 	for customer_id in accounts:
