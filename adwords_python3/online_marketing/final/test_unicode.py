@@ -231,6 +231,7 @@ def InsertContentAds(cursor, ads, d):
 		list_image = ads['audit_content']['image_urls']
 		if list_image != []:
 			for i, image in enumerate(list_image):
+				print (list_image)
 				print ('insert ------------------')
 				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], image['image_url'], 'image_url', 0, i,  \
 				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime(d, '%Y-%m-%d')))
