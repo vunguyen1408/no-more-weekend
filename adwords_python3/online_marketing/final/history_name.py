@@ -12,18 +12,15 @@ def FindNameNew(data_total, camp_id, camp_name):
 	name_max = ''
 	camp_id_ = ''
 	index = 0
-	print ("========================")
 	for i, name in enumerate(data_total):
 		print (i)
 		if str(camp_id) == str(name['CAMPAIGN_ID']):
-			print ("camp_id banwfghhhhhhhhhhggggggggggggg")
 			flag = 1
 			if datetime.strptime(date_max, '%Y-%m-%d').date() < datetime.strptime(name['UPDATE_DATE'], '%Y-%m-%d').date():
 				name_max = name['CAMPAIGN_NAME']
 				date_max = str(name['UPDATE_DATE'])
 				camp_id_ = name['CAMPAIGN_ID']
 				index = i
-				print ("truuuuuuuuuuuuuuuuuuuuuuuuunnnnnnnnnnnngggggggggggggggg")
 
 	if flag == 0:
 		return 0
@@ -81,13 +78,10 @@ def AccountFromCampaign(customer, path_data, date):
 					with open (path_data_his,'w') as f:
 						json.dump(data_total, f)
 
-			print (path_data_his)
 			with open (path_data_his,'r') as f:
 				data_total = json.load(f)
 			for camp in data:
 				if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
-					print (str(camp['Campaign ID']) + "  =====  " + str(camp['Campaign']))
-					print (data_total['HISTORY'])
 					flag = FindNameNew(data_total['HISTORY'], camp['Campaign ID'], camp['Campaign'])	
 					if flag == 0 or flag == -1:
 						if flag == -1:
