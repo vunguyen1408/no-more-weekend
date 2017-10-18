@@ -145,6 +145,7 @@ def CheckNameChange(path_data, list_customer, date):
           'IMPORT_DATE' : None
         }
         data_total['HISTORY'].append(temp)
+        print (camp_)
     #----------- Write file history new ----------------------
     path_folder = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING')
     print (path_folder)
