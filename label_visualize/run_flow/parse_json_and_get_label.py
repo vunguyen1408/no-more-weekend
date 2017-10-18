@@ -14,16 +14,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+    Run test:
+    python parse_json_and_get_label.py 2016-10-01 2017-06-29
+"""
+
+
 import argparse
 import base64
 import os
 
 #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
 # path_base = 'C:/Users/CPU10145-local/Desktop/Python Envirement/Data/DWHVNG/APEX/test'
-path_base = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/'
 # path_base = 'E:\VNG\Data\DATA\DWHVNG\APEX\MARKETING_TOOL_02_JSON/'
 
-def label(photo_link, g_vdate):
+def label(photo_link, g_vdate, path_base):
     # [START vision_quickstart]
     import io
     import os
@@ -182,7 +187,7 @@ def label(photo_link, g_vdate):
     return list_label
 
 
-def get_labled_image_url(pdate):
+def get_labled_image_url(pdate, path_base):
 
     import os, os.path
     #from os.path import splitext, basename, join
@@ -299,7 +304,7 @@ def check_link_image_in_list_link(link, list_link):
             return False
     return True
 
-def label_ads_creatives_json_audit_content(pdate):
+def label_ads_creatives_json_audit_content(pdate, path_base):
 
     import os, os.path
     #from os.path import splitext, basename, join
@@ -342,7 +347,7 @@ def label_ads_creatives_json_audit_content(pdate):
         # trong file image_url_lablel_yyyymmdd.json
         # phat sinh truong hop url chi khac nhau tham so query, nen se lay netloc + path de compare
         # de han che them, kiem tra truoc sau 30 ngay de lay data --> chay lan luot
-        list_image_json = get_labled_image_url(pdate)
+        list_image_json = get_labled_image_url(pdate, path_base)
 
         print("Number json of day: " + str(len(list_json)))
         # list image label trong ngay hien tai duoc giu lai de ghi xuong lai
@@ -402,7 +407,7 @@ def label_ads_creatives_json_audit_content(pdate):
 
                 if exists == False:
                     #get label
-                    image_label=label(j["image_url"], pdate)
+                    image_label=label(j["image_url"], pdate, path_base)
                     #image_label="a"
 
                     #create dict
@@ -417,7 +422,7 @@ def label_ads_creatives_json_audit_content(pdate):
                 # exist = True
                     if flag :
                         # get value
-                        image_label=label(j["image_url"], pdate)
+                        image_label=label(j["image_url"], pdate, path_base)
                         image_url_json={
                                          "image_url"    : j["image_url"]
                                         ,"image_label"  : image_label
@@ -513,7 +518,7 @@ def get_json3(list_file):
     #print(list_json[0]["body"],list_json[0]["image_url"])
 
 
-def parse_ads_creatives_csv_to_json(pdate):
+def parse_ads_creatives_csv_to_json(pdate, base_dir, base_dir_json):
 
     import os, os.path
     #from os.path import splitext, basename, join
@@ -524,9 +529,7 @@ def parse_ads_creatives_csv_to_json(pdate):
     #Dev env
     #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
     #Prod env
-    base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02"
 
-    base_dir_json="/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/"
 
     wrk_dir=os.path.join(base_dir, pdate)
     json_dir=os.path.join(base_dir_json, pdate)
@@ -557,7 +560,7 @@ def parse_ads_creatives_csv_to_json(pdate):
     with open (ads_creatives_file,'w') as f:
         json.dump(final_json,f)
 
-def parse_ads_creatives_json_audit_content(pdate):
+def parse_ads_creatives_json_audit_content(pdate, base_dir):
 
     import os, os.path
     #from os.path import splitext, basename, join
@@ -569,7 +572,6 @@ def parse_ads_creatives_json_audit_content(pdate):
     #Dev env
     #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
     #Prod env
-    base_dir="/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/"
     wrk_dir=os.path.join(base_dir, pdate)
 
     ads_creatives_file_name = "ads_creatives_"+pdate+".json"
@@ -648,6 +650,7 @@ def main(date_, to_date_):
     """Run a label request """
     from datetime import datetime , timedelta, date
     path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02'
+    path_json ="/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/"
     list_folder = next(os.walk(path))[1]
     # date_ = '2017-05-06'
     # to_date_ = '2017-06-29'
@@ -659,52 +662,14 @@ def main(date_, to_date_):
             d = datetime.strptime(folder, '%Y-%m-%d').date()
             if d <= to_date and d >= date:
                 try:
-                    parse_ads_creatives_csv_to_json(folder)
+                    parse_ads_creatives_csv_to_json(folder, path, path_json)
                     #analyze_ads_creatives_json(vdate)
-                    parse_ads_creatives_json_audit_content(folder)
-                    label_ads_creatives_json_audit_content(folder)
+                    parse_ads_creatives_json_audit_content(folder, path_json)
+                    label_ads_creatives_json_audit_content(folder, path_json)
                 except:
                     print ("Date error: %s" %folder)
-
-
-    # vdate=pdate
-    # parse_ads_creatives_csv_to_json(vdate)
-    # #analyze_ads_creatives_json(vdate)
-    # parse_ads_creatives_json_audit_content(vdate)
-    # label_ads_creatives_json_audit_content(vdate)
 
 if __name__ == '__main__':
     from sys import argv
     script, start_date, end_date = argv
     main(start_date, end_date)
-
-##############################################################
-# delete all file list image_label
-# def remove_image_label():
-#     """Run a label request """
-#     list_folder = next(os.walk(path_base))[1]
-#     for folder in list_folder:
-#         path_folder = os.path.join(path_base, folder)
-#         file_name = "image_url_"+ folder +".json"
-#         path_file = os.path.join(path_folder, file_name)
-#         if os.path.exists(path_file):
-#             os.remove(path_file)
-#
-#
-# remove_image_label()
-
-###########################################################
-
-# # Lua chon chay full
-# def main():
-#     """Run a label request """
-#     list_folder = next(os.walk(path_base))[1]
-#     sorted(list_folder)
-#     for date in list_folder:
-#         print (date)
-#         label_ads_creatives_json_audit_content(date)
-
-#     # date = '2016-10-02'
-#     # label_ads_creatives_json_audit_content(date)
-
-# main()

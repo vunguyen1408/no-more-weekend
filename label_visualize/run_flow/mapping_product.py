@@ -1,3 +1,10 @@
+
+"""
+    Run test:
+    python mapping_product.py 2016-10-01 2017-06-29
+"""
+
+
 import os, os.path
 #from os.path import splitext, basename, join
 import io
@@ -75,13 +82,14 @@ def parse_json_insight(path_insight, folder):
     return data_insight
 
 def add_content(list_json, path_audit_content, path_insight):
+    print ("\n================ Maping event and campaign ====================\n")
     list_folder_json_content = next(os.walk(path_audit_content))[1]
-    for json_ in list_json: 
+    for json_ in list_json:
         start_date = datetime.strptime(json_['start_date'], '%Y-%m-%d').date()
         end_date = datetime.strptime(json_['end_date'], '%Y-%m-%d').date()
         print (start_date)
         print (end_date)
-        print (json_['product'])    
+        print (json_['product'])
         for folder in list_folder_json_content:
             date = datetime.strptime(folder, '%Y-%m-%d').date()
             # Trong mot ngay thuoc khoang
@@ -115,7 +123,7 @@ def add_content(list_json, path_audit_content, path_insight):
                     with open (path_file_audit_content,'w') as f_out:
                         json.dump(data_json,f_out)
             print ("==================================================================")
-        
+
 
 def group_by_product(path_audit_content):
     list_folder = next(os.walk(path_audit_content))[1]
@@ -167,21 +175,51 @@ def compare(path_audit_content, path_insight):
         wr.writerow(['date', 'number json', 'number json finded', 'miss'])
         wr.writerows(list_not_compare)
 
-def add_list(path_audit_content):
+def add_list(path_audit_content, date_, to_date_):
+
+    print ("\n================ Add list_product ====================\n")
+
     list_folder = next(os.walk(path_audit_content))[1]
+
+    date = datetime.strptime(date_, '%Y-%m-%d').date()
+    to_date = datetime.strptime(to_date_, '%Y-%m-%d').date()
+
     for folder in list_folder:
         print (folder)
-        folder_audit = os.path.join(path_audit_content, folder)
-        audit_content = "ads_creatives_audit_content_"+ folder +".json"
-        path_file_audit_content = os.path.join(folder_audit, audit_content)
-        if os.path.exists(path_file_audit_content):
-            with open(path_file_audit_content, 'r') as f_json:
-                data_json = json.load(f_json)
-                for j in data_json['my_json']:
-                    j['list_product'] = []
-                with open (path_file_audit_content,'w') as f_out:
-                    json.dump(data_json,f_out)
+        if folder[:4].isdigit():
+            d = datetime.strptime(folder, '%Y-%m-%d').date()
+            if d <= to_date and d >= date:
+                try:
+                    folder_audit = os.path.join(path_audit_content, folder)
+                    audit_content = "ads_creatives_audit_content_"+ folder +".json"
+                    path_file_audit_content = os.path.join(folder_audit, audit_content)
+                    if os.path.exists(path_file_audit_content):
+                        with open(path_file_audit_content, 'r') as f_json:
+                            data_json = json.load(f_json)
+                            for j in data_json['my_json']:
+                                if 'list_product' not in j:
+                                    j['list_product'] = []
+                            with open (path_file_audit_content,'w') as f_out:
+                                json.dump(data_json,f_out)
+                except:
+                    print ("Date error: %s" %folder)
 
+
+def FindNewFileEventMapCamp(path_file_event_map_campaign):
+    list_file = next(os.walk(path_file_event_map_campaign))[2]
+    d = '2017-01-01'
+    date = datetime.strptime(d, '%Y-%m-%d').date()
+    for file in list_file:
+        if file.find('EVENT_MAP_CAMPAIGN_20') >= 0:
+            temp = file[-14:][:10]
+            day = temp[:4] + '-' + temp[5:][:2] + '-' + temp[5:][3:]
+            now = datetime.strptime(day, '%Y-%m-%d').date()
+            if now > date:
+                date = now
+
+    temp = str(date).replace('-', '_')
+    path_file = path_file_event_map_campaign + '/EVENT_MAP_CAMPAIGN_' + temp + '.csv'
+    return path_file
 
 
 # path_audit_content = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
@@ -192,13 +230,25 @@ def add_list(path_audit_content):
 # path_insight = 'E:/VNG/DATA/DATA/DWHVNG/APEX/MARKETING_TOOL_02'
 # path_file_event_map_campaign = 'E:/VNG/DATA/DATA/DWHVNG/APEX/MARKETING_TOOL_02/EXPORT_DATA/EVENT_MAP_CAMPAIGN.txt'
 
-path_audit_content = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
-path_insight = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02'
-path_file_event_map_campaign = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02/EXPORT_DATA/EVENT_MAP_CAMPAIGN_2017-08-06.csv'
 
-add_list(path_audit_content)
-list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
-add_content(list_json, path_audit_content, path_insight)
+
+
+if __name__ == '__main__':
+    from sys import argv
+    
+    path_audit_content = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+    path_insight = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02'
+    path_event_map_campaign = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02/EXPORT_DATA'
+
+    print ("\n================ Maping event and campaign ====================\n")
+    print ("\n================ ========================= ====================\n")
+
+    script, start_date, end_date = argv
+    add_list(path_audit_content, start_date, end_date)
+    path_file_event_map_campaign = FindNewFileEventMapCamp(path_event_map_campaign)
+    print (path_file_event_map_campaign)
+    list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
+    add_content(list_json, path_audit_content, path_insight)
 
 # statistic(path_audit_content)
 # group_by_product(path_audit_content)
