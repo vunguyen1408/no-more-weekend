@@ -124,7 +124,7 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
             path_folder = os.path.join(path, folder)
             path_folder_audios = os.path.join(path_folder, 'audios')
             path_file = os.path.join(path_folder, 'ads_creatives_audit_content_' + str(folder) + '.json')
-            path_file_video = os.path.join(path_folder, 'audio_url_' + str(folder) + '.json')
+            path_file_video = os.path.join(path_folder, 'video_url_' + str(folder) + '.json')
             print (path_file)
             print (path_file_video)
             if os.path.exists(path_file) and os.path.exists(path_file_video):
@@ -139,7 +139,7 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
                 print ("========================= Add label to data json =========================")
                 # for folder in list_folder:
                 path_folder = os.path.join(path, folder)
-                path_file_videos = os.path.join(path_folder, 'audio_url_' + str(folder) + '.json')
+                path_file_videos = os.path.join(path_folder, 'video_url_' + str(folder) + '.json')
                 path_file = os.path.join(path_folder, 'ads_creatives_audit_content_' + str(folder) + '.json')
                 if os.path.exists(path_file) and os.path.exists(path_file_videos):
                     with open(path_file, 'r') as f:
