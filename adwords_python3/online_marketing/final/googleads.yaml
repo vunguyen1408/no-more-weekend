@@ -118,9 +118,9 @@ proxy_config:
     # The following values are optional:
     # username: INSERT_USERNAME_HERE
     # password: INSERT_PASSWORD_HERE
-  # https_proxy:
-    # host: INSERT_HOST_HERE
-    # port: INSERT_PROXY_PORT_HERE
+  https_proxy:
+    host: 10.30.76.11
+    port: 3128
     # The following values are optional:
     # username: INSERT_USERNAME_HERE
     # password: INSERT_PASSWORD_HERE
