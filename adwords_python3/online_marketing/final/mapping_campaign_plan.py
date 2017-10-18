@@ -185,7 +185,7 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
   return data_map
 
 #================= Mapping campaign and plan WPL =====================
-def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
+def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept):
   # d = datetime.strptime(date, '%Y-%m-%d')
   # #------------- Filter all plan in date ------------------
   # list_plan_WPL = []
@@ -237,7 +237,7 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
       #     print (' nnnnnnnnnnnnnnnnnnnnnno oooooooooooooooooo kìa.....')
       #   print ("===============================================")
 
-      if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == 'WPL'): 
+      if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == dept): 
         if (  (eform['CCD_PRODUCT'] != []) and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
           or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])) and \
           # (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
@@ -454,11 +454,17 @@ def MapData(customer, path_folder, date):
   if len(list_campaign) > 0:
 
     # ------------- Check account ----------------
-    if CheckIsAccountWPL(path_folder, customer) or CheckIsAccountGS5(path_folder, customer): # La account WPL
-      print ("================ WPL or GS5 ======================")
-      data_map = MapAccountWithCampaignWPL(path_folder, list_plan['plan'], list_campaign, date)
+    if CheckIsAccountWPL(path_folder, customer):
+      print ("================ WPL ======================")
+      dept = 'WPL'
+      data_map = MapAccountWithCampaignWPL(path_folder, list_plan['plan'], list_campaign, date, dept)
     else:
-      data_map = MapAccountWithCampaignAll(path_folder, list_plan['plan'], list_campaign, date)
+      if CheckIsAccountGS5(path_folder, customer): # La account WPL
+        print ("================ GS5 ======================")
+        dept = 'GS5'
+        data_map = MapAccountWithCampaignWPL(path_folder, list_plan['plan'], list_campaign, date, dept)
+      else:
+        data_map = MapAccountWithCampaignAll(path_folder, list_plan['plan'], list_campaign, date, dept)
 
     #----------------- Write file map and unmap ------------------
   path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
