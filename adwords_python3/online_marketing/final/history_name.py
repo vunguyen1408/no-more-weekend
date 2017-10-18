@@ -160,11 +160,18 @@ def InsertHistoryName(connect, path_data, list_account, date):
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
 	list_diff = []
+
+
+	path_folder = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING')
+	if not os.path.exists(path_folder):
+		os.makedirs(path_folder)
 	path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
 	data_total = {}
 	data_total['HISTORY'] = []
 	with open (path_data_his,'w') as f:
 		json.dump(data_total, f)
+
+		
 	for account in list_account:
 		list_temp = AccountFromCampaign(account, path_data, date)
 		list_diff.append(list_temp)
