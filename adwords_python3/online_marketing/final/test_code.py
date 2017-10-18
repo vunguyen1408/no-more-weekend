@@ -164,6 +164,7 @@ def GetAllAcount():
 
 	while more_pages:
 		print(managed_customer_service)
+		print(selector)
 	# Get serviced account graph.
 		page = managed_customer_service.get(selector)
 		if 'entries' in page and page['entries']:
