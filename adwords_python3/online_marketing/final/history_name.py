@@ -50,62 +50,65 @@ def AccountFromCampaign(customer, path_data, date):
 	if os.path.exists(path_data_map):
 		with open (path_data_map,'r') as f:
 			data = json.load(f)
-		f_ = False
-		path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
+		if data != []:
+			f_ = False
+			path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
 
-		if os.path.exists(path_data_his):
+			if os.path.exists(path_data_his):
+				with open (path_data_his,'r') as f:
+					data_total = json.load(f)
+				if data_total['HISTORY'] == []:
+					print ("file rong")
+					f_ = True
+
+			if (not os.path.exists(path_data_his)) or f_:
+				i = 0
+				find = True
+				date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+				path_data_his = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'history_name' + '.json')
+				while not os.path.exists(path_data_his):
+					i = i + 1
+					date_before = date_before - timedelta(1)
+					path_data_his = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'history_name' + '.json')
+					if i == 60:
+						find = False
+						break
+				if not find:
+					path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
+					data_total = {}
+					data_total['HISTORY'] = []
+					with open (path_data_his,'w') as f:
+						json.dump(data_total, f)
+
+			# print (path_data_his)
 			with open (path_data_his,'r') as f:
 				data_total = json.load(f)
-			if data_total['HISTORY'] == []:
-				print ("file rong")
-				f_ = True
+			for camp in data:
+				if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
+					print (camp)
+					print (data_total['HISTORY'])
+					flag = FindNameNew(data_total['HISTORY'], camp['Campaign ID'], camp['Campaign'])	
+					if flag == 0 or flag == -1:
+						if flag == -1:
+							list_temp.append(camp)
+						# ----------------- Add new -----------------------
+						# print (camp)
+						temp = {
+							'ACCOUNT_ID': camp['Account ID'],
+							'CAMPAIGN_ID' : camp['Campaign ID'],
 
-		if (not os.path.exists(path_data_his)) or f_:
-			i = 0
-			find = True
-			date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
-			path_data_his = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'history_name' + '.json')
-			while not os.path.exists(path_data_his):
-				i = i + 1
-				date_before = date_before - timedelta(1)
-				path_data_his = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'history_name' + '.json')
-				if i == 60:
-					find = False
-					break
-			if not find:
-				path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
-				data_total = {}
-				data_total['HISTORY'] = []
-				with open (path_data_his,'w') as f:
-					json.dump(data_total, f)
-
-		# print (path_data_his)
-		with open (path_data_his,'r') as f:
-			data_total = json.load(f)
-		for camp in data:
-			if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
-				flag = FindNameNew(data_total['HISTORY'], camp['Campaign ID'], camp['Campaign'])	
-				if flag == 0 or flag == -1:
-					if flag == -1:
-						list_temp.append(camp)
-					# ----------------- Add new -----------------------
-					# print (camp)
-					temp = {
-						'ACCOUNT_ID': camp['Account ID'],
-						'CAMPAIGN_ID' : camp['Campaign ID'],
-
-						'CAMPAIGN_NAME' :camp['Campaign'],
-						'DATE_GET' :camp['Date'],
-						'UPDATE_DATE': str(date),
-						'IMPORT_DATE' : None
-					}
-					data_total['HISTORY'].append(temp)
-		print (date)
-		print (len(data_total['HISTORY']))
-		print ("=================================================")
-		path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
-		with open (path_data_his,'w') as f:
-			json.dump(data_total, f)
+							'CAMPAIGN_NAME' :camp['Campaign'],
+							'DATE_GET' :camp['Date'],
+							'UPDATE_DATE': str(date),
+							'IMPORT_DATE' : None
+						}
+						data_total['HISTORY'].append(temp)
+			print (date)
+			print (len(data_total['HISTORY']))
+			print ("=================================================")
+			path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
+			with open (path_data_his,'w') as f:
+				json.dump(data_total, f)
 	return list_temp
 
 def InsertCampList(value, cursor):
@@ -163,14 +166,14 @@ def InsertHistoryName(connect, path_data, list_account, date):
 	cursor = conn.cursor()
 	list_diff = []
 	path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
-	# data_total = {}
-	# data_total['HISTORY'] = []
-	# with open (path_data_his,'w') as f:
-	# 	json.dump(data_total, f)
-	# for account in list_account:
-	# 	list_temp = AccountFromCampaign(account, path_data, date)
-	# 	list_diff.append(list_temp)
-		
+	data_total = {}
+	data_total['HISTORY'] = []
+	with open (path_data_his,'w') as f:
+		json.dump(data_total, f)
+	for account in list_account:
+		list_temp = AccountFromCampaign(account, path_data, date)
+		list_diff.append(list_temp)
+
 	path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
 	if os.path.exists(path_data_his):
 		with open (path_data_his,'r') as f:
