@@ -86,6 +86,7 @@ from googleads import adwords
 import json
 import os
 import pandas as pd
+from urllib.request import urlopen
 
 PAGE_SIZE = 500
 
@@ -138,6 +139,11 @@ def GetAllAcount():
   adwords_client = adwords.AdWordsClient.LoadFromStorage('/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads.yaml')
   managed_customer_service = adwords_client.GetService(
       'ManagedCustomerService', version='v201708')
+
+	print("begin")
+	html = urlopen("http://www.google.com/")
+	print(html.read)
+	print("continue")
 
   # Construct selector to get all accounts.
   offset = 0
