@@ -251,6 +251,8 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept)
           print (eform)
           print (start)
           print (end)
+          print ((checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])))
+          print ("=========================================")
 
         if (  (eform['CCD_PRODUCT'] != []) and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
           or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])) and \
