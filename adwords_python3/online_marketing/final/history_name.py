@@ -63,7 +63,7 @@ def AccountFromCampaign(customer, path_data, date):
 			data_total = json.load(f)
 		for camp in data:
 			if camp['Campaign'] != None and camp['Campaign ID'] != None:
-				flag = FindNameNew(data_total['HISTORY'], camp_id, camp_name):		
+				flag = FindNameNew(data_total['HISTORY'], camp['Campaign ID'], camp['Campaign']):		
 				if flag == 0 or flag == -1:
 					# ----------------- Add new -----------------------
 					# print (camp)
@@ -138,14 +138,14 @@ def InsertHistoryName(connect, path_data, list_account, date):
 	for account in list_account:
 		AccountFromCampaign(account, path_data, date)
 		path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
-	# 	if os.path.exists(path_data_his):
-	# 		with open (path_data_his,'r') as f:
-	# 			data = json.load(f)
-	# 		for i in data['HISTORY']:
-	# 			MergerCampList(i, cursor)
-	# conn.commit()
-	# # print("Committed!.......")
-	# cursor.close()
+		if os.path.exists(path_data_his):
+			with open (path_data_his,'r') as f:
+				data = json.load(f)
+			for i in data['HISTORY']:
+				MergerCampList(i, cursor)
+	conn.commit()
+	# print("Committed!.......")
+	cursor.close()
 
 
 
