@@ -76,7 +76,7 @@ def AccountFromCampaign(customer, path_data, date):
 		with open (path_data_his,'r') as f:
 			data_total = json.load(f)
 		for camp in data:
-			if camp['Campaign'] != '' and camp['Campaign ID'] != None:
+			if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
 				flag = FindNameNew(data_total['HISTORY'], camp['Campaign ID'], camp['Campaign'])	
 				if flag == 0 or flag == -1:
 					if flag == -1:
