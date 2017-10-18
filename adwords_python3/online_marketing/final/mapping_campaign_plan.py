@@ -422,6 +422,15 @@ def CheckIsAccountWPL(path_folder, account_id):
       return True
   return False
 
+def CheckIsAccountGS5(path_folder, account_id):
+  file_ = path_folder[:-4] + '/' + 'LIST_ACCOUNT/MCC.json'
+  with open (file_, 'r') as f:
+    list_campaign = json.load(f)
+
+  for account in list_campaign:
+    if str(account_id) == str(account['customerId']) and (account['dept Name'].find('GS5') >= 0):
+      return True
+  return False
 
 
 #================= Read list plan, product code, save file mapping =====================
@@ -445,8 +454,8 @@ def MapData(customer, path_folder, date):
   if len(list_campaign) > 0:
 
     # ------------- Check account ----------------
-    if CheckIsAccountWPL(path_folder, customer): # La account WPL
-      print ("=========== WPL ======================")
+    if CheckIsAccountWPL(path_folder, customer) or CheckIsAccountGS5(path_folder, customer): # La account WPL
+      print ("================ WPL or GS5 ======================")
       data_map = MapAccountWithCampaignWPL(path_folder, list_plan['plan'], list_campaign, date)
     else:
       data_map = MapAccountWithCampaignAll(path_folder, list_plan['plan'], list_campaign, date)
