@@ -52,17 +52,15 @@ def AccountFromCampaign(customer, path_data, date):
 			data = json.load(f)
 		f_ = False
 		path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
+
 		if os.path.exists(path_data_his):
 			with open (path_data_his,'r') as f:
 				data_total = json.load(f)
 			if data_total['HISTORY'] == []:
 				print ("file rong")
 				f_ = True
-		print (data_total['HISTORY'])
-		print (f_)
-		print (not os.path.exists(path_data_his))
+
 		if (not os.path.exists(path_data_his)) or f_:
-			print ("tim ngay truoc")
 			i = 0
 			find = True
 			date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
@@ -75,7 +73,6 @@ def AccountFromCampaign(customer, path_data, date):
 					find = False
 					break
 			if not find:
-				print ("tao lai")
 				path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
 				data_total = {}
 				data_total['HISTORY'] = []
