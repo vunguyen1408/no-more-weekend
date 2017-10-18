@@ -49,7 +49,7 @@ def ChooseTime(plan):
 def checkProductCode(name, list_product_code):
   # print (name)
   # print (list_product_code) 
-  if ('cfmobile' in list_product_code) and nname.upper().find('cfmobilesea'.upper()) >= 0:
+  if ('cfmobile' in list_product_code) and name.upper().find('cfmobilesea'.upper()) >= 0:
     return False
   for product in list_product_code:
     if (name.find(product.upper()) >= 0) \
