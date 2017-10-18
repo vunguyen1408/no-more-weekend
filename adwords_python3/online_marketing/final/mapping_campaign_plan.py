@@ -238,9 +238,10 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept)
       #   print ("===============================================")
 
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == dept): 
-        if (camp['Advertising Channel'] == 'UNIVERSAL_APP_CAMPAIGN'):
+        if (camp['Advertising Channel'] == 'UNIVERSAL_APP_CAMPAIGN') and eform['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
           print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
           print (camp)
+          print ((camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0))
 
         if (  (eform['CCD_PRODUCT'] != []) and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
           or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])) and \
