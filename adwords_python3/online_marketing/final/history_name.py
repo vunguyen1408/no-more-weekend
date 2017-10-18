@@ -23,6 +23,9 @@ def FindNameNew(data_total, camp_id, camp_name):
 		return 0
 	else:
 		if camp_name != name:
+			print (date_max)
+			print (name_max)
+			print (camp_id)
 			flag = -1
 			return flag
 		else:
