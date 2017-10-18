@@ -13,11 +13,11 @@ def create_content_file(path_folder, path_file, folder):
 		if 'object_story_spec' in value:
 			if 'page_id' in value['object_story_spec']:
 				page_id = value['object_story_spec']['page_id']
-		#================ Get list video
+		#================ Get list video ===================
 		list_video = []
 		if 'video_ids' in value['audit_content']:
 			list_video = value['audit_content']['video_ids']
-		#=============== Parse link video
+		#=============== Parse link video =================
 		for j, video_id in enumerate(list_video):
 			if page_id != "" and video_id != "":
 				id_v = video_id['video_id']
@@ -33,7 +33,7 @@ def create_content_file(path_folder, path_file, folder):
 				list_result.append(video_json)
 	list_json = {}
 	list_json['my_json'] = list_result
-	file_name = os.path.join(path_folder, ('video_url_' + str(folder) + '.json'))
+	file_name = os.path.join(path_folder, ('audio_url_' + str(folder) + '.json'))
 	with open (file_name,'w') as f:
 		json.dump(list_json, f)
 
@@ -45,7 +45,7 @@ def create_content_date(path, date_ = '2016-10-11', to_date_ = '2017-05-01'):
 	list_folder = next(os.walk(path))[1]
 	for folder in list_folder:
 		f_date = datetime.strptime(folder, '%Y-%m-%d').date()
-		print (folder)
+		
 		if f_date <= to_date and f_date >= date:
 			path_folder = os.path.join(path, folder)
 			file_name = "ads_creatives_audit_content_"+ folder +".json"
@@ -53,7 +53,7 @@ def create_content_date(path, date_ = '2016-10-11', to_date_ = '2017-05-01'):
 			if os.path.exists(path_file):
 				# time.sleep(5)
 				create_content_file(path_folder, path_file, folder)
-				print (folder)
+				print (path_file)
 				print ("------------------------------------")
 
 #path = 'C:\\Users\\CPU10145-local\\Desktop\\Python Envirement\\Data\\Date'
@@ -61,7 +61,8 @@ def create_content_date(path, date_ = '2016-10-11', to_date_ = '2017-05-01'):
 # path = 'D:/WorkSpace/GITHUB/DATA/DATA/DWHVNG/APEX\MARKETING_TOOL_02_JSON'
 # date = '2017-05-02'
 # to_date = '2017-07-01'
-path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+# path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+path = 'D:/DATA/NEW_DATA_10-2016_05-2017/FULL_DATA_10-2016_06-2017/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 # create_content_date(path, date, to_date)
 
 if __name__ == '__main__':

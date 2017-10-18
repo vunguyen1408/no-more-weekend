@@ -79,7 +79,7 @@ def get_30_date(path_full_data, date, video_json):
     for i in range(int (delta)):
         single_date = vdate - timedelta(i)
         folder = os.path.join(path_full_data, single_date.strftime('%Y-%m-%d'))
-        file_name = folder + '/' + 'video_url_'+ single_date.strftime('%Y-%m-%d') + '.json'
+        file_name = folder + '/' + 'audio_url_'+ single_date.strftime('%Y-%m-%d') + '.json'
         if os.path.exists(file_name):
             with open (file_name,'r') as file_json:
                 data = json.load(file_json)
@@ -106,6 +106,7 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
     # Lấy danh sách path của các file json cần tổng hợp data
     list_file = []
     list_folder = next(os.walk(path))[1]
+
     #========================== Auto run ===================
 
     date = datetime.strptime(date_, '%Y-%m-%d').date()
@@ -120,7 +121,7 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
             path_folder = os.path.join(path, folder)
             path_folder_audios = os.path.join(path_folder, 'audios')
             path_file = os.path.join(path_folder, 'ads_creatives_audit_content_' + str(folder) + '.json')
-            path_file_video = os.path.join(path_folder, 'video_url_' + str(folder) + '.json')
+            path_file_video = os.path.join(path_folder, 'audio_url_' + str(folder) + '.json')
             print (path_file)
             print (path_file_video)
             if os.path.exists(path_file) and os.path.exists(path_file_video):
@@ -134,7 +135,7 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
                 print ("========================= Add label to data json =========================")
                 # for folder in list_folder:
                 path_folder = os.path.join(path, folder)
-                path_file_videos = os.path.join(path_folder, 'video_url_' + str(folder) + '.json')
+                path_file_videos = os.path.join(path_folder, 'audio_url_' + str(folder) + '.json')
                 path_file = os.path.join(path_folder, 'ads_creatives_audit_content_' + str(folder) + '.json')
                 if os.path.exists(path_file) and os.path.exists(path_file_videos):
                     with open(path_file, 'r') as f:
@@ -152,7 +153,8 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
 
 
 # path_folder_videos = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON/2016-10-02/videos'
-path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+# path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+path = 'D:/DATA/NEW_DATA_10-2016_05-2017/FULL_DATA_10-2016_06-2017/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 # path = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 # date_ = '2016-11-26'
 # to_date_ = '2016-12-10'
