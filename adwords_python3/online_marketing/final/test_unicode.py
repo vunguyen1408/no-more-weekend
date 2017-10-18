@@ -212,11 +212,11 @@ for folder in list_folder:
 	print (path_in)
 	print (path_out)
 	if os.path.exists(path_in) and os.path.exists(path_out):
-	with open(path_in, 'r') as fi:
-		data = json.load(fi)
+		with open(path_in, 'r') as fi:
+			data = json.load(fi)
 
-    with open (path_out,'w') as f:
-     	json.dump(data, f)
+		with open (path_out,'w') as f:
+			json.dump(data, f)
 
 
 
