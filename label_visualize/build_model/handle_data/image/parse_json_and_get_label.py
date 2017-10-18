@@ -14,14 +14,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+    Run test
+    python parse_json_and_get_label.py 2016-10-01 2017-06-29
+"""
+
 import argparse
 import base64
 import os
 
-#base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
-# path_base = 'C:/Users/CPU10145-local/Desktop/Python Envirement/Data/DWHVNG/APEX/test'
+
 path_base = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/'
-# path_base = 'E:\VNG\Data\DATA\DWHVNG\APEX\MARKETING_TOOL_02_JSON/'
+
 
 def label(photo_link, g_vdate):
     # [START vision_quickstart]
@@ -71,10 +75,7 @@ def label(photo_link, g_vdate):
     disassembled = urlparse(picture_page)
     filename, file_ext = splitext(basename(disassembled.path))
 
-    #Dev env
-    #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
-    #Prod env
-    # base_dir='E:\\VNG\\Python Envirement\\Data\\DWHVNG\\APEX\\MARKETING_TOOL_02_JSON\\'+pdate+"\\images"
+
     base_dir = join(path_base, pdate)
     base_dir=base_dir +"/images"
 
@@ -196,10 +197,7 @@ def get_labled_image_url(pdate):
     except ImportError:
         from urlparse import urlparse  # Python 2
 
-    #Dev env
-    #base_dir="/home/leth/Workspace/Python/python3/parse_csv/sources/"
-    #Prod env
-    # base_dir='E:\\VNG\\Python Envirement\\Data\\DWHVNG\\APEX\\MARKETING_TOOL_02_JSON\\'
+
     base_dir = path_base
 
 
