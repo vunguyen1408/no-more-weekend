@@ -41,10 +41,11 @@ def get_label_videos(folder, path_folder_audios, video_json):
 
     list_index = []
     list_file = next(os.walk(path_folder_audios))[2]
+    
     for file_ in list_file:
         file_json = {
             'name': file_,
-            'index': int(file_[11:-4])
+            'index': int(file_[11:-5])
         }
         list_index.append(file_json)
 
@@ -62,6 +63,7 @@ def get_label_videos(folder, path_folder_audios, video_json):
                     # list_label = analyze_labels(link)
                     # value['video_label'] = list(list_label)
                     value['audio_text'] = analyze_labels(file_name)
+    
     return video_json
 
 def get_30_date(path_full_data, date, video_json):
@@ -84,6 +86,7 @@ def get_30_date(path_full_data, date, video_json):
             with open (file_name,'r') as file_json:
                 data = json.load(file_json)
                 for value in data['my_json']:
+                    print(value)
                     if (value['audio_text']['transcript'] != '') and (value['file_name'] not in list_name):
                         list_name.append(value['file_name'])
                         list_video_json_before.append(value)
@@ -127,6 +130,7 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
             if os.path.exists(path_file) and os.path.exists(path_file_video):
                 with open (path_file_video,'r') as file_json:
                     video_json = json.load(file_json)
+                    # video_json = get_label_videos(folder, path_folder_audios, video_json)
                     list_video_json_before, video_json = get_30_date(path, folder, video_json)
                     video_json = get_label_videos(folder, path_folder_audios, video_json)
                     print (video_json)

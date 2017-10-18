@@ -28,8 +28,10 @@ def create_content_file(path_folder, path_file, folder):
 						'page_id': page_id,
 						'video_id': id_v,
 						# 'video_url': video_url,
-						'audio_text': ''
+						'audio_text': {}
 				}
+				video_json['audio_text']['transcript'] = None
+				video_json['audio_text']['confidence'] = None
 				list_result.append(video_json)
 	list_json = {}
 	list_json['my_json'] = list_result
