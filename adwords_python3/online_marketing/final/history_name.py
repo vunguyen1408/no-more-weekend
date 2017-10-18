@@ -7,17 +7,24 @@ import cx_Oracle
 from datetime import datetime , timedelta, date
 
 def FindNameNew(data_total, camp_id, camp_name):
+	print ("Check")
 	flag = 0
 	date_max = '0001-01-01'
 	name_max = ''
 	camp_id = ''
+	index = 0
 	for i, name in enumerate(data_total):
+		print (name['CAMPAIGN_NAME'])
+		if name['CAMPAIGN_NAME'] is None or name['CAMPAIGN_NAME'] == '':
+			print("=============================================")
+			print (name)
 		if str(camp_id) == str(name['CAMPAIGN_ID']):
 			flag = 1
 			if datetime.strptime(date_max, '%Y-%m-%d').date() < datetime.strptime(name['UPDATE_DATE'], '%Y-%m-%d').date():
 				name_max = name['CAMPAIGN_NAME']
 				date_max = str(name['UPDATE_DATE'])
 				camp_id = name['CAMPAIGN_ID']
+				index = i
 
 	if flag == 0:
 		return 0
@@ -26,6 +33,7 @@ def FindNameNew(data_total, camp_id, camp_name):
 			print (date_max)
 			print (name_max)
 			print (camp_id)
+			print (index)
 			flag = -1
 			return flag
 		else:
@@ -68,7 +76,7 @@ def AccountFromCampaign(customer, path_data, date):
 		with open (path_data_his,'r') as f:
 			data_total = json.load(f)
 		for camp in data:
-			if camp['Campaign'] != None and camp['Campaign ID'] != None:
+			if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
 				flag = FindNameNew(data_total['HISTORY'], camp['Campaign ID'], camp['Campaign'])	
 				if flag == 0 or flag == -1:
 					if flag == -1:
@@ -144,18 +152,23 @@ def InsertHistoryName(connect, path_data, list_account, date):
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
 	list_diff = []
+	# path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
+	# data_total = {}
+	# data_total['HISTORY'] = []
+	# with open (path_data_his,'w') as f:
+	# 	json.dump(data_total, f)
 	for account in list_account:
 		list_temp = AccountFromCampaign(account, path_data, date)
 		list_diff.append(list_temp)
 		path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
-	# 	if os.path.exists(path_data_his):
-	# 		with open (path_data_his,'r') as f:
-	# 			data = json.load(f)
-	# 		for i in data['HISTORY']:
-	# 			MergerCampList(i, cursor)
-	# conn.commit()
-	# # print("Committed!.......")
-	# cursor.close()
+		if os.path.exists(path_data_his):
+			with open (path_data_his,'r') as f:
+				data = json.load(f)
+			for i in data['HISTORY']:
+				MergerCampList(i, cursor)
+	conn.commit()
+	# print("Committed!.......")
+	cursor.close()
 
 
 

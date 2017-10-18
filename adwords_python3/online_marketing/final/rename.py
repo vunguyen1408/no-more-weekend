@@ -249,9 +249,9 @@ def Map(path_folder, list_plan, list_campaign, date):
 
 
 
-def CacualatorChange(path_data, list_customer, date):
+def CacualatorChange(path_data, list_customer, list_diff, date):
 
-  list_diff = CheckNameChange(path_data, list_customer, date)
+  # list_diff = CheckNameChange(path_data, list_customer, date)
   path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 
   list_camp_need_removed = []
@@ -289,7 +289,7 @@ def CacualatorChange(path_data, list_customer, date):
 
 
     list_plan = mapping.ReadPlan(path_data, date)
-
+    list_plan = mapping.AddProductCode(path_data, list_plan, date)
     # # -------------- Call mapping ----------------
     # print (len(list_camp_find))
     # for camp in list_camp_find:
@@ -299,77 +299,63 @@ def CacualatorChange(path_data, list_customer, date):
 
     plan_sum, list_map_temp = insert_to_total.SumTotalManyPlan(data_map['plan'], data_map['campaign'])
 
-    list_camp_update = list_camp_find
-    list_plan_update = []
-    list_plan_remove_unmap = []
-    list_camp_need_remove = list_map_temp
-    #------------- Insert total ------------
-    for plan in plan_sum:
+    list_camp_update = list_camp_find # Update name
+    list_plan_update = list_plan # Update plan change cost
+    list_plan_remove_unmap = [] # Remove camp plan un map
+    list_camp_need_remove = list_map_temp  # Remove campaign mapped
+    
+    for plan in list_plan:
       flag = True
       for plan_total in data_total['TOTAL']:
         if plan_total['PRODUCT'] == plan['PRODUCT'] \
           and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
           and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
           and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
-          plan_total['TOTAL_CAMPAIGN'] = insert_data.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
+          plan_total['TOTAL_CAMPAIGN'] = insert_to_total.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
           flag = False
 
       #----- Không tìm thấy trong total ------
       if flag:
         # --------------- Tạo các thông tin month cho plan trước khi add --------------
         data_total['TOTAL'].append(plan)
-        list_plan_add_new.append(plan)
 
-      #------------- Xoa trong danh sach un map PLAN ------------------
+
+    print (list_plan)
+
+    # -------- Xoa cac camp da duoc mapping lai ra khoi un map ----------
+    for camp in list_map_temp:
+      for campaign in data_total['UN_CAMPAIGN']:
+        if camp['Campaign ID'] == campaign['Campaign ID'] \
+          and camp['Date'] == campaign['Date']:
+          data_total['UN_CAMPAIGN'].remove(campaign)
+
+    # -------- Xoa cac plan da duoc mapping lai ra khoi un map ----------
+    for plan in list_plan:
       for plan_un in data_total['UN_PLAN']:
         if plan_un['PRODUCT'] == plan['PRODUCT'] \
           and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
           and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
           and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
-          list_plan_remove_unmap.append(plan_un)
           data_total['UN_PLAN'].remove(plan_un)
+          list_plan_remove_unmap.append(plan_un)
 
-    # ----------------- remove campaign ----------------------
-    for camp in list_camp_need_remove:
-      for campaign in data_total['UN_CAMPAIGN']:
-        if camp['Campaign ID'] == campaign['Campaign ID'] \
-          and camp['Date'] == campaign['Date']:
-          data_total['UN_CAMPAIGN'].remove(campaign)
-          
-
-      # print (len(data_total['UN_CAMPAIGN']))
-
-    # --------------- Tinh total month cho cac plan --------------
     print ("---------------------------------------------------")
     for plan in data_total['TOTAL']:
       plan['MONTHLY'] = {}
-      plan = insert_data.CaculatorTotalMonth(plan, date)
-      for plan_un in list_plan:
-        if plan_un['PRODUCT'] == plan['PRODUCT'] \
-          and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-          and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
-          and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION']:
-          list_plan_update.append(plan)
+      plan = insert_to_total.CaculatorTotalMonth(plan, date)
 
       # print (plan)
     print ("---------------------------------------------------")
 
     for plan in data_total['UN_PLAN']:
       plan['MONTHLY'] = {}
-      plan = insert_data.CaculatorTotalMonth(plan, date)
-
-      for plan_un in list_plan:
-        if plan_un['PRODUCT'] == plan['PRODUCT'] \
-          and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-          and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
-          and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION']:
-          list_plan_update.append(plan)
-
+      plan = insert_to_total.CaculatorTotalMonth(plan, date)
 
     for plan in data_total['TOTAL']:
-      plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_data.GetVolumeActualTotal(plan)
-      for m in plan['MONTHLY']:
-        m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_data.GetVolumeActualMonthly(plan, m)
+        plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
+        for m in plan['MONTHLY']:
+          m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
+
 
 
     # # ------------- Remove campaign mapped ----------------
@@ -382,6 +368,7 @@ def CacualatorChange(path_data, list_customer, date):
     #         data_total['UN_CAMPAIGN'].remove(campaign)
 
     # data_total = insert_to_total.AddToTotal(data_total, data_map, date)
+
 
     # path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_123' + '.json')
     # with open (path_data_total_map,'w') as f:
