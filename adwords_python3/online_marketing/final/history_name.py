@@ -13,7 +13,12 @@ def FindNameNew(data_total, camp_id, camp_name):
 	for i, name in enumerate(data_total):
 		if str(camp_id) == str(name['CAMPAIGN_ID']):
 			flag = 1
-			if datetime.strptime(date_max, '%Y-%m-%d').date() < datetime.strptime(str(name['UPDATE_DATE']), '%Y-%m-%d').date():
+			print (date_max)
+			print (type(date_max))
+			print (name['UPDATE_DATE'])
+			print (type(name['UPDATE_DATE']))
+			print ("===================")
+			if datetime.strptime(date_max, '%Y-%m-%d').date() < datetime.strptime(name['UPDATE_DATE'], '%Y-%m-%d').date():
 				name_max = name['CAMPAIGN_NAME']
 				date_max = str(date)
 
