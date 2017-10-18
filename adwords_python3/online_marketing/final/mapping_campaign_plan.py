@@ -263,7 +263,7 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept)
           or \
           ( LogManualMap(path_folder, camp, eform, date) ):   
           char = getch.getch()
-         
+          print ("mmmmmmmmmmmmmmmmmmmmmmmmmappppppppppppppppppppppppppppppppppppppppp")
           camp['Mapping'] = True
           plan = {}
           plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
