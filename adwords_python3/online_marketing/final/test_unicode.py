@@ -228,7 +228,7 @@ def InsertContentAds(cursor, ads, d):
 	print (ads['list_product'])
 	if ads['list_product'] != []:
 		#-------- Insert image ---------------
-		list_image = ads['audit_content']['image']
+		list_image = ads['audit_content']['image_urls']
 		if list_image != []:
 			for i, image in enumerate(list_image):
 				print ('insert ------------------')
