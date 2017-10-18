@@ -6,6 +6,27 @@ import json
 import cx_Oracle
 from datetime import datetime , timedelta, date
 
+def FindNameNew(data_total, camp_id, camp_name):
+	flag = 0
+	date_max = '0001-01-01'
+	name_max = ''
+	for i, name in enumerate(data_total):
+		if str(camp_id) == str(name['CAMPAIGN_ID']):
+			flag = 1
+			if datetime.strptime(date_max, '%Y-%m-%d').date() < datetime.strptime(name['UPDATE_DATE'], '%Y-%m-%d').date():
+				name_max = name['CAMPAIGN_NAME']
+				date_max = str(date)
+
+	if flag == 0:
+		return 0
+	else:
+		if camp_name != name:
+			flag = -1
+			return flag
+		else:
+			flag = 1
+			return flag
+	
 
 def AccountFromCampaign(customer, path_data, date):
 	path = os.path.join(path_data, str(date) + '/ACCOUNT_ID/' + customer)
@@ -41,27 +62,21 @@ def AccountFromCampaign(customer, path_data, date):
 		with open (path_data_his,'r') as f:
 			data_total = json.load(f)
 		for camp in data:
-			flag = True
-			for name in data_total['HISTORY']:
-				if str(camp['Campaign ID']) == str(name['CAMPAIGN_ID']):
-					flag = False
-					if camp['Campaign'] != name['CAMPAIGN_NAME']:
-						name['CAMPAIGN_NAME'] = camp['Campaign']
-						name['UPDATE_DATE'] = str(date)
-						
-			if flag:
-				# ----------------- Add new -----------------------
-				# print (camp)
-				temp = {
-					'ACCOUNT_ID': camp['Account ID'],
-					'CAMPAIGN_ID' : camp['Campaign ID'],
+			if camp['Campaign'] != None and camp['Campaign ID'] != None:
+				flag = FindNameNew(data_total['HISTORY'], camp_id, camp_name):		
+				if flag == 0 or flag == -1:
+					# ----------------- Add new -----------------------
+					# print (camp)
+					temp = {
+						'ACCOUNT_ID': camp['Account ID'],
+						'CAMPAIGN_ID' : camp['Campaign ID'],
 
-					'CAMPAIGN_NAME' :camp['Campaign'],
-					'DATE_GET' :camp['Date'],
-					'UPDATE_DATE': str(date),
-					'IMPORT_DATE' : None
-				}
-				data_total['HISTORY'].append(temp)
+						'CAMPAIGN_NAME' :camp['Campaign'],
+						'DATE_GET' :camp['Date'],
+						'UPDATE_DATE': str(date),
+						'IMPORT_DATE' : None
+					}
+					data_total['HISTORY'].append(temp)
 		path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
 		with open (path_data_his,'w') as f:
 			json.dump(data_total, f)
