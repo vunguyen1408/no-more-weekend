@@ -10,6 +10,7 @@ import argparse
 import sys
 import os
 import json
+import subprocess
 from datetime import datetime , timedelta, date
 import time
 
@@ -18,32 +19,62 @@ from google.cloud.gapic.videointelligence.v1beta1 import (
     video_intelligence_service_client)
 
 
-def analyze_labels(path):
+def transcribe_file(speech_file, p_sample_rate):
+    """Transcribe the given audio file asynchronously."""
+    from google.cloud import speech
+    from google.cloud.speech import enums
+    from google.cloud.speech import types
+    client = speech.SpeechClient()
 
-    list_label = []
-    """ Detects labels given a GCS path. """
-    video_client = (video_intelligence_service_client.
-                    VideoIntelligenceServiceClient())
+    # [START migration_async_request]
+    with io.open(speech_file, 'rb') as audio_file:
+        content = audio_file.read()
 
-    features = [enums.Feature.LABEL_DETECTION]
-    print ("==================================================")
-    print (path)
-    operation = video_client.annotate_video(path, features)
+    audio = types.RecognitionAudio(content=content)
+    config = types.RecognitionConfig(
+        encoding=enums.RecognitionConfig.AudioEncoding.FLAC,
+        sample_rate_hertz=int(p_sample_rate),
+        language_code='vi-VN')
 
-    print('\nProcessing video for label annotations:')
+    # [START migration_async_response]
+    operation = client.long_running_recognize(config, audio)
+    # [END migration_async_request]
 
-    while not operation.done():
-        sys.stdout.write('.')
-        sys.stdout.flush()
-        time.sleep(20)
+    print('Waiting for operation to complete...')
+    response = operation.result(timeout=90)
 
-    print('\nFinished processing.')
+    # Print the first alternative of all the consecutive results.
+    for result in response.results:
+        print('Transcript: {}'.format(result.alternatives[0].transcript))
+        print('Confidence: {}'.format(result.alternatives[0].confidence))
 
-    results = operation.result().annotation_results[0]
-    for label in results.label_annotations:
-        list_label.append(label.description)
-        print (label.description)
-    return list_label
+    
+    text = {}    
+    text['transcript'] = result.alternatives[0].transcript
+    text['confidence'] = result.alternatives[0].confidence
+    # print(text)
+
+    return text
+
+
+
+def analyze_labels(file_audio):
+    #============== Get sample rate ==================
+    cmd = "ffprobe " + file_audio + " -show_entries" + " stream=sample_rate"
+    out = subprocess.check_output(cmd) 
+    print(out)
+    if (isinstance(out, bytes)):    
+        out = str(out)
+        sample_rate = int(out[(out.find('=') + 1) : (out.rfind('[') - 4)])
+    elif (isinstance(out, str)):
+        sample_rate = int(out[(out.find('=') + 1) : (out.rfind('['))])
+    # print(sample_rate)
+    
+    #============== Get text of audio ===================
+    text = transcribe_file(file_audio, sample_rate) 
+    
+    return text
+
 
 def get_label_videos(folder, path_folder_audios, video_json):
 
@@ -68,6 +99,8 @@ def get_label_videos(folder, path_folder_audios, video_json):
                 if file_['index'] == i:
                     # link = 'gs://python_video/' + folder + '/' + file_['name']
                     file_name = path_folder_audios + '/' + file_['name']
+                    print(file_name)
+
                     # list_label = analyze_labels(link)
                     # value['video_label'] = list(list_label)
                     value['audio_text'] = analyze_labels(file_name)
@@ -96,7 +129,7 @@ def get_30_date(path_full_data, date, video_json):
             with open (file_name,'r') as file_json:
                 data = json.load(file_json)
                 for value in data['my_json']:
-                    print(value)
+                    # print(value)
                     if (value['audio_text']['transcript'] != '') and (value['file_name'] not in list_name):
                         list_name.append(value['file_name'])
                         list_video_json_before.append(value)
@@ -109,7 +142,7 @@ def get_30_date(path_full_data, date, video_json):
                 value['audio_text']['confidence'] = json_['audio_text']['confidence']
                 json_count += 1
     print ("======================================================================")
-    print (video_json)
+    # print (video_json)
     print ("Total "+ str(len(video_json['my_json'])))
     print ("Finded " + str(json_count))
     print ("======================================================================")
@@ -128,22 +161,22 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
         d = datetime.strptime(folder, '%Y-%m-%d').date()
 
         if d <= to_date and d >= date:
-            print (d)
+            # print (d)
 
             #==============================================
             path_folder = os.path.join(path, folder)
             path_folder_audios = os.path.join(path_folder, 'audios')
             path_file = os.path.join(path_folder, 'ads_creatives_audit_content_' + str(folder) + '.json')
             path_file_video = os.path.join(path_folder, 'video_url_' + str(folder) + '.json')
-            print (path_file)
-            print (path_file_video)
+            # print (path_file)
+            # print (path_file_video)
             if os.path.exists(path_file) and os.path.exists(path_file_video):
                 with open (path_file_video,'r') as file_json:
                     video_json = json.load(file_json)
                     # video_json = get_label_videos(folder, path_folder_audios, video_json)
                     list_video_json_before, video_json = get_30_date(path, folder, video_json)
                     video_json = get_label_videos(folder, path_folder_audios, video_json)
-                    print (video_json)
+                    # print (video_json)
                     with open (path_file_video,'w') as f:
                         json.dump(video_json, f)
                 print ("========================= Add label to data json =========================")
@@ -175,6 +208,6 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
 
 if __name__ == '__main__':
     from sys import argv
-    path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+    path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'    
     script, date, to_date = argv
     add_label_video_to_data(path, date, to_date)
