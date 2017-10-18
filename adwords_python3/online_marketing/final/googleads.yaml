@@ -107,14 +107,14 @@ dfp:
 # Below you may specify an HTTP or HTTPS Proxy to be used when making API     #
 # requests.                                                                   #
 ###############################################################################
-# proxy_config:
+proxy_config:
   # If specified, the given cafile will only be used if certificate validation
   # is not disabled.
   # cafile: INSERT_PATH_HERE
   # disable_certificate_validation: False
-  # http_proxy:
-    # host: INSERT_HOST_HERE
-    # port: INSERT_PROXY_PORT_HERE
+  http_proxy:
+    host: 10.30.76.11
+    port: 3128
     # The following values are optional:
     # username: INSERT_USERNAME_HERE
     # password: INSERT_PASSWORD_HERE
