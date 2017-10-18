@@ -248,10 +248,13 @@ def add_label_video_to_data(connect, path, date_, to_date_):
 		if d <= to_date and d >= date:
 			path_folder = os.path.join(path, folder)
 			path_file = os.path.join(path_folder, 'ads_creatives_audit_content_' + str(folder) + '.json')
+			print (path_file)
+			print ("--------------------")
 			if os.path.exists(path_file):
 				with open(path_file, 'r') as f:
 					data = json.load(f)
 					for ads in data['my_json']:
+						print ('ads====================')
 						InsertContentAds(cursor, ads, str(d))
 	conn.commit()
 	cursor.close()
