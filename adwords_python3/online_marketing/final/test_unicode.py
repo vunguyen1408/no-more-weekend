@@ -202,22 +202,72 @@ from datetime import datetime , timedelta, date
 
 # cursor.close()
 
-path_no_video = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON_NO_VIDEO'
-path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
-list_folder = next(os.walk(path))[1]
-for folder in list_folder:
-	name = folder + '/video_url_' + folder + '.json'
-	path_in = path_no_video + '/' + name
-	path_out = path + '/' + name
-	print (path_in)
-	print (path_out)
-	if os.path.exists(path_in) and os.path.exists(path_out):
-		with open(path_in, 'r') as fi:
-			data = json.load(fi)
+# path_no_video = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON_NO_VIDEO'
+# path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+# list_folder = next(os.walk(path))[1]
+# for folder in list_folder:
+# 	name = folder + '/video_url_' + folder + '.json'
+# 	path_in = path_no_video + '/' + name
+# 	path_out = path + '/' + name
+# 	print (path_in)
+# 	print (path_out)
+# 	if os.path.exists(path_in) and os.path.exists(path_out):
+# 		with open(path_in, 'r') as fi:
+# 			data = json.load(fi)
 
-		with open (path_out,'w') as f:
-			json.dump(data, f)
+# 		with open (path_out,'w') as f:
+# 			json.dump(data, f)
 
+
+#-------------- Do data audit ------------------
+def InsertContentAds(cursor, ads, d):
+	statement = 'insert into STG_AUDIT_CONTENT ( \
+	AD_ID, PRODUCT_ID, CONTENT, TYPE, PREDICT_PERCENT, \
+	INDEX_CONTENT, SNAPSHOT_DATE, INSERT_DATE) \
+	values (:1, :2, :3, :4, :5, :6, :7, :8)'
+
+	if ads['list_product'] != []:
+		#-------- Insert image ---------------
+		list_image = ads['audit_content']['image']
+		if list_image != []:
+			for i, image in enumerate(list_image):
+				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], image['image_url'], 'image_url', 0, i,  \
+				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime(d, '%Y-%m-%d'), None, None))
+
+def add_label_video_to_data(connect, path, date_, to_date_):
+	# Lấy danh sách path của các file json cần tổng hợp data
+	list_folder = next(os.walk(path))[1]
+
+	#========================== Auto run ===================
+	conn = cx_Oracle.connect(connect)
+	cursor = conn.cursor()
+	date = datetime.strptime(date_, '%Y-%m-%d').date()
+	to_date = datetime.strptime(to_date_, '%Y-%m-%d').date()
+	for folder in list_folder:
+		d = datetime.strptime(folder, '%Y-%m-%d').date()
+		if d <= to_date and d >= date:
+			path_file = os.path.join(path_folder, 'ads_creatives_audit_content_' + str(folder) + '.json')
+			if os.path.exists(path_file):
+				with open(path_file, 'r') as f:
+					data = json.load(f)
+					for ads in data['my_json']:
+						InsertContentAds(cursor, ads, str(d))
+	conn.commit()
+	cursor.close()
+
+
+# path_folder_videos = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON/2016-10-02/videos'
+# path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+# path = 'D:/DATA/NEW_DATA_10-2016_05-2017/FULL_DATA_10-2016_06-2017/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
+# path = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
+# date_ = '2016-11-26'
+# to_date_ = '2016-12-10'
+
+if __name__ == '__main__':
+    from sys import argv
+    path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'    
+    script, date, to_date = argv
+    add_label_video_to_data(path, date, to_date)
 
 
 
