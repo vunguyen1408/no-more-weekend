@@ -30,7 +30,7 @@ from googleads import adwords
 
 PAGE_SIZE = 500
 
-ADGROUP_ID = 'INSERT_ADGROUP_ID_HERE'
+# ADGROUP_ID = 'INSERT_ADGROUP_ID_HERE'
 
 
 def main(client, adgroup_id):
@@ -84,4 +84,7 @@ if __name__ == '__main__':
   # Initialize client object.
   adwords_client = adwords.AdWordsClient.LoadFromStorage()
 
-  main(adwords_client, ADGROUP_ID)
+  # main(adwords_client, ADGROUP_ID)
+  main(adwords_client, '49236266848')
+
+
