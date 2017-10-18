@@ -251,7 +251,9 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept)
           print (eform)
           print (start)
           print (end)
+          print ((eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []))
           print ((checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])))
+          print ((camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0))
           print ("=========================================")
 
         if (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
@@ -261,7 +263,8 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept)
           (date_ >= start) and \
           (date_ <= end) ) \
           or \
-          ( LogManualMap(path_folder, camp, eform, date) ):   
+          ( LogManualMap(path_folder, camp, eform, date) ): 
+          print ("mammmmmmmmmmmmmmmmmmmmmmpppppppppppppppppppppppp")  
           camp['Mapping'] = True
           plan = {}
           plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
