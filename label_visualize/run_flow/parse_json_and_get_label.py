@@ -184,6 +184,7 @@ def label(photo_link, g_vdate, path_base):
             print("Unknown Error try get label")
             print (photo_link)
     # list_label = []
+    print (list_label)
     return list_label
 
 
