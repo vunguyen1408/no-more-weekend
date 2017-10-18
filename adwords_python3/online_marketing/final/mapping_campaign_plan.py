@@ -464,7 +464,7 @@ def MapData(customer, path_folder, date):
         dept = 'GS5'
         data_map = MapAccountWithCampaignWPL(path_folder, list_plan['plan'], list_campaign, date, dept)
       else:
-        data_map = MapAccountWithCampaignAll(path_folder, list_plan['plan'], list_campaign, date, dept)
+        data_map = MapAccountWithCampaignAll(path_folder, list_plan['plan'], list_campaign, date)
 
     #----------------- Write file map and unmap ------------------
   path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
