@@ -152,23 +152,23 @@ def InsertHistoryName(connect, path_data, list_account, date):
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
 	list_diff = []
-	path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
-	data_total = {}
-	data_total['HISTORY'] = []
-	with open (path_data_his,'w') as f:
-		json.dump(data_total, f)
+	# path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
+	# data_total = {}
+	# data_total['HISTORY'] = []
+	# with open (path_data_his,'w') as f:
+	# 	json.dump(data_total, f)
 	for account in list_account:
 		list_temp = AccountFromCampaign(account, path_data, date)
 		list_diff.append(list_temp)
 		path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
-	# 	if os.path.exists(path_data_his):
-	# 		with open (path_data_his,'r') as f:
-	# 			data = json.load(f)
-	# 		for i in data['HISTORY']:
-	# 			MergerCampList(i, cursor)
-	# conn.commit()
-	# # print("Committed!.......")
-	# cursor.close()
+		if os.path.exists(path_data_his):
+			with open (path_data_his,'r') as f:
+				data = json.load(f)
+			for i in data['HISTORY']:
+				MergerCampList(i, cursor)
+	conn.commit()
+	# print("Committed!.......")
+	cursor.close()
 
 
 
