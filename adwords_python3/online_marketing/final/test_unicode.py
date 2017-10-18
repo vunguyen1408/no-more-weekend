@@ -226,6 +226,7 @@ def InsertContentAds(cursor, ads, d):
 	INDEX_CONTENT, SNAPSHOT_DATE, INSERT_DATE) \
 	values (:1, :2, :3, :4, :5, :6, :7, :8)'
 	print (ads['list_product'])
+	print (ads['ad_id'])
 	if ads['list_product'] != []:
 		#-------- Insert image ---------------
 		list_image = ads['audit_content']['image_urls']
@@ -246,6 +247,7 @@ def add_label_video_to_data(connect, path, date_, to_date_):
 	date = datetime.strptime(date_, '%Y-%m-%d').date()
 	to_date = datetime.strptime(to_date_, '%Y-%m-%d').date()
 	for folder in list_folder:
+		print (folder)
 		d = datetime.strptime(folder, '%Y-%m-%d').date()
 		if d <= to_date and d >= date:
 			path_folder = os.path.join(path, folder)
