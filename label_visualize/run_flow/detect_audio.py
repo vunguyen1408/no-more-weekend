@@ -62,9 +62,9 @@ def get_label_videos(folder, path_folder_audios, video_json):
                     file_name = path_folder_audios + '/' + file_['name']
                     # list_label = analyze_labels(link)
                     # value['video_label'] = list(list_label)
-                    # value['audio_text'] = analyze_labels(file_name)
-                    value['audio_text'] = {}
-                    print ("Done")
+                    value['audio_text'] = analyze_labels(file_name)
+                    # value['audio_text'] = {}
+                    # print ("Done")
     
     return video_json
 
