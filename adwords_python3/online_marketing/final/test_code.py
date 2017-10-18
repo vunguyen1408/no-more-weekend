@@ -123,7 +123,7 @@ def SaveAccountTree(account, accounts, links, level, list_acc, list_mcc, list_mc
 			          'dept': list_dept[list_mcc_id.index(dept)]
 			}
 
-		  	account['children'].append(child_note) 
+			account['children'].append(child_note) 
 
 			if child_note not in list_acc:
 				list_acc.append(child_note)  
