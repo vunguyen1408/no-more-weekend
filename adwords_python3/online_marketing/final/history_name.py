@@ -14,7 +14,7 @@ def FindNameNew(data_total, camp_id, camp_name):
 	index = 0
 	for i, name in enumerate(data_total):
 		if str(camp_id) == str(name['CAMPAIGN_ID']):
-			print ("--------------------===============-------")
+			# print ("--------------------===============-------")
 			flag = 1
 			if datetime.strptime(date_max, '%Y-%m-%d').date() < datetime.strptime(name['UPDATE_DATE'], '%Y-%m-%d').date():
 				name_max = name['CAMPAIGN_NAME']
@@ -26,10 +26,10 @@ def FindNameNew(data_total, camp_id, camp_name):
 		return 0
 	else:
 		if camp_name != name:
-			print (date_max)
-			print (name_max)
-			print (camp_id)
-			print (index)
+			# print (date_max)
+			# print (name_max)
+			# print (camp_id)
+			# print (index)
 			flag = -1
 			return flag
 		else:
@@ -89,6 +89,9 @@ def AccountFromCampaign(customer, path_data, date):
 						'IMPORT_DATE' : None
 					}
 					data_total['HISTORY'].append(temp)
+		print (date)
+		print (len(data_total['HISTORY']))
+		print ("=================================================")
 		path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
 		with open (path_data_his,'w') as f:
 			json.dump(data_total, f)
@@ -148,11 +151,11 @@ def InsertHistoryName(connect, path_data, list_account, date):
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
 	list_diff = []
-	# path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
-	# data_total = {}
-	# data_total['HISTORY'] = []
-	# with open (path_data_his,'w') as f:
-	# 	json.dump(data_total, f)
+	path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
+	data_total = {}
+	data_total['HISTORY'] = []
+	with open (path_data_his,'w') as f:
+		json.dump(data_total, f)
 	for account in list_account:
 		list_temp = AccountFromCampaign(account, path_data, date)
 		list_diff.append(list_temp)
