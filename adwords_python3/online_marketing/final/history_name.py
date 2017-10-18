@@ -56,6 +56,7 @@ def AccountFromCampaign(customer, path_data, date):
 			with open (path_data_his,'r') as f:
 				data_total = json.load(f)
 			if data_total['HISTORY'] == []:
+				print ("file rong")
 				f = True
 
 		if not os.path.exists(path_data_his) or f:
