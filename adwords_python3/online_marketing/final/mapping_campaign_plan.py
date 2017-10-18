@@ -240,6 +240,7 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept)
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == dept): 
         if (camp['Advertising Channel'] == 'UNIVERSAL_APP_CAMPAIGN'):
           print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+          print (camp)
 
         if (  (eform['CCD_PRODUCT'] != []) and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
           or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])) and \
@@ -249,7 +250,7 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept)
           (date_ <= end) ) \
           or \
           ( LogManualMap(path_folder, camp, eform, date) ):   
-
+          char = getch.getch()
          
           camp['Mapping'] = True
           plan = {}
