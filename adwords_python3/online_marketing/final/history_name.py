@@ -15,7 +15,7 @@ def FindNameNew(data_total, camp_id, camp_name):
 	index = 0
 	for i, name in enumerate(data_total):
 		print (name['CAMPAIGN_NAME'])
-		if name['CAMPAIGN_NAME'] is None:
+		if name['CAMPAIGN_NAME'] is None or name['CAMPAIGN_NAME'] == '':
 			print("=============================================")
 		if str(camp_id) == str(name['CAMPAIGN_ID']):
 			flag = 1
