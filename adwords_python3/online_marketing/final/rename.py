@@ -132,18 +132,18 @@ def CheckNameChange(path_data, list_customer, date):
 
     for camp_ in list_camp:
       flag = FindNameNew(data_total['HISTORY'], camp_['CAMPAIGN_ID'], camp_['CAMPAIGN_NAME'])
-        if flag == -1:
-          list_diff.append(camp_)
-          temp = {
-            'ACCOUNT_ID': camp_['ACCOUNT_ID'],
-            'CAMPAIGN_ID' : camp_['CAMPAIGN_ID'],
+      if flag == -1:
+        list_diff.append(camp_)
+        temp = {
+          'ACCOUNT_ID': camp_['ACCOUNT_ID'],
+          'CAMPAIGN_ID' : camp_['CAMPAIGN_ID'],
 
-            'CAMPAIGN_NAME' : camp_['CAMPAIGN_NAME'],
-            'DATE_GET' : str(date),
-            'UPDATE_DATE': str(date),
-            'IMPORT_DATE' : None
-          }
-          data_total['HISTORY'].append(temp)
+          'CAMPAIGN_NAME' : camp_['CAMPAIGN_NAME'],
+          'DATE_GET' : str(date),
+          'UPDATE_DATE': str(date),
+          'IMPORT_DATE' : None
+        }
+        data_total['HISTORY'].append(temp)
     #----------- Write file history new ----------------------
     path_folder = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING')
     print (path_folder)
