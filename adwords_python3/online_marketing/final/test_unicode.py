@@ -246,6 +246,7 @@ def add_label_video_to_data(connect, path, date_, to_date_):
 	for folder in list_folder:
 		d = datetime.strptime(folder, '%Y-%m-%d').date()
 		if d <= to_date and d >= date:
+			path_folder = os.path.join(path, folder)
 			path_file = os.path.join(path_folder, 'ads_creatives_audit_content_' + str(folder) + '.json')
 			if os.path.exists(path_file):
 				with open(path_file, 'r') as f:
