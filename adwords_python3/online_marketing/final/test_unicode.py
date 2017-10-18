@@ -265,9 +265,10 @@ def add_label_video_to_data(connect, path, date_, to_date_):
 
 if __name__ == '__main__':
     from sys import argv
-    path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'    
+    path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'  
+    connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'  
     script, date, to_date = argv
-    add_label_video_to_data(path, date, to_date)
+    add_label_video_to_data(connect, path, date, to_date)
 
 
 
