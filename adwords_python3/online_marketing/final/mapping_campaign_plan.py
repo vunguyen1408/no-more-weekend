@@ -47,16 +47,16 @@ def ChooseTime(plan):
   return (start_plan, end_plan)
 
 def checkProductCode(name, list_product_code):
-  print (name)
-  print (list_product_code)
+  # print (name)
+  # print (list_product_code)
   for product in list_product_code:
     if (name.find(product.upper()) >= 0) \
       or (name.find(product.lower()) >= 0) \
       or (name.find(product) >= 0) \
       or ((name.upper()).find(product.upper()) >= 0):
-      print ("=========== true ==================")
+      # print ("=========== true ==================")
       return True
-  print ("=========== flase ==================")
+  # print ("=========== flase ==================")
   return False
 
 
