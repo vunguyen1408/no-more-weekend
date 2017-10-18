@@ -62,7 +62,9 @@ def get_label_videos(folder, path_folder_audios, video_json):
                     file_name = path_folder_audios + '/' + file_['name']
                     # list_label = analyze_labels(link)
                     # value['video_label'] = list(list_label)
-                    value['audio_text'] = analyze_labels(file_name)
+                    # value['audio_text'] = analyze_labels(file_name)
+                    value['audio_text'] = {}
+                    print ("Done")
     
     return video_json
 
@@ -158,12 +160,13 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
 
 # path_folder_videos = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON/2016-10-02/videos'
 # path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
-path = 'D:/DATA/NEW_DATA_10-2016_05-2017/FULL_DATA_10-2016_06-2017/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
+# path = 'D:/DATA/NEW_DATA_10-2016_05-2017/FULL_DATA_10-2016_06-2017/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 # path = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 # date_ = '2016-11-26'
 # to_date_ = '2016-12-10'
 
 if __name__ == '__main__':
     from sys import argv
+    path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
     script, date, to_date = argv
     add_label_video_to_data(path, date, to_date)
