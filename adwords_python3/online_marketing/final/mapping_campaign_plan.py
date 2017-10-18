@@ -244,8 +244,8 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept)
           print ((camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0))
           print ((checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
           or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])))
-          print ((date_ >= start) and \
-          (date_ <= end))
+          print (eform['PRODUCT_CODE'])
+          print (eform['CCD_PRODUCT'])
           print (eform)
           print (start)
           print (end)
