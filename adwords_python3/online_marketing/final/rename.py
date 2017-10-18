@@ -247,9 +247,7 @@ def Map(path_folder, list_plan, list_campaign, date):
   print (" -------------- Un mapping------ ", len(list_campaign_map) - number)
   return data_map
 
-
-
-def CacualatorChange(path_data, list_customer, list_diff, date):
+def CacualatorChange(path_data, list_diff, date):
 
   # list_diff = CheckNameChange(path_data, list_customer, date)
   path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
