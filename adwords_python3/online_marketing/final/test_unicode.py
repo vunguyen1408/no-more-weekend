@@ -216,7 +216,7 @@ for folder in list_folder:
 		data = json.load(fi)
 
     with open (path_out,'w') as f:
-      json.dump(data, f)
+     	json.dump(data, f)
 
 
 
