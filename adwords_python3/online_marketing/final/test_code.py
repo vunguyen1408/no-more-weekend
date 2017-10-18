@@ -169,6 +169,7 @@ def GetAllAcount():
 		print(html.read)
 		print("ok")
 		# Get serviced account graph.
+		print(managed_customer_service.get(selector))
 		page = managed_customer_service.get(selector)
 		if 'entries' in page and page['entries']:
 		  # Create map from customerId to parent and child links.
