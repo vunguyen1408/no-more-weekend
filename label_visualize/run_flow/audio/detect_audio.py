@@ -146,7 +146,7 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
                         i = vaule['index_json']
                         j = vaule['index_video']
                         if 'video_ids' in data['my_json'][i]['audit_content']:
-                            data['my_json'][i]['audit_content']['video_ids'][j]['video_label'] = vaule['video_label']
+                            data['my_json'][i]['audit_content']['video_ids'][j]['audio_text'] = vaule['audio_text']
 
                     with open (path_file,'w') as f:
                         json.dump(data, f)

@@ -7,17 +7,12 @@ import cx_Oracle
 from datetime import datetime , timedelta, date
 
 def FindNameNew(data_total, camp_id, camp_name):
-	print ("Check")
 	flag = 0
 	date_max = '0001-01-01'
 	name_max = ''
 	camp_id = ''
 	index = 0
 	for i, name in enumerate(data_total):
-		print (name['CAMPAIGN_NAME'])
-		if name['CAMPAIGN_NAME'] is None or name['CAMPAIGN_NAME'] == '':
-			print("=============================================")
-			print (name)
 		if str(camp_id) == str(name['CAMPAIGN_ID']):
 			flag = 1
 			if datetime.strptime(date_max, '%Y-%m-%d').date() < datetime.strptime(name['UPDATE_DATE'], '%Y-%m-%d').date():
