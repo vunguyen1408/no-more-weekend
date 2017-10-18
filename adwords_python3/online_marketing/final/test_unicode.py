@@ -165,42 +165,59 @@ import cx_Oracle
 from datetime import datetime , timedelta, date
 
 
-def Insert(name, cursor):
-	#==================== Insert data into database =============================
-	statement = 'insert into DTM_GG_RUN_FLAG (FLAG_RUNNING, FINAL_RUNTIME) \
-	values (:1, :2) '
+# def Insert(name, cursor):
+# 	#==================== Insert data into database =============================
+# 	statement = 'insert into DTM_GG_RUN_FLAG (FLAG_RUNNING, FINAL_RUNTIME) \
+# 	values (:1, :2) '
 		
-	cursor.execute(statement, (name, None))
+# 	cursor.execute(statement, (name, None))
 	
-	print("A row inserted!.......")
-	conn.commit()
-	print("Committed!.......")
+# 	print("A row inserted!.......")
+# 	conn.commit()
+# 	print("Committed!.......")
 
 
 
-connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-conn = cx_Oracle.connect(connect)
-cursor = conn.cursor()
-path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST.json'
-# path = 'D:/WorkSpace/GG_Tool/New folder/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST_UNICODE.json'
-with open(path, 'r') as fi:
-	data = json.load(fi)
-# import _locale
-# _locale._getdefaultlocale = (lambda *args: ['vi-VN', 'utf-8'])
-for acc in data:
-	if (str(acc["customerId"]) == '4476024314'):
-		print(acc["name"])
+# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+# conn = cx_Oracle.connect(connect)
+# cursor = conn.cursor()
+# path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST.json'
+# # path = 'D:/WorkSpace/GG_Tool/New folder/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST_UNICODE.json'
+# with open(path, 'r') as fi:
+# 	data = json.load(fi)
+# # import _locale
+# # _locale._getdefaultlocale = (lambda *args: ['vi-VN', 'utf-8'])
+# for acc in data:
+# 	if (str(acc["customerId"]) == '4476024314'):
+# 		print(acc["name"])
 
-		# Insert(acc["name"].encode('utf-8'), cursor)
-		# # Insert(acc["name"].encode('cp437'), cursor)
-		# Insert(acc["name"].encode('ISO-8859-1'), cursor)
-		# Insert(acc["name"], cursor)
+# 		# Insert(acc["name"].encode('utf-8'), cursor)
+# 		# # Insert(acc["name"].encode('cp437'), cursor)
+# 		# Insert(acc["name"].encode('ISO-8859-1'), cursor)
+# 		# Insert(acc["name"], cursor)
 		
-		# print(acc["name"][2:-1])
-		# Insert(acc["name"][2:-1], cursor)
+# 		# print(acc["name"][2:-1])
+# 		# Insert(acc["name"][2:-1], cursor)
 
 
-cursor.close()
+# cursor.close()
+
+path_no_video = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON_NO_VIDEO'
+path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+list_folder = next(os.walk(path))[1]
+for folder in list_folder:
+	name = folder + '/video_url_' + folder + '.json'
+	path_in = path_no_video + '/' + name
+	path_out = path + '/' + name
+	print (path_in)
+	print (path_out)
+	if os.path.exists(path_in) and os.path.exists(path_out):
+	with open(path_in, 'r') as fi:
+		data = json.load(fi)
+
+    with open (path_out,'w') as f:
+      json.dump(data, f)
+
 
 
 
