@@ -247,9 +247,7 @@ def Map(path_folder, list_plan, list_campaign, date):
   print (" -------------- Un mapping------ ", len(list_campaign_map) - number)
   return data_map
 
-
-
-def CacualatorChange(path_data, list_customer, list_diff, date):
+def CacualatorChange(path_data, list_diff, date):
 
   # list_diff = CheckNameChange(path_data, list_customer, date)
   path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
@@ -414,11 +412,11 @@ list_customer_id = ['1033505012', '1057617213', '1066457627', '1124503774', '116
                     '8135096980', '5222928599', '9963010276', '5062362839', '6360800174', \
                     '8844079195', '5856149801', '6198751560', '9034826980', '8024455693']
 
-# GetListCampOfAccount(list_customer_id)
+GetListCampOfAccount(list_customer_id)
 
-path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
-date = '2017-08-31'
-# CacualatorChange(path_data, list_customer, date)
+# path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
+# date = '2017-08-31'
+# # CacualatorChange(path_data, list_customer, date)
 
-CheckNameChange(path_data, list_customer_id, date)
-# CacualatorChange(path_data, list_customer_id, date)
+# CheckNameChange(path_data, list_customer_id, date)
+# # CacualatorChange(path_data, list_customer_id, date)
