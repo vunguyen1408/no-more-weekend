@@ -225,9 +225,8 @@ def InsertContentAds(cursor, ads, d):
 	AD_ID, PRODUCT_ID, CONTENT, TYPE, PREDICT_PERCENT, \
 	INDEX_CONTENT, SNAPSHOT_DATE, INSERT_DATE) \
 	values (:1, :2, :3, :4, :5, :6, :7, :8)'
-
+	print (ads['list_product'])
 	if ads['list_product'] != []:
-		print (ads['list_product'])
 		#-------- Insert image ---------------
 		list_image = ads['audit_content']['image']
 		if list_image != []:
