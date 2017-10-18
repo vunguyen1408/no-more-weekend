@@ -47,12 +47,16 @@ def ChooseTime(plan):
   return (start_plan, end_plan)
 
 def checkProductCode(name, list_product_code):
+  print (name)
+  print (list_product_code)
   for product in list_product_code:
     if (name.find(product.upper()) >= 0) \
       or (name.find(product.lower()) >= 0) \
       or (name.find(product) >= 0) \
       or ((name.upper()).find(product.upper()) >= 0):
+      print ("=========== true ==================")
       return True
+  print ("=========== flase ==================")
   return False
 
 
@@ -244,8 +248,6 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept)
           print ((camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0))
           print ((checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
           or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])))
-          print (eform['PRODUCT_CODE'])
-          print (eform['CCD_PRODUCT'])
           print (eform)
           print (start)
           print (end)
