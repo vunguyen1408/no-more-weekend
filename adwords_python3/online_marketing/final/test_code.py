@@ -88,6 +88,20 @@ import os
 import pandas as pd
 from urllib.request import urlopen
 
+path_data_total_map = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/history_name.json'
+with open (path_data_total_map,'r') as f:
+    data_total = json.load(f)
+
+print (path_data_total_map)
+# list_camp = GetListCampOfAccount(list_customer)
+path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/history_name.json'
+list_camp = []
+with open (path,'r') as f:
+  list_camp = json.load(f)
+list_camp = list_camp['history_name']
+print (len(data_total))
+print (len(list_camp))
+
 # PAGE_SIZE = 500
 
 # def SaveAccountTree(account, accounts, links, level, list_acc, list_mcc, list_mcc_id, list_dept, dept = None):
@@ -240,65 +254,65 @@ from urllib.request import urlopen
 
 
 
-def DownloadCampaignOfCustomer(adwords_client, customerId, startDate, endDate):
+# def DownloadCampaignOfCustomer(adwords_client, customerId, startDate, endDate):
 
-  adwords_client.SetClientCustomerId(customerId)
-  print (customerId)
-  report_downloader = adwords_client.GetReportDownloader(version='v201708')
-  result = []
-  report = {
-      'reportName': 'Custom date CAMPAIGN_PERFORMANCE_REPORT',
-      'dateRangeType': 'CUSTOM_DATE',
-      'reportType': 'CAMPAIGN_PERFORMANCE_REPORT',
-      'downloadFormat': 'TSV',
-      'selector': {
-        'dateRange':{'min':startDate,'max':endDate},
-        'fields': [
-          'CampaignStatus',
-          'CampaignName',
-          'AdvertisingChannelType',
-          'AdvertisingChannelSubType',
-          'CampaignId',
-          #, #budget
-          'ServingStatus',
-          'Clicks',
-          'Impressions',
-          'ImpressionReach',
-          'Ctr',
-          'AverageCpc',
-          'AverageCpm',
-          'Cost',
-          'Conversions',
-          'BiddingStrategyType',
-          'InvalidClicks',
-          'AveragePosition',
-          'Engagements',
-          'AverageCpe',
-          'VideoViewRate',
-          'VideoViews',
-          'AverageCpv',
-          'AverageCost',
-          'InteractionTypes',
-          'Interactions',
-          'InteractionRate',
-          'VideoQuartile25Rate',
-          'VideoQuartile50Rate',
-          'VideoQuartile75Rate',
-          'VideoQuartile100Rate',
-          'VideoViews',
-          'StartDate',
-          'EndDate'
+#   adwords_client.SetClientCustomerId(customerId)
+#   print (customerId)
+#   report_downloader = adwords_client.GetReportDownloader(version='v201708')
+#   result = []
+#   report = {
+#       'reportName': 'Custom date CAMPAIGN_PERFORMANCE_REPORT',
+#       'dateRangeType': 'CUSTOM_DATE',
+#       'reportType': 'CAMPAIGN_PERFORMANCE_REPORT',
+#       'downloadFormat': 'TSV',
+#       'selector': {
+#         'dateRange':{'min':startDate,'max':endDate},
+#         'fields': [
+#           'CampaignStatus',
+#           'CampaignName',
+#           'AdvertisingChannelType',
+#           'AdvertisingChannelSubType',
+#           'CampaignId',
+#           #, #budget
+#           'ServingStatus',
+#           'Clicks',
+#           'Impressions',
+#           'ImpressionReach',
+#           'Ctr',
+#           'AverageCpc',
+#           'AverageCpm',
+#           'Cost',
+#           'Conversions',
+#           'BiddingStrategyType',
+#           'InvalidClicks',
+#           'AveragePosition',
+#           'Engagements',
+#           'AverageCpe',
+#           'VideoViewRate',
+#           'VideoViews',
+#           'AverageCpv',
+#           'AverageCost',
+#           'InteractionTypes',
+#           'Interactions',
+#           'InteractionRate',
+#           'VideoQuartile25Rate',
+#           'VideoQuartile50Rate',
+#           'VideoQuartile75Rate',
+#           'VideoQuartile100Rate',
+#           'VideoViews',
+#           'StartDate',
+#           'EndDate'
 
-          ]
-      }
-  }
-  result = report_downloader.DownloadReportAsString(
-      report, skip_report_header=True, skip_column_header=False,
-      skip_report_summary=False, include_zero_impressions=True)
-  print (result)
-  # return result
+#           ]
+#       }
+#   }
+#   result = report_downloader.DownloadReportAsString(
+#       report, skip_report_header=True, skip_column_header=False,
+#       skip_report_summary=False, include_zero_impressions=True)
+#   print (result)
+#   # return result
 
 
-adwords_client = adwords.AdWordsClient.LoadFromStorage('/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads.yaml')
+# adwords_client = adwords.AdWordsClient.LoadFromStorage('/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads.yaml')
 
-DownloadCampaignOfCustomer(adwords_client, '5008396449', '2017-08-01', '2017-08-01')
+# DownloadCampaignOfCustomer(adwords_client, '5008396449', '2017-08-01', '2017-08-01')
