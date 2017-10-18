@@ -166,7 +166,7 @@ def GetAllAcount():
 		print("start")
 		managed_customer_service = adwords_client.GetService(
 		'ManagedCustomerService', version='v201708')
-		print("end")
+		print(managed_customer_service)
 		
 		# Get serviced account graph.
 		# print(managed_customer_service.get(selector))
