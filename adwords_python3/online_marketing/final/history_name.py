@@ -59,7 +59,7 @@ def AccountFromCampaign(customer, path_data, date):
 				print ("file rong")
 				f = True
 		print (data_total['HISTORY'])
-		if not os.path.exists(path_data_his) or f:
+		if (not os.path.exists(path_data_his)) or f:
 			print ("tim ngay truoc")
 			i = 0
 			find = True
