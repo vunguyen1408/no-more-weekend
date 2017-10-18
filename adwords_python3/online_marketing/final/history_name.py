@@ -11,6 +11,7 @@ def FindNameNew(data_total, camp_id, camp_name):
 	date_max = '0001-01-01'
 	name_max = ''
 	camp_id = ''
+	index = 0
 	for i, name in enumerate(data_total):
 		if str(camp_id) == str(name['CAMPAIGN_ID']):
 			flag = 1
@@ -18,6 +19,7 @@ def FindNameNew(data_total, camp_id, camp_name):
 				name_max = name['CAMPAIGN_NAME']
 				date_max = str(name['UPDATE_DATE'])
 				camp_id = name['CAMPAIGN_ID']
+				index = i
 
 	if flag == 0:
 		return 0
@@ -26,6 +28,7 @@ def FindNameNew(data_total, camp_id, camp_name):
 			print (date_max)
 			print (name_max)
 			print (camp_id)
+			print (index)
 			flag = -1
 			return flag
 		else:
