@@ -99,7 +99,7 @@ list_camp = []
 with open (path,'r') as f:
   list_camp = json.load(f)
 list_camp = list_camp['history_name']
-print (len(data_total))
+print (len(data_total['HISTORY']))
 print (len(list_camp))
 
 # PAGE_SIZE = 500
