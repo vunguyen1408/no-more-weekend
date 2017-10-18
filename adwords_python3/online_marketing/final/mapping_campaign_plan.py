@@ -239,6 +239,8 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept)
 
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == dept): 
         print (camp)
+        import getch
+        char = getch.getch()
         if (  (eform['CCD_PRODUCT'] != []) and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
           or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])) and \
           # (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
