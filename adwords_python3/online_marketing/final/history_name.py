@@ -51,25 +51,32 @@ def AccountFromCampaign(customer, path_data, date):
 		with open (path_data_map,'r') as f:
 			data = json.load(f)
 
-		# path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
-		# if not os.path.exists(path_data_his):
-		i = 0
-		find = True
-		date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
-		path_data_his = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'history_name' + '.json')
-		while not os.path.exists(path_data_his):
-			i = i + 1
-			date_before = date_before - timedelta(1)
+		path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
+		if os.path.exists(path_data_his):
+			with open (path_data_his,'r') as f:
+				data_total = json.load(f)
+			if data_total['HISTORY'] == []:
+				f = True
+
+		if not os.path.exists(path_data_his) or f:
+			i = 0
+			find = True
+			date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
 			path_data_his = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'history_name' + '.json')
-			if i == 60:
-				find = False
-				break
-		if not find:
-			path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
-			data_total = {}
-			data_total['HISTORY'] = []
-			with open (path_data_his,'w') as f:
-				json.dump(data_total, f)
+			while not os.path.exists(path_data_his):
+				i = i + 1
+				date_before = date_before - timedelta(1)
+				path_data_his = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'history_name' + '.json')
+				if i == 60:
+					find = False
+					break
+			if not find:
+				path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
+				data_total = {}
+				data_total['HISTORY'] = []
+				with open (path_data_his,'w') as f:
+					json.dump(data_total, f)
+
 		# print (path_data_his)
 		with open (path_data_his,'r') as f:
 			data_total = json.load(f)
