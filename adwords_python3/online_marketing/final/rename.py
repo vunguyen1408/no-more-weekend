@@ -130,6 +130,7 @@ def CheckNameChange(path_data, list_customer, date):
       list_camp = json.load(f)
     list_camp = list_camp['history_name']
 
+    print (len(list_camp))
     for camp_ in list_camp:
       flag = history_name.FindNameNew(data_total['HISTORY'], camp_['CAMPAIGN_ID'], camp_['CAMPAIGN_NAME'])
       if flag == -1:
