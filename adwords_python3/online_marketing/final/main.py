@@ -77,7 +77,7 @@ def Daily(connect, path_data, date):
 	# print ("            Time get report: ", time_download_report)
 
 	#======================== History name ==================================
-	# history.InsertHistoryName(connect, path_data, list_customer_id, date)
+	history.InsertHistoryName(connect, path_data, list_customer_id, date)
 
 	#======================== Insert install to data date ==============================
 	# print ("\n\n======================= RUN INSERT INSTALL WITH DATE : " + date + " =========================")
@@ -111,7 +111,7 @@ def Daily(connect, path_data, date):
 	#============================== Merge data ===============================
 	# print ("\n\n======================= RUN MERGE WITH DATE : " + date + " =========================")
 	# merge = time.time()
-	# merge_date.Merge(path_data, list_customer_id, date)
+	merge_date.Merge(path_data, list_customer_id, date)
 	# time_merge = time.time() - merge
 	# print ("             Time merge: ", time_merge)
 
@@ -119,7 +119,7 @@ def Daily(connect, path_data, date):
 	#============================== Insert data mapping to total ===============================
 	# print ("\n\n============= RUN INSERT DATA MAPPING TO TOTAL WITH DATE : " + date + " =================")
 	# insert_total = time.time()
-	# insert_to_total.InsertDateToTotal(path_data, date)
+	insert_to_total.InsertDateToTotal(path_data, date)
 	# time_insert_total = time.time() - insert_total
 	# print ("            Time insert data mapping to total : ", time_insert_total)
 

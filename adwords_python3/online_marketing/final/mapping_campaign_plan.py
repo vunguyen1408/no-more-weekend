@@ -244,19 +244,19 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept)
       #   print ("===============================================")
 
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == dept): 
-        if (camp['Advertising Channel'] == 'UNIVERSAL_APP_CAMPAIGN') and eform['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
-          print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-          print (camp)
-          print ((camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0))
-          print ((checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
-          or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])))
-          print (eform)
-          print (start)
-          print (end)
-          print ((eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []))
-          print ((checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])))
-          print ((camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0))
-          print ("=========================================")
+        # if (camp['Advertising Channel'] == 'UNIVERSAL_APP_CAMPAIGN') and eform['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
+        #   print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+        #   print (camp)
+        #   print ((camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0))
+        #   print ((checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
+        #   or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])))
+        #   print (eform)
+        #   print (start)
+        #   print (end)
+        #   print ((eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []))
+        #   print ((checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])))
+        #   print ((camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0))
+        #   print ("=========================================")
 
         if (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
           or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])) and \
@@ -266,7 +266,7 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept)
           (date_ <= end) ) \
           or \
           ( LogManualMap(path_folder, camp, eform, date) ): 
-          print ("mammmmmmmmmmmmmmmmmmmmmmpppppppppppppppppppppppp")  
+          # print ("mammmmmmmmmmmmmmmmmmmmmmpppppppppppppppppppppppp")  
           camp['Mapping'] = True
           plan = {}
           plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
