@@ -81,15 +81,15 @@ def predict_image(path_content_crawler, percent_train, percent_test, number_rela
         list_image = ads['audit_content']['image_urls']
         if list_image != []:
             for i, image in enumerate(list_image):
-                if i['image_label'] != []:
+                if image['image_label'] != []:
                     for folder in list_folder:
                         if folder in ads['list_product']:
-                            percent, feature = predict_lable(path_content_crawler, folder, percent_train, percent_test, number_relationship, i['image_label'])
+                            percent, feature = predict_lable(path_content_crawler, folder, percent_train, percent_test, number_relationship, image['image_label'])
                             print (percent)
                             print (feature)
                             print ("============================")
-                            # i['percent_predict'] = percent
-                            # i['feature'] = feature
+                            # image['percent_predict'] = percent
+                            # image['feature'] = feature
 
 
 def predict(path_data, path_content_crawler, percent_train, percent_test, number_relationship, date_, to_date_):
