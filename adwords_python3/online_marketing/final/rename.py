@@ -156,8 +156,8 @@ def CheckNameChange(path_data, list_customer, date):
 
     path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
     ###########################################
-    # with open (path_data_his,'w') as f:
-    #   json.dump(data_total, f)
+    with open (path_data_his,'w') as f:
+      json.dump(data_total, f)
     ############################################
   print ("====================== Length =================")
   print (len(list_diff))
@@ -260,7 +260,7 @@ def CacualatorChange(path_data, list_diff, date):
   # list_diff = CheckNameChange(path_data, list_customer, date)
   path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 
-  
+  list_camp_need_remove = []
   if not os.path.exists(path_data_total_map):
     i = 0
     find = True
@@ -428,12 +428,12 @@ def CacualatorChange(path_data, list_diff, date):
     print ("Camp PG2", pg2)
 
     ###########################################
-    # path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_123' + '.json')
-    # with open (path_data_total_map,'w') as f:
-    #   json.dump(data_total, f)
+    path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_123' + '.json')
+    with open (path_data_total_map,'w') as f:
+      json.dump(data_total, f)
     ##########################################
 
-  return (list_plan_remove_unmap, list_camp_need_removed, list_plan_update, list_camp_update)
+  return (list_plan_remove_unmap, list_camp_need_remove, list_plan_update, list_camp_update)
 
 
 list_customer_id = ['1033505012', '1057617213', '1066457627', '1124503774', '1163330677', \

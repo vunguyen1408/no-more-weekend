@@ -33,8 +33,8 @@ def Rename (connect, path_data, list_customer_id, date):
 	print (len(list_camp_update))
 
 
-	print (list_camp_remove_unmap != [])
-	print (len(list_camp_remove_unmap))
+	# print (list_camp_remove_unmap != [])
+	# print (len(list_camp_remove_unmap))
 	if list_camp_remove_unmap != []:
 		update_manual = time.time()
 		print ("insert data")
@@ -44,8 +44,8 @@ def Rename (connect, path_data, list_customer_id, date):
 		# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 		# detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 
-		# merge_data_manual_mapping.UpdateRename(connect, list_camp_update, data_total)
-		# merge_data_manual_mapping.merger_data_manual_mapping(connect, list_camp_remove_unmap, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
+		merge_data_manual_mapping.UpdateRename(connect, list_camp_update, data_total)
+		merge_data_manual_mapping.merger_data_manual_mapping(connect, list_camp_remove_unmap, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
 		time_update_manual = time.time() - update_manual
 		print ("---------- Time update rename to total : ", time_update_manual)
 	else:

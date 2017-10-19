@@ -19,7 +19,7 @@ def UpdateRename(connect, list_camp_update, data):
 		try:
 			cursor.execute(statement, (value['Campaign'], value['Campaign ID'], value['Date']))
 		except:
-			ursor.execute(statement, (value['Campaign'].encode('utf-8'), value['Campaign ID'], value['Date']))
+			cursor.execute(statement, (value['Campaign'].encode('utf-8'), value['Campaign ID'], value['Date']))
 
 		print ((value['Campaign'], value['Campaign ID'], value['Date']))
 
