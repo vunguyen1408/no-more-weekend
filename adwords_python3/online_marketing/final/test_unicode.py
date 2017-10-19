@@ -229,39 +229,39 @@ def InsertContentAds(cursor, ads, d):
 	values (:1, :2, :3, :4, :5, :6, :7, :8)'
 	print (ads['list_product'])
 	print (ads['ad_id'])
-	now = datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()
+	# now = datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()
 	if ads['list_product'] != [] and 'audit_content' in ads:
 		#-------- Insert image ---------------
 		list_image = ads['audit_content']['image_urls']
 		if list_image != []:
 			for i, image in enumerate(list_image):
 				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], image['image_url'], 'image_url', 0, i,  \
-				datetime.strptime(d, '%Y-%m-%d'), now))
+				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
 
 		list_thumbnail = ads['audit_content']['thumbnail_urls']
 		if list_thumbnail != []:
 			for i, thumbnail in enumerate(list_thumbnail):
 				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], thumbnail['thumbnail_url'], 'thumbnail_url', 0, i,  \
-				datetime.strptime(d, '%Y-%m-%d'), now))
+				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
 
 		links = ads['audit_content']['links']
 		if links != []:
 			for i, link in enumerate(links):
 				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], link['link'], 'link', 0, i,  \
-				datetime.strptime(d, '%Y-%m-%d'), now))
+				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
 
 		messages = ads['audit_content']['messages']
 		if messages != []:
 			for i, message in enumerate(messages):
 				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], message['message'].encode('utf-8').strip(), 'message', 0, i,  \
-				datetime.strptime(d, '%Y-%m-%d'), now))
+				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
 
 		video_ids = ads['audit_content']['video_ids']
 		if video_ids != [] and 'object_story_spec' in ads:
 			for i, video_id in enumerate(video_ids):
 				link = 'https://www.facebook.com/' + ads['object_story_spec']['page_id'] + '/videos/' + video_id['video_id']
 				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], link, 'video_id', 0, i,  \
-				datetime.strptime(d, '%Y-%m-%d'), now))
+				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
 
 def add_label_video_to_data(connect, path, date_, to_date_):
 	# Lấy danh sách path của các file json cần tổng hợp data
