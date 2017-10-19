@@ -298,11 +298,11 @@ def CacualatorChange(path_data, list_diff, date):
     pg1 = 0
     pg2 = 0
     for camp in list_camp_find:
-      if camp['Campaign'].find('MP2') >= 0:
+      if camp['Account Name'].find('MP2') >= 0:
         mp2 += 1
-      if camp['Campaign'].find('PG2') >= 0:
+      if camp['Account Name'].find('PG2') >= 0:
         pg2 += 1
-      if camp['Campaign'].find('PG1') >= 0:
+      if camp['Account Name'].find('PG1') >= 0:
         pg1 += 1
 
     print ("Camp MP2", mp2)
