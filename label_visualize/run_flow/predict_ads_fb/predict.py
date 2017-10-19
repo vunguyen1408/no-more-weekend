@@ -85,13 +85,11 @@ def predict_image(path_content_crawler, percent_train, percent_test, number_rela
                     for folder in list_folder:
                         if folder in ads['list_product']:
                             percent, feature = predict_lable(path_content_crawler, folder, percent_train, percent_test, number_relationship, image['image_label'])
-                            print (percent)
-                            print (feature)
-                            print (folder)
-                            print ("============================")
-
-                            # image['percent_predict'] = percent
-                            # image['feature'] = feature
+                            # print (percent)
+                            # print (feature)
+                            # print (folder)
+                            image['percent_predict'] = percent
+                            image['feature'] = feature
 
 
 def predict(path_data, path_content_crawler, percent_train, percent_test, number_relationship, date_, to_date_):
