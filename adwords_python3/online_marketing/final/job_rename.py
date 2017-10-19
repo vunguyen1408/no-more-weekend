@@ -19,7 +19,7 @@ def Rename (connect, path_data, list_customer_id, date):
 	print ("\n\n============= RUN RENAME WITH DATE : " + str(datetime.now()) + " =================")
 	caculator_manual = time.time()
 
-	list_diff = CheckNameChange(path_data, list_customer_id, date)
+	list_diff = rename.CheckNameChange(path_data, list_customer_id, date)
 	list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_camp_update = CacualatorChange(path_data, list_diff, date)
 
 	time_caculator_manual = time.time() - caculator_manual
