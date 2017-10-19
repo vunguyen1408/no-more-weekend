@@ -191,6 +191,7 @@ with open(path, 'r') as fi:
 for acc in data:
 	if (str(acc["customerId"]) == '4476024314'):
 		print(type(acc["name"]))
+		print(unicode(acc["name"]))
 		print(acc["name"].encode('utf-16'))
 		print(acc["name"].decode('utf-16'))
 
