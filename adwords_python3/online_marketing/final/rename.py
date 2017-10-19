@@ -296,73 +296,73 @@ def CacualatorChange(path_data, list_diff, date):
     print (list_camp_find[2])
 
 
-    list_plan = mapping.ReadPlan(path_data, date)
-    list_plan = mapping.AddProductCode(path_data, list_plan, date)
-    # # -------------- Call mapping ----------------
-    # print (len(list_camp_find))
-    # for camp in list_camp_find:
-    #   if camp['Campaign'].find('JXM') >= 0:
-    #     print (camp)
-    data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
+    # list_plan = mapping.ReadPlan(path_data, date)
+    # list_plan = mapping.AddProductCode(path_data, list_plan, date)
+    # # # -------------- Call mapping ----------------
+    # # print (len(list_camp_find))
+    # # for camp in list_camp_find:
+    # #   if camp['Campaign'].find('JXM') >= 0:
+    # #     print (camp)
+    # data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
 
-    plan_sum, list_map_temp = insert_to_total.SumTotalManyPlan(data_map['plan'], data_map['campaign'])
+    # plan_sum, list_map_temp = insert_to_total.SumTotalManyPlan(data_map['plan'], data_map['campaign'])
 
-    list_camp_update = list_camp_find # Update name
-    list_plan_update = list_plan # Update plan change cost
-    list_plan_remove_unmap = [] # Remove camp plan un map
-    list_camp_need_remove = list_map_temp  # Remove campaign mapped
+    # list_camp_update = list_camp_find # Update name
+    # list_plan_update = list_plan # Update plan change cost
+    # list_plan_remove_unmap = [] # Remove camp plan un map
+    # list_camp_need_remove = list_map_temp  # Remove campaign mapped
     
-    for plan in list_plan:
-      flag = True
-      for plan_total in data_total['TOTAL']:
-        if plan_total['PRODUCT'] == plan['PRODUCT'] \
-          and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-          and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
-          and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
-          plan_total['TOTAL_CAMPAIGN'] = insert_to_total.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
-          flag = False
+    # for plan in list_plan:
+    #   flag = True
+    #   for plan_total in data_total['TOTAL']:
+    #     if plan_total['PRODUCT'] == plan['PRODUCT'] \
+    #       and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+    #       and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
+    #       and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
+    #       plan_total['TOTAL_CAMPAIGN'] = insert_to_total.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
+    #       flag = False
 
-      #----- Không tìm thấy trong total ------
-      if flag:
-        # --------------- Tạo các thông tin month cho plan trước khi add --------------
-        data_total['TOTAL'].append(plan)
+    #   #----- Không tìm thấy trong total ------
+    #   if flag:
+    #     # --------------- Tạo các thông tin month cho plan trước khi add --------------
+    #     data_total['TOTAL'].append(plan)
 
 
-    print (list_plan)
+    # print (list_plan)
 
-    # -------- Xoa cac camp da duoc mapping lai ra khoi un map ----------
-    for camp in list_map_temp:
-      for campaign in data_total['UN_CAMPAIGN']:
-        if camp['Campaign ID'] == campaign['Campaign ID'] \
-          and camp['Date'] == campaign['Date']:
-          data_total['UN_CAMPAIGN'].remove(campaign)
+    # # -------- Xoa cac camp da duoc mapping lai ra khoi un map ----------
+    # for camp in list_map_temp:
+    #   for campaign in data_total['UN_CAMPAIGN']:
+    #     if camp['Campaign ID'] == campaign['Campaign ID'] \
+    #       and camp['Date'] == campaign['Date']:
+    #       data_total['UN_CAMPAIGN'].remove(campaign)
 
-    # -------- Xoa cac plan da duoc mapping lai ra khoi un map ----------
-    for plan in list_plan:
-      for plan_un in data_total['UN_PLAN']:
-        if plan_un['PRODUCT'] == plan['PRODUCT'] \
-          and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-          and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
-          and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
-          data_total['UN_PLAN'].remove(plan_un)
-          list_plan_remove_unmap.append(plan_un)
+    # # -------- Xoa cac plan da duoc mapping lai ra khoi un map ----------
+    # for plan in list_plan:
+    #   for plan_un in data_total['UN_PLAN']:
+    #     if plan_un['PRODUCT'] == plan['PRODUCT'] \
+    #       and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+    #       and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
+    #       and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+    #       data_total['UN_PLAN'].remove(plan_un)
+    #       list_plan_remove_unmap.append(plan_un)
 
-    print ("---------------------------------------------------")
-    for plan in data_total['TOTAL']:
-      plan['MONTHLY'] = {}
-      plan = insert_to_total.CaculatorTotalMonth(plan, date)
+    # print ("---------------------------------------------------")
+    # for plan in data_total['TOTAL']:
+    #   plan['MONTHLY'] = {}
+    #   plan = insert_to_total.CaculatorTotalMonth(plan, date)
 
-      # print (plan)
-    print ("---------------------------------------------------")
+    #   # print (plan)
+    # print ("---------------------------------------------------")
 
-    for plan in data_total['UN_PLAN']:
-      plan['MONTHLY'] = {}
-      plan = insert_to_total.CaculatorTotalMonth(plan, date)
+    # for plan in data_total['UN_PLAN']:
+    #   plan['MONTHLY'] = {}
+    #   plan = insert_to_total.CaculatorTotalMonth(plan, date)
 
-    for plan in data_total['TOTAL']:
-        plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
-        for m in plan['MONTHLY']:
-          m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
+    # for plan in data_total['TOTAL']:
+    #     plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
+    #     for m in plan['MONTHLY']:
+    #       m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
 
 
 
