@@ -334,39 +334,39 @@ def CacualatorChange(path_data, list_diff, date):
 
     # print (list_plan)
 
-    # # -------- Xoa cac camp da duoc mapping lai ra khoi un map ----------
-    # for camp in list_map_temp:
-    #   for campaign in data_total['UN_CAMPAIGN']:
-    #     if camp['Campaign ID'] == campaign['Campaign ID'] \
-    #       and camp['Date'] == campaign['Date']:
-    #       data_total['UN_CAMPAIGN'].remove(campaign)
+    # -------- Xoa cac camp da duoc mapping lai ra khoi un map ----------
+    for camp in list_map_temp:
+      for campaign in data_total['UN_CAMPAIGN']:
+        if camp['Campaign ID'] == campaign['Campaign ID'] \
+          and camp['Date'] == campaign['Date']:
+          data_total['UN_CAMPAIGN'].remove(campaign)
 
-    # # -------- Xoa cac plan da duoc mapping lai ra khoi un map ----------
-    # for plan in list_plan:
-    #   for plan_un in data_total['UN_PLAN']:
-    #     if plan_un['PRODUCT'] == plan['PRODUCT'] \
-    #       and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-    #       and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
-    #       and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
-    #       data_total['UN_PLAN'].remove(plan_un)
-    #       list_plan_remove_unmap.append(plan_un)
+    # -------- Xoa cac plan da duoc mapping lai ra khoi un map ----------
+    for plan in list_plan:
+      for plan_un in data_total['UN_PLAN']:
+        if plan_un['PRODUCT'] == plan['PRODUCT'] \
+          and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+          and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
+          and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+          data_total['UN_PLAN'].remove(plan_un)
+          list_plan_remove_unmap.append(plan_un)
 
-    # print ("---------------------------------------------------")
-    # for plan in data_total['TOTAL']:
-    #   plan['MONTHLY'] = {}
-    #   plan = insert_to_total.CaculatorTotalMonth(plan, date)
+    print ("---------------------------------------------------")
+    for plan in data_total['TOTAL']:
+      plan['MONTHLY'] = {}
+      plan = insert_to_total.CaculatorTotalMonth(plan, date)
 
-    #   # print (plan)
-    # print ("---------------------------------------------------")
+      # print (plan)
+    print ("---------------------------------------------------")
 
-    # for plan in data_total['UN_PLAN']:
-    #   plan['MONTHLY'] = {}
-    #   plan = insert_to_total.CaculatorTotalMonth(plan, date)
+    for plan in data_total['UN_PLAN']:
+      plan['MONTHLY'] = {}
+      plan = insert_to_total.CaculatorTotalMonth(plan, date)
 
-    # for plan in data_total['TOTAL']:
-    #     plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
-    #     for m in plan['MONTHLY']:
-    #       m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
+    for plan in data_total['TOTAL']:
+        plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
+        for m in plan['MONTHLY']:
+          m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
 
 
 
