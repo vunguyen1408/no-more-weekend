@@ -198,7 +198,7 @@ for acc in data:
 		# Insert(acc["name"], cursor)
 		
 		
-		Insert(acc["name"], cursor)
+		Insert(acc["name"].encode('utf-8'), cursor)
 
 
 cursor.close()
