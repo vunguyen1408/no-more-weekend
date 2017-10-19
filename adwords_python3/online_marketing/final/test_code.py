@@ -82,175 +82,178 @@
 
 
 
-from googleads import adwords
-import json
-import os
-import pandas as pd
-from urllib.request import urlopen
+# from googleads import adwords
+# import json
+# import os
+# import pandas as pd
+# from urllib.request import urlopen
 
-path_data_total_map = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/history_name.json'
-with open (path_data_total_map,'r') as f:
-    data_total = json.load(f)
+# path_data_total_map = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/history_name.json'
+# with open (path_data_total_map,'r') as f:
+#     data_total = json.load(f)
 
-print (path_data_total_map)
-# list_camp = GetListCampOfAccount(list_customer)
-path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/history_name.json'
-list_camp = []
-with open (path,'r') as f:
-  list_camp = json.load(f)
-list_camp = list_camp['history_name']
-print (len(data_total['HISTORY']))
-print (len(list_camp))
+# print (path_data_total_map)
+# # list_camp = GetListCampOfAccount(list_customer)
+# path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/history_name.json'
+# list_camp = []
+# with open (path,'r') as f:
+#   list_camp = json.load(f)
+# list_camp = list_camp['history_name']
+# print (len(data_total['HISTORY']))
+# print (len(list_camp))
 
-PAGE_SIZE = 500
+# PAGE_SIZE = 500
 
-def SaveAccountTree(account, accounts, links, level, list_acc, list_mcc, list_mcc_id, list_dept, dept = None):
-	"""Save an account tree.
+# def SaveAccountTree(account, accounts, links, level, list_acc, list_mcc, list_mcc_id, list_dept, dept = None):
+# 	"""Save an account tree.
 
-	Args:
-	account: dict The account to display.
-	accounts: dict Map from customerId to account.
-	links: dict Map from customerId to child links.
-	level: int level of the current account in the tree.
-	list_acc: list acc output get from API
-	list_mcc: list id of mcc 
-	list_mcc_id: list id of mcc account
-	list_dept: list dept of mcc account
-	dept: dept of current account
-	"""
+# 	Args:
+# 	account: dict The account to display.
+# 	accounts: dict Map from customerId to account.
+# 	links: dict Map from customerId to child links.
+# 	level: int level of the current account in the tree.
+# 	list_acc: list acc output get from API
+# 	list_mcc: list id of mcc 
+# 	list_mcc_id: list id of mcc account
+# 	list_dept: list dept of mcc account
+# 	dept: dept of current account
+# 	"""
   
-	if account['customerId'] in links:    
-		if str(account['customerId']) in list_mcc_id:      
-			dept = str(account['customerId'])
+# 	if account['customerId'] in links:    
+# 		if str(account['customerId']) in list_mcc_id:      
+# 			dept = str(account['customerId'])
 
-		for child_link in links[account['customerId']]:
-			child_account = accounts[child_link['clientCustomerId']]     
+# 		for child_link in links[account['customerId']]:
+# 			child_account = accounts[child_link['clientCustomerId']]     
 		  
-			print(type(child_account['name']))
-			child_note = {
-			          'customerId': child_account['customerId'],
-			          'name': child_account['name'].encode("utf-8"),
-			          'level': level,
-			          'children': [],
-			          'deptId': dept,
-			          'dept Name': list_mcc[list_mcc_id.index(dept)],
-			          'dept': list_dept[list_mcc_id.index(dept)]
-			}
+# 			print(type(child_account['name']))
+# 			child_note = {
+# 			          'customerId': child_account['customerId'],
+# 			          'name': child_account['name'].encode("utf-8"),
+# 			          'level': level,
+# 			          'children': [],
+# 			          'deptId': dept,
+# 			          'dept Name': list_mcc[list_mcc_id.index(dept)],
+# 			          'dept': list_dept[list_mcc_id.index(dept)]
+# 			}
 
-			account['children'].append(child_note) 
+# 			account['children'].append(child_note) 
 
-			if child_note not in list_acc:
-				list_acc.append(child_note)  
+# 			if child_note not in list_acc:
+# 				list_acc.append(child_note)  
 		       
-			SaveAccountTree(child_note, accounts, links, level + 1, list_acc, list_mcc, list_mcc_id, list_dept, dept)
+# 			SaveAccountTree(child_note, accounts, links, level + 1, list_acc, list_mcc, list_mcc_id, list_dept, dept)
 
-	if level == 1:     
-		return (account, list_acc)
+# 	if level == 1:     
+# 		return (account, list_acc)
 	  
 
 
-def GetAllAcount():
-  # Initialize appropriate service.
-	adwords_client = adwords.AdWordsClient.LoadFromStorage('/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads.yaml')
-	print("begin")
-	managed_customer_service = adwords_client.GetService(
-	'ManagedCustomerService', version='v201708')
+# def GetAllAcount():
+#   # Initialize appropriate service.
+# 	adwords_client = adwords.AdWordsClient.LoadFromStorage('/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads.yaml')
+# 	print("begin")
+# 	managed_customer_service = adwords_client.GetService(
+# 	'ManagedCustomerService', version='v201708')
 
-	print("continue")
-	html = urlopen("http://www.google.com/")
-	print(html.read)
-	print("ok")
+# 	print("continue")
+# 	html = urlopen("http://www.google.com/")
+# 	print(html.read)
+# 	print("ok")
 
-  # Construct selector to get all accounts.
-	offset = 0
-	selector = {
-	  	'fields': ['CustomerId', 'Name'],
-	  	'paging': {
-	      'startIndex': str(offset),
-	      'numberResults': str(PAGE_SIZE)
-	  }
-	}
-	more_pages = True
-	accounts = {}
-	child_links = {}
-	parent_links = {}
-	root_account = None
+#   # Construct selector to get all accounts.
+# 	offset = 0
+# 	selector = {
+# 	  	'fields': ['CustomerId', 'Name'],
+# 	  	'paging': {
+# 	      'startIndex': str(offset),
+# 	      'numberResults': str(PAGE_SIZE)
+# 	  }
+# 	}
+# 	more_pages = True
+# 	accounts = {}
+# 	child_links = {}
+# 	parent_links = {}
+# 	root_account = None
 
-	while more_pages:
-		print("start")
-		managed_customer_service = adwords_client.GetService(
-		'ManagedCustomerService', version='v201708')
-		print(managed_customer_service)
+# 	while more_pages:
+# 		print("start")
+# 		managed_customer_service = adwords_client.GetService(
+# 		'ManagedCustomerService', version='v201708')
+# 		print(managed_customer_service)
 		
-		# Get serviced account graph.
-		# print(managed_customer_service.get(selector))
-		page = managed_customer_service.get(selector)
-		if 'entries' in page and page['entries']:
-		  # Create map from customerId to parent and child links.
-			if 'links' in page:
-				for link in page['links']:
-					if link['managerCustomerId'] not in child_links:
-						child_links[link['managerCustomerId']] = []
-					child_links[link['managerCustomerId']].append(link)
-					if link['clientCustomerId'] not in parent_links:
-						parent_links[link['clientCustomerId']] = []
-					parent_links[link['clientCustomerId']].append(link)
-			# Map from customerID to account.
-			for account in page['entries']:
-				accounts[account['customerId']] = account
-		offset += PAGE_SIZE
-		selector['paging']['startIndex'] = str(offset)
-		print (int(page['totalNumEntries']))    
-		more_pages = offset < int(page['totalNumEntries'])
+# 		# Get serviced account graph.
+# 		# print(managed_customer_service.get(selector))
+# 		page = managed_customer_service.get(selector)
+# 		if 'entries' in page and page['entries']:
+# 		  # Create map from customerId to parent and child links.
+# 			if 'links' in page:
+# 				for link in page['links']:
+# 					if link['managerCustomerId'] not in child_links:
+# 						child_links[link['managerCustomerId']] = []
+# 					child_links[link['managerCustomerId']].append(link)
+# 					if link['clientCustomerId'] not in parent_links:
+# 						parent_links[link['clientCustomerId']] = []
+# 					parent_links[link['clientCustomerId']].append(link)
+# 			# Map from customerID to account.
+# 			for account in page['entries']:
+# 				accounts[account['customerId']] = account
+# 		offset += PAGE_SIZE
+# 		selector['paging']['startIndex'] = str(offset)
+# 		print (int(page['totalNumEntries']))    
+# 		more_pages = offset < int(page['totalNumEntries'])
 
-	# Find the root account.
-	for customer_id in accounts:
-		if customer_id not in parent_links:
-			root_account = accounts[customer_id]
+# 	# Find the root account.
+# 	for customer_id in accounts:
+# 		if customer_id not in parent_links:
+# 			root_account = accounts[customer_id]
 
-  # =================Get list dept of all account =========================
+#   # =================Get list dept of all account =========================
 
-	path_dept = 'C:/Users/CPU10912-local/Desktop/Dept.xlsx'
-	dept = pd.read_excel(path_dept)
+# 	path_dept = 'C:/Users/CPU10912-local/Desktop/Dept.xlsx'
+# 	dept = pd.read_excel(path_dept)
 
-	list_mcc = list(dept['MCC Level 3'])  
-	list_mcc_id = list(dept['ID'])
-	list_dept = list(dept['Dept'])
-	for i in range(len(list_mcc_id)):
-		list_mcc_id[i] = list_mcc_id[i].replace('-', '')
-	list_mcc.append(None)
-	list_mcc_id.append(None)
-	list_dept.append(None)
+# 	list_mcc = list(dept['MCC Level 3'])  
+# 	list_mcc_id = list(dept['ID'])
+# 	list_dept = list(dept['Dept'])
+# 	for i in range(len(list_mcc_id)):
+# 		list_mcc_id[i] = list_mcc_id[i].replace('-', '')
+# 	list_mcc.append(None)
+# 	list_mcc_id.append(None)
+# 	list_dept.append(None)
 
-  #===================Get account and store as tree =====================
+#   #===================Get account and store as tree =====================
 
-  # Display account.
-	list_acc = []  
-	if root_account: 
-		dept = None   
-	if (str(root_account['customerId']) in list_mcc_id):      
-		dept = str(root_account['customerId'])
-	root_note = {
-	          'customerId': root_account['customerId'],
-	          'name': root_account['name'],
-	          'level': 0,
-	          'children': [],
-	          'deptId': dept,
-	          'dept Name': list_mcc[list_mcc_id.index(dept)],
-	          'dept': list_dept[list_mcc_id.index(dept)]
-	}
-	list_acc.append(root_note)
-	root_note = SaveAccountTree(root_note, accounts, child_links, 1, list_acc, list_mcc, list_mcc_id, list_dept, root_note['deptId'])
-	return (root_note, list_acc)
+#   # Display account.
+# 	list_acc = []  
+# 	if root_account: 
+# 		dept = None   
+# 	if (str(root_account['customerId']) in list_mcc_id):      
+# 		dept = str(root_account['customerId'])
+# 	root_note = {
+# 	          'customerId': root_account['customerId'],
+# 	          'name': root_account['name'],
+# 	          'level': 0,
+# 	          'children': [],
+# 	          'deptId': dept,
+# 	          'dept Name': list_mcc[list_mcc_id.index(dept)],
+# 	          'dept': list_dept[list_mcc_id.index(dept)]
+# 	}
+# 	list_acc.append(root_note)
+# 	root_note = SaveAccountTree(root_note, accounts, child_links, 1, list_acc, list_mcc, list_mcc_id, list_dept, root_note['deptId'])
+# 	return (root_note, list_acc)
 
 
-import _locale
-_locale._getdefaultlocale = (lambda *args: ['vi-VN', 'utf-8'])
-# file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST.json'
-file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/WPL.json'
-root_note, list_acc = GetAllAcount()
-with open(file_json, 'w') as fo:
-	json.dump(root_note[1], fo)  #, ensure_ascii=False
+# import _locale
+# _locale._getdefaultlocale = (lambda *args: ['vi-VN', 'utf-8'])
+# # file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST.json'
+# file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/WPL.json'
+# root_note, list_acc = GetAllAcount()
+# with open(file_json, 'w') as fo:
+# 	json.dump(root_note[1], fo)  #, ensure_ascii=False
+
+
+# with open(file_json)
 
 
 
@@ -316,3 +319,18 @@ with open(file_json, 'w') as fo:
 # adwords_client = adwords.AdWordsClient.LoadFromStorage('/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads.yaml')
 
 # DownloadCampaignOfCustomer(adwords_client, '5008396449', '2017-08-01', '2017-08-01')
+
+
+
+
+
+
+import json
+
+path = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/TEST_UNICODE.json'
+
+with open(path, 'r') as fi:
+	data = json.load(fi)
+for acc in data:
+	if (str(acc["customerId"]) == '4476024314'):
+		print(acc["name"])
