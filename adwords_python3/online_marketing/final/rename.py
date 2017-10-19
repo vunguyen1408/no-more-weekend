@@ -406,10 +406,26 @@ def CacualatorChange(path_data, list_diff, date):
 
     # data_total = insert_to_total.AddToTotal(data_total, data_map, date)
 
-    print (len(list_camp_update))
-    print (len(list_plan_update))
-    print (len(list_plan_remove_unmap))
-    print (len(list_camp_need_remove))
+    print ("camp update", len(list_camp_update))
+    print ("plan update", len(list_plan_update))
+    print ("plan remove", len(list_plan_remove_unmap))
+    print ("camp remove", len(list_camp_need_remove))
+    print ("======== Mapped =================")
+
+    mp2 = 0
+    pg1 = 0
+    pg2 = 0
+    for camp in list_camp_find:
+      if camp['Account Name'].find('MP2') >= 0:
+        mp2 += 1
+      if camp['Campaign'].find('1708050') >= 0:
+        pg2 += 1
+      if camp['Account Name'].find('PG1') >= 0:
+        pg1 += 1
+
+    print ("Camp MP2", mp2)
+    print ("Camp PG1", pg1)
+    print ("Camp PG2", pg2)
 
     ###########################################
     # path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_123' + '.json')
