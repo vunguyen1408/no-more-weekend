@@ -26,11 +26,11 @@ def Rename (connect, path_data, list_customer_id, date):
 	time_caculator_manual = time.time() - caculator_manual
 	print ("---------- Time caculator rename : ", time_caculator_manual)
 
-	# --------------- 
-     print ("camp update", len(list_camp_update))
-     print ("plan update", len(list_plan_update))
-     print ("plan remove", len(list_plan_remove_unmap))
-     print ("camp remove", len(list_camp_remove_unmap))
+     print (len(list_plan_remove_unmap))
+     print (len(list_camp_remove_unmap))
+     print (len(list_plan_update))
+     print (len(list_camp_update))
+
 	
 
 	print (list_camp_remove_unmap != [])
