@@ -6,9 +6,9 @@ import insert_report_monthly_detail as monthly_detail
 import insert_report_monthly_sum as monthly_sum
 import insert_report_plan_sum as plan_sum
 import insert_report_detail_map as detail_map
+import history_name as history_name
 
-
-def UpdateRename(connect, list_camp_update):
+def UpdateRename(connect, list_camp_update, data):
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
 	#==================== Update data into database =============================
@@ -16,9 +16,15 @@ def UpdateRename(connect, list_camp_update):
 	set CAMPAIGN_NAME = :1 \
 	where CAMPAIGN_ID = :2 and SNAPSHOT_DATE = :3'	
 	for value in list_camp_update:
-		cursor.execute(statement, (value['Campaign'], value['Campaign ID'], value['Date']))
+		try:
+			cursor.execute(statement, (value['Campaign'], value['Campaign ID'], value['Date']))
+		except:
+			ursor.execute(statement, (value['Campaign'].encode('utf-8'), value['Campaign ID'], value['Date']))
 
 		print ((value['Campaign'], value['Campaign ID'], value['Date']))
+
+	for i in data['HISTORY']:
+		history_name.MergerCampList(i, cursor)
 
 	conn.commit()
 	print("Committed!.......")
