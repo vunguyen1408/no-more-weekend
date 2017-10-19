@@ -159,9 +159,9 @@ def CheckNameChange(path_data, list_customer, date):
     ############################################
   print ("====================== Length =================")
   print (len(list_diff))
-  print (list_diff[0])
-  print (list_diff[1])
-  print (list_diff[2])
+  # print (list_diff[0])
+  # print (list_diff[1])
+  # print (list_diff[2])
   return list_diff
 
 
@@ -290,10 +290,10 @@ def CacualatorChange(path_data, list_diff, date):
           temp['Campaign'] = camp['CAMPAIGN_NAME']
           list_camp_find.append(temp)
 
-    print (len(list_camp_find))
-    print (list_camp_find[0])
-    print (list_camp_find[1])
-    print (list_camp_find[2])
+    # print (len(list_camp_find))
+    # print (list_camp_find[0])
+    # print (list_camp_find[1])
+    # print (list_camp_find[2])
 
 
     list_plan = mapping.ReadPlan(path_data, date)
@@ -308,10 +308,12 @@ def CacualatorChange(path_data, list_diff, date):
     plan_sum, list_map_temp = insert_to_total.SumTotalManyPlan(data_map['plan'], data_map['campaign'])
 
     list_plan = plan_sum
-    print (len(plan_sum))
-    print (len(list_map_temp))
+
+    # print (len(plan_sum))
+    # print (len(list_map_temp))
+
     list_camp_update = list_camp_find # Update name
-    list_plan_update = list_plan # Update plan change cost
+    list_plan_update = [] # Update plan change cost
     list_plan_remove_unmap = [] # Remove camp plan un map
     list_camp_need_remove = list_map_temp  # Remove campaign mapped
     
@@ -368,8 +370,15 @@ def CacualatorChange(path_data, list_diff, date):
         for m in plan['MONTHLY']:
           m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
 
-
-
+    #------------ Get list plan update ---------------
+    for plan in list_plan:
+      for plan_total in data_total['TOTAL']:
+        if plan_total['PRODUCT'] == plan['PRODUCT'] \
+          and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+          and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
+          and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
+          list_plan_update.append(plan_total)
+          print (plan)
     # # ------------- Remove campaign mapped ----------------
     # for camp in data_map['campaign']:
     #   if camp['Plan'] == None:
@@ -381,12 +390,17 @@ def CacualatorChange(path_data, list_diff, date):
 
     # data_total = insert_to_total.AddToTotal(data_total, data_map, date)
 
+    print (len(list_camp_update))
+    print (len(list_plan_update))
+    print (len(list_plan_remove_unmap))
+    print (len(list_camp_need_remove))
+
 
     # path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_123' + '.json')
     # with open (path_data_total_map,'w') as f:
     #   json.dump(data_total, f)
 
-  return list_camp_need_removed
+  return (list_plan_remove_unmap, list_camp_need_removed, list_plan_update, list_camp_update)
 
 
 list_customer_id = ['1033505012', '1057617213', '1066457627', '1124503774', '1163330677', \
