@@ -294,6 +294,20 @@ def CacualatorChange(path_data, list_diff, date):
     # print (list_camp_find[0])
     # print (list_camp_find[1])
     # print (list_camp_find[2])
+    mp2 = 0
+    pg1 = 0
+    pg2 = 0
+    for camp in list_camp_find:
+      if camp['Campaign'].find('MP2') >= 0:
+        mp2 += 1
+      if camp['Campaign'].find('PG2') >= 0:
+        pg2 += 1
+      if camp['Campaign'].find('PG1') >= 0:
+        pg1 += 1
+
+    print ("Camp MP2", mp2)
+    print ("Camp PG1", pg1)
+    print ("Camp PG2", pg2)
 
 
     list_plan = mapping.ReadPlan(path_data, date)
