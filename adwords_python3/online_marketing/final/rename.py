@@ -260,7 +260,7 @@ def CacualatorChange(path_data, list_diff, date):
   # list_diff = CheckNameChange(path_data, list_customer, date)
   path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 
-  list_camp_need_removed = []
+  
   if not os.path.exists(path_data_total_map):
     i = 0
     find = True
