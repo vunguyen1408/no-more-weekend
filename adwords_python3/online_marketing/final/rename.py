@@ -432,7 +432,7 @@ def CacualatorChange(path_data, list_diff, date):
     # with open (path_data_total_map,'w') as f:
     #   json.dump(data_total, f)
     ##########################################
-
+  print (len(list_camp_need_removed))
   return (list_plan_remove_unmap, list_camp_need_removed, list_plan_update, list_camp_update)
 
 
