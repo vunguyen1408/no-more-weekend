@@ -179,24 +179,31 @@ def Insert(name, cursor):
 
 
 
-connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-conn = cx_Oracle.connect(connect)
-cursor = conn.cursor()
-path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/TEST_UNICODE.json'
-# path = 'D:/WorkSpace/GG_Tool/New folder/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST_UNICODE.json'
-with open(path, 'r') as fi:
-	data = json.load(fi.read().decode('utf-8'))
-# import _locale
-# _locale._getdefaultlocale = (lambda *args: ['vi-VN', 'utf-8'])
-for acc in data:
-	if (str(acc["customerId"]) == '4476024314'):
-		print(u'PG10- V\u1ea1n Linh Ti\u00ean C\u1ea3nh')
-		print(encodings.idna.ToUnicode(acc["name"]))
-		print('\u1ea1'.decode('utf-16'))
-		print(type(acc["name"]))
-		print(unicode(acc["name"]))
-		print(acc["name"].encode('utf-16'))
-		print(acc["name"].decode('utf-16'))
+# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+# conn = cx_Oracle.connect(connect)
+# cursor = conn.cursor()
+# path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/TEST_UNICODE.json'
+file_name = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/TEST_UNICODE.json'
+file_out = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/TEST_UNICODE_2.json'
+# import codecs
+# # path = file(file_name, 'r')
+# data = codecs.open(file_name, "r", "utf-8")
+# print(data)
+
+# # data = json.load(path.read().decode('utf-8'))
+# 	# data = json.loads(fi) #fi.read().decode('utf-8'))
+# # import _locale
+# # _locale._getdefaultlocale = (lambda *args: ['vi-VN', 'utf-8'])
+# for acc in data:
+# 	if (str(acc["customerId"]) == '4476024314'):
+# 		print(acc["name"]) #.decode('utf-8')) #.encode('utf-8'))
+		# print(u'PG10- V\u1ea1n Linh Ti\u00ean C\u1ea3nh')
+		# print(encodings.idna.ToUnicode(acc["name"]))
+		# print('\u1ea1'.decode('utf-16'))
+		# print(type(acc["name"]))
+		# print(unicode(acc["name"]))
+		# print(acc["name"].encode('utf-16'))
+		# print(acc["name"].decode('utf-16'))
 
 		# Insert(acc["name"].encode('utf-8'), cursor)
 		# # Insert(acc["name"].encode('cp437'), cursor)
@@ -207,7 +214,24 @@ for acc in data:
 		# Insert(acc["name"].decode('utf-8'), cursor)
 
 
-cursor.close()
+import json
+import codecs
+
+# just open the file...
+input_file  = file(file_name, "r")
+# need to use codecs for output to avoid error in json.dump
+output_file = codecs.open(file_out, "w", encoding="utf-8")
+
+# read the file and decode possible UTF-8 signature at the beginning
+# which can be the case in some files.
+j = json.loads(input_file.read().decode("utf-8-sig"))
+print(j)
+
+# then output it, indenting, sorting keys and ensuring representation as it was originally
+json.dump(j, output_file, indent=4, sort_keys=True, ensure_ascii=False)
+
+
+# cursor.close()
 
 # path_no_video = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON_NO_VIDEO'
 # path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
@@ -288,7 +312,6 @@ cursor.close()
 
 
 ##################################################################################################
-
 
 
 

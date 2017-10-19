@@ -129,7 +129,7 @@ def SaveAccountTree(account, accounts, links, level, list_acc, list_mcc, list_mc
 			print(type(child_account['name']))
 			child_note = {
 			          'customerId': child_account['customerId'],
-			          'name': child_account['name'],
+			          'name': child_account['name'].encode("utf-8"),
 			          'level': level,
 			          'children': [],
 			          'deptId': dept,
@@ -244,10 +244,10 @@ def GetAllAcount():
 	return (root_note, list_acc)
 
 
-# import _locale
-# _locale._getdefaultlocale = (lambda *args: ['vi-VN', 'utf-8'])
-file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST.json'
-# file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/WPL.json'
+import _locale
+_locale._getdefaultlocale = (lambda *args: ['vi-VN', 'utf-8'])
+# file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST.json'
+file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/WPL.json'
 root_note, list_acc = GetAllAcount()
 with open(file_json, 'w') as fo:
 	json.dump(root_note[1], fo)  #, ensure_ascii=False
