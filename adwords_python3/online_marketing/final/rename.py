@@ -77,9 +77,11 @@ def GetCampaign(client, acccount_id):
   return list_camp
 
 def GetListCampOfAccount(list_customer):
+  import time
   adwords_client = adwords.AdWordsClient.LoadFromStorage('C:/Users/ltduo/Desktop/VNG/AdWords/adwords_python3/googleads.yaml')
   list_camp = []
   for acccount in list_customer:
+    time.sleep(3)
     temp = GetCampaign(adwords_client, acccount)
     list_camp.extend(temp)
 
@@ -455,7 +457,7 @@ list_customer_id = ['1033505012', '1057617213', '1066457627', '1124503774', '116
                     '8135096980', '5222928599', '9963010276', '5062362839', '6360800174', \
                     '8844079195', '5856149801', '6198751560', '9034826980', '8024455693']
 
-# GetListCampOfAccount(list_customer_id)
+GetListCampOfAccount(list_customer_id)
 
 # path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
 # date = '2017-08-31'

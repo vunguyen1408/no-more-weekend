@@ -82,25 +82,25 @@
 
 
 
-from googleads import adwords
-import json
-import os
-import pandas as pd
-from urllib.request import urlopen
+# from googleads import adwords
+# import json
+# import os
+# import pandas as pd
+# from urllib.request import urlopen
 
-path_data_total_map = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/history_name.json'
-with open (path_data_total_map,'r') as f:
-    data_total = json.load(f)
+# path_data_total_map = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/history_name.json'
+# with open (path_data_total_map,'r') as f:
+#     data_total = json.load(f)
 
-print (path_data_total_map)
-# list_camp = GetListCampOfAccount(list_customer)
-path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/history_name.json'
-list_camp = []
-with open (path,'r') as f:
-  list_camp = json.load(f)
-list_camp = list_camp['history_name']
-print (len(data_total['HISTORY']))
-print (len(list_camp))
+# print (path_data_total_map)
+# # list_camp = GetListCampOfAccount(list_customer)
+# path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/history_name.json'
+# list_camp = []
+# with open (path,'r') as f:
+#   list_camp = json.load(f)
+# list_camp = list_camp['history_name']
+# print (len(data_total['HISTORY']))
+# print (len(list_camp))
 
 # PAGE_SIZE = 500
 

@@ -220,6 +220,7 @@ import time
 # 			json.dump(data, f)
 
 
+######################### Khong xoa ##################################################
 #-------------- Do data audit ------------------
 def InsertContentAds(cursor, ads, d):
 	statement = 'insert into STG_AUDIT_CONTENT ( \
@@ -280,7 +281,7 @@ if __name__ == '__main__':
     add_label_video_to_data(connect, path, date, to_date)
 
 
-
+##################################################################################################
 
 
 
