@@ -230,6 +230,7 @@ def InsertContentAds(cursor, ads, d):
 	print (ads['list_product'])
 	print (ads['ad_id'])
 	# now = datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()
+	print (ads['audit_content'])
 	if ads['list_product'] != [] and 'audit_content' in ads:
 		#-------- Insert image ---------------
 		list_image = ads['audit_content']['image_urls']
@@ -259,7 +260,7 @@ def InsertContentAds(cursor, ads, d):
 		video_ids = ads['audit_content']['video_ids']
 		if video_ids != [] and 'object_story_spec' in ads:
 			for i, video_id in enumerate(video_ids):
-				link = 'https://www.facebook.com/' + ads['object_story_spec']['page_id'] + '/videos/' + video_id['video_id']
+				link = 'https://www.facebook.com/' + str(ads['object_story_spec']['page_id']) + '/videos/' + str(video_id['video_id'])
 				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], link, 'video_id', 0, i,  \
 				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
 
