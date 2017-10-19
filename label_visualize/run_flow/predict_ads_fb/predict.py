@@ -1,3 +1,14 @@
+"""
+    Project : Online marketing tool - Audit content 
+    Company : VNG Corporation
+
+    Description: Predict and save result to json (image)
+    
+    Examples of Usage:
+        python predict.py 2016-10-01 2017-06-29
+"""
+
+
 import compare_label as cp
 import os, os.path
 import pandas as pd

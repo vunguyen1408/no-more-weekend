@@ -1,3 +1,17 @@
+
+
+"""
+    Project : Online marketing tool - Audit content - Audit video
+    Company : VNG Corporation
+
+    Description: Call gcloud vision API to get lable video
+    
+    Examples of Usage:
+        python detect_video.py 2016-10-01 2017-06-29
+"""
+
+
+
 import argparse
 import sys
 import os

@@ -1,9 +1,13 @@
-"""
-    Run test:
-    python get_image_lable.py 2016-10-01 2017-06-29
-"""
 
+"""
+    Project : Online marketing tool - Audit content - Audit image
+    Company : VNG Corporation
 
+    Description: Call gcloud vision API to get image lable
+    
+    Examples of Usage:
+        python get_image_lable.py 2016-10-01 2017-06-29
+"""
 
 
 

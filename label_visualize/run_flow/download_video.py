@@ -1,7 +1,11 @@
-
 """
-    Run test:
-    python download_video.py 2016-10-01 2017-06-29
+    Project : Online marketing tool - Audit content - Audit video
+    Company : VNG Corporation
+
+    Description: Download video for every date
+    
+    Examples of Usage:
+        python download_video.py 2016-10-01 2017-06-29
 """
 
 # Tong ket danh sach cac label cua file Json

@@ -15,8 +15,13 @@
 # limitations under the License.
 
 """
-    Run test:
-    python parse_json_and_get_label.py 2016-10-01 2017-06-29
+    Project : Online marketing tool - Audit content
+    Company : VNG Corporation
+
+    Description: Parse data to file json audit content
+    
+    Examples of Usage:
+        python parse_json_to_audit_content.py 2016-10-01 2017-06-29
 """
 import argparse
 import base64

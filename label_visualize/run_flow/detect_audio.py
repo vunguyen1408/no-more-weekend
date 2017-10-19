@@ -1,6 +1,12 @@
+
 """
-    Run test:
-    python detect_audio.py 2016-10-01 2017-06-29
+    Project : Online marketing tool - Audit content - Audit audio
+    Company : VNG Corporation
+
+    Description: Call gcloud speech API to get text for audio
+    
+    Examples of Usage:
+        python detect_audio.py 2016-10-01 2017-06-29
 """
 
 

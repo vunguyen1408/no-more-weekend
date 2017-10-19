@@ -1,3 +1,14 @@
+"""
+	Project : Online marketing tool - Audit content - Audit audio
+	Company : VNG Corporation
+
+	Description: Convert video to audio
+	
+    Examples of Usage:
+    	python video_to_audio.py 2016-10-01 2017-06-29
+"""
+
+
 import os
 import json
 import subprocess

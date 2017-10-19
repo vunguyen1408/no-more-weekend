@@ -1,7 +1,12 @@
 
 """
-    Run test:
-    python create_json_video_url.py 2016-10-01 2017-06-29
+    Project : Online marketing tool - Audit content - Audit video
+    Company : VNG Corporation
+
+    Description: Create file video_url.json for every date
+    
+    Examples of Usage:
+   		python create_json_video_url.py 2016-10-01 2017-06-29
 """
 
 

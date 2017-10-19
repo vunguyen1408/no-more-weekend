@@ -2,6 +2,17 @@ import sys
 import os
 import json
 import cx_Oracle
+"""
+    Project : Online marketing tool - Audit content
+    Company : VNG Corporation
+
+    Description: Insert data audit of Ads to Database
+    
+    Examples of Usage:
+        python insert_audit_ads_to_data.py 2016-10-01 2017-06-29
+"""
+
+
 from datetime import datetime , timedelta, date
 import time
 
