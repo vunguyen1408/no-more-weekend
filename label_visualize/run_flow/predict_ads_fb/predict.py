@@ -63,10 +63,32 @@ def get_image_label_from_cloud_vision(photo_file):
             print("Unknown Error try get label")
     return list_label
 
-def predict(path_file, image , path_content_crawler, product, percent_train, percent_test, number_relationship):
-    list_folder = next(os.walk(path_content_crawler))[1]
-    exists = False
-    name = ""
+
+def predict_image(path_content_crawler, percent_train, percent_test, number_relationship, ads):
+
+
+def predict(path_data, path_content_crawler, percent_train, percent_test, number_relationship):
+
+    list_folder = next(os.walk(path))[1]
+
+    #========================== Auto run ===================
+    date = datetime.strptime(date_, '%Y-%m-%d').date()
+    to_date = datetime.strptime(to_date_, '%Y-%m-%d').date()
+    for folder in list_folder:
+        d = datetime.strptime(folder, '%Y-%m-%d').date()
+        if d <= to_date and d >= date:
+            path_folder = os.path.join(path_data, folder)
+            path_file = os.path.join(path_folder, 'ads_creatives_audit_content_' + str(folder) + '.json')
+            if os.path.exists(path_file):
+                with open(path_file, 'r') as f:
+                    data = json.load(f)
+                    for ads in data['my_json']:
+                        
+
+
+
+
+
     if image == '1':
         name = 'image'
     else:
@@ -88,28 +110,19 @@ def predict(path_file, image , path_content_crawler, product, percent_train, per
         print ("Product chua co data train.....!")
 
 # path_image = 'C:/Users/CPU10145-local/Desktop/example'
-path_content_crawler = '/u01/oracle/oradata/APEX/MARKETING_TOOL_03/Json_data_crawler'
-path_crawler = '/u01/oracle/oradata/APEX/MARKETING_TOOL_03'
-# path_content_crawler = 'C:/Users/CPU10145-local/Desktop/Server/MARKETING_TOOL_03/Json_data_crawler'
-# path_crawler = 'C:/Users/CPU10145-local/Desktop/Server/MARKETING_TOOL_03'
+# path_content_crawler = '/u01/oracle/oradata/APEX/MARKETING_TOOL_03/Json_data_crawler'
+# path_crawler = '/u01/oracle/oradata/APEX/MARKETING_TOOL_03'
+# # path_content_crawler = 'C:/Users/CPU10145-local/Desktop/Server/MARKETING_TOOL_03/Json_data_crawler'
+# # path_crawler = 'C:/Users/CPU10145-local/Desktop/Server/MARKETING_TOOL_03'
 
-percent_test = 85
-percent_train = 80
-number_relationship = 3
+
 
 if __name__ == '__main__':
     from sys import argv
-    #============= Tao thu muc tam, khi predict anh tren web ==============
-    path = os.path.join(path_crawler, 'temp')
-    if not os.path.exists(path):
-        os.makedirs(path)
-    #======================================================================
 
-    script, product, type_, image_name, url = argv
-    if url == '1':
-        path_file = cp.down_load_file(image_name, path)
-    else:
-        # path_file = os.path.join(path_image, image_name)
-        path_file = image_name
-    print (path_file)
-    predict(path_file, type_, path_content_crawler, product, percent_train, percent_test, number_relationship)
+    path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+    percent_test = 85
+    percent_train = 80
+    number_relationship = 3
+    script, date, to_date = argv
+    predict(path_data, path_content_crawler, percent_train, percent_test, number_relationship)

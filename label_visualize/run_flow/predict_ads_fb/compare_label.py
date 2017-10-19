@@ -127,3 +127,34 @@ def check_percent(list_label, list_bigger, label_relationship, percent_face):
        if flag == True:
            return True
    return False
+
+def check_ver2(list_label, list_bigger, label_relationship):
+    if list_label == []:
+        return (0, [])
+    num_labels_true = 0
+    flag = True
+    list_label_true = []
+    for label in list_label:
+        if (label in list_bigger) or (label in label_relationship):
+            num_labels_true += 1
+            list_label_true.append(label)
+    percent_true = num_labels_true * 100.0 / len(list_label)
+    return (percent_true, list_label_true)
+
+def check_percent_ver2(list_label, list_bigger, label_relationship, percent_face):
+#from itertools import combinations
+    list_new_list_label = []  
+    max_percent_true = 0  
+    flag_finally = False
+    num_remain = int(float(len(list_label) * percent_face / 100))
+    list_new_list_label = list(combinations(list_label, num_remain))
+    for label in list_new_list_label:
+        label = list(label)
+        flag = check(label, list_bigger, label_relationship)
+        if flag == True:
+            flag_finally = True
+        percent_true, list_label_true = check_ver2(label, list_bigger, label_relationship)
+        if (percent_true > max_percent_true):
+            max_percent_true = percent_true
+        
+    return (max_percent_true, list_label_true, flag_finally)
