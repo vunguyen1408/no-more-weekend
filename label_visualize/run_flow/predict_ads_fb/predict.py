@@ -94,7 +94,7 @@ def predict_image(path_content_crawler, percent_train, percent_test, number_rela
 
 def predict(path_data, path_content_crawler, percent_train, percent_test, number_relationship, date_, to_date_):
 
-    list_folder = next(os.walk(path))[1]
+    list_folder = next(os.walk(path_data))[1]
 
     #========================== Auto run ===================
     date = datetime.strptime(date_, '%Y-%m-%d').date()
