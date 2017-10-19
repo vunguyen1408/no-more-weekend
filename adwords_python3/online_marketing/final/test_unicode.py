@@ -163,6 +163,7 @@ import numpy as np
 import json
 import cx_Oracle
 from datetime import datetime , timedelta, date
+import time
 
 
 # def Insert(name, cursor):
@@ -235,7 +236,7 @@ def InsertContentAds(cursor, ads, d):
 				print (list_image)
 				print ('insert ------------------')
 				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], image['image_url'], 'image_url', 0, i,  \
-				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime(d, '%Y-%m-%d')))
+				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
 
 def add_label_video_to_data(connect, path, date_, to_date_):
 	# Lấy danh sách path của các file json cần tổng hợp data
