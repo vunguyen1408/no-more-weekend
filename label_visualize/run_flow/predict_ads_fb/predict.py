@@ -87,7 +87,9 @@ def predict_image(path_content_crawler, percent_train, percent_test, number_rela
                             percent, feature = predict_lable(path_content_crawler, folder, percent_train, percent_test, number_relationship, image['image_label'])
                             print (percent)
                             print (feature)
+                            print (folder)
                             print ("============================")
+
                             # image['percent_predict'] = percent
                             # image['feature'] = feature
 
