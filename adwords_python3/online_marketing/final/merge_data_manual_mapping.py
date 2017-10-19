@@ -30,16 +30,16 @@ def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_c
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
 
-	# =========== List Plan Remove ==================
-	if (len(list_plan_remove_unmap) > 0):
-		for plan in list_plan_remove_unmap:
-			detail_map.DeletePlan(plan, cursor)
+	# # =========== List Plan Remove ==================
+	# if (len(list_plan_remove_unmap) > 0):
+	# 	for plan in list_plan_remove_unmap:
+	# 		detail_map.DeletePlan(plan, cursor)
 
 
-	# =========== List Campaign Remove ==================
-	if (len(list_camp_remove_unmap) > 0):
-		for plan in list_camp_remove_unmap:
-			detail_map.DeleteCamp(plan, cursor)
+	# # =========== List Campaign Remove ==================
+	# if (len(list_camp_remove_unmap) > 0):
+	# 	for plan in list_camp_remove_unmap:
+	# 		detail_map.DeleteCamp(plan, cursor)
 
 
 	# =========== List data manual map ==================
@@ -53,21 +53,21 @@ def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_c
 				detail_map.InsertDetailUnmap(json_, cursor)
 
 
-	# ============ List plan update =====================
-	if (len(list_plan_update) > 0):
-		for plan in list_plan_update:
-			json_ = plan_sum.ConvertJsonPlanSum(plan)
-			plan_sum.UpdatePlanSum(json_, cursor)
+	# # ============ List plan update =====================
+	# if (len(list_plan_update) > 0):
+	# 	for plan in list_plan_update:
+	# 		json_ = plan_sum.ConvertJsonPlanSum(plan)
+	# 		plan_sum.UpdatePlanSum(json_, cursor)
 
-			if ('MONTHLY' in plan):
-				for i in range(len(plan['MONTHLY'])):
-					json_ = monthly_sum.ConvertJsonMonthlySum(i, plan)
-					monthly_sum.UpdateMonthlySum(json_, cursor)
+	# 		if ('MONTHLY' in plan):
+	# 			for i in range(len(plan['MONTHLY'])):
+	# 				json_ = monthly_sum.ConvertJsonMonthlySum(i, plan)
+	# 				monthly_sum.UpdateMonthlySum(json_, cursor)
 
-					json_ = monthly_detail.ConvertJsonMonthlyDetail(i, plan)
-					monthly_detail.UpdateMonthlyDetail(json_, cursor)
+	# 				json_ = monthly_detail.ConvertJsonMonthlyDetail(i, plan)
+	# 				monthly_detail.UpdateMonthlyDetail(json_, cursor)
 
-	#=================== Commit and close connect =================
+	# #=================== Commit and close connect =================
 	conn.commit()
 	print("Committed!.......")
 	cursor.close()

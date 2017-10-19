@@ -268,6 +268,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 			# print (len(data_total['UN_CAMPAIGN']))
 			for plan in list_plan:
 				plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(plan, path_data_total_map)
+				list_map_all.extend(list_map)
 				# print ("--------------- gggg---------------")
 				# print (plan)
 				# print (list_camp_need_remove)
