@@ -185,7 +185,7 @@ cursor = conn.cursor()
 path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/TEST_UNICODE.json'
 # path = 'D:/WorkSpace/GG_Tool/New folder/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST_UNICODE.json'
 with open(path, 'r') as fi:
-	data = json.load(fi)
+	data = json.load(fi.read().decode('utf-8'))
 # import _locale
 # _locale._getdefaultlocale = (lambda *args: ['vi-VN', 'utf-8'])
 for acc in data:
