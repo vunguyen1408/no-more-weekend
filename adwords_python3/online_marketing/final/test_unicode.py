@@ -253,7 +253,7 @@ def InsertContentAds(cursor, ads, d):
 		messages = ads['audit_content']['messages']
 		if messages != []:
 			for i, message in enumerate(messages):
-				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], message['message'], 'message', 0, i,  \
+				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], message['message'].encode('utf-8').strip(), 'message', 0, i,  \
 				datetime.strptime(d, '%Y-%m-%d'), now))
 
 		video_ids = ads['audit_content']['video_ids']
