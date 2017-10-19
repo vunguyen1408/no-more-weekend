@@ -145,7 +145,7 @@ def CheckNameChange(path_data, list_customer, date):
           'IMPORT_DATE' : None
         }
         data_total['HISTORY'].append(temp)
-        print (camp_)
+        # print (camp_)
     #----------- Write file history new ----------------------
     path_folder = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING')
     print (path_folder)
@@ -296,17 +296,18 @@ def CacualatorChange(path_data, list_diff, date):
     print (list_camp_find[2])
 
 
-    # list_plan = mapping.ReadPlan(path_data, date)
-    # list_plan = mapping.AddProductCode(path_data, list_plan, date)
-    # # # -------------- Call mapping ----------------
-    # # print (len(list_camp_find))
-    # # for camp in list_camp_find:
-    # #   if camp['Campaign'].find('JXM') >= 0:
-    # #     print (camp)
-    # data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
+    list_plan = mapping.ReadPlan(path_data, date)
+    list_plan = mapping.AddProductCode(path_data, list_plan, date)
+    # # -------------- Call mapping ----------------
+    # print (len(list_camp_find))
+    # for camp in list_camp_find:
+    #   if camp['Campaign'].find('JXM') >= 0:
+    #     print (camp)
+    data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
 
-    # plan_sum, list_map_temp = insert_to_total.SumTotalManyPlan(data_map['plan'], data_map['campaign'])
-
+    plan_sum, list_map_temp = insert_to_total.SumTotalManyPlan(data_map['plan'], data_map['campaign'])
+    print (len(plan_sum))
+    print (len(list_map_temp))
     # list_camp_update = list_camp_find # Update name
     # list_plan_update = list_plan # Update plan change cost
     # list_plan_remove_unmap = [] # Remove camp plan un map
