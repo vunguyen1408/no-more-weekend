@@ -190,7 +190,9 @@ with open(path, 'r') as fi:
 # _locale._getdefaultlocale = (lambda *args: ['vi-VN', 'utf-8'])
 for acc in data:
 	if (str(acc["customerId"]) == '4476024314'):
-		print(acc["name"])
+		print(type(acc["name"]))
+		print(acc["name"].encode('utf-8'))
+		print(acc["name"].decode('utf-8'))
 
 		# Insert(acc["name"].encode('utf-8'), cursor)
 		# # Insert(acc["name"].encode('cp437'), cursor)
@@ -198,7 +200,7 @@ for acc in data:
 		# Insert(acc["name"], cursor)
 		
 		
-		Insert(acc["name"].decode('utf-8'), cursor)
+		# Insert(acc["name"].decode('utf-8'), cursor)
 
 
 cursor.close()
