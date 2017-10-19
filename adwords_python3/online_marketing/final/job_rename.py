@@ -28,7 +28,7 @@ def Rename (connect, path_data, list_customer_id, date):
 	# --------------- 
 	
 
-	print (list_camp_need_removed != [])
+	print (list_camp_remove_unmap != [])
 	print (len(list_camp_remove_unmap))
 	if list_camp_remove_unmap != []:
 		update_manual = time.time()
