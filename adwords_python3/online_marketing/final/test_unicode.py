@@ -191,8 +191,8 @@ with open(path, 'r') as fi:
 for acc in data:
 	if (str(acc["customerId"]) == '4476024314'):
 		print(type(acc["name"]))
-		print(acc["name"].encode('utf-8'))
-		print(acc["name"].decode('utf-8'))
+		print(acc["name"].encode('utf-16'))
+		print(acc["name"].decode('utf-16'))
 
 		# Insert(acc["name"].encode('utf-8'), cursor)
 		# # Insert(acc["name"].encode('cp437'), cursor)
