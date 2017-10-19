@@ -166,42 +166,42 @@ from datetime import datetime , timedelta, date
 import time
 
 
-# def Insert(name, cursor):
-# 	#==================== Insert data into database =============================
-# 	statement = 'insert into DTM_GG_RUN_FLAG (FLAG_RUNNING, FINAL_RUNTIME) \
-# 	values (:1, :2) '
+def Insert(name, cursor):
+	#==================== Insert data into database =============================
+	statement = 'insert into DTM_GG_RUN_FLAG (FLAG_RUNNING, FINAL_RUNTIME) \
+	values (:1, :2) '
 		
-# 	cursor.execute(statement, (name, None))
+	cursor.execute(statement, (name, None))
 	
-# 	print("A row inserted!.......")
-# 	conn.commit()
-# 	print("Committed!.......")
+	print("A row inserted!.......")
+	conn.commit()
+	print("Committed!.......")
 
 
 
-# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-# conn = cx_Oracle.connect(connect)
-# cursor = conn.cursor()
-# path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST.json'
-# # path = 'D:/WorkSpace/GG_Tool/New folder/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST_UNICODE.json'
-# with open(path, 'r') as fi:
-# 	data = json.load(fi)
-# # import _locale
-# # _locale._getdefaultlocale = (lambda *args: ['vi-VN', 'utf-8'])
-# for acc in data:
-# 	if (str(acc["customerId"]) == '4476024314'):
-# 		print(acc["name"])
+connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+conn = cx_Oracle.connect(connect)
+cursor = conn.cursor()
+path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/TEST_UNICODE.json'
+# path = 'D:/WorkSpace/GG_Tool/New folder/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_TEST_UNICODE.json'
+with open(path, 'r') as fi:
+	data = json.load(fi)
+# import _locale
+# _locale._getdefaultlocale = (lambda *args: ['vi-VN', 'utf-8'])
+for acc in data:
+	if (str(acc["customerId"]) == '4476024314'):
+		print(acc["name"])
 
-# 		# Insert(acc["name"].encode('utf-8'), cursor)
-# 		# # Insert(acc["name"].encode('cp437'), cursor)
-# 		# Insert(acc["name"].encode('ISO-8859-1'), cursor)
-# 		# Insert(acc["name"], cursor)
+		# Insert(acc["name"].encode('utf-8'), cursor)
+		# # Insert(acc["name"].encode('cp437'), cursor)
+		# Insert(acc["name"].encode('ISO-8859-1'), cursor)
+		# Insert(acc["name"], cursor)
 		
-# 		# print(acc["name"][2:-1])
-# 		# Insert(acc["name"][2:-1], cursor)
+		# print(acc["name"][2:-1])
+		# Insert(acc["name"][2:-1], cursor)
 
 
-# cursor.close()
+cursor.close()
 
 # path_no_video = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON_NO_VIDEO'
 # path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
@@ -220,93 +220,65 @@ import time
 # 			json.dump(data, f)
 
 
-######################### Khong xoa ##################################################
-#-------------- Do data audit ------------------
-def InsertContentAds(cursor, ads, d):
-	statement = 'insert into STG_AUDIT_CONTENT ( \
-	AD_ID, PRODUCT_ID, CONTENT, TYPE, PREDICT_PERCENT, \
-	INDEX_CONTENT, SNAPSHOT_DATE, INSERT_DATE) \
-	values (:1, :2, :3, :4, :5, :6, :7, :8)'
-	print (ads['list_product'])
-	print (ads['ad_id'])
-	# now = datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()
-	# print (ads['audit_content'])
-	if ads['list_product'] != [] and 'audit_content' in ads:
-		#-------- Insert image ---------------
-		list_image = ads['audit_content']['image_urls']
-		if list_image != []:
-			for i, image in enumerate(list_image):
-				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], image['image_url'], 'image_url', 0, i,  \
-				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
+# ######################### Khong xoa ##################################################
+# #-------------- Do data audit ------------------
+# def InsertContentAds(cursor, ads, d):
+# 	statement = 'insert into STG_AUDIT_CONTENT ( \
+# 	AD_ID, PRODUCT_ID, CONTENT, TYPE, PREDICT_PERCENT, \
+# 	INDEX_CONTENT, SNAPSHOT_DATE, INSERT_DATE) \
+# 	values (:1, :2, :3, :4, :5, :6, :7, :8)'
+# 	print (ads['list_product'])
+# 	print (ads['ad_id'])
+# 	if ads['list_product'] != []:
+# 		#-------- Insert image ---------------
+# 		list_image = ads['audit_content']['image_urls']
+# 		if list_image != []:
+# 			for i, image in enumerate(list_image):
+# 				print (list_image)
+# 				print ('insert ------------------')
+# 				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], image['image_url'], 'image_url', 0, i,  \
+# 				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
 
-		list_thumbnail = ads['audit_content']['thumbnail_urls']
-		if list_thumbnail != []:
-			for i, thumbnail in enumerate(list_thumbnail):
-				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], thumbnail['thumbnail_url'], 'thumbnail_url', 0, i,  \
-				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
+# def add_label_video_to_data(connect, path, date_, to_date_):
+# 	# Lấy danh sách path của các file json cần tổng hợp data
+# 	list_folder = next(os.walk(path))[1]
 
-		links = ads['audit_content']['links']
-		if links != []:
-			for i, link in enumerate(links):
-				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], link['link'], 'link', 0, i,  \
-				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
-
-		messages = ads['audit_content']['messages']
-		if messages != []:
-			for i, message in enumerate(messages):
-				try:
-					cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], message['message'].encode('utf-8'), 'message', 0, i,  \
-					datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
-				except:
-					print ("Qua dai")
-
-		video_ids = ads['audit_content']['video_ids']
-		if video_ids != [] and 'object_story_spec' in ads:
-			for i, video_id in enumerate(video_ids):
-				link = 'https://www.facebook.com/' + str(ads['object_story_spec']['page_id']) + '/videos/' + str(video_id['video_id'])
-				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], link, 'video_id', 0, i,  \
-				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
-
-def add_label_video_to_data(connect, path, date_, to_date_):
-	# Lấy danh sách path của các file json cần tổng hợp data
-	list_folder = next(os.walk(path))[1]
-
-	#========================== Auto run ===================
-	conn = cx_Oracle.connect(connect)
-	cursor = conn.cursor()
-	date = datetime.strptime(date_, '%Y-%m-%d').date()
-	to_date = datetime.strptime(to_date_, '%Y-%m-%d').date()
-	for folder in list_folder:
-		print (folder)
-		d = datetime.strptime(folder, '%Y-%m-%d').date()
-		if d <= to_date and d >= date:
-			path_folder = os.path.join(path, folder)
-			path_file = os.path.join(path_folder, 'ads_creatives_audit_content_' + str(folder) + '.json')
-			print (path_file)
-			print ("--------------------")
-			if os.path.exists(path_file):
-				with open(path_file, 'r') as f:
-					data = json.load(f)
-					for ads in data['my_json']:
-						print ('ads====================')
-						InsertContentAds(cursor, ads, str(d))
-	conn.commit()
-	cursor.close()
+# 	#========================== Auto run ===================
+# 	conn = cx_Oracle.connect(connect)
+# 	cursor = conn.cursor()
+# 	date = datetime.strptime(date_, '%Y-%m-%d').date()
+# 	to_date = datetime.strptime(to_date_, '%Y-%m-%d').date()
+# 	for folder in list_folder:
+# 		print (folder)
+# 		d = datetime.strptime(folder, '%Y-%m-%d').date()
+# 		if d <= to_date and d >= date:
+# 			path_folder = os.path.join(path, folder)
+# 			path_file = os.path.join(path_folder, 'ads_creatives_audit_content_' + str(folder) + '.json')
+# 			print (path_file)
+# 			print ("--------------------")
+# 			if os.path.exists(path_file):
+# 				with open(path_file, 'r') as f:
+# 					data = json.load(f)
+# 					for ads in data['my_json']:
+# 						print ('ads====================')
+# 						InsertContentAds(cursor, ads, str(d))
+# 	conn.commit()
+# 	cursor.close()
 
 
-# path_folder_videos = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON/2016-10-02/videos'
-# path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
-# path = 'D:/DATA/NEW_DATA_10-2016_05-2017/FULL_DATA_10-2016_06-2017/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
-# path = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
-# date_ = '2016-11-26'
-# to_date_ = '2016-12-10'
+# # path_folder_videos = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON/2016-10-02/videos'
+# # path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+# # path = 'D:/DATA/NEW_DATA_10-2016_05-2017/FULL_DATA_10-2016_06-2017/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
+# # path = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
+# # date_ = '2016-11-26'
+# # to_date_ = '2016-12-10'
 
-if __name__ == '__main__':
-    from sys import argv
-    path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'  
-    connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'  
-    script, date, to_date = argv
-    add_label_video_to_data(connect, path, date, to_date)
+# if __name__ == '__main__':
+#     from sys import argv
+#     path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'  
+#     connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'  
+#     script, date, to_date = argv
+#     add_label_video_to_data(connect, path, date, to_date)
 
 
 ##################################################################################################
