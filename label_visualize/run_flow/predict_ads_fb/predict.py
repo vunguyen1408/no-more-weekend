@@ -63,11 +63,36 @@ def get_image_label_from_cloud_vision(photo_file):
             print("Unknown Error try get label")
     return list_label
 
+def predict_lable(path_content_crawler, folder, percent_train, percent_test, number_relationship, list_label):
+    path_percent = os.path.join(path_content_crawler, folder + '/' + folder + '_' + 'image.csv')
+    path_relationship = os.path.join(path_content_crawler, folder + '/' + folder + '_' + 'image_relationship.csv')
+    #================== Create model =====================
+    list_bigger, label_relationship = cp.create_dataset_predict(path_percent, path_relationship, percent_train, number_relationship)
+    #================== Predict ==================
+    percent, list_, feature = cp.check_percent_ver2(list_label, list_bigger, label_relationship, percent_test)  
+
+    return (percent, feature)
+
 
 def predict_image(path_content_crawler, percent_train, percent_test, number_relationship, ads):
+    list_folder = next(os.walk(path_content_crawler))[1]
+
+    if ads['list_product'] != [] and 'audit_content' in ads:
+        list_image = ads['audit_content']['image_urls']
+        if list_image != []:
+            for i, image in enumerate(list_image):
+                if i['image_label'] != []:
+                    for folder in list_folder:
+                        if folder in ads['list_product']:
+                            percent, feature = predict_lable(path_content_crawler, folder, percent_train, percent_test, number_relationship, i['image_label'])
+                            print (percent)
+                            print (feature)
+                            print ("============================")
+                            # i['percent_predict'] = percent
+                            # i['feature'] = feature
 
 
-def predict(path_data, path_content_crawler, percent_train, percent_test, number_relationship):
+def predict(path_data, path_content_crawler, percent_train, percent_test, number_relationship, date_, to_date_):
 
     list_folder = next(os.walk(path))[1]
 
@@ -83,46 +108,18 @@ def predict(path_data, path_content_crawler, percent_train, percent_test, number
                 with open(path_file, 'r') as f:
                     data = json.load(f)
                     for ads in data['my_json']:
-                        
+                        predict_image(path_content_crawler, percent_train, percent_test, number_relationship, ads)
 
-
-
-
-
-    if image == '1':
-        name = 'image'
-    else:
-        name = 'video'
-    for folder in list_folder:
-        if folder == product:
-            path_percent = os.path.join(path_content_crawler, folder + '/' + folder + '_' + name +'.csv')
-            path_relationship = os.path.join(path_content_crawler, folder + '/' + folder + '_' + name +'_relationship.csv')
-            #================== Create model =====================
-            list_bigger, label_relationship = cp.create_dataset_predict(path_percent, path_relationship, percent_train, number_relationship)
-            #================== Get label image ==================
-            label_image = get_image_label_from_cloud_vision(path_file)
-            print (label_image)
-            #================= Predict ===========================
-            flag = cp.check_percent(label_image, list_bigger, label_relationship, percent_test)
-            print (flag)
-            exists = True
-    if not exists:
-        print ("Product chua co data train.....!")
-
-# path_image = 'C:/Users/CPU10145-local/Desktop/example'
-# path_content_crawler = '/u01/oracle/oradata/APEX/MARKETING_TOOL_03/Json_data_crawler'
-# path_crawler = '/u01/oracle/oradata/APEX/MARKETING_TOOL_03'
-# # path_content_crawler = 'C:/Users/CPU10145-local/Desktop/Server/MARKETING_TOOL_03/Json_data_crawler'
-# # path_crawler = 'C:/Users/CPU10145-local/Desktop/Server/MARKETING_TOOL_03'
-
-
+                with open (path_file,'w') as f:
+                    json.dump(data, f)
 
 if __name__ == '__main__':
     from sys import argv
 
     path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+    path_content_crawler = '/u01/oracle/oradata/APEX/MARKETING_TOOL_03/Json_data_crawler'
     percent_test = 85
     percent_train = 80
     number_relationship = 3
     script, date, to_date = argv
-    predict(path_data, path_content_crawler, percent_train, percent_test, number_relationship)
+    predict(path_data, path_content_crawler, percent_train, percent_test, number_relationship, date, to_date)
