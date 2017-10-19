@@ -197,8 +197,8 @@ for acc in data:
 		# Insert(acc["name"].encode('ISO-8859-1'), cursor)
 		# Insert(acc["name"], cursor)
 		
-		# print(acc["name"][2:-1])
-		# Insert(acc["name"][2:-1], cursor)
+		
+		Insert(acc["name"], cursor)
 
 
 cursor.close()
