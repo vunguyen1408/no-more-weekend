@@ -297,7 +297,7 @@ def CacualatorChange(path_data, list_diff, date):
 
 
     list_plan = mapping.ReadPlan(path_data, date)
-    list_plan = mapping.AddProductCode(path_data, list_plan, date)
+    list_plan = mapping.AddProductCode(path_data, list_plan['plan'], date)
     # # -------------- Call mapping ----------------
     # print (len(list_camp_find))
     # for camp in list_camp_find:
