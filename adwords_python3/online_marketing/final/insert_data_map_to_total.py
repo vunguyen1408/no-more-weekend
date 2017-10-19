@@ -414,7 +414,7 @@ def CreateListPlanMonthly(path_data, date, list_plan_update):
 		with open (path_data_total_map,'r') as f:
 			data_map = json.load(f)
 		for plan in data_map['TOTAL']:
-			if plan['REASON_CODE_ORACLE'] = '1708007':
+			if plan['REASON_CODE_ORACLE'] == '1708007':
 				print ("======================================================================")
 				print (len(plan['CAMPAIGN']))
 				print ("======================================================================")
