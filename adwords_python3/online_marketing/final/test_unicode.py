@@ -230,7 +230,7 @@ def InsertContentAds(cursor, ads, d):
 	print (ads['list_product'])
 	print (ads['ad_id'])
 	# now = datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()
-	print (ads['audit_content'])
+	# print (ads['audit_content'])
 	if ads['list_product'] != [] and 'audit_content' in ads:
 		#-------- Insert image ---------------
 		list_image = ads['audit_content']['image_urls']
@@ -254,8 +254,11 @@ def InsertContentAds(cursor, ads, d):
 		messages = ads['audit_content']['messages']
 		if messages != []:
 			for i, message in enumerate(messages):
-				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], message['message'].encode('utf-8').strip(), 'message', 0, i,  \
-				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
+				try:
+					cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], message['message'].encode('utf-8'), 'message', 0, i,  \
+					datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
+				except:
+					print ("Qua dai")
 
 		video_ids = ads['audit_content']['video_ids']
 		if video_ids != [] and 'object_story_spec' in ads:
