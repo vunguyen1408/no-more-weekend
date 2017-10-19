@@ -8,6 +8,21 @@ import insert_report_plan_sum as plan_sum
 import insert_report_detail_map as detail_map
 
 
+def UpdateRename(connect, list_camp_update):
+	conn = cx_Oracle.connect(connect)
+	cursor = conn.cursor()
+	#==================== Update data into database =============================
+	statement = 'update DTM_GG_PIVOT_DETAIL_UNMAP \
+	set CAMPAIGN_NAME = :1 \
+	where CAMPAIGN_ID = :2 and SNAPSHOT_DATE = :3'	
+	for value in list_camp_update:
+		cursor.execute(statement, (value['Campaign'], value['Campaign ID'], value['Date']))
+
+		print ((value['Campaign'], value['Campaign ID'], value['Date']))
+
+	conn.commit()
+	print("Committed!.......")
+	cursor.close()
 
 
 def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update):
