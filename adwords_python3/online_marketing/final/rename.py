@@ -153,10 +153,15 @@ def CheckNameChange(path_data, list_customer, date):
       os.makedirs(path_folder)
 
     path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
+    ###########################################
     # with open (path_data_his,'w') as f:
     #   json.dump(data_total, f)
+    ############################################
   print ("====================== Length =================")
   print (len(list_diff))
+  print (list_diff[0])
+  print (list_diff[1])
+  print (list_diff[2])
   return list_diff
 
 
@@ -285,6 +290,10 @@ def CacualatorChange(path_data, list_diff, date):
           temp['Campaign'] = camp['CAMPAIGN_NAME']
           list_camp_find.append(temp)
 
+    print (len(list_camp_find))
+    print (list_camp_find[0])
+    print (list_camp_find[1])
+    print (list_camp_find[2])
 
 
     list_plan = mapping.ReadPlan(path_data, date)
@@ -419,5 +428,5 @@ path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
 date = '2017-08-31'
 # CacualatorChange(path_data, list_customer, date)
 
-CheckNameChange(path_data, list_customer_id, date)
-# CacualatorChange(path_data, list_customer_id, date)
+list_diff = CheckNameChange(path_data, list_customer_id, date)
+CacualatorChange(path_data, list_diff, date)
