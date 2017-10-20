@@ -117,8 +117,11 @@ def get_label_videos(folder, path_folder_audios, video_json):
                     print (file_stat.st_size)
                     if file_stat.st_size > 0:
                         value['audio_text'] = analyze_labels(file_name)
+
                     # value['audio_text'] = {}
+
                     # print ("Done")
+
 
     return video_json
 
@@ -184,6 +187,8 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
             # print (path_file)
             # print (path_file_video)
             if os.path.exists(path_file) and os.path.exists(path_file_video):
+
+                #cap nhat video_json
                 with open (path_file_video,'r') as file_json:
                     video_json = json.load(file_json)
                     # video_json = get_label_videos(folder, path_folder_audios, video_json)
@@ -193,11 +198,10 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
                     with open (path_file_video,'w') as f:
                         json.dump(video_json, f)
                 print ("========================= Add label to data json =========================")
-                # for folder in list_folder:
-                path_folder = os.path.join(path, folder)
-                path_file_videos = os.path.join(path_folder, 'video_url_' + str(folder) + '.json')
-                path_file = os.path.join(path_folder, 'ads_creatives_audit_content_' + str(folder) + '.json')
-                if os.path.exists(path_file) and os.path.exists(path_file_videos):
+
+                #cap nhat audit_content
+
+                if os.path.exists(path_file) and os.path.exists(path_file_video):
                     with open(path_file, 'r') as f:
                         data = json.load(f)
                     with open(path_file_videos, 'r') as f:
