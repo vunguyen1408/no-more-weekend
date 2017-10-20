@@ -44,24 +44,22 @@ def transcribe_file(speech_file, p_sample_rate):
         language_code='vi-VN')
 
     # [START migration_async_response]
-    print('Calling...')
     operation = client.long_running_recognize(config, audio)
     # [END migration_async_request]
 
-    #print('Waiting for operation to complete...')
+    print('Waiting for operation to complete...')
     response = operation.result(timeout=90)
 
-    # Print the first alternative of all the consecutive results.
+
     text = {}
-
+    # Print the first alternative of all the consecutive results.
     for result in response.results:
-
         print('Transcript: {}'.format(result.alternatives[0].transcript))
         print('Confidence: {}'.format(result.alternatives[0].confidence))
-
         text['transcript'] = result.alternatives[0].transcript
         text['confidence'] = result.alternatives[0].confidence
         print(text)
+    # [END migration_async_response]
 
     return text
 
