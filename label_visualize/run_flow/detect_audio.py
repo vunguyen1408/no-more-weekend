@@ -101,19 +101,8 @@ def get_label_videos(folder, path_folder_audios, video_json):
             value['audio_text']['transcript'] = ''
             value['audio_text']['confidence'] = 0
 
-        if 'transcript' in value['audio_text'] :
-            print ("Found")
-            print(type(value['audio_text']['transcript']))
-            if not value['audio_text'].get('transcript',''):
-                print("null")
-
-            if not value['audio_text']['transcript']:
-                print("null2")
-
-        #if not value['audio_text'].get('transcript',''):
-        if not value['audio_text']['transcript']:
-            print("null")
-
+        if not value['audio_text'].get('transcript',''):
+        #if not value['audio_text']['transcript']:
             for file_ in list_index:
                 if file_['index'] == i:
                     # link = 'gs://python_video/' + folder + '/' + file_['name']
@@ -129,30 +118,9 @@ def get_label_videos(folder, path_folder_audios, video_json):
                     print (file_stat.st_size)
                     if file_stat.st_size > 0:
                         value['audio_text'] = analyze_labels(file_name)
+                        print(value['audio_text'])
                     # value['audio_text'] = {}
                     # print ("Done")
-
-        #if not (value['audio_text']['transcript'] != ""):
-        #if not value['audio_text']['transcript']:
-        #    print ("cont")
-
-            # for file_ in list_index:
-            #     if file_['index'] == i:
-            #         # link = 'gs://python_video/' + folder + '/' + file_['name']
-            #         file_name = path_folder_audios + '/' + file_['name']
-            #         print(file_name)
-            #
-            #         # list_label = analyze_labels(link)
-            #         # value['video_label'] = list(list_label)
-            #
-            #         #leth 2017.10.20
-            #         #check file size > 0
-            #         file_stat = os.stat(file_name)
-            #         print (file_stat.st_size)
-            #         if file_stat.st_size > 0:
-            #             value['audio_text'] = analyze_labels(file_name)
-            #         # value['audio_text'] = {}
-            #         # print ("Done")
 
     return video_json
 
