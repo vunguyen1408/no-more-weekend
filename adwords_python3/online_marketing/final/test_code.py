@@ -26,7 +26,7 @@ def Insert(name, cursor):
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 cursor = conn.cursor()
-path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/output_file.json'
+path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/TEST_UNICODE.json'#output_file.json'
 
 # data = json.load(codecs.open(path, 'r', 'utf-8-sig'))
 # data = json.loads(open(path).read().decode('utf-8-sig'))
