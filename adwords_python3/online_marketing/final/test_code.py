@@ -42,6 +42,7 @@ for acc in data:
 		# print(acc["name"].encode('utf-8'))
 		# sys.stdout = codecs.getwriter("iso-8859-1")(sys.stdout, 'xmlcharrefreplace')	
 		# Insert(acc["name"].encode('utf-8'), cursor)	
+		print(str(acc["name"].encode('utf-8'))
 		Insert(str(acc["name"].encode('utf-8')), cursor)
 		# Insert(acc["name"].encode('utf-8-sig'), cursor)
 		# Insert(acc["name"], cursor)
