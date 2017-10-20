@@ -17,9 +17,9 @@ def Insert(name, cursor):
 		
 	cursor.execute(statement, (name, None))
 	
-	# print("A row inserted!.......")
+	print("A row inserted!.......")
 	conn.commit()
-	# print("Committed!.......")
+	print("Committed!.......")
 
 
 
@@ -37,8 +37,11 @@ input_file  = codecs.open(path, "r", encoding="utf-8")
 data = json.loads(input_file.read())
 for acc in data:
 	if (str(acc["customerId"]) == '4476024314'):
+		# Insert(acc["name"].encode('utf-8'), cursor)
+		# print(acc["name"])
+		# print(acc["name"].encode('utf-8'))
 		sys.stdout = codecs.getwriter("iso-8859-1")(sys.stdout, 'xmlcharrefreplace')		
-		Insert(acc["name"].encode('utf-8'), cursor)
+		Insert(acc["name"], cursor)
 		# Insert(acc["name"].encode('utf-8-sig'), cursor)
 		# Insert(acc["name"], cursor)
 		# Insert(acc["name"].encode('iso-8859-1'), cursor)
