@@ -39,21 +39,22 @@ def check_file_exist(photo_link, path_down_load_file):
     filename = filename + file_ext
     fullfilename = os.path.join(path_down_load_file, filename)
 
+    if not os.path.exists(fullfilename):
 
-    #download
-    try:
-        urlretrieve(photo_link, fullfilename)
+	    #download
+	    try:
+	        urlretrieve(photo_link, fullfilename)
 
-    except HTTPError as err:
-        return '0'
-        print(err.code)
-    except ContentTooShortError as err:
-        #retry 1 times
-        try:
-            urlretrieve(photo_link, fullfilename)
-        except ContentTooShortError as err:
-            print(err.code)
-            return '0'
+	    except HTTPError as err:
+	        return '0'
+	        print(err.code)
+	    except ContentTooShortError as err:
+	        #retry 1 times
+	        try:
+	            urlretrieve(photo_link, fullfilename)
+	        except ContentTooShortError as err:
+	            print(err.code)
+	            return '0'
     return fullfilename
 
 #-------------- Do data audit ------------------
