@@ -4,7 +4,7 @@
     Company : VNG Corporation
 
     Description: Call gcloud speech API to get text for audio
-    
+
     Examples of Usage:
         python detect_audio.py 2016-10-01 2017-06-29
 """
@@ -13,6 +13,7 @@
 
 
 import argparse
+import io
 import sys
 import os
 import json
@@ -54,11 +55,11 @@ def transcribe_file(speech_file, p_sample_rate):
         print('Transcript: {}'.format(result.alternatives[0].transcript))
         print('Confidence: {}'.format(result.alternatives[0].confidence))
 
-    
-    text = {}    
-    text['transcript'] = result.alternatives[0].transcript
-    text['confidence'] = result.alternatives[0].confidence
-    # print(text)
+
+        text = {}
+        text['transcript'] = result.alternatives[0].transcript
+        text['confidence'] = result.alternatives[0].confidence
+        print(text)
 
     return text
 
@@ -67,18 +68,18 @@ def transcribe_file(speech_file, p_sample_rate):
 def analyze_labels(file_audio):
     #============== Get sample rate ==================
     cmd = "ffprobe " + file_audio + " -show_entries" + " stream=sample_rate"
-    out = subprocess.check_output(cmd) 
+    out = subprocess.check_output(cmd)
     print(out)
-    if (isinstance(out, bytes)):    
+    if (isinstance(out, bytes)):
         out = str(out)
         sample_rate = int(out[(out.find('=') + 1) : (out.rfind('[') - 4)])
     elif (isinstance(out, str)):
         sample_rate = int(out[(out.find('=') + 1) : (out.rfind('['))])
     # print(sample_rate)
-    
+
     #============== Get text of audio ===================
-    text = transcribe_file(file_audio, sample_rate) 
-    
+    text = transcribe_file(file_audio, sample_rate)
+
     return text
 
 
@@ -86,7 +87,7 @@ def get_label_videos(folder, path_folder_audios, video_json):
 
     list_index = []
     list_file = next(os.walk(path_folder_audios))[2]
-    
+
     for file_ in list_file:
         file_json = {
             'name': file_,
@@ -99,7 +100,7 @@ def get_label_videos(folder, path_folder_audios, video_json):
             value['audio_text'] = {}
             value['audio_text']['transcript'] = ''
             value['audio_text']['confidence'] = 0
-            
+
         if not (value['audio_text']['transcript'] != ''):
             for file_ in list_index:
                 if file_['index'] == i:
@@ -112,7 +113,7 @@ def get_label_videos(folder, path_folder_audios, video_json):
                     value['audio_text'] = analyze_labels(file_name)
                     # value['audio_text'] = {}
                     # print ("Done")
-    
+
     return video_json
 
 def get_30_date(path_full_data, date, video_json):
@@ -214,6 +215,6 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
 
 if __name__ == '__main__':
     from sys import argv
-    path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'    
+    path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
     script, date, to_date = argv
     add_label_video_to_data(path, date, to_date)
