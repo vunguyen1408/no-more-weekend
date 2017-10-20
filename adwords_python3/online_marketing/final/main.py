@@ -134,7 +134,7 @@ def Daily(connect, path_data, date):
 	#======================== Insert nru to plan ==============================
 	# print ("\n\n======================= RUN INSERT NRU WITH DATE : " + date + " =========================")
 	# insert_nru = time.time()
-	nru.Add_Data_To_Plan(connect, path_data, date)
+	# nru.Add_Data_To_Plan(connect, path_data, date)
 	# time_insert = time.time() - insert_install
 
 	#=============================== Update to database =========================================
