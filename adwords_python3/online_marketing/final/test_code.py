@@ -364,7 +364,8 @@ for acc in data:
 		sys.stdout = codecs.getwriter("iso-8859-1")(sys.stdout, 'xmlcharrefreplace')
 		# print(acc["name"])
 		# print(acc["name"].encode('utf-8'))
-		Insert(acc["name"], cursor)
+		Insert(acc["name"].encode('utf-8'), cursor)
+		Insert(acc["name"].encode('iso-8859-1'), cursor)
 
 
 
