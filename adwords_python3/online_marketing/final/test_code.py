@@ -33,17 +33,15 @@ path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/onl
 # with open(path, 'r') as fi:
 # 	data = json.load(fi)
 # path = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/output_file.json'
-input_file  = open(path, "r")
+input_file  = codecs.open(path, "r", encoding="utf-8")
 data = json.loads(input_file.read())
 for acc in data:
 	if (str(acc["customerId"]) == '4476024314'):
-		sys.stdout = codecs.getwriter("iso-8859-1")(sys.stdout, 'xmlcharrefreplace')
-		# print(acc["name"])
-		# print(acc["name"].encode('utf-8'))
+		sys.stdout = codecs.getwriter("iso-8859-1")(sys.stdout, 'xmlcharrefreplace')		
 		Insert(acc["name"].encode('utf-8'), cursor)
-		Insert(acc["name"].encode('utf-8-sig'), cursor)
-		Insert(acc["name"], cursor)
-		Insert(acc["name"].encode('iso-8859-1'), cursor)
+		# Insert(acc["name"].encode('utf-8-sig'), cursor)
+		# Insert(acc["name"], cursor)
+		# Insert(acc["name"].encode('iso-8859-1'), cursor)
 
 
 
@@ -59,10 +57,15 @@ for acc in data:
 # input_file  = open(path, "r")
 # data = json.loads(input_file.read())
 # output_file = codecs.open("D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/output_file.json", "w", encoding="utf-8")
-# # for acc in data:
-#     # if (str(acc["customerId"]) == '4476024314'):
+
 # sys.stdout = codecs.getwriter("iso-8859-1")(sys.stdout, 'xmlcharrefreplace')
-#     # print( acc["name"])
-# # print("begin save")
+   
 # json.dump(data, output_file, indent=4, sort_keys=True, ensure_ascii=False)
-# # print("Save ok............")
+
+# print("Save ok............")
+# input_file  = open(path, "r")
+# data = json.loads(input_file.read())
+# # for acc in data:
+    # if (str(acc["customerId"]) == '4476024314'):
+     # print( acc["name"])
+# print("begin save")
