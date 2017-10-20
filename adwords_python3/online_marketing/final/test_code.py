@@ -33,7 +33,7 @@ path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/onl
 # with open(path, 'r') as fi:
 # 	data = json.load(fi)
 # path = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/output_file.json'
-input_file  = codecs.open(path, "r", encoding="utf-8")
+input_file  = codecs.open(path, "r", encoding="ascii")
 data = json.loads(input_file.read())
 for acc in data:
 	if (str(acc["customerId"]) == '4476024314'):
