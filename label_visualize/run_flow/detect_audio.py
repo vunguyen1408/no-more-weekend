@@ -110,6 +110,8 @@ def get_label_videos(folder, path_folder_audios, video_json):
             if not value['audio_text']['transcript']:
                 print("null2")
 
+        if not value['audio_text'].get('transcript',''):
+            print("null")
 
         #if not (value['audio_text']['transcript'] != ""):
         #if not value['audio_text']['transcript']:
@@ -214,7 +216,7 @@ def add_label_video_to_data(path, date_ = '2016-10-01', to_date_ = '2016-10-01')
                 if os.path.exists(path_file) and os.path.exists(path_file_video):
                     with open(path_file, 'r') as f:
                         data = json.load(f)
-                    with open(path_file_videos, 'r') as f:
+                    with open(path_file_video, 'r') as f:
                         data_video = json.load(f)
                     for vaule in data_video['my_json']:
                         i = vaule['index_json']
