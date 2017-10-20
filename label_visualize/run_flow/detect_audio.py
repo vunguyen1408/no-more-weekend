@@ -51,12 +51,11 @@ def transcribe_file(speech_file, p_sample_rate):
     response = operation.result(timeout=90)
 
     # Print the first alternative of all the consecutive results.
+    text = {}
     for result in response.results:
         print('Transcript: {}'.format(result.alternatives[0].transcript))
         print('Confidence: {}'.format(result.alternatives[0].confidence))
 
-
-        text = {}
         text['transcript'] = result.alternatives[0].transcript
         text['confidence'] = result.alternatives[0].confidence
         print(text)
