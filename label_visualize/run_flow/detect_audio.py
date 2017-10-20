@@ -110,7 +110,8 @@ def get_label_videos(folder, path_folder_audios, video_json):
             if not value['audio_text']['transcript']:
                 print("null2")
 
-        if not value['audio_text'].get('transcript',''):
+        #if not value['audio_text'].get('transcript',''):
+        if not value['audio_text']['transcript']:
             print("null")
 
             for file_ in list_index:
@@ -121,7 +122,7 @@ def get_label_videos(folder, path_folder_audios, video_json):
 
                     # list_label = analyze_labels(link)
                     # value['video_label'] = list(list_label)
-            
+
                     #leth 2017.10.20
                     #check file size > 0
                     file_stat = os.stat(file_name)
