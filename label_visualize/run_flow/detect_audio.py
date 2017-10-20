@@ -105,7 +105,7 @@ def get_label_videos(folder, path_folder_audios, video_json):
             print ("Found")
             print(type(value['audio_text']['transcript']))
             temp=value['audio_text'].get('transcript','')
-            print(temp)
+            print('tem'+temp)
 
 
         print ("cont")
