@@ -346,7 +346,7 @@ def Insert(name, cursor):
 	
 	print("A row inserted!.......")
 	conn.commit()
-	print("Committed!.......")
+	# print("Committed!.......")
 
 
 
