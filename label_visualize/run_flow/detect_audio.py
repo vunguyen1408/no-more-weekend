@@ -97,6 +97,9 @@ def get_label_videos(folder, path_folder_audios, video_json):
         }
         list_index.append(file_json)
 
+
+    print   (list_index)  
+
     for i, value in enumerate(video_json['my_json']):
         if 'audio_text' not in value:
             value['audio_text'] = {}
@@ -109,7 +112,7 @@ def get_label_videos(folder, path_folder_audios, video_json):
 
 
         if not value['audio_text'].get('transcript',''):
-            print(value['audio_text'])
+            #print(value['audio_text'])
         #if not value['audio_text']['transcript']:
             for file_ in list_index:
                 if file_['index'] == i:
