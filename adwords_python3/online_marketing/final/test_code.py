@@ -17,9 +17,9 @@ def Insert(name, cursor):
 		
 	cursor.execute(statement, (name, None))
 	
-	print("A row inserted!.......")
+	# print("A row inserted!.......")
 	conn.commit()
-	print("Committed!.......")
+	# print("Committed!.......")
 
 
 
