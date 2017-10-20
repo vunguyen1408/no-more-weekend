@@ -98,6 +98,7 @@ def get_label_videos(folder, path_folder_audios, video_json):
     for i, value in enumerate(video_json['my_json']):
         if 'audio_text' not in value:
             value['audio_text'] = {}
+            value['audio_text']['api_call'] = 0
             value['audio_text']['transcript'] = ''
             value['audio_text']['confidence'] = 0
 
@@ -117,7 +118,10 @@ def get_label_videos(folder, path_folder_audios, video_json):
                     file_stat = os.stat(file_name)
                     print (file_stat.st_size)
                     if file_stat.st_size > 0:
+                        #count api_call
+                        i = value['audio_text']['api_call']
                         value['audio_text'] = analyze_labels(file_name)
+                        value['audio_text']['api_call'] = i+1
                         print(value['audio_text'])
                     # value['audio_text'] = {}
                     # print ("Done")
