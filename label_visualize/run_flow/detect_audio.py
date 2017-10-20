@@ -101,7 +101,11 @@ def get_label_videos(folder, path_folder_audios, video_json):
             value['audio_text']['transcript'] = ''
             value['audio_text']['confidence'] = 0
 
-        if not (value['audio_text']['transcript'] != ''):
+        print (value['audio_text'])
+        print(value['audio_text']['transcript'])
+
+        #if not (value['audio_text']['transcript'] != ""):
+        if value['audio_text']['transcript'] == '' :
             for file_ in list_index:
                 if file_['index'] == i:
                     # link = 'gs://python_video/' + folder + '/' + file_['name']
