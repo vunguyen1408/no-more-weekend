@@ -114,8 +114,8 @@ def get_label_videos(folder, path_folder_audios, video_json):
                     #leth 2017.10.20
                     #check file size > 0
                     file_stat = os.stat(file_name)
-                    print (statinfo.st_size)
-                    if statinfo.st_size > 0:
+                    print (file_stat.st_size)
+                    if file_stat.st_size > 0:
                         value['audio_text'] = analyze_labels(file_name)
                     # value['audio_text'] = {}
                     # print ("Done")
