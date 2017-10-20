@@ -26,7 +26,7 @@ from google.cloud.gapic.videointelligence.v1beta1 import (
     video_intelligence_service_client)
 
 
-def transcribe_file(speech_file, p_sample_rate,p_transcript, p_confidence):
+def transcribe_file(speech_file, p_sample_rate):
     """Transcribe the given audio file asynchronously."""
     from google.cloud import speech
     from google.cloud.speech import enums
@@ -124,7 +124,7 @@ def get_label_videos(folder, path_folder_audios, video_json):
                     print (file_stat.st_size)
                     if file_stat.st_size > 0:
                         #count api_call
-                        i = value['audio_text']['api_call']
+                        i = value['audio_text'].get('api_call',0)
                         value['audio_text'] = analyze_labels(file_name)
                         value['audio_text']['api_call'] = i+1
                         print(value['audio_text'])
