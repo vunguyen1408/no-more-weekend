@@ -113,6 +113,24 @@ def get_label_videos(folder, path_folder_audios, video_json):
         if not value['audio_text'].get('transcript',''):
             print("null")
 
+            for file_ in list_index:
+                if file_['index'] == i:
+                    # link = 'gs://python_video/' + folder + '/' + file_['name']
+                    file_name = path_folder_audios + '/' + file_['name']
+                    print(file_name)
+
+                    # list_label = analyze_labels(link)
+                    # value['video_label'] = list(list_label)
+            
+                    #leth 2017.10.20
+                    #check file size > 0
+                    file_stat = os.stat(file_name)
+                    print (file_stat.st_size)
+                    if file_stat.st_size > 0:
+                        value['audio_text'] = analyze_labels(file_name)
+                    # value['audio_text'] = {}
+                    # print ("Done")
+
         #if not (value['audio_text']['transcript'] != ""):
         #if not value['audio_text']['transcript']:
         #    print ("cont")
