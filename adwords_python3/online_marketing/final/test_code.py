@@ -40,10 +40,11 @@ for acc in data:
 		# print(acc["name"])
 		print(acc["name"].encode('utf8').strip())
 		# sys.stdout = codecs.getwriter("iso-8859-1")(sys.stdout, 'xmlcharrefreplace')	
-
+		Insert(acc["name"].encode(conn.nencoding), cursor)	
+		
 		Insert(acc["name"].encode('utf8').strip(), cursor)	
 		# print(str(acc["name"].encode('utf-8')))
-		# Insert(str(acc["name"].encode('utf-8')), cursor)
+		# Insert(str(acc["name"].encode('utf-8')), cursor).encode(connection.nencoding)
 		
 
 
