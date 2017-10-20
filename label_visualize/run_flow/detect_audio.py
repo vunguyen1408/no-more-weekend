@@ -54,6 +54,7 @@ def transcribe_file(speech_file, p_sample_rate):
     text = {}
 
     for result in response.results:
+        print('Result')
         print('Transcript: {}'.format(result.alternatives[0].transcript))
         print('Confidence: {}'.format(result.alternatives[0].confidence))
 
