@@ -12,10 +12,9 @@ import time
 
 def Insert(name, cursor):
 	#==================== Insert data into database =============================
-	statement = 'insert into DTM_GG_RUN_FLAG (FLAG_RUNNING, FINAL_RUNTIME) \
-	values (:1, :2) '
-		
-	cursor.executemany(statement, [name, None])
+	statement = 'insert into DTM_GG_RUN_FLAG (FLAG_RUNNING) values (:1) '
+	row =[name]	
+	cursor.executemany('insert into DTM_GG_RUN_FLAG (FLAG_RUNNING) values (:1)',row)
 	
 	# print("A row inserted!.......")
 	conn.commit()
