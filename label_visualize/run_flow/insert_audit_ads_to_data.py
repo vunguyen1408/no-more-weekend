@@ -101,10 +101,14 @@ def InsertContentAds(cursor, ads, d):
 		if messages != []:
 			for i, message in enumerate(messages):
 				try:
-					cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], message['message'].encode('utf-8'), 'message', 0, i,  \
+					cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], message['message'], 'message', 0, i,  \
 					datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date(), 0))
 				except:
-					print ("Qua dai")
+					try :
+					cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], message['message'].encode('utf-8'), 'message', 0, i,  \
+					datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date(), 0))
+					except:
+						print ("Qua dai")
 
 		video_ids = ads['audit_content']['video_ids']
 		if video_ids != [] and 'object_story_spec' in ads:
@@ -118,7 +122,7 @@ def add_label_video_to_data(connect, path, date_, to_date_):
 	list_folder = next(os.walk(path))[1]
 
 	#========================== Auto run ===================
-	conn = cx_Oracle.connect(connect)
+	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 	date = datetime.strptime(date_, '%Y-%m-%d').date()
 	to_date = datetime.strptime(to_date_, '%Y-%m-%d').date()
