@@ -13,9 +13,9 @@ import time
 def Insert(name, cursor):
 	#==================== Insert data into database =============================
 	statement = 'insert into DTM_GG_RUN_FLAG (FLAG_RUNNING, FINAL_RUNTIME) \
-	values ("' + name + '", '') '
+	values (:1, :2) '
 		
-	cursor.executemany(statement)
+	cursor.executemany(statement, [name, None])
 	
 	# print("A row inserted!.......")
 	conn.commit()
@@ -23,9 +23,9 @@ def Insert(name, cursor):
 
 
 
-# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-# conn = cx_Oracle.connect(connect)
-# cursor = conn.cursor()
+connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+conn = cx_Oracle.connect(connect)
+cursor = conn.cursor()
 path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/output_file.json'
 
 # data = json.load(codecs.open(path, 'r', 'utf-8-sig'))
