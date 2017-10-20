@@ -56,10 +56,10 @@ def transcribe_file(speech_file, p_sample_rate):
         print('Confidence: {}'.format(result.alternatives[0].confidence))
 
 
-    text = {}
-    text['transcript'] = result.alternatives[0].transcript
-    text['confidence'] = result.alternatives[0].confidence
-    # print(text)
+        text = {}
+        text['transcript'] = result.alternatives[0].transcript
+        text['confidence'] = result.alternatives[0].confidence
+        print(text)
 
     return text
 
