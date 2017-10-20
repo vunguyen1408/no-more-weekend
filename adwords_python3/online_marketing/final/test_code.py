@@ -44,6 +44,8 @@ for acc in data:
 		# Insert(acc["name"].encode(conn.nencoding), cursor)	
 		
 		Insert(acc["name"].encode('utf8').strip(), cursor)	
+		Insert(acc["name"].encode('utf8'), cursor)	
+		Insert(acc["name"], cursor)	
 		
 		
 
