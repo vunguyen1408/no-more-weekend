@@ -24,7 +24,7 @@ def Insert(name, cursor):
 
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-conn = cx_Oracle.connect(connect)
+conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 cursor = conn.cursor()
 path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/output_file.json'
 
@@ -32,20 +32,19 @@ path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/onl
 # data = json.loads(open(path).read().decode('utf-8-sig'))
 # with open(path, 'r') as fi:
 # 	data = json.load(fi)
-# path = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/output_file.json'
-input_file  = codecs.open(path, "r", encoding="ascii")
+path = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/output_file.json'
+input_file  = codecs.open(path, "r", encoding="utf-8")
 data = json.loads(input_file.read())
 for acc in data:
 	if (str(acc["customerId"]) == '4476024314'):
 		# print(acc["name"])
-		print(acc["name"].encode('utf8').strip())
-		print(acc["name"].encode(conn.nencoding))
+		# print(acc["name"].encode('utf8').strip())
+
 		# sys.stdout = codecs.getwriter("iso-8859-1")(sys.stdout, 'xmlcharrefreplace')	
-		Insert(acc["name"].encode(conn.nencoding), cursor)	
+		# Insert(acc["name"].encode(conn.nencoding), cursor)	
 		
 		Insert(acc["name"].encode('utf8').strip(), cursor)	
-		# print(str(acc["name"].encode('utf-8')))
-		# Insert(str(acc["name"].encode('utf-8')), cursor).encode(connection.nencoding)
+		
 		
 
 
