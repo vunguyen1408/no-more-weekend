@@ -14,6 +14,7 @@ def Insert(name, cursor):
 	#==================== Insert data into database =============================
 	statement = 'insert into DTM_GG_RUN_FLAG (FLAG_RUNNING) values (:1) '
 	row =[name]	
+	cursor.setinputsizes(255)
 	cursor.executemany('insert into DTM_GG_RUN_FLAG (FLAG_RUNNING) values (:1)',row)
 	
 	# print("A row inserted!.......")
@@ -39,6 +40,7 @@ for acc in data:
 		# print(acc["name"])
 		print(acc["name"].encode('utf8').strip())
 		# sys.stdout = codecs.getwriter("iso-8859-1")(sys.stdout, 'xmlcharrefreplace')	
+
 		Insert(acc["name"].encode('utf8').strip(), cursor)	
 		# print(str(acc["name"].encode('utf-8')))
 		# Insert(str(acc["name"].encode('utf-8')), cursor)
