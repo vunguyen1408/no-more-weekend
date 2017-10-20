@@ -102,6 +102,7 @@ def get_label_videos(folder, path_folder_audios, video_json):
             value['audio_text']['confidence'] = 0
 
         print (value['audio_text'])
+        print(value['audio_text']['transcript'])
 
         #if not (value['audio_text']['transcript'] != ""):
         if value['audio_text']['transcript'] == '' :
