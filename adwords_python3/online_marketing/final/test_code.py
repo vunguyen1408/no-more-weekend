@@ -34,7 +34,7 @@ path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/onl
 # 	data = json.load(fi)
 # path = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/output_file.json'
 input_file  = open(path, "r")
-data = json.loads(input_file.read(), ensure_ascii=False)
+data = json.loads(input_file.read())
 for acc in data:
 	if (str(acc["customerId"]) == '4476024314'):
 		sys.stdout = codecs.getwriter("iso-8859-1")(sys.stdout, 'xmlcharrefreplace')
