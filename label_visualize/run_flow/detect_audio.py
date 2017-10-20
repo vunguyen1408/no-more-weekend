@@ -44,17 +44,18 @@ def transcribe_file(speech_file, p_sample_rate):
         language_code='vi-VN')
 
     # [START migration_async_response]
+    print('Calling...')
     operation = client.long_running_recognize(config, audio)
     # [END migration_async_request]
 
-    print('Waiting for operation to complete...')
+    #print('Waiting for operation to complete...')
     response = operation.result(timeout=300)
 
     # Print the first alternative of all the consecutive results.
     text = {}
 
     for result in response.results:
-        print('Result')
+
         print('Transcript: {}'.format(result.alternatives[0].transcript))
         print('Confidence: {}'.format(result.alternatives[0].confidence))
 
@@ -70,7 +71,7 @@ def analyze_labels(file_audio):
     #============== Get sample rate ==================
     cmd = "ffprobe " + file_audio + " -show_entries" + " stream=sample_rate"
     out = subprocess.check_output(cmd)
-    print(out)
+    #print(out)
     if (isinstance(out, bytes)):
         out = str(out)
         sample_rate = int(out[(out.find('=') + 1) : (out.rfind('[') - 4)])
@@ -122,12 +123,14 @@ def get_label_videos(folder, path_folder_audios, video_json):
                     #leth 2017.10.20
                     #check file size > 0
                     file_stat = os.stat(file_name)
-                    print (file_stat.st_size)
+                    #print (file_stat.st_size)
+
                     if file_stat.st_size > 0:
                         #count api_call
                         i = value['audio_text'].get('api_call',0)
                         value['audio_text'] = analyze_labels(file_name)
                         value['audio_text']['api_call'] = i+1
+                        print('Result')
                         print(value['audio_text'])
                     # value['audio_text'] = {}
                     # print ("Done")
