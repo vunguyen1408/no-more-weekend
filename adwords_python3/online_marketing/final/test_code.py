@@ -366,11 +366,11 @@ path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/onl
 
 
 
-# import json
+import json
 import sys
-# import codecs
+import codecs
 # path = 'TEST_UNICODE.json'
-input_file  = file("TEST_UNICODE.json", "r")
+input_file  = file(path, "r")
 data = json.loads(input_file.read().decode("utf-8-sig"))
 # output_file = codecs.open("output_file.json", "w", encoding="utf-8")
 for acc in data:
