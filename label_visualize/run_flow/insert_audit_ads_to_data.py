@@ -16,6 +16,46 @@ import cx_Oracle
 from datetime import datetime , timedelta, date
 import time
 
+def check_file_exist(photo_link, path_down_load_file):
+    import io
+    import os
+
+    try:
+        from urllib.request import urlretrieve  # Python 3
+        from urllib.error import HTTPError,ContentTooShortError
+    except ImportError:
+        from urllib import urlretrieve  # Python 2
+
+
+
+    try:
+        from urllib.parse import urlparse  # Python 3
+    except ImportError:
+        from urlparse import urlparse  # Python 2
+    from os.path import splitext, basename, join
+    picture_page = photo_link
+    disassembled = urlparse(picture_page)
+    filename, file_ext = splitext(basename(disassembled.path))
+    filename = filename + file_ext
+    fullfilename = os.path.join(path_down_load_file, filename)
+
+
+    #download
+    try:
+        urlretrieve(photo_link, fullfilename)
+
+    except HTTPError as err:
+        return '0'
+        print(err.code)
+    except ContentTooShortError as err:
+        #retry 1 times
+        try:
+            urlretrieve(photo_link, fullfilename)
+        except ContentTooShortError as err:
+            print(err.code)
+            return '0'
+    return fullfilename
+
 #-------------- Do data audit ------------------
 def InsertContentAds(cursor, ads, d):
 	statement = 'insert into STG_AUDIT_CONTENT ( \
@@ -24,6 +64,7 @@ def InsertContentAds(cursor, ads, d):
 	values (:1, :2, :3, :4, :5, :6, :7, :8)'
 	print (ads['list_product'])
 	print (ads['ad_id'])
+	path_down_load_file = '/u01/oracle/oradata/APEX/MARKETING_TOOL_03/temp'
 	# now = datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()
 	# print (ads['audit_content'])
 	if ads['list_product'] != [] and 'audit_content' in ads:
@@ -32,7 +73,13 @@ def InsertContentAds(cursor, ads, d):
 		if list_image != []:
 			for i, image in enumerate(list_image):
 				if 'percent_predict' in image:
-					cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], image['image_url'], 'image_url', image['percent_predict'], i,  \
+					file_name = check_file_exist(image['image_url'], path_down_load_file)
+					if file_name == '0':
+						flag = 0
+					else:
+						flag = 1
+						
+					cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], image['image_url'], 'image_url', image['percent_predict'], flag,  \
 					datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
 
 		list_thumbnail = ads['audit_content']['thumbnail_urls']
