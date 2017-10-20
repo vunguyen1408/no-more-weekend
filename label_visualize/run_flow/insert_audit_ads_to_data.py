@@ -61,8 +61,8 @@ def check_file_exist(photo_link, path_down_load_file):
 def InsertContentAds(cursor, ads, d):
 	statement = 'insert into STG_AUDIT_CONTENT ( \
 	AD_ID, PRODUCT_ID, CONTENT, TYPE, PREDICT_PERCENT, \
-	INDEX_CONTENT, SNAPSHOT_DATE, INSERT_DATE) \
-	values (:1, :2, :3, :4, :5, :6, :7, :8)'
+	INDEX_CONTENT, SNAPSHOT_DATE, INSERT_DATE, FLAG) \
+	values (:1, :2, :3, :4, :5, :6, :7, :8, :9)'
 	print (ads['list_product'])
 	print (ads['ad_id'])
 	path_down_load_file = '/u01/oracle/oradata/APEX/MARKETING_TOOL_03/temp'
@@ -79,28 +79,27 @@ def InsertContentAds(cursor, ads, d):
 						flag = 0
 					else:
 						flag = 1
-						
-					cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], image['image_url'], 'image_url', image['percent_predict'], flag,  \
-					datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
+					cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], image['image_url'], 'image_url', image['percent_predict'], i,  \
+					datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date(), flag))
 
 		list_thumbnail = ads['audit_content']['thumbnail_urls']
 		if list_thumbnail != []:
 			for i, thumbnail in enumerate(list_thumbnail):
 				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], thumbnail['thumbnail_url'], 'thumbnail_url', 0, i,  \
-				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
+				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date(), 0))
 
 		links = ads['audit_content']['links']
 		if links != []:
 			for i, link in enumerate(links):
 				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], link['link'], 'link', 0, i,  \
-				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
+				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date(), 0))
 
 		messages = ads['audit_content']['messages']
 		if messages != []:
 			for i, message in enumerate(messages):
 				try:
 					cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], message['message'].encode('utf-8'), 'message', 0, i,  \
-					datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
+					datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date(), 0))
 				except:
 					print ("Qua dai")
 
@@ -109,7 +108,7 @@ def InsertContentAds(cursor, ads, d):
 			for i, video_id in enumerate(video_ids):
 				link = 'https://www.facebook.com/' + str(ads['object_story_spec']['page_id']) + '/videos/' + str(video_id['video_id'])
 				cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], link, 'video_id', 0, i,  \
-				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date()))
+				datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date(), 0))
 
 def add_label_video_to_data(connect, path, date_, to_date_):
 	# Lấy danh sách path của các file json cần tổng hợp data
