@@ -48,18 +48,18 @@ def transcribe_file(speech_file, p_sample_rate):
     # [END migration_async_request]
 
     print('Waiting for operation to complete...')
-    response = operation.result(timeout=300)
+    response = operation.result(timeout=90)
 
-    # Print the first alternative of all the consecutive results.
+
     text = {}
-
+    # Print the first alternative of all the consecutive results.
     for result in response.results:
         print('Transcript: {}'.format(result.alternatives[0].transcript))
         print('Confidence: {}'.format(result.alternatives[0].confidence))
-
         text['transcript'] = result.alternatives[0].transcript
         text['confidence'] = result.alternatives[0].confidence
         print(text)
+    # [END migration_async_response]
 
     return text
 
@@ -69,13 +69,13 @@ def analyze_labels(file_audio):
     #============== Get sample rate ==================
     cmd = "ffprobe " + file_audio + " -show_entries" + " stream=sample_rate"
     out = subprocess.check_output(cmd)
-    print(out)
+    #print(out)
     if (isinstance(out, bytes)):
         out = str(out)
         sample_rate = int(out[(out.find('=') + 1) : (out.rfind('[') - 4)])
     elif (isinstance(out, str)):
         sample_rate = int(out[(out.find('=') + 1) : (out.rfind('['))])
-    # print(sample_rate)
+    print(sample_rate)
 
     #============== Get text of audio ===================
     text = transcribe_file(file_audio, sample_rate)
@@ -95,6 +95,9 @@ def get_label_videos(folder, path_folder_audios, video_json):
         }
         list_index.append(file_json)
 
+
+    #print   (list_index)
+
     for i, value in enumerate(video_json['my_json']):
         if 'audio_text' not in value:
             value['audio_text'] = {}
@@ -107,7 +110,7 @@ def get_label_videos(folder, path_folder_audios, video_json):
 
 
         if not value['audio_text'].get('transcript',''):
-            print(value['audio_text'])
+            #print(value['audio_text'])
         #if not value['audio_text']['transcript']:
             for file_ in list_index:
                 if file_['index'] == i:
@@ -121,12 +124,14 @@ def get_label_videos(folder, path_folder_audios, video_json):
                     #leth 2017.10.20
                     #check file size > 0
                     file_stat = os.stat(file_name)
-                    print (file_stat.st_size)
+                    #print (file_stat.st_size)
+
                     if file_stat.st_size > 0:
                         #count api_call
                         i = value['audio_text'].get('api_call',0)
                         value['audio_text'] = analyze_labels(file_name)
                         value['audio_text']['api_call'] = i+1
+                        print('Result')
                         print(value['audio_text'])
                     # value['audio_text'] = {}
                     # print ("Done")
