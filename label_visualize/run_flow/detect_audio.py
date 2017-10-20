@@ -26,7 +26,7 @@ from google.cloud.gapic.videointelligence.v1beta1 import (
     video_intelligence_service_client)
 
 
-def transcribe_file(speech_file, p_sample_rate,p_transcript, p_confidence):
+def transcribe_file(speech_file, p_sample_rate):
     """Transcribe the given audio file asynchronously."""
     from google.cloud import speech
     from google.cloud.speech import enums
