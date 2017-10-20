@@ -98,7 +98,7 @@ def get_label_videos(folder, path_folder_audios, video_json):
         list_index.append(file_json)
 
 
-    print   (list_index)  
+    #print   (list_index)
 
     for i, value in enumerate(video_json['my_json']):
         if 'audio_text' not in value:
