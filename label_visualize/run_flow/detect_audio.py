@@ -71,7 +71,7 @@ def analyze_labels(file_audio):
     #============== Get sample rate ==================
     cmd = "ffprobe " + file_audio + " -show_entries" + " stream=sample_rate"
     out = subprocess.check_output(cmd)
-    print(out)
+    #print(out)
     if (isinstance(out, bytes)):
         out = str(out)
         sample_rate = int(out[(out.find('=') + 1) : (out.rfind('[') - 4)])
@@ -123,12 +123,14 @@ def get_label_videos(folder, path_folder_audios, video_json):
                     #leth 2017.10.20
                     #check file size > 0
                     file_stat = os.stat(file_name)
-                    print (file_stat.st_size)
+                    #print (file_stat.st_size)
+
                     if file_stat.st_size > 0:
                         #count api_call
                         i = value['audio_text'].get('api_call',0)
                         value['audio_text'] = analyze_labels(file_name)
                         value['audio_text']['api_call'] = i+1
+                        print('Result')
                         print(value['audio_text'])
                     # value['audio_text'] = {}
                     # print ("Done")
