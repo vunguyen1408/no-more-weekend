@@ -74,7 +74,10 @@ def InsertContentAds(cursor, ads, d):
 		if list_image != []:
 			for i, image in enumerate(list_image):
 				if 'percent_predict' in image:
-					file_name = check_file_exist(image['image_url'], path_down_load_file)
+					try:
+						file_name = check_file_exist(image['image_url'], path_down_load_file)
+					except ContentTooShortError as e:
+						file_name = '0'
 					if file_name == '0':
 						flag = 0
 					else:
@@ -133,7 +136,7 @@ def add_label_video_to_data(connect, path, date_, to_date_):
 					for ads in data['my_json']:
 						print ('ads====================')
 						InsertContentAds(cursor, ads, str(d))
-	conn.commit()
+		conn.commit()
 	cursor.close()
 
 if __name__ == '__main__':
