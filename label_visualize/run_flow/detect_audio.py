@@ -77,7 +77,7 @@ def analyze_labels(file_audio):
         sample_rate = int(out[(out.find('=') + 1) : (out.rfind('[') - 4)])
     elif (isinstance(out, str)):
         sample_rate = int(out[(out.find('=') + 1) : (out.rfind('['))])
-    # print(sample_rate)
+    print(sample_rate)
 
     #============== Get text of audio ===================
     text = transcribe_file(file_audio, sample_rate)
