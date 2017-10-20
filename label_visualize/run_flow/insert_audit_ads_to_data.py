@@ -133,7 +133,7 @@ def add_label_video_to_data(connect, path, date_, to_date_):
 					for ads in data['my_json']:
 						print ('ads====================')
 						InsertContentAds(cursor, ads, str(d))
-	conn.commit()
+		conn.commit()
 	cursor.close()
 
 if __name__ == '__main__':
