@@ -36,7 +36,7 @@ def Read_NRU_for_total(cursor, start_date, end_date, product):
 
 def Add_NRU_for_total(connect, list_plan):
 # ==================== Connect database =======================
-	conn = cx_Oracle.connect(connect)
+	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 
 	for plan in list_plan['UN_PLAN']:
@@ -63,7 +63,7 @@ def Add_NRU_for_total(connect, list_plan):
 
 def Add_NRU_for_map(connect, list_plan):
 # ==================== Connect database =======================
-	conn = cx_Oracle.connect(connect)
+	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 
 	for plan in list_plan['MAP']:
@@ -120,7 +120,7 @@ def Read_NRU_for_month(cursor, year, month, product):
 
 def Add_NRU_for_monthly(connect, list_plan):
 # ==================== Connect database =======================
-	conn = cx_Oracle.connect(connect)
+	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 
 	for plan in list_plan['TOTAL']:

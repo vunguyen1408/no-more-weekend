@@ -9,7 +9,7 @@ import insert_report_detail_map as detail_map
 import history_name as history_name
 
 def UpdateRename(connect, list_camp_update, data):
-	conn = cx_Oracle.connect(connect)
+	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 	#==================== Update data into database =============================
 	statement = 'update DTM_GG_PIVOT_DETAIL_UNMAP \
@@ -33,7 +33,7 @@ def UpdateRename(connect, list_camp_update, data):
 
 def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update):
 	# ==================== Connect database =======================
-	conn = cx_Oracle.connect(connect)
+	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 
 	# =========== List Plan Remove ==================

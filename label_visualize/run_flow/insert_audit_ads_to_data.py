@@ -74,7 +74,10 @@ def InsertContentAds(cursor, ads, d):
 		if list_image != []:
 			for i, image in enumerate(list_image):
 				if 'percent_predict' in image:
-					file_name = check_file_exist(image['image_url'], path_down_load_file)
+					try:
+						file_name = check_file_exist(image['image_url'], path_down_load_file)
+					except ContentTooShortError as e:
+						file_name = '0'
 					if file_name == '0':
 						flag = 0
 					else:
@@ -98,10 +101,14 @@ def InsertContentAds(cursor, ads, d):
 		if messages != []:
 			for i, message in enumerate(messages):
 				try:
-					cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], message['message'].encode('utf-8'), 'message', 0, i,  \
+					cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], message['message'], 'message', 0, i,  \
 					datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date(), 0))
 				except:
-					print ("Qua dai")
+					try :
+						cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], message['message'].encode('utf-8'), 'message', 0, i,  \
+						datetime.strptime(d, '%Y-%m-%d'), datetime.strptime((time.strftime('%Y-%m-%d')), '%Y-%m-%d').date(), 0))
+					except:
+						print ("Qua dai")
 
 		video_ids = ads['audit_content']['video_ids']
 		if video_ids != [] and 'object_story_spec' in ads:
@@ -115,7 +122,7 @@ def add_label_video_to_data(connect, path, date_, to_date_):
 	list_folder = next(os.walk(path))[1]
 
 	#========================== Auto run ===================
-	conn = cx_Oracle.connect(connect)
+	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 	date = datetime.strptime(date_, '%Y-%m-%d').date()
 	to_date = datetime.strptime(to_date_, '%Y-%m-%d').date()
@@ -133,7 +140,7 @@ def add_label_video_to_data(connect, path, date_, to_date_):
 					for ads in data['my_json']:
 						print ('ads====================')
 						InsertContentAds(cursor, ads, str(d))
-	conn.commit()
+		conn.commit()
 	cursor.close()
 
 if __name__ == '__main__':
