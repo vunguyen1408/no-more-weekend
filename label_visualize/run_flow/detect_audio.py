@@ -49,7 +49,7 @@ def transcribe_file(speech_file, p_sample_rate):
     # [END migration_async_request]
 
     #print('Waiting for operation to complete...')
-    response = operation.result(timeout=300)
+    response = operation.result(timeout=90)
 
     # Print the first alternative of all the consecutive results.
     text = {}
