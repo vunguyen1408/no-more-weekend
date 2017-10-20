@@ -15,7 +15,7 @@ def Insert(name, cursor):
 	statement = 'insert into DTM_GG_RUN_FLAG (FLAG_RUNNING, FINAL_RUNTIME) \
 	values (:1, :2) '
 		
-	cursor.execute(statement, (name, None))
+	cursor.execute(statement, (TO_NCHAR(name), None))
 	
 	# print("A row inserted!.......")
 	conn.commit()
