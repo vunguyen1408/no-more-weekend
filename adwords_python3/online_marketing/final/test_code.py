@@ -32,7 +32,7 @@ path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/onl
 # data = json.loads(open(path).read().decode('utf-8-sig'))
 # with open(path, 'r') as fi:
 # 	data = json.load(fi)
-path = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/output_file.json'
+# path = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/output_file.json'
 input_file  = codecs.open(path, "r", encoding="utf-8")
 data = json.loads(input_file.read())
 for acc in data:
