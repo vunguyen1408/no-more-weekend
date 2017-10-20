@@ -361,9 +361,10 @@ with open(path, 'r') as fi:
 	data = json.load(fi)
 for acc in data:
 	if (str(acc["customerId"]) == '4476024314'):
+		sys.stdout = codecs.getwriter("iso-8859-1")(sys.stdout, 'xmlcharrefreplace')
 		print(acc["name"])
 		# print(acc["name"].encode('utf-8'))
-		Insert(acc["name"].encode('utf-8'), cursor)
+		Insert(acc["name"], cursor)
 
 
 
