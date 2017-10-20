@@ -9,7 +9,7 @@ from datetime import datetime , timedelta, date
 
 def GetDataSummaryAppsFlyer(connect, date, media_source1, media_source2, path_file):
     # ==================== Connect database =======================
-    conn = cx_Oracle.connect(connect)
+    conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
     cursor = conn.cursor()
 
     day = date[8:]

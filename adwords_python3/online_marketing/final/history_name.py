@@ -157,7 +157,7 @@ def MergerCampList(value, cursor):
 	# print("	A row mergered!.......")
 
 def InsertHistoryName(connect, path_data, list_account, date):
-	conn = cx_Oracle.connect(connect)
+	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 	list_diff = []
 

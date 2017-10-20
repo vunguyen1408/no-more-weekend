@@ -39,7 +39,7 @@ def InsertMCCListToDatabase(path_data, connect):
 		list_dept.append(value['dept'])
 
 	# ==================== Connect database =======================
-	conn = cx_Oracle.connect(connect)
+	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 
 	# ================ Get account from database =================

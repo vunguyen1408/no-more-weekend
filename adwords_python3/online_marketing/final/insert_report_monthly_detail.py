@@ -371,7 +371,7 @@ def ConvertJsonMonthlyDetailUnMap_2(index, value):
 def ReportMonthlyDetail(path_data, connect):
 	if os.path.exists(path_data):
 	 	# ==================== Connect database =======================
-		conn = cx_Oracle.connect(connect)
+		conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 		cursor = conn.cursor()
 
 		#=================== Read data from file json ===============================
