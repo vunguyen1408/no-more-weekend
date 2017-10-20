@@ -355,7 +355,8 @@ conn = cx_Oracle.connect(connect)
 cursor = conn.cursor()
 path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/TEST_UNICODE.json'
 
-data = json.load(codecs.open(path, 'r', 'utf-8-sig'))
+# data = json.load(codecs.open(path, 'r', 'utf-8-sig'))
+data = json.loads(open(path).read().decode('utf-8-sig'))
 for acc in data:
 	if (str(acc["customerId"]) == '4476024314'):
 		print(acc["name"])
