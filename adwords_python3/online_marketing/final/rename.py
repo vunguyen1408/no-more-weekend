@@ -417,6 +417,8 @@ def CacualatorChange(path_data, list_diff, date):
     pg1 = 0
     pg2 = 0
     for camp in list_camp_need_remove:
+      if str(camp['Campaign ID']) == '717789080':
+        print (" TTTTTTTTTTT im thay")
       if camp['Account Name'].find('MP2') >= 0:
         mp2 += 1
       if camp['Campaign'].find('1708050') >= 0:
