@@ -21,7 +21,7 @@ def Rename (connect, path_data, list_customer_id, date):
 	caculator_manual = time.time()
 
 	list_diff, data_total = rename.CheckNameChange(path_data, list_customer_id, date)
-	# list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_camp_update = rename.CacualatorChange(path_data, list_diff, date)
+	list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_camp_update = rename.CacualatorChange(path_data, list_diff, date)
 
 	time_caculator_manual = time.time() - caculator_manual
 	print ("---------- Time caculator rename : ", time_caculator_manual)
