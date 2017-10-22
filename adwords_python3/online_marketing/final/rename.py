@@ -139,7 +139,6 @@ def CheckNameChange(path_data, list_customer, date):
           print (" TTTTTTTTTTT im thay")
           time.sleep(2)
     print ("================= history ======================")
-    for 
     ############################
 
     print (len(list_camp))
