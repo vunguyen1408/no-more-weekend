@@ -134,8 +134,8 @@ def CheckNameChange(path_data, list_customer, date):
 
     ###########check code : duonglt 23-10 : 12:44 PM#################
     for camp_ in list_camp:
-        if str(camp_id) == '717789080':
-          print (camp_name)
+        if str(camp_['CAMPAIGN_ID']) == '717789080':
+          print (camp_['CAMPAIGN_NAME'])
           print (" TTTTTTTTTTT im thay")
           time.sleep(2)
     print ("================= history ======================")
