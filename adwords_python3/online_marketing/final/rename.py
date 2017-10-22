@@ -430,8 +430,8 @@ def CacualatorChange(path_data, list_diff, date):
       if str(camp['Campaign ID']) == '717789080' and str(camp['Campaign ID']) not in temp_:
         temp_.append(str(camp['Campaign ID']))
       if str(camp['Campaign ID']) == '734049572' and str(camp['Campaign ID']) not in temp_:
-        temp_.append(str(camp['Campaign ID']))temp_.append(str(camp['Campaign ID']))
-      if str(camp['Campaign ID']) == '734063969':
+        temp_.append(str(camp['Campaign ID']))
+      if str(camp['Campaign ID']) == '734063969' and str(camp['Campaign ID']) not in temp_:
         temp_.append(str(camp['Campaign ID']))
       if str(camp['Campaign ID']) == '772872164' and str(camp['Campaign ID']) not in temp_:
         temp_.append(str(camp['Campaign ID']))
