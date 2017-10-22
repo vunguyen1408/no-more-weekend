@@ -133,12 +133,12 @@ def CheckNameChange(path_data, list_customer, date):
     list_camp = list_camp['history_name']
 
     ###########check code : duonglt 23-10 : 12:44 PM#################
-    for camp_ in list_camp:
-        if str(camp_['CAMPAIGN_ID']) == '717789080':
-          print (camp_['CAMPAIGN_NAME'])
-          print (" TTTTTTTTTTT im thay")
-          time.sleep(5)
-    print ("================= history ======================")
+    # for camp_ in list_camp:
+    #     if str(camp_['CAMPAIGN_ID']) == '717789080':
+    #       print (camp_['CAMPAIGN_NAME'])
+    #       print (" TTTTTTTTTTT im thay")
+    #       time.sleep(5)
+    # print ("================= history ======================")
     ############################
 
     print (len(list_camp))
@@ -344,7 +344,7 @@ def CacualatorChange(path_data, list_diff, date):
     list_camp_need_remove = list_map_temp  # Remove campaign mapped
     
     for plan in list_plan:
-      print (plan)
+      # print (plan)
       flag = True
       for plan_total in data_total['TOTAL']:
         if plan_total['PRODUCT'] == plan['PRODUCT'] \
@@ -404,7 +404,7 @@ def CacualatorChange(path_data, list_diff, date):
           and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
           and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
           list_plan_update.append(plan_total)
-          print (plan)
+          # print (plan)
     # # ------------- Remove campaign mapped ----------------
     # for camp in data_map['campaign']:
     #   if camp['Plan'] == None:
@@ -425,9 +425,29 @@ def CacualatorChange(path_data, list_diff, date):
     mp2 = 0
     pg1 = 0
     pg2 = 0
+    temp_ = []
     for camp in list_camp_need_remove:
-      if str(camp['Campaign ID']) == '717789080':
-        print (" TTTTTTTTTTT im thay")
+      if str(camp['Campaign ID']) == '717789080' and str(camp['Campaign ID']) not in temp_:
+        temp_.append(str(camp['Campaign ID']))
+      if str(camp['Campaign ID']) == '734049572' and str(camp['Campaign ID']) not in temp_:
+        temp_.append(str(camp['Campaign ID']))temp_.append(str(camp['Campaign ID']))
+      if str(camp['Campaign ID']) == '734063969':
+        temp_.append(str(camp['Campaign ID']))
+      if str(camp['Campaign ID']) == '772872164' and str(camp['Campaign ID']) not in temp_:
+        temp_.append(str(camp['Campaign ID']))
+      if str(camp['Campaign ID']) == '697791306' and str(camp['Campaign ID']) not in temp_:
+        temp_.append(str(camp['Campaign ID']))
+      if str(camp['Campaign ID']) == '699310064' and str(camp['Campaign ID']) not in temp_:
+        temp_.append(str(camp['Campaign ID']))
+      if str(camp['Campaign ID']) == '898875721' and str(camp['Campaign ID']) not in temp_:
+        temp_.append(str(camp['Campaign ID']))
+      if str(camp['Campaign ID']) == '909378140' and str(camp['Campaign ID']) not in temp_:
+        temp_.append(str(camp['Campaign ID']))
+      if str(camp['Campaign ID']) == '909991335' and str(camp['Campaign ID']) not in temp_:
+        temp_.append(str(camp['Campaign ID']))
+      if str(camp['Campaign ID']) == '912249835' and str(camp['Campaign ID']) not in temp_:
+        temp_.append(str(camp['Campaign ID']))
+
       if camp['Account Name'].find('MP2') >= 0:
         mp2 += 1
       if camp['Campaign'].find('1708050') >= 0:
@@ -438,6 +458,7 @@ def CacualatorChange(path_data, list_diff, date):
     print ("Camp MP2", mp2)
     print ("Camp PG1", pg1)
     print ("Camp PG2", pg2)
+    print (temp_)
 
     ###########################################
     # path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_123' + '.json')
