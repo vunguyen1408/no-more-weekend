@@ -99,7 +99,7 @@ def GetListCampOfAccount(list_customer):
   return list_camp
 
 def CheckNameChange(path_data, list_customer, date):
-
+  import time
   path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
 
   if not os.path.exists(path_data_total_map):
@@ -133,22 +133,23 @@ def CheckNameChange(path_data, list_customer, date):
     list_camp = list_camp['history_name']
 
     ###########check code : duonglt 23-10 : 12:44 PM#################
-    # for camp_ in list_camp:
-    #     if str(camp_['CAMPAIGN_ID']) == '717789080':
-    #       print (camp_['CAMPAIGN_NAME'])
-    #       print (" TTTTTTTTTTT im thay")
-    #       time.sleep(5)
-    # print ("================= history ======================")
+    for camp_ in list_camp:
+        if str(camp_['CAMPAIGN_ID']) == '717789080':
+          print (camp_['CAMPAIGN_NAME'])
+          print (" TTTTTTTTTTT im thay")
+          time.sleep(5)
+    print ("================= history ======================")
     ############################
 
     print (len(list_camp))
+    temp_ = []
     for camp_ in list_camp:
       flag = history_name.FindNameNew(data_total['HISTORY'], str(camp_['CAMPAIGN_ID']), camp_['CAMPAIGN_NAME'])
       if flag == -1:
         list_diff.append(camp_)
         temp = {
           'ACCOUNT_ID': camp_['ACCOUNT_ID'],
-          'CAMPAIGN_ID' : camp_['CAMPAIGN_ID'],
+          'CAMPAIGN_ID' : camp_['camp_'],
 
           'CAMPAIGN_NAME' : camp_['CAMPAIGN_NAME'],
           'DATE_GET' : str(date),
@@ -157,6 +158,31 @@ def CheckNameChange(path_data, list_customer, date):
         }
         data_total['HISTORY'].append(temp)
         # print (camp_)
+
+        ############# ######################
+        if str(camp_['CAMPAIGN_ID']) == '717789080' and str(camp_['CAMPAIGN_ID']) not in temp_:
+          temp_.append(str(camp_['CAMPAIGN_ID']))
+        if str(camp_['CAMPAIGN_ID']) == '734049572' and str(camp_['CAMPAIGN_ID']) not in temp_:
+          temp_.append(str(camp_['CAMPAIGN_ID']))
+        if str(camp_['CAMPAIGN_ID']) == '734063969' and str(camp_['CAMPAIGN_ID']) not in temp_:
+          temp_.append(str(camp_['CAMPAIGN_ID']))
+        if str(camp_['CAMPAIGN_ID']) == '772872164' and str(camp_['CAMPAIGN_ID']) not in temp_:
+          temp_.append(str(camp_['CAMPAIGN_ID']))
+        if str(camp_['CAMPAIGN_ID']) == '697791306' and str(camp_['CAMPAIGN_ID']) not in temp_:
+          temp_.append(str(camp_['CAMPAIGN_ID']))
+        if str(camp_['CAMPAIGN_ID']) == '699310064' and str(camp_['CAMPAIGN_ID']) not in temp_:
+          temp_.append(str(camp_['CAMPAIGN_ID']))
+        if str(camp_['CAMPAIGN_ID']) == '898875721' and str(camp_['CAMPAIGN_ID']) not in temp_:
+          temp_.append(str(camp_['CAMPAIGN_ID']))
+        if str(camp_['CAMPAIGN_ID']) == '909378140' and str(camp_['CAMPAIGN_ID']) not in temp_:
+          temp_.append(str(camp_['CAMPAIGN_ID']))
+        if str(camp_['CAMPAIGN_ID']) == '909991335' and str(camp_['CAMPAIGN_ID']) not in temp_:
+          temp_.append(str(camp_['CAMPAIGN_ID']))
+        if str(camp_['CAMPAIGN_ID']) == '912249835' and str(camp_['CAMPAIGN_ID']) not in temp_:
+          temp_.append(str(camp_['CAMPAIGN_ID']))
+        #####################################
+    print (temp_)
+    time.sleep(5)
     #----------- Write file history new ----------------------
     path_folder = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING')
     print (path_folder)
