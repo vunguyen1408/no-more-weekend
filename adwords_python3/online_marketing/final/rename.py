@@ -149,7 +149,7 @@ def CheckNameChange(path_data, list_customer, date):
         list_diff.append(camp_)
         temp = {
           'ACCOUNT_ID': camp_['ACCOUNT_ID'],
-          'CAMPAIGN_ID' : camp_['camp_'],
+          'CAMPAIGN_ID' : camp_['CAMPAIGN_ID'],
 
           'CAMPAIGN_NAME' : camp_['CAMPAIGN_NAME'],
           'DATE_GET' : str(date),
