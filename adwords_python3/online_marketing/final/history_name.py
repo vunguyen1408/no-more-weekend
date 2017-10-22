@@ -5,7 +5,6 @@ import numpy as np
 import json
 import cx_Oracle
 from datetime import datetime , timedelta, date
-import time
 
 def FindNameNew(data_total, camp_id, camp_name):
 	flag = 0
@@ -13,15 +12,7 @@ def FindNameNew(data_total, camp_id, camp_name):
 	name_max = ''
 	camp_id_ = ''
 	index = 0
-	if str(camp_id) == '717789080':
-		print (camp_name)
-		print (" TTTTTTTTTTT im thay")
-		time.sleep(3)
 	for i, name in enumerate(data_total):
-		if str(name['CAMPAIGN_ID']) == '717789080':
-			print (name['CAMPAIGN_NAME'])
-			print (" TTTTTTTTTTT im thay")
-		time.sleep(3)
 		# print (i)
 		if str(camp_id) == str(name['CAMPAIGN_ID']):
 			flag = 1

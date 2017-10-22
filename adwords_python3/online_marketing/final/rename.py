@@ -132,6 +132,16 @@ def CheckNameChange(path_data, list_customer, date):
       list_camp = json.load(f)
     list_camp = list_camp['history_name']
 
+    ###########check code : duonglt 23-10 : 12:44 PM#################
+    for camp_ in list_camp:
+        if str(camp_id) == '717789080':
+          print (camp_name)
+          print (" TTTTTTTTTTT im thay")
+          time.sleep(2)
+    print ("================= history ======================")
+    for 
+    ############################
+
     print (len(list_camp))
     for camp_ in list_camp:
       flag = history_name.FindNameNew(data_total['HISTORY'], str(camp_['CAMPAIGN_ID']), camp_['CAMPAIGN_NAME'])
