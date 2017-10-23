@@ -216,7 +216,7 @@ list_account = [
 ]
 
 
-path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/MP2_T8'
+# path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/MP2_T8'
 
 # date = '2017-08-01' 
 # to_date = '2017-08-31'
