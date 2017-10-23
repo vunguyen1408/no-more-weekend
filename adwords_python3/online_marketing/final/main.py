@@ -7,7 +7,7 @@ from datetime import datetime , timedelta, date
 from googleads import adwords
 
 # ------------ PACKAGE --------------
-import download_report as download
+# import download_report as download
 import mapping_campaign_plan as mapping_data
 import insert_install_to_data as install
 import merge_date as merge_date
