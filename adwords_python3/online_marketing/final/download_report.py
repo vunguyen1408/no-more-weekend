@@ -186,7 +186,8 @@ list_account = [
 '9299123796', \
 # MP2
 '2351496518', '3766974726', '8812868246', '3657450042', '4092061132', \
-'1066457627', '7077229774', '6708858633', '1731093088', '2852598370', \
+'1066457627', '7077229774', '6708858633', '2205921749', '1731093088', \
+'2852598370', \
 # PG1
 '5008396449', '9021114325', '9420329501', '7976533276', \
 # PG2
@@ -215,12 +216,12 @@ list_account = [
 ]
 
 
-path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/DATA_PG1_MP2_T8'
+path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/MP2_T8'
 
-date = '2017-08-01' 
-to_date = '2017-08-31'
-for customer_id in list_account:  
-  GetCampainForAccount(path, customer_id, date, to_date)
+# date = '2017-08-01' 
+# to_date = '2017-08-31'
+# for customer_id in list_account:  
+#   GetCampainForAccount(path, customer_id, date, to_date)
 
 
 # import add_acc_name_into_data as AccName
@@ -230,3 +231,13 @@ for customer_id in list_account:
 # print(len(list_mcc_id))
 # path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/MP2_T8'
 # AccName.addAccName(path, list_mcc, list_mcc_id)
+
+path_data = path
+list_date = next(os.walk(path_data))[1]
+
+for date in list_date:
+  path_temp = os.path.join(path_data, date + '/ACCOUNT_ID')
+  list_acc = next(os.walk(path_temp))[1]    
+  for acc in list_acc:
+    if acc not in list_account:
+      print(acc)
