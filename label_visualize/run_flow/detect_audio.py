@@ -128,11 +128,12 @@ def get_label_videos(folder, path_folder_audios, video_json):
 
                     if file_stat.st_size > 0:
                         #count api_call
-                        i = value['audio_text'].get('api_call',0)
-                        value['audio_text'] = analyze_labels(file_name)
-                        value['audio_text']['api_call'] = i+1
-                        print('Result')
-                        print(value['audio_text'])
+                        count = value['audio_text'].get('api_call',0)
+                        if count == 0:
+                            value['audio_text'] = analyze_labels(file_name)
+                            value['audio_text']['api_call'] = count+1
+                            print('Result')
+                            print(value['audio_text'])
                     # value['audio_text'] = {}
                     # print ("Done")
 
