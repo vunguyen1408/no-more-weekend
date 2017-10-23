@@ -7,7 +7,7 @@ import logging
 import sys
 from googleads import adwords
 import get_accounts as get_accounts
-import add_acc_name_into_data as add_account
+import add_acc_name as add_account
 
 
 logging.basicConfig(level=logging.INFO)
