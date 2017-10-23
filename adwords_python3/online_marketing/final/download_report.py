@@ -175,6 +175,9 @@ def GetCampainForAccount(path, customerId, day, to_day):
     DownloadOnDate(adwords_client, customerId, path, str(d))
 
 
+
+
+
 list_account = [ 
 # WPL
 '1033505012', '6376833586', '6493618146', '3764021980', '9019703669', \
@@ -219,7 +222,7 @@ list_account = [
 #============== Get Campaign for all account =============
 path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/TEMP_DATA'
 
-date = '2017-07-01' 
+date = '2017-05-01' 
 to_date = '2017-07-31'
 for customer_id in list_account:  
   GetCampainForAccount(path, customer_id, date, to_date)
@@ -247,3 +250,5 @@ for customer_id in list_account:
 #   for acc in list_acc:
 #     if acc not in list_account:
 #       print(acc)
+
+
