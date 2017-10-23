@@ -232,12 +232,12 @@ list_account = [
 # path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/MP2_T8'
 # AccName.addAccName(path, list_mcc, list_mcc_id)
 
-path_data = path
-list_date = next(os.walk(path_data))[1]
+# path_data = path
+# list_date = next(os.walk(path_data))[1]
 
-for date in list_date:
-  path_temp = os.path.join(path_data, date + '/ACCOUNT_ID')
-  list_acc = next(os.walk(path_temp))[1]    
-  for acc in list_acc:
-    if acc not in list_account:
-      print(acc)
+# for date in list_date:
+#   path_temp = os.path.join(path_data, date + '/ACCOUNT_ID')
+#   list_acc = next(os.walk(path_temp))[1]    
+#   for acc in list_acc:
+#     if acc not in list_account:
+#       print(acc)
