@@ -176,6 +176,7 @@ def InsertHistoryName(connect, path_data, list_account, date):
 		list_temp = AccountFromCampaign(account, path_data, date)
 		list_diff.append(list_temp)
 
+	#=========================================================
 	path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
 	if os.path.exists(path_data_his):
 		with open (path_data_his,'r') as f:
@@ -185,6 +186,7 @@ def InsertHistoryName(connect, path_data, list_account, date):
 	conn.commit()
 	# print("Committed!.......")
 	cursor.close()
+	#===========================================================
 
 	return list_diff
 
