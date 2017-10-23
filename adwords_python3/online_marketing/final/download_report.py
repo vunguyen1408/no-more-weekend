@@ -72,7 +72,7 @@ def DownloadCampaignOfCustomer(adwords_client, customerId, startDate, endDate):
   path_log = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/log.txt'  
   fi = open(path_log, 'a+') 
   
-  date = startDate[:-6] + '-' + startDate[5:-3] + '-' + startDate[8:]
+  date = startDate[0:4] + '-' + startDate[4:6] + '-' + startDate[6:]
   line = (datetime.now().strftime('%Y-%m-%d'), '\t',  customerId, '\t', date, '\t', 'GetReportDownloader','\n')
   fi.writelines(line)
   print("Save ok")
@@ -216,14 +216,17 @@ list_account = [
 ]
 
 
-# path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/MP2_T8'
+#============== Get Campaign for all account =============
+path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/TEMP_DATA'
 
-# date = '2017-08-01' 
-# to_date = '2017-08-31'
-# for customer_id in list_account:  
-#   GetCampainForAccount(path, customer_id, date, to_date)
+date = '2017-07-01' 
+to_date = '2017-07-31'
+for customer_id in list_account:  
+  GetCampainForAccount(path, customer_id, date, to_date)
 
 
+
+# ============== Add account name ========================
 # import add_acc_name_into_data as AccName
 # path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA'
 # list_mcc_id, list_mcc = AccName.get_list_customer(path_data)
@@ -232,6 +235,9 @@ list_account = [
 # path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/MP2_T8'
 # AccName.addAccName(path, list_mcc, list_mcc_id)
 
+
+
+# =============== Check acc not in list acc ===============
 # path_data = path
 # list_date = next(os.walk(path_data))[1]
 
