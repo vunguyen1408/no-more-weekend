@@ -182,12 +182,3 @@ def GetCampainForAccount(path, customerId, day, to_day):
 #   to_date = '2017-06-30'
 #   GetCampainForAccount(path, customer_id, date, to_date)
   
-  
-
-
-
-
-
-
-
-

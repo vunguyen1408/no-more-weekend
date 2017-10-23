@@ -84,6 +84,7 @@ def GetCampaign(client, acccount_id):
           'CAMPAIGN_ID' : campaign['id'],
           'ACCOUNT_ID' : acccount_id
         }
+        print (camp)
         list_camp.append(camp)
         print(camp)
     else:
@@ -124,92 +125,6 @@ def GetListCampOfAccount(list_customer):
     list_camp.extend(GetCampaign(adwords_client, acccount))
   return list_camp
 
-
-def CheckNameChange(path_data, list_customer, date):
-
-  path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
-
-  if not os.path.exists(path_data_total_map):
-    i = 0
-    find = True
-    date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
-    path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'history_name' + '.json')
-    while not os.path.exists(path_data_total_map):
-      i = i + 1
-      date_before = date_before - timedelta(1)
-      path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'history_name' + '.json')
-      if i == 60:
-        find = False
-        break
-    # ---- Neu tim thay file total truoc do -----
-  else:
-    find = True
-
-
-  list_diff = []
-  if find:
-    with open (path_data_total_map,'r') as f:
-      data_total = json.load(f)
-
-
-    list_camp = GetListCampOfAccount(list_customer)
-    for camp in data_total['HISTORY']:
-      for camp_ in list_camp:
-        if str(camp['CAMPAIGN_ID']) == str(camp_['CAMPAIGN_ID']) \
-          and camp['CAMPAIGN_NAME'] != camp_['CAMPAIGN_NAME'] \
-          and camp['ACCOUNT_ID'] == camp_['ACCOUNT_ID']:
-          camp['CAMPAIGN_NAME'] = camp_['CAMPAIGN_NAME']
-          list_diff.append(camp)
-
-    #----------- Write file history new ----------------------
-    path_folder = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING')
-    if not os.path.exists(path_folder):
-      os.makedirs(path_folder)
-
-    path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
-    with open (path_data_his,'w') as f:
-      json.dump(data_total, f)
-    
-  return list_diff
-
-def CacualatorChange(path_data, list_customer, date):
-
-  list_diff = CheckNameChange(path_data, list_customer, date)
-  path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-
-  if not os.path.exists(path_data_total_map):
-    i = 0
-    find = True
-    date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
-    path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
-    while not os.path.exists(path_data_total_map):
-      i = i + 1
-      date_before = date_before - timedelta(1)
-      path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
-      if i == 60:
-        find = False
-        break
-    # ---- Neu tim thay file total truoc do -----
-  else:
-    find = True
-
-  if find:
-    with open (path_data_total_map,'r') as f:
-      data_total = json.load(f)
-
-    list_camp_find = []
-    for camp in list_diff:
-      for campaign in data_total['UN_CAMPAIGN']:
-        if camp['CAMPAIGN_ID'] == campaign['Campaign ID'] and camp['CAMPAIGN_NAME'] != campaign['Campaign']:
-          campaign['CAMPAIGN_NAME'] = camp['Campaign']
-          list_camp_find.append(campaign)
-
-    list_plan = ReadPlan(path_folder, date)
-    # -------------- Call mapping ----------------
-    data_map = MapAccountWithCampaign(path_data, list_plan, list_camp_find, date)
-
-
-
-
-
-GetListCampOfAccount()
+acccount = '4092061132'
+adwords_client = adwords.AdWordsClient.LoadFromStorage()
+GetCampaign(adwords_client, acccount)
