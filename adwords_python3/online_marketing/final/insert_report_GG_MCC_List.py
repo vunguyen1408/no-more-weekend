@@ -12,7 +12,7 @@ def InsertMCCList(value, cursor):
 	values (:1, :2, :3, :4, :5, :6)'	
 		
 	cursor.execute(statement, (value['MCC'], value['MCC_ID'], \
-		None, value['DEPT'], None, None))
+		value['ENTITY'], value['DEPT'], None, None))
 	
 	print("A row inserted!.......")
 
