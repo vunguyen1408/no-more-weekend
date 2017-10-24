@@ -369,7 +369,7 @@ def MapAccountWithCampaignGS5(path_folder, list_plan, list_campaign, date):
         start = datetime.strptime(start, '%Y-%m-%d')
         end = datetime.strptime(end, '%Y-%m-%d')
 
-        unit_option = GetUnitOptionOfGS5(name_account)
+        unit_option = GetUnitOptionOfGS5(camp['Account Name'])
         if (eform['DEPARTMENT_NAME'] == 'GS5'): 
 
           if (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
