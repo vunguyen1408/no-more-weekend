@@ -272,7 +272,7 @@ def GetCampaignTypeOfGS5(name_campaign):
   type_campaign = ''
   if name_campaign.find('CT-01') >= 0:
     type_campaign = 'SEARCH'
-  if name_campaign.find('CT-02') >= 0
+  if name_campaign.find('CT-02') >= 0:
     type_campaign = 'DISPLAY'
   if name_campaign.find('CT-03') >= 0:
     type_campaign = 'DISPLAY'
