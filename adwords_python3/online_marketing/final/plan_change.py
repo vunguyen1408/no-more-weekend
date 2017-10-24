@@ -50,8 +50,8 @@ def GetListPlanChange(connect, path_data, date):
 				elif (plan[6] != value['PRODUCT']) or (plan[11] != value['FORM_TYPE']) or (plan[12] != value['UNIT_OPTION']):
 					list_change.append(plan)
 					list_plan_diff.append(plan)
-				elif (plan[1] != value['CMONTH']) or (plan[3] != value['DEPARTMENT']) or (plan[7] != value['EFORM_NO']) or 
-				(plan[13] != value['UNIT_COST']) or (plan[14] != value['AMOUNT_USD']):
+				elif (plan[1] != value['CMONTH']) or (plan[3] != value['DEPARTMENT']) or (plan[7] != value['EFORM_NO']) \
+					or  (plan[13] != value['UNIT_COST']) or (plan[14] != value['AMOUNT_USD']):
 					list_update.append(plan)
 
 		if (flag == False):
