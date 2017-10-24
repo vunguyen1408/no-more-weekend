@@ -498,6 +498,7 @@ def MapData(customer, path_folder, date):
       else:
         if CheckIsAccountGS5(path_folder, customer): # La account WPL
           print ("================ GS5 ======================")
+          print (customer)
           dept = 'GS5'
           data_map = MapAccountWithCampaignWPL(path_folder, list_plan['plan'], list_campaign, date, dept)
         else:
