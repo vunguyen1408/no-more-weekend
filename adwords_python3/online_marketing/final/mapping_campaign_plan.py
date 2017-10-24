@@ -51,8 +51,8 @@ def checkProductCode(name, list_product_code):
   # print (name)
   # print (list_product_code) 
   if ('cfmobile' in list_product_code) and name.upper().find('cfmobilesea'.upper()) >= 0:
-    print (name)
-    print (list_product_code)
+    # print (name)
+    # print (list_product_code)
     return False
   for product in list_product_code:
     if (name.find(product.upper()) >= 0) \
@@ -233,8 +233,8 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == 'WPL'): 
 
         if (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
-          # and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
-          and checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) \
+          and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
+          or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) ) \
           and (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) \
           and (date_ >= start) \
           and (date_ <= end) ) \
