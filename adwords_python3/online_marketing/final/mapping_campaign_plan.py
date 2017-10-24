@@ -159,7 +159,10 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
 
       if (camp['Mapping'] == False): 
         # Get product id in name campaign OMG3Q|278| 1710027 1709125  ===> 278
-        product_id = (camp['Campaign'].split('|'))[1]
+        try:
+          product_id = (camp['Campaign'].split('|'))[1]
+        except IndexError as e:
+          product_id = ''
         if(  (eform['PRODUCT_CODE'] != [] or eform['CCD_PRODUCT'] != []) and \
           (
             checkProductCode(camp['Campaign'], eform['PRODUCT_CODE']) or \
