@@ -255,7 +255,7 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept)
       #   print ("===============================================")
       # print (camp)
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == dept): 
-        if dept == 'GS5':
+        if dept == 'GS5' and eform['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
           print (camp)
           print (eform)
           import time
