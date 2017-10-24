@@ -253,7 +253,10 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept)
       #   print ("===============================================")
       # print (camp)
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == dept): 
-        # if (camp['Advertising Channel'] == 'UNIVERSAL_APP_CAMPAIGN') and eform['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
+        if dept == 'GS5':
+          print (camp)
+          import time
+          time.sleep(10)
         #   print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
         #   print (camp)
         #   print ((camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0))
