@@ -109,11 +109,14 @@ def GetAllAcount(path_config):
   list_mcc = list(dept['MCC Level 3'])  
   list_mcc_id = list(dept['ID'])
   list_dept = list(dept['Dept'])
+  list_entity = list(dept['Entity'])
   for i in range(len(list_mcc_id)):
     list_mcc_id[i] = list_mcc_id[i].replace('-', '')
   list_mcc.append(None)
   list_mcc_id.append(None)
   list_dept.append(None)
+  list_entity.append(None)
+
 
   #===================Get account and store as tree =====================
 
@@ -130,7 +133,8 @@ def GetAllAcount(path_config):
               'children': [],
               'deptId': dept,
               'dept Name': list_mcc[list_mcc_id.index(dept)],
-              'dept': list_dept[list_mcc_id.index(dept)]
+              'dept': list_dept[list_mcc_id.index(dept)],
+              'entity':  list_entity[list_mcc_id.index(dept)]
     }
     list_acc.append(root_note)
     root_note = SaveAccountTree(root_note, accounts, child_links, 1, list_acc, list_mcc, list_mcc_id, list_dept, root_note['deptId'])
