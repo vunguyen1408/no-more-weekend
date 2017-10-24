@@ -81,7 +81,10 @@ def ConvertJsonMonthlySum(index, value):
 	json_['UNIT_OPTION'] = value['UNIT_OPTION'] 
 	json_['NET_BUDGET_VND'] = None
 
-	json_['NET_BUDGET'] = float(value['AMOUNT_USD'])
+	if value['AMOUNT_USD'] != None:
+		json_['NET_BUDGET'] = float(value['AMOUNT_USD'])
+	else:
+		json_['NET_BUDGET'] = None
 	json_['UNIT_COST'] = str(value['UNIT_COST'])
 	json_['VOLUMN'] = value['CVALUE'] 
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE'] 
