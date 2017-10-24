@@ -75,8 +75,15 @@ def ConvertJsonPlanSum(value):
 	json_['UNIT_OPTION'] = value['UNIT_OPTION'] 
 	json_['NET_BUDGET_VND'] = None
 
-	json_['NET_BUDGET'] = float(value['AMOUNT_USD'])
-	json_['UNIT_COST'] = str(value['UNIT_COST'])
+	if (value['AMOUNT_USD'] is None):
+		json_['NET_BUDGET'] =  value['AMOUNT_USD']
+	else:
+		json_['NET_BUDGET'] =  float(value['AMOUNT_USD'])	
+
+	if (value['UNIT_COST'] is None):
+		json_['UNIT_COST'] =   value['UNIT_COST']
+	else:
+		json_['UNIT_COST'] =  str(value['UNIT_COST'])
 	json_['VOLUMN'] = value['CVALUE'] 
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE'] 
 	json_['PRODUCT_ID'] = value['PRODUCT'] 
@@ -115,8 +122,15 @@ def ConvertJsonPlanSumUnMap(value):
 	json_['UNIT_OPTION'] = value['UNIT_OPTION'] 
 	json_['NET_BUDGET_VND'] = None
 
-	json_['NET_BUDGET'] = float(value['AMOUNT_USD'])
-	json_['UNIT_COST'] = str(value['UNIT_COST'])
+	if (value['AMOUNT_USD'] is None):
+		json_['NET_BUDGET'] =  value['AMOUNT_USD']
+	else:
+		json_['NET_BUDGET'] =  float(value['AMOUNT_USD'])	
+
+	if (value['UNIT_COST'] is None):
+		json_['UNIT_COST'] =   value['UNIT_COST']
+	else:
+		json_['UNIT_COST'] =  str(value['UNIT_COST'])
 	json_['VOLUMN'] = value['CVALUE'] 
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE'] 
 	json_['PRODUCT_ID'] = value['PRODUCT'] 
