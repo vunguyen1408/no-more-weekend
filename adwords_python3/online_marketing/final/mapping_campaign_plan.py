@@ -153,8 +153,17 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
       date_ = datetime.strptime(camp['Date'], '%Y-%m-%d')
 
       if (camp['Mapping'] == False): 
-        if (  (eform['PRODUCT_CODE'] != [] or eform['CCD_PRODUCT'] != []) and ( checkProductCode(camp['Campaign'], eform['PRODUCT_CODE']) or \
-          (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])))
+        # Get product id in name campaign OMG3Q|278| 1710027 1709125  ===> 278
+        product_id = (camp['Campaign'].split('|'))[1]
+        if (  (eform['PRODUCT_CODE'] != [] or eform['CCD_PRODUCT'] != []) and \
+          (   checkProductCode(camp['Campaign'], eform['PRODUCT_CODE']) or \
+              checkProductCode(camp['Campaign'], eform['CCD_PRODUCT']) or \
+
+              checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) or \
+              checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) or \
+
+              product_id.find(str(eform['PRODUCT'])) >= 0
+          )
           and \
           (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
           (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) and \
@@ -242,7 +251,7 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept)
       #   if camp['Campaign ID'] == '260088164':
       #     print (' nnnnnnnnnnnnnnnnnnnnnno oooooooooooooooooo kìa.....')
       #   print ("===============================================")
-
+      print (camp)
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == dept): 
         # if (camp['Advertising Channel'] == 'UNIVERSAL_APP_CAMPAIGN') and eform['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
         #   print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
