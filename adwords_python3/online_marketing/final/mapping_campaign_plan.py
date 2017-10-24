@@ -434,7 +434,7 @@ def ReadPlan(path_folder, date):
 
 
 def CheckIsAccountWPL(path_folder, account_id):
-  file_ = path_folder[:-4] + '/' + 'LIST_ACCOUNT/WPL.json'
+  file_ = path_folder[:path.rfind('/')] + '/' + 'LIST_ACCOUNT/WPL.json'
   with open (file_, 'r') as f:
     list_campaign = json.load(f)
 
@@ -444,7 +444,7 @@ def CheckIsAccountWPL(path_folder, account_id):
   return False
 
 def CheckIsAccountGS5(path_folder, account_id):
-  file_ = path_folder[:-4] + '/' + 'LIST_ACCOUNT/MCC.json'
+  file_ = path_folder[:path.rfind('/')] + '/' + 'LIST_ACCOUNT/MCC.json'
   with open (file_, 'r') as f:
     list_campaign = json.load(f)
 
