@@ -23,6 +23,7 @@ def InsertMCCListToDatabase(path_data, connect):
 	list_acc = []
 	list_acc_id = []
 	list_dept = []
+	list_entity = []
 
 	with open(path_mcc, 'r') as fi:
 		data = json.load(fi)
@@ -30,6 +31,7 @@ def InsertMCCListToDatabase(path_data, connect):
 		list_acc.append(value['name'])
 		list_acc_id.append(str(value['customerId']))
 		list_dept.append(value['dept'])
+		list_entity.append(value['entity'])
 
 	with open(path_wpl, 'r') as fi:
 		data = json.load(fi)
@@ -37,6 +39,7 @@ def InsertMCCListToDatabase(path_data, connect):
 		list_acc.append(value['name'])
 		list_acc_id.append(str(value['customerId']))
 		list_dept.append(value['dept'])
+		list_entity.append(value['entity'])
 
 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
@@ -60,7 +63,7 @@ def InsertMCCListToDatabase(path_data, connect):
 				value = {
 					'MCC': list_acc[i], 
 					'MCC_ID': list_acc_id[i], 
-					'ENTITY': None, 
+					'ENTITY': list_entity[i], 
 					'DEPT': list_dept[i], 
 					'STATUS': None, 
 					'CONTACT_POINT': None
@@ -69,7 +72,7 @@ def InsertMCCListToDatabase(path_data, connect):
 				value = {
 					'MCC': list_acc[i], 
 					'MCC_ID': list_acc_id[i], 
-					'ENTITY': None, 
+					'ENTITY': list_entity[i], 
 					'DEPT': 'Unidentified', 
 					'STATUS': None, 
 					'CONTACT_POINT': None
