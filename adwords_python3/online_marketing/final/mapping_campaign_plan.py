@@ -256,7 +256,7 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept)
         if dept == 'GS5':
           print (camp)
           import time
-          time.sleep(10)
+          time.sleep(30)
         #   print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
         #   print (camp)
         #   print ((camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0))
@@ -278,7 +278,7 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date, dept)
           (date_ <= end) ) \
           or \
           ( LogManualMap(path_folder, camp, eform, date) ): 
-          # print ("mammmmmmmmmmmmmmmmmmmmmmpppppppppppppppppppppppp")  
+          print ("mammmmmmmmmmmmmmmmmmmmmmpppppppppppppppppppppppp")  
           camp['Mapping'] = True
           plan = {}
           plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
