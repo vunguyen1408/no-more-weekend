@@ -176,8 +176,12 @@ def GetCampainForAccount(path, customerId, day, to_day):
 
 
 
+import time
 
-
+startTime = time.time()
+print('================== START TIME =======================')
+print(startTime)
+print('===========================================================')
 #=================  Get list account ============================
 import add_acc_name as add_acc_name
 path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA'
@@ -185,14 +189,18 @@ list_mcc_id, list_mcc = add_acc_name.get_list_customer(path_data)
 
 
 #============== Get Campaign for all account =============
-path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/TEMP_DATA'
+path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/DAILY'
 
-date = '2017-07-01' 
-to_date = '2017-07-31'
+date = '2017-09-01' 
+to_date = '2017-09-01'
 for customer_id in list_mcc_id:  
   GetCampainForAccount(path, customer_id, date, to_date)
+  time.sleep(1)
 
+endTime = time.time()
 
+print('================== TOTAL TIME DAILY =======================')
+print("Total time for daily: ", endTime - startTime)
 
 # ============== Add account name ========================
 # path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/MP2_T8'
