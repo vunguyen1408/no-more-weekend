@@ -59,6 +59,8 @@ def GetListPlanChange(connect, path_data, date):
 			list_plan_diff.append(plan)
 
 	print(len(list_plan_diff))
+	for plan in list_plan_diff:
+		print(plan)
 	return list_plan_diff
 
 
