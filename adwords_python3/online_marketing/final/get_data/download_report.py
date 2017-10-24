@@ -185,7 +185,7 @@ print('===========================================================')
 #=================  Get list account ============================
 import add_acc_name as add_acc_name
 path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA'
-list_mcc_id, list_mcc = add_acc_name.get_list_customer(path_data)
+list_mcc_id, list_mcc, list_dept = add_acc_name.get_list_customer(path_data)
 
 
 #============== Get Campaign for all account =============
@@ -204,5 +204,5 @@ print("Total time for daily: ", endTime - startTime)
 
 # ============== Add account name ========================
 # path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/MP2_T8'
-# AccName.addAccName(path, list_mcc, list_mcc_id)
+# AccName.addAccName(path, list_mcc, list_mcc_id, list_dept)
 

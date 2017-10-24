@@ -1,7 +1,7 @@
 import json
 import os
 
-def addAccName(path_data, list_mcc, list_mcc_id):
+def addAccName(path_data, list_mcc, list_mcc_id, list_dept):
 	list_date = next(os.walk(path_data))[1]
 
 	for date in list_date:
@@ -17,6 +17,7 @@ def addAccName(path_data, list_mcc, list_mcc_id):
 						data = json.load(fi)
 					for value in data:
 						value['Account Name'] = list_mcc[list_mcc_id.index(value['Account ID'])]
+						value['Dept'] = list_dept[list_mcc_id.index(value['Account ID'])]
 					with open(path_file, 'w') as fo:
 						json.dump(data, fo)
 						# print(acc, file)
@@ -29,26 +30,29 @@ def get_list_customer(path_data):
 
 	list_mcc = []
 	list_mcc_id = []
+	list_dept  = []
 
 	with open(path_mcc, 'r') as fi:
 		data = json.load(fi)
 	for value in data:
 		list_mcc.append(value['name'])
 		list_mcc_id.append(str(value['customerId']))
+		list_dept.append(value['dept'])
 
 	with open(path_wpl, 'r') as fi:
 		data = json.load(fi)
 	for value in data:
 		list_mcc.append(value['name'])
 		list_mcc_id.append(str(value['customerId']))
+		list_dept.append(value['dept'])
 
-	return list_mcc_id, list_mcc
+	return list_mcc_id, list_mcc, list_dept
 
 
 
 # path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA'
-# list_mcc_id, list_mcc = get_list_customer(path_data)
+# list_mcc_id, list_mcc, list_dept = get_list_customer(path_data)
 # print(len(list_mcc))
 # print(len(list_mcc_id))
-# path_data = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/TEMP_DATA'
-# addAccName(path_data, list_mcc, list_mcc_id)
+# path_data = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/TEMP_DATA'
+# addAccName(path_data, list_mcc, list_mcc_id, list_dept)
