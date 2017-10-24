@@ -8,7 +8,7 @@ import pandas as pd
 
 PAGE_SIZE = 500
 
-def SaveAccountTree(account, accounts, links, level, list_acc, list_mcc, list_mcc_id, list_dept, dept = None):
+def SaveAccountTree(account, accounts, links, level, list_acc, list_mcc, list_mcc_id, list_dept, list_entity, dept = None):
   """Save an account tree.
 
   Args:
@@ -40,7 +40,8 @@ def SaveAccountTree(account, accounts, links, level, list_acc, list_mcc, list_mc
                   'children': [],
                   'deptId': dept,
                   'dept Name': list_mcc[list_mcc_id.index(dept)],
-                  'dept': list_dept[list_mcc_id.index(dept)]
+                  'dept': list_dept[list_mcc_id.index(dept)],
+                  'entity':  list_entity[list_mcc_id.index(dept)]
       }
 
       account['children'].append(child_note) 
@@ -48,7 +49,7 @@ def SaveAccountTree(account, accounts, links, level, list_acc, list_mcc, list_mc
       if child_note not in list_acc:
         list_acc.append(child_note)  
            
-      SaveAccountTree(child_note, accounts, links, level + 1, list_acc, list_mcc, list_mcc_id, list_dept, dept)
+      SaveAccountTree(child_note, accounts, links, level + 1, list_acc, list_mcc, list_mcc_id, list_dept, list_entity, dept)
   if level == 1:     
     return (account, list_acc)
       
@@ -103,7 +104,8 @@ def GetAllAcount(path_config):
 
   # =================Get list dept of all account =========================
 
-  path_dept = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/Dept.xlsx'
+  # path_dept = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/Dept.xlsx'
+  path_dept = 'C:/Users/CPU10912-local/Desktop/Dept.xlsx'
   dept = pd.read_excel(path_dept)
 
   list_mcc = list(dept['MCC Level 3'])  
@@ -137,13 +139,14 @@ def GetAllAcount(path_config):
               'entity':  list_entity[list_mcc_id.index(dept)]
     }
     list_acc.append(root_note)
-    root_note = SaveAccountTree(root_note, accounts, child_links, 1, list_acc, list_mcc, list_mcc_id, list_dept, root_note['deptId'])
+    root_note = SaveAccountTree(root_note, accounts, child_links, 1, list_acc, list_mcc, list_mcc_id, list_dept, list_entity, root_note['deptId'])
   return (root_note, list_acc)
 
 
-path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
-file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC.json'
-file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/WPL.json'
+# path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
+# file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC.json'
+path_config = 
+file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/WPL_entity.json'
 root_note, list_acc = GetAllAcount(path_config)
 with open(file_json, 'w') as fo:
   json.dump(root_note[1], fo)
