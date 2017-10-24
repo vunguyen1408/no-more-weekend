@@ -132,7 +132,7 @@ def check_ver2(list_label, list_bigger, label_relationship):
     if list_label == []:
         return (0, [])
     num_labels_true = 0
-    flag = True
+    #flag = True
     list_label_true = []
     for label in list_label:
         if (label in list_bigger) or (label in label_relationship):
@@ -146,6 +146,7 @@ def check_percent_ver2(list_label, list_bigger, label_relationship, percent_face
     list_new_list_label = []  
     max_percent_true = 0  
     flag_finally = False
+    # ================ Predict image true or false ================
     num_remain = int(float(len(list_label) * percent_face / 100))
     list_new_list_label = list(combinations(list_label, num_remain))
     for label in list_new_list_label:
@@ -153,8 +154,8 @@ def check_percent_ver2(list_label, list_bigger, label_relationship, percent_face
         flag = check(label, list_bigger, label_relationship)
         if flag == True:
             flag_finally = True
-        percent_true, list_label_true = check_ver2(label, list_bigger, label_relationship)
-        if (percent_true > max_percent_true):
-            max_percent_true = percent_true
+
+    # =============== Check percent True of an image ==============
+    percent_true, list_label_true = check_ver2(list_label, list_bigger, label_relationship)
         
     return (max_percent_true, list_label_true, flag_finally)

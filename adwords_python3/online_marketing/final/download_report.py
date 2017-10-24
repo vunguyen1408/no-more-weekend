@@ -222,8 +222,8 @@ list_account = [
 #============== Get Campaign for all account =============
 path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/TEMP_DATA'
 
-date = '2017-05-01' 
-to_date = '2017-07-31'
+date = '2017-03-01' 
+to_date = '2017-04-30'
 for customer_id in list_account:  
   GetCampainForAccount(path, customer_id, date, to_date)
 
