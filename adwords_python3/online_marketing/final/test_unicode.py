@@ -324,10 +324,7 @@ with open(path_total, 'r') as fi:
 for plan in data_alias['ALIAS']:
 	flag = True
 	for plan_total in data_total['TOTAL']:
-		if plan_total['PRODUCT'] == plan['PRODUCT'] \
-			and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-			and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
-			and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
+		if plan_total['PRODUCT'] == plan['PRODUCT_ID'] \
 			plan_total['APPSFLYER_PRODUCT'] = plan['APPSFLYER_PRODUCT']
 
 path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
