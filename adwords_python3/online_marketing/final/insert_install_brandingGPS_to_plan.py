@@ -24,11 +24,12 @@ def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_
 	end_date = month + '/' + day + '/' + year
 
 
-	statement = "select * from ods_appsflyer where CAMPAIGN_ID is null and SNAPSHOT_DATE >= to_date('" + start_date + "', 'mm/dd/yyyy') \
+	statement = "select * from ods_appsflyer where CAMPAIGN_ID = '/{BrandingGPS/}' and SNAPSHOT_DATE >= to_date('" + start_date + "', 'mm/dd/yyyy') \
 	and SNAPSHOT_DATE <= to_date('" + end_date + "', 'mm/dd/yyyy') \
 	and (MEDIA_SOURCE like '" + media_source1 +  "' or MEDIA_SOURCE like '" + media_source2 +  "')"
 
 	cursor.execute(statement)
+	print (statement)
 
 	list_install = cursor.fetchall()
 	print (len(list_install))
