@@ -72,7 +72,7 @@ def AddBrandingGPSToPlan(path_data, connect, date):
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 
-	mapping_data.ReadProductAlias(connect, path_data, date)
+	# mapping_data.ReadProductAlias(connect, path_data, date)
 	# # Get list product alias
 	# file_product_alias = os.path.join(path_data, str(date) + '/PLAN/product_alias.json')
 	# with open (file_product_alias,'r') as f:
@@ -105,8 +105,9 @@ def AddBrandingGPSToPlan(path_data, connect, date):
 			data_total = json.load(f)
 		# print (len(data_total['TOTAL']))
 		for plan in data_total['TOTAL']:
-			# print (plan)
+			print (plan)
 			start_date, end_date = mapping_data.ChooseTime(plan)
+
 			plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
 			# print (start_date)
 			# print (end_date)
