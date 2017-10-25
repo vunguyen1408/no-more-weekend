@@ -80,66 +80,107 @@ def GetListPlanChange(connect, path_data, date):
 	# mapping.ReadProductAlias(connect, path_data, str(date))	
 	#========================================================
 	
-	for plan in list_plan_diff:
-		print(plan)
+	# for plan in list_plan_diff:
+	# 	print(plan)
 
-	print('list_plan_diff: ', len(list_plan_diff))
+	# print('list_plan_diff: ', len(list_plan_diff))
 	
 	return list_plan_diff
 
 
-def ConvertListPlan(plan):
+
+def ConvertPlan(plan):	
+	json_ = {}
+
+	json_['CYEAR'] = plan[0]
+	json_['CMONTH'] = plan[1]
+	json_['LEGAL'] = plan[2]
+	json_['DEPARTMENT'] = plan[3]
+	json_['DEPARTMENT_NAME'] = plan[4]
+	json_['PRODUCT'] = plan[5]
+	json_['REASON_CODE_ORACLE'] = plan[6]
+	json_['EFORM_NO'] = plan[7]
+	json_['START_DAY'] = plan[8]
+	json_['END_DAY_ESTIMATE'] = plan[9]
+	json_['CHANNEL'] = plan[10]
+	json_['EFORM_TYPE'] = plan[11]
+	json_['UNIT_OPTION'] = plan[12]
+	json_['UNIT_COST'] = plan[13]
+	json_['AMOUNT_USD'] = plan[14]
+	json_['CVALUE'] = plan[15]
+	json_['ENGAGEMENT'] = plan[16]
+	json_['IMPRESSIONS'] = plan[17]
+	json_['CLIKE'] = plan[18]
+	json_['CVIEWS'] = plan[19]
+	json_['INSTALL'] = plan[20]
+	json_['NRU'] = plan[21]
+	json_['INSERT_DATE'] = plan[22]
+	json_['REAL_START_DATE'] = plan[23]
+	json_['REAL_END_DATE'] = plan[24]
+
+	return json_
+
+
+def ConvertListPlan(list_plan):
+	list_plan_json = []
+	for plan in list_plan:
+		json_ = ConvertPlan(plan)
+		list_plan_json.append(json_)
+	return list_plan_json
+
+
 	
-
-
 
 def AutoMap(connect, path_data, date):
 	# ------------- Get new plan or change plan ----------------	
 	list_plan = GetListPlanChange(connect, path_data, date)
+	list_plan = ConvertListPlan(list_plan)
+	list_plan = mapping.AddProductCode(path_data, list_plan, date)
 	print (len(list_plan))
+	print(list_plan)
 	# if len(list_plan) > 0:
 	# ------------- Get campaign for mapping ----------------	
-	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+	# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	
-	list_map_all = []
-	list_plan_remove_unmap = []
-	list_camp_remove_unmap = []
-	list_plan_update = []
-	if not os.path.exists(path_data_total_map):
-		i = 0
-		find = True
-		date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
-		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		while not os.path.exists(path_data_total_map):
-			i = i + 1
-			date_before = date_before - timedelta(1)
-			path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
-			if i == 60:
-				find = False
-				break			
-	else:
-		find = True
+	# list_map_all = []
+	# list_plan_remove_unmap = []
+	# list_camp_remove_unmap = []
+	# list_plan_update = []
+	# if not os.path.exists(path_data_total_map):
+	# 	i = 0
+	# 	find = True
+	# 	date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+	# 	path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+	# 	while not os.path.exists(path_data_total_map):
+	# 		i = i + 1
+	# 		date_before = date_before - timedelta(1)
+	# 		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+	# 		if i == 60:
+	# 			find = False
+	# 			break			
+	# else:
+	# 	find = True
 
-	if find:
-		with open (path_data_total_map,'r') as f:
-			data_total = json.load(f)
+	# if find:
+	# 	with open (path_data_total_map,'r') as f:
+	# 		data_total = json.load(f)
 
-	list_full_camp = data_total['UN_CAMPAIGN']
-	list_camp_all = []
-	list_camp_GS5 = []
-	list_camp_WPL = []
-	for camp in list_full_camp:
-		if (camp['Dept'] == 'GS5'):
-			list_camp_GS5.append(camp)
-		elif (camp['Dept'] == 'WPL'):
-			list_camp_GS5.append(camp)
-		else:
-			list_camp_all.append(camp)
+	# list_full_camp = data_total['UN_CAMPAIGN']
+	# list_camp_all = []
+	# list_camp_GS5 = []
+	# list_camp_WPL = []
+	# for camp in list_full_camp:
+	# 	if (camp['Dept'] == 'GS5'):
+	# 		list_camp_GS5.append(camp)
+	# 	elif (camp['Dept'] == 'WPL'):
+	# 		list_camp_GS5.append(camp)
+	# 	else:
+	# 		list_camp_all.append(camp)
 
-	print(len(list_full_camp))
-	print(len(list_camp_all))
-	print(len(list_camp_GS5))
-	print(len(list_camp_WPL))
+	# print(len(list_full_camp))
+	# print(len(list_camp_all))
+	# print(len(list_camp_GS5))
+	# print(len(list_camp_WPL))
 
 				
 		# list_camp_remove_unmap = []
