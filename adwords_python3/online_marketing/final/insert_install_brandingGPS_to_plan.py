@@ -31,9 +31,13 @@ def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_
 	cursor.execute(statement)
 
 	list_install = cursor.fetchall()
+	print (len(list_install))
 	number_install = 0
+	print (list_product_alias)
 	for i in list_install:
 		if i[5] in list_product_alias:
+			# print (i)
+			# print (int(i[3]))
 			number_install += int(i[3])
 
 	print (number_install)
@@ -98,13 +102,13 @@ def AddBrandingGPSToPlan(path_data, connect, date):
 		media_source2 = 'googleadwords_sem'
 		with open (path_data_total_map,'r') as f:
 			data_total = json.load(f)
-		print (len(data_total['TOTAL']))
+		# print (len(data_total['TOTAL']))
 		for plan in data_total['TOTAL']:
-			print (plan)
+			# print (plan)
 			start_date, end_date = mapping_data.ChooseTime(plan)
 			plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
-			print (start_date)
-			print (end_date)
+			# print (start_date)
+			# print (end_date)
 
 			if ('MONTHLY' in plan):
 				print ("==========================")
