@@ -495,7 +495,7 @@ def CacualatorChange(path_data, list_diff, date):
   return (list_plan_remove_unmap, list_camp_need_remove, list_plan_update, list_camp_update)
 
 
-  list_customer_id = [ 
+  list_customer_id = [ \
     # WPL
     '1033505012', '6376833586', '6493618146', '3764021980', '9019703669', \
     '5243164713', '1290781574', '8640138177', '1493302671', '7539462658', \
