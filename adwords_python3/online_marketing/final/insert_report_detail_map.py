@@ -510,7 +510,7 @@ def ReportDetailMap(path_data, connect):
 
 
 def InsertDataUnMap(path_data, connect):
-		if os.path.exists(path_data):
+	if os.path.exists(path_data):
 	 	# ==================== Connect database =======================
 		conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 		cursor = conn.cursor()
@@ -535,7 +535,7 @@ def InsertDataUnMap(path_data, connect):
 		cursor.close()
 
 def InsertDataMap(path_data, connect):
-		if os.path.exists(path_data):
+	if os.path.exists(path_data):
 	 	# ==================== Connect database =======================
 		conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 		cursor = conn.cursor()
