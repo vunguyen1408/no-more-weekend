@@ -156,14 +156,14 @@
 
 
 
-# import sys
-# import os
-# import pandas as pd
-# import numpy as np
-# import json
-# import cx_Oracle
-# from datetime import datetime , timedelta, date
-# import time
+import sys
+import os
+import pandas as pd
+import numpy as np
+import json
+import cx_Oracle
+from datetime import datetime , timedelta, date
+import time
 
 
 # # def Insert(name, cursor):
@@ -333,3 +333,5 @@ for plan in data_alias['ALIAS']:
 
 with open (path_total,'w') as f:
 	json.dump(data_total, f)
+
+print ("DONE")
