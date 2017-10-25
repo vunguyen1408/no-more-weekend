@@ -302,14 +302,14 @@ def AutoMap(connect, path_data, date):
 
 		#------------- Xoa trong danh sach un map PLAN ------------------
 		
-		for plan in list_data_map:
-			for plan_un in data_total['UN_PLAN']:
-				if plan_un['PRODUCT'] == plan['PRODUCT'] \
-					and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-					and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
-					and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
-					data_total['UN_PLAN'].remove(plan_un)
-					list_plan_remove_unmap.append(plan_un)
+		# for plan in list_data_map:
+		# 	for plan_un in data_total['UN_PLAN']:
+		# 		if plan_un['PRODUCT'] == plan['PRODUCT'] \
+		# 			and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+		# 			and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
+		# 			and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+		# 			data_total['UN_PLAN'].remove(plan_un)
+		# 			list_plan_remove_unmap.append(plan_un)
 					
 
 		#------------- Insert total ------------
