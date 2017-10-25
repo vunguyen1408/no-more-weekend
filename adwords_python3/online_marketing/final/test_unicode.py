@@ -313,7 +313,7 @@ import time
 
 
 path_alias = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/PLAN/product_alias.json'
-path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping_123.json'
+path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
 
 with open(path_alias, 'r') as fi:
 	data_alias = json.load(fi)
