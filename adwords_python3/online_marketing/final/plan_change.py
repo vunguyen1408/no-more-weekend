@@ -61,10 +61,15 @@ def GetListPlanChange(connect, path_data, date):
 	print(type(list_modified_plan[0][5]), type(data['plan'][0]['PRODUCT']))
 	print(type(list_modified_plan[0][11]), type(data['plan'][0]['FORM_TYPE']))
 	print(type(list_modified_plan[0][12]), type(data['plan'][0]['UNIT_OPTION']))
-	print(type(list_modified_plan[0][8]), type(data['plan'][0]['START_DAY']))
-	print(type(list_modified_plan[0][9]), type(data['plan'][0]['END_DAY_ESTIMATE']))
-	print(type(list_modified_plan[0][23]), type(data['plan'][0]['REAL_START_DATE']))
-	print(type(list_modified_plan[0][24]), type(data['plan'][0]['REAL_END_DATE']))
+	print(type(list_modified_plan[0][8]), type(datetime.strptime(data['plan'][0]['START_DAY'], '%Y-%m-%d')))
+	print(type(list_modified_plan[0][9]), type(datetime.strptime(data['plan'][0]['END_DAY_ESTIMATE'], '%Y-%m-%d')))
+	print(type(list_modified_plan[0][23]), type(datetime.strptime(data['plan'][0]['REAL_START_DATE'], '%Y-%m-%d')))
+	print(type(list_modified_plan[0][24]), type(datetime.strptime(data['plan'][0]['REAL_END_DATE'], '%Y-%m-%d')))
+	
+
+
+
+
 	
 	
 	
