@@ -43,18 +43,36 @@ def GetListPlanChange(connect, path_data, date):
 	print(len(list_plan_diff))
 	for plan in list_modified_plan:		
 		for value in data['plan']:	
-			if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[5] == value['PRODUCT']) and \
-			(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
-			((plan[8].strftime('%Y-%m-%d') == value['START_DAY']) and (plan[9].strftime('%Y-%m-%d') == value['END_DAY_ESTIMATE'])) and (plan[23] is not None):
-				print(plan[23].strftime('%Y-%m-%d'), value['REAL_START_DATE'])	
-				print(plan[23].strftime('%Y-%m-%d')==value['REAL_START_DATE'])			
-			if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[5] == value['PRODUCT']) and \
-			(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
-			(((plan[8].strftime('%Y-%m-%d') == value['START_DAY']) and (plan[9].strftime('%Y-%m-%d') == value['END_DAY_ESTIMATE'])) and \
-			((plan[23].strftime('%Y-%m-%d') == value['REAL_START_DATE']) and (plan[24].strftime('%Y-%m-%d') == value['REAL_END_DATE']))) :
-				if (plan in list_plan_diff):
-					# print("--------------", plan)
-					list_plan_diff.remove(plan)	
+			if (plan[23] is not None) and (plan[24] is not None):
+				if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[5] == value['PRODUCT']) and \
+				(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
+				(plan[23].strftime('%Y-%m-%d') == value['REAL_START_DATE']) and (plan[24].strftime('%Y-%m-%d') == value['REAL_END_DATE']):
+					if (plan in list_plan_diff):						
+						list_plan_diff.remove(plan)	
+
+			if (plan[23] is None) and (plan[24] is not None):
+				if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[5] == value['PRODUCT']) and \
+				(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
+				(((plan[8].strftime('%Y-%m-%d') == value['START_DAY']) and (plan[9].strftime('%Y-%m-%d') == value['END_DAY_ESTIMATE'])) and \
+				((plan[23] == value['REAL_START_DATE']) and (plan[24].strftime('%Y-%m-%d') == value['REAL_END_DATE']))) :
+					if (plan in list_plan_diff):						
+						list_plan_diff.remove(plan)
+
+			if (plan[23] is not None) and (plan[24] is None):
+				if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[5] == value['PRODUCT']) and \
+				(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
+				(((plan[8].strftime('%Y-%m-%d') == value['START_DAY']) and (plan[9].strftime('%Y-%m-%d') == value['END_DAY_ESTIMATE'])) and \
+				((plan[23].strftime('%Y-%m-%d') == value['REAL_START_DATE']) and (plan[24] == value['REAL_END_DATE']))) :
+					if (plan in list_plan_diff):						
+						list_plan_diff.remove(plan)	
+
+			if (plan[23] is None) and (plan[24] is None):
+				if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[5] == value['PRODUCT']) and \
+				(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
+				(((plan[8].strftime('%Y-%m-%d') == value['START_DAY']) and (plan[9].strftime('%Y-%m-%d') == value['END_DAY_ESTIMATE'])) and \
+				((plan[23] == value['REAL_START_DATE']) and (plan[24] == value['REAL_END_DATE']))) :
+					if (plan in list_plan_diff):						
+						list_plan_diff.remove(plan)		
 
 
 	#========== Update new plan for file plan ===============	
