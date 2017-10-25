@@ -207,10 +207,11 @@ def AutoMap(connect, path_data, date):
 	# ------------- Get campaign for mapping ----------------	
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	
-	list_map_all = []
+	list_data_map = []
 	list_plan_remove_unmap = []
 	list_camp_remove_unmap = []
 	list_plan_update = []
+
 	if not os.path.exists(path_data_total_map):
 		i = 0
 		find = True
@@ -230,134 +231,145 @@ def AutoMap(connect, path_data, date):
 		with open (path_data_total_map,'r') as f:
 			data_total = json.load(f)
 
-	list_full_camp = data_total['UN_CAMPAIGN']
-	list_camp_all = []
-	list_camp_GS5 = []
-	list_camp_WPL = []
-	for camp in list_full_camp:	
-		if (str(camp['Campaign ID']) == '823811944'):
-			camp['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
-		if (camp['Dept'] == 'GS5'):
-			list_camp_GS5.append(camp)
-		elif (camp['Dept'] == 'WPL'):
-			list_camp_GS5.append(camp)
-		else:
-			list_camp_all.append(camp)
+		list_full_camp = data_total['UN_CAMPAIGN']
+		list_camp_all = []
+		list_camp_GS5 = []
+		list_camp_WPL = []
+		for camp in list_full_camp:	
+			if (str(camp['Campaign ID']) == '823811944'):
+				camp['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
+			if (camp['Dept'] == 'GS5'):
+				list_camp_GS5.append(camp)
+			elif (camp['Dept'] == 'WPL'):
+				list_camp_GS5.append(camp)
+			else:
+				list_camp_all.append(camp)
 
-	print(len(list_full_camp))
-	print(len(list_camp_all))
-	print(len(list_camp_GS5))
-	print(len(list_camp_WPL))
-
-
-	#----------------- Mapping with campaign unmap -------------------------
-	data_map_all = {
-		'plan': [],
-		'campaign': []
-	}
-
-	data_map_GS5 = {
-		'plan': [],
-		'campaign': []
-	}
-
-	data_map_WPL = {
-		'plan': [],
-		'campaign': []
-	}
-	if (len(list_camp_all) > 0):
-		data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
-
-	if (len(list_camp_GS5) > 0):
-		data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_GS5, date)
-
-	if (len(list_camp_WPL) > 0):
-		data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
-
-	list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
-
-	list_plan_total, list_data_map = insert_to_total.SumTotalManyPlan(list_plan, list_camp)
+		print(len(list_full_camp))
+		print(len(list_camp_all))
+		print(len(list_camp_GS5))
+		print(len(list_camp_WPL))
 
 
-	print(list_plan_total)
+		#----------------- Mapping with campaign unmap -------------------------
+		data_map_all = {
+			'plan': [],
+			'campaign': []
+		}
 
-	print(list_data_map)
+		data_map_GS5 = {
+			'plan': [],
+			'campaign': []
+		}
 
-	#---------------- Merger data unmap ---------------------------------------
+		data_map_WPL = {
+			'plan': [],
+			'campaign': []
+		}
+		if (len(list_camp_all) > 0):
+			data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
 
-	# data_total['MAP'].extend(list_data_map)
-				
-	# #----------- Remove unmap ---------------------
-	# list_camp_remove_unmap = []
-	# for camp in list_data_map:		
-	# 	for campaign in data_total['UN_CAMPAIGN']:
-	# 		if camp['Campaign ID'] == campaign['Campaign ID'] \
-	# 			and camp['Date'] == campaign['Date']:
-	# 			data_total['UN_CAMPAIGN'].remove(campaign)
-	# 			list_camp_remove_unmap.append(campaign)
+		if (len(list_camp_GS5) > 0):
+			data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_GS5, date)
 
-	# #------------- Xoa trong danh sach un map PLAN ------------------
-	# list_plan_remove_unmap = []
-	# for plan in list_data_map:
-	# 	for plan_un in data_total['UN_PLAN']:
-	# 		if plan_un['PRODUCT'] == plan['PRODUCT'] \
-	# 			and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-	# 			and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
-	# 			and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
-	# 			data_total['UN_PLAN'].remove(plan_un)
-	# 			list_plan_remove_unmap.append(plan_un)
-				
+		if (len(list_camp_WPL) > 0):
+			data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
 
-	# #------------- Insert total ------------
-	# for plan in list_plan_total:
-	# 	flag = True
-	# 	for plan_total in data_total['TOTAL']:
-	# 		if plan_total['PRODUCT'] == plan['PRODUCT'] \
-	# 			and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-	# 			and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
-	# 			and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
-	# 			plan_total['TOTAL_CAMPAIGN'] = insert_data.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
-	# 			flag = False
+		list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
+
+		list_plan_total, list_data_map = insert_to_total.SumTotalManyPlan(list_plan, list_camp)
+
+
+		# print(list_plan_total)
+		# print(list_data_map)
+
+		#---------------- Merger data unmap ---------------------------------------
+
+		print('MAP: ', len(data_total['MAP']))
+		print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
+		print ('UN_PLAN: ', len(data_total['UN_PLAN']))
+		print ('TOTAL: ', len(data_total['TOTAL']))
 		
-	# 	if flag:    #----- Không tìm thấy trong total ------			
-	# 		data_total['TOTAL'].append(plan)
+		data_total['MAP'].extend(list_data_map)
+					
+		#----------- Remove unmap ---------------------
+		for camp in list_data_map:		
+			for campaign in data_total['UN_CAMPAIGN']:
+				if camp['Campaign ID'] == campaign['Campaign ID'] \
+					and camp['Date'] == campaign['Date']:
+					data_total['UN_CAMPAIGN'].remove(campaign)
+					list_camp_remove_unmap.append(campaign)
 
-
-	# # --------------- Tinh total month cho cac plan --------------
-	# for plan in data_total['TOTAL']:
-	# 	plan['MONTHLY'] = {}
-	# 	plan = insert_data.CaculatorTotalMonth(plan, date)
-
+		#------------- Xoa trong danh sach un map PLAN ------------------
 		
-	# for plan in data_total['UN_PLAN']:
-	# 	plan['MONTHLY'] = {}
-	# 	plan = insert_data.CaculatorTotalMonth(plan, date)
+		for plan in list_data_map:
+			for plan_un in data_total['UN_PLAN']:
+				if plan_un['PRODUCT'] == plan['PRODUCT'] \
+					and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+					and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
+					and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+					data_total['UN_PLAN'].remove(plan_un)
+					list_plan_remove_unmap.append(plan_un)
+					
+
+		#------------- Insert total ------------
+		for plan in list_plan_total:
+			flag = True
+			for plan_total in data_total['TOTAL']:
+				if plan_total['PRODUCT'] == plan['PRODUCT'] \
+					and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+					and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
+					and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
+					plan_total['TOTAL_CAMPAIGN'] = insert_data.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
+					flag = False
+			
+			if flag:    #----- Không tìm thấy trong total ------			
+				data_total['TOTAL'].append(plan)
 
 
-	# list_plan_update = []
-	# for plan in data_total['TOTAL']:
-	# 	plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
-	# 	for m in plan['MONTHLY']:
-	# 		m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
-
-	# 	for plan_un in list_plan:
-	# 		if plan_un['PRODUCT'] == plan['PRODUCT'] \
-	# 			and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-	# 			and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
-	# 			and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION']:
-	# 			list_plan_update.append(plan)
-
-	# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-	# with open (path_data_total_map,'w') as f:
-	# 	json.dump(data_total, f)
+		# --------------- Tinh total month cho cac plan --------------
+		for plan in data_total['TOTAL']:
+			plan['MONTHLY'] = {}
+			plan = insert_data.CaculatorTotalMonth(plan, date)
 
 			
-	# 		print (len(data_total['UN_CAMPAIGN']))
-	# 		print (len(list_plan_remove_unmap))
-	# 		print (len(list_camp_remove_unmap))			
-	# 		# print (list_plan_remove_unmap)
+		for plan in data_total['UN_PLAN']:
+			plan['MONTHLY'] = {}
+			plan = insert_data.CaculatorTotalMonth(plan, date)
 
-	# return (list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
+
+		
+		for plan in data_total['TOTAL']:
+			plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
+			for m in plan['MONTHLY']:
+				m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
+
+			for plan_un in list_plan:
+				if plan_un['PRODUCT'] == plan['PRODUCT'] \
+					and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+					and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
+					and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION']:
+					list_plan_update.append(plan)
+
+		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_2' + '.json')
+		with open (path_data_total_map,'w') as f:
+			json.dump(data_total, f)
+
+		print()
+		print('MAP: ', len(data_total['MAP']))
+		print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
+		print ('UN_PLAN: ', len(data_total['UN_PLAN']))
+		print ('TOTAL: ', len(data_total['TOTAL']))
+
+
+		print()
+		print('list_data_map: ', len(list_data_map))
+		print ('list_plan_remove_unmap: ', len(list_plan_remove_unmap))
+		print ('list_camp_remove_unmap: ', len(list_camp_remove_unmap))		
+		print('list_plan_update: ', len(list_plan_update))	
+		
+
+	return (list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
 
 				
 
@@ -377,7 +389,7 @@ connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
 date = '2017-05-31' 
 list_plan_diff = GetListPlanChange(connect, path_data, date)
-AutoMap(connect, path_data, date)
+list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update = AutoMap(connect, path_data, date)
 
 
 
