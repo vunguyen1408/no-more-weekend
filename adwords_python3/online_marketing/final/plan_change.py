@@ -40,17 +40,23 @@ def GetListPlanChange(connect, path_data, date):
 	list_update = []
 	flag = False
 
+
+
+
 	print(len(list_plan_diff))
 	for plan in list_modified_plan:
 		check = False
 		for value in data['plan']:
 			# print(plan[6], plan[5], plan[11], plan[12], plan[8], plan[9], plan[23], plan[24])
+
 			if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[5] == value['PRODUCT']) and \
 			(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
 			(((plan[8] == value['START_DAY']) and (plan[9] == value['END_DAY_ESTIMATE'])) or \
 			((plan[23] == value['REAL_START_DATE']) and (plan[24] == value['REAL_END_DATE']))) :
 				list_plan_diff.remove(plan)
 				# print("remove")
+
+	print(list_modified_plan[0][6], data['plan'][0]['REASON_CODE_ORACLE'])
 
 			
 
