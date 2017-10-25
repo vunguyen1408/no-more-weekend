@@ -32,9 +32,10 @@ def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_
 
 	list_install = cursor.fetchall()
 	number_install = 0
+	print (list_product_alias)
 	for i in list_install:
-		print (i)
 		if i[5] in list_product_alias:
+			print (i)
 			number_install += int(i[3])
 
 	print (number_install)
