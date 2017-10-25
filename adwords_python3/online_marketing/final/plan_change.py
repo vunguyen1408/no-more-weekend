@@ -18,6 +18,8 @@ def ReadPlanFromTable(connect):
 	list_new_plan = cursor.fetchall()
 	list_modified_plan = list(list_new_plan)
 	cursor.close()
+	for i in range(len(list_modified_plan)):
+		list_modified_plan[i] = list(list_modified_plan[i])
 	return list_modified_plan
 
 
@@ -31,38 +33,53 @@ def GetListPlanChange(connect, path_data, date):
 	with open(file_plan, 'r') as fi:
 		data = json.load(fi)
 
-	list_plan_diff = []
+	list_plan_diff = list_modified_plan
 	list_change = []
 	list_change_date = []
 	list_change_plancode = []
 	list_update = []
 	flag = False
 
+
 	for plan in list_modified_plan:
 		check = False
 		for value in data['plan']:
-			#================ Not change plan code ================
-			if (plan[6] == value['REASON_CODE_ORACLE']):
-				flag = True
-				#=========== Change Real start date, Read end date ===========
+			if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[5] == value['PRODUCT']) and \
+			(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
+			(plan[8] == value['START_DAY']) and (plan[9] == value['END_DAY_ESTIMATE']) :
+				list_plan_diff.remove(plan)
+	
+			
 
-				# if (plan[8] != value['START_DAY']) and (plan[9] != value['END_DAY_ESTIMATE']):
-				# 	list_change_date.append(plan)
-				# 	list_plan_diff.append(plan)
-				# elif (plan[6] != value['PRODUCT']) or (plan[11] != value['FORM_TYPE']) or (plan[12] != value['UNIT_OPTION']):
-				# 	list_change.append(plan)
-				# 	list_plan_diff.append(plan)
-				# elif (plan[1] != value['CMONTH']) or (plan[3] != value['DEPARTMENT']) or (plan[7] != value['EFORM_NO']) \
-				# 	or  (plan[13] != value['UNIT_COST']) or (plan[14] != value['AMOUNT_USD']):
-				# 	list_update.append(plan)
-				if (plan[6] == value['PRODUCT']) and (plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) \
-				and (plan[8] == value['START_DAY']) and (plan[9] == value['END_DAY_ESTIMATE']) :
-					check = True
-		if (check == False):
-			list_plan_diff.append(plan)
-		if (flag == False):
-			list_change_plancode.append(plan)
-			list_plan_diff.append(plan)
+
+
+
+
+	# for plan in list_modified_plan:
+	# 	check = False
+	# 	for value in data['plan']:
+	# 		#================ Not change plan code ================
+	# 		if (plan[6] == value['REASON_CODE_ORACLE']):
+	# 			flag = True
+	# 			#=========== Change Real start date, Read end date ===========
+
+	# 			# if (plan[8] != value['START_DAY']) and (plan[9] != value['END_DAY_ESTIMATE']):
+	# 			# 	list_change_date.append(plan)
+	# 			# 	list_plan_diff.append(plan)
+	# 			# elif (plan[6] != value['PRODUCT']) or (plan[11] != value['FORM_TYPE']) or (plan[12] != value['UNIT_OPTION']):
+	# 			# 	list_change.append(plan)
+	# 			# 	list_plan_diff.append(plan)
+	# 			# elif (plan[1] != value['CMONTH']) or (plan[3] != value['DEPARTMENT']) or (plan[7] != value['EFORM_NO']) \
+	# 			# 	or  (plan[13] != value['UNIT_COST']) or (plan[14] != value['AMOUNT_USD']):
+	# 			# 	list_update.append(plan)
+	# 			if (plan[5] == value['PRODUCT']) and (plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) \
+	# 			and (plan[8] == value['START_DAY']) and (plan[9] == value['END_DAY_ESTIMATE']) :
+	# 				check = True
+	# 	if (check == False):
+	# 		list_plan_diff.append(plan)
+	# 	if (flag == False):
+	# 		list_change_plancode.append(plan)
+	# 		list_plan_diff.append(plan)
 
 	print(len(list_plan_diff))
 	for plan in list_plan_diff:
