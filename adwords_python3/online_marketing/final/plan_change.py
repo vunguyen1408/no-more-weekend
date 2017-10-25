@@ -167,10 +167,10 @@ def merger_data_map(data_map_all, data_map_GS5, data_map_WPL):
 	list_camp.extend(data_map_all['campaign'])
 	list_camp.extend(data_map_GS5['campaign'])
 	list_camp.extend(data_map_WPL['campaign'])
-	print(len(data_map_all['campaign']))
-	print(len(data_map_GS5['campaign']))
-	print(len(data_map_WPL['campaign']))
-	print(len(list_camp))
+	# print(len(data_map_all['campaign']))
+	# print(len(data_map_GS5['campaign']))
+	# print(len(data_map_WPL['campaign']))
+	# print(len(list_camp))
 
 	return(list_plan, list_camp)
 
@@ -229,6 +229,20 @@ def AutoMap(connect, path_data, date):
 
 
 	#----------------- Mapping with campaign unmap -------------------------
+	data_map_all = {
+		'plan': [],
+		'campaign': []
+	}
+	
+	data_map_GS5 = {
+		'plan': [],
+		'campaign': []
+	}
+
+	data_map_WPL = {
+		'plan': [],
+		'campaign': []
+	}
 	if (len(list_camp_all) > 0):
 		data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
 
