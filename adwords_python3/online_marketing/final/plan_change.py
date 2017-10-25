@@ -107,7 +107,7 @@ def ConvertPlan(plan):
 	else:
 		json_['END_DAY_ESTIMATE'] = plan[9].strftime('%Y-%m-%d')	
 	json_['CHANNEL'] = plan[10]
-	json_['EFORM_TYPE'] = plan[11]
+	json_['FORM_TYPE'] = plan[11]
 	json_['UNIT_OPTION'] = plan[12]
 	json_['UNIT_COST'] = plan[13]
 	json_['AMOUNT_USD'] = plan[14]
