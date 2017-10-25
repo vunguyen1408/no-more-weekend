@@ -146,7 +146,6 @@ def merger_data_map(data_map_all, data_map_GS5, data_map_WPL):
 	for value in data_map_all['plan']:
 		if (value not in list_plan):
 			list_plan.append(value)
-			print('11111111111111111111', list_plan[list_plan.index(value)]['CAMPAIGN'])
 		else:
 			if (value['CAMPAIGN'] not in list_plan[list_plan.index(value)]['CAMPAIGN']):				
 				list_plan[list_plan.index(value)]['CAMPAIGN'].extend(value['CAMPAIGN'])
@@ -155,17 +154,19 @@ def merger_data_map(data_map_all, data_map_GS5, data_map_WPL):
 		if (value not in list_plan):
 			list_plan.append(value)
 		else:
-			if (value['CAMPAIGN'] not in list_plan[list_plan.index(value)]['CAMPAIGN']):
-				print('222222222222222222222222', list_plan[list_plan.index(value)]['CAMPAIGN'])
+			if (value['CAMPAIGN'] not in list_plan[list_plan.index(value)]['CAMPAIGN']):				
 				list_plan[list_plan.index(value)]['CAMPAIGN'].extend(value['CAMPAIGN'])
 
 	for value in data_map_WPL['plan']:
 		if (value not in list_plan):
 			list_plan.append(value)
 		else:
-			if (value['CAMPAIGN'] not in list_plan[list_plan.index(value)]['CAMPAIGN']):
-				print('333333333333333333333', list_plan[list_plan.index(value)]['CAMPAIGN'])
+			if (value['CAMPAIGN'] not in list_plan[list_plan.index(value)]['CAMPAIGN']):				
 				list_plan[list_plan.index(value)]['CAMPAIGN'].extend(value['CAMPAIGN'])
+
+	for plan in list_plan:
+		if (len(plan['CAMPAIGN']) > 0):
+			print(plan['CAMPAIGN'])
 
 
 	#============= Merger Campaign ==============
