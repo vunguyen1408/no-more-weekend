@@ -106,8 +106,8 @@ def AddBrandingGPSToPlan(path_data, connect, date):
 		# print (len(data_total['TOTAL']))
 		for plan in data_total['TOTAL']:
 			# print (plan)
-			if plan['FORM_TYPE'] = 'UNIVERSAL_APP_CAMPAIGN':
-				start_date, end_date == mapping_data.ChooseTime(plan)
+			if plan['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
+				start_date, end_date = mapping_data.ChooseTime(plan)
 
 				plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
 				# print (start_date)
