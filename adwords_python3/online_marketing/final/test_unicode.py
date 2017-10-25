@@ -321,11 +321,11 @@ with open(path_alias, 'r') as fi:
 with open(path_total, 'r') as fi:
 	data_total = json.load(fi)
 
-for plan in data_alias['ALIAS']:
-	flag = True
-	for plan_total in data_total['TOTAL']:
+for plan_total in data_total['TOTAL']:
+	plan_total['APPSFLYER_PRODUCT'] = []
+	for plan in data_alias['ALIAS']:
 		if plan_total['PRODUCT'] == plan['PRODUCT_ID']:
-			plan_total['APPSFLYER_PRODUCT'] = plan['APPSFLYER_PRODUCT']
+			plan_total['APPSFLYER_PRODUCT'].append(plan['APPSFLYER_PRODUCT'])
 
 path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
 
