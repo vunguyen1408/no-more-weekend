@@ -40,14 +40,17 @@ def GetListPlanChange(connect, path_data, date):
 	list_update = []
 	flag = False
 
-
+	print(len(list_plan_diff))
 	for plan in list_modified_plan:
 		check = False
 		for value in data['plan']:
+			# print(plan[6], plan[5], plan[11], plan[12], plan[8], plan[9], plan[23], plan[24])
 			if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[5] == value['PRODUCT']) and \
 			(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
-			(plan[8] == value['START_DAY']) and (plan[9] == value['END_DAY_ESTIMATE']) :
+			(((plan[8] == value['START_DAY']) and (plan[9] == value['END_DAY_ESTIMATE'])) or \
+			((plan[23] == value['REAL_START_DATE']) and (plan[24] == value['REAL_END_DATE']))) :
 				list_plan_diff.remove(plan)
+				# print("remove")
 
 			
 
@@ -78,15 +81,16 @@ def GetListPlanChange(connect, path_data, date):
 	# 		list_change_plancode.append(plan)
 	# 		list_plan_diff.append(plan)
 
+	
+	# for plan in list_plan_diff:
+	# 	print(plan)
 	print(len(list_plan_diff))
-	for plan in list_plan_diff:
-		print(plan)
 	return list_plan_diff
 
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
-date = '2017-08-30' 
+date = '2017-08-31' 
 list_plan_diff = GetListPlanChange(connect, path_data, date)
 
 
