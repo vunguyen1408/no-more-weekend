@@ -242,81 +242,86 @@ def AutoMap(connect, path_data, date):
 
 	list_plan_total, list_data_map = insert_to_total.SumTotalManyPlan(list_plan, list_camp)
 
+
+	print(list_plan_total)
+
+	print(list_data_map)
+
 	#---------------- Merger data unmap ---------------------------------------
 
-	data_total['MAP'].extend(list_data_map)
+	# data_total['MAP'].extend(list_data_map)
 				
-	#----------- Remove unmap ---------------------
-	list_camp_remove_unmap = []
-	for camp in list_data_map:		
-		for campaign in data_total['UN_CAMPAIGN']:
-			if camp['Campaign ID'] == campaign['Campaign ID'] \
-				and camp['Date'] == campaign['Date']:
-				data_total['UN_CAMPAIGN'].remove(campaign)
-				list_camp_remove_unmap.append(campaign)
+	# #----------- Remove unmap ---------------------
+	# list_camp_remove_unmap = []
+	# for camp in list_data_map:		
+	# 	for campaign in data_total['UN_CAMPAIGN']:
+	# 		if camp['Campaign ID'] == campaign['Campaign ID'] \
+	# 			and camp['Date'] == campaign['Date']:
+	# 			data_total['UN_CAMPAIGN'].remove(campaign)
+	# 			list_camp_remove_unmap.append(campaign)
 
-	#------------- Xoa trong danh sach un map PLAN ------------------
-	list_plan_remove_unmap = []
-	for plan in list_data_map:
-		for plan_un in data_total['UN_PLAN']:
-			if plan_un['PRODUCT'] == plan['PRODUCT'] \
-				and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-				and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
-				and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
-				data_total['UN_PLAN'].remove(plan_un)
-				list_plan_remove_unmap.append(plan_un)
+	# #------------- Xoa trong danh sach un map PLAN ------------------
+	# list_plan_remove_unmap = []
+	# for plan in list_data_map:
+	# 	for plan_un in data_total['UN_PLAN']:
+	# 		if plan_un['PRODUCT'] == plan['PRODUCT'] \
+	# 			and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+	# 			and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
+	# 			and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+	# 			data_total['UN_PLAN'].remove(plan_un)
+	# 			list_plan_remove_unmap.append(plan_un)
 				
 
-	#------------- Insert total ------------
-	for plan in list_plan_total:
-		flag = True
-		for plan_total in data_total['TOTAL']:
-			if plan_total['PRODUCT'] == plan['PRODUCT'] \
-				and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-				and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
-				and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
-				plan_total['TOTAL_CAMPAIGN'] = insert_data.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
-				flag = False
+	# #------------- Insert total ------------
+	# for plan in list_plan_total:
+	# 	flag = True
+	# 	for plan_total in data_total['TOTAL']:
+	# 		if plan_total['PRODUCT'] == plan['PRODUCT'] \
+	# 			and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+	# 			and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
+	# 			and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
+	# 			plan_total['TOTAL_CAMPAIGN'] = insert_data.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
+	# 			flag = False
 		
-		if flag:    #----- Không tìm thấy trong total ------			
-			data_total['TOTAL'].append(plan)
+	# 	if flag:    #----- Không tìm thấy trong total ------			
+	# 		data_total['TOTAL'].append(plan)
 
 
-	# --------------- Tinh total month cho cac plan --------------
-	for plan in data_total['TOTAL']:
-		plan['MONTHLY'] = {}
-		plan = insert_data.CaculatorTotalMonth(plan, date)
+	# # --------------- Tinh total month cho cac plan --------------
+	# for plan in data_total['TOTAL']:
+	# 	plan['MONTHLY'] = {}
+	# 	plan = insert_data.CaculatorTotalMonth(plan, date)
 
 		
-	for plan in data_total['UN_PLAN']:
-		plan['MONTHLY'] = {}
-		plan = insert_data.CaculatorTotalMonth(plan, date)
+	# for plan in data_total['UN_PLAN']:
+	# 	plan['MONTHLY'] = {}
+	# 	plan = insert_data.CaculatorTotalMonth(plan, date)
 
 
-	list_plan_update = []
-	for plan in data_total['TOTAL']:
-		plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
-		for m in plan['MONTHLY']:
-			m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
+	# list_plan_update = []
+	# for plan in data_total['TOTAL']:
+	# 	plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
+	# 	for m in plan['MONTHLY']:
+	# 		m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
 
-		for plan_un in list_plan:
-			if plan_un['PRODUCT'] == plan['PRODUCT'] \
-				and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-				and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
-				and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION']:
-				list_plan_update.append(plan)
+	# 	for plan_un in list_plan:
+	# 		if plan_un['PRODUCT'] == plan['PRODUCT'] \
+	# 			and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+	# 			and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
+	# 			and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION']:
+	# 			list_plan_update.append(plan)
 
-	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-	with open (path_data_total_map,'w') as f:
-		json.dump(data_total, f)
+	# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+	# with open (path_data_total_map,'w') as f:
+	# 	json.dump(data_total, f)
 
 			
-			print (len(data_total['UN_CAMPAIGN']))
-			print (len(list_plan_remove_unmap))
-			print (len(list_camp_remove_unmap))			
-			# print (list_plan_remove_unmap)
+	# 		print (len(data_total['UN_CAMPAIGN']))
+	# 		print (len(list_plan_remove_unmap))
+	# 		print (len(list_camp_remove_unmap))			
+	# 		# print (list_plan_remove_unmap)
 
-	return (list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
+	# return (list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
 
 				
 
@@ -332,11 +337,11 @@ def AutoMap(connect, path_data, date):
 
 
 
-# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-# path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
-# date = '2017-08-20' 
-# list_plan_diff = GetListPlanChange(connect, path_data, date)
-# AutoMap(connect, path_data, date)
+connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
+date = '2017-08-20' 
+list_plan_diff = GetListPlanChange(connect, path_data, date)
+AutoMap(connect, path_data, date)
 
 
 
