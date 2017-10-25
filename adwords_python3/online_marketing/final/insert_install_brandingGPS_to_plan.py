@@ -39,13 +39,13 @@ def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_
 	print (number_install)
 	return number_install
 
-def CaculatorStartEndDate(json_month, start, end):
+def CaculatorStartEndDate(plan, start, end):
 	from datetime import datetime , timedelta, date
 	# Get start end
 	month_start = int(start[5:-3])
 	month_end = int(end[5:-3])
 	year_end = end[:4]
-	for month in json_month['MONTHLY']:
+	for month in plan['MONTHLY']:
 		if (int(month['MONTH']) == month_start):
 			start_date = datetime.strptime(start, '%Y-%m-%d').date()
 			end_date = start_date + timedelta(int(month['DAY']) - 1)
@@ -59,7 +59,8 @@ def CaculatorStartEndDate(json_month, start, end):
 			end_date = end_date.strftime('%Y-%m-%d')
 			month['START_DATE'] = start_date
 			month['END_DATE'] = end_date
-	return json_month
+	print (plan['MONTHLY'])
+	return plan
 
 
 def AddBrandingGPSToPlan(path_data, connect, date):
@@ -110,7 +111,7 @@ def AddBrandingGPSToPlan(path_data, connect, date):
 				print ("==========================")
 				print (plan['MONTHLY'])
 				print ("==========================")
-				plan['MONTHLY'] = CaculatorStartEndDate(plan['MONTHLY'], start_date, end_date)
+				plan['MONTHLY'] = CaculatorStartEndDate(plan, start_date, end_date)
 				print (plan['MONTHLY'])
 				for month in plan['MONTHLY']:
 					month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, month['START_DATE'], month['END_DATE'], media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
