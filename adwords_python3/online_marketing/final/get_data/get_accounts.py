@@ -57,10 +57,11 @@ def SaveAccountTree(account, accounts, links, level, list_acc, list_mcc, list_mc
 
 def GetAllAcount(path_config):
   # Initialize appropriate service.
+  print("begin")
   adwords_client = adwords.AdWordsClient.LoadFromStorage(path_config)
   managed_customer_service = adwords_client.GetService(
       'ManagedCustomerService', version='v201708')
-
+  print("continue")
   # Construct selector to get all accounts.
   offset = 0
   selector = {
@@ -79,6 +80,7 @@ def GetAllAcount(path_config):
   while more_pages:
     # Get serviced account graph.
     page = managed_customer_service.get(selector)
+    print("ok")
     if 'entries' in page and page['entries']:
       # Create map from customerId to parent and child links.
       if 'links' in page:
