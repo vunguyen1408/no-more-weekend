@@ -40,30 +40,21 @@ def GetDataSummaryAppsFlyer(connect, date, media_source1, media_source2, path_fi
         json.dump(install, f)
 
 
-def Add_NRU_for_total(connect, list_plan):
-# ==================== Connect database =======================
-	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
-	cursor = conn.cursor()
-
-	for plan in list_plan['UN_PLAN']:
-
-		day = plan['START_DAY'][8:]
-		month = plan['START_DAY'][5:-3]
-		year = plan['START_DAY'][:4]
-		start_date = month + '/' + day + '/' + year
-		start_date = datetime.strptime(start_date, '%m/%d/%Y')
-
-		day = plan['END_DAY_ESTIMATE'][8:]
-		month = plan['END_DAY_ESTIMATE'][5:-3]
-		year = plan['END_DAY_ESTIMATE'][:4]
-		end_date = month + '/' + day + '/' + year
-		end_date = datetime.strptime(end_date, '%m/%d/%Y')	
-
-		plan['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
-		
-
-	cursor.close()
-	return list_plan
+def CaculatorStartEndDate():
+	for month in json_['M']:
+    if (int(month['MONTH']) == month_start):
+        start_date = datetime.strptime(start, '%Y-%m-%d').date()
+        end_date = start_date + timedelta(int(month['DAY']) - 1)
+        start_date = start_date.strftime('%Y-%m-%d')
+        end_date = end_date.strftime('%Y-%m-%d')
+    else:
+        start_date = year_end + '-' + str(month['MONTH']) + '-01'
+        start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+        end_date = start_date + timedelta(int(month['DAY']) - 1)
+        start_date = start_date.strftime('%Y-%m-%d')
+        end_date = end_date.strftime('%Y-%m-%d')
+    month['START_DATE'] = start_date
+    month['END_DATE'] = end_date
 
 
 
@@ -96,32 +87,7 @@ def Add_NRU_for_map(connect, list_plan):
 
 
 
-def Read_NRU_for_month(cursor, year, month, product):
-	#==================== Get NRU =============================
-	statement = "Select SNAPSHOT_DATE, PRODUCT_CODE, NRU from STG_NRU where CHANNEL = 'Google' \
-	and  extract (Year from SNAPSHOT_DATE) = :1 and extract (Month from SNAPSHOT_DATE) = :2"
-	cursor.execute(statement, (year, month))
-	list_NRU = list(cursor.fetchall())  
-	# print(list_NRU)
-
-
-	#==================== Get product ID ===================
-	statement = "Select PRODUCT_ID, CCD_PRODUCT from ODS_META_PRODUCT where PRODUCT_ID = '" + product +  "'"
-	cursor.execute(statement)
-	list_product = list(cursor.fetchall())
-
-	ccd_nru = 0  
-	list_nru = []
-	for i in range(len(list_NRU)):
-		list_NRU[i] = list(list_NRU[i])    
-		for pro in list_product:
-			if (list_NRU[i][1] == pro[1]):
-				data = [list_NRU[i][0], list_NRU[i][1], list_NRU[i][2], pro[0], pro[1]]
-				if data not in list_nru:					
-					list_nru.append(data)
-					ccd_nru += list_NRU[i][2] 
-	
-	return ccd_nru
+def CaculatorS
 
 
 def Add_NRU_for_monthly(connect, list_plan):
