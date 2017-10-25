@@ -58,7 +58,7 @@ def GetListPlanChange(connect, path_data, date):
 				# print("remove")
 
 			if (value['REAL_START_DATE'] is None) and (value['REAL_END_DATE'] is None):
-				print("----------------------------------", value['REAL_START_DATE'], value['REAL_END_DATE'])
+				# print("----------------------------------", value['REAL_START_DATE'], value['REAL_END_DATE'])
 				if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[5] == value['PRODUCT']) and \
 				(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
 				((plan[8] == datetime.strptime(value['START_DAY'], '%Y-%m-%d')) and (plan[9] == datetime.strptime(value['END_DAY_ESTIMATE'], '%Y-%m-%d'))):
