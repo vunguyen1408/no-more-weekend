@@ -326,6 +326,7 @@ for plan_total in data_total['TOTAL']:
 	for plan in data_alias['ALIAS']:
 		if plan_total['PRODUCT'] == plan['PRODUCT_ID']:
 			plan_total['APPSFLYER_PRODUCT'].append(plan['APPSFLYER_PRODUCT'])
+	print (plan_total['APPSFLYER_PRODUCT'])
 
 path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
 
