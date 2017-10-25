@@ -48,11 +48,8 @@ def GetListPlanChange(connect, path_data, date):
 			(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
 			(plan[8] == value['START_DAY']) and (plan[9] == value['END_DAY_ESTIMATE']) :
 				list_plan_diff.remove(plan)
-	
+
 			
-
-
-
 
 
 	# for plan in list_modified_plan:
