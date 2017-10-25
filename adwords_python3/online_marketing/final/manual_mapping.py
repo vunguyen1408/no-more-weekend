@@ -373,7 +373,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 			# print (list_camp_remove_unmap)
 			print (list_plan_remove_unmap)
 
-		return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
+return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
 
 
 # connect = ''
