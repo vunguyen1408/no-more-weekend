@@ -184,7 +184,7 @@ def AutoMap(connect, path_data, date):
 	print (len(list_plan))
 	for plan in list_plan:
 		print(plan)
-		if (plan['REASON_CODE_ORACLE'] = '1705131') and (plan['EFORM_TYPE'] == 'SEARCH'):
+		if (plan['REASON_CODE_ORACLE'] == '1705131') and (plan['EFORM_TYPE'] == 'SEARCH'):
 			plan['UNIT_OPTION'] = 'CPC'
 	# if len(list_plan) > 0:
 	# ------------- Get campaign for mapping ----------------	
