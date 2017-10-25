@@ -218,7 +218,7 @@ def AutoMap(connect, path_data, date):
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
-date = '2017-03-03' 
+date = '2017-08-17' 
 # list_plan_diff = GetListPlanChange(connect, path_data, date)
 AutoMap(connect, path_data, date)
 
