@@ -34,7 +34,7 @@ def GetListPlanChange(connect, path_data, date):
 	with open(file_plan, 'r') as fi:
 		data = json.load(fi)
 
-	list_plan_diff = list_modified_plan	
+	list_plan_diff = list_modified_plan.copy()
 	list_update = []
 	
 
