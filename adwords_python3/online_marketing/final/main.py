@@ -141,7 +141,7 @@ def Daily(connect, path_data, date):
 
 
 	# ======================= Insert branding install ====================================
-	insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, list_plan, date)
+	insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
 
 	#======================== History name ==================================
 	# list_diff = history.InsertHistoryName(connect, path_data, list_customer_id, date)

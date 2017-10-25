@@ -62,7 +62,7 @@ def CaculatorStartEndDate(json_month, start, end):
 	return json_month
 
 
-def AddBrandingGPSToPlan(path_data, connect, list_plan, date):
+def AddBrandingGPSToPlan(path_data, connect, date):
 # ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
