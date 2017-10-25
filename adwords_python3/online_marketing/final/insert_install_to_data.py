@@ -15,7 +15,7 @@ def GetDataSummaryAppsFlyer(connect, date, media_source1, media_source2, path_fi
     day = date[8:]
     month = date[5:-3]
     year = date[:4]
-    date = month + '-' + day + '-' + year
+    date = month + '/' + day + '/' + year
     statement = "select * from ods_appsflyer where SNAPSHOT_DATE \
     = to_date('" + date + "', 'mm/dd/yyyy') and (MEDIA_SOURCE like '" + media_source1 +  "' or MEDIA_SOURCE like '" + media_source2 +  "')"
 
