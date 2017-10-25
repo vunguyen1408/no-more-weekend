@@ -183,9 +183,11 @@ def AutoMap(connect, path_data, date):
 	list_plan = mapping.AddProductCode(path_data, list_plan, date)
 	print (len(list_plan))
 	for plan in list_plan:
-		print(plan)
+		
 		if (plan['REASON_CODE_ORACLE'] == '1705131') and (plan['EFORM_TYPE'] == 'SEARCH'):
 			plan['UNIT_OPTION'] = 'CPC'
+	for plan in list_plan:
+		print(plan)
 	# if len(list_plan) > 0:
 	# ------------- Get campaign for mapping ----------------	
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
