@@ -31,11 +31,13 @@ def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_
 	cursor.execute(statement)
 
 	list_install = cursor.fetchall()
+	print (len(list_install))
 	number_install = 0
 	print (list_product_alias)
 	for i in list_install:
 		if i[5] in list_product_alias:
-			print (i)
+			# print (i)
+			# print (int(i[3]))
 			number_install += int(i[3])
 
 	print (number_install)
