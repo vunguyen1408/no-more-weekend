@@ -62,7 +62,7 @@ def CaculatorStartEndDate(json_month, start, end):
 	return json_month
 
 
-def AddBrandingGPSToPlan(path_data, connect, list_plan, date):
+def AddBrandingGPSToPlan(path_data, connect, date):
 # ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
@@ -98,8 +98,9 @@ def AddBrandingGPSToPlan(path_data, connect, list_plan, date):
 		media_source2 = 'googleadwords_sem'
 		with open (path_data_total_map,'r') as f:
 			data_total = json.load(f)
-
+		print (len(data_total['TOTAL']))
 		for plan in data_total['TOTAL']:
+			print (plan)
 			start_date, end_date = mapping_data.ChooseTime(plan)
 			plan['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
 			if ('MONTHLY' in plan):
