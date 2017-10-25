@@ -294,7 +294,19 @@ def AutoMap(connect, path_data, date):
 		print ('UN_PLAN: ', len(data_total['UN_PLAN']))
 		print ('TOTAL: ', len(data_total['TOTAL']))
 
+
+		#---------- Data map ------------------
 		data_total['MAP'].extend(list_data_map)
+
+		# ----------- Update Real date ------------
+		for data_map in data_total['MAP']:
+			for plan in list_plan:
+				if data_map['PRODUCT'] == plan['PRODUCT'] \
+					and data_map['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+					and data_map['FORM_TYPE'] == plan['FORM_TYPE'] \
+					and data_map['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+					data_total['MAP'][data_total['MAP'].index(data_map)]['REAL_START_DATE'] = plan['REAL_START_DATE']
+					
 					
 		#----------- Remove unmap ---------------------
 		for camp in list_data_map:		
@@ -314,6 +326,8 @@ def AutoMap(connect, path_data, date):
 					and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
 					data_total['UN_PLAN'].remove(plan_un)
 					list_plan_remove_unmap.append(plan_un)
+					data_total['UN_PLAN'][data_total['UN_PLAN'].index(plan_un)]['REAL_START_DATE'] = plan['REAL_START_DATE']
+
 					
 
 		#------------- Insert total ------------
@@ -326,6 +340,7 @@ def AutoMap(connect, path_data, date):
 					and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
 					plan_total['TOTAL_CAMPAIGN'] = insert_data.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
 					flag = False
+					data_total['TOTAL'][data_total['TOTAL'].index(plan_total)]['REAL_START_DATE'] = plan['REAL_START_DATE']
 			
 			if flag:    #----- Không tìm thấy trong total ------			
 				data_total['TOTAL'].append(plan)
