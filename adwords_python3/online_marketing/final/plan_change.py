@@ -47,7 +47,7 @@ def GetListPlanChange(connect, path_data, date):
 				if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[5] == value['PRODUCT']) and \
 				(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
 				(plan[23].strftime('%Y-%m-%d') == value['REAL_START_DATE']) and (plan[24].strftime('%Y-%m-%d') == value['REAL_END_DATE']):
-					if (plan in list_plan_diff):						
+					if (plan in list_plan_diff):												
 						list_plan_diff.remove(plan)	
 
 			if (plan[23] is None) and (plan[24] is not None):
@@ -71,7 +71,8 @@ def GetListPlanChange(connect, path_data, date):
 				(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
 				(((plan[8].strftime('%Y-%m-%d') == value['START_DAY']) and (plan[9].strftime('%Y-%m-%d') == value['END_DAY_ESTIMATE'])) and \
 				((plan[23] == value['REAL_START_DATE']) and (plan[24] == value['REAL_END_DATE']))) :
-					if (plan in list_plan_diff):						
+					if (plan in list_plan_diff):	
+						print(plan)					
 						list_plan_diff.remove(plan)		
 
 
@@ -178,9 +179,14 @@ def AutoMap(connect, path_data, date):
 
 
 	#----------------- Mapping with campaign unmap -------------------------
-	data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
-	data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_GS5, date)
-	data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
+	if (len(list_camp_all) > 0):
+		data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
+
+	if (len(list_camp_GS5) > 0):
+		data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_GS5, date)
+
+	if (len(list_camp_WPL) > 0):
+		data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
 
 				
 		# list_camp_remove_unmap = []
