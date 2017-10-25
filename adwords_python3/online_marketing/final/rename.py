@@ -487,7 +487,7 @@ def CacualatorChange(path_data, list_diff, date):
     print (temp_)
 
     ###########################################
-    path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_123' + '.json')
+    path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
     with open (path_data_total_map,'w') as f:
       json.dump(data_total, f)
     ##########################################

@@ -7,6 +7,7 @@ import cx_Oracle
 from datetime import datetime , timedelta, date
 
 import mapping_campaign_plan as mapping_data
+import insert_data_map_to_total as insert_to_total
 
 def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, list_product_alias):
 	# ==================== Connect database =======================
@@ -24,11 +25,12 @@ def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_
 	end_date = month + '/' + day + '/' + year
 
 
-	statement = "select * from ods_appsflyer where CAMPAIGN_ID is null and SNAPSHOT_DATE >= to_date('" + start_date + "', 'mm/dd/yyyy') \
+	statement = "select * from ods_appsflyer where CAMPAIGN_ID = '{" + "BrandingGPS}' and SNAPSHOT_DATE >= to_date('" + start_date + "', 'mm/dd/yyyy') \
 	and SNAPSHOT_DATE <= to_date('" + end_date + "', 'mm/dd/yyyy') \
 	and (MEDIA_SOURCE like '" + media_source1 +  "' or MEDIA_SOURCE like '" + media_source2 +  "')"
 
 	cursor.execute(statement)
+	print (statement)
 
 	list_install = cursor.fetchall()
 	print (len(list_install))
@@ -71,7 +73,7 @@ def AddBrandingGPSToPlan(path_data, connect, date):
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 
-	# ReadProductAlias(connect, path_data, date)
+	# mapping_data.ReadProductAlias(connect, path_data, date)
 	# # Get list product alias
 	# file_product_alias = os.path.join(path_data, str(date) + '/PLAN/product_alias.json')
 	# with open (file_product_alias,'r') as f:
@@ -105,22 +107,25 @@ def AddBrandingGPSToPlan(path_data, connect, date):
 		# print (len(data_total['TOTAL']))
 		for plan in data_total['TOTAL']:
 			# print (plan)
-			start_date, end_date = mapping_data.ChooseTime(plan)
-			plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
-			# print (start_date)
-			# print (end_date)
+			if plan['UNIT_OPTION'] == 'CPI':
+				start_date, end_date = mapping_data.ChooseTime(plan)
 
-			if ('MONTHLY' in plan):
-				print ("==========================")
-				print (plan['MONTHLY'])
-				print ("==========================")
-				plan = CaculatorStartEndDate(plan, start_date, end_date)
-				print (plan['MONTHLY'])
-				for month in plan['MONTHLY']:
-					month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, month['START_DATE'], month['END_DATE'], media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
-
-		# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		# with open (path_data_total_map,'w') as f:
-		# 	json.dump(data_total, f)
+				# plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
+				# print (start_date)
+				# print (end_date)
+				plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = plan['TOTAL_CAMPAIGN']['INSTALL_CAMP']
+				if ('MONTHLY' in plan):
+					print ("==========================")
+					print (plan['MONTHLY'])
+					print ("==========================")
+					plan = CaculatorStartEndDate(plan, start_date, end_date)
+					print (plan['MONTHLY'])
+					for month in plan['MONTHLY']:
+						# month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, month['START_DATE'], month['END_DATE'], media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
+						month['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']
+						print (plan['MONTHLY'])
+		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		with open (path_data_total_map,'w') as f:
+			json.dump(data_total, f)
 
 
