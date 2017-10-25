@@ -50,7 +50,7 @@ def GetListPlanChange(connect, path_data, date):
 			(((plan[8] == value['START_DAY']) and (plan[9] == value['END_DAY_ESTIMATE'])) or \
 			((plan[23] == value['REAL_START_DATE']) and (plan[24] == value['REAL_END_DATE']))) :
 				list_plan_diff.remove(plan)
-				print("remove")
+				# print("remove")
 
 			
 
@@ -81,9 +81,10 @@ def GetListPlanChange(connect, path_data, date):
 	# 		list_change_plancode.append(plan)
 	# 		list_plan_diff.append(plan)
 
+	
+	for plan in list_plan_diff:
+		print(plan)
 	print(len(list_plan_diff))
-	# for plan in list_plan_diff:
-	# 	print(plan)
 	return list_plan_diff
 
 
