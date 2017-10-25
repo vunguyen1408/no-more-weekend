@@ -19,6 +19,7 @@ import insert_report_plan_sum as plan_sum
 import insert_report_detail_map as detail_map
 import history_name as history
 import insert_nru_to_plan as nru
+import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
 def Daily(connect, path_data, date):
 	"""
 		Run daily: 
@@ -138,6 +139,10 @@ def Daily(connect, path_data, date):
 	# nru.Add_Data_To_Plan(connect, path_data, date)
 	# time_insert = time.time() - insert_install
 
+
+	# ======================= Insert branding install ====================================
+	insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, list_plan, date)
+
 	#======================== History name ==================================
 	# list_diff = history.InsertHistoryName(connect, path_data, list_customer_id, date)
 
@@ -184,7 +189,7 @@ def ManyDate(connect, path_data, start_date, end_date):
 
 # start_date = '2017-06-01'
 # end_date = '2017-06-30'
-path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA_BRAND'
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 # ManyDate(connect, path_data, start_date, end_date)
 

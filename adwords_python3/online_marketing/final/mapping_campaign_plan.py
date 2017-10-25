@@ -419,7 +419,7 @@ def ReadProductAlias(connect, path_data, date):
   # ==================== Connect database =======================
   conn = cx_Oracle.connect(connect)
   cursor = conn.cursor()
-  statement = 'select PRODUCT_ID, GG_PRODUCT, CCD_PRODUCT from ODS_META_PRODUCT'        
+  statement = 'select PRODUCT_ID, GG_PRODUCT, CCD_PRODUCT, APPSFLYER_PRODUCT from ODS_META_PRODUCT'        
   cursor.execute(statement)
   res = list(cursor.fetchall())
   list_json = []
@@ -428,7 +428,8 @@ def ReadProductAlias(connect, path_data, date):
       json_ = {
         'PRODUCT_ID': product[0],
         'GG_PRODUCT': product[1],
-        'CCD_PRODUCT' : product[2]
+        'CCD_PRODUCT' : product[2],
+        'APPSFLYER_PRODUCT' : product[3]
       }
       list_json.append(json_)
   data_json = {}
@@ -457,6 +458,12 @@ def AddProductCode(path_folder, list_plan, date):
       if (alias['PRODUCT_ID'] is not None) and (alias['CCD_PRODUCT'] is not None) \
       and (int(plan['PRODUCT']) == int(alias['PRODUCT_ID'])):
         temp['CCD_PRODUCT'].append(str(alias['CCD_PRODUCT']))  
+
+    temp['APPSFLYER_PRODUCT'] = []
+    for alias in data['ALIAS']:
+      if (alias['PRODUCT_ID'] is not None) and (alias['APPSFLYER_PRODUCT'] is not None) \
+      and (int(plan['PRODUCT']) == int(alias['PRODUCT_ID'])):
+        temp['APPSFLYER_PRODUCT'].append(str(alias['APPSFLYER_PRODUCT'])) 
 
     list_temp.append(temp)
     # print (temp['CCD_PRODUCT'])

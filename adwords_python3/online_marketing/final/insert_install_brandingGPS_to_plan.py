@@ -6,41 +6,45 @@ import json
 import cx_Oracle
 from datetime import datetime , timedelta, date
 
-def GetDataSummaryAppsFlyer(connect, date, media_source1, media_source2, path_file):
-    # ==================== Connect database =======================
-    conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
-    cursor = conn.cursor()
+import mapping_campaign_plan as mapping_data
 
-    day = date[8:]
-    month = date[5:-3]
-    year = date[:4]
-    date = month + '-' + day + '-' + year
-    statement = "select * from ods_appsflyer where SNAPSHOT_DATE \
-    = to_date('" + date + "', 'mm/dd/yyyy') and (MEDIA_SOURCE like '" + media_source1 +  "' or MEDIA_SOURCE like '" + media_source2 +  "')"
+def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, list_product_alias):
+	# ==================== Connect database =======================
+	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
+	cursor = conn.cursor()
 
-    cursor.execute(statement)
+	day = start_date[8:]
+	month = start_date[5:-3]
+	year = start_date[:4]
+	start_date = month + '/' + day + '/' + year
 
-    list_install = cursor.fetchall()
-    list_out = []
-    for i in list_install:
-        d = str(i[0])[:10]
-        d = str(datetime.strptime(d, '%Y-%m-%d').date())
-        temp = []
-        temp.append(d)
-        temp.append(i[1])
-        temp.append(i[2])
-        temp.append(i[3])
-        temp.append(i[4])
-        temp.append(i[5])
-        temp.append(i[6])
-        list_out.append(temp)
-    install = {}
-    install['list_install'] = list_out
-    with open(path_file, 'w') as f:
-        json.dump(install, f)
+	day = end_date[8:]
+	month = end_date[5:-3]
+	year = end_date[:4]
+	end_date = month + '/' + day + '/' + year
 
 
-def CaculatorStartEndDate(json_month):
+	statement = "select * from ods_appsflyer where SNAPSHOT_DATE >= to_date('" + start_date + "', 'mm/dd/yyyy') \
+	and SNAPSHOT_DATE <= to_date('" + end_date + "', 'mm/dd/yyyy') \
+	and (MEDIA_SOURCE like '" + media_source1 +  "' or MEDIA_SOURCE like '" + media_source2 +  "')"
+
+	cursor.execute(statement)
+
+	list_install = cursor.fetchall()
+	number_install = 0
+	for i in list_install:
+		if i[5] in list_product_alias:
+			number_install += int(i[3])
+
+	print (number_install)
+	return number_install
+
+def CaculatorStartEndDate(json_month, start, end):
+	from datetime import datetime , timedelta, date
+	# Get start end
+	month_start = int(start[5:-3])
+	month_end = int(end[5:-3])
+	year_end = end[:4]
 	for month in json_month['MONTHLY']:
 		if (int(month['MONTH']) == month_start):
 			start_date = datetime.strptime(start, '%Y-%m-%d').date()
@@ -58,52 +62,53 @@ def CaculatorStartEndDate(json_month):
 	return json_month
 
 
-
-def AddBrandingGPSToPlan(connect, list_plan):
+def AddBrandingGPSToPlan(path_data, connect, list_plan, date):
 # ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 
-	for plan in list_plan['TOTAL']:
-		if ('MONTHLY' in plan):
-			for i in range(len(plan['MONTHLY'])):
-				
-	return list_plan
+	# ReadProductAlias(connect, path_data, date)
+	# # Get list product alias
+	# file_product_alias = os.path.join(path_data, str(date) + '/PLAN/product_alias.json')
+	# with open (file_product_alias,'r') as f:
+	# 	data_product_alias = json.load(f)
 
 
+	# list_diff = ReadTableManualMap(connect, path_data, date)
+	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 
-def Add_Data_To_Plan(connect, path_data, date):
-	#============= Add Plan to Total================================
-	# ============ Add Plan To Monthly ============================
+	if not os.path.exists(path_data_total_map):
+		i = 0
+		find = True
+		date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		while not os.path.exists(path_data_total_map):
+			i = i + 1
+			date_before = date_before - timedelta(1)
+			path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			if i == 60:
+				find = False
+				break
+		# ---- Neu tim thay file total truoc do -----
+	else:
+		find = True
 
-	file_plan = os.path.join(path_data, str(date) + '/DATA_MAPPING/total_mapping.json')
-	with open(file_plan, 'r') as fi:
-		list_plan = json.load(fi)
+	if find:
+		media_source1 = 'googleadwords_int'
+		media_source2 = 'googleadwords_sem'
+		with open (path_data_total_map,'r') as f:
+			data_total = json.load(f)
 
-	list_plan = Add_NRU_for_monthly(connect, list_plan)
-	
-	with open (file_plan,'w') as f:
-		json.dump(list_plan, f)
-	# print('Add nru====================')
+		for plan in data_total['TOTAL']:
+			start_date, end_date = mapping_data.ChooseTime(plan)
+			plan['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
+			if ('MONTHLY' in plan):
+				plan['MONTHLY'] = CaculatorStartEndDate(plan['MONTHLY'], start_date, end_date)
+				for month in plan['MONTHLY']:
+					month['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, month['START_DATE'], month['END_DATE'], media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
 
-
-
-
-# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-# path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
-# date = '2017-08-30'
-# Add_Data_To_Plan(connect, path_data, date)
-
-
-
-# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-# conn = cx_Oracle.connect(connect)
-# cursor = conn.cursor()
-# start_date = datetime.strptime('08/01/2017', '%m/%d/%Y')
-# end_date = datetime.strptime('09/01/2017', '%m/%d/%Y')
-# nru = Read_NRU_for_total(cursor, start_date, end_date, '219')
-# print(nru)
-
-
+		# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		# with open (path_data_total_map,'w') as f:
+		# 	json.dump(data_total, f)
 
 
