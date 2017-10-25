@@ -150,6 +150,7 @@ file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python
 root_note, list_acc = GetAllAcount(path_config)
 with open(file_json, 'w') as fo:
   json.dump(root_note[1], fo)
+  
 
 # path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_WPL.yaml'
 # file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/WPL.json'
