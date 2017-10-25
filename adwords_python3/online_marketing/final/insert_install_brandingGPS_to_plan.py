@@ -71,7 +71,7 @@ def AddBrandingGPSToPlan(path_data, connect, date):
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 
-	# ReadProductAlias(connect, path_data, date)
+	mapping_data.ReadProductAlias(connect, path_data, date)
 	# # Get list product alias
 	# file_product_alias = os.path.join(path_data, str(date) + '/PLAN/product_alias.json')
 	# with open (file_product_alias,'r') as f:

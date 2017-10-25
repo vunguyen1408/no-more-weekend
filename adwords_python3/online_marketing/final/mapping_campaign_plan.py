@@ -451,19 +451,22 @@ def AddProductCode(path_folder, list_plan, date):
     for alias in data['ALIAS']:
       if (alias['PRODUCT_ID'] is not None) and (alias['GG_PRODUCT'] is not None) \
       and (int(plan['PRODUCT']) == int(alias['PRODUCT_ID'])):
-        temp['PRODUCT_CODE'].append(str(alias['GG_PRODUCT']))     
+        if str(alias['GG_PRODUCT']) not in temp['PRODUCT_CODE']:
+          temp['PRODUCT_CODE'].append(str(alias['GG_PRODUCT']))     
 
     temp['CCD_PRODUCT'] = []
     for alias in data['ALIAS']:
       if (alias['PRODUCT_ID'] is not None) and (alias['CCD_PRODUCT'] is not None) \
       and (int(plan['PRODUCT']) == int(alias['PRODUCT_ID'])):
-        temp['CCD_PRODUCT'].append(str(alias['CCD_PRODUCT']))  
+        if str(alias['CCD_PRODUCT']) not in temp['CCD_PRODUCT']:
+          temp['CCD_PRODUCT'].append(str(alias['CCD_PRODUCT']))  
 
     temp['APPSFLYER_PRODUCT'] = []
     for alias in data['ALIAS']:
       if (alias['PRODUCT_ID'] is not None) and (alias['APPSFLYER_PRODUCT'] is not None) \
       and (int(plan['PRODUCT']) == int(alias['PRODUCT_ID'])):
-        temp['APPSFLYER_PRODUCT'].append(str(alias['APPSFLYER_PRODUCT'])) 
+        if str(alias['APPSFLYER_PRODUCT']) not in temp['APPSFLYER_PRODUCT']:
+          temp['APPSFLYER_PRODUCT'].append(str(alias['APPSFLYER_PRODUCT'])) 
 
     list_temp.append(temp)
     # print (temp['CCD_PRODUCT'])
