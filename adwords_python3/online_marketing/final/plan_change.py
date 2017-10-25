@@ -48,13 +48,13 @@ def GetListPlanChange(connect, path_data, date):
 			(((plan[8].strftime('%Y-%m-%d') == value['START_DAY']) and (plan[9].strftime('%Y-%m-%d') == value['END_DAY_ESTIMATE'])) or \
 			((plan[23].strftime('%Y-%m-%d') == value['REAL_START_DATE']) and (plan[24].strftime('%Y-%m-%d') == value['REAL_END_DATE']))) :
 				if (plan in list_plan_diff):
-					print("--------------", plan)
+					# print("--------------", plan)
 					list_plan_diff.remove(plan)	
 
 
 	#========== Update new plan for file plan ===============	
-	mapping.ReadPlanFromTable(connect, path_data, str(date))
-	mapping.ReadProductAlias(connect, path_data, str(date))	
+	# mapping.ReadPlanFromTable(connect, path_data, str(date))
+	# mapping.ReadProductAlias(connect, path_data, str(date))	
 	#========================================================
 	
 	for plan in list_plan_diff:
