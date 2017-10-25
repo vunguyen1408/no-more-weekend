@@ -102,11 +102,11 @@ def AddBrandingGPSToPlan(path_data, connect, date):
 		for plan in data_total['TOTAL']:
 			print (plan)
 			start_date, end_date = mapping_data.ChooseTime(plan)
-			plan['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
+			plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
 			if ('MONTHLY' in plan):
 				plan['MONTHLY'] = CaculatorStartEndDate(plan['MONTHLY'], start_date, end_date)
 				for month in plan['MONTHLY']:
-					month['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, month['START_DATE'], month['END_DATE'], media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
+					month['TOTAL_CAMPAIGN']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, month['START_DATE'], month['END_DATE'], media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
 
 		# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 		# with open (path_data_total_map,'w') as f:
