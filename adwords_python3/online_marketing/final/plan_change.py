@@ -147,19 +147,22 @@ def merger_data_map(data_map_all, data_map_GS5, data_map_WPL):
 		if (value not in list_plan):
 			list_plan.append(value)
 		else:
-			list_plan[list_plan.index(value)]['CAMPAIGN'].extend(value['CAMPAIGN'])
+			if (value['CAMPAIGN'] not in list_plan[list_plan.index(value)]['CAMPAIGN']):
+				list_plan[list_plan.index(value)]['CAMPAIGN'].extend(value['CAMPAIGN'])
 
 	for value in data_map_GS5['plan']:
 		if (value not in list_plan):
 			list_plan.append(value)
 		else:
-			list_plan[list_plan.index(value)]['CAMPAIGN'].extend(value['CAMPAIGN'])
+			if (value['CAMPAIGN'] not in list_plan[list_plan.index(value)]['CAMPAIGN']):
+				list_plan[list_plan.index(value)]['CAMPAIGN'].extend(value['CAMPAIGN'])
 
 	for value in data_map_WPL['plan']:
 		if (value not in list_plan):
 			list_plan.append(value)
 		else:
-			list_plan[list_plan.index(value)]['CAMPAIGN'].extend(value['CAMPAIGN'])
+			if (value['CAMPAIGN'] not in list_plan[list_plan.index(value)]['CAMPAIGN']):
+				list_plan[list_plan.index(value)]['CAMPAIGN'].extend(value['CAMPAIGN'])
 
 
 	#============= Merger Campaign ==============
@@ -182,10 +185,10 @@ def AutoMap(connect, path_data, date):
 	list_plan = ConvertListPlan(list_plan)
 	list_plan = mapping.AddProductCode(path_data, list_plan, date)
 	print (len(list_plan))
-	# for plan in list_plan:
+	for plan in list_plan:
 		
-	# 	if (plan['REASON_CODE_ORACLE'] == '1705131') and (plan['FORM_TYPE'] == 'SEARCH'):
-	# 		plan['UNIT_OPTION'] = 'CPC'
+		if (plan['REASON_CODE_ORACLE'] == '1705131') and (plan['FORM_TYPE'] == 'SEARCH'):
+			plan['UNIT_OPTION'] = 'CPA'
 	# for plan in list_plan:
 	# 	print(plan)
 
