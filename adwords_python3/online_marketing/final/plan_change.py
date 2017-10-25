@@ -146,35 +146,28 @@ def merger_data_map(data_map_all, data_map_GS5, data_map_WPL):
 	for value in data_map_all['plan']:		
 		if (value not in list_plan):
 			list_plan.append(value)
-		else:
-			print('111111111111111')
-			print(value['CAMPAIGN'])
-			print(list_plan[list_plan.index(value)]['CAMPAIGN'])
-			print(value['CAMPAIGN'] not in list_plan[list_plan.index(value)]['CAMPAIGN'])
-			print()
-			if (value['CAMPAIGN'] not in list_plan[list_plan.index(value)]['CAMPAIGN']):				
-				list_plan[list_plan.index(value)]['CAMPAIGN'].extend(value['CAMPAIGN'])
+		else:			
+			for camp in value['CAMPAIGN']:
+				if (camp not in list_plan[list_plan.index(value)]['CAMPAIGN']):				
+					list_plan[list_plan.index(value)]['CAMPAIGN'].append(camp)
 
 		
 	for value in data_map_GS5['plan']:
 		if (value not in list_plan):
 			list_plan.append(value)
 		else:
-			print('222222222222')
-			print(value['CAMPAIGN'])
-			print(list_plan[list_plan.index(value)]['CAMPAIGN'])
-			print('============')
-			print(value['CAMPAIGN'] not in list_plan[list_plan.index(value)]['CAMPAIGN'])
-			if (value['CAMPAIGN'] not in list_plan[list_plan.index(value)]['CAMPAIGN']):				
-				list_plan[list_plan.index(value)]['CAMPAIGN'].extend(value['CAMPAIGN'])
+			for camp in value['CAMPAIGN']:
+				if (camp not in list_plan[list_plan.index(value)]['CAMPAIGN']):				
+					list_plan[list_plan.index(value)]['CAMPAIGN'].append(camp)
 
 		
 	for value in data_map_WPL['plan']:
 		if (value not in list_plan):
 			list_plan.append(value)
 		else:
-			if (value['CAMPAIGN'] not in list_plan[list_plan.index(value)]['CAMPAIGN']):				
-				list_plan[list_plan.index(value)]['CAMPAIGN'].extend(value['CAMPAIGN'])
+			for camp in value['CAMPAIGN']:
+				if (camp not in list_plan[list_plan.index(value)]['CAMPAIGN']):				
+					list_plan[list_plan.index(value)]['CAMPAIGN'].append(camp)
 
 		
 	for plan in list_plan:
