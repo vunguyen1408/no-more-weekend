@@ -526,7 +526,7 @@ def InsertDataUnMap(path_data, connect):
 			except UnicodeEncodeError as e:
 				json_['CAMPAIGN_NAME'] = camp['Campaign'].encode('utf-8')
 				InsertDetailUnmap(json_, cursor)
-		rint ('len data UN_PLAN:', len (data['UN_PLAN']))
+		print ('len data UN_PLAN:', len (data['UN_PLAN']))
 		for plan in data['UN_PLAN']:
 			json_ = ConvertJsonPlan(plan)			
 			InsertDetailUnmap(json_, cursor)
