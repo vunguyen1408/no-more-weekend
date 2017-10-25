@@ -177,7 +177,7 @@ def AutoMap(connect, path_data, date):
 	print(len(list_camp_GS5))
 	print(len(list_camp_WPL))
 
-
+	
 	#----------------- Mapping with campaign unmap -------------------------
 	if (len(list_camp_all) > 0):
 		data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, datetime.strptime(date, '%Y-%m-%d'))
