@@ -324,7 +324,7 @@ with open(path_total, 'r') as fi:
 for plan_total in data_total['TOTAL']:
 	plan_total['APPSFLYER_PRODUCT'] = []
 	for plan in data_alias['ALIAS']:
-		if plan_total['PRODUCT'] == plan['PRODUCT_ID']:
+		if plan_total['PRODUCT'] == plan['PRODUCT_ID'] and plan['APPSFLYER_PRODUCT'] != None:
 			plan_total['APPSFLYER_PRODUCT'].append(plan['APPSFLYER_PRODUCT'])
 	print (plan_total['APPSFLYER_PRODUCT'])
 
