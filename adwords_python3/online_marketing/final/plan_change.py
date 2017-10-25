@@ -220,7 +220,7 @@ def AutoMap(connect, path_data, date):
 	list_camp_GS5 = []
 	list_camp_WPL = []
 	for camp in list_full_camp:
-		if (camp['Campaign ID'] == '840218335'):
+		if (str(camp['Campaign ID']) == '840218335'):
 			print(camp)
 		if (camp['Dept'] == 'GS5'):
 			list_camp_GS5.append(camp)
@@ -394,7 +394,7 @@ AutoMap(connect, path_data, date)
 #================================================================
 
 
-path = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
+# path = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
 
 
 
