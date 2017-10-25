@@ -330,12 +330,12 @@ def AutoMap(connect, path_data, date):
 		# --------------- Tinh total month cho cac plan --------------
 		for plan in data_total['TOTAL']:
 			plan['MONTHLY'] = {}
-			plan = insert_data.CaculatorTotalMonth(plan, date)
+			plan = insert_to_total.CaculatorTotalMonth(plan, date)
 
 			
 		for plan in data_total['UN_PLAN']:
 			plan['MONTHLY'] = {}
-			plan = insert_data.CaculatorTotalMonth(plan, date)
+			plan = insert_to_total.CaculatorTotalMonth(plan, date)
 
 
 		
