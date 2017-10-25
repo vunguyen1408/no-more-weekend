@@ -79,8 +79,8 @@ def GetListPlanChange(connect, path_data, date):
 
 
 	#========== Update new plan for file plan ===============	
-	# mapping.ReadPlanFromTable(connect, path_data, str(date))
-	# mapping.ReadProductAlias(connect, path_data, str(date))	
+	mapping.ReadPlanFromTable(connect, path_data, str(date))
+	mapping.ReadProductAlias(connect, path_data, str(date))	
 	#========================================================
 	
 	
