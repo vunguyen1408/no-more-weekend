@@ -89,53 +89,53 @@ def GetListPlanChange(connect, path_data, date):
 
 
 
-# def AutoMap(connect, path_data, date):
-# 	# ------------- Get new plan or change plan ----------------	
-# 	list_plan = GetListPlanChange(connect, path_data, date)
-# 	print (len(list_plan))
-# 	# if len(list_plan) > 0:
-# 	# ------------- Get campaign for mapping ----------------	
-# 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+def AutoMap(connect, path_data, date):
+	# ------------- Get new plan or change plan ----------------	
+	list_plan = GetListPlanChange(connect, path_data, date)
+	print (len(list_plan))
+	# if len(list_plan) > 0:
+	# ------------- Get campaign for mapping ----------------	
+	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	
-# 	list_map_all = []
-# 	list_plan_remove_unmap = []
-# 	list_camp_remove_unmap = []
-# 	list_plan_update = []
-# 	if not os.path.exists(path_data_total_map):
-# 		i = 0
-# 		find = True
-# 		date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
-# 		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
-# 		while not os.path.exists(path_data_total_map):
-# 			i = i + 1
-# 			date_before = date_before - timedelta(1)
-# 			path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
-# 			if i == 60:
-# 				find = False
-# 				break			
-# 	else:
-# 		find = True
+	list_map_all = []
+	list_plan_remove_unmap = []
+	list_camp_remove_unmap = []
+	list_plan_update = []
+	if not os.path.exists(path_data_total_map):
+		i = 0
+		find = True
+		date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		while not os.path.exists(path_data_total_map):
+			i = i + 1
+			date_before = date_before - timedelta(1)
+			path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			if i == 60:
+				find = False
+				break			
+	else:
+		find = True
 
-# 	if find:
-# 		with open (path_data_total_map,'r') as f:
-# 			data_total = json.load(f)
+	if find:
+		with open (path_data_total_map,'r') as f:
+			data_total = json.load(f)
 
-# 	list_full_camp = data_total['UN_CAMPAIGN']
-# 	list_camp_all = []
-# 	list_camp_GS5 = []
-# 	list_camp_WPL = []
-# 	for camp in list_full_camp:
-# 		if (camp['Dept'] == 'GS5'):
-# 			list_camp_GS5.append(camp)
-# 		elif (camp['Dept'] == 'WPL'):
-# 			list_camp_GS5.append(camp)
-# 		else:
-# 			list_camp_all.append(camp)
+	list_full_camp = data_total['UN_CAMPAIGN']
+	list_camp_all = []
+	list_camp_GS5 = []
+	list_camp_WPL = []
+	for camp in list_full_camp:
+		if (camp['Dept'] == 'GS5'):
+			list_camp_GS5.append(camp)
+		elif (camp['Dept'] == 'WPL'):
+			list_camp_GS5.append(camp)
+		else:
+			list_camp_all.append(camp)
 
-# 	print(len(list_full_camp))
-# 	print(len(list_camp_all))
-# 	print(len(list_camp_GS5))
-# 	print(len(list_camp_WPL))
+	print(len(list_full_camp))
+	print(len(list_camp_all))
+	print(len(list_camp_GS5))
+	print(len(list_camp_WPL))
 
 				
 		# list_camp_remove_unmap = []
@@ -168,7 +168,8 @@ def GetListPlanChange(connect, path_data, date):
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
 date = '2017-08-31' 
-list_plan_diff = GetListPlanChange(connect, path_data, date)
+# list_plan_diff = GetListPlanChange(connect, path_data, date)
+AutoMap(connect, path_data, date)
 
 
 
