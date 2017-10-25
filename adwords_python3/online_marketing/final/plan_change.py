@@ -118,7 +118,11 @@ def ConvertPlan(plan):
 	json_['CVIEWS'] = plan[19]
 	json_['INSTALL'] = plan[20]
 	json_['NRU'] = plan[21]
-	json_['INSERT_DATE'] = plan[22]
+	if (plan[22] is None):
+		json_['INSERT_DATE'] = plan[22]
+	else:
+		json_['INSERT_DATE'] = plan[22].strftime('%Y-%m-%d')
+	
 	if (plan[23] is None):
 		json_['REAL_START_DATE'] = plan[23]
 	else:
@@ -289,7 +293,7 @@ def AutoMap(connect, path_data, date):
 		print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
 		print ('UN_PLAN: ', len(data_total['UN_PLAN']))
 		print ('TOTAL: ', len(data_total['TOTAL']))
-		
+
 		data_total['MAP'].extend(list_data_map)
 					
 		#----------- Remove unmap ---------------------
