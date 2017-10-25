@@ -60,18 +60,10 @@ def Daily(connect, path_data, date):
 		'3064549723', '6198751560', '9034826980', '3265423139', '7891987656', \
 		'8483981986', '2686387743', '5930063870', '7061686256', '3994588490', \
 		'3769240354', \
-		# # GS5
-		# '8726724391', '1040561513', '7449117049', '3346913196', '9595118601', \
-		# '9411633791', '4596687625', '8290128509', '3104172682', '6247736011', \
-		# '2861959872', \
-
-		# # GS5
-		# '8726724391', '1040561513', '7449117049', '3346913196', '9595118601', \
-		# '9411633791', '4596687625', '8290128509', '3104172682', '6247736011', \
-		# '2861959872', \
-
 		# GS5
-		'7449117049', '9595118601', \
+		'8726724391', '1040561513', '7449117049', '3346913196', '9595118601', \
+		'9411633791', '4596687625', '8290128509', '3104172682', '6247736011', \
+		'2861959872', \
 		
 		# PP
 		'8024455693' 
@@ -146,8 +138,8 @@ def Daily(connect, path_data, date):
 	# nru.Add_Data_To_Plan(connect, path_data, date)
 	# # time_insert = time.time() - insert_install
 
-	# #======================== History name ==================================
-	# # list_diff = history.InsertHistoryName(connect, path_data, list_customer_id, date)
+	#======================== History name ==================================
+	list_diff = history.InsertHistoryName(connect, path_data, list_customer_id, date)
 
 
 
@@ -192,7 +184,7 @@ def ManyDate(connect, path_data, start_date, end_date):
 
 # start_date = '2017-06-01'
 # end_date = '2017-06-30'
-path_data = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_TEST/TEMP_DATA'
+path_data = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 # ManyDate(connect, path_data, start_date, end_date)
 
