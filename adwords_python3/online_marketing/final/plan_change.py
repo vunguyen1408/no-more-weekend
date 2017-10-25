@@ -56,7 +56,7 @@ def GetListPlanChange(connect, path_data, date):
 				(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
 				(plan[8].strftime('%Y-%m-%d') == value['START_DAY']) and (plan[9].strftime('%Y-%m-%d') == value['END_DAY_ESTIMATE']):					
 					if (plan in list_plan_diff):
-						# print(plan)
+						print(plan)
 						list_plan_diff.remove(plan)
 
 			if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[5] == value['PRODUCT']) and \
@@ -116,8 +116,8 @@ def GetListPlanChange(connect, path_data, date):
 	# 		list_plan_diff.append(plan)
 
 	
-	for plan in list_plan_diff:
-		print(plan)
+	# for plan in list_plan_diff:
+	# 	print(plan)
 	print(len(list_plan_diff))
 	return list_plan_diff
 
