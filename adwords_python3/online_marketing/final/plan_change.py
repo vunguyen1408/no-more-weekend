@@ -42,7 +42,9 @@ def GetListPlanChange(connect, path_data, date):
 	#=========== Check list plan change or new plan ================
 	print(len(list_plan_diff))
 	for plan in list_modified_plan:		
-		for value in data['plan']:				
+		for value in data['plan']:	
+			if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[23] is not None):
+				print(plan[23].strftime('%Y-%m-%d'), value['REAL_START_DATE'])			
 			if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[5] == value['PRODUCT']) and \
 			(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
 			(((plan[8].strftime('%Y-%m-%d') == value['START_DAY']) and (plan[9].strftime('%Y-%m-%d') == value['END_DAY_ESTIMATE'])) or \
