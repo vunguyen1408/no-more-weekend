@@ -293,12 +293,12 @@ def AutoMap(connect, path_data, date):
 		data_total['MAP'].extend(list_data_map)
 					
 		#----------- Remove unmap ---------------------
-		for camp in list_data_map:		
-			for campaign in data_total['UN_CAMPAIGN']:
-				if camp['Campaign ID'] == campaign['Campaign ID'] \
-					and camp['Date'] == campaign['Date']:
-					data_total['UN_CAMPAIGN'].remove(campaign)
-					list_camp_remove_unmap.append(campaign)
+		# for camp in list_data_map:		
+		# 	for campaign in data_total['UN_CAMPAIGN']:
+		# 		if camp['Campaign ID'] == campaign['Campaign ID'] \
+		# 			and camp['Date'] == campaign['Date']:
+		# 			data_total['UN_CAMPAIGN'].remove(campaign)
+		# 			list_camp_remove_unmap.append(campaign)
 
 		#------------- Xoa trong danh sach un map PLAN ------------------
 		
