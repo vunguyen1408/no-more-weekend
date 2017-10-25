@@ -508,6 +508,56 @@ def ReportDetailMap(path_data, connect):
 		print("Committed!.......")
 		cursor.close()
 
+
+def InsertDataUnMap(path_data, connect):
+	if os.path.exists(path_data):
+	 	# ==================== Connect database =======================
+		conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
+		cursor = conn.cursor()
+
+		with open(path_data, 'r') as fi:
+			data = json.load(fi)
+		print ('len data UN_CAMPAIGN:', len (data['UN_CAMPAIGN']))
+		
+		for camp in data['UN_CAMPAIGN']:
+			json_ = ConvertJsonCamp(camp)		
+			try:	
+				InsertDetailUnmap(json_, cursor)
+			except UnicodeEncodeError as e:
+				json_['CAMPAIGN_NAME'] = camp['Campaign'].encode('utf-8')
+				InsertDetailUnmap(json_, cursor)
+		rint ('len data UN_PLAN:', len (data['UN_PLAN']))
+		for plan in data['UN_PLAN']:
+			json_ = ConvertJsonPlan(plan)			
+			InsertDetailUnmap(json_, cursor)
+
+		conn.commit()
+		print("Committed!.......")
+		cursor.close()
+
+def InsertDataMap(path_data, connect):
+	if os.path.exists(path_data):
+	 	# ==================== Connect database =======================
+		conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
+		cursor = conn.cursor()
+
+		with open(path_data, 'r') as fi:
+			data = json.load(fi)	
+		print ('len data map:', len (data['MAP']))
+		
+		for value in data['MAP']:
+			json_ = ConvertJsonMap(value)	
+			try:		
+				InsertDetailUnmap(json_, cursor)
+			except UnicodeEncodeError as e:
+				i = i + 1
+				json_['CAMPAIGN_NAME'] = value['Campaign'].encode('utf-8')
+				InsertDetailUnmap(json_, cursor)
+		conn.commit()
+		print("Committed!.......")
+		cursor.close()
+
+
 def InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 		#---------- Delete plan and camp ---------------
@@ -515,8 +565,10 @@ def InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap
 	DeleteListCamp(list_camp_remove_unmap, connect)
 
 
-	ReportDetailMap(path_data_total_map, connect)
-	ReportDetailUnmap(path_data_total_map, connect)
+	# ReportDetailMap(path_data_total_map, connect)
+	# ReportDetailUnmap(path_data_total_map, connect)
+	InsertDataUnMap(path_data_total_map, connect)
+	InsertDataMap(path_data_total_map, connect)
 
 # path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/DATA_MAPPING/mapping_final.json'
 # path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/total_mapping1.json'
