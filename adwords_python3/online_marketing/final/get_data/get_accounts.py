@@ -104,8 +104,8 @@ def GetAllAcount(path_config):
 
   # =================Get list dept of all account =========================
 
-  # path_dept = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/Dept.xlsx'
-  path_dept = 'C:/Users/CPU10912-local/Desktop/Dept.xlsx'
+  path_dept = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/Dept.xlsx'
+  # path_dept = 'C:/Users/CPU10912-local/Desktop/Dept.xlsx'
   dept = pd.read_excel(path_dept)
 
   list_mcc = list(dept['MCC Level 3'])  
@@ -143,10 +143,10 @@ def GetAllAcount(path_config):
   return (root_note, list_acc)
 
 
-# path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
-# file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC.json'
-path_config = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
-file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/MCC_entity.json'
+path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
+file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_111.json'
+# path_config = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
+# file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/MCC_entity.json'
 root_note, list_acc = GetAllAcount(path_config)
 with open(file_json, 'w') as fo:
   json.dump(root_note[1], fo)
@@ -154,11 +154,11 @@ with open(file_json, 'w') as fo:
 # path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_WPL.yaml'
 # file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/WPL.json'
 
-path_config = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/googleads_WPL.yaml'
-file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/WPL_entity.json'
-root_note, list_acc = GetAllAcount(path_config)
-with open(file_json, 'w') as fo:
-  json.dump(root_note[1], fo)
+# path_config = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/googleads_WPL.yaml'
+# file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/WPL_entity.json'
+# root_note, list_acc = GetAllAcount(path_config)
+# with open(file_json, 'w') as fo:
+#   json.dump(root_note[1], fo)
 
 
 
