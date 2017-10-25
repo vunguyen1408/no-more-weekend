@@ -515,8 +515,9 @@ def InsertDataUnMap(path_data, connect):
 		conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 		cursor = conn.cursor()
 
-		
-		print ('len data map:', len (data['MAP']))
+		with open(path_data, 'r') as fi:
+			data = json.load(fi)
+		print ('len data UN_CAMPAIGN:', len (data['UN_CAMPAIGN']))
 		
 		for camp in data['UN_CAMPAIGN']:
 			json_ = ConvertJsonCamp(camp)		
@@ -525,7 +526,7 @@ def InsertDataUnMap(path_data, connect):
 			except UnicodeEncodeError as e:
 				json_['CAMPAIGN_NAME'] = camp['Campaign'].encode('utf-8')
 				InsertDetailUnmap(json_, cursor)
-
+		rint ('len data UN_PLAN:', len (data['UN_PLAN']))
 		for plan in data['UN_PLAN']:
 			json_ = ConvertJsonPlan(plan)			
 			InsertDetailUnmap(json_, cursor)
@@ -540,7 +541,8 @@ def InsertDataMap(path_data, connect):
 		conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 		cursor = conn.cursor()
 
-		
+		with open(path_data, 'r') as fi:
+			data = json.load(fi)	
 		print ('len data map:', len (data['MAP']))
 		
 		for value in data['MAP']:
