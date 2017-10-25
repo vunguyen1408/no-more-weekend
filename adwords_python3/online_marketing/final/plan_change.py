@@ -78,12 +78,6 @@ def GetListPlanChange(connect, path_data, date):
 						list_plan_diff.remove(plan)		
 
 
-	#========== Update new plan for file plan ===============	
-	mapping.ReadPlanFromTable(connect, path_data, str(date))
-	mapping.ReadProductAlias(connect, path_data, str(date))	
-	#========================================================
-	
-	
 	return list_plan_diff
 
 
@@ -198,6 +192,14 @@ def AutoMap(connect, path_data, date):
 	list_plan = GetListPlanChange(connect, path_data, date)
 	list_plan = ConvertListPlan(list_plan)
 	list_plan = mapping.AddProductCode(path_data, list_plan, date)
+
+	
+	#========== Update new plan for file plan ===============	
+	mapping.ReadPlanFromTable(connect, path_data, str(date))
+	mapping.ReadProductAlias(connect, path_data, str(date))	
+	#========================================================
+	
+	
 	# print (len(list_plan))
 	# for plan in list_plan:
 		
