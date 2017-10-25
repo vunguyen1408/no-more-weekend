@@ -76,8 +76,9 @@ def MapAccountWithCampaign(path_folder, list_plan, list_campaign, date):
 
   for i, eform in enumerate(list_plan):  
     flag = True
-    eform['CAMPAIGN'] = []
-    eform['STATUS'] = None
+    if 'CAMPAIGN' not in eform:
+      eform['CAMPAIGN'] = []
+      eform['STATUS'] = None
 
     # -------------------- Choose time real ------------------------
     start, end = ChooseTime(eform)
