@@ -218,6 +218,8 @@ def ReportMonthlySum(path_data, connect):
 
 		
 		for value in data['TOTAL']:
+			if value['REASON_CODE_ORACLE'] == '1708007':
+				print (value)
 			for i in range(len(value['MONTHLY'])):						
 				json_ = ConvertJsonMonthlySum(i, value)
 				MergerMonthlySum(json_, cursor)
