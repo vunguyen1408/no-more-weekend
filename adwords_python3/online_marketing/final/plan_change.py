@@ -186,8 +186,10 @@ def AutoMap(connect, path_data, date):
 		
 		if (plan['REASON_CODE_ORACLE'] == '1705131') and (plan['EFORM_TYPE'] == 'SEARCH'):
 			plan['UNIT_OPTION'] = 'CPC'
-	for plan in list_plan:
-		print(plan)
+	# for plan in list_plan:
+	# 	print(plan)
+
+	print("==========================================================")
 	# if len(list_plan) > 0:
 	# ------------- Get campaign for mapping ----------------	
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
@@ -220,6 +222,7 @@ def AutoMap(connect, path_data, date):
 	list_camp_GS5 = []
 	list_camp_WPL = []
 	for camp in list_full_camp:
+		print(camp['Campaign ID'])
 		if (str(camp['Campaign ID']) == '840218335'):
 			print(camp)
 		if (camp['Dept'] == 'GS5'):
