@@ -59,7 +59,6 @@ def CaculatorStartEndDate(plan, start, end):
 			end_date = end_date.strftime('%Y-%m-%d')
 			month['START_DATE'] = start_date
 			month['END_DATE'] = end_date
-	print (plan['MONTHLY'])
 	return plan
 
 
@@ -111,7 +110,7 @@ def AddBrandingGPSToPlan(path_data, connect, date):
 				print ("==========================")
 				print (plan['MONTHLY'])
 				print ("==========================")
-				plan['MONTHLY'] = CaculatorStartEndDate(plan, start_date, end_date)
+				plan = CaculatorStartEndDate(plan, start_date, end_date)
 				print (plan['MONTHLY'])
 				for month in plan['MONTHLY']:
 					month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, month['START_DATE'], month['END_DATE'], media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
