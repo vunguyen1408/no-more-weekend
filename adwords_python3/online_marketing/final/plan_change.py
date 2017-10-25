@@ -135,7 +135,7 @@ def AutoMap(connect, path_data, date):
 	# ------------- Get new plan or change plan ----------------	
 	list_plan = GetListPlanChange(connect, path_data, date)
 	list_plan = ConvertListPlan(list_plan)
-	list_plan = AddProductCode(path_data, list_plan, date)
+	list_plan = mapping.AddProductCode(path_data, list_plan, date)
 	print (len(list_plan))
 	print(list_plan)
 	# if len(list_plan) > 0:
