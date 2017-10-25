@@ -184,6 +184,8 @@ def AutoMap(connect, path_data, date):
 	print (len(list_plan))
 	for plan in list_plan:
 		print(plan)
+		if (plan['REASON_CODE_ORACLE'] = '1705131') and (plan['EFORM_TYPE'] == 'SEARCH'):
+			plan['UNIT_OPTION'] = 'CPC'
 	# if len(list_plan) > 0:
 	# ------------- Get campaign for mapping ----------------	
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
@@ -386,6 +388,9 @@ AutoMap(connect, path_data, date)
 
 # print('Save ok ................')
 #================================================================
+
+
+path = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
 
 
 
