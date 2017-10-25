@@ -96,8 +96,14 @@ def ConvertPlan(plan):
 	json_['PRODUCT'] = plan[5]
 	json_['REASON_CODE_ORACLE'] = plan[6]
 	json_['EFORM_NO'] = plan[7]
-	json_['START_DAY'] = plan[8]
-	json_['END_DAY_ESTIMATE'] = plan[9]
+	if (plan[8] is None):
+		json_['START_DAY'] = plan[8]
+	else:
+		json_['START_DAY'] = plan[8].strftime('%Y-%m-%d')
+	if (plan[9] is None):
+		json_['END_DAY_ESTIMATE'] = plan[9]
+	else:
+		json_['END_DAY_ESTIMATE'] = plan[9].strftime('%Y-%m-%d')	
 	json_['CHANNEL'] = plan[10]
 	json_['EFORM_TYPE'] = plan[11]
 	json_['UNIT_OPTION'] = plan[12]
@@ -111,8 +117,15 @@ def ConvertPlan(plan):
 	json_['INSTALL'] = plan[20]
 	json_['NRU'] = plan[21]
 	json_['INSERT_DATE'] = plan[22]
-	json_['REAL_START_DATE'] = plan[23]
-	json_['REAL_END_DATE'] = plan[24]
+	if (plan[23] is None):
+		json_['REAL_START_DATE'] = plan[23]
+	else:
+		json_['REAL_START_DATE'] = plan[23].strftime('%Y-%m-%d')
+	if (plan[24] is None):
+		json_['REAL_END_DATE'] = plan[24]
+	else:
+		json_['REAL_END_DATE'] = plan[24].strftime('%Y-%m-%d')
+
 
 	return json_
 
@@ -177,16 +190,16 @@ def AutoMap(connect, path_data, date):
 	print(len(list_camp_GS5))
 	print(len(list_camp_WPL))
 
-	
+
 	#----------------- Mapping with campaign unmap -------------------------
 	if (len(list_camp_all) > 0):
-		data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, datetime.strptime(date, '%Y-%m-%d'))
+		data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
 
 	if (len(list_camp_GS5) > 0):
-		data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_GS5, datetime.strptime(date, '%Y-%m-%d'))
+		data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_GS5, date)
 
 	if (len(list_camp_WPL) > 0):
-		data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, datetime.strptime(date, '%Y-%m-%d'))
+		data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
 
 				
 		# list_camp_remove_unmap = []
