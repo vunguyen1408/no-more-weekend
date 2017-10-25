@@ -198,13 +198,13 @@ def AutoMap(connect, path_data, date):
 	list_plan = GetListPlanChange(connect, path_data, date)
 	list_plan = ConvertListPlan(list_plan)
 	list_plan = mapping.AddProductCode(path_data, list_plan, date)
-	print (len(list_plan))
-	for plan in list_plan:
+	# print (len(list_plan))
+	# for plan in list_plan:
 		
-		if (plan['REASON_CODE_ORACLE'] == '1705131') and (plan['FORM_TYPE'] == 'SEARCH'):
-			plan['UNIT_OPTION'] = 'CPA'
-	for plan in list_plan:
-		print(plan)
+	# 	if (plan['REASON_CODE_ORACLE'] == '1705131') and (plan['FORM_TYPE'] == 'SEARCH'):
+	# 		plan['UNIT_OPTION'] = 'CPA'
+	# for plan in list_plan:
+	# 	print(plan)
 
 	print("==========================================================")
 	# if len(list_plan) > 0:
@@ -239,9 +239,7 @@ def AutoMap(connect, path_data, date):
 		list_camp_all = []
 		list_camp_GS5 = []
 		list_camp_WPL = []
-		for camp in list_full_camp:	
-			if (str(camp['Campaign ID']) == '823811944'):
-				camp['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
+		for camp in list_full_camp:					
 			if (camp['Dept'] == 'GS5'):
 				list_camp_GS5.append(camp)
 			elif (camp['Dept'] == 'WPL'):
@@ -249,10 +247,10 @@ def AutoMap(connect, path_data, date):
 			else:
 				list_camp_all.append(camp)
 
-		print(len(list_full_camp))
-		print(len(list_camp_all))
-		print(len(list_camp_GS5))
-		print(len(list_camp_WPL))
+		# print(len(list_full_camp))
+		# print(len(list_camp_all))
+		# print(len(list_camp_GS5))
+		# print(len(list_camp_WPL))
 
 
 		#----------------- Mapping with campaign unmap -------------------------
@@ -388,10 +386,10 @@ def AutoMap(connect, path_data, date):
 		print('list_plan_update: ', len(list_plan_update))	
 
 
-		print('list_data_map: ', (list_data_map))
-		print ('list_plan_remove_unmap: ', (list_plan_remove_unmap))
-		print ('list_camp_remove_unmap: ', (list_camp_remove_unmap))		
-		print('list_plan_update: ', (list_plan_update))	
+		# print('list_data_map: ', (list_data_map))
+		# print ('list_plan_remove_unmap: ', (list_plan_remove_unmap))
+		# print ('list_camp_remove_unmap: ', (list_camp_remove_unmap))		
+		# print('list_plan_update: ', (list_plan_update))	
 		
 
 	return (list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
