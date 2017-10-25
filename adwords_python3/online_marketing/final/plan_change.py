@@ -88,6 +88,10 @@ def GetListPlanChange(connect, path_data, date):
 	return list_plan_diff
 
 
+def ConvertListPlan(plan):
+	
+
+
 
 def AutoMap(connect, path_data, date):
 	# ------------- Get new plan or change plan ----------------	
