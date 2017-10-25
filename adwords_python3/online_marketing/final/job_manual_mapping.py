@@ -50,34 +50,34 @@ def ManualMapping (connect, path_data, date):
 
 
 
-	# =============================== Auto mapping =========================================
-	print ("\n\n============= RUN INSERT Auto MAPPING TO TOTAL WITH DATE : " + str(datetime.now()) + " =================")
-	caculator_manual = time.time()
-	list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update = plan_change.AutoMap(connect, path_data, date)
-	time_caculator_manual = time.time() - caculator_manual
-	print ("---------- Time caculator manual mapping to total : ", time_caculator_manual)
+	# # =============================== Auto mapping =========================================
+	# print ("\n\n============= RUN INSERT Auto MAPPING TO TOTAL WITH DATE : " + str(datetime.now()) + " =================")
+	# caculator_manual = time.time()
+	# list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update = plan_change.AutoMap(connect, path_data, date)
+	# time_caculator_manual = time.time() - caculator_manual
+	# print ("---------- Time caculator manual mapping to total : ", time_caculator_manual)
 
 
-	print (list_plan_remove_unmap != [])
-	print (list_camp_remove_unmap != [])
-	print (len(list_camp_remove_unmap))
-	if list_plan_remove_unmap != [] or list_camp_remove_unmap != []:
-		update_manual = time.time()
-		nru.Add_Data_To_Plan(connect, path_data, date)
-		# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
-		# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
-		# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
-		# detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+	# print (list_plan_remove_unmap != [])
+	# print (list_camp_remove_unmap != [])
+	# print (len(list_camp_remove_unmap))
+	# if list_plan_remove_unmap != [] or list_camp_remove_unmap != []:
+	# 	update_manual = time.time()
+	# 	nru.Add_Data_To_Plan(connect, path_data, date)
+	# 	# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+	# 	# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+	# 	# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+	# 	# detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 
-		merge_data_manual_mapping.merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
-		time_update_manual = time.time() - update_manual
-		print ("---------- Time update manual mapping to total : ", time_update_manual)
-	else:
-		print (" Not change")
-		# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
-		# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
-		# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
-		# detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+	# 	merge_data_manual_mapping.merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
+	# 	time_update_manual = time.time() - update_manual
+	# 	print ("---------- Time update manual mapping to total : ", time_update_manual)
+	# else:
+	# 	print (" Not change")
+	# 	# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+	# 	# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+	# 	# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+	# 	# detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 
 
 
