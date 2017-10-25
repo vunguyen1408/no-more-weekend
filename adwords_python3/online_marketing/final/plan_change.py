@@ -72,7 +72,7 @@ def GetListPlanChange(connect, path_data, date):
 				(((plan[8].strftime('%Y-%m-%d') == value['START_DAY']) and (plan[9].strftime('%Y-%m-%d') == value['END_DAY_ESTIMATE'])) and \
 				((plan[23] == value['REAL_START_DATE']) and (plan[24] == value['REAL_END_DATE']))) :
 					if (plan in list_plan_diff):	
-						print(plan)					
+						# print(plan)					
 						list_plan_diff.remove(plan)		
 
 
@@ -177,16 +177,16 @@ def AutoMap(connect, path_data, date):
 	print(len(list_camp_GS5))
 	print(len(list_camp_WPL))
 
-
+	
 	#----------------- Mapping with campaign unmap -------------------------
 	if (len(list_camp_all) > 0):
-		data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
+		data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, datetime.strptime(date, '%Y-%m-%d'))
 
 	if (len(list_camp_GS5) > 0):
-		data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_GS5, date)
+		data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_GS5, datetime.strptime(date, '%Y-%m-%d'))
 
 	if (len(list_camp_WPL) > 0):
-		data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
+		data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, datetime.strptime(date, '%Y-%m-%d'))
 
 				
 		# list_camp_remove_unmap = []
