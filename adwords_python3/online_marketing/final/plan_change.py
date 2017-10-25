@@ -220,6 +220,7 @@ def AutoMap(connect, path_data, date):
 	list_camp_GS5 = []
 	list_camp_WPL = []
 	for camp in list_full_camp:
+		if (camp['Campaign_ID'] == '840218335')
 		if (camp['Dept'] == 'GS5'):
 			list_camp_GS5.append(camp)
 		elif (camp['Dept'] == 'WPL'):
