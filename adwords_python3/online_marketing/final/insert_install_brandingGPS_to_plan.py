@@ -104,6 +104,7 @@ def AddBrandingGPSToPlan(path_data, connect, date):
 			start_date, end_date = mapping_data.ChooseTime(plan)
 			plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
 			if ('MONTHLY' in plan):
+				print (plan['MONTHLY'])
 				plan['MONTHLY'] = CaculatorStartEndDate(plan['MONTHLY'], start_date, end_date)
 				print (plan['MONTHLY'])
 				for month in plan['MONTHLY']:
