@@ -312,8 +312,8 @@ import time
 # ##################################################################################################
 
 
-path_alias = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-01/PLAN/product_alias.json'
-path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-01/DATA_MAPPING/total_mapping_123.json'
+path_alias = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/PLAN/product_alias.json'
+path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping_123.json'
 
 with open(path_alias, 'r') as fi:
 	data_alias = json.load(fi)
@@ -330,6 +330,7 @@ for plan in data_alias['ALIAS']:
 			and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
 			plan_total['APPSFLYER_PRODUCT'] = plan['APPSFLYER_PRODUCT']
 
+path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
 
 with open (path_total,'w') as f:
 	json.dump(data_total, f)
