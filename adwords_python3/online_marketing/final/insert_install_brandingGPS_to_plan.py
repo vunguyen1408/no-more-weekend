@@ -57,8 +57,8 @@ def CaculatorStartEndDate(plan, start, end):
 			end_date = start_date + timedelta(int(month['DAY']) - 1)
 			start_date = start_date.strftime('%Y-%m-%d')
 			end_date = end_date.strftime('%Y-%m-%d')
-			month['START_DATE'] = start_date
-			month['END_DATE'] = end_date
+		month['START_DATE'] = start_date
+		month['END_DATE'] = end_date
 	return plan
 
 
