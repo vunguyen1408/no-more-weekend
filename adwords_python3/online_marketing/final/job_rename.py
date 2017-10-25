@@ -57,7 +57,7 @@ def Rename (connect, path_data, list_customer_id, date):
 
 
 
-     list_customer_id  = [ 
+     list_customer_id  = [ \
           # WPL
           '1033505012', '6376833586', '6493618146', '3764021980', '9019703669', \
           '5243164713', '1290781574', '8640138177', '1493302671', '7539462658', \
@@ -98,7 +98,7 @@ def Rename (connect, path_data, list_customer_id, date):
           '8024455693' 
           ]
 
-          
+
 date = '2017-08-31'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
