@@ -40,57 +40,26 @@ def GetDataSummaryAppsFlyer(connect, date, media_source1, media_source2, path_fi
         json.dump(install, f)
 
 
-def CaculatorStartEndDate():
-	for month in json_['M']:
-    if (int(month['MONTH']) == month_start):
-        start_date = datetime.strptime(start, '%Y-%m-%d').date()
-        end_date = start_date + timedelta(int(month['DAY']) - 1)
-        start_date = start_date.strftime('%Y-%m-%d')
-        end_date = end_date.strftime('%Y-%m-%d')
-    else:
-        start_date = year_end + '-' + str(month['MONTH']) + '-01'
-        start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
-        end_date = start_date + timedelta(int(month['DAY']) - 1)
-        start_date = start_date.strftime('%Y-%m-%d')
-        end_date = end_date.strftime('%Y-%m-%d')
-    month['START_DATE'] = start_date
-    month['END_DATE'] = end_date
+def CaculatorStartEndDate(json_month):
+	for month in json_month['MONTHLY']:
+		if (int(month['MONTH']) == month_start):
+			start_date = datetime.strptime(start, '%Y-%m-%d').date()
+			end_date = start_date + timedelta(int(month['DAY']) - 1)
+			start_date = start_date.strftime('%Y-%m-%d')
+			end_date = end_date.strftime('%Y-%m-%d')
+		else:
+			start_date = year_end + '-' + str(month['MONTH']) + '-01'
+			start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+			end_date = start_date + timedelta(int(month['DAY']) - 1)
+			start_date = start_date.strftime('%Y-%m-%d')
+			end_date = end_date.strftime('%Y-%m-%d')
+			month['START_DATE'] = start_date
+			month['END_DATE'] = end_date
+	return json_month
 
 
 
-def Add_NRU_for_map(connect, list_plan):
-# ==================== Connect database =======================
-	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
-	cursor = conn.cursor()
-
-	for plan in list_plan['MAP']:
-
-		day = plan['START_DAY'][8:]
-		month = plan['START_DAY'][5:-3]
-		year = plan['START_DAY'][:4]
-		start_date = month + '/' + day + '/' + year
-		start_date = datetime.strptime(start_date, '%m/%d/%Y')
-
-		day = plan['END_DAY_ESTIMATE'][8:]
-		month = plan['END_DAY_ESTIMATE'][5:-3]
-		year = plan['END_DAY_ESTIMATE'][:4]
-		end_date = month + '/' + day + '/' + year
-		end_date = datetime.strptime(end_date, '%m/%d/%Y')	
-
-		plan['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
-			
-
-	cursor.close()
-	return list_plan
-
-
-
-
-
-def CaculatorS
-
-
-def Add_NRU_for_monthly(connect, list_plan):
+def AddBrandingGPSToPlan(connect, list_plan):
 # ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
@@ -98,45 +67,7 @@ def Add_NRU_for_monthly(connect, list_plan):
 	for plan in list_plan['TOTAL']:
 		if ('MONTHLY' in plan):
 			for i in range(len(plan['MONTHLY'])):
-				plan['MONTHLY'][i]['CCD_NRU'] = Read_NRU_for_month(cursor, str(plan['MONTHLY'][i]['MONTH']), '20' + str(plan['CYEAR']), plan['PRODUCT'])
-
-	for plan in list_plan['UN_PLAN']:
-		if ('MONTHLY' in plan):
-			for i in range(len(plan['MONTHLY'])):
-				plan['MONTHLY'][i]['CCD_NRU'] = Read_NRU_for_month(cursor, str(plan['MONTHLY'][i]['MONTH']), '20' + str(plan['CYEAR']), plan['PRODUCT'])
-
-		day = plan['START_DAY'][8:]
-		month = plan['START_DAY'][5:-3]
-		year = plan['START_DAY'][:4]
-		start_date = month + '/' + day + '/' + year
-		start_date = datetime.strptime(start_date, '%m/%d/%Y')
-
-		day = plan['END_DAY_ESTIMATE'][8:]
-		month = plan['END_DAY_ESTIMATE'][5:-3]
-		year = plan['END_DAY_ESTIMATE'][:4]
-		end_date = month + '/' + day + '/' + year
-		end_date = datetime.strptime(end_date, '%m/%d/%Y')	
-
-		plan['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
-
-
-	for plan in list_plan['MAP']:
-
-		day = plan['START_DAY'][8:]
-		month = plan['START_DAY'][5:-3]
-		year = plan['START_DAY'][:4]
-		start_date = month + '/' + day + '/' + year
-		start_date = datetime.strptime(start_date, '%m/%d/%Y')
-
-		day = plan['END_DAY_ESTIMATE'][8:]
-		month = plan['END_DAY_ESTIMATE'][5:-3]
-		year = plan['END_DAY_ESTIMATE'][:4]
-		end_date = month + '/' + day + '/' + year
-		end_date = datetime.strptime(end_date, '%m/%d/%Y')	
-
-		plan['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
-
-	cursor.close()
+				
 	return list_plan
 
 
