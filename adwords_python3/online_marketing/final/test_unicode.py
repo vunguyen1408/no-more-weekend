@@ -328,9 +328,13 @@ for plan_total in data_total['TOTAL']:
 			plan_total['APPSFLYER_PRODUCT'].append(plan['APPSFLYER_PRODUCT'])
 	print (plan_total['APPSFLYER_PRODUCT'])
 
-path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
+for plan_total in data_total['TOTAL']:
+	if plan_total['REASON_CODE_ORACLE'] == '1708007':
+		print (plan_total)
 
-with open (path_total,'w') as f:
-	json.dump(data_total, f)
+# path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
+
+# with open (path_total,'w') as f:
+# 	json.dump(data_total, f)
 
 print ("DONE")
