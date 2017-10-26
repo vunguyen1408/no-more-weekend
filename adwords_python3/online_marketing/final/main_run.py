@@ -142,8 +142,8 @@ def Daily(connect, path_data, date):
 
 
 	# ======================= Insert branding install ====================================
-	print ("\n\n======================= Insert branding install : " + date + " =========================")
-	insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
+	# print ("\n\n======================= Insert branding install : " + date + " =========================")
+	# insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
 
 	#======================== History name ==================================
 
