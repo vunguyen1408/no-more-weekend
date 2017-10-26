@@ -241,8 +241,10 @@ def AutoMap(connect, path_data, date):
 			list_camp_GS5 = []
 			list_camp_WPL = []
 			for camp in list_full_camp:	
+				if (camp['Campaign ID'] == '819296522'):
+					camp['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'
 				
-				print(camp['Campaign ID'], camp['Advertising Channel'])
+				
 				if (mapping.CheckIsAccountGS5(path_data, camp['Account ID'])):
 				# if (camp['Dept'] == 'GS5'):
 					list_camp_GS5.append(camp)
