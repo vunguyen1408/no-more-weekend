@@ -243,7 +243,8 @@ def AutoMap(connect, path_data, date):
 			list_camp_GS5 = []
 			list_camp_WPL = []
 			for camp in list_full_camp:	
-				if (camp['Campaign ID'] == '840239233'):
+				print()
+				if (camp['Campaign ID'] == '819467250'):
 					camp['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
 					print(camp)			
 				
