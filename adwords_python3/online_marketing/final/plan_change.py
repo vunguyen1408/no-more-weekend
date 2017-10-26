@@ -201,8 +201,10 @@ def AutoMap(connect, path_data, date):
 	
 	
 	print (len(list_plan))
-	# for plan in list_plan:
-	# 	print(plan)
+	for plan in list_plan:
+		if (plan['REASON_CODE_ORACLE'] = '1705131'):
+			plan['UNIT_OPTION'] = 'CPC'
+		# print(plan)
 
 	list_data_map = []
 	list_plan_remove_unmap = []
@@ -241,9 +243,8 @@ def AutoMap(connect, path_data, date):
 			list_camp_GS5 = []
 			list_camp_WPL = []
 			for camp in list_full_camp:	
-				if (camp['Campaign ID'] == '819296522'):
-					camp['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'
-				
+				if (camp['Campaign ID'] == '840239233'):
+					camp['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'				
 				
 				if (mapping.CheckIsAccountGS5(path_data, camp['Account ID'])):
 				# if (camp['Dept'] == 'GS5'):
