@@ -362,7 +362,7 @@ def AutoMap(connect, path_data, date):
 				plan['MONTHLY'] = {}
 				plan = insert_to_total.CaculatorTotalMonth(plan, date)
 
-
+			print('list_plan_update: ', len(list_plan_update))	
 			
 			for plan in data_total['TOTAL']:
 				plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
