@@ -4,7 +4,7 @@ import json
 import os
 import time
 from datetime import datetime , timedelta, date
-from googleads import adwords
+# from googleads import adwords
 
 # ------------ PACKAGE --------------
 # import download_report as download
