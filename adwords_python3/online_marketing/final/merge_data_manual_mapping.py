@@ -42,14 +42,14 @@ def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_c
 	if (len(list_plan_remove_unmap) > 0):
 		for plan in list_plan_remove_unmap:
 			detail_map.DeletePlan(plan, cursor)
-	print (" Time remove plan: ", (time.time() - s))
+	print (" Time remove plan: ", (time.time() - start))
 
 	start = time.time()
 	# =========== List Campaign Remove ==================
 	if (len(list_camp_remove_unmap) > 0):
 		for plan in list_camp_remove_unmap:
 			detail_map.DeleteCamp(plan, cursor)
-	print (" Time remove camp: ", (time.time() - s))
+	print (" Time remove camp: ", (time.time() - start))
 
 	start = time.time()
 	# =========== List data manual map ==================
@@ -62,7 +62,7 @@ def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_c
 			except UnicodeEncodeError as e:				
 				json_['CAMPAIGN_NAME'] = value['Campaign'].encode('utf-8')
 				detail_map.InsertDetailUnmap(json_, cursor)
-	print (" Time insert data map: ", (time.time() - s))
+	print (" Time insert data map: ", (time.time() - start))
 
 	start = time.time()
 	# ============ List plan update =====================
@@ -78,7 +78,7 @@ def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_c
 
 					json_ = monthly_detail.ConvertJsonMonthlyDetail(i, plan)
 					monthly_detail.UpdateMonthlyDetail(json_, cursor)
-	print (" Time update plan: ", (time.time() - s))
+	print (" Time update plan: ", (time.time() - start))
 
 	#=================== Commit and close connect =================
 	conn.commit()
