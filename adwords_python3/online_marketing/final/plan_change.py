@@ -200,11 +200,11 @@ def AutoMap(connect, path_data, date):
 	#========================================================
 	
 	
-	print (len(list_plan))
-	for plan in list_plan:
-		if (plan['REASON_CODE_ORACLE'] == '1705131'):
-			# plan['UNIT_OPTION'] = 'CPC'
-			print(plan)
+	# print (len(list_plan))
+	# for plan in list_plan:
+	# 	if (plan['REASON_CODE_ORACLE'] == '1705131'):
+	# 		# plan['UNIT_OPTION'] = 'CPC'
+	# 		print(plan)
 
 	list_data_map = []
 	list_plan_remove_unmap = []
@@ -243,9 +243,9 @@ def AutoMap(connect, path_data, date):
 			list_camp_GS5 = []
 			list_camp_WPL = []
 			for camp in list_full_camp:					
-				if (str(camp['Campaign ID']) == '702245469'):
-					list_full_camp[list_full_camp.index(camp)]['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
-					# print(camp)			
+				# if (str(camp['Campaign ID']) == '702245469'):
+				# 	list_full_camp[list_full_camp.index(camp)]['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
+				# 	# print(camp)			
 				
 				if (mapping.CheckIsAccountGS5(path_data, camp['Account ID'])):
 				# if (camp['Dept'] == 'GS5'):
@@ -292,7 +292,7 @@ def AutoMap(connect, path_data, date):
 
 
 			# print(list_plan_total)
-			print(list_data_map)
+			# print(list_data_map)
 
 			#---------------- Merger data unmap ---------------------------------------
 
