@@ -189,10 +189,10 @@ list_mcc_id, list_mcc, list_dept = add_acc_name.get_list_customer(path_data)
 
 
 #============== Get Campaign for all account =============
-path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/DAILY'
+path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/T10'
 
-date = '2017-09-01' 
-to_date = '2017-09-01'
+date = '2017-10-01' 
+to_date = '2017-10-25'
 for customer_id in list_mcc_id:  
   GetCampainForAccount(path, customer_id, date, to_date)
   time.sleep(1)
@@ -202,7 +202,7 @@ endTime = time.time()
 print('================== TOTAL TIME DAILY =======================')
 print("Total time for daily: ", endTime - startTime)
 
-# ============== Add account name ========================
-# path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/MP2_T8'
-# AccName.addAccName(path, list_mcc, list_mcc_id, list_dept)
+#============== Add account name ========================
+path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/T10'
+AccName.addAccName(path, list_mcc, list_mcc_id, list_dept)
 
