@@ -92,18 +92,24 @@ def merger_data_auto_mapping(connect, list_map, list_plan_remove_unmap, list_cam
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 
+	import time
+	start = time.time()
 	# =========== List Plan Remove ==================
 	if (len(list_plan_remove_unmap) > 0):
 		for plan in list_plan_remove_unmap:
 			detail_map.DeletePlan(plan, cursor)
+	print (" Time remove plan: ", (time.time() - start))
 
 
+	start = time.time()
 	# =========== List Campaign Remove ==================
 	if (len(list_camp_remove_unmap) > 0):
 		for plan in list_camp_remove_unmap:
 			detail_map.DeleteCamp(plan, cursor)
+	print (" Time remove camp: ", (time.time() - start))
 
 
+	start = time.time()
 	# =========== List data manual map ==================
 	print ("Length map : ", len(list_map))
 	if  (len(list_map) > 0):
@@ -114,17 +120,20 @@ def merger_data_auto_mapping(connect, list_map, list_plan_remove_unmap, list_cam
 			except UnicodeEncodeError as e:				
 				json_['CAMPAIGN_NAME'] = value['Campaign'].encode('utf-8')
 				detail_map.InsertDetailUnmap(json_, cursor)
+	print (" Time insert map: ", (time.time() - start))
 
 
+	start = time.time()
 	# =========== List data insert ==================
 	print ("Length new plan : ", len(list_plan_insert))
 	if  (len(list_plan_insert) > 0):
 		for value in list_plan_insert:					
 			json_ = detail_map.ConvertJsonPlan(value)				
 			detail_map.InsertDetailUnmap(json_, cursor)
+	print (" Time insert plan: ", (time.time() - start))
 			
 
-
+	start = time.time()
 	# ============ List plan update =====================
 	if (len(list_plan_update) > 0):
 		for plan in list_plan_update:
@@ -138,6 +147,7 @@ def merger_data_auto_mapping(connect, list_map, list_plan_remove_unmap, list_cam
 
 					json_ = monthly_detail.ConvertJsonMonthlyDetail(i, plan)
 					monthly_detail.UpdateMonthlyDetail(json_, cursor)
+	print (" Time update plan: ", (time.time() - start))
 
 	#=================== Commit and close connect =================
 	conn.commit()
