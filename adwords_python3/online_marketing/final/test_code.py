@@ -476,7 +476,7 @@ def AutoMap(connect, path_data, date):
 			# print('list_data_map: ', (list_data_map))
 			# print ('list_plan_remove_unmap: ', (list_plan_remove_unmap))
 			# print ('list_camp_remove_unmap: ', (list_camp_remove_unmap))		
-			# print('list_plan_update: ', (list_plan_update))	
+			print('list_plan_update: ', (list_plan_update))	
 		
 
 	return (list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
