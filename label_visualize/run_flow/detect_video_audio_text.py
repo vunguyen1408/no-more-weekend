@@ -159,18 +159,19 @@ def get_30_date(p_path_full_data, p_date, p_work_json):
             with open (file_name,'r') as _file_json:
                 data = json.load(_file_json)
                 for _value in data['my_json']:
-                    # print(value)
-                    if (_value['audio_text']['transcript'] != '') and (_value['file_name'] not in list_name):
+                    print(_value)
+                    if  _value.get('audio_text',{}) and (_value['file_name'] not in list_name):
                         list_name.append(_value['file_name'])
                         list_work_json_before.append(_value)
 
     #============ Update data neu da ton tai=============
     for _value in p_work_json['my_json']:
         for json_ in list_work_json_before:
-            if (_value['file_name'] == json_['file_name']) and (json_['audio_text']['transcript'] != ''):
-                _value['audio_text']['transcript'] = json_['audio_text']['transcript']
-                _value['audio_text']['confidence'] = json_['audio_text']['confidence']
-                _value['audio_text']['api_call'] = json_['audio_text']['api_call']
+            if (_value['file_name'] == json_['file_name']) and  _value.get('audio_text',{}) :
+                #_value['audio_text']['transcript'] = json_['audio_text']['transcript']
+                #_value['audio_text']['confidence'] = json_['audio_text']['confidence']
+                #_value['audio_text']['api_call'] = json_['audio_text']['api_call']
+                _value['audio_text'] = json_['audio_text']
                 json_count += 1
     print ("======================================================================")
     # print (video_json)
