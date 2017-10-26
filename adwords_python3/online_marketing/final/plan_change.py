@@ -245,7 +245,7 @@ def AutoMap(connect, path_data, date):
 			for camp in list_full_camp:					
 				if (str(camp['Campaign ID']) == '702245469'):
 					list_full_camp[list_full_camp.index(camp)]['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
-					print(camp)			
+					# print(camp)			
 				
 				if (mapping.CheckIsAccountGS5(path_data, camp['Account ID'])):
 				# if (camp['Dept'] == 'GS5'):
@@ -358,7 +358,7 @@ def AutoMap(connect, path_data, date):
 						and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 						and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
 						and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:						
-						plan_total['TOTAL_CAMPAIGN'] = insert_data.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
+						plan_total['TOTAL_CAMPAIGN'] = insert_to_total.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
 						flag = False
 						data_total['TOTAL'][data_total['TOTAL'].index(plan_total)]['REAL_START_DATE'] = plan['REAL_START_DATE']
 				
