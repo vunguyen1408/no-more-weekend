@@ -76,203 +76,471 @@
 # # print("begin save")
 
 
-import logging
-import sys
 import json
 import os
-import time
+import cx_Oracle 
 from datetime import datetime , timedelta, date
-from googleads import adwords
-
-# ------------ PACKAGE --------------
-# import download_report as download
-import mapping_campaign_plan as mapping_data
-import insert_install_to_data as install
-import merge_date as merge_date
+import manual_mapping_and_remap as manual
+import mapping_campaign_plan as mapping
 import insert_data_map_to_total as insert_to_total
-import manual_mapping as manual
-import insert_report_monthly_detail as monthly_detail
-import insert_report_monthly_sum as monthly_sum
-import insert_report_plan_sum as plan_sum
-import insert_report_detail_map as detail_map
-import history_name as history
-import insert_nru_to_plan as nru
-import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
-def Daily(connect, path_data, date):
-	"""
-		Run daily: 
-		1. Duyet account - download report, luu tru
-		2. Select install, mapping install.
-		3. 
-	"""
 
-	# # --------- Doc list account
-	list_customer_id = [ 
-		# WPL
-		'1033505012', '6376833586', '6493618146', '3764021980', '9019703669', \
-		'5243164713', '1290781574', '8640138177', '1493302671', '7539462658', \
-		'1669629424', '6940796638', '6942753385', '3818588895', '8559396163', \
-		'9392975361', '1756174326', '5477521592', '7498338868', '6585673574', \
-		'5993679244', '5990401446', '5460890494', '3959508668', '1954002502', \
-		'1124503774', '2789627019', '5219026641', '8760733662', '8915969454', \
-		'9299123796', \
-		# MP2
-		'2351496518', '3766974726', '8812868246', '3657450042', '4092061132', \
-		'1066457627', '7077229774', '6708858633', '2205921749', '1731093088', \
-		'2852598370', \
-		# PG1
-		'5008396449', '9021114325', '9420329501', '7976533276', \
-		# PG2
-		'5471697015', '8198035241', '8919123364', '8934377519', '7906284750', \
-		'1670552192', '6507949288', '3752996996', '5515537799', '9280946488', \
-		'8897792146', '4732571543', '6319649915', '4845283915', '4963434062', \
-		'3950481958', '8977015372', \
-		# PG3
-		'2018040612', '1237086810', '2474373259', '9203404951', '8628673438', \
-		'5957287971', '6267264008', '8583452877', '4227775753', '8003403685', \
-		'3061049910', '2395877275', '1849103506', '7000297269', '6233988585', \
-		'4018935765', '2675507443', '9493600480', '1609917649', '8180518027', \
-		'6275441244', '6743848595', '1362424990', '5430766142', '5800450880', \
-		'7687258619', '8303967886', '5709003531', '6201418435', '1257508037', \
-		'6810675582', '5953925776', '9001610198', '8135096980', '5222928599', \
-		'9963010276', '5062362839', '6360800174', '8844079195', '5856149801', \
-		'3064549723', '6198751560', '9034826980', '3265423139', '7891987656', \
-		'8483981986', '2686387743', '5930063870', '7061686256', '3994588490', \
-		'3769240354', \
-		# GS5
-		'8726724391', '1040561513', '7449117049', '3346913196', '9595118601', \
-		'9411633791', '4596687625', '8290128509', '3104172682', '6247736011', \
-		'2861959872', \
+
+
+def ReadPlanFromTable(connect):
+	#============ Connect database ==================
+	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
+	cursor = conn.cursor()
+
+	#============ Read Plan from Table ===============
+	query = 'select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, PRODUCT, REASON_CODE_ORACLE, EFORM_NO, \
+          START_DAY, END_DAY_ESTIMATE, CHANNEL, EFORM_TYPE, UNIT_OPTION, UNIT_COST, AMOUNT_USD, CVALUE, \
+          ENGAGEMENT, IMPRESSIONS, CLIKE, CVIEWS, INSTALL, NRU, INSERT_DATE, REAL_START_DATE, REAL_END_DATE \
+      from STG_FA_DATA_GG'
+
+	cursor.execute(query)
+	list_new_plan = cursor.fetchall()
+	list_modified_plan = list(list_new_plan)
+	cursor.close()
+	for i in range(len(list_modified_plan)):
+		list_modified_plan[i] = list(list_modified_plan[i])
+	return list_modified_plan
+
+
+def GetListPlanChange(connect, path_data, date):
+	#========== New plan from database =============
+	list_modified_plan = ReadPlanFromTable(connect)
+
+	# ========= Finally plan from data ==============
+	file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
+	with open(file_plan, 'r') as fi:
+		data = json.load(fi)
+
+	list_plan_diff = list_modified_plan.copy()
+	list_update = []
+	
+
+	#=========== Check list plan change or new plan ================
+	print(len(list_plan_diff))
+	for plan in list_modified_plan:		
+		for value in data['plan']:	
+			if (plan[23] is not None) and (plan[24] is not None):
+				if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[5] == value['PRODUCT']) and \
+				(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
+				(plan[23].strftime('%Y-%m-%d') == value['REAL_START_DATE']) and (plan[24].strftime('%Y-%m-%d') == value['REAL_END_DATE']):
+					if (plan in list_plan_diff):												
+						list_plan_diff.remove(plan)	
+
+			if (plan[23] is None) and (plan[24] is not None):
+				if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[5] == value['PRODUCT']) and \
+				(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
+				(((plan[8].strftime('%Y-%m-%d') == value['START_DAY']) and (plan[9].strftime('%Y-%m-%d') == value['END_DAY_ESTIMATE'])) and \
+				((plan[23] == value['REAL_START_DATE']) and (plan[24].strftime('%Y-%m-%d') == value['REAL_END_DATE']))) :
+					if (plan in list_plan_diff):						
+						list_plan_diff.remove(plan)
+
+			if (plan[23] is not None) and (plan[24] is None):
+				if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[5] == value['PRODUCT']) and \
+				(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
+				(((plan[8].strftime('%Y-%m-%d') == value['START_DAY']) and (plan[9].strftime('%Y-%m-%d') == value['END_DAY_ESTIMATE'])) and \
+				((plan[23].strftime('%Y-%m-%d') == value['REAL_START_DATE']) and (plan[24] == value['REAL_END_DATE']))) :
+					if (plan in list_plan_diff):						
+						list_plan_diff.remove(plan)	
+
+			if (plan[23] is None) and (plan[24] is None):
+				if (plan[6] == value['REASON_CODE_ORACLE']) and (plan[5] == value['PRODUCT']) and \
+				(plan[11] == value['FORM_TYPE']) and (plan[12] == value['UNIT_OPTION']) and \
+				(((plan[8].strftime('%Y-%m-%d') == value['START_DAY']) and (plan[9].strftime('%Y-%m-%d') == value['END_DAY_ESTIMATE'])) and \
+				((plan[23] == value['REAL_START_DATE']) and (plan[24] == value['REAL_END_DATE']))) :
+					if (plan in list_plan_diff):	
+						# print(plan)					
+						list_plan_diff.remove(plan)		
+
+
+	return list_plan_diff
+
+
+def ConvertPlan(plan):	
+	json_ = {}
+
+	json_['CYEAR'] = plan[0]
+	json_['CMONTH'] = plan[1]
+	json_['LEGAL'] = plan[2]
+	json_['DEPARTMENT'] = plan[3]
+	json_['DEPARTMENT_NAME'] = plan[4]
+	json_['PRODUCT'] = plan[5]
+	json_['REASON_CODE_ORACLE'] = plan[6]
+	json_['EFORM_NO'] = plan[7]
+	if (plan[8] is None):
+		json_['START_DAY'] = plan[8]
+	else:
+		json_['START_DAY'] = plan[8].strftime('%Y-%m-%d')
+	if (plan[9] is None):
+		json_['END_DAY_ESTIMATE'] = plan[9]
+	else:
+		json_['END_DAY_ESTIMATE'] = plan[9].strftime('%Y-%m-%d')	
+	json_['CHANNEL'] = plan[10]
+	json_['FORM_TYPE'] = plan[11]
+	json_['UNIT_OPTION'] = plan[12]
+	json_['UNIT_COST'] = plan[13]
+	json_['AMOUNT_USD'] = plan[14]
+	json_['CVALUE'] = plan[15]
+	json_['ENGAGEMENT'] = plan[16]
+	json_['IMPRESSIONS'] = plan[17]
+	json_['CLIKE'] = plan[18]
+	json_['CVIEWS'] = plan[19]
+	json_['INSTALL'] = plan[20]
+	json_['NRU'] = plan[21]
+	if (plan[22] is None):
+		json_['INSERT_DATE'] = plan[22]
+	else:
+		json_['INSERT_DATE'] = plan[22].strftime('%Y-%m-%d')
+	
+	if (plan[23] is None):
+		json_['REAL_START_DATE'] = plan[23]
+	else:
+		json_['REAL_START_DATE'] = plan[23].strftime('%Y-%m-%d')
+	if (plan[24] is None):
+		json_['REAL_END_DATE'] = plan[24]
+	else:
+		json_['REAL_END_DATE'] = plan[24].strftime('%Y-%m-%d')
+
+
+	return json_
+
+
+def ConvertListPlan(list_plan):
+	list_plan_json = []
+	for plan in list_plan:
+		json_ = ConvertPlan(plan)
+		list_plan_json.append(json_)
+	return list_plan_json
+
+
+def merger_data_map(data_map_all, data_map_GS5, data_map_WPL):
+	#============= Merger Plan ==================
+	list_plan = []
+	for value in data_map_all['plan']:		
+		if (value not in list_plan):
+			list_plan.append(value)
+		else:			
+			for camp in value['CAMPAIGN']:
+				if (camp not in list_plan[list_plan.index(value)]['CAMPAIGN']):				
+					list_plan[list_plan.index(value)]['CAMPAIGN'].append(camp)
+
 		
-		# PP
-		'8024455693' 
-		]
+	for value in data_map_GS5['plan']:
+		if (value not in list_plan):
+			list_plan.append(value)
+		else:
+			for camp in value['CAMPAIGN']:
+				if (camp not in list_plan[list_plan.index(value)]['CAMPAIGN']):				
+					list_plan[list_plan.index(value)]['CAMPAIGN'].append(camp)
 
-	start_work_flow = time.time()
-	#========================== Download report =================================
-	# print ("======================= RUN GET REPORT WITH DATE : " + date + " =========================")
-	# download_report = time.time()
-	# # Initialize client object.
-	# adwords_client = adwords.AdWordsClient.LoadFromStorage()
-	# for account in list_customer_id:
-	# 	download.DownloadOnDate(adwords_client, account, path_data, date)
-	# time_download_report = time.time() - download_report
-	# print ("            Time get report: ", time_download_report)
+		
+	for value in data_map_WPL['plan']:
+		if (value not in list_plan):
+			list_plan.append(value)
+		else:
+			for camp in value['CAMPAIGN']:
+				if (camp not in list_plan[list_plan.index(value)]['CAMPAIGN']):				
+					list_plan[list_plan.index(value)]['CAMPAIGN'].append(camp)
 
-	#======================== Insert install to data date ==============================
-	# print ("\n\n======================= RUN INSERT INSTALL WITH DATE : " + date + " =========================")
-	# insert_install = time.time()
-
-	install.RunInsertInstall(connect, path_data, list_customer_id, date)
-
-	# time_insert = time.time() - insert_install
-
+		
+	for plan in list_plan:
+		if (len(plan['CAMPAIGN']) > 0):
+			print(plan['CAMPAIGN'])
 
 
-	#------------------ Read log manual mapping and get plan NRU ---------------------
-	mapping_data.ReadPlanFromTable(connect, path_data, date)
-	
-	mapping_data.ReadProductAlias(connect, path_data, date)
-	manual.ReadTableManualMap(connect, path_data, date)
-	#----------------------------------------------------------------
-	# print ("             Time insert install: ", time_insert)
+	#============= Merger Campaign ==============
+	list_camp = []
+	list_camp.extend(data_map_all['campaign'])
+	list_camp.extend(data_map_GS5['campaign'])
+	list_camp.extend(data_map_WPL['campaign'])
+	# print(len(data_map_all['campaign']))
+	# print(len(data_map_GS5['campaign']))
+	# print(len(data_map_WPL['campaign']))
+	# print(len(list_camp))
 
+	return(list_plan, list_camp)
 
-
-	#======================== Mapping data for list account ============================
-	# print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
-	# mapping = time.time()
-	mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
-	# time_mapping = time.time() - mapping
-	# print ("             Time maping: ", time_mapping)
-
-
-
-	#============================== Merge data ===============================
-	# print ("\n\n======================= RUN MERGE WITH DATE : " + date + " =========================")
-	# merge = time.time()
-	merge_date.Merge(path_data, list_customer_id, date)
-	# time_merge = time.time() - merge
-	# print ("             Time merge: ", time_merge)
-
-
-	#============================== Insert data mapping to total ===============================
-	# print ("\n\n============= RUN INSERT DATA MAPPING TO TOTAL WITH DATE : " + date + " =================")
-	# insert_total = time.time()
-	insert_to_total.InsertDateToTotal(path_data, date)
-	# time_insert_total = time.time() - insert_total
-	# print ("            Time insert data mapping to total : ", time_insert_total)
-
-	# # =============================== Manual mapping =========================================
-	# print ("\n\n============= RUN INSERT MANUAL MAPPING TO TOTAL WITH DATE : " + date + " =================")
-	# insert_manual = time.time()
-	# list_plan_remove, list_plan_remove, list_camp_remove = manual.GetCampaignUnMapForManualMap(connect, path_data, date)
-	# time_insert_manual = time.time() - insert_manual
-	# print ("---------- Time insert manual mapping to total : ", time_insert_manual)
 
 	
-	#======================== Insert nru to plan ==============================
-	# print ("\n\n======================= RUN INSERT NRU WITH DATE : " + date + " =========================")
-	# insert_nru = time.time()
-	# nru.Add_Data_To_Plan(connect, path_data, date)
-	# time_insert = time.time() - insert_install
+def AutoMap(connect, path_data, date):
+	# ------------- Get new plan or change plan ----------------	
+	list_plan = GetListPlanChange(connect, path_data, date)
+	list_plan = ConvertListPlan(list_plan)
+	list_plan = mapping.AddProductCode(path_data, list_plan, date)
 
-
-	# ======================= Insert branding install ====================================
-	# insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
-
-	#======================== History name ==================================
-	# list_diff = history.InsertHistoryName(connect, path_data, list_customer_id, date)
-
-
-
-	#=============================== Update to database =========================================
-	# print ("\n\n============= RUN INSERT DATA TO DATABASE WITH DATE : " + date + " =================")
-	# insert_databse = time.time()
-	list_plan_remove = []
-	list_map = []
-	list_camp_remove = []
 	
-	# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	# detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	#========== Update new plan for file plan ===============	
+	mapping.ReadPlanFromTable(connect, path_data, str(date))
+	mapping.ReadProductAlias(connect, path_data, str(date))	
+	#========================================================
+	
+	
+	# print (len(list_plan))
+	# for plan in list_plan:
+		
+	# 	if (plan['REASON_CODE_ORACLE'] == '1705131') and (plan['FORM_TYPE'] == 'SEARCH'):
+	# 		plan['UNIT_OPTION'] = 'CPA'
+	# for plan in list_plan:
+	# 	print(plan)
+
+	list_data_map = []
+	list_plan_remove_unmap = []
+	list_camp_remove_unmap = []
+	list_plan_update = []
+	
+	print("==========================================================")
+	if len(list_plan) > 0:
+		# ------------- Get campaign for mapping ----------------	
+		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		
+		
+
+		if not os.path.exists(path_data_total_map):
+			i = 0
+			find = True
+			date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+			path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			while not os.path.exists(path_data_total_map):
+				i = i + 1
+				date_before = date_before - timedelta(1)
+				path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+				if i == 60:
+					find = False
+					break			
+		else:
+			find = True
+
+		if find:
+			with open (path_data_total_map,'r') as f:
+				data_total = json.load(f)
+
+			list_full_camp = data_total['UN_CAMPAIGN']
+			list_camp_all = []
+			list_camp_GS5 = []
+			list_camp_WPL = []
+			for camp in list_full_camp:					
+				if (camp['Dept'] == 'GS5'):
+					list_camp_GS5.append(camp)
+				elif (camp['Dept'] == 'WPL'):
+					list_camp_GS5.append(camp)
+				else:
+					list_camp_all.append(camp)
+
+			# print(len(list_full_camp))
+			# print(len(list_camp_all))
+			# print(len(list_camp_GS5))
+			# print(len(list_camp_WPL))
 
 
-	# time_insert_databse = time.time() - insert_databse
-	# print ("            Time insert data to database : ", time_insert_total)
+			#----------------- Mapping with campaign unmap -------------------------
+			data_map_all = {
+				'plan': [],
+				'campaign': []
+			}
 
-	#----------------------------------------- END ---------------------------------------------
-	time_run_work_flow  = time.time() - start_work_flow
-	print (date)
-	print ("            TOTAL TIME : ", time_run_work_flow)
-	print ("\n\n")
+			data_map_GS5 = {
+				'plan': [],
+				'campaign': []
+			}
 
-def ManyDate(connect, path_data, start_date, end_date):
-	# Initialize client object.
-	adwords_client = None
-	# adwords_client = adwords.AdWordsClient.LoadFromStorage()
+			data_map_WPL = {
+				'plan': [],
+				'campaign': []
+			}
+			if (len(list_camp_all) > 0):
+				data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
 
-	date_ = datetime.strptime(start_date, '%Y-%m-%d').date()
-	to_date_ = datetime.strptime(end_date, '%Y-%m-%d').date()
-	n = int((to_date_ - date_).days)
-	s = time.time()
-	for i in range(n + 1):
-		single_date = date_ + timedelta(i)
-		d = single_date.strftime('%Y-%m-%d')
-		Daily(connect, path_data, str(d))
-	e = time.time() - s
-	print (" TIME : ", e)
+			if (len(list_camp_GS5) > 0):
+				data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_GS5, date)
+
+			if (len(list_camp_WPL) > 0):
+				data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
+
+			list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
+
+			list_plan_total, list_data_map = insert_to_total.SumTotalManyPlan(list_plan, list_camp)
 
 
-# start_date = '2017-06-01'
-# end_date = '2017-06-30'
-path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
+			# print(list_plan_total)
+			print(list_data_map)
+
+			#---------------- Merger data unmap ---------------------------------------
+
+			print('MAP: ', len(data_total['MAP']))
+			print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
+			print ('UN_PLAN: ', len(data_total['UN_PLAN']))
+			print ('TOTAL: ', len(data_total['TOTAL']))
+
+
+			#---------- Data map ------------------
+			data_total['MAP'].extend(list_data_map)
+
+			# ----------- Update Real date ------------
+			for data_map in data_total['MAP']:
+				for plan in list_plan:
+					if data_map['PRODUCT'] == plan['PRODUCT'] \
+						and data_map['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+						and data_map['FORM_TYPE'] == plan['FORM_TYPE'] \
+						and data_map['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+						data_total['MAP'][data_total['MAP'].index(data_map)]['REAL_START_DATE'] = plan['REAL_START_DATE']
+						
+						
+			#----------- Remove unmap ---------------------
+			for camp in list_data_map:		
+				for campaign in data_total['UN_CAMPAIGN']:
+					if camp['Campaign ID'] == campaign['Campaign ID'] \
+						and camp['Date'] == campaign['Date']:
+						data_total['UN_CAMPAIGN'].remove(campaign)
+						list_camp_remove_unmap.append(campaign)
+
+			#------------- Xoa trong danh sach un map PLAN ------------------
+			
+			for plan in list_data_map:
+				for plan_un in data_total['UN_PLAN']:
+					if plan_un['PRODUCT'] == plan['PRODUCT'] \
+						and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+						and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
+						and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+						data_total['UN_PLAN'].remove(plan_un)
+						list_plan_remove_unmap.append(plan_un)
+						data_total['UN_PLAN'][data_total['UN_PLAN'].index(plan_un)]['REAL_START_DATE'] = plan['REAL_START_DATE']
+
+						
+
+			#------------- Insert total ------------
+			for plan in list_plan_total:
+				flag = True
+				for plan_total in data_total['TOTAL']:
+					if plan_total['PRODUCT'] == plan['PRODUCT'] \
+						and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+						and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
+						and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
+						plan_total['TOTAL_CAMPAIGN'] = insert_data.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
+						flag = False
+						data_total['TOTAL'][data_total['TOTAL'].index(plan_total)]['REAL_START_DATE'] = plan['REAL_START_DATE']
+				
+				if flag:    #----- Không tìm thấy trong total ------			
+					data_total['TOTAL'].append(plan)
+
+
+			# # --------------- Tinh total month cho cac plan --------------
+			for plan in data_total['TOTAL']:
+				plan['MONTHLY'] = {}
+				plan = insert_to_total.CaculatorTotalMonth(plan, date)
+
+				
+			for plan in data_total['UN_PLAN']:
+				plan['MONTHLY'] = {}
+				plan = insert_to_total.CaculatorTotalMonth(plan, date)
+
+
+			
+			for plan in data_total['TOTAL']:
+				plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
+				for m in plan['MONTHLY']:
+					m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
+
+				for plan_un in list_plan:
+					if plan_un['PRODUCT'] == plan['PRODUCT'] \
+						and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+						and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
+						and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION']:
+						list_plan_update.append(plan)
+
+			path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_2' + '.json')
+			with open (path_data_total_map,'w') as f:
+				json.dump(data_total, f)
+
+			print()
+			print('MAP: ', len(data_total['MAP']))
+			print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
+			print ('UN_PLAN: ', len(data_total['UN_PLAN']))
+			print ('TOTAL: ', len(data_total['TOTAL']))
+
+
+			print()
+			print('list_data_map: ', len(list_data_map))
+			print ('list_plan_remove_unmap: ', len(list_plan_remove_unmap))
+			print ('list_camp_remove_unmap: ', len(list_camp_remove_unmap))		
+			print('list_plan_update: ', len(list_plan_update))	
+
+
+			# print('list_data_map: ', (list_data_map))
+			# print ('list_plan_remove_unmap: ', (list_plan_remove_unmap))
+			# print ('list_camp_remove_unmap: ', (list_camp_remove_unmap))		
+			# print('list_plan_update: ', (list_plan_update))	
+		
+
+	return (list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
+
+				
+
+
+
+				
+
+	
+
+
+
+
+
+
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-# ManyDate(connect, path_data, start_date, end_date)
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
+date = '2017-05-10' 
+list_plan_diff = GetListPlanChange(connect, path_data, date)
+list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update = AutoMap(connect, path_data, date)
 
-if __name__ == '__main__':
-    from sys import argv
-    
-    script, start_date, end_date = argv
-    ManyDate(connect, path_data, start_date, end_date)
+
+
+
+#============== Test ham merger ================================
+# path1 = 'C:/Users/CPU10912-local/Desktop/test1.json'
+# with open(path1, 'r') as fi:
+# 	data_map_all = json.load(fi)
+
+# path2 = 'C:/Users/CPU10912-local/Desktop/test2.json'
+# with open(path2, 'r') as fi:
+# 	data_map_GS5 = json.load(fi)
+
+# path3 = 'C:/Users/CPU10912-local/Desktop/test3.json'
+# with open(path3, 'r') as fi:
+# 	data_map_WPL = json.load(fi)
+
+# list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
+
+# result = {}
+# result['campaign'] = list_camp
+# result['plan'] = list_plan
+
+# path = 'C:/Users/CPU10912-local/Desktop/test4.json'
+# with open(path, 'w') as fi:
+# 	json.dump(result,fi)
+
+# print('Save ok ................')
+#================================================================
+
+
+# path = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
+
+
+
+					
+
+
+
+
+
+
+
+
+
+
+
+
+
+
