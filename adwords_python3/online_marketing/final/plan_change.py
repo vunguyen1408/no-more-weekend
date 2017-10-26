@@ -241,8 +241,8 @@ def AutoMap(connect, path_data, date):
 			list_camp_GS5 = []
 			list_camp_WPL = []
 			for camp in list_full_camp:	
-				if 	camp['Advertising Channel'].find('Search') >= 0:
-					print(camp['Campaign ID'])
+				
+				print(camp['Campaign ID'], camp['Advertising Channel'])
 				if (mapping.CheckIsAccountGS5(path_data, camp['Account ID'])):
 				# if (camp['Dept'] == 'GS5'):
 					list_camp_GS5.append(camp)
