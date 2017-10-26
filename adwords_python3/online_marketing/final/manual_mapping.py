@@ -266,6 +266,8 @@ def ManualMap(connect, path_data, date):
 			list_map_all = []
 			list_plan_remove_unmap = []
 			# print (len(data_total['UN_CAMPAIGN']))
+			import time
+			start_time = time.time()
 			for plan in list_plan:
 				plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(plan, path_data_total_map)
 				list_map_all.extend(list_map)
@@ -284,6 +286,8 @@ def ManualMap(connect, path_data, date):
 							and camp['Date'] == campaign['Date']:
 							data_total['UN_CAMPAIGN'].remove(campaign)
 							list_camp_remove_unmap.append(campaign)
+
+			print ("Time get in manual 1 : ", (time.time() - start_time))
 
 
 			# print (list_plan)
