@@ -322,9 +322,11 @@ def AutoMap(connect, path_data, date):
 			list_camp_GS5 = []
 			list_camp_WPL = []
 			for camp in list_full_camp:					
-				if (camp['Dept'] == 'GS5'):
+				if (mapping.CheckIsAccountGS5(path_data, camp['Account ID'])):
+				# if (camp['Dept'] == 'GS5'):
 					list_camp_GS5.append(camp)
-				elif (camp['Dept'] == 'WPL'):
+				# elif (camp['Dept'] == 'WPL'):
+				if (mapping.CheckIsAccountWPL(path_data, camp['Account ID'])):
 					list_camp_GS5.append(camp)
 				else:
 					list_camp_all.append(camp)
