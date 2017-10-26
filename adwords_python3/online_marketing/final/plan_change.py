@@ -331,8 +331,8 @@ def AutoMap(connect, path_data, date):
 
 			#----------- Insert unmap plan new into un_plan -------
 			for plan in list_plan:
-				for plan_map in list_plan_total:
-					flag = True
+				flag = True
+				for plan_map in list_plan_total:					
 					if plan_map['PRODUCT'] == plan['PRODUCT'] \
 						and plan_map['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 						and plan_map['FORM_TYPE'] == plan['FORM_TYPE'] \
