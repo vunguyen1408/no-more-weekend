@@ -53,7 +53,7 @@ def ManualMapping (connect, path_data, date):
 	# # =============================== Auto mapping =========================================
 	# print ("\n\n============= RUN INSERT Auto MAPPING TO TOTAL WITH DATE : " + str(datetime.now()) + " =================")
 	# caculator_manual = time.time()
-	# list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update = plan_change.AutoMap(connect, path_data, date)
+	# list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert = plan_change.AutoMap(connect, path_data, date)
 	# time_caculator_manual = time.time() - caculator_manual
 	# print ("---------- Time caculator manual mapping to total : ", time_caculator_manual)
 
@@ -69,7 +69,7 @@ def ManualMapping (connect, path_data, date):
 	# 	# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 	# 	# detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 
-	# 	merge_data_manual_mapping.merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
+	# 	merge_data_manual_mapping.merger_data_auto_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert)
 	# 	time_update_manual = time.time() - update_manual
 	# 	print ("---------- Time update manual mapping to total : ", time_update_manual)
 	# else:

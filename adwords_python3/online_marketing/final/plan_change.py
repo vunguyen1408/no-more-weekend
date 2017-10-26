@@ -202,16 +202,13 @@ def AutoMap(connect, path_data, date):
 	
 	# print (len(list_plan))
 	# for plan in list_plan:
-		
-	# 	if (plan['REASON_CODE_ORACLE'] == '1705131') and (plan['FORM_TYPE'] == 'SEARCH'):
-	# 		plan['UNIT_OPTION'] = 'CPA'
-	# for plan in list_plan:
 	# 	print(plan)
 
 	list_data_map = []
 	list_plan_remove_unmap = []
 	list_camp_remove_unmap = []
 	list_plan_update = []
+	list_plan_insert = []
 
 	print("==========================================================")
 	if len(list_plan) > 0:
@@ -332,6 +329,19 @@ def AutoMap(connect, path_data, date):
 						list_plan_remove_unmap.append(plan_un)
 						data_total['UN_PLAN'][data_total['UN_PLAN'].index(plan_un)]['REAL_START_DATE'] = plan['REAL_START_DATE']
 
+			#----------- Insert unmap plan new into un_plan -------
+			for plan in list_plan:
+				for plan_map in list_plan_total:
+					flag = True
+					if plan_map['PRODUCT'] == plan['PRODUCT'] \
+						and plan_map['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+						and plan_map['FORM_TYPE'] == plan['FORM_TYPE'] \
+						and plan_map['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+						flag = False
+				if flag:
+					list_plan_insert.append(plan)
+					data_total['UN_PLAN'].append(plan)
+
 						
 
 			#------------- Insert total ------------
@@ -367,7 +377,7 @@ def AutoMap(connect, path_data, date):
 				for m in plan['MONTHLY']:
 					m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
 
-				for plan_un in list_plan:
+				for plan_un in list_plan_total:
 					if plan_un['PRODUCT'] == plan['PRODUCT'] \
 						and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 						and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
@@ -389,7 +399,8 @@ def AutoMap(connect, path_data, date):
 			print('list_data_map: ', len(list_data_map))
 			print ('list_plan_remove_unmap: ', len(list_plan_remove_unmap))
 			print ('list_camp_remove_unmap: ', len(list_camp_remove_unmap))		
-			print('list_plan_update: ', len(list_plan_update))	
+			print('list_plan_update: ', len(list_plan_update))
+			print('list_plan_insert: ', len(list_plan_insert))	
 
 
 			# print('list_data_map: ', (list_data_map))
@@ -398,7 +409,7 @@ def AutoMap(connect, path_data, date):
 			# print('list_plan_update: ', (list_plan_update))	
 		
 
-	return (list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
+	return (list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert)
 
 				
 
@@ -413,11 +424,11 @@ def AutoMap(connect, path_data, date):
 
 
 
-# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-# path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
-# date = '2017-05-31' 
-# list_plan_diff = GetListPlanChange(connect, path_data, date)
-# list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update = AutoMap(connect, path_data, date)
+connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
+date = '2017-05-31' 
+list_plan_diff = GetListPlanChange(connect, path_data, date)
+list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert = AutoMap(connect, path_data, date)
 
 
 
