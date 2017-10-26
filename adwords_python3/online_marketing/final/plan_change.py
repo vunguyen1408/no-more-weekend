@@ -374,6 +374,7 @@ def AutoMap(connect, path_data, date):
 						and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 						and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
 						and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION']:
+						print("????????????Them vao list_plan_update ?")
 						list_plan_update.append(plan)
 
 			path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_2' + '.json')
