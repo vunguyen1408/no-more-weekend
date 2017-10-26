@@ -137,7 +137,7 @@ def Daily(connect, path_data, date):
 	print ("\n\n======================= RUN INSERT NRU WITH DATE : " + date + " =========================")
 	insert_nru = time.time()
 	nru.Add_Data_To_Plan(connect, path_data, date)
-	time_insert = time.time() - insert_install
+	time_insert = time.time() - insert_nru
 	print ("---------- Time insert nru to total : ", time_insert)
 
 
