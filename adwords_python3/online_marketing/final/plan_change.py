@@ -342,7 +342,7 @@ def AutoMap(connect, path_data, date):
 						and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 						and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
 						and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
-						print("========================================")
+						print("?????????????????????????????????????")
 						plan_total['TOTAL_CAMPAIGN'] = insert_data.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
 						flag = False
 						data_total['TOTAL'][data_total['TOTAL'].index(plan_total)]['REAL_START_DATE'] = plan['REAL_START_DATE']
