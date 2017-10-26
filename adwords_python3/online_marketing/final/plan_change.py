@@ -203,7 +203,7 @@ def AutoMap(connect, path_data, date):
 	print (len(list_plan))
 	for plan in list_plan:
 		if (plan['REASON_CODE_ORACLE'] == '1705131'):
-			plan['UNIT_OPTION'] = 'CPC'
+			# plan['UNIT_OPTION'] = 'CPC'
 			print(plan)
 
 	list_data_map = []
@@ -242,9 +242,8 @@ def AutoMap(connect, path_data, date):
 			list_camp_all = []
 			list_camp_GS5 = []
 			list_camp_WPL = []
-			for camp in list_full_camp:	
-				print()
-				if (camp['Campaign ID'] == '819467250'):
+			for camp in list_full_camp:					
+				if (camp['Campaign ID'] == '702245469'):
 					camp['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
 					print(camp)			
 				
