@@ -202,7 +202,7 @@ def AutoMap(connect, path_data, date):
 	
 	print (len(list_plan))
 	for plan in list_plan:
-		if (plan['REASON_CODE_ORACLE'] = '1705131'):
+		if (plan['REASON_CODE_ORACLE'] == '1705131'):
 			plan['UNIT_OPTION'] = 'CPC'
 		# print(plan)
 
