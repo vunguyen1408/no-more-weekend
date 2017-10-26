@@ -32,8 +32,6 @@ def ManualMapping (connect, path_data, date):
 	if list_plan_remove_unmap != [] or list_camp_remove_unmap != []:
 		update_manual = time.time()
 		nru.Add_Data_To_Plan(connect, path_data, date)
-		print ("---------- Time add NRU : ", (time.time() - update_manual))
-		update_manual = time.time()
 		# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 		# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 		# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
