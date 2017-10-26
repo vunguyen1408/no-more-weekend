@@ -54,5 +54,5 @@ def get_list_customer(path_data):
 # list_mcc_id, list_mcc, list_dept = get_list_customer(path_data)
 # print(len(list_mcc))
 # print(len(list_mcc_id))
-# path_data = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/TEMP_DATA'
+# path_data = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/TEMP_DATA_T3_T9'
 # addAccName(path_data, list_mcc, list_mcc_id, list_dept)

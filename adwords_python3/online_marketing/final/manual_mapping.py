@@ -75,26 +75,29 @@ def ReadTableManualMap(connect, path_data, date):
 	#------------- Check manual map change --------------------
 	# print (log_manual)
 	for data in log_manual:
-		print (data)
-		list_out.append(ParseLogManualToJson(data))
-		flag = True
-		# print (data[6])
-		# print (type(data[6]))
-		for data_local in manual_map:
-			if data[0] == data_local['PRODUCT'] \
-			and data[1] == data_local['REASON_CODE_ORACLE'] \
-			and data[2] == data_local['EFORM_TYPE'] \
-			and data[3] == data_local['UNIT_OPTION'] \
-			and data[6] == data_local['CAMPAIGN_ID'] \
-			and data[7] == data_local['START_DATE'] \
-			and data[8] == data_local['END_DATE']:
-				print ("---------------- Trung log")
-				flag = False
-		if flag:
-			temp = ParseLogManualToJson(data)
-			# print (temp)
-			list_diff.append(temp)
-			print ("--------------- Da add them ---------------")
+		if data[0] != None and data[1] != None \
+		and data[2] != None and data[3] != None \
+		and data[6] != None and data[7] != None and data[8] != None:
+			print (data)
+			list_out.append(ParseLogManualToJson(data))
+			flag = True
+			# print (data[6])
+			# print (type(data[6]))
+			for data_local in manual_map:
+				if data[0] == data_local['PRODUCT'] \
+				and data[1] == data_local['REASON_CODE_ORACLE'] \
+				and data[2] == data_local['EFORM_TYPE'] \
+				and data[3] == data_local['UNIT_OPTION'] \
+				and data[6] == data_local['CAMPAIGN_ID'] \
+				and data[7] == data_local['START_DATE'] \
+				and data[8] == data_local['END_DATE']:
+					print ("---------------- Trung log")
+					flag = False
+			if flag:
+				temp = ParseLogManualToJson(data)
+				# print (temp)
+				list_diff.append(temp)
+				print ("--------------- Da add them ---------------")
 	# print (list_diff)
 
 	#--------------- Write file manual log -------------------
@@ -189,10 +192,12 @@ def ChooseTimeManualMap(plan):
 	return (start, end)
 
 #-------- Vào data unmap sum các camp cho một plan ----------
-def GetCampaignUnMapForPlan(plan, path_data_total_map):
-
-	with open (path_data_total_map,'r') as f:
-		data_total = json.load(f)
+def GetCampaignUnMapForPlan(plan, path_data_total_map, data_total):
+	import time
+	start_time = time.time()
+	# with open (path_data_total_map,'r') as f:
+	# 	data_total = json.load(f)
+	print ("Time load file : ", (time.time() - start_time))
 
 	list_campaign = data_total['UN_CAMPAIGN']
 	start, end = ChooseTimeManualMap(plan)
@@ -229,7 +234,7 @@ def GetCampaignUnMapForPlan(plan, path_data_total_map):
 	return (plan_sum, list_map_temp, list_camp_need_remove)
 
 
-def GetCampaignUnMapForManualMap(connect, path_data, date):
+def ManualMap(connect, path_data, date):
 	# # ------------- Get manual map from table log ----------------
 	# list_diff = ReadTableManualMap(connect, path_data, date)
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
@@ -266,8 +271,10 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 			list_map_all = []
 			list_plan_remove_unmap = []
 			# print (len(data_total['UN_CAMPAIGN']))
+			import time
+			start_time = time.time()
 			for plan in list_plan:
-				plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(plan, path_data_total_map)
+				plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(plan, path_data_total_map, data_total)
 				list_map_all.extend(list_map)
 				# print ("--------------- gggg---------------")
 				# print (plan)
@@ -284,6 +291,8 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 							and camp['Date'] == campaign['Date']:
 							data_total['UN_CAMPAIGN'].remove(campaign)
 							list_camp_remove_unmap.append(campaign)
+
+			print ("Time get in manual 1 : ", (time.time() - start_time))
 
 
 			# print (list_plan)
@@ -373,7 +382,7 @@ def GetCampaignUnMapForManualMap(connect, path_data, date):
 			# print (list_camp_remove_unmap)
 			print (list_plan_remove_unmap)
 
-		return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
+	return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
 
 
 # connect = ''

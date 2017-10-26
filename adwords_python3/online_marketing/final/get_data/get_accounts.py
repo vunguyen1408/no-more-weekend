@@ -57,10 +57,11 @@ def SaveAccountTree(account, accounts, links, level, list_acc, list_mcc, list_mc
 
 def GetAllAcount(path_config):
   # Initialize appropriate service.
+  print("begin")
   adwords_client = adwords.AdWordsClient.LoadFromStorage(path_config)
   managed_customer_service = adwords_client.GetService(
       'ManagedCustomerService', version='v201708')
-
+  print("continue")
   # Construct selector to get all accounts.
   offset = 0
   selector = {
@@ -79,6 +80,7 @@ def GetAllAcount(path_config):
   while more_pages:
     # Get serviced account graph.
     page = managed_customer_service.get(selector)
+    print("ok")
     if 'entries' in page and page['entries']:
       # Create map from customerId to parent and child links.
       if 'links' in page:
@@ -104,8 +106,8 @@ def GetAllAcount(path_config):
 
   # =================Get list dept of all account =========================
 
-  # path_dept = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/Dept.xlsx'
-  path_dept = 'C:/Users/CPU10912-local/Desktop/Dept.xlsx'
+  path_dept = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/Dept.xlsx'
+  # path_dept = 'C:/Users/CPU10912-local/Desktop/Dept.xlsx'
   dept = pd.read_excel(path_dept)
 
   list_mcc = list(dept['MCC Level 3'])  
@@ -143,22 +145,24 @@ def GetAllAcount(path_config):
   return (root_note, list_acc)
 
 
-# path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
-# file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC.json'
-path_config = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
-file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/MCC_entity.json'
+path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
+file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_111.json'
+# path_config = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
+# file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/MCC_entity.json'
+print("Start ........")
 root_note, list_acc = GetAllAcount(path_config)
 with open(file_json, 'w') as fo:
   json.dump(root_note[1], fo)
+
 
 # path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_WPL.yaml'
 # file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/WPL.json'
 
-path_config = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/googleads_WPL.yaml'
-file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/WPL_entity.json'
-root_note, list_acc = GetAllAcount(path_config)
-with open(file_json, 'w') as fo:
-  json.dump(root_note[1], fo)
+# path_config = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/googleads_WPL.yaml'
+# file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/WPL_entity.json'
+# root_note, list_acc = GetAllAcount(path_config)
+# with open(file_json, 'w') as fo:
+#   json.dump(root_note[1], fo)
 
 
 
