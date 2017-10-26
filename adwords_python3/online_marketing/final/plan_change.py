@@ -296,10 +296,10 @@ def AutoMap(connect, path_data, date):
 
 			#---------------- Merger data unmap ---------------------------------------
 
-			print('MAP: ', len(data_total['MAP']))
-			print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
-			print ('UN_PLAN: ', len(data_total['UN_PLAN']))
-			print ('TOTAL: ', len(data_total['TOTAL']))
+			# print('MAP: ', len(data_total['MAP']))
+			# print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
+			# print ('UN_PLAN: ', len(data_total['UN_PLAN']))
+			# print ('TOTAL: ', len(data_total['TOTAL']))
 
 
 			#---------- Data map ------------------
@@ -394,11 +394,11 @@ def AutoMap(connect, path_data, date):
 			with open (path_data_total_map,'w') as f:
 				json.dump(data_total, f)
 
-			print()
-			print('MAP: ', len(data_total['MAP']))
-			print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
-			print ('UN_PLAN: ', len(data_total['UN_PLAN']))
-			print ('TOTAL: ', len(data_total['TOTAL']))
+			# print()
+			# print('MAP: ', len(data_total['MAP']))
+			# print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
+			# print ('UN_PLAN: ', len(data_total['UN_PLAN']))
+			# print ('TOTAL: ', len(data_total['TOTAL']))
 
 
 			print()
@@ -423,18 +423,14 @@ def AutoMap(connect, path_data, date):
 
 				
 
-	
 
 
 
-
-
-
-connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
-date = '2017-05-31' 
-list_plan_diff = GetListPlanChange(connect, path_data, date)
-list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert = AutoMap(connect, path_data, date)
+# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+# path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
+# date = '2017-05-31' 
+# list_plan_diff = GetListPlanChange(connect, path_data, date)
+# list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert = AutoMap(connect, path_data, date)
 
 
 
