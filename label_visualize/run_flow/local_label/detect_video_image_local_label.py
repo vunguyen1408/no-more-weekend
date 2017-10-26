@@ -8,6 +8,9 @@
     Examples of Usage:
         python detect_audio.py 2016-10-01 2017-06-29
 """
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
 
 
 
@@ -29,47 +32,104 @@ from google.cloud import vision
 from google.cloud.vision import types
 
 
-def detect_text(p_path):
-    """Detects text in the file."""
-    client = vision.ImageAnnotatorClient()
+import argparse
+import sys
 
-    # [START migration_text_detection]
-    with io.open(p_path, 'rb') as image_file:
-        content = image_file.read()
+import numpy as np
+import tensorflow as tf
 
-    image = types.Image(content=content)
+def load_graph(model_file):
+    graph = tf.Graph()
+    graph_def = tf.GraphDef()
 
-    response = client.text_detection(image=image)
-    texts = response.text_annotations
-    #print('Texts:')
+    with open(model_file, "rb") as f:
+      graph_def.ParseFromString(f.read())
+    with graph.as_default():
+      tf.import_graph_def(graph_def)
 
-    list_text_info=[]
+    return graph
 
-    for text in texts:
+def read_tensor_from_image_file(file_name, input_height=299, input_width=299,
+				input_mean=0, input_std=255):
+    input_name = "file_reader"
+    output_name = "normalized"
+    file_reader = tf.read_file(file_name, input_name)
+    if file_name.endswith(".png"):
+        image_reader = tf.image.decode_png(file_reader, channels = 3,
+                                       name='png_reader')
+    elif file_name.endswith(".gif"):
+        image_reader = tf.squeeze(tf.image.decode_gif(file_reader,
+                                                  name='gif_reader'))
+    elif file_name.endswith(".bmp"):
+        image_reader = tf.image.decode_bmp(file_reader, name='bmp_reader')
+    else:
+        image_reader = tf.image.decode_jpeg(file_reader, channels = 3,
+                                        name='jpeg_reader')
+    float_caster = tf.cast(image_reader, tf.float32)
+    dims_expander = tf.expand_dims(float_caster, 0);
+    resized = tf.image.resize_bilinear(dims_expander, [input_height, input_width])
+    normalized = tf.divide(tf.subtract(resized, [input_mean]), [input_std])
+    sess = tf.Session()
+    result = sess.run(normalized)
+
+    return result
+
+def load_labels(label_file):
+    label = []
+    proto_as_ascii_lines = tf.gfile.GFile(label_file).readlines()
+    for l in proto_as_ascii_lines:
+        label.append(l.rstrip())
+    return label
+
+def detect_local_label(p_path):
+
+    file_name = p_path
+    model_file = \
+        "inception_v3_2016_08_28_frozen.pb"
+    label_file = "imagenet_slim_labels.txt"
+    input_height = 299
+    input_width = 299
+    input_mean = 0
+    input_std = 255
+    input_layer = "input"
+    output_layer = "InceptionV3/Predictions/Reshape_1"
+
+    graph = load_graph(model_file)
+    t = read_tensor_from_image_file(file_name,
+                                  input_height=input_height,
+                                  input_width=input_width,
+                                  input_mean=input_mean,
+                                  input_std=input_std)
+
+    input_name = "import/" + input_layer
+    output_name = "import/" + output_layer
+    input_operation = graph.get_operation_by_name(input_name);
+    output_operation = graph.get_operation_by_name(output_name);
+
+    with tf.Session(graph=graph) as sess:
+        results = sess.run(output_operation.outputs[0],
+                      {input_operation.outputs[0]: t})
+    results = np.squeeze(results)
+
+    #top_k = results.argsort()[-5:][::-1]
+    top_k = results.argsort()[-10:][::-1]
+    labels = load_labels(label_file)
+
+    return_label=[]
+    for i in top_k:
+        print(labels[i], results[i])
+        return_label.append(labels[i])
+
+    return return_label
 
 
 
-        #print('\n"{}"'.format(text.description))
-
-        vertices = (['({},{})'.format(vertex.x, vertex.y)
-                    for vertex in text.bounding_poly.vertices])
-
-        #print('bounds: {}'.format(','.join(vertices)))
-
-        text_info={}
-        text_info['description'] =text.description
-        text_info['bounds'] =','.join(vertices)
-        list_text_info.append(text_info)
-
-    return list_text_info
-
-    # [END migration_text_detection]
-# [END def_detect_text]
 
 
 
 
-def get_image_text(p_folder, p_path_folder_work, p_work_json):
+
+def get_image_local_label(p_folder, p_path_folder_work, p_work_json):
 
 
     list_index = []
@@ -90,16 +150,6 @@ def get_image_text(p_folder, p_path_folder_work, p_work_json):
     #loop 1
     for _i, _value in enumerate(p_work_json['my_json']):
 
-        #if 'image_texts' not in _value:
-        #    _value['image_texts'] = []
-            #_value['audio_text']['api_call'] = 0
-            #_value['audio_text']['transcript'] = ''
-            #_value['audio_text']['confidence'] = 0
-
-        #if 'api_call' not in _value['audio_text']:
-        #    _value['audio_text']['api_call']=0
-
-
         #loop 2
         for _file in list_index:
 
@@ -110,21 +160,21 @@ def get_image_text(p_folder, p_path_folder_work, p_work_json):
                 print('Process:',file_name)
 
                 #not image_texts exist->init {}
-                if 'image_texts' not in _value:
+                if 'image_local_labels' not in _value:
                     print('init')
-                    _value['image_texts'] = []
+                    _value['image_local_labels'] = []
 
                     text={}
                     text['name']=_file['name']
                     #file_text['text']=detect_text(file_name)
-                    text['texts']=detect_text(file_name)
+                    text['labels']=detect_local_label(file_name)
                     text['api_call']=1
-                    _value['image_texts'].append(text)
+                    _value['image_local_labels'].append(text)
                 #exist image_texts -> update or append
                 else:
                     #loop 3
                     found=-1
-                    for _j, _value_j in enumerate(_value['image_texts']):
+                    for _j, _value_j in enumerate(_value['image_local_labels']):
                         if _value_j['name']==_file['name']:
                             found=_j
                             break
@@ -134,17 +184,17 @@ def get_image_text(p_folder, p_path_folder_work, p_work_json):
                         count=_value_j.get('api_call',0)
                         if count==0:
                             print('update')
-                            _value['image_texts'][found]['texts']=detect_text(file_name)
-                            _value['image_texts'][found]['api_call']=count+1
+                            _value['image_local_labels'][found]['labels']=detect_local_label(file_name)
+                            _value['image_local_labels'][found]['api_call']=count+1
                     # append
                     else:
                         print('append')
                         text={}
                         text['name']=_file['name']
                         #file_text['text']=detect_text(file_name)
-                        text['texts']=detect_text(file_name)
+                        text['labels']=detect_local_label(file_name)
                         text['api_call']=1
-                        _value['image_texts'].append(text)
+                        _value['image_local_labels'].append(text)
 
 
 
@@ -190,7 +240,7 @@ def get_30_date(p_path_full_data, p_date, p_work_json):
     print ("======================================================================")
     return (list_work_json_before, p_work_json)
 
-def get_video_image_text(p_path, p_from_date = '2016-10-01', p_to_date = '2016-10-01'):
+def get_video_image_local_label(p_path, p_from_date = '2016-10-01', p_to_date = '2016-10-01'):
     # Lấy danh sách path của các file json cần tổng hợp data
     list_file = []
     list_folder = next(os.walk(p_path))[1]
@@ -220,7 +270,7 @@ def get_video_image_text(p_path, p_from_date = '2016-10-01', p_to_date = '2016-1
                     work_json = json.load(_file_json)
                     # video_json = get_label_videos(folder, path_folder_audios, video_json)
                     list_json_before, work_json = get_30_date(p_path, _folder, work_json)
-                    work_json = get_image_text(_folder, path_folder_work, work_json)
+                    work_json = get_image_local_label(_folder, path_folder_work, work_json)
                     # print (video_json)
                     with open (path_file_work,'w') as _f:
                         json.dump(work_json, _f)
@@ -240,7 +290,7 @@ def get_video_image_text(p_path, p_from_date = '2016-10-01', p_to_date = '2016-1
                         if 'video_ids' in data['my_json'][i]['audit_content']:
                             #if 'image_texts' not in data['my_json'][i]['audit_content']['video_ids'][j] and 'image_texts' in  _value:
                             if  'image_texts' in  _value:
-                                data['my_json'][i]['audit_content']['video_ids'][j]['image_texts'] = _value['image_texts']
+                                data['my_json'][i]['audit_content']['video_ids'][j]['image_local_labels'] = _value['image_local_labels']
 
                     with open (path_file,'w') as _f:
                         json.dump(data, _f)
@@ -256,4 +306,4 @@ if __name__ == '__main__':
     from sys import argv
     g_path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
     script, date, to_date = argv
-    get_video_image_text(g_path, date, to_date)
+    get_video_image_local_label(g_path, date, to_date)
