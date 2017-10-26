@@ -446,7 +446,8 @@ def AutoMap(connect, path_data, date):
 				for m in plan['MONTHLY']:
 					m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
 
-				for plan_un in list_plan:
+			for plan_un in list_plan:
+				for plan in data_total['TOTAL']:
 					if plan_un['PRODUCT'] == plan['PRODUCT'] \
 						and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 						and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
