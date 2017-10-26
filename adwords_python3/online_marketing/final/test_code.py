@@ -75,7 +75,6 @@
 #      # print( acc["name"])
 # # print("begin save")
 
-
 import json
 import os
 import cx_Oracle 
@@ -278,19 +277,19 @@ def AutoMap(connect, path_data, date):
 	#========================================================
 	
 	
-	print (len(list_plan))
+	# print (len(list_plan))
 	# for plan in list_plan:
 		
 	# 	if (plan['REASON_CODE_ORACLE'] == '1705131') and (plan['FORM_TYPE'] == 'SEARCH'):
 	# 		plan['UNIT_OPTION'] = 'CPA'
-	for plan in list_plan:
-		print(plan)
+	# for plan in list_plan:
+	# 	print(plan)
 
 	list_data_map = []
 	list_plan_remove_unmap = []
 	list_camp_remove_unmap = []
 	list_plan_update = []
-	
+
 	print("==========================================================")
 	if len(list_plan) > 0:
 		# ------------- Get campaign for mapping ----------------	
@@ -321,7 +320,7 @@ def AutoMap(connect, path_data, date):
 			list_camp_all = []
 			list_camp_GS5 = []
 			list_camp_WPL = []
-			for camp in list_full_camp:					
+			for camp in list_full_camp:		
 				if (mapping.CheckIsAccountGS5(path_data, camp['Account ID'])):
 				# if (camp['Dept'] == 'GS5'):
 					list_camp_GS5.append(camp)
@@ -420,12 +419,14 @@ def AutoMap(connect, path_data, date):
 						and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 						and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
 						and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
+						print("??????? Co trong total ??????????????????????????????")
 						plan_total['TOTAL_CAMPAIGN'] = insert_data.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
 						flag = False
 						data_total['TOTAL'][data_total['TOTAL'].index(plan_total)]['REAL_START_DATE'] = plan['REAL_START_DATE']
 				
 				if flag:    #----- Không tìm thấy trong total ------			
 					data_total['TOTAL'].append(plan)
+					print("????????????Them vao Total ?")
 
 
 			# # --------------- Tinh total month cho cac plan --------------
@@ -438,7 +439,7 @@ def AutoMap(connect, path_data, date):
 				plan['MONTHLY'] = {}
 				plan = insert_to_total.CaculatorTotalMonth(plan, date)
 
-
+			print('list_plan_update: ', len(list_plan_update))	
 			
 			for plan in data_total['TOTAL']:
 				plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
@@ -450,6 +451,7 @@ def AutoMap(connect, path_data, date):
 						and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 						and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
 						and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION']:
+						print("????????????Them vao list_plan_update ?")
 						list_plan_update.append(plan)
 
 			path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_2' + '.json')
@@ -472,9 +474,8 @@ def AutoMap(connect, path_data, date):
 
 			# print('list_data_map: ', (list_data_map))
 			# print ('list_plan_remove_unmap: ', (list_plan_remove_unmap))
-			# print ('list_camp_remove_unmap: ', (list_camp_remove_unmap))
-			for i in list_plan_update:		
-				print('list_plan_update: ', (i))	
+			# print ('list_camp_remove_unmap: ', (list_camp_remove_unmap))		
+			# print('list_plan_update: ', (list_plan_update))	
 		
 
 	return (list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
