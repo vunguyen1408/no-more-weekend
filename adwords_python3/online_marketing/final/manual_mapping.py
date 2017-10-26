@@ -75,26 +75,29 @@ def ReadTableManualMap(connect, path_data, date):
 	#------------- Check manual map change --------------------
 	# print (log_manual)
 	for data in log_manual:
-		print (data)
-		list_out.append(ParseLogManualToJson(data))
-		flag = True
-		# print (data[6])
-		# print (type(data[6]))
-		for data_local in manual_map:
-			if data[0] == data_local['PRODUCT'] \
-			and data[1] == data_local['REASON_CODE_ORACLE'] \
-			and data[2] == data_local['EFORM_TYPE'] \
-			and data[3] == data_local['UNIT_OPTION'] \
-			and data[6] == data_local['CAMPAIGN_ID'] \
-			and data[7] == data_local['START_DATE'] \
-			and data[8] == data_local['END_DATE']:
-				print ("---------------- Trung log")
-				flag = False
-		if flag:
-			temp = ParseLogManualToJson(data)
-			# print (temp)
-			list_diff.append(temp)
-			print ("--------------- Da add them ---------------")
+		if data[0] != None and data[1] != None \
+		and data[2] != None and data[3] != None \
+		and data[6] != None and data[7] != None and data[8] != None:
+			print (data)
+			list_out.append(ParseLogManualToJson(data))
+			flag = True
+			# print (data[6])
+			# print (type(data[6]))
+			for data_local in manual_map:
+				if data[0] == data_local['PRODUCT'] \
+				and data[1] == data_local['REASON_CODE_ORACLE'] \
+				and data[2] == data_local['EFORM_TYPE'] \
+				and data[3] == data_local['UNIT_OPTION'] \
+				and data[6] == data_local['CAMPAIGN_ID'] \
+				and data[7] == data_local['START_DATE'] \
+				and data[8] == data_local['END_DATE']:
+					print ("---------------- Trung log")
+					flag = False
+			if flag:
+				temp = ParseLogManualToJson(data)
+				# print (temp)
+				list_diff.append(temp)
+				print ("--------------- Da add them ---------------")
 	# print (list_diff)
 
 	#--------------- Write file manual log -------------------
