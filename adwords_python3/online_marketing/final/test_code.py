@@ -278,13 +278,13 @@ def AutoMap(connect, path_data, date):
 	#========================================================
 	
 	
-	# print (len(list_plan))
+	print (len(list_plan))
 	# for plan in list_plan:
 		
 	# 	if (plan['REASON_CODE_ORACLE'] == '1705131') and (plan['FORM_TYPE'] == 'SEARCH'):
 	# 		plan['UNIT_OPTION'] = 'CPA'
-	# for plan in list_plan:
-	# 	print(plan)
+	for plan in list_plan:
+		print(plan)
 
 	list_data_map = []
 	list_plan_remove_unmap = []
