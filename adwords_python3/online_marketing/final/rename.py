@@ -157,7 +157,7 @@ def CheckNameChange(path_data, list_customer, date):
         list_diff.append(camp_)
         temp = {
           'ACCOUNT_ID': camp_['ACCOUNT_ID'],
-          'CAMPAIGN_ID' : camp_['CAMPAIGN_ID'],
+          'CAMPAIGN_ID' : str(camp_['CAMPAIGN_ID']),
 
           'CAMPAIGN_NAME' : camp_['CAMPAIGN_NAME'],
           'DATE_GET' : str(date),
@@ -168,7 +168,7 @@ def CheckNameChange(path_data, list_customer, date):
         # print (camp_)
 
         ############# ######################
-        if str(camp_['CAMPAIGN_ID']) == '717789080' and str(camp_['CAMPAIGN_ID']) not in temp_:
+        if str(camp_['CAMPAIGN_ID']) == '733863589' and str(camp_['CAMPAIGN_ID']) not in temp_:
           temp_.append(str(camp_['CAMPAIGN_ID']))
         if str(camp_['CAMPAIGN_ID']) == '734049572' and str(camp_['CAMPAIGN_ID']) not in temp_:
           temp_.append(str(camp_['CAMPAIGN_ID']))
@@ -280,7 +280,7 @@ def Map(path_folder, list_plan, list_campaign, date):
             camp['Plan'] = plan
 
             campaign = {}
-            campaign['CAMPAIGN_ID'] = camp['Campaign ID']
+            campaign['CAMPAIGN_ID'] = str(camp['Campaign ID'])
             campaign['Date'] = camp['Date']
 
             temp = eform['CAMPAIGN']
@@ -329,7 +329,7 @@ def CacualatorChange(path_data, list_diff, date):
 
     for camp in list_diff:
       for campaign in data_total['UN_CAMPAIGN']:
-        if camp['CAMPAIGN_ID'] == campaign['Campaign ID'] and camp['CAMPAIGN_NAME'] != campaign['Campaign']:       
+        if str(camp['CAMPAIGN_ID']) == str(campaign['Campaign ID']) and camp['CAMPAIGN_NAME'] != campaign['Campaign']:       
           temp = campaign
           campaign['Campaign'] = camp['CAMPAIGN_NAME']
           temp['Campaign'] = camp['CAMPAIGN_NAME']
@@ -340,6 +340,7 @@ def CacualatorChange(path_data, list_diff, date):
     # print (list_camp_find[0])
     # print (list_camp_find[1])
     # print (list_camp_find[2])
+    list_camp_update = list_camp_find # Update name
     mp2 = 0
     pg1 = 0
     pg2 = 0
@@ -372,7 +373,7 @@ def CacualatorChange(path_data, list_diff, date):
     # print (len(plan_sum))
     # print (len(list_map_temp))
 
-    list_camp_update = list_camp_find # Update name
+    
     list_plan_update = [] # Update plan change cost
     list_plan_remove_unmap = [] # Remove camp plan un map
     list_camp_need_remove = list_map_temp  # Remove campaign mapped
