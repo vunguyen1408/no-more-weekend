@@ -147,6 +147,7 @@ def ReadTableManualMap(connect, path_data, date):
 					flag = False
 		# ----------- Plan moi duoc tao -----------------
 		if flag:
+			print (plan)
 			temp = plan_temp.copy()
 			temp['UNIT_OPTION'] = plan[3]
 			temp['FORM_TYPE'] = plan[2]
