@@ -451,7 +451,7 @@ def GetListPlanChangeFromTable(connect, final_log):
 	cursor = conn.cursor()
 	
 	#============ Read Plan from Table ===============
-	final_log = datetime.strptime(final_log,"%Y-%m-%d %H:%M:%S")
+	# final_log = datetime.strptime(final_log,"%Y-%m-%d %H:%M:%S")
 	
 	query = 'select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, \
 					PRODUCT, REASON_CODE_ORACLE, EFORM_NO, START_DAY, END_DAY_ESTIMATE, \
