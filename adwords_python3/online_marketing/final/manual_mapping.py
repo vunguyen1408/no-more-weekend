@@ -86,7 +86,7 @@ def ReadTableManualMap(connect, path_data, date):
 			for data_local in manual_map:
 				if data[0] == data_local['PRODUCT'] \
 				and data[1] == data_local['REASON_CODE_ORACLE'] \
-				and data[2] == data_local['EFORM_TYPE'] \
+				and data[2] == data_local['FORM_TYPE'] \
 				and data[3] == data_local['UNIT_OPTION'] \
 				and data[6] == data_local['CAMPAIGN_ID'] \
 				and data[7] == data_local['START_DATE'] \
