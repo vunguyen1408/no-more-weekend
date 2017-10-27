@@ -302,7 +302,7 @@ def AutoMap(connect, path_data, date):
 
 
 			# print(list_plan_total)
-			# print(list_data_map)
+			print(list_data_map)
 
 			#---------------- Merger data unmap ---------------------------------------
 
