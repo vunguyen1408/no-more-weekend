@@ -131,7 +131,7 @@ def get_image_text(p_folder, p_path_folder_work, p_work_json):
 
                     #exist -> update
                     if found>=0:
-                        count=_value_j.get('api_call',0)
+                        count=_value['image_texts'][found].get('api_call',0)
                         if count==0:
                             print('update')
                             _value['image_texts'][found]['texts']=detect_text(file_name)

@@ -26,7 +26,7 @@ from google.cloud.gapic.videointelligence.v1beta1 import (
     video_intelligence_service_client)
 
 
-def transcribe_file(speech_file, p_sample_rate):
+def transcribe_audio(p_speech_file, p_sample_rate):
     """Transcribe the given audio file asynchronously."""
     from google.cloud import speech
     from google.cloud.speech import enums
@@ -34,7 +34,7 @@ def transcribe_file(speech_file, p_sample_rate):
     client = speech.SpeechClient()
 
     # [START migration_async_request]
-    with io.open(speech_file, 'rb') as audio_file:
+    with io.open(p_speech_file, 'rb') as audio_file:
         content = audio_file.read()
 
     audio = types.RecognitionAudio(content=content)
@@ -65,7 +65,7 @@ def transcribe_file(speech_file, p_sample_rate):
 
 
 
-def analyze_labels(p_file_work):
+def detect_audio_text(p_file_work):
     #============== Get sample rate ==================
     cmd = "ffprobe " + p_file_work + " -show_entries" + " stream=sample_rate"
     out = subprocess.check_output(cmd)
@@ -78,7 +78,7 @@ def analyze_labels(p_file_work):
     print(sample_rate)
 
     #============== Get text of audio ===================
-    text = transcribe_file(p_file_work, sample_rate)
+    text = transcribe_audio(p_file_work, sample_rate)
 
     return text
 
@@ -96,6 +96,47 @@ def get_audio_text(p_folder, p_path_folder_work, p_work_json):
         list_index.append(file_json)
 
 
+
+#loop 1
+for _i, _value in enumerate(p_work_json['my_json']):
+
+    #loop 2
+    for _file in list_index:
+
+        if _file['video_index'] == _i:
+
+            # link = 'gs://python_video/' + folder + '/' + file_['name']
+            file_name = p_path_folder_work + '/' + _file['name']
+            print('Process:',file_name)
+
+            #not image_texts exist->init {}
+            if 'audio_text' not in _value:
+                print('init')
+                _value['audio_text'] = {}
+
+                text={}
+                text['name']=_file['name']
+                text['text']=detect_audio_text(file_name)
+                text['api_call']=1
+                _value['audio_text']=text
+            #exist image_texts -> update
+            else:
+
+                #exist -> update
+
+                count=_value['audio_text'].get('api_call',0)
+                if count==0:
+                    print('update')
+
+                    text={}
+                    text['name']=_file['name']
+                    text['text']=detect_audio_text(file_name)
+                    text['api_call']=count+1
+                    _value['audio_text']=text
+                                    
+
+                    #########################
+
     #print   (list_index)
 
     for _i, _value in enumerate(p_work_json['my_json']):
@@ -110,9 +151,9 @@ def get_audio_text(p_folder, p_path_folder_work, p_work_json):
 
 
         if not _value['audio_text'].get('transcript',''):
-            #print(value['audio_text'])
-        #if not value['audio_text']['transcript']:
+
             for file_ in list_index:
+
                 if file_['index'] == _i:
                     # link = 'gs://python_video/' + folder + '/' + file_['name']
                     file_name = p_path_folder_work + '/' + file_['name']
@@ -159,15 +200,14 @@ def get_30_date(p_path_full_data, p_date, p_work_json):
             with open (file_name,'r') as _file_json:
                 data = json.load(_file_json)
                 for _value in data['my_json']:
-                    print(_value)
-                    if  _value.get('audio_text',{}) and (_value['file_name'] not in list_name):
+                    if ( 'audio_text' in _value ) and (_value['file_name'] not in list_name):
                         list_name.append(_value['file_name'])
                         list_work_json_before.append(_value)
 
     #============ Update data neu da ton tai=============
     for _value in p_work_json['my_json']:
         for json_ in list_work_json_before:
-            if (_value['file_name'] == json_['file_name']) and  _value.get('audio_text',{}) :
+            if (_value['file_name'] == json_['file_name']) and  ( 'audio_text' in _value ) :
                 #_value['audio_text']['transcript'] = json_['audio_text']['transcript']
                 #_value['audio_text']['confidence'] = json_['audio_text']['confidence']
                 #_value['audio_text']['api_call'] = json_['audio_text']['api_call']
