@@ -451,7 +451,7 @@ def GetListPlanChangeFromTable(connect, final_log):
 	cursor = conn.cursor()
 	
 	#============ Read Plan from Table ===============
-	print(final_log)
+
 	query = "select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, \
 					PRODUCT, REASON_CODE_ORACLE, EFORM_NO, START_DAY, END_DAY_ESTIMATE, \
 					CHANNEL, EFORM_TYPE, UNIT_OPTION, UNIT_COST, AMOUNT_USD, \
@@ -475,8 +475,9 @@ def GetListPlanChangeFromTable(connect, final_log):
 
 	for plan in list_plan_diff:
 		print(plan)
-	print(final_log)
-	return list_plan_diff
+
+	print(final_log) 
+	return list_plan_diff, final_log
 
 
 
@@ -488,12 +489,15 @@ def GetListPlanChangeFromTable(connect, final_log):
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
 date = '2017-05-31' 
-
-
 final_log = '10/27/2017 10:00:00'
+
+
+list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
 print(final_log)
 
-list_plan_diff = GetListPlanChangeFromTable(connect, final_log)
+a = datetime.now()
+a = a.strftime("mm/dd/yyyy hh24:mi:ss")
+print(a)
 
 # path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
 # fi = open(path_log, 'a+') 
