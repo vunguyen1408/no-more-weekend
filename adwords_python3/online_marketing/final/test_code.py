@@ -1,80 +1,3 @@
-# import json
-# import codecs
-# import sys
-# import os
-# import pandas as pd
-# import numpy as np
-# import json
-# import cx_Oracle
-# from datetime import datetime , timedelta, date
-# import time
-
-
-# def Insert(name, cursor):
-# 	#==================== Insert data into database =============================
-# 	statement = 'insert into DTM_GG_RUN_FLAG (FLAG_RUNNING) values (:1, :2) '
-# 	row =[(name, None)]	
-# 	cursor.setinputsizes(255, 20)
-# 	cursor.executemany('insert into DTM_GG_RUN_FLAG (FLAG_RUNNING, FINAL_RUNTIME) values (:1, :2)',row)
-	
-# 	# print("A row inserted!.......")
-# 	conn.commit()
-# 	print("Committed!.......")
-
-
-
-# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-# conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
-# cursor = conn.cursor()
-# path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/TEST_UNICODE.json'#output_file.json'
-
-# # data = json.load(codecs.open(path, 'r', 'utf-8-sig'))
-# # data = json.loads(open(path).read().decode('utf-8-sig'))
-# # with open(path, 'r') as fi:
-# # 	data = json.load(fi)
-# # path = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/output_file.json'
-# input_file  = codecs.open(path, "r", encoding="utf-8")
-# data = json.loads(input_file.read())
-# for acc in data:
-# 	if (str(acc["customerId"]) == '4476024314'):
-# 		# print(acc["name"])
-# 		# print(acc["name"].encode('utf8').strip())
-
-# 		# sys.stdout = codecs.getwriter("iso-8859-1")(sys.stdout, 'xmlcharrefreplace')	
-# 		# Insert(acc["name"].encode(conn.nencoding), cursor)	
-		
-# 		Insert(acc["name"].encode('utf8').strip(), cursor)	
-# 		Insert(acc["name"].encode('utf8'), cursor)	
-# 		Insert(acc["name"], cursor)	
-		
-		
-
-
-
-
-
-
-# # import json
-# # import sys
-# # import codecs
-# # import os
-# # path = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/TEST_UNICODE.json'
-# # input_file  = open(path, "r")
-# # data = json.loads(input_file.read())
-# # output_file = codecs.open("D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/output_file.json", "w", encoding="utf-8")
-
-# # sys.stdout = codecs.getwriter("iso-8859-1")(sys.stdout, 'xmlcharrefreplace')
-   
-# # json.dump(data, output_file, indent=4, sort_keys=True, ensure_ascii=False)
-
-# # print("Save ok............")
-# # input_file  = open(path, "r")
-# # data = json.loads(input_file.read())
-# # # for acc in data:
-#     # if (str(acc["customerId"]) == '4476024314'):
-#      # print( acc["name"])
-# # print("begin save")
-
 import json
 import os
 import cx_Oracle 
@@ -82,6 +5,7 @@ from datetime import datetime , timedelta, date
 import manual_mapping_and_remap as manual
 import mapping_campaign_plan as mapping
 import insert_data_map_to_total as insert_to_total
+import time
 
 
 
@@ -91,10 +15,13 @@ def ReadPlanFromTable(connect):
 	cursor = conn.cursor()
 
 	#============ Read Plan from Table ===============
-	query = 'select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, PRODUCT, REASON_CODE_ORACLE, EFORM_NO, \
-          START_DAY, END_DAY_ESTIMATE, CHANNEL, EFORM_TYPE, UNIT_OPTION, UNIT_COST, AMOUNT_USD, CVALUE, \
-          ENGAGEMENT, IMPRESSIONS, CLIKE, CVIEWS, INSTALL, NRU, INSERT_DATE, REAL_START_DATE, REAL_END_DATE \
-      from STG_FA_DATA_GG'
+	query = 'select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, \
+					PRODUCT, REASON_CODE_ORACLE, EFORM_NO, START_DAY, END_DAY_ESTIMATE, \
+					CHANNEL, EFORM_TYPE, UNIT_OPTION, UNIT_COST, AMOUNT_USD, \
+					CVALUE, ENGAGEMENT, IMPRESSIONS, CLIKE, CVIEWS, \
+					INSTALL, NRU, INSERT_DATE, REAL_START_DATE, REAL_END_DATE \
+          			STATUS, LAST_UPDATED_DATE\
+      		from STG_FA_DATA_GG'
 
 	cursor.execute(query)
 	list_new_plan = cursor.fetchall()
@@ -156,6 +83,9 @@ def GetListPlanChange(connect, path_data, date):
 
 
 	return list_plan_diff
+
+
+
 
 
 def ConvertPlan(plan):	
@@ -265,6 +195,7 @@ def merger_data_map(data_map_all, data_map_GS5, data_map_WPL):
 
 	
 def AutoMap(connect, path_data, date):
+	get_plan = time.time()
 	# ------------- Get new plan or change plan ----------------	
 	list_plan = GetListPlanChange(connect, path_data, date)
 	list_plan = ConvertListPlan(list_plan)
@@ -277,21 +208,23 @@ def AutoMap(connect, path_data, date):
 	#========================================================
 	
 	
-	# print (len(list_plan))
+	print (len(list_plan))
 	# for plan in list_plan:
-		
-	# 	if (plan['REASON_CODE_ORACLE'] == '1705131') and (plan['FORM_TYPE'] == 'SEARCH'):
-	# 		plan['UNIT_OPTION'] = 'CPA'
-	# for plan in list_plan:
-	# 	print(plan)
+	# 	if (plan['REASON_CODE_ORACLE'] == '1705131'):
+	# 		# plan['UNIT_OPTION'] = 'CPC'
+	# 		print(plan)
+	end_get_plan = time.time()
+	print("Time get plan: ", end_get_plan - get_plan)
 
 	list_data_map = []
 	list_plan_remove_unmap = []
 	list_camp_remove_unmap = []
 	list_plan_update = []
+	list_plan_insert = []
 
 	print("==========================================================")
 	if len(list_plan) > 0:
+		get_camp = time.time()
 		# ------------- Get campaign for mapping ----------------	
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 		
@@ -320,7 +253,11 @@ def AutoMap(connect, path_data, date):
 			list_camp_all = []
 			list_camp_GS5 = []
 			list_camp_WPL = []
-			for camp in list_full_camp:		
+			for camp in list_full_camp:					
+				# if (str(camp['Campaign ID']) == '702245469'):
+				# 	list_full_camp[list_full_camp.index(camp)]['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
+				# 	# print(camp)			
+				
 				if (mapping.CheckIsAccountGS5(path_data, camp['Account ID'])):
 				# if (camp['Dept'] == 'GS5'):
 					list_camp_GS5.append(camp)
@@ -335,6 +272,8 @@ def AutoMap(connect, path_data, date):
 			# print(len(list_camp_GS5))
 			# print(len(list_camp_WPL))
 
+			end_get_camp = time.time()
+			print("Time get camp: ", end_get_camp - get_camp)
 
 			#----------------- Mapping with campaign unmap -------------------------
 			data_map_all = {
@@ -351,6 +290,7 @@ def AutoMap(connect, path_data, date):
 				'plan': [],
 				'campaign': []
 			}
+			auto_mapping  = time.time()
 			if (len(list_camp_all) > 0):
 				data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
 
@@ -361,6 +301,8 @@ def AutoMap(connect, path_data, date):
 				data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
 
 			list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
+			end_mapping = time.time()
+			print("Time mapping: ", end_mapping - auto_mapping)
 
 			list_plan_total, list_data_map = insert_to_total.SumTotalManyPlan(list_plan, list_camp)
 
@@ -375,7 +317,7 @@ def AutoMap(connect, path_data, date):
 			print ('UN_PLAN: ', len(data_total['UN_PLAN']))
 			print ('TOTAL: ', len(data_total['TOTAL']))
 
-
+			insert_file  = time.time()
 			#---------- Data map ------------------
 			data_total['MAP'].extend(list_data_map)
 
@@ -409,6 +351,19 @@ def AutoMap(connect, path_data, date):
 						list_plan_remove_unmap.append(plan_un)
 						data_total['UN_PLAN'][data_total['UN_PLAN'].index(plan_un)]['REAL_START_DATE'] = plan['REAL_START_DATE']
 
+			#----------- Insert unmap plan new into un_plan -------
+			for plan in list_plan:
+				flag = True
+				for plan_map in list_plan_total:					
+					if plan_map['PRODUCT'] == plan['PRODUCT'] \
+						and plan_map['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+						and plan_map['FORM_TYPE'] == plan['FORM_TYPE'] \
+						and plan_map['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+						flag = False
+				if flag:
+					list_plan_insert.append(plan)
+					data_total['UN_PLAN'].append(plan)
+
 						
 
 			#------------- Insert total ------------
@@ -418,15 +373,14 @@ def AutoMap(connect, path_data, date):
 					if plan_total['PRODUCT'] == plan['PRODUCT'] \
 						and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 						and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
-						and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
-						print("??????? Co trong total ??????????????????????????????")
-						plan_total['TOTAL_CAMPAIGN'] = insert_data.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
+						and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:						
+						plan_total['TOTAL_CAMPAIGN'] = insert_to_total.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
 						flag = False
 						data_total['TOTAL'][data_total['TOTAL'].index(plan_total)]['REAL_START_DATE'] = plan['REAL_START_DATE']
 				
 				if flag:    #----- Không tìm thấy trong total ------			
 					data_total['TOTAL'].append(plan)
-					print("????????????Them vao Total ?")
+					
 
 
 			# # --------------- Tinh total month cho cac plan --------------
@@ -439,24 +393,24 @@ def AutoMap(connect, path_data, date):
 				plan['MONTHLY'] = {}
 				plan = insert_to_total.CaculatorTotalMonth(plan, date)
 
-			print('list_plan_update: ', len(list_plan_update))	
-			
+						
 			for plan in data_total['TOTAL']:
 				plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
 				for m in plan['MONTHLY']:
 					m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
 
-				for plan_un in list_plan_total:				
+				for plan_un in list_plan_total:
 					if plan_un['PRODUCT'] == plan['PRODUCT'] \
 						and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 						and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
-						and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION']:
-						print("????????????Them vao list_plan_update ?")
+						and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION']:						
 						list_plan_update.append(plan)
 
 			path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_2' + '.json')
 			with open (path_data_total_map,'w') as f:
 				json.dump(data_total, f)
+			end_insert_file  = time.time()
+			print('Time insert file: ', end_insert_file - insert_file)
 
 			print()
 			print('MAP: ', len(data_total['MAP']))
@@ -469,16 +423,20 @@ def AutoMap(connect, path_data, date):
 			print('list_data_map: ', len(list_data_map))
 			print ('list_plan_remove_unmap: ', len(list_plan_remove_unmap))
 			print ('list_camp_remove_unmap: ', len(list_camp_remove_unmap))		
-			print('list_plan_update: ', len(list_plan_update))	
+			print('list_plan_update: ', len(list_plan_update))
+			print('list_plan_insert: ', len(list_plan_insert))	
 
 
 			# print('list_data_map: ', (list_data_map))
 			# print ('list_plan_remove_unmap: ', (list_plan_remove_unmap))
 			# print ('list_camp_remove_unmap: ', (list_camp_remove_unmap))		
-			print('list_plan_update: ', (list_plan_update))	
+			# print('list_plan_update: ', (list_plan_update))	
+
+			total_time = time.time()
+			print("TOTAL TIME: ", total_time - get_plan)
 		
 
-	return (list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
+	return (list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert)
 
 				
 
@@ -486,18 +444,43 @@ def AutoMap(connect, path_data, date):
 
 				
 
-	
 
+def GetListPlanChangeFromTable(cursor, final_log):	
+	from dateutil import parser
+	#============ Read Plan from Table ===============
+	query = 'select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, \
+					PRODUCT, REASON_CODE_ORACLE, EFORM_NO, START_DAY, END_DAY_ESTIMATE, \
+					CHANNEL, EFORM_TYPE, UNIT_OPTION, UNIT_COST, AMOUNT_USD, \
+					CVALUE, ENGAGEMENT, IMPRESSIONS, CLIKE, CVIEWS, \
+					INSTALL, NRU, INSERT_DATE, REAL_START_DATE, REAL_END_DATE \
+          			STATUS, LAST_UPDATED_DATE\
+      		from STG_FA_DATA_GG \
+      		where LAST_UPDATED_DATE > 1'
 
+	final_log = parser.parse(final_log)
+	cursor.execute(query, (final_log)) 
+	list_new_plan = cursor.fetchall()
+	list_plan_diff = list(list_new_plan)
+	cursor.close()
+	for i in range(len(list_plan_diff)):
+		list_plan_diff[i] = list(list_plan_diff[i])
 
+	for plan in list_plan_diff:
+		print(plan)
+	return list_plan_diff
 
 
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
 date = '2017-05-31' 
-list_plan_diff = GetListPlanChange(connect, path_data, date)
-list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update = AutoMap(connect, path_data, date)
+conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
+cursor = conn.cursor()
+final_log = datetime.datetime.now() - 50
+print(final_log)
+list_plan_diff = GetListPlanChangeFromTable(cursor, final_log)
+# list_plan_diff = GetListPlanChange(connect, path_data, date)
+# list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert = AutoMap(connect, path_data, date)
 
 
 
@@ -534,13 +517,6 @@ list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update 
 
 
 					
-
-
-
-
-
-
-
 
 
 
