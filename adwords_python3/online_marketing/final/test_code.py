@@ -451,15 +451,15 @@ def GetListPlanChangeFromTable(connect, final_log):
 	cursor = conn.cursor()
 	
 	#============ Read Plan from Table ===============
-	
-	query = 'select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, \
+	print(final_log)
+	query = "select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, \
 					PRODUCT, REASON_CODE_ORACLE, EFORM_NO, START_DAY, END_DAY_ESTIMATE, \
 					CHANNEL, EFORM_TYPE, UNIT_OPTION, UNIT_COST, AMOUNT_USD, \
 					CVALUE, ENGAGEMENT, IMPRESSIONS, CLIKE, CVIEWS, \
 					INSTALL, NRU, INSERT_DATE, REAL_START_DATE, REAL_END_DATE \
           			STATUS, LAST_UPDATED_DATE\
       		from STG_FA_DATA_GG \
-      		where LAST_UPDATED_DATE >= to_timestamp('" + final_log "', "mm/dd/yyyy hh24:mi:ss") '
+      		where LAST_UPDATED_DATE >= to_timestamp('" + final_log + "', 'mm/dd/yyyy hh24:mi:ss')"
 
 	
 	cursor.execute(query) 
