@@ -89,20 +89,19 @@ def GetListPlanChangeFromTable(connect, final_log):
 					INSTALL, NRU, INSERT_DATE, REAL_START_DATE, REAL_END_DATE, \
           			STATUS, LAST_UPDATED_DATE\
       		from STG_FA_DATA_GG \
-      		where LAST_UPDATED_DATE >= to_timestamp('" + final_log + "', 'mm/dd/yyyy hh24:mi:ss')"
+      		where LAST_UPDATED_DATE is not null \
+      		and LAST_UPDATED_DATE >= to_timestamp('" + final_log + "', 'mm/dd/yyyy hh24:mi:ss')"
 
 	
 	cursor.execute(query) 
-	final_log = datetime.now().strftime('%m/%d/%Y %H:%M:%S')
-	# final_log = time.strftime("mm/dd/yyyy hh24:mi:ss", time.gmtime())
+	final_log = datetime.now().strftime('%m/%d/%Y %H:%M:%S')	
 	list_new_plan = cursor.fetchall()
 	list_plan_diff = list(list_new_plan)
 	cursor.close()
 
 	for i in range(len(list_plan_diff)):
 		list_plan_diff[i] = list(list_plan_diff[i])
-	list_plan_diff = ConvertListPlan(list_plan_diff)
-
+	
 	for plan in list_plan_diff:
 		print(plan)
 
@@ -110,12 +109,60 @@ def GetListPlanChangeFromTable(connect, final_log):
 	return list_plan_diff, final_log
 
 
-# def ClassifyPlan(list_plan_diff):
-# 	list_plan_new = []
-# 	list_plan_map = []
-# 	list_plan_update = []
+def CheckPlanUpdate(list_plan, plan):
+	for _value in list_plan:
+		# ========= Change product id =====================
+		if _value['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
+		_value['PRODUCT'] == plan['PRODUCT'] and \
+		_value['EFORM_TYPE'] == plan['EFORM_TYPE'] and \
+		_value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
+		_value['START_DAY'] == plan['START_DAY'] and \
+		_value['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE'] and \
+		_value['REAL_START_DATE'] == plan['REAL_START_DATE'] and \
+		_value['REAL_END_DATE'] == plan['REAL_END_DATE'] :
+			return True
 
-# 	for plan in 
+	return False
+		
+
+def ClassifyPlan(connect, path_data, date):
+	# =============== Get plan change =====================
+	path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
+	final_log = open(path_log, 'r')
+	print(final_log)
+
+	list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
+
+	fi = open(path_log, 'w') 
+	fi.writelines(final_log)
+	print("Save log ok..........")
+
+	# ============== Classify plan diff ===================
+	list_plan_new = []
+	list_plan_map = []
+	list_plan_update = []
+
+	for plan in list_plan_diff:
+		if plan[22] == plan[26]:
+			list_plan_new.(ConvertPlan(plan))
+			print('new')
+		else:
+			# ========= Finally plan from data ==============
+			file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
+			with open(file_plan, 'r') as fi:
+				list_plan = json.load(fi)
+			plan = ConvertPlan(plan)
+			flag = CheckPlanUpdate(list_plan, plan)
+
+			if flag:
+				list_plan_update.append(plan)
+			else:
+				list_data_map.append(plan)
+
+	print('list_plan_new: ', len(list_plan_new))
+	print('list_plan_map: ', len(list_plan_map))
+	print('list_plan_update: ', len(list_plan_update))
+
 
 
 
@@ -136,6 +183,9 @@ path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3
 fi = open(path_log, 'w') 
 fi.writelines(final_log)
 print("Save log ok..........")
+
+
+ClassifyPlan(connect, path_data, date)
 # # list_plan_diff = GetListPlanChangeFromTable(cursor, final_log)
 # list_plan_diff = GetListPlanChange(connect, path_data, date)
 # list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert = AutoMap(connect, path_data, date)
