@@ -12,7 +12,7 @@ import insert_report_plan_sum as plan_sum
 import insert_report_detail_map as detail_map
 import insert_nru_to_plan as nru
 
-import plan_change as plan_change
+# import plan_change as plan_change
 import merge_data_manual_mapping as merge_data_manual_mapping
 
 def ManualMapping (connect, path_data, date):
