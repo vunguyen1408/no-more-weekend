@@ -328,7 +328,7 @@ with open(path_total, 'r') as fi:
 # 			plan_total['APPSFLYER_PRODUCT'].append(plan['APPSFLYER_PRODUCT'])
 # 	print (plan_total['APPSFLYER_PRODUCT'])
 
-	for plan_total in data_total['MAP']:
+	for plan_total in data_total['UN_CAMPAIGN']:
 	# if plan_total['REASON_CODE_ORACLE'] == '1708007':
 		if str(plan_total['Campaign ID']) == '772872164' and str(plan_total['CMONTH']) == '6':
 			print (plan_total)
