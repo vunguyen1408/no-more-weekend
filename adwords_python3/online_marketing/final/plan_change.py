@@ -5,6 +5,7 @@ from datetime import datetime , timedelta, date
 import manual_mapping_and_remap as manual
 import mapping_campaign_plan as mapping
 import insert_data_map_to_total as insert_to_total
+import time
 
 
 
@@ -188,6 +189,7 @@ def merger_data_map(data_map_all, data_map_GS5, data_map_WPL):
 
 	
 def AutoMap(connect, path_data, date):
+	get_plan = time.time()
 	# ------------- Get new plan or change plan ----------------	
 	list_plan = GetListPlanChange(connect, path_data, date)
 	list_plan = ConvertListPlan(list_plan)
@@ -205,6 +207,8 @@ def AutoMap(connect, path_data, date):
 	# 	if (plan['REASON_CODE_ORACLE'] == '1705131'):
 	# 		# plan['UNIT_OPTION'] = 'CPC'
 	# 		print(plan)
+	end_get_plan = time.time()
+	print("Time get plan: ", end_get_plan - get_plan)
 
 	list_data_map = []
 	list_plan_remove_unmap = []
@@ -214,6 +218,7 @@ def AutoMap(connect, path_data, date):
 
 	print("==========================================================")
 	if len(list_plan) > 0:
+		get_camp = time.time()
 		# ------------- Get campaign for mapping ----------------	
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 		
@@ -261,6 +266,8 @@ def AutoMap(connect, path_data, date):
 			# print(len(list_camp_GS5))
 			# print(len(list_camp_WPL))
 
+			end_get_camp = time.time()
+			print("Time get camp: ", end_get_camp - get_camp)
 
 			#----------------- Mapping with campaign unmap -------------------------
 			data_map_all = {
@@ -277,6 +284,7 @@ def AutoMap(connect, path_data, date):
 				'plan': [],
 				'campaign': []
 			}
+			mapping  = time.time()
 			if (len(list_camp_all) > 0):
 				data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
 
@@ -287,6 +295,8 @@ def AutoMap(connect, path_data, date):
 				data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
 
 			list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
+			end_mapping = time.time()
+			print("Time mapping: ", end_mapping - mapping)
 
 			list_plan_total, list_data_map = insert_to_total.SumTotalManyPlan(list_plan, list_camp)
 
@@ -296,12 +306,12 @@ def AutoMap(connect, path_data, date):
 
 			#---------------- Merger data unmap ---------------------------------------
 
-			# print('MAP: ', len(data_total['MAP']))
-			# print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
-			# print ('UN_PLAN: ', len(data_total['UN_PLAN']))
-			# print ('TOTAL: ', len(data_total['TOTAL']))
+			print('MAP: ', len(data_total['MAP']))
+			print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
+			print ('UN_PLAN: ', len(data_total['UN_PLAN']))
+			print ('TOTAL: ', len(data_total['TOTAL']))
 
-
+			insert_file  = time.time()
 			#---------- Data map ------------------
 			data_total['MAP'].extend(list_data_map)
 
@@ -393,12 +403,14 @@ def AutoMap(connect, path_data, date):
 			path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_2' + '.json')
 			with open (path_data_total_map,'w') as f:
 				json.dump(data_total, f)
+			end_insert_file  = time.time()
+			print('Time insert file: ', end_insert_file - insert_file)
 
-			# print()
-			# print('MAP: ', len(data_total['MAP']))
-			# print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
-			# print ('UN_PLAN: ', len(data_total['UN_PLAN']))
-			# print ('TOTAL: ', len(data_total['TOTAL']))
+			print()
+			print('MAP: ', len(data_total['MAP']))
+			print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
+			print ('UN_PLAN: ', len(data_total['UN_PLAN']))
+			print ('TOTAL: ', len(data_total['TOTAL']))
 
 
 			print()
@@ -426,11 +438,11 @@ def AutoMap(connect, path_data, date):
 
 
 
-# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-# path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
-# date = '2017-05-31' 
-# list_plan_diff = GetListPlanChange(connect, path_data, date)
-# list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert = AutoMap(connect, path_data, date)
+connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
+date = '2017-05-31' 
+list_plan_diff = GetListPlanChange(connect, path_data, date)
+list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert = AutoMap(connect, path_data, date)
 
 
 
