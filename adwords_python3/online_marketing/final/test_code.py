@@ -478,7 +478,7 @@ path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
 date = '2017-05-31' 
 conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 cursor = conn.cursor()
-final_log = datetime.datetime.now() - 50
+final_log = datetime.now() - datetime(2017, 10, 27, 00, 00, 00)
 print(final_log)
 list_plan_diff = GetListPlanChangeFromTable(cursor, final_log)
 # list_plan_diff = GetListPlanChange(connect, path_data, date)
