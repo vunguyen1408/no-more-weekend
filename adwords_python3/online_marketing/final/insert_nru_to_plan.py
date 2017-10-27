@@ -5,6 +5,7 @@ import numpy as np
 import json
 import cx_Oracle
 from datetime import datetime , timedelta, date
+import time
 
 
 def Read_NRU_for_total(cursor, start_date, end_date, product):
@@ -177,7 +178,9 @@ def Add_Data_To_Plan(connect, path_data, date):
 	with open(file_plan, 'r') as fi:
 		list_plan = json.load(fi)
 
+	start = time.time()
 	list_plan = Add_NRU_for_monthly(connect, list_plan)
+	print ("Time add NRU in function", (time.time() - start))
 	
 	with open (file_plan,'w') as f:
 		json.dump(list_plan, f)

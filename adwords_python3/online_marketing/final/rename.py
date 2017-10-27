@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 import json
 from datetime import datetime , timedelta, date
-from googleads import adwords
+# from googleads import adwords
 # ----------------- package -----------------
 import mapping_campaign_plan as mapping
 import insert_data_map_to_total as insert_to_total
@@ -22,8 +22,16 @@ PAGE_SIZE = 100
 
 def GetCampaign(client, acccount_id):
   # Initialize appropriate service.
+  from datetime import datetime , timedelta, date
+
   client.SetClientCustomerId(str(acccount_id))
   campaign_service = client.GetService('CampaignService', version='v201708')
+
+  path_log = 'C:/Users/ltduo/Desktop/log.csv'  
+  fi = open(path_log, 'a+') 
+  
+  line = (datetime.now().strftime('%Y-%m-%d') + '\t' + acccount_id + '\t' + 'CampaignService' + '\n')
+  fi.write(line)
 
   # Construct selector and get all campaigns.
   offset = 0
@@ -51,7 +59,7 @@ def GetCampaign(client, acccount_id):
       }
   }
 
-  from datetime import datetime , timedelta, date
+  # from datetime import datetime , timedelta, date
   more_pages = True
   list_camp = []
   while more_pages:

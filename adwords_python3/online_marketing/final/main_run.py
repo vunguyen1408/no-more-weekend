@@ -4,7 +4,7 @@ import json
 import os
 import time
 from datetime import datetime , timedelta, date
-from googleads import adwords
+# from googleads import adwords
 
 # ------------ PACKAGE --------------
 # import download_report as download
@@ -85,17 +85,17 @@ def Daily(connect, path_data, date):
 	# print ("\n\n======================= RUN INSERT INSTALL WITH DATE : " + date + " =========================")
 	# insert_install = time.time()
 
-	install.RunInsertInstall(connect, path_data, list_customer_id, date)
+	# install.RunInsertInstall(connect, path_data, list_customer_id, date)
 
 	# time_insert = time.time() - insert_install
 
 
 
 	#------------------ Read log manual mapping and get plan NRU ---------------------
-	mapping_data.ReadPlanFromTable(connect, path_data, date)
+	# mapping_data.ReadPlanFromTable(connect, path_data, date)
 	
-	mapping_data.ReadProductAlias(connect, path_data, date)
-	manual.ReadTableManualMap(connect, path_data, date)
+	# mapping_data.ReadProductAlias(connect, path_data, date)
+	# manual.ReadTableManualMap(connect, path_data, date)
 	#----------------------------------------------------------------
 	# print ("             Time insert install: ", time_insert)
 
@@ -104,7 +104,7 @@ def Daily(connect, path_data, date):
 	#======================== Mapping data for list account ============================
 	# print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
 	# mapping = time.time()
-	mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
+	# mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
 	# time_mapping = time.time() - mapping
 	# print ("             Time maping: ", time_mapping)
 
@@ -113,7 +113,7 @@ def Daily(connect, path_data, date):
 	#============================== Merge data ===============================
 	# print ("\n\n======================= RUN MERGE WITH DATE : " + date + " =========================")
 	# merge = time.time()
-	merge_date.Merge(path_data, list_customer_id, date)
+	# merge_date.Merge(path_data, list_customer_id, date)
 	# time_merge = time.time() - merge
 	# print ("             Time merge: ", time_merge)
 
@@ -121,7 +121,7 @@ def Daily(connect, path_data, date):
 	#============================== Insert data mapping to total ===============================
 	# print ("\n\n============= RUN INSERT DATA MAPPING TO TOTAL WITH DATE : " + date + " =================")
 	# insert_total = time.time()
-	insert_to_total.InsertDateToTotal(path_data, date)
+	# insert_to_total.InsertDateToTotal(path_data, date)
 	# time_insert_total = time.time() - insert_total
 	# print ("            Time insert data mapping to total : ", time_insert_total)
 
@@ -137,7 +137,8 @@ def Daily(connect, path_data, date):
 	# print ("\n\n======================= RUN INSERT NRU WITH DATE : " + date + " =========================")
 	# insert_nru = time.time()
 	# nru.Add_Data_To_Plan(connect, path_data, date)
-	# time_insert = time.time() - insert_install
+	# time_insert = time.time() - insert_nru
+	# print ("---------- Time insert nru to total : ", time_insert)
 
 
 	# ======================= Insert branding install ====================================
@@ -145,6 +146,7 @@ def Daily(connect, path_data, date):
 	# insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
 
 	#======================== History name ==================================
+
 	# list_diff = history.InsertHistoryName(connect, path_data, list_customer_id, date)
 
 
@@ -156,10 +158,10 @@ def Daily(connect, path_data, date):
 	list_map = []
 	list_camp_remove = []
 	
-	# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	# detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
 
 
 	# time_insert_databse = time.time() - insert_databse
@@ -190,7 +192,7 @@ def ManyDate(connect, path_data, start_date, end_date):
 
 # start_date = '2017-06-01'
 # end_date = '2017-06-30'
-path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG'
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 # ManyDate(connect, path_data, start_date, end_date)
 
