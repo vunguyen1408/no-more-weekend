@@ -207,7 +207,7 @@ def CheckNameChange(path_data, list_customer, date):
       json.dump(data_total, f)
     ############################################
   print ("====================== Length =================")
-  print (len(list_diff))
+  print (list_diff)
   # print (list_diff[0])
   # print (list_diff[1])
   # print (list_diff[2])
