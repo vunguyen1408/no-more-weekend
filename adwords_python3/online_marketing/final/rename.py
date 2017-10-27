@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 import json
 from datetime import datetime , timedelta, date
-from googleads import adwords
+# from googleads import adwords
 # ----------------- package -----------------
 import mapping_campaign_plan as mapping
 import insert_data_map_to_total as insert_to_total
