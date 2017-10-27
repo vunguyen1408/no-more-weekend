@@ -344,6 +344,7 @@ def CacualatorChange(path_data, list_diff, date):
     # print (list_camp_find[0])
     # print (list_camp_find[1])
     # print (list_camp_find[2])
+    print (list_camp_find)
     list_camp_update = list_camp_find # Update name
     mp2 = 0
     pg1 = 0
