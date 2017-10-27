@@ -114,7 +114,7 @@ def CheckPlanUpdate(list_plan, plan):
 		# ========= Change product id =====================
 		if _value['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
 		_value['PRODUCT'] == plan['PRODUCT'] and \
-		_value['EFORM_TYPE'] == plan['EFORM_TYPE'] and \
+		_value['FORM_TYPE'] == plan['FORM_TYPE'] and \
 		_value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
 		_value['START_DAY'] == plan['START_DAY'] and \
 		_value['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE'] and \
