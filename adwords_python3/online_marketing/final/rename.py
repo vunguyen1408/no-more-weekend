@@ -153,12 +153,13 @@ def CheckNameChange(path_data, list_customer, date):
     temp_ = []
     for camp_ in list_camp:
       flag = history_name.FindNameNew(data_total['HISTORY'], str(camp_['CAMPAIGN_ID']), camp_['CAMPAIGN_NAME'])
-      if str(camp_['CAMPAIGN_ID']) == '734063969' or str(camp_['CAMPAIGN_ID']) == '772872164':
-        print (camp_)
-        print (flag)
+      # if str(camp_['CAMPAIGN_ID']) == '734063969' or str(camp_['CAMPAIGN_ID']) == '772872164':
+      #   print (camp_)
+      #   print (flag)
 
       if flag == -1:
         list_diff.append(camp_)
+        print (camp_)
         temp = {
           'ACCOUNT_ID': camp_['ACCOUNT_ID'],
           'CAMPAIGN_ID' : str(camp_['CAMPAIGN_ID']),
@@ -168,6 +169,7 @@ def CheckNameChange(path_data, list_customer, date):
           'UPDATE_DATE': str(date),
           'IMPORT_DATE' : None
         }
+        # print (camp_)
         data_total['HISTORY'].append(temp)
         # print (camp_)
 
@@ -193,7 +195,7 @@ def CheckNameChange(path_data, list_customer, date):
         # if str(camp_['CAMPAIGN_ID']) == '912249835' and str(camp_['CAMPAIGN_ID']) not in temp_:
         #   temp_.append(str(camp_['CAMPAIGN_ID']))
         #####################################
-    print (temp_)
+    # print (temp_)
     time.sleep(5)
     #----------- Write file history new ----------------------
     path_folder = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING')
@@ -207,7 +209,7 @@ def CheckNameChange(path_data, list_customer, date):
       json.dump(data_total, f)
     ############################################
   print ("====================== Length =================")
-  print (list_diff)
+  # print (list_diff)
   # print (list_diff[0])
   # print (list_diff[1])
   # print (list_diff[2])
