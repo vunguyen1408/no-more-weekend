@@ -160,7 +160,7 @@ def ClassifyPlan(connect, path_data, date):
 			if flag:
 				list_plan_update.append(plan)
 			else:
-				list_data_map.append(plan)
+				list_plan_map.append(plan)
 
 	print('list_plan_new: ', len(list_plan_new))
 	print('list_plan_map: ', len(list_plan_map))
