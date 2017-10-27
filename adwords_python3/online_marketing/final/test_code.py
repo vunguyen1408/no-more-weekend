@@ -451,6 +451,8 @@ def GetListPlanChangeFromTable(connect, final_log):
 	cursor = conn.cursor()
 	
 	#============ Read Plan from Table ===============
+	final_log = datetime.strptime(final_log,"%Y-%m-%d %H:%M:%S")
+	
 	query = 'select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, \
 					PRODUCT, REASON_CODE_ORACLE, EFORM_NO, START_DAY, END_DAY_ESTIMATE, \
 					CHANNEL, EFORM_TYPE, UNIT_OPTION, UNIT_COST, AMOUNT_USD, \
@@ -458,9 +460,9 @@ def GetListPlanChangeFromTable(connect, final_log):
 					INSTALL, NRU, INSERT_DATE, REAL_START_DATE, REAL_END_DATE \
           			STATUS, LAST_UPDATED_DATE\
       		from STG_FA_DATA_GG \
-      		where LAST_UPDATED_DATE > :1'
+      		where LAST_UPDATED_DATE > "' + final_log + '" '
 
-	final_log = datetime.strptime(final_log,"%Y-%m-%d %H:%M:%S")
+	
 	cursor.execute(query, (final_log)) 
 
 	list_new_plan = cursor.fetchall()
