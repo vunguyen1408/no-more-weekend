@@ -142,7 +142,7 @@ def CheckNameChange(path_data, list_customer, date):
 
     ###########check code : duonglt 23-10 : 12:44 PM#################
     for camp_ in list_camp:
-        if str(camp_['CAMPAIGN_ID']) == '717789080':
+        if str(camp_['CAMPAIGN_ID']) == '734063969':
           print (camp_['CAMPAIGN_NAME'])
           print (" TTTTTTTTTTT im thay")
           time.sleep(5)
@@ -153,6 +153,10 @@ def CheckNameChange(path_data, list_customer, date):
     temp_ = []
     for camp_ in list_camp:
       flag = history_name.FindNameNew(data_total['HISTORY'], str(camp_['CAMPAIGN_ID']), camp_['CAMPAIGN_NAME'])
+      if str(camp_['CAMPAIGN_ID']) == '734063969' or str(camp_['CAMPAIGN_ID']) == '772872164':
+        print (camp_)
+        print (flag)
+
       if flag == -1:
         list_diff.append(camp_)
         temp = {
