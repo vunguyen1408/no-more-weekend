@@ -144,7 +144,7 @@ def ClassifyPlan(connect, path_data, date):
 
 	for plan in list_plan_diff:
 		if plan[22] == plan[26]:
-			list_plan_new.(ConvertPlan(plan))
+			list_plan_new.append(ConvertPlan(plan))
 			print('new')
 		else:
 			# ========= Finally plan from data ==============
