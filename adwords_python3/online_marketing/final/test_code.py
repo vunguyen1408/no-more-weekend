@@ -464,7 +464,8 @@ def GetListPlanChangeFromTable(connect, final_log):
 	
 	cursor.execute(query) 
 
-	final_log = datetime.now().strftime("mm/dd/yyyy hh24:mi:ss")
+	# final_log = datetime.now().strftime("mm/dd/yyyy hh24:mi:ss")
+	final_log = time.strftime("mm/dd/yyyy hh24:mi:ss", time.gmtime())
 	list_new_plan = cursor.fetchall()
 	list_plan_diff = list(list_new_plan)
 	cursor.close()
