@@ -457,7 +457,7 @@ def GetListPlanChangeFromTable(cursor, final_log):
       		from STG_FA_DATA_GG \
       		where LAST_UPDATED_DATE > 1'
 
-    final_log = parser.parse(final_log)
+	final_log = parser.parse(final_log)
 	cursor.execute(query, (final_log)) 
 	list_new_plan = cursor.fetchall()
 	list_plan_diff = list(list_new_plan)
