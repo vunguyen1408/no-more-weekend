@@ -102,7 +102,7 @@ def GetListPlanChangeFromTable(connect, final_log):
 	for i in range(len(list_plan_diff)):
 		list_plan_diff[i] = list(list_plan_diff[i])
 	list_plan_diff = ConvertListPlan(list_plan)
-	
+
 	for plan in list_plan_diff:
 		print(plan)
 
@@ -127,7 +127,7 @@ def GetListPlanChangeFromTable(connect, final_log):
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
 date = '2017-05-31' 
-final_log = '10/27/2017 10:00:00.67232'
+final_log = '10/27/2017 10:00:00'
 
 
 list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
