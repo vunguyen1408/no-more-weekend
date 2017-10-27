@@ -489,14 +489,14 @@ def GetListPlanChangeFromTable(connect, final_log):
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
 date = '2017-05-31' 
-final_log = '10/27/2017 10:00:00'
+final_log = '10/27/2017 10:00:00.67232'
 
 
 list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
 
 path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
-fi = open(path_log, 'a+') 
-fi.writelines(final_log.strftime("mm/dd/yyyy hh24:mi:ss"))
+fi = open(path_log, 'w') 
+fi.writelines(final_log)
 print("Save log ok..........")
 # # list_plan_diff = GetListPlanChangeFromTable(cursor, final_log)
 # list_plan_diff = GetListPlanChange(connect, path_data, date)
