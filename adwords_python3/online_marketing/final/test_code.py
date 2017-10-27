@@ -445,7 +445,8 @@ def AutoMap(connect, path_data, date):
 				
 
 
-def GetListPlanChangeFromTable(cursor): #, final_log):	
+def GetListPlanChangeFromTable(cursor, final_log):	
+	from dateutil import parser
 	#============ Read Plan from Table ===============
 	query = 'select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, \
 					PRODUCT, REASON_CODE_ORACLE, EFORM_NO, START_DAY, END_DAY_ESTIMATE, \
@@ -454,10 +455,10 @@ def GetListPlanChangeFromTable(cursor): #, final_log):
 					INSTALL, NRU, INSERT_DATE, REAL_START_DATE, REAL_END_DATE \
           			STATUS, LAST_UPDATED_DATE\
       		from STG_FA_DATA_GG \
-      		where LAST_UPDATED_DATE is not null'
+      		where LAST_UPDATED_DATE > 1'
 
-    # final_log = datetime.strptime(final_log, '%Y')
-	cursor.execute(query) #, (final_log))
+    final_log = parser.parse(final_log)
+	cursor.execute(query, (final_log)) 
 	list_new_plan = cursor.fetchall()
 	list_plan_diff = list(list_new_plan)
 	cursor.close()
@@ -475,7 +476,9 @@ path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
 date = '2017-05-31' 
 conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 cursor = conn.cursor()
-list_plan_diff = GetListPlanChangeFromTable(cursor)
+final_log = datetime.datetime.now() - 50
+print(final_log)
+list_plan_diff = GetListPlanChangeFromTable(cursor, final_log)
 # list_plan_diff = GetListPlanChange(connect, path_data, date)
 # list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert = AutoMap(connect, path_data, date)
 
