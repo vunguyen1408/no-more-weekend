@@ -128,7 +128,8 @@ def CheckPlanUpdate(list_plan, plan):
 def ClassifyPlan(connect, path_data, date):
 	# =============== Get plan change =====================
 	path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
-	final_log = open(path_log, 'r')
+	fi = open(path_log, 'r')
+	final_log = fi.read()
 	print(final_log)
 
 	list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
