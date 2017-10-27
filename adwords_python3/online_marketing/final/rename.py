@@ -172,26 +172,26 @@ def CheckNameChange(path_data, list_customer, date):
         # print (camp_)
 
         ############# ######################
-        if str(camp_['CAMPAIGN_ID']) == '733863589' and str(camp_['CAMPAIGN_ID']) not in temp_:
-          temp_.append(str(camp_['CAMPAIGN_ID']))
-        if str(camp_['CAMPAIGN_ID']) == '734049572' and str(camp_['CAMPAIGN_ID']) not in temp_:
-          temp_.append(str(camp_['CAMPAIGN_ID']))
-        if str(camp_['CAMPAIGN_ID']) == '734063969' and str(camp_['CAMPAIGN_ID']) not in temp_:
-          temp_.append(str(camp_['CAMPAIGN_ID']))
-        if str(camp_['CAMPAIGN_ID']) == '772872164' and str(camp_['CAMPAIGN_ID']) not in temp_:
-          temp_.append(str(camp_['CAMPAIGN_ID']))
-        if str(camp_['CAMPAIGN_ID']) == '697791306' and str(camp_['CAMPAIGN_ID']) not in temp_:
-          temp_.append(str(camp_['CAMPAIGN_ID']))
-        if str(camp_['CAMPAIGN_ID']) == '699310064' and str(camp_['CAMPAIGN_ID']) not in temp_:
-          temp_.append(str(camp_['CAMPAIGN_ID']))
-        if str(camp_['CAMPAIGN_ID']) == '898875721' and str(camp_['CAMPAIGN_ID']) not in temp_:
-          temp_.append(str(camp_['CAMPAIGN_ID']))
-        if str(camp_['CAMPAIGN_ID']) == '909378140' and str(camp_['CAMPAIGN_ID']) not in temp_:
-          temp_.append(str(camp_['CAMPAIGN_ID']))
-        if str(camp_['CAMPAIGN_ID']) == '909991335' and str(camp_['CAMPAIGN_ID']) not in temp_:
-          temp_.append(str(camp_['CAMPAIGN_ID']))
-        if str(camp_['CAMPAIGN_ID']) == '912249835' and str(camp_['CAMPAIGN_ID']) not in temp_:
-          temp_.append(str(camp_['CAMPAIGN_ID']))
+        # if str(camp_['CAMPAIGN_ID']) == '733863589' and str(camp_['CAMPAIGN_ID']) not in temp_:
+        #   temp_.append(str(camp_['CAMPAIGN_ID']))
+        # if str(camp_['CAMPAIGN_ID']) == '734049572' and str(camp_['CAMPAIGN_ID']) not in temp_:
+        #   temp_.append(str(camp_['CAMPAIGN_ID']))
+        # if str(camp_['CAMPAIGN_ID']) == '734063969' and str(camp_['CAMPAIGN_ID']) not in temp_:
+        #   temp_.append(str(camp_['CAMPAIGN_ID']))
+        # if str(camp_['CAMPAIGN_ID']) == '772872164' and str(camp_['CAMPAIGN_ID']) not in temp_:
+        #   temp_.append(str(camp_['CAMPAIGN_ID']))
+        # if str(camp_['CAMPAIGN_ID']) == '697791306' and str(camp_['CAMPAIGN_ID']) not in temp_:
+        #   temp_.append(str(camp_['CAMPAIGN_ID']))
+        # if str(camp_['CAMPAIGN_ID']) == '699310064' and str(camp_['CAMPAIGN_ID']) not in temp_:
+        #   temp_.append(str(camp_['CAMPAIGN_ID']))
+        # if str(camp_['CAMPAIGN_ID']) == '898875721' and str(camp_['CAMPAIGN_ID']) not in temp_:
+        #   temp_.append(str(camp_['CAMPAIGN_ID']))
+        # if str(camp_['CAMPAIGN_ID']) == '909378140' and str(camp_['CAMPAIGN_ID']) not in temp_:
+        #   temp_.append(str(camp_['CAMPAIGN_ID']))
+        # if str(camp_['CAMPAIGN_ID']) == '909991335' and str(camp_['CAMPAIGN_ID']) not in temp_:
+        #   temp_.append(str(camp_['CAMPAIGN_ID']))
+        # if str(camp_['CAMPAIGN_ID']) == '912249835' and str(camp_['CAMPAIGN_ID']) not in temp_:
+        #   temp_.append(str(camp_['CAMPAIGN_ID']))
         #####################################
     print (temp_)
     time.sleep(5)
