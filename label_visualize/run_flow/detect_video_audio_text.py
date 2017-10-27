@@ -52,6 +52,8 @@ def transcribe_audio(p_speech_file, p_sample_rate):
 
 
     text = {}
+    text['transcript']=''
+    text['confidence']=''
     # Print the first alternative of all the consecutive results.
     for result in response.results:
         print('Transcript: {}'.format(result.alternatives[0].transcript))
@@ -91,92 +93,51 @@ def get_audio_text(p_folder, p_path_folder_work, p_work_json):
     for _file_ in list_file:
         file_json = {
             'name': _file_,
-            'index': int(_file_[11:-5])
+            'video_index': int(_file_[11:-5])
         }
+        print(file_json)
         list_index.append(file_json)
 
 
 
-#loop 1
-for _i, _value in enumerate(p_work_json['my_json']):
+    #loop 1
+    for _i, _value in enumerate(p_work_json['my_json']):
 
-    #loop 2
-    for _file in list_index:
+        #loop 2
+        for _file in list_index:
 
-        if _file['video_index'] == _i:
+            if _file['video_index'] == _i:
 
-            # link = 'gs://python_video/' + folder + '/' + file_['name']
-            file_name = p_path_folder_work + '/' + _file['name']
-            print('Process:',file_name)
+                # link = 'gs://python_video/' + folder + '/' + file_['name']
+                file_name = p_path_folder_work + '/' + _file['name']
+                print('Process:',file_name)
 
-            #not image_texts exist->init {}
-            if 'audio_text' not in _value:
-                print('init')
-                _value['audio_text'] = {}
-
-                text={}
-                text['name']=_file['name']
-                text['text']=detect_audio_text(file_name)
-                text['api_call']=1
-                _value['audio_text']=text
-            #exist image_texts -> update
-            else:
-
-                #exist -> update
-
-                count=_value['audio_text'].get('api_call',0)
-                if count==0:
-                    print('update')
+                #not image_texts exist->init {}
+                if 'audio_text' not in _value:
+                    print('init')
+                    _value['audio_text'] = {}
 
                     text={}
                     text['name']=_file['name']
                     text['text']=detect_audio_text(file_name)
-                    text['api_call']=count+1
+                    text['api_call']=1
                     _value['audio_text']=text
-                                    
+                #exist image_texts -> update
+                else:
+                    print('exist')
+                    #exist -> update
 
-                    #########################
+                    count=_value['audio_text'].get('api_call',0)
+                    #2 condion
+                    if count==0 or not _value['audio_text'].get('text',{}) :
+                        print('update')
 
-    #print   (list_index)
+                        text={}
+                        text['name']=_file['name']
+                        text['text']=detect_audio_text(file_name)
+                        text['api_call']=count+1
+                        _value['audio_text']=text
 
-    for _i, _value in enumerate(p_work_json['my_json']):
-        if 'audio_text' not in _value:
-            _value['audio_text'] = {}
-            _value['audio_text']['api_call'] = 0
-            _value['audio_text']['transcript'] = ''
-            _value['audio_text']['confidence'] = 0
-
-        if 'api_call' not in _value['audio_text']:
-            _value['audio_text']['api_call']=0
-
-
-        if not _value['audio_text'].get('transcript',''):
-
-            for file_ in list_index:
-
-                if file_['index'] == _i:
-                    # link = 'gs://python_video/' + folder + '/' + file_['name']
-                    file_name = p_path_folder_work + '/' + file_['name']
-                    print(file_name)
-
-                    # list_label = analyze_labels(link)
-                    # value['video_label'] = list(list_label)
-
-                    #leth 2017.10.20
-                    #check file size > 0
-                    file_stat = os.stat(file_name)
-                    #print (file_stat.st_size)
-
-                    if file_stat.st_size > 0:
-                        #count api_call
-                        count = _value['audio_text'].get('api_call',0)
-                        if count == 0:
-                            _value['audio_text'] = analyze_labels(file_name)
-                            _value['audio_text']['api_call'] = count+1
-                            print('Result')
-                            print(_value['audio_text'])
-                    # value['audio_text'] = {}
-                    # print ("Done")
 
     return p_work_json
 
