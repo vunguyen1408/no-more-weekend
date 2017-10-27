@@ -464,8 +464,8 @@ def GetListPlanChangeFromTable(connect, final_log):
 	
 	cursor.execute(query) 
 
-	# final_log = datetime.now().strftime("mm/dd/yyyy hh24:mi:ss")
-	final_log = time.strftime("mm/dd/yyyy hh24:mi:ss", time.gmtime())
+	final_log = datetime.now()#.strftime("mm/dd/yyyy hh24:mi:ss")
+	# final_log = time.strftime("mm/dd/yyyy hh24:mi:ss", time.gmtime())
 	list_new_plan = cursor.fetchall()
 	list_plan_diff = list(list_new_plan)
 	cursor.close()
@@ -493,16 +493,11 @@ final_log = '10/27/2017 10:00:00'
 
 
 list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
-print(final_log)
 
-a = datetime.now()
-a = a.strftime("mm/dd/yyyy hh24:mi:ss")
-print(a)
-
-# path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
-# fi = open(path_log, 'a+') 
-# fi.writelines(final_log.strftime("%Y-%m-%d %H:%M:%S.%f"))
-# print("Save log ok..........")
+path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
+fi = open(path_log, 'a+') 
+fi.writelines(final_log.strftime("mm/dd/yyyy hh24:mi:ss"))
+print("Save log ok..........")
 # # list_plan_diff = GetListPlanChangeFromTable(cursor, final_log)
 # list_plan_diff = GetListPlanChange(connect, path_data, date)
 # list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert = AutoMap(connect, path_data, date)
