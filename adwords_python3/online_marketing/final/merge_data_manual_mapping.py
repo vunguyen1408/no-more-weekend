@@ -21,7 +21,7 @@ def UpdateRename(connect, list_camp_update, data):
 		except:
 			cursor.execute(statement, (value['Campaign'].encode('utf-8'), value['Campaign ID'], value['Date']))
 
-		print ((value['Campaign'], value['Campaign ID'], value['Date']))
+		print ((value['Campaign'], str(value['Campaign ID']), value['Date']))
 
 	for i in data['HISTORY']:
 		history_name.MergerCampList(i, cursor)
