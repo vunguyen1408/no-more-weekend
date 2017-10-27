@@ -101,7 +101,7 @@ def GetListPlanChangeFromTable(connect, final_log):
 
 	for i in range(len(list_plan_diff)):
 		list_plan_diff[i] = list(list_plan_diff[i])
-	list_plan_diff = ConvertListPlan(list_plan)
+	list_plan_diff = ConvertListPlan(list_plan_diff)
 
 	for plan in list_plan_diff:
 		print(plan)
