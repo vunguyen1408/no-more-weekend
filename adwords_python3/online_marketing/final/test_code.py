@@ -451,20 +451,21 @@ def GetListPlanChangeFromTable(connect, final_log):
 	cursor = conn.cursor()
 	
 	#============ Read Plan from Table ===============
-	
-	query = """select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, \
+
+	query = "select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, \
 					PRODUCT, REASON_CODE_ORACLE, EFORM_NO, START_DAY, END_DAY_ESTIMATE, \
 					CHANNEL, EFORM_TYPE, UNIT_OPTION, UNIT_COST, AMOUNT_USD, \
 					CVALUE, ENGAGEMENT, IMPRESSIONS, CLIKE, CVIEWS, \
 					INSTALL, NRU, INSERT_DATE, REAL_START_DATE, REAL_END_DATE \
           			STATUS, LAST_UPDATED_DATE\
       		from STG_FA_DATA_GG \
-      		where LAST_UPDATED_DATE >= to_timestamp("' + final_log + '", 'mm/dd/yyyy hh24:mi:ss') """
+      		where LAST_UPDATED_DATE >= to_timestamp('" + final_log + "', 'mm/dd/yyyy hh24:mi:ss')"
 
 	
 	cursor.execute(query) 
 
-	final_log = datetime.now().strftime("mm/dd/yyyy hh24:mi:ss")
+	final_log = datetime.now()#.strftime("mm/dd/yyyy hh24:mi:ss")
+	# final_log = time.strftime("mm/dd/yyyy hh24:mi:ss", time.gmtime())
 	list_new_plan = cursor.fetchall()
 	list_plan_diff = list(list_new_plan)
 	cursor.close()
@@ -474,8 +475,9 @@ def GetListPlanChangeFromTable(connect, final_log):
 
 	for plan in list_plan_diff:
 		print(plan)
-	print(final_log)
-	return list_plan_diff
+
+	print(final_log) 
+	return list_plan_diff, final_log
 
 
 
@@ -487,17 +489,15 @@ def GetListPlanChangeFromTable(connect, final_log):
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
 date = '2017-05-31' 
+final_log = '10/27/2017 10:00:00.67232'
 
 
-final_log = '10/27/2017 10:00:00'
-print(final_log)
+list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
 
-list_plan_diff = GetListPlanChangeFromTable(connect, final_log)
-
-# path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
-# fi = open(path_log, 'a+') 
-# fi.writelines(final_log.strftime("%Y-%m-%d %H:%M:%S.%f"))
-# print("Save log ok..........")
+path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
+fi = open(path_log, 'w') 
+fi.writelines(final_log)
+print("Save log ok..........")
 # # list_plan_diff = GetListPlanChangeFromTable(cursor, final_log)
 # list_plan_diff = GetListPlanChange(connect, path_data, date)
 # list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert = AutoMap(connect, path_data, date)
