@@ -112,31 +112,36 @@ def get_audio_text(p_folder, p_path_folder_work, p_work_json):
                 file_name = p_path_folder_work + '/' + _file['name']
                 print('Process:',file_name)
 
-                #not image_texts exist->init {}
-                if 'audio_text' not in _value:
-                    print('init')
-                    _value['audio_text'] = {}
-
-                    text={}
-                    text['name']=_file['name']
-                    text['text']=detect_audio_text(file_name)
-                    text['api_call']=1
-                    _value['audio_text']=text
-                #exist image_texts -> update
-                else:
-                    print('exist')
-                    #exist -> update
-
-                    count=_value['audio_text'].get('api_call',0)
-                    #2 condion
-                    if count==0 or not _value['audio_text'].get('text',{}) :
-                        print('update')
+                #leth 2017.10.20
+                #check file size > 0
+                file_stat = os.stat(file_name)
+                #print (file_stat.st_size)
+                if file_stat.st_size > 0:
+                    #not image_texts exist->init {}
+                    if 'audio_text' not in _value:
+                        print('init')
+                        _value['audio_text'] = {}
 
                         text={}
                         text['name']=_file['name']
                         text['text']=detect_audio_text(file_name)
-                        text['api_call']=count+1
+                        text['api_call']=1
                         _value['audio_text']=text
+                    #exist image_texts -> update
+                    else:
+                        print('exist')
+                        #exist -> update
+
+                        count=_value['audio_text'].get('api_call',0)
+                        #2 condion
+                        if count==0 or not _value['audio_text'].get('text',{}) :
+                            print('update')
+
+                            text={}
+                            text['name']=_file['name']
+                            text['text']=detect_audio_text(file_name)
+                            text['api_call']=count+1
+                            _value['audio_text']=text
 
 
     return p_work_json
