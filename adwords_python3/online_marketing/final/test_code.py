@@ -451,8 +451,7 @@ def GetListPlanChangeFromTable(connect, final_log):
 	cursor = conn.cursor()
 	
 	#============ Read Plan from Table ===============
-	# final_log = datetime.strptime(final_log,"%Y-%m-%d %H:%M:%S")
-
+	
 	query = 'select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, \
 					PRODUCT, REASON_CODE_ORACLE, EFORM_NO, START_DAY, END_DAY_ESTIMATE, \
 					CHANNEL, EFORM_TYPE, UNIT_OPTION, UNIT_COST, AMOUNT_USD, \
@@ -460,11 +459,12 @@ def GetListPlanChangeFromTable(connect, final_log):
 					INSTALL, NRU, INSERT_DATE, REAL_START_DATE, REAL_END_DATE \
           			STATUS, LAST_UPDATED_DATE\
       		from STG_FA_DATA_GG \
-      		where LAST_UPDATED_DATE > "' + final_log + '" '
+      		where LAST_UPDATED_DATE >= to_timestamp(:1, "mm/dd/yyyy hh24:mi:ss") '
 
 	
-	cursor.execute(query) 
+	cursor.execute(query, (final_log)) 
 
+	final_log = datetime.now().strftime("mm/dd/yyyy hh24:mi:ss")
 	list_new_plan = cursor.fetchall()
 	list_plan_diff = list(list_new_plan)
 	cursor.close()
@@ -474,6 +474,7 @@ def GetListPlanChangeFromTable(connect, final_log):
 
 	for plan in list_plan_diff:
 		print(plan)
+	print(final_log)
 	return list_plan_diff
 
 
@@ -487,7 +488,7 @@ path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
 date = '2017-05-31' 
 
 
-final_log = '2017-10-26 14:04:06'
+final_log = '10/27/2017 10:00:00'
 print(final_log)
 
 list_plan_diff = GetListPlanChangeFromTable(connect, final_log)
