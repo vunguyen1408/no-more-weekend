@@ -452,7 +452,7 @@ def GetListPlanChangeFromTable(connect, final_log):
 	
 	#============ Read Plan from Table ===============
 	# final_log = datetime.strptime(final_log,"%Y-%m-%d %H:%M:%S")
-	
+
 	query = 'select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, \
 					PRODUCT, REASON_CODE_ORACLE, EFORM_NO, START_DAY, END_DAY_ESTIMATE, \
 					CHANNEL, EFORM_TYPE, UNIT_OPTION, UNIT_COST, AMOUNT_USD, \
@@ -463,7 +463,7 @@ def GetListPlanChangeFromTable(connect, final_log):
       		where LAST_UPDATED_DATE > "' + final_log + '" '
 
 	
-	cursor.execute(query, (final_log)) 
+	cursor.execute(query) 
 
 	list_new_plan = cursor.fetchall()
 	list_plan_diff = list(list_new_plan)
