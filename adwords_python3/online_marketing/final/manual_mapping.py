@@ -31,7 +31,7 @@ def ParseLogManualToJson(log):
 	temp = {
 		'PRODUCT' : log[0],
 		'REASON_CODE_ORACLE' : log[1],
-		'EFORM_TYPE' : log[2],
+		'FORM_TYPE' : log[2],
 		'UNIT_OPTION' : log[3],
 		'USER_NAME' : log[4],
 		'ACCOUNT_ID' : log[5],
@@ -137,7 +137,7 @@ def ReadTableManualMap(connect, path_data, date):
 			if int(plan['PRODUCT']) == int(plan_info['PRODUCT']) \
 				and plan['REASON_CODE_ORACLE'] == plan_info['REASON_CODE_ORACLE']:
 				plan_temp = plan_info
-				if plan['UNIT_OPTION'] == plan_info['UNIT_OPTION'] and plan['EFORM_TYPE'] == plan_info['EFORM_TYPE']:
+				if plan['UNIT_OPTION'] == plan_info['UNIT_OPTION'] and plan['FORM_TYPE'] == plan_info['FORM_TYPE']:
 					temp = plan_temp.copy()
 					# print (temp)
 					# print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
@@ -150,7 +150,7 @@ def ReadTableManualMap(connect, path_data, date):
 		if flag:
 			temp = plan_temp.copy()
 			temp['UNIT_OPTION'] = plan['UNIT_OPTION']
-			temp['EFORM_TYPE'] = plan['EFORM_TYPE']
+			temp['FORM_TYPE'] = plan['FORM_TYPE']
 			temp['CAMPAIGN_MANUAL_MAP'] = []
 			temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
 			temp['USER_MAP'] = plan['USER_NAME']
