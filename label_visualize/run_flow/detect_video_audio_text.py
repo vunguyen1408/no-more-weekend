@@ -60,7 +60,7 @@ def transcribe_audio(p_speech_file, p_sample_rate):
         print('Confidence: {}'.format(result.alternatives[0].confidence))
         text['transcript'] = result.alternatives[0].transcript
         text['confidence'] = result.alternatives[0].confidence
-        print(text)
+        #print(text)
     # [END migration_async_response]
 
     return text
@@ -95,7 +95,7 @@ def get_audio_text(p_folder, p_path_folder_work, p_work_json):
             'name': _file_,
             'video_index': int(_file_[11:-5])
         }
-        print(file_json)
+        #print(file_json)
         list_index.append(file_json)
 
 

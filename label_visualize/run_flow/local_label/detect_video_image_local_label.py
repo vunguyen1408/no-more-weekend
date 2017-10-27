@@ -121,7 +121,7 @@ def detect_local_label(p_path):
 
     return_label=[]
     for i in top_k:
-        print(labels[i], results[i])
+        #print(labels[i], results[i])
         return_label.append(labels[i])
 
     return return_label
@@ -140,7 +140,7 @@ def get_image_local_label(p_folder, p_path_folder_work, p_work_json):
     list_file = next(os.walk(p_path_folder_work))[2]
 
     for _file in list_file:
-        print(_file)
+        #print(_file)
         file_json = {
             'name': _file,
             'video_index': int(_file[11:-12]),
@@ -149,7 +149,7 @@ def get_image_local_label(p_folder, p_path_folder_work, p_work_json):
         list_index.append(file_json)
 
 
-    print   (list_index)
+    #print   (list_index)
 
     #loop 1
     for _i, _value in enumerate(p_work_json['my_json']):

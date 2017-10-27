@@ -85,7 +85,7 @@ def get_image_text(p_folder, p_path_folder_work, p_work_json):
         list_index.append(file_json)
 
 
-    print   (list_index)
+    #print   (list_index)
 
     #loop 1
     for _i, _value in enumerate(p_work_json['my_json']):
