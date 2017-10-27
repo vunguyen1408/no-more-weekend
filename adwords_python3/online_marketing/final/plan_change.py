@@ -284,7 +284,7 @@ def AutoMap(connect, path_data, date):
 				'plan': [],
 				'campaign': []
 			}
-			mapping  = time.time()
+			auto_mapping  = time.time()
 			if (len(list_camp_all) > 0):
 				data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
 
@@ -296,7 +296,7 @@ def AutoMap(connect, path_data, date):
 
 			list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
 			end_mapping = time.time()
-			print("Time mapping: ", end_mapping - mapping)
+			print("Time mapping: ", end_mapping - auto_mapping)
 
 			list_plan_total, list_data_map = insert_to_total.SumTotalManyPlan(list_plan, list_camp)
 
