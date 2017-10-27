@@ -149,11 +149,11 @@ def ReadTableManualMap(connect, path_data, date):
 		# ----------- Plan moi duoc tao -----------------
 		if flag:
 			temp = plan_temp.copy()
-			temp['UNIT_OPTION'] = plan[3]
-			temp['FORM_TYPE'] = plan[2]
+			temp['UNIT_OPTION'] = plan['UNIT_OPTION']
+			temp['FORM_TYPE'] = plan['FORM_TYPE']
 			temp['CAMPAIGN_MANUAL_MAP'] = []
 			temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
-			temp['USER_MAP'] = plan[4]
+			temp['USER_MAP'] = plan['USER_NAME']
 			temp['STATUS'] = 'USER'
 			list_plan_diff.append(temp)
 			list_plan_new.append(temp)
