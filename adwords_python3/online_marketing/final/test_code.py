@@ -483,7 +483,7 @@ print(final_log)
 
 path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
 fi = open(path_log, 'a+') 
-fi.writelines(final_log)
+fi.writelines(final_log.strftime("%Y-%m-%d %H:%M:%S.%f"))
 print("Save log ok..........")
 # list_plan_diff = GetListPlanChangeFromTable(cursor, final_log)
 # list_plan_diff = GetListPlanChange(connect, path_data, date)
