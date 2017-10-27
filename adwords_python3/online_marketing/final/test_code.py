@@ -86,7 +86,7 @@ def GetListPlanChangeFromTable(connect, final_log):
 					PRODUCT, REASON_CODE_ORACLE, EFORM_NO, START_DAY, END_DAY_ESTIMATE, \
 					CHANNEL, EFORM_TYPE, UNIT_OPTION, UNIT_COST, AMOUNT_USD, \
 					CVALUE, ENGAGEMENT, IMPRESSIONS, CLIKE, CVIEWS, \
-					INSTALL, NRU, INSERT_DATE, REAL_START_DATE, REAL_END_DATE \
+					INSTALL, NRU, INSERT_DATE, REAL_START_DATE, REAL_END_DATE, \
           			STATUS, LAST_UPDATED_DATE\
       		from STG_FA_DATA_GG \
       		where LAST_UPDATED_DATE >= to_timestamp('" + final_log + "', 'mm/dd/yyyy hh24:mi:ss')"
