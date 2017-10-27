@@ -154,6 +154,7 @@ def ClassifyPlan(connect, path_data, date):
 			with open(file_plan, 'r') as fi:
 				list_plan = json.load(fi)
 			plan = ConvertPlan(plan)
+			print(plan)
 			flag = CheckPlanUpdate(list_plan, plan)
 
 			if flag:
