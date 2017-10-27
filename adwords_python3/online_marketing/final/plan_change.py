@@ -425,6 +425,9 @@ def AutoMap(connect, path_data, date):
 			# print ('list_plan_remove_unmap: ', (list_plan_remove_unmap))
 			# print ('list_camp_remove_unmap: ', (list_camp_remove_unmap))		
 			# print('list_plan_update: ', (list_plan_update))	
+
+			total_time = time.time()
+			print("TOTAL TIME: ", total_time - get_plan)
 		
 
 	return (list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert)
