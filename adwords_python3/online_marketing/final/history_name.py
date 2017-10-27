@@ -19,7 +19,7 @@ def FindNameNew(data_total, camp_id, camp_name):
 			if datetime.strptime(date_max, '%Y-%m-%d').date() < datetime.strptime(name['UPDATE_DATE'], '%Y-%m-%d').date():
 				name_max = name['CAMPAIGN_NAME']
 				date_max = str(name['UPDATE_DATE'])
-				camp_id_ = name['CAMPAIGN_ID']
+				camp_id_ = str(name['CAMPAIGN_ID'])
 				index = i
 
 	if flag == 0:
