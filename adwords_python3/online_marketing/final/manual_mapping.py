@@ -118,7 +118,7 @@ def ReadTableManualMap(connect, path_data, date):
 	list_plan_diff = []
 	plan_temp = None
 	list_plan_new = []
-	print (list_diff)
+	# print (list_diff)
 	for plan in list_diff:
 		# ----------- Create data campaign ----------------
 		campaign = {}
