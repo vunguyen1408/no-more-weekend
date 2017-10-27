@@ -112,7 +112,11 @@ def detect_local_label(p_path):
     results = np.squeeze(results)
 
     #top_k = results.argsort()[-5:][::-1]
-    top_k = results.argsort()[-10:][::-1]
+    if len(results) >=10:
+        top_k = results.argsort()[-10:][::-1]
+    else:
+        top_k = results.argsort()[-len(results):][::-1]
+
     labels = load_labels(label_file)
 
     return_label=[]
@@ -181,7 +185,7 @@ def get_image_local_label(p_folder, p_path_folder_work, p_work_json):
 
                     #exist -> update
                     if found>=0:
-                        count=_value_j.get('api_call',0)
+                        count=_value['image_local_labels'][found].get('api_call',0)
                         if count==0:
                             print('update')
                             _value['image_local_labels'][found]['labels']=detect_local_label(file_name)
