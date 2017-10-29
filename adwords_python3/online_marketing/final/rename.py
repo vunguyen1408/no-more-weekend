@@ -335,8 +335,10 @@ def CacualatorChange(path_data, list_diff, date):
     list_camp_find = []
 
     for camp in list_diff:
+      print (camp)
       for campaign in data_total['UN_CAMPAIGN']:
-        if str(camp['CAMPAIGN_ID']) == str(campaign['Campaign ID']) and camp['CAMPAIGN_NAME'] != campaign['Campaign']:       
+        if str(camp['CAMPAIGN_ID']) == str(campaign['Campaign ID']) and camp['CAMPAIGN_NAME'] != campaign['Campaign']: 
+          print (campaign)      
           temp = campaign
           campaign['Campaign'] = camp['CAMPAIGN_NAME']
           temp['Campaign'] = camp['CAMPAIGN_NAME']
