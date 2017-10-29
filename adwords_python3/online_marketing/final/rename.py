@@ -250,7 +250,8 @@ def Map(path_folder, list_plan, list_campaign, date):
       start = datetime.strptime(start, '%Y-%m-%d')
       end = datetime.strptime(end, '%Y-%m-%d')
 
-      if str(camp['Campaign ID']) == '794232395' and eform['REASON_CODE_ORACLE'] == '1708062':
+      if str(camp['Campaign ID']) == '794232395' and eform['REASON_CODE_ORACLE'] == '1708062' \
+        and eform['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
         print (camp)
         print (eform)
         print ("\n\n")
@@ -267,6 +268,7 @@ def Map(path_folder, list_plan, list_campaign, date):
             and (date_ <= end) ) \
             or  ( mapping.LogManualMap(path_folder, camp, eform, date) ):
             flag = True
+            print ("mapping WPL")
         else:
           # ============= GS5 ================
           if camp['Dept'].find('GS5') >= 0:
@@ -278,6 +280,7 @@ def Map(path_folder, list_plan, list_campaign, date):
               and (date_ <= end) ) \
               or  ( mapping.LogManualMap(path_folder, camp, eform, date) ):
               flag = True
+              print ("mapping GS5")
 
           else:
             try:
@@ -299,6 +302,7 @@ def Map(path_folder, list_plan, list_campaign, date):
               and (date_ <= end) ) \
               or ( mapping.LogManualMap(path_folder, camp, eform, date) ): 
               flag = True
+              print ("mapping =====================================")
         if flag:
           camp['Mapping'] = True
           plan = {}
@@ -342,7 +346,7 @@ def Map(path_folder, list_plan, list_campaign, date):
               and (date_ >= start) \
               and (date_ <= end) ) \
               or  ( mapping.LogManualMap(path_folder, camp, eform, date) ): 
-
+              print ("mapping GS5")
               camp['Mapping'] = True
               plan = {}
               plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
