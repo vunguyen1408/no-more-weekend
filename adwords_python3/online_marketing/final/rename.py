@@ -12,6 +12,7 @@ from datetime import datetime , timedelta, date
 import mapping_campaign_plan as mapping
 import insert_data_map_to_total as insert_to_total
 import history_name as history_name
+import download_report as download_report
 
 logging.basicConfig(level=logging.INFO)
 logging.getLogger('suds.transport').setLevel(logging.DEBUG)
@@ -84,9 +85,40 @@ def GetCampaign(client, acccount_id):
 
   return list_camp
 
-def GetListCampOfAccount(list_customer):
+def DownloadNameOfAccount(adwords_client, customerId, date, to_date):
+  date = '2017-01-01'
+  startDate = download_report.DateToString(date)
+  endDate = download_report.DateToString(to_date)
+  print (startDate)
+  print (endDate)
+  #====================== CAMPAIGN ====================
+  result_campaign = download_report.DownloadCampaignOfCustomer(adwords_client, customerId, startDate, endDate)
+  result_json = download_report.TSVtoJson(result_campaign, date)
+  print (len(result_json))
+  list_name = []
+  for campaign in result_json:
+    if (campaign['Cost'] > 0) and campaign['Campaign state'] != 'Total':
+      camp = {
+            'CAMPAIGN_NAME' : campaign['Campaign'],
+            'CAMPAIGN_ID' : str(campaign['Campaign ID']),
+            'ACCOUNT_ID' : customerId
+          }
+      list_name.append(camp)
+  print (len(list_name))
+  return list_name
+
+def GetListCampOfAccount(list_customer, date):
+  # import time
+  # adwords_client = adwords.AdWordsClient.LoadFromStorage()
+  # list_camp = []
+  # for acccount in list_customer:
+  #   time.sleep(5)
+  #   temp = GetCampaign(adwords_client, acccount)
+  #   list_camp.extend(temp)
+
+
   import time
-  adwords_client = adwords.AdWordsClient.LoadFromStorage('C:/Users/ltduo/Desktop/VNG/AdWords/adwords_python3/googleads.yaml')
+  adwords_client = adwords.AdWordsClient.LoadFromStorage()
   list_camp = []
   for acccount in list_customer:
     time.sleep(5)
@@ -95,6 +127,7 @@ def GetListCampOfAccount(list_customer):
 
 
 
+  # ====== Write file name get on date =============
   list_camp_json = {}
   list_camp_json['history_name'] = list_camp
 
@@ -556,11 +589,11 @@ list_customer_id = [
   # PP
   '8024455693' 
   ]
-
-# GetListCampOfAccount(list_customer_id)
+date = '2017-09-30'
+GetListCampOfAccount(list_customer_id)
 
 # path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
-# date = '2017-08-31'
+
 # # CacualatorChange(path_data, list_customer, date)
 
 # list_diff = CheckNameChange(path_data, list_customer_id, date)

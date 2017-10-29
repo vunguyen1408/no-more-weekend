@@ -312,33 +312,33 @@ import time
 # ##################################################################################################
 
 
-path_alias = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-09-30/PLAN/product_alias.json'
-path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-09-30/DATA_MAPPING/total_mapping.json'
+# path_alias = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-09-30/PLAN/product_alias.json'
+# path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-09-30/DATA_MAPPING/total_mapping.json'
 
-with open(path_alias, 'r') as fi:
-	data_alias = json.load(fi)
+# with open(path_alias, 'r') as fi:
+# 	data_alias = json.load(fi)
 
-with open(path_total, 'r') as fi:
-	data_total = json.load(fi)
+# with open(path_total, 'r') as fi:
+# 	data_total = json.load(fi)
 
-# for plan_total in data_total['TOTAL']:
-# 	plan_total['APPSFLYER_PRODUCT'] = []
-# 	for plan in data_alias['ALIAS']:
-# 		if plan_total['PRODUCT'] == plan['PRODUCT_ID'] and plan['APPSFLYER_PRODUCT'] != None:
-# 			plan_total['APPSFLYER_PRODUCT'].append(plan['APPSFLYER_PRODUCT'])
-# 	print (plan_total['APPSFLYER_PRODUCT'])
+# # for plan_total in data_total['TOTAL']:
+# # 	plan_total['APPSFLYER_PRODUCT'] = []
+# # 	for plan in data_alias['ALIAS']:
+# # 		if plan_total['PRODUCT'] == plan['PRODUCT_ID'] and plan['APPSFLYER_PRODUCT'] != None:
+# # 			plan_total['APPSFLYER_PRODUCT'].append(plan['APPSFLYER_PRODUCT'])
+# # 	print (plan_total['APPSFLYER_PRODUCT'])
 
-	for plan_total in data_total['UN_CAMPAIGN']:
-	# if plan_total['REASON_CODE_ORACLE'] == '1708007':
-		if str(plan_total['Campaign ID']) == '772872164':
-			print (plan_total)
+# 	for plan_total in data_total['UN_CAMPAIGN']:
+# 	# if plan_total['REASON_CODE_ORACLE'] == '1708007':
+# 		if str(plan_total['Campaign ID']) == '772872164':
+# 			print (plan_total)
 
-# path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
+# # path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
 
-# with open (path_total,'w') as f:
-# 	json.dump(data_total, f)
+# # with open (path_total,'w') as f:
+# # 	json.dump(data_total, f)
 
-print ("DONE")
+# print ("DONE")
 
 
 
@@ -346,176 +346,185 @@ print ("DONE")
 # '''
 #   Get campaing for account and save to folder
 # '''
-# import json
-# import logging
-# import sys
-# import os
-# from googleads import adwords
-# from datetime import datetime, timedelta
-# # import get_accounts as get_accounts
+import json
+import logging
+import sys
+import os
+from googleads import adwords
+from datetime import datetime, timedelta
+# import get_accounts as get_accounts
 
 
-# logging.basicConfig(level=logging.INFO)
-# logging.getLogger('suds.transport').setLevel(logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
+logging.getLogger('suds.transport').setLevel(logging.DEBUG)
 
-# def TSVtoJson(report_string, date):
-#   from collections import defaultdict
-#   #========= Get key for json ================
-#   list_pre = ['enabled', 'paused', 'removed']
-#   list_key = []
-#   fi = report_string.split('\n')
+def TSVtoJson(report_string, date):
+  from collections import defaultdict
+  #========= Get key for json ================
+  list_pre = ['enabled', 'paused', 'removed']
+  list_key = []
+  fi = report_string.split('\n')
 
-#   for line in fi:
-#     ele = line.split('\t')
-#     if (ele[0] not in list_pre) and (ele[0] != 'Total') and (len(ele) > 1):     
-#         list_key = ele
+  for line in fi:
+    ele = line.split('\t')
+    if (ele[0] not in list_pre) and (ele[0] != 'Total') and (len(ele) > 1):     
+        list_key = ele
 
-#   #======== Convert a line to dictionary
-#   list_json = []
+  #======== Convert a line to dictionary
+  list_json = []
 
-#   for line in fi:
-#     ele = line.split('\t')
-#     dict_campaign = {}
-#     if (ele[0] not in list_key) and (len(ele) > 1 ):
-#       for i in range(len(list_key)):          
-#         if (list_key[i] == 'Cost') or ((list_key[i].find('Avg') >= 0) and (list_key[i] != 'Avg. position')):         # Cost            
-#           ele[i] = float(float(ele[i]) / 1000000)
-#         elif (ele[i].isdigit()):         # Integer        
-#           ele[i] = int(ele[i])
-#         elif (ele[i].find('%') == len(ele[i]) - 1) and (ele[i].replace("%", "").replace(".", "").isdigit()):         # Percent  
-#           ele[i] = float(ele[i].replace("%", ""))
-#         elif (ele[i].replace(".", "").isdigit()):         # Float        
-#           ele[i] = float(ele[i])          
-#         elif (ele[i] == ' --'):      # Empty        
-#           ele[i] = ""         
-#         elif (ele[i].find('[') > 0 and ele[i].find(']') > 0):                
-#           list_ = ele[i].split(',')
-#           for u in range(len(list_)):             
-#             s = list_[u]
-#             for v in range(len(s)):                   
-#               if (s[v].isalpha() == False):
-#                 list_[u] = s.replace(s[v], '')
+  for line in fi:
+    ele = line.split('\t')
+    dict_campaign = {}
+    if (ele[0] not in list_key) and (len(ele) > 1 ):
+      for i in range(len(list_key)):          
+        if (list_key[i] == 'Cost') or ((list_key[i].find('Avg') >= 0) and (list_key[i] != 'Avg. position')):         # Cost            
+          ele[i] = float(float(ele[i]) / 1000000)
+        elif (ele[i].isdigit()):         # Integer        
+          ele[i] = int(ele[i])
+        elif (ele[i].find('%') == len(ele[i]) - 1) and (ele[i].replace("%", "").replace(".", "").isdigit()):         # Percent  
+          ele[i] = float(ele[i].replace("%", ""))
+        elif (ele[i].replace(".", "").isdigit()):         # Float        
+          ele[i] = float(ele[i])          
+        elif (ele[i] == ' --'):      # Empty        
+          ele[i] = ""         
+        elif (ele[i].find('[') > 0 and ele[i].find(']') > 0):                
+          list_ = ele[i].split(',')
+          for u in range(len(list_)):             
+            s = list_[u]
+            for v in range(len(s)):                   
+              if (s[v].isalpha() == False):
+                list_[u] = s.replace(s[v], '')
 
-#           list_[0] = list_[0][1:len(list_[0])]
-#           list_[-1] = list_[-1][0:len(list_[0]) -1]   
-#           ele[i] = list_
+          list_[0] = list_[0][1:len(list_[0])]
+          list_[-1] = list_[-1][0:len(list_[0]) -1]   
+          ele[i] = list_
 
-#         dict_campaign[list_key[i]] = ele[i]
-#       dict_campaign['Mapping'] = False
-#       dict_campaign['Date'] = date
-#       if ((dict_campaign['Cost'] > 0)):
-#         list_json.append(dict_campaign)
-#   return list_json
-
-
-# def DownloadCampaignOfCustomer(adwords_client, customerId, startDate, endDate):
-
-#   adwords_client.SetClientCustomerId(customerId)
-#   print (customerId)
-#   report_downloader = adwords_client.GetReportDownloader(version='v201708')
+        dict_campaign[list_key[i]] = ele[i]
+      dict_campaign['Mapping'] = False
+      dict_campaign['Date'] = date
+      if ((dict_campaign['Cost'] > 0)):
+        list_json.append(dict_campaign)
+  return list_json
 
 
-#   result = []
-#   report = {
-#       'reportName': 'Custom date CAMPAIGN_PERFORMANCE_REPORT',
-#       'dateRangeType': 'CUSTOM_DATE',
-#       'reportType': 'CAMPAIGN_PERFORMANCE_REPORT',
-#       'downloadFormat': 'TSV',
-#       'selector': {
-#         'dateRange':{'min':startDate,'max':endDate},
-#         'fields': [
-#           'CampaignStatus',
-#           'CampaignName',
-#           'AdvertisingChannelType',
-#           'AdvertisingChannelSubType',
-#           'CampaignId',
-#           #, #budget
-#           'ServingStatus',
-#           'Clicks',
-#           'Impressions',
-#           'ImpressionReach',
-#           'Ctr',
-#           'AverageCpc',
-#           'AverageCpm',
-#           'Cost',
-#           'Conversions',
-#           'BiddingStrategyType',
-#           'InvalidClicks',
-#           'AveragePosition',
-#           'Engagements',
-#           'AverageCpe',
-#           'VideoViewRate',
-#           'VideoViews',
-#           'AverageCpv',
-#           'AverageCost',
-#           'InteractionTypes',
-#           'Interactions',
-#           'InteractionRate',
-#           'VideoQuartile25Rate',
-#           'VideoQuartile50Rate',
-#           'VideoQuartile75Rate',
-#           'VideoQuartile100Rate',
-#           'VideoViews',
-#           'StartDate',
-#           'EndDate'
+def DownloadCampaignOfCustomer(adwords_client, customerId, startDate, endDate):
 
-#           ]
-#       }
-#   }
-#   result = report_downloader.DownloadReportAsString(
-#       report, skip_report_header=True, skip_column_header=False,
-#       skip_report_summary=False, include_zero_impressions=True)
-#   # print (result)
-#   return result
+  adwords_client.SetClientCustomerId(customerId)
+  print (customerId)
+  report_downloader = adwords_client.GetReportDownloader(version='v201708')
 
 
-# def DateToString(date):
-#   date = date[:-6] + date[5:-3] + date[8:]
-#   return date
+  result = []
+  report = {
+      'reportName': 'Custom date CAMPAIGN_PERFORMANCE_REPORT',
+      'dateRangeType': 'CUSTOM_DATE',
+      'reportType': 'CAMPAIGN_PERFORMANCE_REPORT',
+      'downloadFormat': 'TSV',
+      'selector': {
+        'dateRange':{'min':startDate,'max':endDate},
+        'fields': [
+          'CampaignStatus',
+          'CampaignName',
+          'AdvertisingChannelType',
+          'AdvertisingChannelSubType',
+          'CampaignId',
+          #, #budget
+          'ServingStatus',
+          'Clicks',
+          'Impressions',
+          'ImpressionReach',
+          'Ctr',
+          'AverageCpc',
+          'AverageCpm',
+          'Cost',
+          'Conversions',
+          'BiddingStrategyType',
+          'InvalidClicks',
+          'AveragePosition',
+          'Engagements',
+          'AverageCpe',
+          'VideoViewRate',
+          'VideoViews',
+          'AverageCpv',
+          'AverageCost',
+          'InteractionTypes',
+          'Interactions',
+          'InteractionRate',
+          'VideoQuartile25Rate',
+          'VideoQuartile50Rate',
+          'VideoQuartile75Rate',
+          'VideoQuartile100Rate',
+          'VideoViews',
+          'StartDate',
+          'EndDate'
 
-# def DownloadOnDate(adwords_client, customerId, date, to_date):
+          ]
+      }
+  }
+  result = report_downloader.DownloadReportAsString(
+      report, skip_report_header=True, skip_column_header=False,
+      skip_report_summary=False, include_zero_impressions=True)
+  # print (result)
+  return result
+
+
+def DateToString(date):
+  date = date[:-6] + date[5:-3] + date[8:]
+  return date
+
+def DownloadNameOfAccount(adwords_client, customerId, date, to_date):
   
-#   # startDate = DateToString(date)
-#   # endDate = DateToString(to_date)
-#   # print (startDate)
-#   # print (endDate)
+  startDate = DateToString(date)
+  endDate = DateToString(to_date)
+  print (startDate)
+  print (endDate)
 
-#   # #====================== CAMPAIGN ====================
-#   # result_campaign = DownloadCampaignOfCustomer(adwords_client, customerId, startDate, endDate)
+  #====================== CAMPAIGN ====================
+  result_campaign = DownloadCampaignOfCustomer(adwords_client, customerId, startDate, endDate)
 
-#   # result_json = TSVtoJson(result_campaign, date)
-#   # # print (result_json)
-#   # for i in range(len(result_json)):
-#   #   result_json[i]['Account ID'] = customerId
+  result_json = TSVtoJson(result_campaign, date)
+  print (len(result_json))
+  list_name = []
+  for campaign in result_json:
+  	if (campaign['Cost'] > 0) and campaign['Campaign state'] != 'Total':
+	    camp = {
+	          'CAMPAIGN_NAME' : campaign['Campaign'],
+	          'CAMPAIGN_ID' : str(campaign['Campaign ID']),
+	          'ACCOUNT_ID' : customerId
+	        }
+	    list_name.append(camp)
+  print (len(list_name))
+  return list_name
 
-#   path_log = 'C:/Users/ltduo/Desktop/history_name.json'
-#   with open (path_log, 'r') as f:
-#     data_total = json.load(f)
+  # path_log = 'C:/Users/ltduo/Desktop/history_name.json'
+  # with open (path_log, 'r') as f:
+  #   data_total = json.load(f)
 
-#   # for camp in result_json:
-#   #   flag = True
-#   for name in data_total['history_name']:
-#     if name['CAMPAIGN_ID'] == '697791306':
-#        print (name)
-#   #     if str(camp['Campaign ID']) == name['CAMPAIGN_ID']:
-#   #       flag = False
-#   #   if flag:
-#   #     cam = {
-#   #         'CAMPAIGN_NAME' : str(camp['Campaign']),
-#   #         'CAMPAIGN_ID' : str(camp['Campaign ID']),
-#   #         'ACCOUNT_ID' : customerId
-#   #       }
+  # # for camp in result_json:
+  # #   flag = True
+  # for name in data_total['history_name']:
+  #   if name['CAMPAIGN_ID'] == '697791306':
+  #      print (name)
+  #     if str(camp['Campaign ID']) == name['CAMPAIGN_ID']:
+  #       flag = False
+  #   if flag:
+  #     cam = {
+  #         'CAMPAIGN_NAME' : str(camp['Campaign']),
+  #         'CAMPAIGN_ID' : str(camp['Campaign ID']),
+  #         'ACCOUNT_ID' : customerId
+  #       }
 
-#   #     print (cam)
-#   #     data_total['history_name'].append(cam)
-#   # with open (path_log ,'w') as f:
-#   #   json.dump(data_total, f)
+  #     print (cam)
+  #     data_total['history_name'].append(cam)
+  # with open (path_log ,'w') as f:
+  #   json.dump(data_total, f)
 
 
 
-# adwords_client = adwords.AdWordsClient.LoadFromStorage('C:/Users/ltduo/Desktop/VNG/AdWords/adwords_python3/googleads.yaml')
+adwords_client = adwords.AdWordsClient.LoadFromStorage()
 
-# date = '2017-03-01' 
-# to_date = '2017-09-30'
-# customerId = '1066457627'
-# DownloadOnDate(adwords_client, customerId, date, to_date)
+date = '2017-03-01' 
+to_date = '2017-09-30'
+customerId = '1066457627'
+DownloadNameOfAccount(adwords_client, customerId, date, to_date)
