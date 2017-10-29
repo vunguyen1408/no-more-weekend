@@ -29,6 +29,7 @@ def CreateSum():
 	return sum_plan
 
 def SumTotalPlan(plan, list_campaign):
+
 	"""
 		Hàm tính total cho một plan (tổng các campaign)
 	"""
@@ -36,6 +37,11 @@ def SumTotalPlan(plan, list_campaign):
 	sum_plan = CreateSum()
 	for campaign_in_plan in plan['CAMPAIGN']:
 		for campaign in list_campaign:
+			if str(camp['Campaign ID']) == '794232395' and plan['REASON_CODE_ORACLE'] == '1708062' \
+				and plan['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN' and campaign_in_plan['CAMPAIGN_ID'] == '794232395':
+				print (campaign)
+				print (plan)
+				print ("SUM======================================\n\n\n")
 			if (campaign_in_plan['CAMPAIGN_ID'] == campaign['Campaign ID']) \
 			and (campaign_in_plan['Date'] == campaign['Date']):
 				# --------------- Tính total ------------------
