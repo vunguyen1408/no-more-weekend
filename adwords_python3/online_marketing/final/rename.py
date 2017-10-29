@@ -251,10 +251,10 @@ def Map(path_folder, list_plan, list_campaign, date):
       start = datetime.strptime(start, '%Y-%m-%d')
       end = datetime.strptime(end, '%Y-%m-%d')
 
-      if str(camp['Campaign ID']) == '794232395' and eform['REASON_CODE_ORACLE'] == '1708062' \
-        and eform['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
-        print (camp)
-        print (eform)
+      # if str(camp['Campaign ID']) == '794232395' and eform['REASON_CODE_ORACLE'] == '1708062' \
+      #   and eform['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
+      #   print (camp)
+      #   print (eform)
         # print ("\n\n")
         t = True
 
@@ -270,7 +270,7 @@ def Map(path_folder, list_plan, list_campaign, date):
             and (date_ <= end) ) \
             or  ( mapping.LogManualMap(path_folder, camp, eform, date) ):
             flag = True
-            print ("mapping WPL")
+            # print ("mapping WPL")
         else:
           # ============= GS5 ================
           if camp['Dept'].find('GS5') >= 0:
@@ -282,7 +282,7 @@ def Map(path_folder, list_plan, list_campaign, date):
               and (date_ <= end) ) \
               or  ( mapping.LogManualMap(path_folder, camp, eform, date) ):
               flag = True
-              print ("mapping GS5")
+              # print ("mapping GS5")
 
           else:
             try:
@@ -304,8 +304,8 @@ def Map(path_folder, list_plan, list_campaign, date):
               and (date_ <= end) ) \
               or ( mapping.LogManualMap(path_folder, camp, eform, date) ): 
               flag = True
-              if t:
-                print ("mapping =====================================\n\n\n")
+              # if t:
+              #   print ("mapping =====================================\n\n\n")
         if flag:
           camp['Mapping'] = True
           plan = {}
@@ -349,7 +349,7 @@ def Map(path_folder, list_plan, list_campaign, date):
               and (date_ >= start) \
               and (date_ <= end) ) \
               or  ( mapping.LogManualMap(path_folder, camp, eform, date) ): 
-              print ("mapping GS5")
+              # print ("mapping GS5")
               camp['Mapping'] = True
               plan = {}
               plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
@@ -446,7 +446,7 @@ def CacualatorChange(path_data, list_diff, date):
     #   if camp['Campaign'].find('JXM') >= 0:
     #     print (camp)
     data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
-
+    
     plan_sum, list_map_temp = insert_to_total.SumTotalManyPlan(data_map['plan'], data_map['campaign'])
 
     list_plan = plan_sum

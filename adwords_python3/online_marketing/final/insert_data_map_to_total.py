@@ -33,6 +33,9 @@ def SumTotalPlan(plan, list_campaign):
 	"""
 		Hàm tính total cho một plan (tổng các campaign)
 	"""
+	print ("Vafo ahm")
+	print ("Vafo ahm")
+	print ("Vafo ahm")
 	list_map = []
 	sum_plan = CreateSum()
 	for campaign_in_plan in plan['CAMPAIGN']:
@@ -78,6 +81,8 @@ def SumTotalManyPlan(list_plan, list_campaign):
 	list_plan_total = []
 	list_data_map = []
 	for plan in list_plan:
+		if plan['REASON_CODE_ORACLE'] == '1708062' and plan['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
+			print (plan)
 		# ------------- Lấy các plan mapping được ---------------
 		plan, list_map = SumTotalPlan(plan, list_campaign)
 		if len(plan['CAMPAIGN']) > 0:
