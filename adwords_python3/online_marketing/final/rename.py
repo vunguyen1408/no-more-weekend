@@ -185,10 +185,6 @@ def CheckNameChange(path_data, list_customer, date):
     temp_ = []
     for camp_ in list_camp:
       flag = history_name.FindNameNew(data_total['HISTORY'], str(camp_['CAMPAIGN_ID']), camp_['CAMPAIGN_NAME'])
-      # if str(camp_['CAMPAIGN_ID']) == '734063969' or str(camp_['CAMPAIGN_ID']) == '772872164':
-      #   print (camp_)
-      #   print (flag)
-
       if flag == -1:
         list_diff.append(camp_)
         print (camp_)
@@ -201,33 +197,8 @@ def CheckNameChange(path_data, list_customer, date):
           'UPDATE_DATE': str(date),
           'IMPORT_DATE' : None
         }
-        # print (camp_)
-        data_total['HISTORY'].append(temp)
-        # print (camp_)
 
-        ############# ######################
-        # if str(camp_['CAMPAIGN_ID']) == '733863589' and str(camp_['CAMPAIGN_ID']) not in temp_:
-        #   temp_.append(str(camp_['CAMPAIGN_ID']))
-        # if str(camp_['CAMPAIGN_ID']) == '734049572' and str(camp_['CAMPAIGN_ID']) not in temp_:
-        #   temp_.append(str(camp_['CAMPAIGN_ID']))
-        # if str(camp_['CAMPAIGN_ID']) == '734063969' and str(camp_['CAMPAIGN_ID']) not in temp_:
-        #   temp_.append(str(camp_['CAMPAIGN_ID']))
-        # if str(camp_['CAMPAIGN_ID']) == '772872164' and str(camp_['CAMPAIGN_ID']) not in temp_:
-        #   temp_.append(str(camp_['CAMPAIGN_ID']))
-        # if str(camp_['CAMPAIGN_ID']) == '697791306' and str(camp_['CAMPAIGN_ID']) not in temp_:
-        #   temp_.append(str(camp_['CAMPAIGN_ID']))
-        # if str(camp_['CAMPAIGN_ID']) == '699310064' and str(camp_['CAMPAIGN_ID']) not in temp_:
-        #   temp_.append(str(camp_['CAMPAIGN_ID']))
-        # if str(camp_['CAMPAIGN_ID']) == '898875721' and str(camp_['CAMPAIGN_ID']) not in temp_:
-        #   temp_.append(str(camp_['CAMPAIGN_ID']))
-        # if str(camp_['CAMPAIGN_ID']) == '909378140' and str(camp_['CAMPAIGN_ID']) not in temp_:
-        #   temp_.append(str(camp_['CAMPAIGN_ID']))
-        # if str(camp_['CAMPAIGN_ID']) == '909991335' and str(camp_['CAMPAIGN_ID']) not in temp_:
-        #   temp_.append(str(camp_['CAMPAIGN_ID']))
-        # if str(camp_['CAMPAIGN_ID']) == '912249835' and str(camp_['CAMPAIGN_ID']) not in temp_:
-        #   temp_.append(str(camp_['CAMPAIGN_ID']))
-        #####################################
-    # print (temp_)
+        data_total['HISTORY'].append(temp)
     time.sleep(5)
     #----------- Write file history new ----------------------
     path_folder = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING')
@@ -241,11 +212,6 @@ def CheckNameChange(path_data, list_customer, date):
       json.dump(data_total, f)
     ############################################
   print ("====================== Length =================")
-  # print (list_diff)
-  # print (list_diff[0])
-  # print (list_diff[1])
-  # print (list_diff[2])
-  print (list_diff)
   return (list_diff, data_total)
 
 
@@ -379,10 +345,6 @@ def CacualatorChange(path_data, list_diff, date):
           list_camp_find.append(temp)
           print (temp['Campaign'] + '  ===================  ' + str(temp['Campaign ID'] ))
 
-    # print (len(list_camp_find))
-    # print (list_camp_find[0])
-    # print (list_camp_find[1])
-    # print (list_camp_find[2])
     print (list_camp_find)
     list_camp_update = list_camp_find # Update name
     mp2 = 0
@@ -413,9 +375,6 @@ def CacualatorChange(path_data, list_diff, date):
     plan_sum, list_map_temp = insert_to_total.SumTotalManyPlan(data_map['plan'], data_map['campaign'])
 
     list_plan = plan_sum
-
-    # print (len(plan_sum))
-    # print (len(list_map_temp))
 
     
     list_plan_update = [] # Update plan change cost
@@ -500,44 +459,6 @@ def CacualatorChange(path_data, list_diff, date):
     print ("plan remove", len(list_plan_remove_unmap))
     print ("camp remove", len(list_camp_need_remove))
     print ("======== Mapped =================")
-
-    mp2 = 0
-    pg1 = 0
-    pg2 = 0
-    temp_ = []
-    # for camp in list_camp_need_remove:
-    #   if str(camp['Campaign ID']) == '717789080' and str(camp['Campaign ID']) not in temp_:
-    #     temp_.append(str(camp['Campaign ID']))
-    #   if str(camp['Campaign ID']) == '734049572' and str(camp['Campaign ID']) not in temp_:
-    #     temp_.append(str(camp['Campaign ID']))
-    #   if str(camp['Campaign ID']) == '734063969' and str(camp['Campaign ID']) not in temp_:
-    #     temp_.append(str(camp['Campaign ID']))
-    #   if str(camp['Campaign ID']) == '772872164' and str(camp['Campaign ID']) not in temp_:
-    #     temp_.append(str(camp['Campaign ID']))
-    #   if str(camp['Campaign ID']) == '697791306' and str(camp['Campaign ID']) not in temp_:
-    #     temp_.append(str(camp['Campaign ID']))
-    #   if str(camp['Campaign ID']) == '699310064' and str(camp['Campaign ID']) not in temp_:
-    #     temp_.append(str(camp['Campaign ID']))
-    #   if str(camp['Campaign ID']) == '898875721' and str(camp['Campaign ID']) not in temp_:
-    #     temp_.append(str(camp['Campaign ID']))
-    #   if str(camp['Campaign ID']) == '909378140' and str(camp['Campaign ID']) not in temp_:
-    #     temp_.append(str(camp['Campaign ID']))
-    #   if str(camp['Campaign ID']) == '909991335' and str(camp['Campaign ID']) not in temp_:
-    #     temp_.append(str(camp['Campaign ID']))
-    #   if str(camp['Campaign ID']) == '912249835' and str(camp['Campaign ID']) not in temp_:
-    #     temp_.append(str(camp['Campaign ID']))
-
-    #   if camp['Account Name'].find('MP2') >= 0:
-    #     mp2 += 1
-    #   if camp['Campaign'].find('1708050') >= 0:
-    #     pg2 += 1
-    #   if camp['Account Name'].find('PG1') >= 0:
-    #     pg1 += 1
-
-    # print ("Camp MP2", mp2)
-    # print ("Camp PG1", pg1)
-    # print ("Camp PG2", pg2)
-    # print (temp_)
 
     ###########################################
     path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
