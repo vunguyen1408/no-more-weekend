@@ -196,6 +196,8 @@ def CaculatorTotalMonth(plan, date):
 			# So ngay tu start_day den hien tai (co the tren lech 1 ngay)
 			number_date = CaculatorNumberDate(start_plan, date)
 			plan['MONTHLY'] = CaculatorListMonth(start_plan, date)
+		if plan['REASON_CODE_ORACLE'] == '1708007':
+			print (plan)
 		for m in plan['MONTHLY']:
 			if m['MONTH'] <= month:
 				# Da co data
@@ -218,6 +220,8 @@ def CaculatorTotalMonth(plan, date):
 				sum_plan['VIEWS'] = (float(plan['TOTAL_CAMPAIGN']['VIEWS']) / number_date) * m['DAY']
 				sum_plan['INSTALL_CAMP'] = (float(plan['TOTAL_CAMPAIGN']['INSTALL_CAMP']) / number_date) * m['DAY']
 				m['TOTAL_CAMPAIGN_MONTHLY'] = sum_plan
+		if plan['REASON_CODE_ORACLE'] == '1708007':
+			print (plan)
 	return plan
 
 def AddToTotal (data_total, data_date, date):
