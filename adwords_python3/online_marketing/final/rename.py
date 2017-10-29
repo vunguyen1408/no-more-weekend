@@ -241,10 +241,11 @@ def Map(path_folder, list_plan, list_campaign, date):
 
     date_ = datetime.strptime(camp['Date'], '%Y-%m-%d')
 
-    for i, eform in enumerate(list_plan):  
-      flag = True
-      eform['CAMPAIGN'] = []
-      eform['STATUS'] = None
+    for i, eform in enumerate(list_plan): 
+      flag = True 
+      if 'CAMPAIGN' not in eform:
+        eform['CAMPAIGN'] = []
+        eform['STATUS'] = None
 
       # -------------------- Choose time real ------------------------
       start, end = mapping.ChooseTime(eform)
