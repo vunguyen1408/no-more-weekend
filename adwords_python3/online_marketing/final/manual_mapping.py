@@ -339,16 +339,8 @@ def ManualMap(connect, path_data, date):
 			# --------------- Tinh total month cho cac plan --------------
 			print ("---------------------------------------------------")
 			for plan in data_total['TOTAL']:
-				if plan['REASON_CODE_ORACLE'] == '1708007':
-					print ("Chua doi")
-					print (plan)
-
 				plan['MONTHLY'] = {}
 				plan = insert_data.CaculatorTotalMonth(plan, date)
-				if plan['REASON_CODE_ORACLE'] == '1708007':
-					print (plan)
-
-				# print (plan)
 			print ("---------------------------------------------------")
 
 			for plan in data_total['UN_PLAN']:
@@ -364,8 +356,6 @@ def ManualMap(connect, path_data, date):
 
 
 			for plan in data_total['TOTAL']:
-				if plan['REASON_CODE_ORACLE'] == '1708007':
-					print (plan)
 				plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_data.GetVolumeActualTotal(plan)
 				for m in plan['MONTHLY']:
 					m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_data.GetVolumeActualMonthly(plan, m)

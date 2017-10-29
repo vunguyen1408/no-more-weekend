@@ -110,7 +110,7 @@ def AddBrandingGPSToPlan(path_data, connect, date):
 			if plan['UNIT_OPTION'] == 'CPI':
 				start_date, end_date = mapping_data.ChooseTime(plan)
 
-				# plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
+				plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
 				# print (start_date)
 				# print (end_date)
 				plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = plan['TOTAL_CAMPAIGN']['INSTALL_CAMP']
