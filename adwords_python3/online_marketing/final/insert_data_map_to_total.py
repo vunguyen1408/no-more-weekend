@@ -37,7 +37,7 @@ def SumTotalPlan(plan, list_campaign):
 	sum_plan = CreateSum()
 	for campaign_in_plan in plan['CAMPAIGN']:
 		for campaign in list_campaign:
-			if str(camp['Campaign ID']) == '794232395' and plan['REASON_CODE_ORACLE'] == '1708062' \
+			if str(campaign['Campaign ID']) == '794232395' and plan['REASON_CODE_ORACLE'] == '1708062' \
 				and plan['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN' and campaign_in_plan['CAMPAIGN_ID'] == '794232395':
 				print (campaign)
 				print (plan)
