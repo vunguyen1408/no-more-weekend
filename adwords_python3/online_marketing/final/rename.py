@@ -208,8 +208,8 @@ def CheckNameChange(path_data, list_customer, date):
 
     path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
     ###########################################
-    # with open (path_data_his,'w') as f:
-    #   json.dump(data_total, f)
+    with open (path_data_his,'w') as f:
+      json.dump(data_total, f)
     ############################################
   print ("====================== Length =================")
   return (list_diff, data_total)
@@ -421,7 +421,7 @@ def CacualatorChange(path_data, list_diff, date):
           list_camp_find.append(temp)
           print (temp['Campaign'] + '  ===================  ' + str(temp['Campaign ID'] ))
 
-    print (list_camp_find)
+    # print (list_camp_find)
     list_camp_update = list_camp_find # Update name
     mp2 = 0
     pg1 = 0
@@ -455,8 +455,7 @@ def CacualatorChange(path_data, list_diff, date):
     #     print (plan)
 
     plan_sum, list_map_temp = insert_to_total.SumTotalManyPlan(data_map['plan'], data_map['campaign'])
-    print ("Lít map")
-    print (len(list_map_temp))
+
 
     list_plan = plan_sum
 
@@ -546,8 +545,8 @@ def CacualatorChange(path_data, list_diff, date):
 
     ###########################################
     path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-    # with open (path_data_total_map,'w') as f:
-    #   json.dump(data_total, f)
+    with open (path_data_total_map,'w') as f:
+      json.dump(data_total, f)
     ##########################################
 
   return (list_plan_remove_unmap, list_camp_need_remove, list_plan_update, list_camp_update)
