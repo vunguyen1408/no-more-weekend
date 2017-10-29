@@ -178,6 +178,8 @@ def CaculatorListMonth(start_date, end_date):
 
 # ----------- Tính total từng month -------------
 def CaculatorTotalMonth(plan, date):
+	if plan['REASON_CODE_ORACLE'] == '1708007':
+			print (plan)
 	# ---------------- Choose time real ----------------------
 	start_plan, end_plan = mapping_data.ChooseTime(plan)
 
