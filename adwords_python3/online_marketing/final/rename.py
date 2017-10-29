@@ -233,6 +233,7 @@ def Map(path_folder, list_plan, list_campaign, date):
 
 
   for j, camp in enumerate(list_campaign_map):
+    t = False
     camp['Advertising Channel'] = mapping.ChangeCampaignType(camp['Advertising Channel'])
     if 'Plan' not in camp:
       camp['Plan'] = None
@@ -255,6 +256,7 @@ def Map(path_folder, list_plan, list_campaign, date):
         print (camp)
         print (eform)
         print ("\n\n")
+        t = True
 
       if (camp['Mapping'] == False): 
         flag = False
@@ -302,7 +304,8 @@ def Map(path_folder, list_plan, list_campaign, date):
               and (date_ <= end) ) \
               or ( mapping.LogManualMap(path_folder, camp, eform, date) ): 
               flag = True
-              print ("mapping =====================================")
+              if t:
+                print ("mapping =====================================")
         if flag:
           camp['Mapping'] = True
           plan = {}
