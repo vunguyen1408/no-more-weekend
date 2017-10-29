@@ -250,6 +250,11 @@ def Map(path_folder, list_plan, list_campaign, date):
       start = datetime.strptime(start, '%Y-%m-%d')
       end = datetime.strptime(end, '%Y-%m-%d')
 
+      if str(camp['Campaign ID']) == '794232395' and eform['REASON_CODE_ORACLE'] == '1708062':
+        print (camp)
+        print (eform)
+        print ("\n\n")
+
       if (camp['Mapping'] == False): 
         flag = False
         #============= WPL -================
