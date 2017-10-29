@@ -312,12 +312,17 @@ def ManualMap(connect, path_data, date):
 			for plan in list_plan:
 				flag = True
 				for plan_total in data_total['TOTAL']:
+					if plan_total['REASON_CODE_ORACLE'] == '1708007':
+						print (plan_total)
 					if plan_total['PRODUCT'] == plan['PRODUCT'] \
 						and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 						and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
 						and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
 						plan_total['TOTAL_CAMPAIGN'] = insert_data.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
 						flag = False
+					if plan_total['REASON_CODE_ORACLE'] == '1708007':
+						print (plan_total)
+					print ("++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
 				#----- Không tìm thấy trong total ------
 				if flag:
