@@ -363,6 +363,8 @@ def ManualMap(connect, path_data, date):
 
 
 			for plan in data_total['TOTAL']:
+				if plan_total['REASON_CODE_ORACLE'] == '1708007':
+					print (plan_total)
 				plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_data.GetVolumeActualTotal(plan)
 				for m in plan['MONTHLY']:
 					m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_data.GetVolumeActualMonthly(plan, m)
