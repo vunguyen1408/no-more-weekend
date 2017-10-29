@@ -187,7 +187,7 @@ def CheckNameChange(path_data, list_customer, date):
       flag = history_name.FindNameNew(data_total['HISTORY'], str(camp_['CAMPAIGN_ID']), camp_['CAMPAIGN_NAME'])
       if flag == -1:
         list_diff.append(camp_)
-        print (camp_)
+        # print (camp_)
         temp = {
           'ACCOUNT_ID': camp_['ACCOUNT_ID'],
           'CAMPAIGN_ID' : str(camp_['CAMPAIGN_ID']),
@@ -255,7 +255,7 @@ def Map(path_folder, list_plan, list_campaign, date):
         and eform['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
         print (camp)
         print (eform)
-        print ("\n\n")
+        # print ("\n\n")
         t = True
 
       if (camp['Mapping'] == False): 
@@ -305,7 +305,7 @@ def Map(path_folder, list_plan, list_campaign, date):
               or ( mapping.LogManualMap(path_folder, camp, eform, date) ): 
               flag = True
               if t:
-                print ("mapping =====================================")
+                print ("mapping =====================================\n\n\n")
         if flag:
           camp['Mapping'] = True
           plan = {}
