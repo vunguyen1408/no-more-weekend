@@ -443,16 +443,16 @@ def CacualatorChange(path_data, list_diff, date):
     list_plan['plan'] = mapping.AddProductCode(path_data, list_plan['plan'], date)
     # -------------- Call mapping ----------------
     # print (len(list_camp_find))
-    for plan in list_plan['plan']:
-      if plan['REASON_CODE_ORACLE'] == '1708062' and plan['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
-        print (plan)
+    # for plan in list_plan['plan']:
+    #   if plan['REASON_CODE_ORACLE'] == '1708062' and plan['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
+    #     print (plan)
 
 
     data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
 
-    for plan in data_map['plan']:
-      if plan['REASON_CODE_ORACLE'] == '1708062' and plan['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
-        print (plan)
+    # for plan in data_map['plan']:
+    #   if plan['REASON_CODE_ORACLE'] == '1708062' and plan['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
+    #     print (plan)
 
     plan_sum, list_map_temp = insert_to_total.SumTotalManyPlan(data_map['plan'], data_map['campaign'])
 
