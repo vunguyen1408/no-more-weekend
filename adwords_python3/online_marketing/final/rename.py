@@ -208,8 +208,8 @@ def CheckNameChange(path_data, list_customer, date):
 
     path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
     ###########################################
-    with open (path_data_his,'w') as f:
-      json.dump(data_total, f)
+    # with open (path_data_his,'w') as f:
+    #   json.dump(data_total, f)
     ############################################
   print ("====================== Length =================")
   return (list_diff, data_total)
@@ -231,70 +231,133 @@ def Map(path_folder, list_plan, list_campaign, date):
     if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
       list_campaign_map.append(camp)
 
-  for i, eform in enumerate(list_plan):  
-    flag = True
-    eform['CAMPAIGN'] = []
-    eform['STATUS'] = None
 
-    # -------------------- Choose time real ------------------------
-    start, end = mapping.ChooseTime(eform)
-    start = datetime.strptime(start, '%Y-%m-%d')
-    end = datetime.strptime(end, '%Y-%m-%d')
+  for j, camp in enumerate(list_campaign_map):
+    camp['Advertising Channel'] = mapping.ChangeCampaignType(camp['Advertising Channel'])
+    if 'Plan' not in camp:
+      camp['Plan'] = None
+      camp['STATUS'] = None
 
-    for j, camp in enumerate(list_campaign_map):
-      camp['Advertising Channel'] = mapping.ChangeCampaignType(camp['Advertising Channel'])
-      if 'Plan' not in camp:
-        camp['Plan'] = None
-        camp['STATUS'] = None
+    date_ = datetime.strptime(camp['Date'], '%Y-%m-%d')
 
-      date_ = datetime.strptime(camp['Date'], '%Y-%m-%d')
+    for i, eform in enumerate(list_plan):  
+      flag = True
+      eform['CAMPAIGN'] = []
+      eform['STATUS'] = None
+
+      # -------------------- Choose time real ------------------------
+      start, end = mapping.ChooseTime(eform)
+      start = datetime.strptime(start, '%Y-%m-%d')
+      end = datetime.strptime(end, '%Y-%m-%d')
 
       if (camp['Mapping'] == False): 
         flag = False
-        if camp['Account Name'].find('WPL') >= 0:
-          if (  (eform['CCD_PRODUCT'] != []) and (mapping.checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
-            or mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])) and \
-            # (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
-            (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) and \
-            (date_ >= start)  and eform['DEPARTMENT_NAME'] == 'WPL'and \
-            (date_ <= end) ) \
-            or \
-            ( mapping.LogManualMap(path_folder, camp, eform, date) ):
+        #============= WPL -================
+        if camp['Dept'].find('WPL') >= 0:
+          if (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
+            and (mapping.checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
+            or mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) ) \
+            and (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) \
+            and (date_ >= start) \
+            and (date_ <= end) ) \
+            or  ( mapping.LogManualMap(path_folder, camp, eform, date) ):
             flag = True
         else:
-          if (  (eform['PRODUCT_CODE'] != []) and ( mapping.checkProductCode(camp['Campaign'], eform['PRODUCT_CODE']) or \
-            (mapping.checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) or mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE'])))
-            and \
-            (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) and \
-            (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) and \
-            (date_ >= start) and \
-            (date_ <= end) ) \
-            or \
-            ( mapping.LogManualMap(path_folder, camp, eform, date) ): 
-            flag = True
+          # ============= GS5 ================
+          if camp['Dept'].find('GS5') >= 0:
+            if (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
+              # and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
+              and mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) \
+              and (eform['FORM_TYPE'].find(type_campaign) >= 0) \
+              and (date_ >= start) \
+              and (date_ <= end) ) \
+              or  ( mapping.LogManualMap(path_folder, camp, eform, date) ):
+              flag = True
+
+          else:
+            try:
+              product_id = (camp['Campaign'].split('|'))[1]
+            except IndexError as e:
+              product_id = ''
+            if(  (eform['PRODUCT_CODE'] != [] or eform['CCD_PRODUCT'] != []) and \
+              (
+                mapping.checkProductCode(camp['Campaign'], eform['PRODUCT_CODE']) or \
+                # checkProductCode(camp['Campaign'], eform['CCD_PRODUCT']) or \
+                # checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) or \
+                mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) or \
+                product_id.find(str(eform['PRODUCT'])) >= 0
+              )
+              and \
+              (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) \
+              and (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) 
+              and (date_ >= start) 
+              and (date_ <= end) ) \
+              or ( mapping.LogManualMap(path_folder, camp, eform, date) ): 
+              flag = True
+        if flag:
+          camp['Mapping'] = True
+          plan = {}
+          plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
+          plan['CCD_PRODUCT'] = eform['CCD_PRODUCT']
+          plan['REASON_CODE_ORACLE'] = eform['REASON_CODE_ORACLE']
+          plan['FORM_TYPE'] = eform['FORM_TYPE']
+
+          camp['Plan'] = plan
+
+          campaign = {}
+          campaign['CAMPAIGN_ID'] = str(camp['Campaign ID'])
+          campaign['Date'] = camp['Date']
+
+          temp = eform['CAMPAIGN']
+          temp.append(campaign)
+          eform['CAMPAIGN'] = temp
+
+          camp['STATUS'] = 'SYS'
+          eform['STATUS'] = 'SYS'
+          number += 1
 
 
-          if flag:
-            camp['Mapping'] = True
-            plan = {}
-            plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
-            plan['CCD_PRODUCT'] = eform['CCD_PRODUCT']
-            plan['REASON_CODE_ORACLE'] = eform['REASON_CODE_ORACLE']
-            plan['FORM_TYPE'] = eform['FORM_TYPE']
+      if camp['Mapping'] == False and camp['Dept'].find('GS5') >= 0:
+        for i, eform in enumerate(list_plan):  
+          if 'CAMPAIGN' not in eform:
+            eform['CAMPAIGN'] = []
+            eform['STATUS'] = None
+          # -------------------- Choose time real ------------------------
+          start, end = mapping.ChooseTime(eform)
+          start = datetime.strptime(start, '%Y-%m-%d')
+          end = datetime.strptime(end, '%Y-%m-%d')
 
-            camp['Plan'] = plan
+          unit_option = mapping.GetUnitOptionOfGS5(camp['Account Name'])
+          if (eform['DEPARTMENT_NAME'] == 'GS5'): 
 
-            campaign = {}
-            campaign['CAMPAIGN_ID'] = str(camp['Campaign ID'])
-            campaign['Date'] = camp['Date']
+            if (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
+              # and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
+              and mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) \
+              and (eform['UNIT_OPTION'].find(unit_option) >= 0) \
+              and (date_ >= start) \
+              and (date_ <= end) ) \
+              or  ( mapping.LogManualMap(path_folder, camp, eform, date) ): 
 
-            temp = eform['CAMPAIGN']
-            temp.append(campaign)
-            eform['CAMPAIGN'] = temp
+              camp['Mapping'] = True
+              plan = {}
+              plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
+              plan['CCD_PRODUCT'] = eform['CCD_PRODUCT']
+              plan['REASON_CODE_ORACLE'] = eform['REASON_CODE_ORACLE']
+              plan['FORM_TYPE'] = eform['FORM_TYPE']
 
-            camp['STATUS'] = 'SYS'
-            eform['STATUS'] = 'SYS'
-            number += 1
+              camp['Plan'] = plan
+
+              campaign = {}
+              campaign['CAMPAIGN_ID'] = camp['Campaign ID']
+              campaign['Date'] = camp['Date']
+
+              temp = eform['CAMPAIGN']
+              temp.append(campaign)
+              eform['CAMPAIGN'] = temp
+
+              camp['STATUS'] = 'SYS'
+              eform['STATUS'] = 'SYS'
+              number += 1
 
   data_map = {}
   data_map['campaign'] = list_campaign_map
@@ -462,8 +525,8 @@ def CacualatorChange(path_data, list_diff, date):
 
     ###########################################
     path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-    with open (path_data_total_map,'w') as f:
-      json.dump(data_total, f)
+    # with open (path_data_total_map,'w') as f:
+    #   json.dump(data_total, f)
     ##########################################
 
   return (list_plan_remove_unmap, list_camp_need_remove, list_plan_update, list_camp_update)
