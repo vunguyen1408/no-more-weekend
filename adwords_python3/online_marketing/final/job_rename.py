@@ -35,7 +35,7 @@ def Rename (connect, path_data, list_customer_id, date):
 
 	# print (list_camp_remove_unmap != [])
 	# print (len(list_camp_remove_unmap))
-	if list_camp_remove_unmap != [] and list_camp_update != []:
+	if list_camp_remove_unmap != [] or list_camp_update != []:
 		update_manual = time.time()
 		print ("insert data")
 		# nru.Add_Data_To_Plan(connect, path_data, date)
