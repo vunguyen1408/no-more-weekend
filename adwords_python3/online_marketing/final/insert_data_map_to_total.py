@@ -33,9 +33,6 @@ def SumTotalPlan(plan, list_campaign):
 	"""
 		Hàm tính total cho một plan (tổng các campaign)
 	"""
-	print ("Vafo ahm")
-	print ("Vafo ahm")
-	print ("Vafo ahm")
 	list_map = []
 	sum_plan = CreateSum()
 	for campaign_in_plan in plan['CAMPAIGN']:

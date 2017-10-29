@@ -440,11 +440,13 @@ def CacualatorChange(path_data, list_diff, date):
 
     list_plan = mapping.ReadPlan(path_data, date)
     list_plan['plan'] = mapping.AddProductCode(path_data, list_plan['plan'], date)
-    # # -------------- Call mapping ----------------
+    # -------------- Call mapping ----------------
     # print (len(list_camp_find))
-    # for camp in list_camp_find:
-    #   if camp['Campaign'].find('JXM') >= 0:
-    #     print (camp)
+    for plan in list_plan['plan']:
+      if plan['REASON_CODE_ORACLE'] == '1708062' and plan['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
+        print (plan)
+
+        
     data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
 
     plan_sum, list_map_temp = insert_to_total.SumTotalManyPlan(data_map['plan'], data_map['campaign'])
