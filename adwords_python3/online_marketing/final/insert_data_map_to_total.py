@@ -68,6 +68,7 @@ def SumTotalPlan(plan, list_campaign):
 				z.update(plan)
 				list_map.append(z)
 	plan['TOTAL_CAMPAIGN'] = sum_plan
+	print (len(list_map))
 	return (plan, list_map)
 
 #------------ Cộng hai plan ----------------------
