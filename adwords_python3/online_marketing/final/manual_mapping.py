@@ -348,6 +348,8 @@ def ManualMap(connect, path_data, date):
 					print (plan)
 				plan['MONTHLY'] = {}
 				plan = insert_data.CaculatorTotalMonth(plan, date)
+				if plan['REASON_CODE_ORACLE'] == '1708007':
+					print (plan)
 
 				# print (plan)
 			print ("---------------------------------------------------")
