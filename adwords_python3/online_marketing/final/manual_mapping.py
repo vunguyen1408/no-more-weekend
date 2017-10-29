@@ -344,6 +344,8 @@ def ManualMap(connect, path_data, date):
 			# --------------- Tinh total month cho cac plan --------------
 			print ("---------------------------------------------------")
 			for plan in data_total['TOTAL']:
+				if plan['REASON_CODE_ORACLE'] == '1708007':
+					print (plan)
 				plan['MONTHLY'] = {}
 				plan = insert_data.CaculatorTotalMonth(plan, date)
 
