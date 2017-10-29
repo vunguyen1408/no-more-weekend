@@ -368,8 +368,8 @@ def ManualMap(connect, path_data, date):
 						list_plan_update.append(plan)
 
 			path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-			# with open (path_data_total_map,'w') as f:
-			# 	json.dump(data_total, f)
+			with open (path_data_total_map,'w') as f:
+				json.dump(data_total, f)
 
 			# print (list_plan_update)
 			# list_plan_temp = []
