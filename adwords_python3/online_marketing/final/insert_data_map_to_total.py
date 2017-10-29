@@ -84,9 +84,9 @@ def SumTotalManyPlan(list_plan, list_campaign):
 		# ------------- Lấy các plan mapping được ---------------
 		plan, list_map = SumTotalPlan(plan, list_campaign)
 		if len(plan['CAMPAIGN']) > 0:
-			print (plan)
 			list_plan_total.append(plan)
 			list_data_map.extend(list_map)
+			print (len(list_data_map))
 	return (list_plan_total, list_data_map)
 
 #------------ Cộng hai plan ----------------------
