@@ -42,7 +42,7 @@ def SumTotalPlan(plan, list_campaign):
 			# 	print (campaign)
 			# 	print (plan)
 			# 	print ("SUM======================================\n\n\n")
-			if (campaign_in_plan['CAMPAIGN_ID'] == campaign['Campaign ID']) \
+			if (str(campaign_in_plan['CAMPAIGN_ID']) == str(campaign['Campaign ID'])) \
 			and (campaign_in_plan['Date'] == campaign['Date']):
 				# --------------- Tính total ------------------
 				sum_plan['CLICKS'] += float(campaign['Clicks'])
@@ -84,6 +84,7 @@ def SumTotalManyPlan(list_plan, list_campaign):
 		# ------------- Lấy các plan mapping được ---------------
 		plan, list_map = SumTotalPlan(plan, list_campaign)
 		if len(plan['CAMPAIGN']) > 0:
+			print (plan)
 			list_plan_total.append(plan)
 			list_data_map.extend(list_map)
 	return (list_plan_total, list_data_map)
