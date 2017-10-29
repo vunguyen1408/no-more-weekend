@@ -12,7 +12,7 @@ from datetime import datetime , timedelta, date
 import mapping_campaign_plan as mapping
 import insert_data_map_to_total as insert_to_total
 import history_name as history_name
-import down_load_name as down_load_name
+# import down_load_name as down_load_name
 
 logging.basicConfig(level=logging.INFO)
 logging.getLogger('suds.transport').setLevel(logging.DEBUG)
