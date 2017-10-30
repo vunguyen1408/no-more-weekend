@@ -752,7 +752,8 @@ def GetPlanModified(connect, path_data):
 	cursor.close()
 	for i in range(len(list_modified_plan)):		
 		list_plan.append(ConvertPlan(list(list_modified_plan[i])))
-
+	print(len(list_plan))
+	
 	for plan in data['plan']:
 		for new_plan in list_plan:
 			if new_plan['PRODUCT'] == plan['PRODUCT'] \
@@ -769,8 +770,8 @@ def GetPlanModified(connect, path_data):
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
-# date = '2017-05-31' 
-date = '2017-03-01' 
+date = '2017-05-31' 
+# date = '2017-03-01' 
 final_log = '10/27/2017 10:00:00'
 
 GetPlanModified(connect, path_data)
