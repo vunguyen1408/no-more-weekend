@@ -8,6 +8,7 @@ import os
 from googleads import adwords
 from datetime import datetime, timedelta
 # import get_accounts as get_accounts
+import add_acc_name as AccName
 
 
 logging.basicConfig(level=logging.INFO)
@@ -32,8 +33,10 @@ def TSVtoJson(report_string, date):
     ele = line.split('\t')
     dict_campaign = {}
     if (ele[0] not in list_key) and (len(ele) > 1 ):
-      for i in range(len(list_key)):          
-        if (list_key[i] == 'Cost') or ((list_key[i].find('Avg') >= 0) and (list_key[i] != 'Avg. position')):         # Cost            
+      for i in range(len(list_key)):  
+        if (list_key[i] == 'Campaign ID'):
+          ele[i] = str(ele[i])
+        elif (list_key[i] == 'Cost') or ((list_key[i].find('Avg') >= 0) and (list_key[i] != 'Avg. position')):         # Cost            
           ele[i] = float(float(ele[i]) / 1000000)
         elif (ele[i].isdigit()):         # Integer        
           ele[i] = int(ele[i])
@@ -178,31 +181,36 @@ def GetCampainForAccount(path, customerId, day, to_day):
 
 import time
 
-startTime = time.time()
-print('================== START TIME =======================')
-print(startTime)
-print('===========================================================')
+# startTime = time.time()
+# print('================== START TIME =======================')
+# print(startTime)
+# print('===========================================================')
 #=================  Get list account ============================
 import add_acc_name as add_acc_name
 path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA'
 list_mcc_id, list_mcc, list_dept = add_acc_name.get_list_customer(path_data)
 
 
-#============== Get Campaign for all account =============
-path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/T10'
+# #============== Get Campaign for all account =============
+# path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/T10'
 
-date = '2017-10-01' 
-to_date = '2017-10-25'
-for customer_id in list_mcc_id:  
-  GetCampainForAccount(path, customer_id, date, to_date)
-  time.sleep(1)
+# date = '2017-10-01' 
+# to_date = '2017-10-25'
+# for customer_id in list_mcc_id:  
+#   GetCampainForAccount(path, customer_id, date, to_date)
+#   time.sleep(1)
 
-endTime = time.time()
+# endTime = time.time()
 
-print('================== TOTAL TIME DAILY =======================')
-print("Total time for daily: ", endTime - startTime)
+# print('================== TOTAL TIME DAILY =======================')
+# print("Total time for daily: ", endTime - startTime)
 
 #============== Add account name ========================
 path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/T10'
-AccName.addAccName(path, list_mcc, list_mcc_id, list_dept)
+# AccName.addAccName(path, list_mcc, list_mcc_id, list_dept)
+
+
+path_data = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/TEMP_DATA_T3_T8 - Copy'
+AccName.convertCampaignID(path_data)
+
 
