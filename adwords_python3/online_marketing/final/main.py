@@ -184,7 +184,7 @@ def ManyDate(connect, path_data, start_date, end_date):
 	# adwords_client = adwords.AdWordsClient.LoadFromStorage()
 	path_acc = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT'
 	list_acc, list_mcc, list_dept = add_acc_name.get_list_customer(path_acc)
-	print (list_acc)
+	print (len(list_acc))
 
 	# date_ = datetime.strptime(start_date, '%Y-%m-%d').date()
 	# to_date_ = datetime.strptime(end_date, '%Y-%m-%d').date()
