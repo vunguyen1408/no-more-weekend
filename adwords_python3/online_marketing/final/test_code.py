@@ -759,7 +759,7 @@ def GetPlanModified(connect, path_data):
 			if (new_plan['PRODUCT'] == plan['PRODUCT']) \
 				and (new_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE']) \
 				and (new_plan['FORM_TYPE'] == plan['FORM_TYPE']) \
-				and (new_plan['UNIT_OPTION'] == plan['UNIT_OPTION']):
+				and (new_plan['UNIT_OPTION'] == plan['UNIT_OPTION'])\
 				and (new_plan['START_DAY'] == plan['START_DAY']) \
 				and (new_plan['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE']) :
 			# and new_plan['REAL_START_DATE'] == plan['REAL_START_DATE'] \
