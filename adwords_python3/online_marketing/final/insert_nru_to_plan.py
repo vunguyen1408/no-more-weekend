@@ -207,3 +207,32 @@ def Add_Data_To_Plan(connect, path_data, date):
 
 
 
+
+
+
+
+# def CaculatorStartEndDate(plan, start, end):
+# 	from datetime import datetime , timedelta, date
+# 	# Get start end
+# 	month_start = int(start[5:-3])
+# 	month_end = int(end[5:-3])
+# 	year_end = end[:4]
+# 	for month in plan['MONTHLY']:
+# 		if (int(month['MONTH']) == month_start):
+# 			start_date = datetime.strptime(start, '%Y-%m-%d').date()
+# 			end_date = start_date + timedelta(int(month['DAY']) - 1)
+# 			start_date = start_date.strftime('%Y-%m-%d')
+# 			end_date = end_date.strftime('%Y-%m-%d')
+# 		else:
+# 			start_date = year_end + '-' + str(month['MONTH']) + '-01'
+# 			start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+# 			end_date = start_date + timedelta(int(month['DAY']) - 1)
+# 			start_date = start_date.strftime('%Y-%m-%d')
+# 			end_date = end_date.strftime('%Y-%m-%d')
+# 		month['START_DATE'] = start_date
+# 		month['END_DATE'] = end_date
+# 	return plan
+
+
+
+
