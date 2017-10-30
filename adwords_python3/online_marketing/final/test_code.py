@@ -753,13 +753,17 @@ def GetPlanModified(connect, path_data):
 	for i in range(len(list_modified_plan)):		
 		list_plan.append(ConvertPlan(list(list_modified_plan[i])))
 	print(len(list_plan))
-	
+
 	for plan in data['plan']:
 		for new_plan in list_plan:
 			if new_plan['PRODUCT'] == plan['PRODUCT'] \
 			and new_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 			and new_plan['FORM_TYPE'] == plan['FORM_TYPE'] \
-			and new_plan['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+			and new_plan['UNIT_OPTION'] == plan['UNIT_OPTION'] \
+			and new_plan['START_DAY'] == plan['START_DAY'] \
+			and new_plan['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE'] \
+			and new_plan['REAL_START_DATE'] == plan['REAL_START_DATE'] \
+			and new_plan['REAL_END_DATE'] == plan['REAL_END_DATE'] :
 				data['plan'].remove(plan)
 	print(len(data['plan']))
 	for plan in data['plan']:
@@ -770,7 +774,7 @@ def GetPlanModified(connect, path_data):
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
-date = '2017-05-31' 
+date = '2017-06-05' 
 # date = '2017-03-01' 
 final_log = '10/27/2017 10:00:00'
 
