@@ -109,6 +109,29 @@ def GetListPlanChangeFromTable(connect, final_log):
 	return list_plan_diff, final_log
 
 
+
+def GetFileTotal(path_data, date):	
+	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')		
+
+	if not os.path.exists(path_data_total_map):
+		i = 0
+		find = True
+		date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		while not os.path.exists(path_data_total_map):
+			i = i + 1
+			date_before = date_before - timedelta(1)
+			path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			if i == 60:
+				find = False
+				break			
+	else:
+		find = True
+
+	return path_data_total_map
+
+
+
 def CheckPlanUpdate(list_plan, plan):
 	for _value in list_plan:
 		# ========= Change product id =====================
@@ -123,10 +146,6 @@ def CheckPlanUpdate(list_plan, plan):
 			return True
 
 	return False
-		
-
-
-
 
 def UpdateOnePlan(plan, updated_plan):
 	plan['CYEAR'] = updated_plan['CYEAR']
@@ -162,8 +181,7 @@ def UpdateOnePlan(plan, updated_plan):
 
 
 def UpdatePlan(path_data, list_plan_update):
-	# 
-
+	
 	list_plan = list_plan_update.copy()	
 	with open(path_data) as fi:
 		data_total = json.load(fi)
@@ -206,6 +224,11 @@ def UpdatePlan(path_data, list_plan_update):
 
 
 
+def NewPlan():
+
+
+
+
 
 def ClassifyPlan(connect, path_data, date, path_log):
 	# =============== Get plan change =====================	
@@ -244,7 +267,19 @@ def ClassifyPlan(connect, path_data, date, path_log):
 			else:
 				list_plan_map.append(plan)
 
-	path_data_total = os.path.join(path_data, str(date) + '/DATA_MAPPING/total_mapping.json')
+
+	# ============= Process with each case =======================
+	path_data_total = GetFileTotal(path_data, date)
+	print(path_data_total)
+
+	#======== Case 1: New Plan
+
+
+	#======== Case 2: Data update can map
+
+
+
+	#======== Case 3: Data update not map 
 	if (len(list_plan_update) > 0):
 		UpdatePlan(path_data_total, list_plan_update)
 	print(list_plan_update)
@@ -267,7 +302,8 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
-date = '2017-05-31' 
+# date = '2017-05-31' 
+date = '2017-03-01' 
 final_log = '10/27/2017 10:00:00'
 
 
