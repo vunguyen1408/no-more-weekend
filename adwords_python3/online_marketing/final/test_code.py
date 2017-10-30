@@ -234,7 +234,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 			file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
 			with open(file_plan, 'r') as fi:
 				list_plan = json.load(fi)
-			for plan__ in list_plan:
+			for plan__ in list_plan['plan']:
 				if plan__['PRODUCT'] == '257'  \
 				and plan__['REASON_CODE_ORACLE'] == '1703027' \
 				and updated_plan['FORM_TYPE'] == 'DISPLAY' :
