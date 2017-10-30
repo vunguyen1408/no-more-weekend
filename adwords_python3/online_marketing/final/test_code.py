@@ -237,7 +237,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 			for plan__ in list_plan['plan']:
 				if plan__['PRODUCT'] == '257'  \
 				and plan__['REASON_CODE_ORACLE'] == '1703027' \
-				and updated_plan['FORM_TYPE'] == 'DISPLAY' :
+				and plan__['FORM_TYPE'] == 'DISPLAY' :
 					print('===============================================')
 					print(plan__)
 					print('===============================================')
