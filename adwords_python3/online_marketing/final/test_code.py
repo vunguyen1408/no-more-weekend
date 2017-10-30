@@ -760,8 +760,8 @@ def GetPlanModified(connect, path_data):
 				and (new_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE']) \
 				and (new_plan['FORM_TYPE'] == plan['FORM_TYPE']) \
 				and (new_plan['UNIT_OPTION'] == plan['UNIT_OPTION']):
-				# and (new_plan['START_DAY'] == plan['START_DAY']) \
-				# and (new_plan['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE']) :
+				and (new_plan['START_DAY'] == plan['START_DAY']) \
+				and (new_plan['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE']) :
 			# and new_plan['REAL_START_DATE'] == plan['REAL_START_DATE'] \
 			# and new_plan['REAL_END_DATE'] == plan['REAL_END_DATE'] :
 				data['plan'].remove(plan)
@@ -770,6 +770,8 @@ def GetPlanModified(connect, path_data):
 		print(type(new_plan['REASON_CODE_ORACLE']), type(plan['REASON_CODE_ORACLE']))
 		print(type(new_plan['FORM_TYPE']), type(plan['FORM_TYPE']))
 		print(type(new_plan['UNIT_OPTION']), type(plan['UNIT_OPTION']))
+		print(type(new_plan['START_DAY']), type(plan['START_DAY']))
+		print(type(new_plan['END_DAY_ESTIMATE']), type(plan['END_DAY_ESTIMATE']))
 
 		print("=======================")
 				
