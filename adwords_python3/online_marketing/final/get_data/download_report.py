@@ -130,7 +130,7 @@ def DownloadCampaignOfCustomer(adwords_client, customerId, startDate, endDate, p
   result = report_downloader.DownloadReportAsString(
       report, skip_report_header=True, skip_column_header=False,
       skip_report_summary=False, include_zero_impressions=True)
-  print (result)
+  # print (result)
   return result
 
 
@@ -204,6 +204,9 @@ def GetData(path_acc, path_camp, path_log, startDate, endDate):
   print("Total time for daily: ", endTime - startTime)
 
 
+  
+
+
 # path_config = 'D:/WorkSpace/Adwords/Finanlly/AdWords/adwords_python3/googleads.yaml'
 # path_acc = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA'
 # path_camp = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/'
@@ -214,19 +217,19 @@ def GetData(path_acc, path_camp, path_log, startDate, endDate):
 
 
 
-path_acc = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT'
-path_camp = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT'
-path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log.txt'
-path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
-startDate = '2017-03-01' 
-endDate = '2017-03-01'
+# path_acc = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT'
+# path_camp = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT'
+# path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log.txt'
+# path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
+# startDate = '2017-03-01' 
+# endDate = '2017-03-01'
 
-# list_acc = get_all_account(path_acc, path_camp, path_log, path_config, startDate, endDate)
-list_mcc_id, list_mcc, list_dept = add_acc_name.get_list_customer(path_acc)
-# get_all_camp(path_acc, path_camp, path_log, path_config, startDate, endDate)
+# # list_acc = get_all_account(path_acc, path_camp, path_log, path_config, startDate, endDate)
+# list_mcc_id, list_mcc, list_dept = add_acc_name.get_list_customer(path_acc)
+# # get_all_camp(path_acc, path_camp, path_log, path_config, startDate, endDate)
 
-GetCampainForAccount(path_camp, path_config, '5008396449', startDate, endDate, path_log, list_mcc, list_mcc_id, list_dept)
-print("okkkkkkkkkkkkkk.................")
+# GetCampainForAccount(path_camp, path_config, '5008396449', startDate, endDate, path_log, list_mcc, list_mcc_id, list_dept)
+# print("okkkkkkkkkkkkkk.................")
 
 
 

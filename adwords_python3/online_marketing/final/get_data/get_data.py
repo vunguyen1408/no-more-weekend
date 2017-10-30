@@ -88,7 +88,7 @@ def get_all_camp(path_acc, path_camp, path_log, path_config, startDate, endDate)
 # path_acc = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT'
 # path_camp = 
 # path_log = 
-# path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final'
+# path_config = '/home/marketingtool/Workspace/Python/enviroment'
 # startDate = '2017-03-01' 
 # endDate = '2017-03-01'
 

@@ -146,7 +146,7 @@ def GetAllAcount(path_config, path_dept):
 
 
 # path_dept = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/Dept.xlsx'
-# path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
+# path_config = '/home/marketingtool/Workspace/Python/enviroment/googleads_MCC.yaml'
 # file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_111.json'
 
 # # path_dept = 'C:/Users/CPU10912-local/Desktop/Dept.xlsx'
@@ -157,11 +157,11 @@ def GetAllAcount(path_config, path_dept):
 #   json.dump(root_note[1], fo)
 
 # path_dept = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/Dept.xlsx'
-# path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_WPL.yaml'
+# path_config = '/home/marketingtool/Workspace/Python/enviroment/googleads_WPL.yaml'
 # file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/WPL_111.json'
 
 # # path_dept = 'C:/Users/CPU10912-local/Desktop/Dept.xlsx'
-# # path_config = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/googleads_WPL.yaml'
+# # path_config = '/home/marketingtool/Workspace/Python/enviroment/googleads_WPL.yaml'
 # # file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/WPL_entity.json'
 # root_note, list_acc = GetAllAcount(path_config)
 # with open(file_json, 'w') as fo:
