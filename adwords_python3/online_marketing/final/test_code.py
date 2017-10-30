@@ -235,8 +235,8 @@ def ClassifyPlan(connect, path_data, date, path_log):
 			with open(file_plan, 'r') as fi:
 				list_plan = json.load(fi)
 			for plan__ in list_plan:
-				if plan__['PRODUCT'] = '257'  \
-				and plan__['REASON_CODE_ORACLE'] = '1703027' \
+				if plan__['PRODUCT'] == '257'  \
+				and plan__['REASON_CODE_ORACLE'] == '1703027' \
 				and updated_plan['FORM_TYPE'] == 'DISPLAY' :
 					print('===============================================')
 					print(plan__)
