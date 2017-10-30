@@ -8,7 +8,7 @@ import os
 from googleads import adwords
 from datetime import datetime, timedelta
 # import get_accounts as get_accounts
-import add_acc_name as AccName
+import add_acc_name as add_acc_name
 
 
 logging.basicConfig(level=logging.INFO)
