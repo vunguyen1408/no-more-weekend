@@ -222,7 +222,7 @@ startDate = '2017-03-01'
 endDate = '2017-03-01'
 
 # list_acc = get_all_account(path_acc, path_camp, path_log, path_config, startDate, endDate)
-list_acc, list_mcc, list_dept = add_acc_name.get_list_customer(path_acc)
+list_mcc_id, list_mcc, list_dept = add_acc_name.get_list_customer(path_acc)
 # get_all_camp(path_acc, path_camp, path_log, path_config, startDate, endDate)
 
 GetCampainForAccount(path_camp, path_config, '5008396449', startDate, endDate, path_log, list_mcc, list_mcc_id, list_dept)
