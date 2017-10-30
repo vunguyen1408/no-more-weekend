@@ -145,64 +145,36 @@ def GetAllAcount(path_config):
   return (root_note, list_acc)
 
 
+
+
+
+
+
+
 path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
 file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC_111.json'
 # path_config = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
 # file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/MCC_entity.json'
-print("Start ........")
 root_note, list_acc = GetAllAcount(path_config)
 with open(file_json, 'w') as fo:
   json.dump(root_note[1], fo)
 
 
-# path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_WPL.yaml'
-# file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/WPL.json'
+path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_WPL.yaml'
+file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/WPL.json'
 
 # path_config = 'D:/WorkSpace/GG_Tool/Finally/no-more-weekend/adwords_python3/online_marketing/final/googleads_WPL.yaml'
 # file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/WPL_entity.json'
-# root_note, list_acc = GetAllAcount(path_config)
-# with open(file_json, 'w') as fo:
-#   json.dump(root_note[1], fo)
+root_note, list_acc = GetAllAcount(path_config)
+with open(file_json, 'w') as fo:
+  json.dump(root_note[1], fo)
 
 
 
 
 
 
-#================= Check list account not having dept ==================
-# path_dept = 'C:/Users/CPU10912-local/Desktop/Dept.xlsx'
-# dept = pd.read_excel(path_dept)
 
-# list_mcc = list(dept['MCC Level 3'])  
-# list_mcc_id = list(dept['ID'])
-# list_dept = list(dept['Dept'])
-# for i in range(len(list_mcc_id)):
-#   list_mcc_id[i] = list_mcc_id[i].replace('-', '')
-# list_mcc.append(None)
-# list_mcc_id.append(None)
-# list_dept.append(None)
-
-# with open(file_json, 'r') as fi:
-#   data = json.load(fi)
-
-# for i in range(len(data)):
-#   if str(data[i]['customerId']) in list_mcc_id:
-    
-#     data[i]['deptId'] = str(data[i]['customerId'])
-#     data[i]['dept Name'] = list_mcc[list_mcc_id.index(str(data[i]['customerId']))]
-#     data[i]['dept'] = list_dept[list_mcc_id.index(str(data[i]['customerId']))]
-
-# with open(file_json, 'w') as fo:
-#   json.dump(data, fo)
-
-# # 
-# with open(file_json, 'r') as fi:
-#   data = json.load(fi)
-
-# for value in data:
-#   if (value['deptId'] is None):
-#     print
-#     print(value['customerId'], value['name'], value['level'])
 
 
 

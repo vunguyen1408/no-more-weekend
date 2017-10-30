@@ -125,7 +125,7 @@ def CheckPlanUpdate(list_plan, plan):
 	return False
 		
 
-	
+
 
 def ClassifyPlan(connect, path_data, date):
 	# =============== Get plan change =====================
@@ -175,7 +175,6 @@ def ClassifyPlan(connect, path_data, date):
 
 
 
-
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
 date = '2017-05-31' 
@@ -199,30 +198,30 @@ ClassifyPlan(connect, path_data, date)
 
 
 # ============== Test ham merger ================================
-path1 = 'C:/Users/CPU10912-local/Desktop/test1.json'
-with open(path1, 'r') as fi:
-	data_map_all = json.load(fi)
+# path1 = 'C:/Users/CPU10912-local/Desktop/test1.json'
+# with open(path1, 'r') as fi:
+# 	data_map_all = json.load(fi)
 
-path2 = 'C:/Users/CPU10912-local/Desktop/test2.json'
-with open(path2, 'r') as fi:
-	data_map_GS5 = json.load(fi)
+# path2 = 'C:/Users/CPU10912-local/Desktop/test2.json'
+# with open(path2, 'r') as fi:
+# 	data_map_GS5 = json.load(fi)
 
-path3 = 'C:/Users/CPU10912-local/Desktop/test3.json'
-with open(path3, 'r') as fi:
-	data_map_WPL = json.load(fi)
+# path3 = 'C:/Users/CPU10912-local/Desktop/test3.json'
+# with open(path3, 'r') as fi:
+# 	data_map_WPL = json.load(fi)
 
-list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
+# list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
 
-result = {}
-result['campaign'] = list_camp
-result['plan'] = list_plan
+# result = {}
+# result['campaign'] = list_camp
+# result['plan'] = list_plan
 
-path = 'C:/Users/CPU10912-local/Desktop/test4.json'
-with open(path, 'w') as fi:
-	json.dump(result,fi)
+# path = 'C:/Users/CPU10912-local/Desktop/test4.json'
+# with open(path, 'w') as fi:
+# 	json.dump(result,fi)
 
-print('Save ok ................')
-# ================================================================
+# print('Save ok ................')
+# # ================================================================
 
 
 # path = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
