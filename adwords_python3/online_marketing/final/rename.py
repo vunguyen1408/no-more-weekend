@@ -7,12 +7,12 @@ import pandas as pd
 import numpy as np
 import json
 from datetime import datetime , timedelta, date
-from googleads import adwords
+# from googleads import adwords
 # ----------------- package -----------------
 import mapping_campaign_plan as mapping
 import insert_data_map_to_total as insert_to_total
 import history_name as history_name
-import down_load_name as down_load_name
+# import down_load_name as down_load_name
 
 logging.basicConfig(level=logging.INFO)
 logging.getLogger('suds.transport').setLevel(logging.DEBUG)
@@ -595,7 +595,7 @@ list_customer_id = [
 
 date = '2017-01-01'
 to_date = '2017-09-30'
-GetListCampOfAccount(list_customer_id, date, to_date)
+# GetListCampOfAccount(list_customer_id, date, to_date)
 
 # path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
 
