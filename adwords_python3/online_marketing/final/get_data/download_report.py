@@ -164,10 +164,10 @@ def DownloadOnDate(adwords_client, customerId, path, date, path_log, list_mcc, l
   else:
     print("Da get campaign...........")
 
-def GetCampainForAccount(path, customerId, day, to_day, path_log, list_mcc, list_mcc_id, list_dept):
+def GetCampainForAccount(path, path_config, customerId, day, to_day, path_log, list_mcc, list_mcc_id, list_dept):
   
   # Initialize client object.
-  adwords_client = adwords.AdWordsClient.LoadFromStorage('D:/WorkSpace/Adwords/Finanlly/AdWords/adwords_python3/googleads.yaml')
+  adwords_client = adwords.AdWordsClient.LoadFromStorage()
 
   date_ = datetime.strptime(day, '%Y-%m-%d').date()
   to_date_ = datetime.strptime(to_day, '%Y-%m-%d').date()
@@ -195,7 +195,7 @@ def GetData(path_acc, path_camp, path_log, startDate, endDate):
 
   #============== Get Campaign for all account =============
   for customer_id in list_mcc_id:    
-    GetCampainForAccount(path_camp, customer_id, startDate, endDate, path_log, list_mcc, list_mcc_id, list_dept)
+    GetCampainForAccount(path_camp, path_config, customer_id, startDate, endDate, path_log, list_mcc, list_mcc_id, list_dept)
     time.sleep(1)
 
   endTime = time.time()
@@ -204,6 +204,7 @@ def GetData(path_acc, path_camp, path_log, startDate, endDate):
   print("Total time for daily: ", endTime - startTime)
 
 
+# path_config = 'D:/WorkSpace/Adwords/Finanlly/AdWords/adwords_python3/googleads.yaml'
 # path_acc = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA'
 # path_camp = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/'
 # path_log = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/log.txt' 

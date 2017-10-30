@@ -74,6 +74,21 @@ def get_list_customer(path_data):
 	return list_mcc_id, list_mcc, list_dept
 
 
+def get_customer(path_MCC):
+	list_mcc = []
+	list_mcc_id = []
+	list_dept  = []
+
+	if os.path.exists(path_MCC):
+		with open(path_MCC, 'r') as fi:
+			data = json.load(fi)
+		for value in data:
+			list_mcc.append(value['name'])
+			list_mcc_id.append(str(value['customerId']))
+			list_dept.append(value['dept'])
+
+	return list_mcc_id, list_mcc, list_dept
+
 
 # path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA'
 # list_mcc_id, list_mcc, list_dept = get_list_customer(path_data)
