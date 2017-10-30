@@ -340,9 +340,9 @@ def MergeDataToTotal(path_data, date):
 
 	path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
 	if not find:
-		print ("=========================================================")
-		print ("=========================================================")
-		print ("=========================================================")
+		# print ("=========================================================")
+		# print ("=========================================================")
+		# print ("=========================================================")
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 		data_total = {}
 		data_total['TOTAL'] = []
