@@ -246,6 +246,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	path_data_total = os.path.join(path_data, str(date) + '/DATA_MAPPING/total_mapping.json')
 	if (len(list_plan_update) > 0):
 		UpdatePlan(path_data_total, list_plan_update)
+		print(list_plan_update)
 
 
 	print('list_plan_new: ', len(list_plan_new))
