@@ -125,6 +125,8 @@ def CheckPlanUpdate(list_plan, plan):
 	return False
 		
 
+	
+
 def ClassifyPlan(connect, path_data, date):
 	# =============== Get plan change =====================
 	path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
@@ -196,31 +198,31 @@ ClassifyPlan(connect, path_data, date)
 
 
 
-#============== Test ham merger ================================
-# path1 = 'C:/Users/CPU10912-local/Desktop/test1.json'
-# with open(path1, 'r') as fi:
-# 	data_map_all = json.load(fi)
+# ============== Test ham merger ================================
+path1 = 'C:/Users/CPU10912-local/Desktop/test1.json'
+with open(path1, 'r') as fi:
+	data_map_all = json.load(fi)
 
-# path2 = 'C:/Users/CPU10912-local/Desktop/test2.json'
-# with open(path2, 'r') as fi:
-# 	data_map_GS5 = json.load(fi)
+path2 = 'C:/Users/CPU10912-local/Desktop/test2.json'
+with open(path2, 'r') as fi:
+	data_map_GS5 = json.load(fi)
 
-# path3 = 'C:/Users/CPU10912-local/Desktop/test3.json'
-# with open(path3, 'r') as fi:
-# 	data_map_WPL = json.load(fi)
+path3 = 'C:/Users/CPU10912-local/Desktop/test3.json'
+with open(path3, 'r') as fi:
+	data_map_WPL = json.load(fi)
 
-# list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
+list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
 
-# result = {}
-# result['campaign'] = list_camp
-# result['plan'] = list_plan
+result = {}
+result['campaign'] = list_camp
+result['plan'] = list_plan
 
-# path = 'C:/Users/CPU10912-local/Desktop/test4.json'
-# with open(path, 'w') as fi:
-# 	json.dump(result,fi)
+path = 'C:/Users/CPU10912-local/Desktop/test4.json'
+with open(path, 'w') as fi:
+	json.dump(result,fi)
 
-# print('Save ok ................')
-#================================================================
+print('Save ok ................')
+# ================================================================
 
 
 # path = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
