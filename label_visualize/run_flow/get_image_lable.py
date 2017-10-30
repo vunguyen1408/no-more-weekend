@@ -175,8 +175,12 @@ def label(photo_link, g_vdate, path_base):
             print("Unknown Error try get label")
             print (photo_link)
     # list_label = []
+    # ======== Add hash code for file
+    if os.path.exists(fullfilename):
+        import hashlib
+        result = hashlib.md5(open(fullfilename,'rb').read()).hexdigest()
     print (list_label)
-    return list_label
+    return (list_label, result)
 
 
 def get_labled_image_url(pdate, path_base):
