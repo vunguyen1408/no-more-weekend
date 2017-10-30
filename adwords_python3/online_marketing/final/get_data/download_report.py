@@ -156,7 +156,7 @@ def DownloadOnDate(adwords_client, customerId, path, date, path_log, list_mcc, l
     result_json = TSVtoJson(result_campaign, date)
     print (result_json)
     for i in range(len(result_json)):
-      result_json[i]['Account ID'] = customerId
+      result_json[i]['Account ID'] = str(customerId)
       result_json[i]['Account Name'] = list_mcc[list_mcc_id.index(result_json[i]['Account ID'])]
       result_json[i]['Dept'] = list_dept[list_mcc_id.index(result_json[i]['Account ID'])]
     with open (path_file_campaign + '.json','w') as f:
@@ -211,6 +211,19 @@ def GetData(path_acc, path_camp, path_log, startDate, endDate):
 # startDate = '2017-03-01' 
 # endDate = '2017-03-01'
 # GetData(path_acc, path_camp, path_log, startDate, endDate)
+
+
+
+path_acc = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT'
+path_camp = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT'
+path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log.txt'
+path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
+startDate = '2017-03-01' 
+endDate = '2017-03-01'
+
+# list_acc = get_all_account(path_acc, path_camp, path_log, path_config, startDate, endDate)
+list_acc, list_mcc, list_dept = add_acc_name.get_list_customer(path_acc)
+get_all_camp(path_acc, path_camp, path_log, path_config, startDate, endDate)
 
 
 

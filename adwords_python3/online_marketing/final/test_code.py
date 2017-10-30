@@ -127,6 +127,86 @@ def CheckPlanUpdate(list_plan, plan):
 
 
 
+
+def UpdateOnePlan(plan, updated_plan):
+	plan['CYEAR'] = updated_plan['CYEAR']
+	plan['CMONTH'] = updated_plan['CMONTH']
+	plan['LEGAL'] = updated_plan['LEGAL']
+	plan['DEPARTMENT'] = updated_plan['DEPARTMENT']
+	plan['DEPARTMENT_NAME'] = updated_plan['DEPARTMENT_NAME']
+
+	plan['PRODUCT'] = updated_plan['PRODUCT']
+	plan['REASON_CODE_ORACLE'] = updated_plan['REASON_CODE_ORACLE']
+	plan['EFORM_NO'] = updated_plan['EFORM_NO']
+	plan['START_DAY'] = updated_plan['START_DAY']
+	plan['END_DAY_ESTIMATE'] = updated_plan['END_DAY_ESTIMATE']
+	
+	plan['CHANNEL'] = updated_plan['CHANNEL']
+	plan['FORM_TYPE'] = updated_plan['FORM_TYPE']
+	plan['UNIT_OPTION'] = updated_plan['UNIT_OPTION']
+	plan['UNIT_COST'] = updated_plan['UNIT_COST']
+	plan['AMOUNT_USD'] = updated_plan['AMOUNT_USD']
+
+	plan['CVALUE'] = updated_plan['CVALUE']
+	plan['ENGAGEMENT'] = updated_plan['ENGAGEMENT']
+	plan['IMPRESSIONS'] = updated_plan['IMPRESSIONS']
+	plan['CLIKE'] = updated_plan['CLIKE']
+	plan['CVIEWS'] = updated_plan['CVIEWS']
+
+	plan['INSTALL'] = updated_plan['INSTALL']
+	plan['NRU'] = updated_plan['NRU']
+	plan['INSERT_DATE'] = updated_plan['INSERT_DATE']
+	plan['REAL_START_DATE'] = updated_plan['REAL_START_DATE']
+	plan['REAL_END_DATE'] = updated_plan['REAL_END_DATE']
+	plan['LAST_UPDATED_DATE'] = updated_plan['LAST_UPDATED_DATE']
+
+
+def UpdatePlan(path_data, list_plan_update):
+	# 
+
+	list_plan = list_plan_update.copy()	
+	with open(path_data) as fi:
+		data_total = json.load(fi)
+
+	#=========== Update plan in DATA MAPPING ======================	
+	for updated_plan in list_plan:
+		for plan in data_total['MAP']:
+			if updated_plan['PRODUCT'] == plan['PRODUCT'] \
+			and updated_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+			and updated_plan['FORM_TYPE'] == plan['FORM_TYPE'] \
+			and updated_plan['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+				UpdateOnePlan(data_total['MAP'][data_total['MAP'].index(plan)], updated_plan)
+				list_plan.remove(updated_plan)
+
+
+	#=========== Update plan in DATA TOTAL ======================	
+	for updated_plan in list_plan:
+		for plan in data_total['TOTAL']:
+			if updated_plan['PRODUCT'] == plan['PRODUCT'] \
+			and updated_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+			and updated_plan['FORM_TYPE'] == plan['FORM_TYPE'] \
+			and updated_plan['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+				UpdateOnePlan(data_total['TOTAL'][data_total['TOTAL'].index(plan)], updated_plan)
+				list_plan.remove(updated_plan)
+
+
+	#=========== Update plan in UNMAP PLAN ======================	
+	for updated_plan in list_plan:
+		for plan in data_total['UN_PLAN']:
+			if updated_plan['PRODUCT'] == plan['PRODUCT'] \
+			and updated_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+			and updated_plan['FORM_TYPE'] == plan['FORM_TYPE'] \
+			and updated_plan['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+				UpdateOnePlan(data_total['UN_PLAN'][data_total['UN_PLAN'].index(plan)], updated_plan)
+				list_plan.remove(updated_plan)
+
+
+	if (len(list_plan) == 0):
+		print("Update complete...........")
+
+
+
+
 def ClassifyPlan(connect, path_data, date, path_log):
 	# =============== Get plan change =====================	
 	# fi = open(path_log, 'r')
@@ -163,9 +243,17 @@ def ClassifyPlan(connect, path_data, date, path_log):
 			else:
 				list_plan_map.append(plan)
 
+	path_data_total = os.path.join(path_data, str(date) + '/DATA_MAPPING/total_mapping.json')
+	if (len(list_plan_update) > 0):
+		UpdatePlan(path_data_total, list_plan_update)
+
+
 	print('list_plan_new: ', len(list_plan_new))
 	print('list_plan_map: ', len(list_plan_map))
 	print('list_plan_update: ', len(list_plan_update))
+	return list_plan_new, list_plan_map, list_plan_update
+
+		
 
 
 
