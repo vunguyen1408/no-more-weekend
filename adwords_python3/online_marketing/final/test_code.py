@@ -127,9 +127,8 @@ def CheckPlanUpdate(list_plan, plan):
 
 
 
-def ClassifyPlan(connect, path_data, date):
-	# =============== Get plan change =====================
-	path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
+def ClassifyPlan(connect, path_data, date, path_log):
+	# =============== Get plan change =====================	
 	# fi = open(path_log, 'r')
 	# final_log = fi.read()
 	final_log = '10/27/2017 10:00:00'
@@ -188,8 +187,8 @@ final_log = '10/27/2017 10:00:00'
 # fi.writelines(final_log)
 # print("Save log ok..........")
 
-
-ClassifyPlan(connect, path_data, date)
+path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
+ClassifyPlan(connect, path_data, date, path_log)
 # # list_plan_diff = GetListPlanChangeFromTable(cursor, final_log)
 # list_plan_diff = GetListPlanChange(connect, path_data, date)
 # list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert = AutoMap(connect, path_data, date)
