@@ -224,7 +224,7 @@ def UpdatePlan(path_data, list_plan_update):
 
 
 
-def NewPlan():
+# def NewPlan():
 
 
 
