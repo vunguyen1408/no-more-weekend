@@ -236,7 +236,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 				list_plan = json.load(fi)
 			
 			plan = ConvertPlan(plan)
-			print(plan)
+			# print(plan)
 			flag = CheckPlanUpdate(list_plan['plan'], plan)
 
 			if flag:
@@ -247,18 +247,9 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	path_data_total = os.path.join(path_data, str(date) + '/DATA_MAPPING/total_mapping.json')
 	if (len(list_plan_update) > 0):
 		UpdatePlan(path_data_total, list_plan_update)
-		print(list_plan_update)
+	print(list_plan_update)
 
-	with open(file_plan, 'r') as fi:
-		list_plan = json.load(fi)
-	for plan__ in list_plan['plan']:
-		if plan__['PRODUCT'] == '257'  \
-		and plan__['REASON_CODE_ORACLE'] == '1703027' \
-		and plan__['FORM_TYPE'] == 'DISPLAY' :
-			print('===============================================')
-			print(plan__)
-			print('===============================================')
-
+	
 
 	print('list_plan_new: ', len(list_plan_new))
 	print('list_plan_map: ', len(list_plan_map))
