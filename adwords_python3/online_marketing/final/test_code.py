@@ -5,6 +5,7 @@ from datetime import datetime , timedelta, date
 import manual_mapping_and_remap as manual
 import mapping_campaign_plan as mapping
 import insert_data_map_to_total as insert_to_total
+import insert_nru_into_data as nru
 import time
 
 
@@ -184,7 +185,7 @@ def UpdateOnePlan(plan, updated_plan):
 
 
 def UpdatePlan(path_data, list_plan_update):
-	
+	print(path_data)
 	list_plan = list_plan_update.copy()	
 	with open(path_data) as fi:
 		data_total = json.load(fi)
@@ -270,7 +271,7 @@ def merger_data_map(data_map_all, data_map_GS5, data_map_WPL):
 	return(list_plan, list_camp)
 
 
-def NewPlan(path_data, list_plan):
+def NewPlan(path_data, date, list_plan):
 
 	list_camp_remove_unmap = []
 	list_plan_insert_total = []
@@ -278,8 +279,9 @@ def NewPlan(path_data, list_plan):
 	list_plan_insert_unmap = []
 
 	get_camp = time.time()
-	# ------------- Get campaign for mapping ----------------			
-	with open (path_data,'r') as f:
+	# ------------- Get campaign for mapping ----------------		
+	path_data_total = GetFileTotal(path_data, date)		
+	with open (path_data_total,'r') as f:
 		data_total = json.load(f)	
 
 	list_full_camp = data_total['UN_CAMPAIGN']
@@ -291,11 +293,11 @@ def NewPlan(path_data, list_plan):
 		# 	list_full_camp[list_full_camp.index(camp)]['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
 		# 	# print(camp)			
 		
-		# if (camp['Dept'] == 'GS5'):
-		if (mapping.CheckIsAccountGS5(path_data, camp['Account ID'])):		
+		if (camp['Dept'] == 'GS5'):
+		# if (mapping.CheckIsAccountGS5(path_data, camp['Account ID'])):		
 			list_camp_GS5.append(camp)
-		# elif (camp['Dept'] == 'WPL'):
-		elif (mapping.CheckIsAccountWPL(path_data, camp['Account ID'])):
+		elif (camp['Dept'] == 'WPL'):
+		# elif (mapping.CheckIsAccountWPL(path_data, camp['Account ID'])):
 			list_camp_GS5.append(camp)
 		else:
 			list_camp_all.append(camp)
@@ -323,7 +325,7 @@ def NewPlan(path_data, list_plan):
 		'plan': [],
 		'campaign': []
 	}
-
+	
 	auto_mapping  = time.time()
 	if (len(list_camp_all) > 0):
 		data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
@@ -722,7 +724,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	list_plan_update = []
 
 	for plan in list_plan_diff:
-		if plan[22] == plan[26]:
+		if plan[22] == plan[26]:			
 			list_plan_new.append(ConvertPlan(plan))
 			# print('new')
 		else:
@@ -730,6 +732,10 @@ def ClassifyPlan(connect, path_data, date, path_log):
 			file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
 			with open(file_plan, 'r') as fi:
 				list_plan = json.load(fi)
+
+			for plan_old in list_plan['plan']:
+				if (plan_old['REASON_CODE_ORACLE'] == '1705028'):
+					print(plan_old)
 			
 			plan = ConvertPlan(plan)
 			# print(plan)
@@ -741,13 +747,19 @@ def ClassifyPlan(connect, path_data, date, path_log):
 				list_plan_map.append(plan)
 
 
+
+
 	# ============= Process with each case =======================
 	path_data_total = GetFileTotal(path_data, date)
 	print(path_data_total)
 
 	#======== Case 1: New Plan
 	if (len(list_plan_new) > 0):
-		camp_remove_unmap, plan_insert_total, data_insert_map, plan_insert_unmap = NewPlan(path_data_total, list_plan)
+		list_plan_new = mapping.AddProductCode(path_data, list_plan_new, date)
+		print(list_plan_new[0])
+		list_plan_new = nru.Add_NRU_into_list(connect, list_plan_new, date)  	
+		print(list_plan_new[0])	
+		camp_remove_unmap, plan_insert_total, data_insert_map, plan_insert_unmap = NewPlan(path_data, date, list_plan_new)
 		list_camp_remove_unmap.extend(camp_remove_unmap)
 		list_plan_insert_total.extend(plan_insert_total)
 		list_data_insert_map.extend(data_insert_map)
@@ -761,6 +773,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 	#============== Case 3: Data update not map ===================
 	if (len(list_plan_update) > 0):
+		list_plan_update = mapping.AddProductCode(path_data, list_plan_update, date)
 		UpdatePlan(path_data_total, list_plan_update)
 		list_plan_update_all.extend(list_plan_update)
 	print('list_plan_update_into_data: ', list_plan_update_all)
