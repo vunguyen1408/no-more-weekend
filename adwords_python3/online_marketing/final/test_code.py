@@ -775,13 +775,16 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	#======== Case 2: Data update can map
 	if (len(list_plan_map) > 0):
 		print("=========== Case 2: Data update can map	 ======================")
+		list_plan_new = mapping.AddProductCode(path_data, list_plan_new, date)		
+		list_plan_new = nru.Add_NRU_into_list(connect, list_plan_new, date)  
 		camp_remove_unmap = ModifiedPlanToMap(path_data, list_plan_map, date)
 		list_camp_remove_unmap.extend(camp_remove_unmap)
 
 	#============== Case 3: Data update not map ===================
 	if (len(list_plan_update) > 0):
 		print("=========== Case 3: Data update not map	 ======================")
-		list_plan_update = mapping.AddProductCode(path_data, list_plan_update, date)
+		list_plan_new = mapping.AddProductCode(path_data, list_plan_new, date)		
+		list_plan_new = nru.Add_NRU_into_list(connect, list_plan_new, date)  
 		UpdatePlan(path_data_total, list_plan_update)
 		list_plan_update_all.extend(list_plan_update)
 	print('list_plan_update_into_data: ', list_plan_update_all)
