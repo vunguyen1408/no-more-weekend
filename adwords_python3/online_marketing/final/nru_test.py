@@ -150,7 +150,7 @@ def TEST(connect, path_data, date):
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
 date = '2017-09-01' 
-Add_NRU_into_plan(connect, path_data, date)
+TEST(connect, path_data, date)
 
 
 # def Read_NRU_for_month(cursor, year, month, product):
