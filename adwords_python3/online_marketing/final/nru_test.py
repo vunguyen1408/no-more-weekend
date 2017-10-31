@@ -7,6 +7,9 @@ import cx_Oracle
 from datetime import datetime , timedelta, date
 import time
 
+#======================================================================================================
+#                                 Add NRU sum for each plan 
+#======================================================================================================
 
 def Read_NRU_for_total(cursor, start_date, end_date, product):
 	#==================== Get NRU =============================
@@ -64,6 +67,29 @@ def ConvertDate(date):
 	return result
 
 
+def CaculatorStartEndDate(plan, start, end):
+	from datetime import datetime , timedelta, date
+	# Get start end
+	month_start = int(start[5:-3])
+	month_end = int(end[5:-3])
+	year_end = end[:4]
+	for month in plan['MONTHLY']:
+		if (int(month['MONTH']) == month_start):
+			start_date = datetime.strptime(start, '%Y-%m-%d').date()
+			end_date = start_date + timedelta(int(month['DAY']) - 1)
+			start_date = start_date.strftime('%Y-%m-%d')
+			end_date = end_date.strftime('%Y-%m-%d')
+		else:
+			start_date = year_end + '-' + str(month['MONTH']) + '-01'
+			start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+			end_date = start_date + timedelta(int(month['DAY']) - 1)
+			start_date = start_date.strftime('%Y-%m-%d')
+			end_date = end_date.strftime('%Y-%m-%d')
+		month['START_DATE'] = start_date
+		month['END_DATE'] = end_date
+	return plan
+
+
 
 def Add_NRU_into_plan(connect, path_data, date):
 	file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
@@ -77,7 +103,8 @@ def Add_NRU_into_plan(connect, path_data, date):
 	for plan in data['plan']:
 		start_date, end_date = ChooseTime(plan)
 		data['plan'][data['plan'].index(plan)]['CCD_NRU'] = Read_NRU_for_total(cursor, ConvertDate(start_date), ConvertDate(end_date), plan['PRODUCT'])
-		print(plan['CCD_NRU'])
+		CaculatorStartEndDate(plan, start_date, end_date)
+	print(plan)
 
 	with open(file_plan, 'w') as fo:
 		json.dump(data, fo)
@@ -93,59 +120,9 @@ Add_NRU_into_plan(connect, path_data, date)
 
 
 
-# def Add_NRU_for_total(connect, list_plan):
-# # ==================== Connect database =======================
-# 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
-# 	cursor = conn.cursor()
-
-# 	for plan in list_plan['UN_PLAN']:
-
-# 		day = plan['START_DAY'][8:]
-# 		month = plan['START_DAY'][5:-3]
-# 		year = plan['START_DAY'][:4]
-# 		start_date = month + '/' + day + '/' + year
-# 		start_date = datetime.strptime(start_date, '%m/%d/%Y')
-
-# 		day = plan['END_DAY_ESTIMATE'][8:]
-# 		month = plan['END_DAY_ESTIMATE'][5:-3]
-# 		year = plan['END_DAY_ESTIMATE'][:4]
-# 		end_date = month + '/' + day + '/' + year
-# 		end_date = datetime.strptime(end_date, '%m/%d/%Y')	
-
-# 		plan['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
-		
-
-# 	cursor.close()
-# 	return list_plan
-
-
-
-# def Add_NRU_for_map(connect, list_plan):
-# # ==================== Connect database =======================
-# 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
-# 	cursor = conn.cursor()
-
-# 	for plan in list_plan['MAP']:
-
-# 		day = plan['START_DAY'][8:]
-# 		month = plan['START_DAY'][5:-3]
-# 		year = plan['START_DAY'][:4]
-# 		start_date = month + '/' + day + '/' + year
-# 		start_date = datetime.strptime(start_date, '%m/%d/%Y')
-
-# 		day = plan['END_DAY_ESTIMATE'][8:]
-# 		month = plan['END_DAY_ESTIMATE'][5:-3]
-# 		year = plan['END_DAY_ESTIMATE'][:4]
-# 		end_date = month + '/' + day + '/' + year
-# 		end_date = datetime.strptime(end_date, '%m/%d/%Y')	
-
-# 		plan['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
-			
-
-# 	cursor.close()
-# 	return list_plan
-
-
+#======================================================================================================
+#                                 Add NRU monthly for each plan 
+#======================================================================================================
 
 
 
@@ -269,27 +246,7 @@ Add_NRU_into_plan(connect, path_data, date)
 
 
 
-# def CaculatorStartEndDate(plan, start, end):
-# 	from datetime import datetime , timedelta, date
-# 	# Get start end
-# 	month_start = int(start[5:-3])
-# 	month_end = int(end[5:-3])
-# 	year_end = end[:4]
-# 	for month in plan['MONTHLY']:
-# 		if (int(month['MONTH']) == month_start):
-# 			start_date = datetime.strptime(start, '%Y-%m-%d').date()
-# 			end_date = start_date + timedelta(int(month['DAY']) - 1)
-# 			start_date = start_date.strftime('%Y-%m-%d')
-# 			end_date = end_date.strftime('%Y-%m-%d')
-# 		else:
-# 			start_date = year_end + '-' + str(month['MONTH']) + '-01'
-# 			start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
-# 			end_date = start_date + timedelta(int(month['DAY']) - 1)
-# 			start_date = start_date.strftime('%Y-%m-%d')
-# 			end_date = end_date.strftime('%Y-%m-%d')
-# 		month['START_DATE'] = start_date
-# 		month['END_DATE'] = end_date
-# 	return plan
+
 
 
 
