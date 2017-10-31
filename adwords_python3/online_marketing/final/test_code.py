@@ -407,7 +407,7 @@ def NewPlan(path_data, date, list_plan):
 			m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
 
 		
-	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_2' + '.json')
+	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	with open (path_data_total_map,'w') as f:
 		json.dump(data_total, f)
 	end_insert_file  = time.time()
@@ -633,7 +633,7 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
 	print ('UN_PLAN: ', len(data_total['UN_PLAN']))
 	print ('TOTAL: ', len(data_total['TOTAL']))
-	
+
 	#===================== CASE MAP ===================
 	#----------- Remove campaign unmap ---------------------
 	for camp in list_data_map:		
@@ -689,7 +689,7 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 			m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
 
 		
-	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping_2' + '.json')
+	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	with open (path_data_total_map,'w') as f:
 		json.dump(data_total, f)
 	end_insert_file  = time.time()
