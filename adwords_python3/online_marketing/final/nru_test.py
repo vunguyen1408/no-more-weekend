@@ -49,6 +49,21 @@ def ChooseTime(plan):
   return (start_plan, end_plan)
 
 
+def ConvertDate(date):   
+	"""
+		Date has format: YYYY-MM-DD
+		Return result having format: MM/DD/YYYY
+	"""
+	result = date
+	day = date[8:]
+	month = date[5:-3]
+	year = date[:4]
+	result = month + '/' + day + '/' + year
+	result = datetime.strptime(result, '%m/%d/%Y')
+
+	return result
+
+
 
 def Add_NRU_into_plan(connect, path_data, date):
 	file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
@@ -61,7 +76,7 @@ def Add_NRU_into_plan(connect, path_data, date):
 
 	for plan in data['plan']:
 		start_date, end_date = ChooseTime(plan)
-		data['plan'][data['plan'].index(plan)]['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
+		data['plan'][data['plan'].index(plan)]['CCD_NRU'] = Read_NRU_for_total(cursor, ConvertDate(start_date), ConvertDate(end_date), plan['PRODUCT'])
 		print(plan['CCD_NRU'])
 
 	with open(file_plan, 'w') as fo:
