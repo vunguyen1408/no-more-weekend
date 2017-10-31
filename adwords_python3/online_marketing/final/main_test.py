@@ -101,10 +101,12 @@ def Daily(connect, path_data, date, list_customer_id):
 
 
 	#------------------ Read log manual mapping and get plan NRU ---------------------
-	mapping_data.ReadPlanFromTable(connect, path_data, date)
-	# nru_test.Add_NRU_into_plan(connect, path_data, date)	
+	mapping_data.ReadPlanFromTable(connect, path_data, date)	
+	nru_test.Add_NRU_into_plan(connect, path_data, date)  
 	mapping_data.ReadProductAlias(connect, path_data, date)	
 	manual.ReadTableManualMap(connect, path_data, date)
+
+	time.sleep(10)
 	#----------------------------------------------------------------
 	# print ("             Time insert install: ", time_insert)
 
@@ -113,7 +115,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	#======================== Mapping data for list account ============================
 	# print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
 	# mapping = time.time()
-	mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
+	# mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
 	# time_mapping = time.time() - mapping
 	# print ("             Time maping: ", time_mapping)
 
@@ -122,7 +124,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	#============================== Merge data ===============================
 	# print ("\n\n======================= RUN MERGE WITH DATE : " + date + " =========================")
 	# merge = time.time()
-	merge_date.Merge(path_data, list_customer_id, date)
+	# merge_date.Merge(path_data, list_customer_id, date)
 	# time_merge = time.time() - merge
 	# print ("             Time merge: ", time_merge)
 
@@ -130,7 +132,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	#============================== Insert data mapping to total ===============================
 	# print ("\n\n============= RUN INSERT DATA MAPPING TO TOTAL WITH DATE : " + date + " =================")
 	# insert_total = time.time()
-	insert_to_total.InsertDateToTotal(path_data, date)
+	# insert_to_total.InsertDateToTotal(path_data, date)
 	# time_insert_total = time.time() - insert_total
 	# print ("            Time insert data mapping to total : ", time_insert_total)
 
@@ -143,11 +145,11 @@ def Daily(connect, path_data, date, list_customer_id):
 
 	
 	#======================== Insert nru to plan ==============================
-	print ("\n\n======================= RUN INSERT NRU WITH DATE : " + date + " =========================")
-	insert_nru = time.time()
-	# nru.Add_Data_To_Plan(connect, path_data, date)
-	nru_test.Add_NRU_into_monthly(connect, path_data, date)
-	time_insert = time.time() - insert_nru
+	# print ("\n\n======================= RUN INSERT NRU WITH DATE : " + date + " =========================")
+	# insert_nru = time.time()
+	# # nru.Add_Data_To_Plan(connect, path_data, date)
+	# nru_test.Add_NRU_into_monthly(connect, path_data, date)
+	# time_insert = time.time() - insert_nru
 	
 	# ======================= Insert branding install ====================================
 	# insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
