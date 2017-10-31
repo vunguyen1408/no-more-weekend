@@ -221,7 +221,7 @@ def add_list_product_to_json(path_audit_content, date_, to_date_):
     to_date = datetime.strptime(to_date_, '%Y-%m-%d').date()
 
     for folder in list_folder:
-        print (folder)
+        # print (folder)
         if folder[:4].isdigit():
             d = datetime.strptime(folder, '%Y-%m-%d').date()
             if d <= to_date and d >= date:
@@ -289,7 +289,7 @@ if __name__ == '__main__':
     add_list_product_to_json(path_audit_content, start_date, end_date)
     path_file_event_map_campaign = FindNewFileEventMapCamp(path_event_map_campaign)
     print (path_file_event_map_campaign)
-    # list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
+    list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
     # add_content(list_json, path_audit_content, path_insight)
 
     print ("============ Time: ", time.time() - start)
