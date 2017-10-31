@@ -325,7 +325,7 @@ def NewPlan(path_data, date, list_plan):
 		'plan': [],
 		'campaign': []
 	}
-	print(path_data)
+	
 	auto_mapping  = time.time()
 	if (len(list_camp_all) > 0):
 		data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
@@ -725,6 +725,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 	for plan in list_plan_diff:
 		if plan[22] == plan[26]:
+			print(plan[22], plan[22])
 			list_plan_new.append(ConvertPlan(plan))
 			# print('new')
 		else:
