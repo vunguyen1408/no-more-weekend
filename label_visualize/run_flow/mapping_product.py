@@ -304,7 +304,7 @@ if __name__ == '__main__':
 
 
     add_list_product_to_json(path_audit_content, start_date, end_date)
-    path_file_event_map_campaign = FindNewFileEventMapCamp(path_event_map_campaign)
+    path_file_event_map_campaign = FindFileEventMapCamp(path_event_map_campaign)
     print (path_file_event_map_campaign)
     # list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
     for i in list_json:
