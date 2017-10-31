@@ -111,7 +111,7 @@ def Add_NRU_into_plan(connect, path_data, date):
 		data = json.load(fi)
 	print(data['plan'][0])
 
-	time.sleep(20)
+	time.sleep(30)
 
 	cursor.close()
 	# print("Add NRU into plan success.........")
