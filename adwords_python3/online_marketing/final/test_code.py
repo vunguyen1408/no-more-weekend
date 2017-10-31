@@ -290,8 +290,8 @@ def NewPlan(path_data, date, list_plan):
 	list_camp_GS5 = []
 	list_camp_WPL = []
 	for camp in list_full_camp:					
-		# if (str(camp['Campaign ID']) == '702245469'):
-		# 	list_full_camp[list_full_camp.index(camp)]['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
+		if (str(camp['Campaign ID']) == '702245469'):
+			list_full_camp[list_full_camp.index(camp)]['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
 				
 		if (camp['Dept'] == 'GS5'):			
 			list_camp_GS5.append(camp)
@@ -427,11 +427,11 @@ def NewPlan(path_data, date, list_plan):
 	print('list_plan_insert_unmap: ', len(list_plan_insert_unmap))
 
 	
-	print()
-	print('list_camp_remove_unmap: ', list_camp_remove_unmap)
-	print ('list_plan_insert_total: ', list_plan_insert_total)
-	print ('list_data_insert_map: ', list_data_insert_map)	
-	print('list_plan_insert_unmap: ', list_plan_insert_unmap)
+	# print()
+	# print('list_camp_remove_unmap: ', list_camp_remove_unmap)
+	# print ('list_plan_insert_total: ', list_plan_insert_total)
+	# print ('list_data_insert_map: ', list_data_insert_map)	
+	# print('list_plan_insert_unmap: ', list_plan_insert_unmap)
 
 	total_time = time.time()
 	print("TOTAL TIME: ", total_time - get_camp)
