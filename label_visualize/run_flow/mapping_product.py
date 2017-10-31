@@ -61,7 +61,7 @@ def parse_csv_to_json_file_EMC(path_file):
                 list_json.append(content)
     return list_json
 
-def parse_json_insight(path_insight, folder):
+def parse_insight_to_json(path_insight, folder):
     # Lay tat ca noi dung cua cac file insight trong mot ngay, chuyen thanh 1 list Json
     folder_insight = os.path.join(path_insight, folder)
     list_folder_a_insight = next(os.walk(folder_insight))[1]
@@ -84,6 +84,22 @@ def parse_json_insight(path_insight, folder):
     else:
          data_insight = '{ "my_json" :[]}'
     return data_insight
+
+def add_campaign_id_to_json(path_audit_content, path_insight, _date, _to_date):
+
+    list_folder = next(os.walk(path_audit_content))[1]
+
+    date = datetime.strptime(_date, '%Y-%m-%d').date()
+    to_date = datetime.strptime(_to_date, '%Y-%m-%d').date()
+
+    for folder in list_folder:
+        d_folder = datetime.strptime(folder, '%Y-%m-%d').date()
+        if d_folder >= date and d_folder <= to_date:
+            start = time.time()
+            data_insight = parse_insight_to_json(path_insight, folder)
+            print ("============ Time: ", time.time() - start)
+
+
 
 def add_content(list_json, path_audit_content, path_insight):
     print ("\n================ Maping event and campaign ====================\n")
@@ -179,7 +195,7 @@ def compare(path_audit_content, path_insight):
         wr.writerow(['date', 'number json', 'number json finded', 'miss'])
         wr.writerows(list_not_compare)
 
-def add_list(path_audit_content, date_, to_date_):
+def add_list_product_to_json(path_audit_content, date_, to_date_):
 
     print ("\n================ Add list_product ====================\n")
 
@@ -226,6 +242,7 @@ def FindNewFileEventMapCamp(path_file_event_map_campaign):
     return path_file
 
 
+
 # path_audit_content = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
 # path_insight = 'D:/DATA_CHECK/MARKETING_TOOL_02'
 # path_file_event_map_campaign = 'D:/DATA_CHECK/EVENT_MAP_CAMPAIGN.txt'
@@ -248,11 +265,13 @@ if __name__ == '__main__':
     print ("\n================ ========================= ====================\n")
 
     script, start_date, end_date = argv
-    add_list(path_audit_content, start_date, end_date)
-    path_file_event_map_campaign = FindNewFileEventMapCamp(path_event_map_campaign)
-    print (path_file_event_map_campaign)
-    list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
-    add_content(list_json, path_audit_content, path_insight)
+    add_campaign_id_to_json(path_audit_content, path_insight, start_date, end_date)
+    
+    # add_list_product_to_json(path_audit_content, start_date, end_date)
+    # path_file_event_map_campaign = FindNewFileEventMapCamp(path_event_map_campaign)
+    # print (path_file_event_map_campaign)
+    # list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
+    # add_content(list_json, path_audit_content, path_insight)
 
 # statistic(path_audit_content)
 # group_by_product(path_audit_content)
