@@ -277,6 +277,44 @@ def FindFileEventMapCamp(path_file_event_map_campaign):
 
     return (path_file_new, path_file_before_new)
 
+def log_event_mapping_change(path_file_new, path_file_before_new):
+    if path_file_before_new == None:
+        list_diff = []
+        with open(path_file_new, 'r') as f:
+            reader=csv.reader(f)
+            for row in reader:
+                list_.append(row)
+            list_ = list(list_[1:])
+        return list_
+    
+    list_new = []
+    list_before_new = []
+    with open(path_file_new, 'r') as f:
+        reader=csv.reader(f)
+        list_ = []
+        for row in reader:
+            list_.append(row)
+        list_ = list(list_[1:])
+
+    with open(path_file_before_new, 'r') as f:
+        reader=csv.reader(f)
+        list_ = []
+        for row in reader:
+            list_.append(row)
+        list_before_new = list(list_[1:])
+
+    # Check line change
+    get_date(row[3])
+    list_diff = []
+    for i in list_new:
+        for j in list_before_new:
+            if len(set(i) & set(j)) != len(i):
+                list_diff.append(i)
+                print (i)
+
+    print (len(list_diff))
+
+
 
 
 # path_audit_content = 'C:/Users/CPU10145-local/Desktop/Python Envirement/DATA NEW/DATA/DWHVNG/APEX/MARKETING_TOOL_02_JSON'
@@ -307,7 +345,8 @@ if __name__ == '__main__':
     add_list_product_to_json(path_audit_content, start_date, end_date)
     path_file_new, path_file_before_new = FindFileEventMapCamp(path_event_map_campaign)
     print (path_file_new)
-    print (path_file_before_new)
+    path_file_before_new = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02/EXPORT_DATA/EVENT_MAP_CAMPAIGN_2017_07_20.csv'
+    log_event_mapping_change(path_file_new, path_file_before_new)
     # list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
     # for i in list_json:
     #     print (i)

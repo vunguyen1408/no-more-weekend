@@ -75,11 +75,12 @@ def ReadTableManualMap(connect, path_data, date):
 	list_out = []
 	#------------- Check manual map change --------------------
 	# print (log_manual)
+	print (len(log_manual))
 	for data in log_manual:
 		if data[0] != None and data[1] != None \
 		and data[2] != None and data[3] != None \
 		and data[6] != None and data[7] != None and data[8] != None:
-			print (data)
+			# print (data)
 			list_out.append(ParseLogManualToJson(data))
 			flag = True
 			# print (data[6])
@@ -92,7 +93,7 @@ def ReadTableManualMap(connect, path_data, date):
 				and data[6] == data_local['CAMPAIGN_ID'] \
 				and data[7] == data_local['START_DATE'] \
 				and data[8] == data_local['END_DATE']:
-					print ("---------------- Trung log")
+					# print ("---------------- Trung log")
 					flag = False
 			if flag:
 				temp = ParseLogManualToJson(data)
@@ -159,7 +160,7 @@ def ReadTableManualMap(connect, path_data, date):
 			temp['STATUS'] = 'USER'
 			list_plan_diff.append(temp)
 			list_plan_new.append(temp)
-
+	print (len(list_plan_diff))
 	return (list_plan_diff)
 
 
