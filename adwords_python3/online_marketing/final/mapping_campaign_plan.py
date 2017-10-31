@@ -6,7 +6,7 @@ import numpy as np
 import json
 import cx_Oracle
 from datetime import datetime , timedelta, date
-
+import nru_test as nru_test
 #-------------- import package -----------------
 
 
@@ -538,6 +538,8 @@ def ReadPlanFromTable(connect, path_folder, date):
   
   with open (file_plan, 'w') as f:
     json.dump(plan_, f)
+
+  nru_test.Add_NRU_into_plan(connect, path_data, date)  
 
 def ReadPlan(path_folder, date):
   # =============== List plan code ================  
