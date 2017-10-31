@@ -8,7 +8,7 @@ from datetime import datetime , timedelta, date
 #-------------- import file ---------------
 import insert_data_map_to_total as insert_data
 import mapping_campaign_plan as mapping
-import insert_nru_to_plan as nru
+import insert_nru_into_data as nru
 # import insert_nru_to_data as nru
 
 
