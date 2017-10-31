@@ -6,7 +6,7 @@ import manual_mapping_and_remap as manual
 import mapping_campaign_plan as mapping
 import insert_data_map_to_total as insert_to_total
 import time
-import nru_test as nru_test
+import insert_nru_into_data as nru
 
 
 def ReadPlanFromTable(connect):
@@ -199,7 +199,7 @@ def AutoMap(connect, path_data, date):
 	#========== Update new plan for file plan ===============	
 	mapping.ReadPlanFromTable(connect, path_data, str(date))
 	mapping.ReadProductAlias(connect, path_data, str(date))	
-	nru_test.Add_NRU_into_plan(connect, path_data, date)  
+	nru.Add_NRU_into_plan(connect, path_data, date)  
 	#========================================================
 	
 	
