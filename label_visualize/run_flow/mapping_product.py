@@ -24,43 +24,43 @@ def get_date(date_):
     date = date_[6] + date_[7] + date_[8] + date_[9] + '-' + date_[0] + date_[1] + '-' + date_[3] + date_[4]
     return date
 
-def parse_csv_to_json_file_EMC(path_file):
+def parse_to_json(list_diff):
     list_json = []
     list_ = []
     list_unique = []
 
-    with open(path_file, 'r') as f:
-        reader=csv.reader(f)
-        for row in reader:
-            list_.append(row)
-        list_ = list(list_[1:])
+    # with open(path_file, 'r') as f:
+    #     reader=csv.reader(f)
+    #     for row in reader:
+    #         list_.append(row)
+    #     list_ = list(list_[1:])
 
-        for row in list_:
-            if row[5] not in list_unique:
-                list_unique.append(row[5])
-            flag = False
-            for json_ in list_json:
-                if row[0] == json_['event_id']:
-                    flag = True
-                    list_campaign = list(json_['list_campaign'])
-                    campaign = row[6]
-                    list_campaign. append(campaign)
-                    json_['list_campaign'] = list(list_campaign)
-                    break
-            # Chua ton tai trong list_json
-            if flag == False:
-                list_campaign = []
-                list_campaign.append(row[6])
-                content = {
-                    'event_id' : str(row[0]),
-                    'type' : str(row[1]),
-                    'unit_option' : str(row[2]),
-                    'start_date' : get_date(row[3]),
-                    'end_date' : get_date(row[4]),
-                    'product' : row[5],
-                    'list_campaign' : list(list_campaign)
-                }
-                list_json.append(content)
+    for row in list_diff:
+        if row[5] not in list_unique:
+            list_unique.append(row[5])
+        flag = False
+        for json_ in list_json:
+            if row[0] == json_['event_id']:
+                flag = True
+                list_campaign = list(json_['list_campaign'])
+                campaign = row[6]
+                list_campaign. append(campaign)
+                json_['list_campaign'] = list(list_campaign)
+                break
+        # Chua ton tai trong list_json
+        if flag == False:
+            list_campaign = []
+            list_campaign.append(row[6])
+            content = {
+                'event_id' : str(row[0]),
+                'type' : str(row[1]),
+                'unit_option' : str(row[2]),
+                'start_date' : get_date(row[3]),
+                'end_date' : get_date(row[4]),
+                'product' : row[5],
+                'list_campaign' : list(list_campaign)
+            }
+            list_json.append(content)
     return list_json
 
 def parse_insight_to_json(path_insight, folder):
@@ -352,8 +352,8 @@ if __name__ == '__main__':
     path_file_new, path_file_before_new = FindFileEventMapCamp(path_event_map_campaign)
     print (path_file_new)
     path_file_before_new = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02/EXPORT_DATA/EVENT_MAP_CAMPAIGN_2017_07_20.csv'
-    log_event_mapping_change(path_file_new, path_file_before_new)
-    # list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
+    list_diff = log_event_mapping_change(path_file_new, path_file_before_new)
+    list_json = parse_to_json(list_diff)
     # for i in list_json:
     #     print (i)
     # add_content(list_json, path_audit_content, path_insight)
