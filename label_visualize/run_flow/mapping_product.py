@@ -289,7 +289,9 @@ if __name__ == '__main__':
     path_file_event_map_campaign = FindNewFileEventMapCamp(path_event_map_campaign)
     print (path_file_event_map_campaign)
     list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
-    add_content(list_json, path_audit_content, path_insight)
+    for i in list_json:
+        print (i)
+    # add_content(list_json, path_audit_content, path_insight)
 
     print ("============ Time: ", time.time() - start)
 
