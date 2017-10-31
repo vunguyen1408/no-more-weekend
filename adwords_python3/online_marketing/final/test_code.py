@@ -707,7 +707,8 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 	print ('list_plan_insert_total: ', len(list_plan_insert_total))
 	print ('list_data_insert_map: ', len(list_data_insert_map))		
 	print('list_plan_insert_unmap: ', len(list_plan_insert_unmap))
-
+	for pla in list_plan_insert_unmap:
+		print(pla)
 	
 	# print()
 	# print('list_camp_remove_unmap: ', list_camp_remove_unmap)
