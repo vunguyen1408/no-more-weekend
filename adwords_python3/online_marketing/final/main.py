@@ -19,6 +19,7 @@ import insert_report_plan_sum as plan_sum
 import insert_report_detail_map as detail_map
 import history_name as history
 import insert_nru_to_plan as nru
+# import insert_nru_into_data as nru
 import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
 
 
@@ -101,7 +102,7 @@ def Daily(connect, path_data, date, list_customer_id):
 
 	#------------------ Read log manual mapping and get plan NRU ---------------------
 	# mapping_data.ReadPlanFromTable(connect, path_data, date)
-	
+	# # nru.Add_NRU_into_plan(connect, path_data, date)  	
 	# mapping_data.ReadProductAlias(connect, path_data, date)
 	# manual.ReadTableManualMap(connect, path_data, date)
 	#----------------------------------------------------------------
@@ -145,6 +146,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	# print ("\n\n======================= RUN INSERT NRU WITH DATE : " + date + " =========================")
 	# insert_nru = time.time()
 	# nru.Add_Data_To_Plan(connect, path_data, date)
+	# nru.Add_NRU_into_monthly(connect, path_data, date)
 	# time_insert = time.time() - insert_install
 
 

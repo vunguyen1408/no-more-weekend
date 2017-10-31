@@ -94,8 +94,7 @@ def Add_NRU_into_plan(connect, path_data, date):
 	file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
 	with open(file_plan, 'r') as fi:
 		data = json.load(fi)
-	# print(data['plan'][0])
-
+	
 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
@@ -107,14 +106,8 @@ def Add_NRU_into_plan(connect, path_data, date):
 	with open(file_plan, 'w') as fo:
 		json.dump(data, fo)
 
-	# with open(file_plan, 'r') as fi:
-	# 	data = json.load(fi)
-	# print(data['plan'][0])
-
-	# time.sleep(30)
-
 	cursor.close()
-	# print("Add NRU into plan success.........")
+	
 
 
 # connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
@@ -162,22 +155,6 @@ def Add_NRU_into_monthly(connect, path_data, date):
 
 	with open(file_total, 'w') as fo:
 		json.dump(list_plan, fo)
-
-	# for plan in list_plan['TOTAL']:
-	# 	if plan['REASON_CODE_ORACLE'] == '1703043':
-	# 		print(plan)
-	# 		break
-	# print()
-	# print()
-	# print()
-	# print()
-
-	# for plan in list_plan['UN_PLAN']:
-	# 	if plan['REASON_CODE_ORACLE'] == '1703043' and plan['FORM_TYPE'] == 'DISPLAY':
-	# 		print(plan)
-	# 		break
-	# print()
-
 
 
 # connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
