@@ -1,0 +1,18 @@
+{"workers": [
+    {
+        "enabled": true,
+        "name": "worker1"
+    },
+    {
+        "name": "worker2",   "enabled": true
+    }
+    ,
+    {
+        "name": "worker3",   "enabled": true
+    }
+    ,
+    {
+        "name": "worker4",   "enabled": true
+    }
+  ]
+}
