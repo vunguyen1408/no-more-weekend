@@ -95,7 +95,7 @@ def add_campaign_id_to_json(path_audit_content, path_insight, _date, _to_date):
     for folder in list_folder:
         d_folder = datetime.strptime(folder, '%Y-%m-%d').date()
         if d_folder >= date and d_folder <= to_date:
-            print (folder)
+            # print (folder)
             # Get data insight
             data_insight = parse_insight_to_json(path_insight, folder)
             
@@ -233,8 +233,10 @@ def add_list_product_to_json(path_audit_content, date_, to_date_):
                         with open(path_file_audit_content, 'r') as f_json:
                             data_json = json.load(f_json)
                             for j in data_json['my_json']:
-                                if 'list_product' not in j:
-                                    j['list_product'] = []
+                                product = j.get('list_product', [])
+                                print (product)
+                                # if 'list_product' not in j:
+                                #     j['list_product'] = []
                             with open (path_file_audit_content,'w') as f_out:
                                 json.dump(data_json,f_out)
                 except:
@@ -278,13 +280,13 @@ if __name__ == '__main__':
     path_event_map_campaign = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02/EXPORT_DATA'
 
     script, start_date, end_date = argv
-    start = time.time()
-    print ("\n================ Maping event and campaign ====================")
-    add_campaign_id_to_json(path_audit_content, path_insight, start_date, end_date)
-    print ("============ Time: ", time.time() - start)
+    # start = time.time()
+    # print ("\n================ Maping event and campaign ====================")
+    # add_campaign_id_to_json(path_audit_content, path_insight, start_date, end_date)
+    # print ("============ Time: ", time.time() - start)
 
 
-    # add_list_product_to_json(path_audit_content, start_date, end_date)
+    add_list_product_to_json(path_audit_content, start_date, end_date)
     # path_file_event_map_campaign = FindNewFileEventMapCamp(path_event_map_campaign)
     # print (path_file_event_map_campaign)
     # list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
