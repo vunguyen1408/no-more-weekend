@@ -163,7 +163,7 @@ def Add_NRU_into_monthly(connect, path_data, date):
 	print()
 
 	for plan in list_plan['UN_PLAN']:
-		if plan['REASON_CODE_ORACLE'] == '1703043' and plan['FORM_TYPE'] = 'DISPLAY':
+		if plan['REASON_CODE_ORACLE'] == '1703043' and plan['FORM_TYPE'] == 'DISPLAY':
 			print(plan)
 			break
 	print()
