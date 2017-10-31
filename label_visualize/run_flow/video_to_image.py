@@ -12,6 +12,7 @@
 import os
 import json
 import subprocess
+import glob
 from datetime import datetime , timedelta, date
 
 
@@ -33,9 +34,13 @@ def convertVideoToImage(path_data, start_date, end_date):
 
 				file_video = os.path.join(path_video, video)
 				#file_name = video[0:video.rfind('.') ]+'_%03d' + '.png'
+				file_name_check = video+'.*' + '.png'
+				file_image_check = os.path.join(path_image, file_name_check)
 				file_name = video+'.%03d' + '.png'
 				file_image = os.path.join(path_image, file_name)
-				if not os.path.exists(file_image):
+
+				#if not os.path.exists(file_image):
+				if not glob.glob(file_image_check):
 					#ffmpeg -i input.flv -vf "select='eq(pict_type,PICT_TYPE_I)'" -vsync vfr thumb%04d.png
 					subprocess.call(["ffmpeg", "-i", file_video,"-vf", "select='eq(pict_type,PICT_TYPE_I)'","-vsync","vfr",file_image ])
 					#print(file_image)
