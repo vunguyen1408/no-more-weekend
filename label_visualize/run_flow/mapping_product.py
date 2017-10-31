@@ -139,7 +139,7 @@ def add_content(list_json, path_audit_content, path_insight):
                     with open(path_file_audit_content, 'r') as f_json:
                         data_json = json.load(f_json)
                     # Lay tat ca noi dung cua cac file insight trong mot ngay, chuyen thanh 1 list Json
-                    data_insight = parse_json_insight(path_insight, folder)
+                    data_insight = parse_insight_to_json(path_insight, folder)
                     # Duyet de kiem tra va them thong tin product vao cac audit_content
                     product = []
                     for j in data_json['my_json']:
