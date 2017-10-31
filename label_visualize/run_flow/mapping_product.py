@@ -263,18 +263,19 @@ def FindFileEventMapCamp(path_file_event_map_campaign):
     find = True
     date_before = date - timedelta(1)
     path_file_before_new = path_file_event_map_campaign + '/EVENT_MAP_CAMPAIGN_' + str(date_before).replace('-', '_') + '.csv'
-    # while not os.path.exists(path_data_total_map):
-    #     i = i + 1
-    #     date_before = date_before - timedelta(1)
-    #     path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
-    #     if i == 60:
-    #         find = False
-    #         break
-    print (path_file_new)
-    print (path_file_before_new)
+    while not os.path.exists(path_data_total_map):
+        i = i + 1
+        date_before = date_before - timedelta(1)
+        path_file_before_new = path_file_event_map_campaign + '/EVENT_MAP_CAMPAIGN_' + str(date_before).replace('-', '_') + '.csv'
+        if i == 60:
+            find = False
+            break
+    if not find:
+        path_file_before_new = None
+    # print (path_file_new)
+    # print (path_file_before_new)
 
-
-    return path_file_new
+    return (path_file_new, path_file_before_new)
 
 
 
@@ -304,11 +305,12 @@ if __name__ == '__main__':
 
 
     add_list_product_to_json(path_audit_content, start_date, end_date)
-    path_file_event_map_campaign = FindFileEventMapCamp(path_event_map_campaign)
-    print (path_file_event_map_campaign)
+    path_file_new, path_file_before_new = FindFileEventMapCamp(path_event_map_campaign)
+    print (path_file_new)
+    print (path_file_before_new)
     # list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
-    for i in list_json:
-        print (i)
+    # for i in list_json:
+    #     print (i)
     # add_content(list_json, path_audit_content, path_insight)
 
     print ("============ Time: ", time.time() - start)
