@@ -301,7 +301,7 @@ def log_event_mapping_change(path_file_new, path_file_before_new):
         list_ = []
         for row in reader:
             list_.append(row)
-        list_before_new = list([1:])
+        list_before_new = list(list_[1:])
 
     # Check line change
     get_date(row[3])
