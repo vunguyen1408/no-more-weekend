@@ -95,24 +95,24 @@ def add_campaign_id_to_json(path_audit_content, path_insight, _date, _to_date):
     for folder in list_folder:
         d_folder = datetime.strptime(folder, '%Y-%m-%d').date()
         if d_folder >= date and d_folder <= to_date:
-            print (folder)
+            # print (folder)
             # Get data insight
             data_insight = parse_insight_to_json(path_insight, folder)
             
-            # Lay thong tin file audit content
-            folder_audit = os.path.join(path_audit_content, folder)
-            audit_content = "ads_creatives_audit_content_"+ folder +".json"
-            path_file_audit_content = os.path.join(folder_audit, audit_content)
-            if os.path.exists(path_file_audit_content):
-                with open(path_file_audit_content, 'r') as f_json:
-                    data_json = json.load(f_json)
-                    for j in data_json['my_json']:
-                        flag = True
-                        list_product = []
-                        # Find in data_insight of date
-                        for k in data_insight['my_json']:
-                            if str(j['ad_id']) == str(k['ad_id']):
-                                j['campaign_id'] = k['campaign_id']
+            # # Lay thong tin file audit content
+            # folder_audit = os.path.join(path_audit_content, folder)
+            # audit_content = "ads_creatives_audit_content_"+ folder +".json"
+            # path_file_audit_content = os.path.join(folder_audit, audit_content)
+            # if os.path.exists(path_file_audit_content):
+            #     with open(path_file_audit_content, 'r') as f_json:
+            #         data_json = json.load(f_json)
+            #         for j in data_json['my_json']:
+            #             flag = True
+            #             list_product = []
+            #             # Find in data_insight of date
+            #             for k in data_insight['my_json']:
+            #                 if str(j['ad_id']) == str(k['ad_id']):
+            #                     j['campaign_id'] = k['campaign_id']
 
 
 
@@ -233,8 +233,10 @@ def add_list_product_to_json(path_audit_content, date_, to_date_):
                         with open(path_file_audit_content, 'r') as f_json:
                             data_json = json.load(f_json)
                             for j in data_json['my_json']:
-                                if 'list_product' not in j:
-                                    j['list_product'] = []
+                                product = j.get('list_product', [])
+                                print (product)
+                                # if 'list_product' not in j:
+                                #     j['list_product'] = []
                             with open (path_file_audit_content,'w') as f_out:
                                 json.dump(data_json,f_out)
                 except:
