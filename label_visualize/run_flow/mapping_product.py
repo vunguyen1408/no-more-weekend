@@ -124,15 +124,16 @@ def add_content(list_json, path_audit_content, path_insight):
     print ("\n================ Maping event and campaign ====================\n")
     list_folder_json_content = next(os.walk(path_audit_content))[1]
     for json_ in list_json:
+        print (json_)
         start_date = datetime.strptime(json_['start_date'], '%Y-%m-%d').date()
         end_date = datetime.strptime(json_['end_date'], '%Y-%m-%d').date()
-        print (start_date)
-        print (end_date)
-        print (json_['product'])
+        # print (start_date)
+        # print (end_date)
+        # print (json_['product'])
         for folder in list_folder_json_content:
             date = datetime.strptime(folder, '%Y-%m-%d').date()
             # Trong mot ngay thuoc khoang
-            print (folder)
+            # print (folder)
             if date >= start_date and date <= end_date:
                 # Lay thong tin file audit content
                 folder_audit = os.path.join(path_audit_content, folder)
