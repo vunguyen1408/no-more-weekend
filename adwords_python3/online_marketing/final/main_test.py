@@ -102,18 +102,20 @@ def Daily(connect, path_data, date, list_customer_id):
 
 	#------------------ Read log manual mapping and get plan NRU ---------------------
 	mapping_data.ReadPlanFromTable(connect, path_data, date)
-	
+
 	nru_test.Add_NRU_into_plan(connect, path_data, date)  
 	file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
 	with open(file_plan, 'r') as fi:
 		data = json.load(fi)
 	print(data['plan'][0])
+	time.sleep(10)
 
 	mapping_data.ReadProductAlias(connect, path_data, date)	
 	file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
 	with open(file_plan, 'r') as fi:
 		data = json.load(fi)
 	print(data['plan'][0])
+	time.sleep(10)
 
 	manual.ReadTableManualMap(connect, path_data, date)
 
