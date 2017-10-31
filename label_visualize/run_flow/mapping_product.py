@@ -91,10 +91,11 @@ def add_campaign_id_to_json(path_audit_content, path_insight, _date, _to_date):
 
     date = datetime.strptime(_date, '%Y-%m-%d').date()
     to_date = datetime.strptime(_to_date, '%Y-%m-%d').date()
-
+    print (list_folder)
     for folder in list_folder:
         d_folder = datetime.strptime(folder, '%Y-%m-%d').date()
         if d_folder >= date and d_folder <= to_date:
+            print (folder)
             start = time.time()
             data_insight = parse_insight_to_json(path_insight, folder)
             print ("============ Time: ", time.time() - start)
@@ -261,12 +262,11 @@ if __name__ == '__main__':
     path_insight = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02'
     path_event_map_campaign = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02/EXPORT_DATA'
 
-    print ("\n================ Maping event and campaign ====================\n")
-    print ("\n================ ========================= ====================\n")
-
     script, start_date, end_date = argv
-    add_campaign_id_to_json(path_audit_content, path_insight, start_date, end_date)
+    print ("\n================ Maping event and campaign ====================")
     
+    add_campaign_id_to_json(path_audit_content, path_insight, start_date, end_date)
+
     # add_list_product_to_json(path_audit_content, start_date, end_date)
     # path_file_event_map_campaign = FindNewFileEventMapCamp(path_event_map_campaign)
     # print (path_file_event_map_campaign)
