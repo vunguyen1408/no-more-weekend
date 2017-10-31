@@ -143,7 +143,7 @@ def do_work(list_index,in_queue, out_list):
         # exit signal
         #if line == None:
         #print(line)
-        if 'None->Exit' in line :
+        if 'None->Exit' in _value :
             #print('exit')
             return
 
@@ -155,7 +155,8 @@ def do_work(list_index,in_queue, out_list):
             if _file['video_index'] == _i:
 
                 # link = 'gs://python_video/' + folder + '/' + file_['name']
-                file_name = p_path_folder_work + '/' + _file['name']
+                #file_name = p_path_folder_work + '/' + _file['name']
+                file_name=_file['full_name']                
                 print('Process:',file_name)
 
                 #not image_texts exist->init {}
@@ -217,6 +218,7 @@ def get_image_local_label(p_folder, p_path_folder_work, p_work_json):
         file_json = {
             'name': _file,
             'video_index': int(_file[11:-12]),
+            'full_name': p_path_folder_work + '/' + _file
             #'image_index': int(_file[-7:-4])
         }
         list_index.append(file_json)
