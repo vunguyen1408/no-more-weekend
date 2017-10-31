@@ -294,7 +294,7 @@ def log_event_mapping_change(path_file_new, path_file_before_new):
         list_ = []
         for row in reader:
             list_.append(row)
-        list_ = list(list_[1:])
+        list_new = list(list_[1:])
 
     with open(path_file_before_new, 'r') as f:
         reader=csv.reader(f)
