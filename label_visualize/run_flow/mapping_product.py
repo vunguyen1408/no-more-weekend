@@ -306,6 +306,8 @@ def log_event_mapping_change(path_file_new, path_file_before_new):
     # Check line change
     get_date(row[3])
     list_diff = []
+    print (len(list_new))
+    print (len(list_before_new))
     print ("check")
     for i in list_new:
         for j in list_before_new:
