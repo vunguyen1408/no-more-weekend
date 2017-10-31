@@ -242,7 +242,6 @@ def add_list_product_to_json(path_audit_content, date_, to_date_):
                 except:
                     print ("Date error: %s" %folder)
 
-
 def FindNewFileEventMapCamp(path_file_event_map_campaign):
     list_file = next(os.walk(path_file_event_map_campaign))[2]
     d = '2017-01-01'
