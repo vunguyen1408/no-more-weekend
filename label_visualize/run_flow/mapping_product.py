@@ -313,7 +313,7 @@ def log_event_mapping_change(path_file_new, path_file_before_new):
         for j in list_before_new:
             if len(set(i) & set(j)) != len(i):
                 list_diff.append(i)
-                print (i)
+                # print (i)
 
     print (len(list_diff))
 
