@@ -250,5 +250,3 @@ for customer_id in list_account:
 #   for acc in list_acc:
 #     if acc not in list_account:
 #       print(acc)
-
-

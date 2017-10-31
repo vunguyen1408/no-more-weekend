@@ -6,7 +6,7 @@ import numpy as np
 import json
 import cx_Oracle
 from datetime import datetime , timedelta, date
-
+import nru_test as nru_test
 #-------------- import package -----------------
 
 
@@ -483,7 +483,7 @@ def ReadPlanFromTable(connect, path_folder, date):
     os.makedirs(folder)
   # print (folder)
   file_plan = os.path.join(folder, 'plan.json')
-  print (file_plan)
+  # print (file_plan)
 
   #============================== Connect database =============================
   # conn = cx_Oracle.connect('MARKETING_TOOL_02/MARKETING_TOOL_02_9999@10.60.1.42:1521/APEX42DEV')
@@ -538,6 +538,9 @@ def ReadPlanFromTable(connect, path_folder, date):
   
   with open (file_plan, 'w') as f:
     json.dump(plan_, f)
+    
+  # #========= Add NRU into plan ==============================
+  # nru_test.Add_NRU_into_plan(connect, path_folder, date)  
 
 def ReadPlan(path_folder, date):
   # =============== List plan code ================  
@@ -565,8 +568,9 @@ def CheckIsAccountGS5(path_folder, account_id):
     list_campaign = json.load(f)
 
   for account in list_campaign:
-    if str(account_id) == str(account['customerId']) and (account['dept Name'].find('GS5') >= 0):
-      return True
+    if account['dept Name'] != None:
+      if str(account_id) == str(account['customerId']) and (account['dept Name'].find('GS5') >= 0):
+        return True
   return False
 
 #================= Read list plan, product code, save file mapping =====================

@@ -8,6 +8,7 @@ from datetime import datetime , timedelta, date
 #-------------- import file ---------------
 import insert_data_map_to_total as insert_data
 import mapping_campaign_plan as mapping
+import nru_test as nru_test
 # import insert_nru_to_data as nru
 
 
@@ -31,7 +32,7 @@ def ParseLogManualToJson(log):
 	temp = {
 		'PRODUCT' : log[0],
 		'REASON_CODE_ORACLE' : log[1],
-		'EFORM_TYPE' : log[2],
+		'FORM_TYPE' : log[2],
 		'UNIT_OPTION' : log[3],
 		'USER_NAME' : log[4],
 		'ACCOUNT_ID' : log[5],
@@ -86,7 +87,7 @@ def ReadTableManualMap(connect, path_data, date):
 			for data_local in manual_map:
 				if data[0] == data_local['PRODUCT'] \
 				and data[1] == data_local['REASON_CODE_ORACLE'] \
-				and data[2] == data_local['EFORM_TYPE'] \
+				and data[2] == data_local['FORM_TYPE'] \
 				and data[3] == data_local['UNIT_OPTION'] \
 				and data[6] == data_local['CAMPAIGN_ID'] \
 				and data[7] == data_local['START_DATE'] \
@@ -109,6 +110,7 @@ def ReadTableManualMap(connect, path_data, date):
 	# ------------ Cần đọc thông tin plan mới nhất --------------------
 	mapping.ReadPlanFromTable(connect, path_data, str(date))
 	mapping.ReadProductAlias(connect, path_data, str(date))
+	nru_test.Add_NRU_into_plan(connect, path_data, date)  
 	list_plan = mapping.ReadPlan(path_data, str(date))
 
 
@@ -118,6 +120,7 @@ def ReadTableManualMap(connect, path_data, date):
 	list_plan_diff = []
 	plan_temp = None
 	list_plan_new = []
+	# print (list_diff)
 	for plan in list_diff:
 		# ----------- Create data campaign ----------------
 		campaign = {}
@@ -136,7 +139,7 @@ def ReadTableManualMap(connect, path_data, date):
 			if int(plan['PRODUCT']) == int(plan_info['PRODUCT']) \
 				and plan['REASON_CODE_ORACLE'] == plan_info['REASON_CODE_ORACLE']:
 				plan_temp = plan_info
-				if plan['UNIT_OPTION'] == plan_info['UNIT_OPTION'] and plan['EFORM_TYPE'] == plan_info['FORM_TYPE']:
+				if plan['UNIT_OPTION'] == plan_info['UNIT_OPTION'] and plan['FORM_TYPE'] == plan_info['FORM_TYPE']:
 					temp = plan_temp.copy()
 					# print (temp)
 					# print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
@@ -148,11 +151,11 @@ def ReadTableManualMap(connect, path_data, date):
 		# ----------- Plan moi duoc tao -----------------
 		if flag:
 			temp = plan_temp.copy()
-			temp['UNIT_OPTION'] = plan[3]
-			temp['FORM_TYPE'] = plan[2]
+			temp['UNIT_OPTION'] = plan['UNIT_OPTION']
+			temp['FORM_TYPE'] = plan['FORM_TYPE']
 			temp['CAMPAIGN_MANUAL_MAP'] = []
 			temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
-			temp['USER_MAP'] = plan[4]
+			temp['USER_MAP'] = plan['USER_NAME']
 			temp['STATUS'] = 'USER'
 			list_plan_diff.append(temp)
 			list_plan_new.append(temp)
@@ -340,8 +343,6 @@ def ManualMap(connect, path_data, date):
 			for plan in data_total['TOTAL']:
 				plan['MONTHLY'] = {}
 				plan = insert_data.CaculatorTotalMonth(plan, date)
-
-				# print (plan)
 			print ("---------------------------------------------------")
 
 			for plan in data_total['UN_PLAN']:

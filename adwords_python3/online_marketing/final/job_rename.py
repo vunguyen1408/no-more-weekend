@@ -35,7 +35,7 @@ def Rename (connect, path_data, list_customer_id, date):
 
 	# print (list_camp_remove_unmap != [])
 	# print (len(list_camp_remove_unmap))
-	if list_camp_remove_unmap != []:
+	if list_camp_remove_unmap != [] or list_camp_update != []:
 		update_manual = time.time()
 		print ("insert data")
 		# nru.Add_Data_To_Plan(connect, path_data, date)
@@ -100,6 +100,6 @@ list_customer_id = [
 
 
 date = '2017-09-30'
-path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG'
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 Rename (connect, path_data, list_customer_id, date)

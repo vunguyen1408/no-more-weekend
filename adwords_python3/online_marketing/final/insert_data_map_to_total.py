@@ -29,6 +29,7 @@ def CreateSum():
 	return sum_plan
 
 def SumTotalPlan(plan, list_campaign):
+
 	"""
 		Hàm tính total cho một plan (tổng các campaign)
 	"""
@@ -36,7 +37,12 @@ def SumTotalPlan(plan, list_campaign):
 	sum_plan = CreateSum()
 	for campaign_in_plan in plan['CAMPAIGN']:
 		for campaign in list_campaign:
-			if (campaign_in_plan['CAMPAIGN_ID'] == campaign['Campaign ID']) \
+			# if str(campaign['Campaign ID']) == '794232395' and plan['REASON_CODE_ORACLE'] == '1708062' \
+			# 	and plan['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN' and campaign_in_plan['CAMPAIGN_ID'] == '794232395':
+			# 	print (campaign)
+			# 	print (plan)
+			# 	print ("SUM======================================\n\n\n")
+			if (str(campaign_in_plan['CAMPAIGN_ID']) == str(campaign['Campaign ID'])) \
 			and (campaign_in_plan['Date'] == campaign['Date']):
 				# --------------- Tính total ------------------
 				sum_plan['CLICKS'] += float(campaign['Clicks'])
@@ -62,6 +68,7 @@ def SumTotalPlan(plan, list_campaign):
 				z.update(plan)
 				list_map.append(z)
 	plan['TOTAL_CAMPAIGN'] = sum_plan
+	# print (len(list_map))
 	return (plan, list_map)
 
 #------------ Cộng hai plan ----------------------
@@ -72,11 +79,14 @@ def SumTotalManyPlan(list_plan, list_campaign):
 	list_plan_total = []
 	list_data_map = []
 	for plan in list_plan:
+		# if plan['REASON_CODE_ORACLE'] == '1708062' and plan['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
+		# 	print (plan)
 		# ------------- Lấy các plan mapping được ---------------
 		plan, list_map = SumTotalPlan(plan, list_campaign)
 		if len(plan['CAMPAIGN']) > 0:
 			list_plan_total.append(plan)
 			list_data_map.extend(list_map)
+			# print (len(list_data_map))
 	return (list_plan_total, list_data_map)
 
 #------------ Cộng hai plan ----------------------
@@ -178,6 +188,9 @@ def CaculatorListMonth(start_date, end_date):
 
 # ----------- Tính total từng month -------------
 def CaculatorTotalMonth(plan, date):
+	# print ("vao ham")
+	# if plan['REASON_CODE_ORACLE'] == '1708007':
+	# 		print (plan)
 	# ---------------- Choose time real ----------------------
 	start_plan, end_plan = mapping_data.ChooseTime(plan)
 
@@ -196,6 +209,8 @@ def CaculatorTotalMonth(plan, date):
 			# So ngay tu start_day den hien tai (co the tren lech 1 ngay)
 			number_date = CaculatorNumberDate(start_plan, date)
 			plan['MONTHLY'] = CaculatorListMonth(start_plan, date)
+		# if plan['REASON_CODE_ORACLE'] == '1708007':
+		# 	print (plan)
 		for m in plan['MONTHLY']:
 			if m['MONTH'] <= month:
 				# Da co data
@@ -218,6 +233,8 @@ def CaculatorTotalMonth(plan, date):
 				sum_plan['VIEWS'] = (float(plan['TOTAL_CAMPAIGN']['VIEWS']) / number_date) * m['DAY']
 				sum_plan['INSTALL_CAMP'] = (float(plan['TOTAL_CAMPAIGN']['INSTALL_CAMP']) / number_date) * m['DAY']
 				m['TOTAL_CAMPAIGN_MONTHLY'] = sum_plan
+		# if plan['REASON_CODE_ORACLE'] == '1708007':
+		# 	print (plan)
 	return plan
 
 def AddToTotal (data_total, data_date, date):
@@ -323,9 +340,9 @@ def MergeDataToTotal(path_data, date):
 
 	path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
 	if not find:
-		print ("=========================================================")
-		print ("=========================================================")
-		print ("=========================================================")
+		# print ("=========================================================")
+		# print ("=========================================================")
+		# print ("=========================================================")
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 		data_total = {}
 		data_total['TOTAL'] = []

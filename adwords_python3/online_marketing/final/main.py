@@ -4,7 +4,7 @@ import json
 import os
 import time
 from datetime import datetime , timedelta, date
-from googleads import adwords
+# from googleads import adwords
 
 # ------------ PACKAGE --------------
 # import download_report as download
@@ -19,8 +19,17 @@ import insert_report_plan_sum as plan_sum
 import insert_report_detail_map as detail_map
 import history_name as history
 import insert_nru_to_plan as nru
+# import insert_nru_into_data as nru
 import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
-def Daily(connect, path_data, date):
+
+
+import sys
+sys.path.insert(0, 'C:/Users/LAP11529-local/Desktop/VNG/no-more-weekend/adwords_python3/online_marketing/get_data')
+
+import add_acc_name as add_acc_name
+
+
+def Daily(connect, path_data, date, list_customer_id):
 	"""
 		Run daily: 
 		1. Duyet account - download report, luu tru
@@ -29,46 +38,46 @@ def Daily(connect, path_data, date):
 	"""
 
 	# # --------- Doc list account
-	list_customer_id = [ 
-		# WPL
-		'1033505012', '6376833586', '6493618146', '3764021980', '9019703669', \
-		'5243164713', '1290781574', '8640138177', '1493302671', '7539462658', \
-		'1669629424', '6940796638', '6942753385', '3818588895', '8559396163', \
-		'9392975361', '1756174326', '5477521592', '7498338868', '6585673574', \
-		'5993679244', '5990401446', '5460890494', '3959508668', '1954002502', \
-		'1124503774', '2789627019', '5219026641', '8760733662', '8915969454', \
-		'9299123796', \
-		# MP2
-		'2351496518', '3766974726', '8812868246', '3657450042', '4092061132', \
-		'1066457627', '7077229774', '6708858633', '2205921749', '1731093088', \
-		'2852598370', \
-		# PG1
-		'5008396449', '9021114325', '9420329501', '7976533276', \
-		# PG2
-		'5471697015', '8198035241', '8919123364', '8934377519', '7906284750', \
-		'1670552192', '6507949288', '3752996996', '5515537799', '9280946488', \
-		'8897792146', '4732571543', '6319649915', '4845283915', '4963434062', \
-		'3950481958', '8977015372', \
-		# PG3
-		'2018040612', '1237086810', '2474373259', '9203404951', '8628673438', \
-		'5957287971', '6267264008', '8583452877', '4227775753', '8003403685', \
-		'3061049910', '2395877275', '1849103506', '7000297269', '6233988585', \
-		'4018935765', '2675507443', '9493600480', '1609917649', '8180518027', \
-		'6275441244', '6743848595', '1362424990', '5430766142', '5800450880', \
-		'7687258619', '8303967886', '5709003531', '6201418435', '1257508037', \
-		'6810675582', '5953925776', '9001610198', '8135096980', '5222928599', \
-		'9963010276', '5062362839', '6360800174', '8844079195', '5856149801', \
-		'3064549723', '6198751560', '9034826980', '3265423139', '7891987656', \
-		'8483981986', '2686387743', '5930063870', '7061686256', '3994588490', \
-		'3769240354', \
-		# GS5
-		'8726724391', '1040561513', '7449117049', '3346913196', '9595118601', \
-		'9411633791', '4596687625', '8290128509', '3104172682', '6247736011', \
-		'2861959872', \
+	# list_customer_id = [ 
+	# 	# WPL
+	# 	'1033505012', '6376833586', '6493618146', '3764021980', '9019703669', \
+	# 	'5243164713', '1290781574', '8640138177', '1493302671', '7539462658', \
+	# 	'1669629424', '6940796638', '6942753385', '3818588895', '8559396163', \
+	# 	'9392975361', '1756174326', '5477521592', '7498338868', '6585673574', \
+	# 	'5993679244', '5990401446', '5460890494', '3959508668', '1954002502', \
+	# 	'1124503774', '2789627019', '5219026641', '8760733662', '8915969454', \
+	# 	'9299123796', \
+	# 	# MP2
+	# 	'2351496518', '3766974726', '8812868246', '3657450042', '4092061132', \
+	# 	'1066457627', '7077229774', '6708858633', '2205921749', '1731093088', \
+	# 	'2852598370', \
+	# 	# PG1
+	# 	'5008396449', '9021114325', '9420329501', '7976533276', \
+	# 	# PG2
+	# 	'5471697015', '8198035241', '8919123364', '8934377519', '7906284750', \
+	# 	'1670552192', '6507949288', '3752996996', '5515537799', '9280946488', \
+	# 	'8897792146', '4732571543', '6319649915', '4845283915', '4963434062', \
+	# 	'3950481958', '8977015372', \
+	# 	# PG3
+	# 	'2018040612', '1237086810', '2474373259', '9203404951', '8628673438', \
+	# 	'5957287971', '6267264008', '8583452877', '4227775753', '8003403685', \
+	# 	'3061049910', '2395877275', '1849103506', '7000297269', '6233988585', \
+	# 	'4018935765', '2675507443', '9493600480', '1609917649', '8180518027', \
+	# 	'6275441244', '6743848595', '1362424990', '5430766142', '5800450880', \
+	# 	'7687258619', '8303967886', '5709003531', '6201418435', '1257508037', \
+	# 	'6810675582', '5953925776', '9001610198', '8135096980', '5222928599', \
+	# 	'9963010276', '5062362839', '6360800174', '8844079195', '5856149801', \
+	# 	'3064549723', '6198751560', '9034826980', '3265423139', '7891987656', \
+	# 	'8483981986', '2686387743', '5930063870', '7061686256', '3994588490', \
+	# 	'3769240354', \
+	# 	# GS5
+	# 	'8726724391', '1040561513', '7449117049', '3346913196', '9595118601', \
+	# 	'9411633791', '4596687625', '8290128509', '3104172682', '6247736011', \
+	# 	'2861959872', \
 		
-		# PP
-		'8024455693' 
-		]
+	# 	# PP
+	# 	'8024455693' 
+	# 	]
 
 	start_work_flow = time.time()
 	#========================== Download report =================================
@@ -93,8 +102,8 @@ def Daily(connect, path_data, date):
 
 	#------------------ Read log manual mapping and get plan NRU ---------------------
 	# mapping_data.ReadPlanFromTable(connect, path_data, date)
-	
-	mapping_data.ReadProductAlias(connect, path_data, date)
+	# # nru.Add_NRU_into_plan(connect, path_data, date)  	
+	# mapping_data.ReadProductAlias(connect, path_data, date)
 	# manual.ReadTableManualMap(connect, path_data, date)
 	#----------------------------------------------------------------
 	# print ("             Time insert install: ", time_insert)
@@ -137,11 +146,12 @@ def Daily(connect, path_data, date):
 	# print ("\n\n======================= RUN INSERT NRU WITH DATE : " + date + " =========================")
 	# insert_nru = time.time()
 	# nru.Add_Data_To_Plan(connect, path_data, date)
+	# nru.Add_NRU_into_monthly(connect, path_data, date)
 	# time_insert = time.time() - insert_install
 
 
 	# ======================= Insert branding install ====================================
-	insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
+	# insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
 
 	#======================== History name ==================================
 	# list_diff = history.InsertHistoryName(connect, path_data, list_customer_id, date)
@@ -174,6 +184,9 @@ def ManyDate(connect, path_data, start_date, end_date):
 	# Initialize client object.
 	adwords_client = None
 	# adwords_client = adwords.AdWordsClient.LoadFromStorage()
+	path_acc = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT'
+	list_acc, list_mcc, list_dept = add_acc_name.get_list_customer(path_acc)
+	# print (len(list_acc))
 
 	date_ = datetime.strptime(start_date, '%Y-%m-%d').date()
 	to_date_ = datetime.strptime(end_date, '%Y-%m-%d').date()
@@ -182,14 +195,14 @@ def ManyDate(connect, path_data, start_date, end_date):
 	for i in range(n + 1):
 		single_date = date_ + timedelta(i)
 		d = single_date.strftime('%Y-%m-%d')
-		Daily(connect, path_data, str(d))
+		Daily(connect, path_data, str(d), list_acc)
 	e = time.time() - s
 	print (" TIME : ", e)
 
 
 # start_date = '2017-06-01'
 # end_date = '2017-06-30'
-path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 # ManyDate(connect, path_data, start_date, end_date)
 
