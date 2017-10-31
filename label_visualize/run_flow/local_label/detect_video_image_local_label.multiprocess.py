@@ -24,6 +24,10 @@ import subprocess
 from datetime import datetime , timedelta, date
 import time
 
+from multiprocessing import Process, Manager
+import itertools
+
+
 from google.cloud.gapic.videointelligence.v1beta1 import enums
 from google.cloud.gapic.videointelligence.v1beta1 import (
     video_intelligence_service_client)
@@ -127,75 +131,24 @@ def detect_local_label(p_path):
     return return_label
 
 
+def do_work(list_index,in_queue, out_list):
 
-def do_work(in_queue, out_list):
+
     while True:
         item = in_queue.get()
-        line_no, line = item
+        #line_no, line = item
+        _i,_value = item
+
 
         # exit signal
         #if line == None:
         #print(line)
-        if 'None' in line :
+        if 'None->Exit' in line :
             #print('exit')
             return
 
-        # fake work
-        time.sleep(.5)
-        result = (line_no, line)
-        #print(result)
-
-        out_list.append(result)
-
-
-
-
-def get_image_local_label(p_folder, p_path_folder_work, p_work_json):
-
-
-    list_index = []
-    list_file = next(os.walk(p_path_folder_work))[2]
-
-    for _file in list_file:
-        #print(_file)
-        file_json = {
-            'name': _file,
-            'video_index': int(_file[11:-12]),
-            #'image_index': int(_file[-7:-4])
-        }
-        list_index.append(file_json)
-
-
-    #print   (list_index)
-
-    #multiprocessing
-    num_workers = 8
-
-    manager = Manager()
-    results = manager.list()
-    work = manager.Queue(num_workers)
-
-    # start for workers
-    pool = []
-    for i in range(num_workers):
-        p = Process(target=do_work, args=(work, results))
-        p.start()
-        pool.append(p)
-
-    # produce data
-    iters = itertools.chain(p_work_json['my_json'], ({'None'},)*num_workers)
-
-    for num_and_line in enumerate(iters):
-        print(num_and_line)
-        work.put(num_and_line)
-
-    for p in pool:
-        p.join()
-
-
-    #loop 1
-    for _i, _value in enumerate(p_work_json['my_json']):
-
+        # work
+        time.sleep(.1)
         #loop 2
         for _file in list_index:
 
@@ -207,7 +160,7 @@ def get_image_local_label(p_folder, p_path_folder_work, p_work_json):
 
                 #not image_texts exist->init {}
                 if 'image_local_labels' not in _value:
-                    print('init')
+                    #print('init')
                     _value['image_local_labels'] = []
 
                     text={}
@@ -229,18 +182,76 @@ def get_image_local_label(p_folder, p_path_folder_work, p_work_json):
                     if found>=0:
                         count=_value['image_local_labels'][found].get('api_call',0)
                         if count==0:
-                            print('update')
+                            #print('update')
                             _value['image_local_labels'][found]['labels']=detect_local_label(file_name)
                             _value['image_local_labels'][found]['api_call']=count+1
                     # append
                     else:
-                        print('append')
+                        #print('append')
                         text={}
                         text['name']=_file['name']
                         #file_text['text']=detect_text(file_name)
                         text['labels']=detect_local_label(file_name)
                         text['api_call']=1
                         _value['image_local_labels'].append(text)
+
+
+        #print(result)
+        result = (_i, _value)
+
+        out_list.append(result)
+
+
+
+
+
+
+def get_image_local_label(p_folder, p_path_folder_work, p_work_json):
+
+    #list file
+    list_index = []
+    list_file = next(os.walk(p_path_folder_work))[2]
+
+    for _file in list_file:
+        #print(_file)
+        file_json = {
+            'name': _file,
+            'video_index': int(_file[11:-12]),
+            #'image_index': int(_file[-7:-4])
+        }
+        list_index.append(file_json)
+
+    #multiprocessing
+    num_workers = 8
+
+    manager = Manager()
+    results = manager.list()
+    work = manager.Queue(num_workers)
+
+    # start for workers
+    pool = []
+    for i in range(num_workers):
+        p = Process(target=do_work, args=(list_index, work, results))
+        p.start()
+        pool.append(p)
+
+    # produce data
+    #with open("/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/2017-06-01/ads_creatives_audit_content_2017-06-01.json") as f:
+    #print(type(work_json))
+    iters = itertools.chain(p_work_json['my_json'], ({'None->Exit'},)*num_workers)
+    for num_and_line in enumerate(iters):
+        work.put(num_and_line)
+
+    for p in pool:
+        p.join()
+
+
+    #print   (list_index)
+
+    #loop 1
+    #for _i, _value in enumerate(p_work_json['my_json']):
+
+
 
 
 
