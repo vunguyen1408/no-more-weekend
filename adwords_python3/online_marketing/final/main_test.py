@@ -105,6 +105,8 @@ def Daily(connect, path_data, date, list_customer_id):
 	nru_test.Add_NRU_into_plan(connect, path_data, date)  
 	mapping_data.ReadProductAlias(connect, path_data, date)	
 	manual.ReadTableManualMap(connect, path_data, date)
+
+	time.sleep(10)
 	#----------------------------------------------------------------
 	# print ("             Time insert install: ", time_insert)
 
