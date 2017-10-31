@@ -505,8 +505,9 @@ def ModifiedPlanToMap(path_data, list_plan_map, date):
 
 	get_camp = time.time()
 
-	# ------------- Get campaign for mapping ----------------			
-	with open (path_data,'r') as f:
+	# ------------- Get campaign for mapping ----------------	
+	path_data_total = GetFileTotal(path_data, date)		
+	with open (path_data_total,'r') as f:
 		data_total = json.load(f)
 	
 	list_full_camp = data_total['UN_CAMPAIGN']
