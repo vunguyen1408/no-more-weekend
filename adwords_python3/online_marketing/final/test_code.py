@@ -764,7 +764,7 @@ def GetPlanModified(connect, path_data):
 		# print(type(new_plan['START_DAY']), type(plan['START_DAY']))
 		# print(type(new_plan['END_DAY_ESTIMATE']), type(plan['END_DAY_ESTIMATE']))
 
-		print("=======================")
+		# print("=======================")
 				
 	print(len(list_plan))
 	# for plan in data['plan']:
