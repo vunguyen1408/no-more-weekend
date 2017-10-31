@@ -301,7 +301,7 @@ def log_event_mapping_change(path_file_new, path_file_before_new):
         list_ = []
         for row in reader:
             list_.append(row)
-        list_before_new = list([1:])
+        list_before_new = list(list_[1:])
 
     # Check line change
     get_date(row[3])
@@ -345,7 +345,7 @@ if __name__ == '__main__':
     add_list_product_to_json(path_audit_content, start_date, end_date)
     path_file_new, path_file_before_new = FindFileEventMapCamp(path_event_map_campaign)
     print (path_file_new)
-    print (path_file_before_new)
+    path_file_before_new = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02/EXPORT_DATA/EVENT_MAP_CAMPAIGN_2017_07_20.csv'
     log_event_mapping_change(path_file_new, path_file_before_new)
     # list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
     # for i in list_json:
