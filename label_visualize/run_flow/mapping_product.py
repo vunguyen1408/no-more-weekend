@@ -34,6 +34,7 @@ def parse_to_json(list_diff):
     #     for row in reader:
     #         list_.append(row)
     #     list_ = list(list_[1:])
+    print (len(list_diff))
 
     for row in list_diff:
         if row[5] not in list_unique:
