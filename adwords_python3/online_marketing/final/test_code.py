@@ -104,10 +104,10 @@ def GetListPlanChangeFromTable(connect, final_log):
 
 	print('list_plan_diff: ', len(list_plan_diff))
 
-	for plan in list_plan_diff:
-		print(plan)
+	# for plan in list_plan_diff:
+	# 	print(plan)
 
-	print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+	# print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
 
 	print(final_log) 
 	return list_plan_diff, final_log
@@ -291,11 +291,11 @@ def NewPlan(path_data, list_plan):
 		# 	list_full_camp[list_full_camp.index(camp)]['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
 		# 	# print(camp)			
 		
-		if (camp['Dept'] == 'GS5'):
-		# if (mapping.CheckIsAccountGS5(path_data, camp['Account ID'])):		
+		# if (camp['Dept'] == 'GS5'):
+		if (mapping.CheckIsAccountGS5(path_data, camp['Account ID'])):		
 			list_camp_GS5.append(camp)
-		elif (camp['Dept'] == 'WPL'):
-		# if (mapping.CheckIsAccountWPL(path_data, camp['Account ID'])):
+		# elif (camp['Dept'] == 'WPL'):
+		elif (mapping.CheckIsAccountWPL(path_data, camp['Account ID'])):
 			list_camp_GS5.append(camp)
 		else:
 			list_camp_all.append(camp)
@@ -724,7 +724,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	for plan in list_plan_diff:
 		if plan[22] == plan[26]:
 			list_plan_new.append(ConvertPlan(plan))
-			print('new')
+			# print('new')
 		else:
 			# ========= Finally plan from data ==============
 			file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
