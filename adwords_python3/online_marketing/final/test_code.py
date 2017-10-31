@@ -503,6 +503,7 @@ def CheckPlanUpdateRealDate(list_plan, plan):
 	return False
 
 def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
+	print('list_plan_modified: ', len(list_plan_modified))
 	list_camp_remove_unmap = []	
 	list_camp_insert_unmap = []
 	list_plan_remove_total = []
@@ -628,7 +629,7 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 				data_total['UN_PLAN'].remove(plan_total)
 				list_plan_remove_un_plan.append(plan)
 	
-
+	print()
 	print('MAP: ', len(data_total['MAP']))
 	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
 	print ('UN_PLAN: ', len(data_total['UN_PLAN']))
