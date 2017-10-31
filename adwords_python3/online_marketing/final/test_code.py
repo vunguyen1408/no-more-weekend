@@ -757,12 +757,12 @@ def GetPlanModified(connect, path_data):
 				and (new_plan['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE']) :		
 				list_plan.remove(plan)
 
-		print(type(new_plan['PRODUCT']), type(plan['PRODUCT']))
-		print(type(new_plan['REASON_CODE_ORACLE']), type(plan['REASON_CODE_ORACLE']))
-		print(type(new_plan['FORM_TYPE']), type(plan['FORM_TYPE']))
-		print(type(new_plan['UNIT_OPTION']), type(plan['UNIT_OPTION']))
-		print(type(new_plan['START_DAY']), type(plan['START_DAY']))
-		print(type(new_plan['END_DAY_ESTIMATE']), type(plan['END_DAY_ESTIMATE']))
+		# print(type(new_plan['PRODUCT']), type(plan['PRODUCT']))
+		# print(type(new_plan['REASON_CODE_ORACLE']), type(plan['REASON_CODE_ORACLE']))
+		# print(type(new_plan['FORM_TYPE']), type(plan['FORM_TYPE']))
+		# print(type(new_plan['UNIT_OPTION']), type(plan['UNIT_OPTION']))
+		# print(type(new_plan['START_DAY']), type(plan['START_DAY']))
+		# print(type(new_plan['END_DAY_ESTIMATE']), type(plan['END_DAY_ESTIMATE']))
 
 		print("=======================")
 				
