@@ -283,14 +283,16 @@ if __name__ == '__main__':
     start = time.time()
     print ("\n================ Maping event and campaign ====================")
     add_campaign_id_to_json(path_audit_content, path_insight, start_date, end_date)
-    print ("============ Time: ", time.time() - start)
+    
 
 
-    # add_list_product_to_json(path_audit_content, start_date, end_date)
+    add_list_product_to_json(path_audit_content, start_date, end_date)
     # path_file_event_map_campaign = FindNewFileEventMapCamp(path_event_map_campaign)
     # print (path_file_event_map_campaign)
     # list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
     # add_content(list_json, path_audit_content, path_insight)
+
+    print ("============ Time: ", time.time() - start)
 
 # statistic(path_audit_content)
 # group_by_product(path_audit_content)
