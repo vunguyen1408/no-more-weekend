@@ -113,7 +113,7 @@ def add_campaign_id_to_json(path_audit_content, path_insight, _date, _to_date):
                         for k in data_insight['my_json']:
                             if str(j['ad_id']) == str(k['ad_id']):
                                 j['campaign_id'] = k['campaign_id']
-                
+
 
 
 
@@ -278,6 +278,7 @@ if __name__ == '__main__':
     path_event_map_campaign = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02/EXPORT_DATA'
 
     script, start_date, end_date = argv
+    start = time.time()
     print ("\n================ Maping event and campaign ====================")
     add_campaign_id_to_json(path_audit_content, path_insight, start_date, end_date)
     print ("============ Time: ", time.time() - start)
