@@ -724,8 +724,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	list_plan_update = []
 
 	for plan in list_plan_diff:
-		if plan[22] == plan[26]:
-			print(plan[22], plan[22])
+		if plan[22] == plan[26]:			
 			list_plan_new.append(ConvertPlan(plan))
 			# print('new')
 		else:
@@ -753,7 +752,9 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	#======== Case 1: New Plan
 	if (len(list_plan_new) > 0):
 		list_plan_new = mapping.AddProductCode(path_data, list_plan_new, date)
-		list_plan_new = nru.Add_NRU_into_list(connect, path_data, date)  		
+		print(list_plan_new[0])
+		list_plan_new = nru.Add_NRU_into_list(connect, path_data, date)  	
+		print(list_plan_new[0])	
 		camp_remove_unmap, plan_insert_total, data_insert_map, plan_insert_unmap = NewPlan(path_data, date, list_plan_new)
 		list_camp_remove_unmap.extend(camp_remove_unmap)
 		list_plan_insert_total.extend(plan_insert_total)
