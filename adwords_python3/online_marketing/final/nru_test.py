@@ -90,7 +90,6 @@ def CaculatorStartEndDate(plan, start, end):
 	return plan
 
 
-
 def Add_NRU_into_plan(connect, path_data, date):
 	file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
 	with open(file_plan, 'r') as fi:
@@ -153,67 +152,33 @@ def Add_NRU_into_monthly(connect, path_data, date):
 				list_plan['UN_PLAN'][list_plan['UN_PLAN'].index(plan)]['MONTHLY'][i]['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
 
 	cursor.close()
-	for plan in list_plan['TOTAL']:
-		if plan['REASON_CODE_ORACLE'] == '1703043':
-			print(plan)
-			break
-	print()
-	print()
-	print()
-	print()
 
-	for plan in list_plan['UN_PLAN']:
-		if plan['REASON_CODE_ORACLE'] == '1703043' and plan['FORM_TYPE'] == 'DISPLAY':
-			print(plan)
-			break
-	print()
+	with open(file_total, 'w') as fo:
+		json.dump(list_plan, fo)
 
-	# with open(file_total, 'w') as fo:
-	# 	json.dump(list_plan, fo)
+	# for plan in list_plan['TOTAL']:
+	# 	if plan['REASON_CODE_ORACLE'] == '1703043':
+	# 		print(plan)
+	# 		break
+	# print()
+	# print()
+	# print()
+	# print()
 
-
-
-
-connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
-date = '2017-09-01' 
-Add_NRU_into_monthly(connect, path_data, date)
-
-
-
-# def Add_Data_To_Plan(connect, path_data, date):
-# 	#============= Add Plan to Total================================
-# 	# ============ Add Plan To Monthly ============================
-
-# 	file_plan = os.path.join(path_data, str(date) + '/DATA_MAPPING/total_mapping.json')
-# 	with open(file_plan, 'r') as fi:
-# 		list_plan = json.load(fi)
-
-# 	start = time.time()
-# 	list_plan = Add_NRU_for_monthly(connect, list_plan)
-# 	print ("Time add NRU in function", (time.time() - start))
-	
-# 	with open (file_plan,'w') as f:
-# 		json.dump(list_plan, f)
-# 	# print('Add nru====================')
-
+	# for plan in list_plan['UN_PLAN']:
+	# 	if plan['REASON_CODE_ORACLE'] == '1703043' and plan['FORM_TYPE'] == 'DISPLAY':
+	# 		print(plan)
+	# 		break
+	# print()
 
 
 
 # connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-# path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
-# date = '2017-08-30'
-# Add_Data_To_Plan(connect, path_data, date)
+# path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
+# date = '2017-09-01' 
+# Add_NRU_into_monthly(connect, path_data, date)
 
 
-
-# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-# conn = cx_Oracle.connect(connect)
-# cursor = conn.cursor()
-# start_date = datetime.strptime('08/01/2017', '%m/%d/%Y')
-# end_date = datetime.strptime('09/01/2017', '%m/%d/%Y')
-# nru = Read_NRU_for_total(cursor, start_date, end_date, '219')
-# print(nru)
 
 
 
