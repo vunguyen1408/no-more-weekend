@@ -292,11 +292,11 @@ def NewPlan(path_data, date, list_plan):
 		# 	list_full_camp[list_full_camp.index(camp)]['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
 		# 	# print(camp)			
 		
-		# if (camp['Dept'] == 'GS5'):
-		if (mapping.CheckIsAccountGS5(path_data, camp['Account ID'])):		
+		if (camp['Dept'] == 'GS5'):
+		# if (mapping.CheckIsAccountGS5(path_data, camp['Account ID'])):		
 			list_camp_GS5.append(camp)
-		# elif (camp['Dept'] == 'WPL'):
-		elif (mapping.CheckIsAccountWPL(path_data, camp['Account ID'])):
+		elif (camp['Dept'] == 'WPL'):
+		# elif (mapping.CheckIsAccountWPL(path_data, camp['Account ID'])):
 			list_camp_GS5.append(camp)
 		else:
 			list_camp_all.append(camp)
