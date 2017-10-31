@@ -538,8 +538,9 @@ def ReadPlanFromTable(connect, path_folder, date):
   
   with open (file_plan, 'w') as f:
     json.dump(plan_, f)
-
-  nru_test.Add_NRU_into_plan(connect, path_folder, date)  
+    
+  # #========= Add NRU into plan ==============================
+  # nru_test.Add_NRU_into_plan(connect, path_folder, date)  
 
 def ReadPlan(path_folder, date):
   # =============== List plan code ================  

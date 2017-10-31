@@ -94,6 +94,7 @@ def Add_NRU_into_plan(connect, path_data, date):
 	file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
 	with open(file_plan, 'r') as fi:
 		data = json.load(fi)
+	print(data['plan'][0])
 
 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
@@ -105,6 +106,10 @@ def Add_NRU_into_plan(connect, path_data, date):
 		
 	with open(file_plan, 'w') as fo:
 		json.dump(data, fo)
+
+	with open(file_plan, 'r') as fi:
+		data = json.load(fi)
+	print(data['plan'][0])
 
 	cursor.close()
 	# print("Add NRU into plan success.........")
