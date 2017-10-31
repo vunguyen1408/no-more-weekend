@@ -261,7 +261,7 @@ def FindFileEventMapCamp(path_file_event_map_campaign):
 
     i = 0
     find = True
-    date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+    date_before = date - timedelta(1)
     path_file_before_new = path_file_event_map_campaign + '/EVENT_MAP_CAMPAIGN_' + str(date_before).replace('-', '_') + '.csv'
     # while not os.path.exists(path_data_total_map):
     #     i = i + 1
