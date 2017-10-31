@@ -565,8 +565,9 @@ def CheckIsAccountGS5(path_folder, account_id):
     list_campaign = json.load(f)
 
   for account in list_campaign:
-    if str(account_id) == str(account['customerId']) and (account['dept Name'].find('GS5') >= 0):
-      return True
+    if account['dept Name'] != None:
+      if str(account_id) == str(account['customerId']) and (account['dept Name'].find('GS5') >= 0):
+        return True
   return False
 
 #================= Read list plan, product code, save file mapping =====================
