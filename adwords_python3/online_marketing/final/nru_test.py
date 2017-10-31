@@ -136,13 +136,15 @@ def TEST(connect, path_data, date):
 		start_date, end_date = ChooseTime(plan)
 		# data['plan'][data['plan'].index(plan)]['CCD_NRU'] = Read_NRU_for_total(cursor, ConvertDate(start_date), ConvertDate(end_date), plan['PRODUCT'])
 		CaculatorStartEndDate(plan, start_date, end_date)
-	print(plan)
+		print()
+		print(plan)
+		print()
 
 	# with open(file_plan, 'w') as fo:
 	# 	json.dump(data, fo)
 
 	cursor.close()
-	print("Add NRU into plan success.........")
+	# print("Add NRU into plan success.........")
 
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
