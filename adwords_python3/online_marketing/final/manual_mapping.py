@@ -8,7 +8,7 @@ from datetime import datetime , timedelta, date
 #-------------- import file ---------------
 import insert_data_map_to_total as insert_data
 import mapping_campaign_plan as mapping
-import nru_test as nru_test
+import insert_nru_to_plan as nru
 # import insert_nru_to_data as nru
 
 
@@ -110,7 +110,7 @@ def ReadTableManualMap(connect, path_data, date):
 	# ------------ Cần đọc thông tin plan mới nhất --------------------
 	mapping.ReadPlanFromTable(connect, path_data, str(date))
 	mapping.ReadProductAlias(connect, path_data, str(date))
-	nru_test.Add_NRU_into_plan(connect, path_data, date)  
+	nru.Add_NRU_into_plan(connect, path_data, date)  
 	list_plan = mapping.ReadPlan(path_data, str(date))
 
 
