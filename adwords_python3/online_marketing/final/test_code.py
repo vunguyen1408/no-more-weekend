@@ -753,7 +753,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	if (len(list_plan_new) > 0):
 		list_plan_new = mapping.AddProductCode(path_data, list_plan_new, date)
 		print(list_plan_new[0])
-		list_plan_new = nru.Add_NRU_into_list(connect, path_data, date)  	
+		list_plan_new = nru.Add_NRU_into_list(connect, list_plan_new, date)  	
 		print(list_plan_new[0])	
 		camp_remove_unmap, plan_insert_total, data_insert_map, plan_insert_unmap = NewPlan(path_data, date, list_plan_new)
 		list_camp_remove_unmap.extend(camp_remove_unmap)
