@@ -153,13 +153,19 @@ def Add_NRU_into_monthly(connect, path_data, date):
 				list_plan['UN_PLAN'][list_plan['UN_PLAN'].index(plan)]['MONTHLY'][i]['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
 
 	cursor.close()
-	print(list_plan['TOTAL'][10])
+	for plan in list_plan['TOTAL']:
+		if plan['REASON_CODE_ORACLE'] == '1703043':
+			print(plan)
+			break
 	print()
 	print()
 	print()
 	print()
 
-	print(list_plan['UN_PLAN'][10])
+	for plan in list_plan['UN_PLAN']:
+		if plan['REASON_CODE_ORACLE'] == '1703043' and plan['FORM_TYPE'] = 'DISPLAY':
+			print(plan)
+			break
 	print()
 
 	# with open(file_total, 'w') as fo:
