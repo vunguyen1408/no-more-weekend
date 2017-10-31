@@ -52,7 +52,9 @@ def parse_csv_to_json_file_EMC(path_file):
                 list_campaign = []
                 list_campaign.append(row[6])
                 content = {
-                    'event_id' : row[0],
+                    'event_id' : str(row[0]),
+                    'type' : str(row[1]),
+                    'unit_option' : str(row[2]),
                     'start_date' : get_date(row[3]),
                     'end_date' : get_date(row[4]),
                     'product' : row[5],
@@ -242,7 +244,7 @@ def add_list_product_to_json(path_audit_content, date_, to_date_):
                 except:
                     print ("Date error: %s" %folder)
 
-def FindNewFileEventMapCamp(path_file_event_map_campaign):
+def FindFileEventMapCamp(path_file_event_map_campaign):
     list_file = next(os.walk(path_file_event_map_campaign))[2]
     d = '2017-01-01'
     date = datetime.strptime(d, '%Y-%m-%d').date()
@@ -253,10 +255,26 @@ def FindNewFileEventMapCamp(path_file_event_map_campaign):
             now = datetime.strptime(day, '%Y-%m-%d').date()
             if now > date:
                 date = now
-
     temp = str(date).replace('-', '_')
-    path_file = path_file_event_map_campaign + '/EVENT_MAP_CAMPAIGN_' + temp + '.csv'
-    return path_file
+    path_file_new = path_file_event_map_campaign + '/EVENT_MAP_CAMPAIGN_' + temp + '.csv'
+
+
+    i = 0
+    find = True
+    date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+    path_file_before_new = path_file_event_map_campaign + '/EVENT_MAP_CAMPAIGN_' + str(date_before).replace('-', '_') + '.csv'
+    # while not os.path.exists(path_data_total_map):
+    #     i = i + 1
+    #     date_before = date_before - timedelta(1)
+    #     path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+    #     if i == 60:
+    #         find = False
+    #         break
+    print (path_file_new)
+    print (path_file_before_new)
+
+
+    return path_file_new
 
 
 
@@ -288,7 +306,7 @@ if __name__ == '__main__':
     add_list_product_to_json(path_audit_content, start_date, end_date)
     path_file_event_map_campaign = FindNewFileEventMapCamp(path_event_map_campaign)
     print (path_file_event_map_campaign)
-    list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
+    # list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
     for i in list_json:
         print (i)
     # add_content(list_json, path_audit_content, path_insight)
