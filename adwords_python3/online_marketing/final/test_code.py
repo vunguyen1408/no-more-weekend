@@ -270,7 +270,7 @@ def merger_data_map(data_map_all, data_map_GS5, data_map_WPL):
 	return(list_plan, list_camp)
 
 
-def NewPlan(path_data, list_plan):
+def NewPlan(path_data, date, list_plan):
 
 	list_camp_remove_unmap = []
 	list_plan_insert_total = []
@@ -278,8 +278,9 @@ def NewPlan(path_data, list_plan):
 	list_plan_insert_unmap = []
 
 	get_camp = time.time()
-	# ------------- Get campaign for mapping ----------------			
-	with open (path_data,'r') as f:
+	# ------------- Get campaign for mapping ----------------		
+	path_data_total = GetFileTotal(path_data, date)		
+	with open (path_data_total,'r') as f:
 		data_total = json.load(f)	
 
 	list_full_camp = data_total['UN_CAMPAIGN']
@@ -323,7 +324,7 @@ def NewPlan(path_data, list_plan):
 		'plan': [],
 		'campaign': []
 	}
-
+	print(path_data)
 	auto_mapping  = time.time()
 	if (len(list_camp_all) > 0):
 		data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
@@ -747,7 +748,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 	#======== Case 1: New Plan
 	if (len(list_plan_new) > 0):
-		camp_remove_unmap, plan_insert_total, data_insert_map, plan_insert_unmap = NewPlan(path_data_total, list_plan)
+		camp_remove_unmap, plan_insert_total, data_insert_map, plan_insert_unmap = NewPlan(path_data, date, list_plan)
 		list_camp_remove_unmap.extend(camp_remove_unmap)
 		list_plan_insert_total.extend(plan_insert_total)
 		list_data_insert_map.extend(data_insert_map)
