@@ -185,7 +185,7 @@ def UpdateOnePlan(plan, updated_plan):
 
 
 def UpdatePlan(path_data, list_plan_update):
-	
+	print(path_data)
 	list_plan = list_plan_update.copy()	
 	with open(path_data) as fi:
 		data_total = json.load(fi)
