@@ -742,12 +742,15 @@ def ClassifyPlan(connect, path_data, date, path_log):
 				list_plan_map.append(plan)
 
 
+
+
 	# ============= Process with each case =======================
 	path_data_total = GetFileTotal(path_data, date)
 	print(path_data_total)
 
 	#======== Case 1: New Plan
 	if (len(list_plan_new) > 0):
+		list_plan_new = mapping.AddProductCode(path_data, list_plan_new, date)
 		camp_remove_unmap, plan_insert_total, data_insert_map, plan_insert_unmap = NewPlan(path_data, date, list_plan_new)
 		list_camp_remove_unmap.extend(camp_remove_unmap)
 		list_plan_insert_total.extend(plan_insert_total)
@@ -762,6 +765,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 	#============== Case 3: Data update not map ===================
 	if (len(list_plan_update) > 0):
+		list_plan_update = mapping.AddProductCode(path_data, list_plan_update, date)
 		UpdatePlan(path_data_total, list_plan_update)
 		list_plan_update_all.extend(list_plan_update)
 	print('list_plan_update_into_data: ', list_plan_update_all)
