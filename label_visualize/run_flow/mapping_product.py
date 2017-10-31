@@ -34,6 +34,7 @@ def parse_to_json(list_diff):
     #     for row in reader:
     #         list_.append(row)
     #     list_ = list(list_[1:])
+    print (len(list_diff))
 
     for row in list_diff:
         if row[5] not in list_unique:
@@ -123,15 +124,16 @@ def add_content(list_json, path_audit_content, path_insight):
     print ("\n================ Maping event and campaign ====================\n")
     list_folder_json_content = next(os.walk(path_audit_content))[1]
     for json_ in list_json:
+        print (json_)
         start_date = datetime.strptime(json_['start_date'], '%Y-%m-%d').date()
         end_date = datetime.strptime(json_['end_date'], '%Y-%m-%d').date()
-        print (start_date)
-        print (end_date)
-        print (json_['product'])
+        # print (start_date)
+        # print (end_date)
+        # print (json_['product'])
         for folder in list_folder_json_content:
             date = datetime.strptime(folder, '%Y-%m-%d').date()
             # Trong mot ngay thuoc khoang
-            print (folder)
+            # print (folder)
             if date >= start_date and date <= end_date:
                 # Lay thong tin file audit content
                 folder_audit = os.path.join(path_audit_content, folder)
@@ -319,6 +321,7 @@ def log_event_mapping_change(path_file_new, path_file_before_new):
                 # print (i)
 
     print (len(list_diff))
+    return list_diff
 
 
 
@@ -356,7 +359,7 @@ if __name__ == '__main__':
     list_json = parse_to_json(list_diff)
     # for i in list_json:
     #     print (i)
-    # add_content(list_json, path_audit_content, path_insight)
+    add_content(list_json, path_audit_content, path_insight)
 
     print ("============ Time: ", time.time() - start)
 
