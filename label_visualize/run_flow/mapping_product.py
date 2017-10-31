@@ -279,7 +279,7 @@ def FindFileEventMapCamp(path_file_event_map_campaign):
 
 def log_event_mapping_change(path_file_new, path_file_before_new):
     if path_file_before_new == None:
-        list_ = []
+        list_diff = []
         with open(path_file_new, 'r') as f:
             reader=csv.reader(f)
             for row in reader:
@@ -287,6 +287,32 @@ def log_event_mapping_change(path_file_new, path_file_before_new):
             list_ = list(list_[1:])
         return list_
     
+    list_new = []
+    list_before_new = []
+    with open(path_file_new, 'r') as f:
+        reader=csv.reader(f)
+        list_ = []
+        for row in reader:
+            list_.append(row)
+        list_ = list(list_[1:])
+
+    with open(path_file_before_new, 'r') as f:
+        reader=csv.reader(f)
+        list_ = []
+        for row in reader:
+            list_.append(row)
+        list_before_new = list([1:])
+
+    # Check line change
+    get_date(row[3])
+    list_diff = []
+    for i in list_new:
+        for j in list_before_new:
+            if len(set(i) & set(j)) != len(i):
+                list_diff.append(i)
+                print (i)
+
+    print (len(list_diff))
 
 
 
@@ -320,6 +346,7 @@ if __name__ == '__main__':
     path_file_new, path_file_before_new = FindFileEventMapCamp(path_event_map_campaign)
     print (path_file_new)
     print (path_file_before_new)
+    log_event_mapping_change(path_file_new, path_file_before_new)
     # list_json = parse_csv_to_json_file_EMC(path_file_event_map_campaign)
     # for i in list_json:
     #     print (i)
