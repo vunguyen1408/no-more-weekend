@@ -733,9 +733,9 @@ def ClassifyPlan(connect, path_data, date, path_log):
 			with open(file_plan, 'r') as fi:
 				list_plan = json.load(fi)
 
-			for plan in list_plan['plan']:
-				if (plan['REASON_CODE_ORACLE'] == '1705028'):
-					print(plan)
+			for plan_old in list_plan['plan']:
+				if (plan_old['REASON_CODE_ORACLE'] == '1705028'):
+					print(plan_old)
 			
 			plan = ConvertPlan(plan)
 			# print(plan)
