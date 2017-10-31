@@ -358,7 +358,7 @@ if __name__ == '__main__':
     list_json = parse_to_json(list_diff)
     # for i in list_json:
     #     print (i)
-    # add_content(list_json, path_audit_content, path_insight)
+    add_content(list_json, path_audit_content, path_insight)
 
     print ("============ Time: ", time.time() - start)
 
