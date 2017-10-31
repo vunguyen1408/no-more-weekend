@@ -62,10 +62,12 @@ def Add_NRU_into_plan(connect, path_data, date):
 	for plan in data['plan']:
 		start_date, end_date = ChooseTime(plan)
 		data['plan'][data['plan'].index(plan)]['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
+		print(plan['CCD_NRU'])
 
 	with open(file_plan, 'w') as fo:
 		json.dump(data, fo)
 
+	cursor.close()
 	print("Add NRU into plan success.........")
 
 
