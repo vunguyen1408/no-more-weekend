@@ -320,6 +320,7 @@ def log_event_mapping_change(path_file_new, path_file_before_new):
                 # print (i)
 
     print (len(list_diff))
+    return list_diff
 
 
 
