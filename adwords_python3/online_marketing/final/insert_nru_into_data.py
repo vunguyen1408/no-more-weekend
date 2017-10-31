@@ -118,7 +118,7 @@ def Add_NRU_into_list(connect, list_plan, date):
 
 	for plan in list_plan:
 		start_date, end_date = ChooseTime(plan)
-		data['plan'][data['plan'].index(plan)]['CCD_NRU'] = Read_NRU_for_total(cursor, ConvertDate(start_date), ConvertDate(end_date), plan['PRODUCT'])
+		list_plan[list_plan.index(plan)]['CCD_NRU'] = Read_NRU_for_total(cursor, ConvertDate(start_date), ConvertDate(end_date), plan['PRODUCT'])
 	
 	cursor.close()
 	return list_plan
