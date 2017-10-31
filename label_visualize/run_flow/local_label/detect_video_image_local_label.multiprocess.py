@@ -156,7 +156,7 @@ def do_work(list_index,in_queue, out_list):
 
                 # link = 'gs://python_video/' + folder + '/' + file_['name']
                 #file_name = p_path_folder_work + '/' + _file['name']
-                file_name=_file['full_name']                
+                file_name=_file['full_name']
                 print('Process:',file_name)
 
                 #not image_texts exist->init {}
@@ -208,7 +208,7 @@ def do_work(list_index,in_queue, out_list):
 
 
 def get_image_local_label(p_folder, p_path_folder_work, p_work_json):
-
+    print(len(p_work_json['my_json']))
     #list file
     list_index = []
     list_file = next(os.walk(p_path_folder_work))[2]
@@ -247,19 +247,14 @@ def get_image_local_label(p_folder, p_path_folder_work, p_work_json):
     for p in pool:
         p.join()
 
+    return_json={}
+    return_json['my_json']=[]
 
-    #print   (list_index)
+    for _json in results:
+        return_json['my_json'].append(_json[1])
 
-    #loop 1
-    #for _i, _value in enumerate(p_work_json['my_json']):
-
-
-
-
-
-
-
-    return p_work_json
+#    return p_work_json
+    return return_json
 
 def get_30_date(p_path_full_data, p_date, p_work_json):
     list_neighbor = []
