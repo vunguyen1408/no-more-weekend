@@ -122,113 +122,56 @@ def Add_NRU_into_plan(connect, path_data, date):
 #                                 Add NRU monthly for each plan 
 #======================================================================================================
 
+def Add_NRU_into_monthly(connect, path_data, date):
+	file_total = os.path.join(path_data, str(date) + '/DATA_MAPPING/total_mapping.json')
+	with open(file_total, 'r') as fi:
+		list_plan = json.load(fi)
 
-def TEST(connect, path_data, date):
-	file_plan = os.path.join(path_data, str(date) + '/DATA_MAPPING/total_mapping.json')
-	with open(file_plan, 'r') as fi:
-		data = json.load(fi)
 
 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 
-	for plan in data['TOTAL']:
+	for plan in list_plan['TOTAL']:
 		start_date, end_date = ChooseTime(plan)
-		# data['plan'][data['plan'].index(plan)]['CCD_NRU'] = Read_NRU_for_total(cursor, ConvertDate(start_date), ConvertDate(end_date), plan['PRODUCT'])
-		CaculatorStartEndDate(plan, start_date, end_date)
-		print()
-		print(plan)
-		print()
+		if ('MONTHLY' in plan):		
+			CaculatorStartEndDate(plan, start_date, end_date)	
+			for i in range(len(plan['MONTHLY'])):
+				start_date = ConvertDate(plan['MONTHLY'][i]['START_DATE'])
+				end_date = ConvertDate(plan['MONTHLY'][i]['END_DATE'])
+				list_plan['TOTAL'][list_plan['TOTAL'].index(plan)]['MONTHLY'][i]['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
 
-	# with open(file_plan, 'w') as fo:
-	# 	json.dump(data, fo)
+				
+
+	for plan in list_plan['UN_PLAN']:
+		start_date, end_date = ChooseTime(plan)
+		if ('MONTHLY' in plan):
+			CaculatorStartEndDate(plan, start_date, end_date)				
+			for i in range(len(plan['MONTHLY'])):
+				start_date = ConvertDate(plan['MONTHLY'][i]['START_DATE'])
+				end_date = ConvertDate(plan['MONTHLY'][i]['END_DATE'])
+				list_plan['UN_PLAN'][list_plan['UN_PLAN'].index(plan)]['MONTHLY'][i]['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
 
 	cursor.close()
-	# print("Add NRU into plan success.........")
+	print(list_plan['TOTAL'][10])
+	print()
+	print()
+	print()
+	print()
+
+	print(list_plan['UN_PLAN'][10])
+	print()
+
+	# with open(file_total, 'w') as fo:
+	# 	json.dump(list_plan, fo)
+
+
 
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
 date = '2017-09-01' 
-TEST(connect, path_data, date)
-
-
-# def Read_NRU_for_month(cursor, year, month, product):
-# 	#==================== Get NRU =============================
-# 	statement = "Select SNAPSHOT_DATE, PRODUCT_CODE, NRU from STG_NRU where CHANNEL = 'Google' \
-# 	and  extract (Year from SNAPSHOT_DATE) = :1 and extract (Month from SNAPSHOT_DATE) = :2"
-# 	cursor.execute(statement, (year, month))
-# 	list_NRU = list(cursor.fetchall())  
-# 	# print(list_NRU)
-
-
-# 	#==================== Get product ID ===================
-# 	statement = "Select PRODUCT_ID, CCD_PRODUCT from ODS_META_PRODUCT where PRODUCT_ID = '" + product +  "'"
-# 	cursor.execute(statement)
-# 	list_product = list(cursor.fetchall())
-
-# 	ccd_nru = 0  
-# 	list_nru = []
-# 	for i in range(len(list_NRU)):
-# 		list_NRU[i] = list(list_NRU[i])    
-# 		for pro in list_product:
-# 			if (list_NRU[i][1] == pro[1]):
-# 				data = [list_NRU[i][0], list_NRU[i][1], list_NRU[i][2], pro[0], pro[1]]
-# 				if data not in list_nru:					
-# 					list_nru.append(data)
-# 					ccd_nru += list_NRU[i][2] 
-	
-# 	return ccd_nru
-
-
-# def Add_NRU_for_monthly(connect, list_plan):
-# # ==================== Connect database =======================
-# 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
-# 	cursor = conn.cursor()
-
-# 	for plan in list_plan['TOTAL']:
-# 		if ('MONTHLY' in plan):
-# 			for i in range(len(plan['MONTHLY'])):
-# 				plan['MONTHLY'][i]['CCD_NRU'] = Read_NRU_for_month(cursor, str(plan['MONTHLY'][i]['MONTH']), '20' + str(plan['CYEAR']), plan['PRODUCT'])
-
-# 	for plan in list_plan['UN_PLAN']:
-# 		if ('MONTHLY' in plan):
-# 			for i in range(len(plan['MONTHLY'])):
-# 				plan['MONTHLY'][i]['CCD_NRU'] = Read_NRU_for_month(cursor, str(plan['MONTHLY'][i]['MONTH']), '20' + str(plan['CYEAR']), plan['PRODUCT'])
-
-# 		day = plan['START_DAY'][8:]
-# 		month = plan['START_DAY'][5:-3]
-# 		year = plan['START_DAY'][:4]
-# 		start_date = month + '/' + day + '/' + year
-# 		start_date = datetime.strptime(start_date, '%m/%d/%Y')
-
-# 		day = plan['END_DAY_ESTIMATE'][8:]
-# 		month = plan['END_DAY_ESTIMATE'][5:-3]
-# 		year = plan['END_DAY_ESTIMATE'][:4]
-# 		end_date = month + '/' + day + '/' + year
-# 		end_date = datetime.strptime(end_date, '%m/%d/%Y')	
-
-# 		plan['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
-
-
-# 	for plan in list_plan['MAP']:
-
-# 		day = plan['START_DAY'][8:]
-# 		month = plan['START_DAY'][5:-3]
-# 		year = plan['START_DAY'][:4]
-# 		start_date = month + '/' + day + '/' + year
-# 		start_date = datetime.strptime(start_date, '%m/%d/%Y')
-
-# 		day = plan['END_DAY_ESTIMATE'][8:]
-# 		month = plan['END_DAY_ESTIMATE'][5:-3]
-# 		year = plan['END_DAY_ESTIMATE'][:4]
-# 		end_date = month + '/' + day + '/' + year
-# 		end_date = datetime.strptime(end_date, '%m/%d/%Y')	
-
-# 		plan['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
-
-# 	cursor.close()
-# 	return list_plan
+Add_NRU_into_monthly(connect, path_data, date)
 
 
 
