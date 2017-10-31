@@ -132,7 +132,7 @@ def TEST(connect, path_data, date):
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 
-	for plan in data['total']:
+	for plan in data['TOTAL']:
 		start_date, end_date = ChooseTime(plan)
 		# data['plan'][data['plan'].index(plan)]['CCD_NRU'] = Read_NRU_for_total(cursor, ConvertDate(start_date), ConvertDate(end_date), plan['PRODUCT'])
 		CaculatorStartEndDate(plan, start_date, end_date)
