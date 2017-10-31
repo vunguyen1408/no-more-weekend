@@ -107,6 +107,7 @@ def Add_NRU_into_plan(connect, path_data, date):
 		json.dump(data, fo)
 
 	cursor.close()
+	return data['plan']
 	
 
 
