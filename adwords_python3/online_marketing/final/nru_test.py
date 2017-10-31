@@ -107,7 +107,7 @@ def Add_NRU_into_plan(connect, path_data, date):
 		json.dump(data, fo)
 
 	cursor.close()
-	print("Add NRU into plan success.........")
+	# print("Add NRU into plan success.........")
 
 
 # connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
