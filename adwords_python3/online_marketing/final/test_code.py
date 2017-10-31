@@ -100,8 +100,7 @@ def GetListPlanChangeFromTable(connect, final_log):
 	cursor.close()
 
 	for i in range(len(list_plan_diff)):
-		list_plan_diff[i] = list(list_plan_diff[i])
-	
+		list_plan_diff[i] = list(list_plan_diff[i])	
 
 	print('list_plan_diff: ', len(list_plan_diff))
 
@@ -708,7 +707,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	# =============== Get plan change =====================	
 	# fi = open(path_log, 'r')
 	# final_log = fi.read()
-	final_log = '10/27/2017 10:00:00'
+	final_log = '10/30/2017 10:00:00'
 	print(final_log)
 
 	list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
