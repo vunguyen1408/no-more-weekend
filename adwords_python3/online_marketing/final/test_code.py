@@ -102,8 +102,13 @@ def GetListPlanChangeFromTable(connect, final_log):
 	for i in range(len(list_plan_diff)):
 		list_plan_diff[i] = list(list_plan_diff[i])
 	
+
+	print('list_plan_diff: ', len(list_plan_diff))
+
 	for plan in list_plan_diff:
 		print(plan)
+
+	print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
 
 	print(final_log) 
 	return list_plan_diff, final_log
@@ -252,9 +257,9 @@ def merger_data_map(data_map_all, data_map_GS5, data_map_WPL):
 					list_plan[list_plan.index(value)]['CAMPAIGN'].append(camp)
 
 		
-	for plan in list_plan:
-		if (len(plan['CAMPAIGN']) > 0):
-			print(plan['CAMPAIGN'])
+	# for plan in list_plan:
+	# 	if (len(plan['CAMPAIGN']) > 0):
+	# 		print(plan['CAMPAIGN'])
 
 
 	#============= Merger Campaign ==============
