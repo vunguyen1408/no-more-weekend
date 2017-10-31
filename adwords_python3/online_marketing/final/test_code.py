@@ -767,8 +767,8 @@ def GetPlanModified(connect, path_data):
 		# print("=======================")
 				
 	print(len(list_plan))
-	# for plan in data['plan']:
-	# 	print(plan)
+	for plan in list_plan:
+		print(plan)
 	return list_plan
 
 
