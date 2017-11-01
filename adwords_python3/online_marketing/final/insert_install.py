@@ -9,7 +9,7 @@ from datetime import datetime , timedelta, date
 import mapping_campaign_plan as mapping_data
 import insert_data_map_to_total as insert_to_total
 
-def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source, list_product_alias):
+def GetInstallAppsFlyer(connect, start_date, end_date, media_source, list_product_alias):
 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
