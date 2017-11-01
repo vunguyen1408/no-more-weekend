@@ -270,43 +270,24 @@ def merger_data_map(data_map_all, data_map_GS5, data_map_WPL):
 	return(list_plan, list_camp)
 
 
-def NewPlan(path_data, date, list_plan):
 
-	list_camp_remove_unmap = []
-	list_plan_insert_total = []
-	list_data_insert_map = []
-	list_plan_insert_unmap = []
+def Mapping_Auto(list_plan, list_full_uncamp):
 
-	get_camp = time.time()
-
-	# ------------- Get campaign for mapping ----------------		
-	path_data_total = GetFileTotal(path_data, date)		
-	with open (path_data_total,'r') as f:
-		data_total = json.load(f)	
-
-	list_full_camp = data_total['UN_CAMPAIGN']
 	list_camp_all = []
 	list_camp_GS5 = []
 	list_camp_WPL = []
-	for camp in list_full_camp:					
-		if (str(camp['Campaign ID']) == '702245469'):
-			list_full_camp[list_full_camp.index(camp)]['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
+
+	for camp in list_full_uncamp:					
+		# if (str(camp['Campaign ID']) == '702245469'):
+		# 	list_full_camp[list_full_camp.index(camp)]['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
 				
 		if (camp['Dept'] == 'GS5'):			
 			list_camp_GS5.append(camp)
 		elif (camp['Dept'] == 'WPL'):		
 			list_camp_GS5.append(camp)
 		else:
-			list_camp_all.append(camp)
+			list_camp_all.append(camp)	
 
-	end_get_camp = time.time()
-	print("Time get camp: ", end_get_camp - get_camp)
-
-	# print(len(list_full_camp))
-	# print(len(list_camp_all))
-	# print(len(list_camp_GS5))
-	# print(len(list_camp_WPL))	
-	
 	#----------------- Mapping with campaign unmap -------------------------
 	data_map_all = {
 		'plan': [],
@@ -334,9 +315,78 @@ def NewPlan(path_data, date, list_plan):
 		data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
 
 	list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
-	end_mapping = time.time()
 
-	print("Time mapping: ", end_mapping - auto_mapping)
+	return list_plan, list_camp
+
+
+
+def NewPlan(path_data, date, list_plan):
+
+	list_camp_remove_unmap = []
+	list_plan_insert_total = []
+	list_data_insert_map = []
+	list_plan_insert_unmap = []
+
+	get_camp = time.time()
+
+	# ------------- Get campaign for mapping ----------------		
+	path_data_total = GetFileTotal(path_data, date)		
+	with open (path_data_total,'r') as f:
+		data_total = json.load(f)	
+
+	list_plan, list_camp = Mapping_Auto(list_plan, data_total['UN_CAMPAIGN'])
+
+	# list_full_camp = data_total['UN_CAMPAIGN']
+	# list_camp_all = []
+	# list_camp_GS5 = []
+	# list_camp_WPL = []
+	# for camp in list_full_camp:					
+	# 	# if (str(camp['Campaign ID']) == '702245469'):
+	# 	# 	list_full_camp[list_full_camp.index(camp)]['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
+				
+	# 	if (camp['Dept'] == 'GS5'):			
+	# 		list_camp_GS5.append(camp)
+	# 	elif (camp['Dept'] == 'WPL'):		
+	# 		list_camp_GS5.append(camp)
+	# 	else:
+	# 		list_camp_all.append(camp)
+
+	# end_get_camp = time.time()
+	# print("Time get camp: ", end_get_camp - get_camp)
+
+	# # print(len(list_full_camp))
+	# # print(len(list_camp_all))
+	# # print(len(list_camp_GS5))
+	# # print(len(list_camp_WPL))	
+	
+	# #----------------- Mapping with campaign unmap -------------------------
+	# data_map_all = {
+	# 	'plan': [],
+	# 	'campaign': []
+	# }
+
+	# data_map_GS5 = {
+	# 	'plan': [],
+	# 	'campaign': []
+	# }
+
+	# data_map_WPL = {
+	# 	'plan': [],
+	# 	'campaign': []
+	# }
+	
+	
+	# if (len(list_camp_all) > 0):
+	# 	data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
+
+	# if (len(list_camp_GS5) > 0):
+	# 	data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_GS5, date)
+
+	# if (len(list_camp_WPL) > 0):
+	# 	data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
+
+	# list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
+	
 
 	list_plan_total, list_data_map = insert_to_total.SumTotalManyPlan(list_plan, list_camp)
 
@@ -502,6 +552,61 @@ def CheckPlanUpdateRealDate(list_plan, plan):
 
 	return False
 
+
+def GetCampFromDataMAP(data_map):
+	camp = {}
+
+	camp['Campaign ID'] = data_map['Campaign ID']
+	camp['Campaign'] = data_map['Campaign']
+	camp['Account ID'] = data_map['Account ID']
+	camp['Account Name'] = data_map['Account Name']
+	camp['Dept'] = data_map['Dept']
+
+	camp['Campaign state'] = data_map['Campaign state']
+	camp['Campaign serving status'] = data_map['Campaign serving status']
+	camp['Advertising Channel'] = data_map['Advertising Channel']
+	camp['Advertising Sub Channel'] = data_map['Advertising Sub Channel']
+	camp['Bid Strategy Type'] = data_map['Bid Strategy Type']
+
+	camp['Start date'] = data_map['Start date']
+	camp['End date'] = data_map['End date']
+	camp['Invalid clicks'] = data_map['Invalid clicks']
+	camp['Conversions'] = data_map['Conversions']
+	camp['Engagements'] = data_map['Engagements']
+
+	camp['Impressions'] = data_map['Impressions']
+	camp['Unique cookies'] = data_map['Unique cookies']
+	camp['Clicks'] = data_map['Clicks']
+	camp['Interactions'] = data_map['Interactions']
+	camp['Interaction Rate'] = data_map['Interaction Rate']
+
+	camp['Interaction Types'] = data_map['Interaction Types']
+	camp['Cost'] = data_map['Cost']
+	camp['Views'] = data_map['Views']
+	camp['CTR'] = data_map['CTR']
+	camp['Avg. position'] = data_map['Avg. position']
+
+	camp['View rate'] = data_map['View rate']
+	camp['Video played to 25%'] = data_map['Video played to 25%']
+	camp['Video played to 50%'] = data_map['Video played to 50%']
+	camp['Video played to 75%'] = data_map['Video played to 75%']
+	camp['Video played to 100%'] = 	data_map['Video played to 100%']
+
+	camp['Avg. CPE'] = 	data_map['Avg. CPE']
+	camp['Avg. CPV'] = data_map['Avg. CPV']
+	camp['Avg. CPC'] = data_map['Avg. CPC']
+	camp['Avg. Cost'] = data_map['Avg. Cost']
+	camp['Avg. CPM'] = data_map['Avg. CPM']
+
+	camp['INSTALL_CAMP'] = data_map['INSTALL_CAMP']
+	camp['Mapping'] = data_map['Mapping']
+	camp['Date'] = data_map['Date']
+	camp['Plan'] = data_map['Plan']
+	camp['STATUS'] =data_map['STATUS']
+
+	return camp
+	
+
 def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 	print('list_plan_modified: ', len(list_plan_modified))
 	list_camp_remove_unmap = []	
@@ -600,21 +705,16 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 				list_temp.append(plan_total)
 
 
-	#================= Re-Insert camp in UN_CAMPAIGN ================
-	# for camp in list_temp:		
-	# 	for campaign in data_total['UN_CAMPAIGN']:
-	# 		if camp['Campaign ID'] == campaign['Campaign ID'] \
-	# 			and camp['Date'] == campaign['Date']:
-	# 			data_total['UN_CAMPAIGN'].remove(campaign)
-	# 			list_camp_insert_unmap.append(campaign)
-
-	# =================== Remove in data MAP ========================
+	# =================== Remove in data MAP and Re-Insert camp in UN_CAMPAIGN========================
 	for plan in list_plan_modified:		
 		for plan_total in data_total['MAP']:
 			if plan_total['PRODUCT'] == plan['PRODUCT'] \
 				and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 				and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
-				and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:				
+				and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
+
+				data_total['UN_CAMPAIGN'].append(GetCampFromDataMAP(plan_total))
+				list_camp_insert_unmap.append(GetCampFromDataMAP(plan_total))
 				data_total['MAP'].remove(plan_total)
 				list_plan_remove_map.append(plan)
 
@@ -815,7 +915,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		list_plan_update = nru.Add_NRU_into_list(connect, list_plan_update, date)  
 		UpdatePlan(path_data_total, list_plan_update)
 		list_plan_update_all.extend(list_plan_update)
-	print('list_plan_update_into_data: ', list_plan_update_all)
+	# print('list_plan_update_into_data: ', list_plan_update_all)
 
 	
 
@@ -836,23 +936,6 @@ final_log = '10/27/2017 10:00:00'
 
 # GetPlanModified(connect, path_data)
 ClassifyPlan(connect, path_data, date, path_log)
-
-
-# list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
-
-# path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
-# fi = open(path_log, 'w') 
-# fi.writelines(final_log)
-# print("Save log ok..........")
-
-# path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
-# ClassifyPlan(connect, path_data, date, path_log)
-
-
-# # list_plan_diff = GetListPlanChangeFromTable(cursor, final_log)
-# list_plan_diff = GetListPlanChange(connect, path_data, date)
-# list_data_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert = AutoMap(connect, path_data, date)
-
 
 
 
@@ -883,7 +966,13 @@ ClassifyPlan(connect, path_data, date, path_log)
 # # ================================================================
 
 
-# path = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
+#============  Get file =========================================
+
+# path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-03-01/DATA_MAPPING/total_mapping.json'
+# with open(path, 'r') as fi:
+# 	data = json.load(fi)
+
+# print(data['MAP'][0])
 
 
 

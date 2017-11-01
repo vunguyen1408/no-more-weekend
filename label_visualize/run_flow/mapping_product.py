@@ -142,27 +142,30 @@ def add_content(list_json, path_audit_content, path_insight):
                 if os.path.exists(path_file_audit_content):
                     with open(path_file_audit_content, 'r') as f_json:
                         data_json = json.load(f_json)
-                    # Lay tat ca noi dung cua cac file insight trong mot ngay, chuyen thanh 1 list Json
-                    data_insight = parse_insight_to_json(path_insight, folder)
-                    # Duyet de kiem tra va them thong tin product vao cac audit_content
-                    product = []
+                        
                     for j in data_json['my_json']:
-                        flag = True
-                        list_product = []
-                        # Find in data_insight of date
-                        for k in data_insight['my_json']:
-                            if str(j['ad_id']) == str(k['ad_id']):
-                                # Neu campaign_id ton tai trong "Event" dang duyet thi them id product
-                                for campaign in json_['list_campaign']:
-                                    if campaign == k['campaign_id']:
-                                        flag = False
-                                        list_product =  list(j['list_product'])
-                                        if json_['product'] not in list_product:
-                                            list_product.append(str(json_['product']))
-                                        j['list_product'] = list(list_product)
+                        
+                    # # Lay tat ca noi dung cua cac file insight trong mot ngay, chuyen thanh 1 list Json
+                    # data_insight = parse_insight_to_json(path_insight, folder)
+                    # # Duyet de kiem tra va them thong tin product vao cac audit_content
+                    # product = []
+                    # for j in data_json['my_json']:
+                    #     flag = True
+                    #     list_product = []
+                    #     # Find in data_insight of date
+                    #     for k in data_insight['my_json']:
+                    #         if str(j['ad_id']) == str(k['ad_id']):
+                    #             # Neu campaign_id ton tai trong "Event" dang duyet thi them id product
+                    #             for campaign in json_['list_campaign']:
+                    #                 if campaign == k['campaign_id']:
+                    #                     flag = False
+                    #                     list_product =  list(j['list_product'])
+                    #                     if json_['product'] not in list_product:
+                    #                         list_product.append(str(json_['product']))
+                    #                     j['list_product'] = list(list_product)
                     # with open (path_file_audit_content,'w') as f_out:
                     #     json.dump(data_json,f_out)
-            print ("==================================================================")
+            # print ("==================================================================")
 
 
 def group_by_product(path_audit_content):
