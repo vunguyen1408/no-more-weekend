@@ -802,8 +802,8 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		list_plan_map = mapping.AddProductCode(path_data, list_plan_map, date)		
 		list_plan_map = nru.Add_NRU_into_list(connect, list_plan_map, date)  
 		list_plan_modified = GetPlanModified(connect, path_data)
-		camp_remove_unmap, camp_insert_unmap, plan_remove_total, 
-		plan_remove_map, plan_remove_un_plan, plan_insert_unmap, 
+		camp_remove_unmap, camp_insert_unmap, plan_remove_total, \
+		plan_remove_map, plan_remove_un_plan, plan_insert_unmap, \
 		data_insert_map, data_insert_map = ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified)
 
 		list_camp_remove_unmap.extend(camp_remove_unmap)
