@@ -731,10 +731,14 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 def ClassifyPlan(connect, path_data, date, path_log):
 
 	list_camp_remove_unmap = []
+	list_camp_insert_unmap = []
 	list_plan_insert_total = []
 	list_data_insert_map = []
 	list_plan_insert_unmap = []
 	list_plan_update_all = []
+	list_plan_remove_total = []
+	list_plan_remove_map = []
+	list_plan_remove_un_plan = []
 
 
 	# =============== Get plan change =====================	
@@ -798,10 +802,19 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		list_plan_map = mapping.AddProductCode(path_data, list_plan_map, date)		
 		list_plan_map = nru.Add_NRU_into_list(connect, list_plan_map, date)  
 		list_plan_modified = GetPlanModified(connect, path_data)
-		list_camp_remove_unmap, list_camp_insert_unmap, list_plan_remove_total, 
-		list_plan_remove_map, list_plan_remove_un_plan, list_plan_insert_unmap, 
-		list_data_insert_map, list_plan_insert_total = ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified)
+		camp_remove_unmap, camp_insert_unmap, plan_remove_total, 
+		plan_remove_map, plan_remove_un_plan, plan_insert_unmap, 
+		data_insert_map, data_insert_map = ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified)
+
 		list_camp_remove_unmap.extend(camp_remove_unmap)
+		list_camp_insert_unmap.extend(camp_insert_unmap)
+		list_plan_remove_total.extend(plan_remove_total)
+		list_plan_remove_map.extend(plan_remove_map)
+		list_plan_remove_un_plan.extend(plan_remove_un_plan)
+		list_plan_insert_unmap.extend(plan_insert_unmap)
+		list_data_insert_map.extend(data_insert_map)
+		list_data_insert_map.extend(data_insert_map)
+
 
 	#============== Case 3: Data update not map ===================
 	if (len(list_plan_update) > 0):
