@@ -228,10 +228,11 @@ def ConvertJsonMap(value):
 
 	json_['SNAPSHOT_DATE'] = value['Date']
 	json_['CYEAR'] = '20' + value['CYEAR']
-	if (len(value['CMONTH']) == 1):
-		json_['CMONTH'] = '0' + value['CMONTH']
-	else:
-		json_['CMONTH'] = value['CMONTH']	
+	# if (len(value['CMONTH']) == 1):
+	# 	json_['CMONTH'] = '0' + value['CMONTH']
+	# else:
+	# 	json_['CMONTH'] = value['CMONTH']	
+	json_['CMONTH'] = value['Date'][5:7]
 	json_['LEGAL'] = value['LEGAL']
 	json_['DEPARTMENT'] = value['DEPARTMENT']
 

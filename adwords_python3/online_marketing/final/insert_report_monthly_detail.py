@@ -55,6 +55,14 @@ def UpdateMonthlyDetail(value, cursor):
 	# print("A row updated!.......")
 
 
+def DeleteMonthlyDetail(value, cursor):
+	#==================== Remove plan from database =============================
+	statement = 'delete from DTM_GG_PIVOT_DETAIL \
+	where PRODUCT = :1 and REASON_CODE_ORACLE = :2 and EFORM_TYPE = :3 and UNIT_OPTION = :4'
+		
+	cursor.execute(statement, (value['PRODUCT'], value['REASON_CODE_ORACLE'], value['FORM_TYPE'], value['UNIT_OPTION']))	
+
+
 def MergerMonthlyDetail(value, cursor):
 	#==================== Insert data into database =============================
 	statement = 'select * from DTM_GG_PIVOT_DETAIL \
@@ -74,15 +82,18 @@ def ConvertJsonMonthlyDetail(index, value):
 	json_ = {}	
 
 	json_['CYEAR'] = '20' + value['CYEAR']
-	if (len(value['CMONTH']) == 1):
-		json_['CMONTH'] = '0' + value['CMONTH']
-	else:
-		json_['CMONTH'] = value['CMONTH']
+	# if (len(value['CMONTH']) == 1):
+	# 	json_['CMONTH'] = '0' + value['CMONTH']
+	# else:
+	# 	json_['CMONTH'] = value['CMONTH']
 
 	if (len(str(value['MONTHLY'][index]['MONTH'])) == 1):
 		json_['SNAPSHOT_DATE'] = json_['CYEAR'] + '-0' + str(value['MONTHLY'][index]['MONTH'])
+		json_['CMONTH'] = '-0' + str(value['MONTHLY'][index]['MONTH'])
 	else:
 		json_['SNAPSHOT_DATE'] = json_['CYEAR'] + '-' + str(value['MONTHLY'][index]['MONTH'])
+		json_['CMONTH'] = str(value['MONTHLY'][index]['MONTH'])
+
 	json_['LEGAL'] = value['LEGAL']
 	json_['DEPARTMENT'] = value['DEPARTMENT']
 
@@ -274,15 +285,17 @@ def ConvertJsonMonthlyDetailUnMap_2(index, value):
 	json_ = {}	
 
 	json_['CYEAR'] = '20' + value['CYEAR']
-	if (len(value['CMONTH']) == 1):
-		json_['CMONTH'] = '0' + value['CMONTH']
-	else:
-		json_['CMONTH'] = value['CMONTH']
+	# if (len(value['CMONTH']) == 1):
+	# 	json_['CMONTH'] = '0' + value['CMONTH']
+	# else:
+	# 	json_['CMONTH'] = value['CMONTH']
 
 	if (len(str(value['MONTHLY'][index]['MONTH'])) == 1):
 		json_['SNAPSHOT_DATE'] = json_['CYEAR'] + '-0' + str(value['MONTHLY'][index]['MONTH'])
+		json_['CMONTH'] = '0' + str(value['MONTHLY'][index]['MONTH'])
 	else:
 		json_['SNAPSHOT_DATE'] = json_['CYEAR'] + '-' + str(value['MONTHLY'][index]['MONTH'])
+		json_['CMONTH'] = str(value['MONTHLY'][index]['MONTH'])
 	json_['LEGAL'] = value['LEGAL']
 	json_['DEPARTMENT'] = value['DEPARTMENT']
 
