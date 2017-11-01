@@ -30,7 +30,7 @@ python mapping_product.py 2017-10-01 2017-10-15
   python download_video.py 2016-10-01 2017-06-29
 
 3	Convert video to audio
-  python video_to_audio.py 2016-10-01 2017-06-29
+  python video_to_audio.multiprocess.py 2016-10-01 2017-06-29
 
 4	Dectect audio
   python detect_audio.py 2016-10-01 2017-06-29
@@ -50,12 +50,3 @@ python predict.py 2016-10-01 2017-06-29
 
 6. Insert data audit to database
 python insert_audit_ads_to_data.py 2016-10-01 2017-06-29
-
-
-
-
-
-
-
-
-    

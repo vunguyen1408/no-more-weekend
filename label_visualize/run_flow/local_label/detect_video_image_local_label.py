@@ -128,25 +128,6 @@ def detect_local_label(p_path):
 
 
 
-def do_work(in_queue, out_list):
-    while True:
-        item = in_queue.get()
-        line_no, line = item
-
-        # exit signal
-        #if line == None:
-        #print(line)
-        if 'None' in line :
-            #print('exit')
-            return
-
-        # fake work
-        time.sleep(.5)
-        result = (line_no, line)
-        #print(result)
-
-        out_list.append(result)
-
 
 
 
@@ -158,39 +139,17 @@ def get_image_local_label(p_folder, p_path_folder_work, p_work_json):
 
     for _file in list_file:
         #print(_file)
-        file_json = {
-            'name': _file,
-            'video_index': int(_file[11:-12]),
-            #'image_index': int(_file[-7:-4])
-        }
-        list_index.append(file_json)
-
+        if len(_file) >24:
+            file_json = {
+                'name': _file,
+                'video_name': _file[:-8],
+                'full_name': p_path_folder_work + '/' + _file
+                #'image_index': int(_file[-7:-4])
+            }
+            list_index.append(file_json)
 
     #print   (list_index)
 
-    #multiprocessing
-    num_workers = 8
-
-    manager = Manager()
-    results = manager.list()
-    work = manager.Queue(num_workers)
-
-    # start for workers
-    pool = []
-    for i in range(num_workers):
-        p = Process(target=do_work, args=(work, results))
-        p.start()
-        pool.append(p)
-
-    # produce data
-    iters = itertools.chain(p_work_json['my_json'], ({'None'},)*num_workers)
-
-    for num_and_line in enumerate(iters):
-        print(num_and_line)
-        work.put(num_and_line)
-
-    for p in pool:
-        p.join()
 
 
     #loop 1
@@ -199,7 +158,7 @@ def get_image_local_label(p_folder, p_path_folder_work, p_work_json):
         #loop 2
         for _file in list_index:
 
-            if _file['video_index'] == _i:
+            if _file['video_name'] == _value['file_name'] :
 
                 # link = 'gs://python_video/' + folder + '/' + file_['name']
                 file_name = p_path_folder_work + '/' + _file['name']
