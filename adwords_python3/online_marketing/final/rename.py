@@ -419,7 +419,7 @@ def CacualatorChange(path_data, list_diff, date):
           campaign['Campaign'] = camp['CAMPAIGN_NAME']
           temp['Campaign'] = camp['CAMPAIGN_NAME']
           list_camp_find.append(temp)
-          print (temp['Campaign'] + '  ===================  ' + str(temp['Campaign ID'] ))
+          # print (temp['Campaign'] + '  ===================  ' + str(temp['Campaign ID'] ))
 
     # print (list_camp_find)
     list_camp_update = list_camp_find # Update name
