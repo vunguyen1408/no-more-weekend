@@ -1019,6 +1019,136 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 
 
+import insert_report_monthly_detail as monthly_detail
+import insert_report_monthly_sum as monthly_sum
+import insert_report_plan_sum as plan_sum
+import insert_report_detail_map as detail_map
+
+def merger_data_plan_change(connect, list_camp_remove_unmap, list_camp_insert_unmap, \
+	list_plan_insert_total, list_plan_update_total, list_plan_remove_total, \
+	list_data_insert_map, list_plan_update_map, list_plan_remove_map, \
+	list_plan_insert_unmap, list_plan_remove_unmap):
+	# ==================== Connect database =======================
+	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
+	cursor = conn.cursor()
+
+
+	import time
+	start = time.time()
+	#=================== List campaign remove from table detail_unmap =====================
+	if (len(list_camp_remove_unmap) > 0):
+		for camp in list_camp_remove_unmap:
+			detail_map.DeleteCamp(camp, cursor)
+	print ("Time remove CAMP : ", (time.time() - start))
+
+
+
+	start = time.time()
+	#=================== List campaign insert into detail_unmap =====================
+	if (len(list_camp_insert_unmap) > 0):
+		for camp in list_camp_insert_unmap:
+			value = ConvertJsonCamp(camp)
+			detail_map.InsertDetailUnmap(value, cursor)
+	print ("Time insert CAMP : ", (time.time() - start))
+
+
+
+	start = time.time()
+	# =============== List plan insert into total ============================
+	if (len(list_plan_insert_total) > 0):
+		for plan in list_plan_insert_total:
+			json_ = plan_sum.ConvertJsonPlanSum(plan)
+			plan_sum.InsertPlanSum(json_, cursor)
+
+			if ('MONTHLY' in plan):
+				for i in range(len(plan['MONTHLY'])):
+					json_ = monthly_sum.ConvertJsonMonthlySum(i, plan)
+					monthly_sum.InsertMonthlySum(json_, cursor)
+
+					json_ = monthly_detail.ConvertJsonMonthlyDetail(i, plan)
+					monthly_detail.InsertMonthlyDetail(json_, cursor)
+	print ("Time insert PLAN into 3 report : ", (time.time() - start))
+
+
+
+	start = time.time()
+	# ============ List plan update into total =====================
+	if (len(list_plan_update_total) > 0):
+		for plan in list_plan_update_total:
+			json_ = plan_sum.ConvertJsonPlanSum(plan)
+			plan_sum.UpdatePlanSum(json_, cursor)
+
+			if ('MONTHLY' in plan):
+				for i in range(len(plan['MONTHLY'])):
+					json_ = monthly_sum.ConvertJsonMonthlySum(i, plan)
+					monthly_sum.UpdateMonthlySum(json_, cursor)
+
+					json_ = monthly_detail.ConvertJsonMonthlyDetail(i, plan)
+					monthly_detail.UpdateMonthlyDetail(json_, cursor)
+	print ("Time update PLAN into 3 report : ", (time.time() - start))
+
+
+
+	start = time.time()
+	# ============ List plan remove from total =====================
+	if (len(list_plan_remove_total) > 0):
+		for plan in list_plan_remove_total:			
+			plan_sum.DeletePlanSum(plan, cursor)			
+			monthly_sum.DeleteMonthlySum(plan, cursor)			
+			monthly_detail.DeleteMonthlyDetail(plan, cursor)
+	print ("Time remove PLAN into 3 report : ", (time.time() - start))
+
+
+	start = time.time()
+	#=================== List data insert into detail_unmap =====================
+	if (len(list_data_insert_map) > 0):
+		for plan in list_data_insert_map:
+			value = ConvertJsonMap(plan)
+			detail_map.InsertDetailUnmap(value, cursor)
+	print ("Time insert DATA MAP : ", (time.time() - start))
+
+
+
+	start = time.time()
+	#=================== List data update into detail_unmap =====================
+	if (len(list_plan_update_map) > 0):
+		for plan in list_plan_update_map:
+			pass
+	print ("Time update DETAIL MAP : ", (time.time() - start))
+
+
+	start = time.time()
+	#=================== List data remove from detail_unmap =====================
+	if (len(list_plan_remove_map) > 0):
+		for plan in list_plan_remove_map:
+			pass
+	print ("Time remove DATA MAP : ", (time.time() - start))
+
+
+	start = time.time()
+	#=================== List data insert into detail_unmap =====================
+	if (len(list_plan_insert_unmap) > 0):
+		for plan in list_plan_insert_unmap:
+			value = ConvertJsonPlan(plan)
+			detail_map.InsertDetailUnmap(value, cursor)
+	print ("Time insert UN_PLAN : ", (time.time() - start))
+
+
+	start = time.time()
+	#=================== List data remove from detail_unmap =====================
+	if (len(list_plan_remove_unmap) > 0):
+		for plan in list_plan_remove_unmap:
+			pass
+	print ("Time remove UN_PLAN : ", (time.time() - start))
+	
+
+	#=================== Commit and close connect =================
+	conn.commit()
+	print("Committed!.......")
+	cursor.close()
+
+
+
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
 date = '2017-09-05' 
