@@ -715,7 +715,7 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 	print ('list_data_insert_map: ', len(list_data_insert_map))		
 	print('list_plan_insert_total: ', len(list_plan_insert_total))
 	
-		total_time = time.time()
+	total_time = time.time()
 	print("TOTAL TIME: ", total_time - get_camp)
 
 	return list_camp_remove_unmap, list_camp_insert_unmap, list_plan_remove_total, list_plan_remove_map, \
