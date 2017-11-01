@@ -29,7 +29,7 @@ def GetInstallAppsFlyer(connect, start_date, end_date, media_source, list_produc
 	and SNAPSHOT_DATE <= to_date('" + end_date + "', 'mm/dd/yyyy') and MEDIA_SOURCE like '%" + media_source +  "%'"
 
 	cursor.execute(statement)
-	# print (statement)
+	print (statement)
 
 	list_install = cursor.fetchall()
 	list_install_for_product = []
