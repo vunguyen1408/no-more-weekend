@@ -57,7 +57,7 @@ def CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date
 		for install in list_install_for_product:
 			d = str(install[0])[:10]
 			d = datetime.strptime(d, '%Y-%m-%d').date()
-			if d >= date and d <= to_date and str(camp['CAMPAIGN_ID']) == str(install['CAMPAIGN_ID']):
+			if d >= date_ and d <= to_date_ and str(camp['CAMPAIGN_ID']) == str(install[2]):
 				number_install += int(install[3])
 
 	return number_install
