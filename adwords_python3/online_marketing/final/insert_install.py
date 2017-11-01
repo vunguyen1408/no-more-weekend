@@ -123,32 +123,52 @@ def InsertInstallToPlan(path_data, connect, date):
 		with open (path_data_total_map,'r') as f:
 			data_total = json.load(f)
 		# print (len(data_total['TOTAL']))
+		loop = 0
 		for plan in data_total['TOTAL']:
+			if loop == 2:
+				break
 			# print (plan)
 			if plan['UNIT_OPTION'] == 'CPI':
+				loop += 1
 				start_date, end_date = mapping_data.ChooseTime(plan)
 				# temp = GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
 				install_before = plan['TOTAL_CAMPAIGN'].get('INSTALL_CAMP', 0)
-				plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] += GetInstallAppsFlyer(connect, start_date, end_date, media_source, plan['APPSFLYER_PRODUCT'])
+				list_install_for_product = GetInstallAppsFlyer(connect, start_date, end_date, media_source, plan['APPSFLYER_PRODUCT'])
+				plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
+
+
+				number_install = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
+				print("================================================")
+				print (plan['MONTHLY'])
+				print (number_install)
+				print("================================================")
+
+
 				plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = plan['TOTAL_CAMPAIGN']['INSTALL_CAMP']
 				if ('MONTHLY' in plan):
 					plan = CaculatorStartEndDate(plan, start_date, end_date)
 					# print (plan['MONTHLY'])
 					for month in plan['MONTHLY']:
 						install_before = month['TOTAL_CAMPAIGN_MONTHLY'].get('INSTALL_CAMP', 0)
-						month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] += GetInstallAppsFlyer(connect, month['START_DATE'], month['END_DATE'], media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
+						number_install = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
+
+
+						print("================================================")
+						print (plan['MONTHLY'])
+						print (number_install)
+						print("================================================")
+
+
+						month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
 						month['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']
 						# print ("--")
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		with open (path_data_total_map,'w') as f:
-			json.dump(data_total, f)
+		# with open (path_data_total_map,'w') as f:
+		# 	json.dump(data_total, f)
 
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-start_date = '2017-08-01'
-end_date = '2017-08-31'
-list_product_alias = ['cack']
-media_source = 'oogle'
+end_date = '2017-09-30'
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
 
-GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source, list_product_alias)
-# CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
+InsertInstallToPlan(path_data, connect, date)
