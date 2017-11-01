@@ -157,7 +157,7 @@ def do_work(list_index,in_queue, out_list):
                 # link = 'gs://python_video/' + folder + '/' + file_['name']
                 #file_name = p_path_folder_work + '/' + _file['name']
                 file_name=_file['full_name']
-                print('Process:',file_name)
+                #print('Process:',file_name)
 
                 #not image_texts exist->init {}
                 if 'image_local_labels' not in _value:
