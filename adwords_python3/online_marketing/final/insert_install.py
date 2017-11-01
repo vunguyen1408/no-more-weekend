@@ -131,7 +131,7 @@ def InsertInstallToPlan(path_data, connect, date):
 			# if loop == 2:
 			# 	break
 			# print (plan)
-			if plan['UNIT_OPTION'] == 'CPI' and plan['CMONTH'] == '8' :
+			if plan['UNIT_OPTION'] == 'CPI' and plan['CMONTH'] == '7' and ('thiennu' in plan['APPSFLYER_PRODUCT']) :
 				# loop += 1
 				start_date, end_date = mapping_data.ChooseTime(plan)
 				# temp = GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
