@@ -180,4 +180,5 @@ path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
 import time
 start = time.time()
 InsertInstallToPlan(path_data, connect, date)
+insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
 print ("Time : ", time.time() - start)
