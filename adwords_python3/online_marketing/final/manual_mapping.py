@@ -198,10 +198,10 @@ def ChooseTimeManualMap(plan):
 #-------- Vào data unmap sum các camp cho một plan ----------
 def GetCampaignUnMapForPlan(plan, path_data_total_map, data_total):
 	import time
-	start_time = time.time()
-	# with open (path_data_total_map,'r') as f:
-	# 	data_total = json.load(f)
-	print ("Time load file : ", (time.time() - start_time))
+	# start_time = time.time()
+	# # with open (path_data_total_map,'r') as f:
+	# # 	data_total = json.load(f)
+	# print ("Time load file : ", (time.time() - start_time))
 
 	list_campaign = data_total['UN_CAMPAIGN']
 	start, end = ChooseTimeManualMap(plan)
@@ -381,8 +381,9 @@ def ManualMap(connect, path_data, date):
 			print (len(data_total['UN_CAMPAIGN']))
 			print (len(list_plan_remove_unmap))
 			print (len(list_camp_remove_unmap))
+			print (len(data_total['MAP']))
 			# print (list_camp_remove_unmap)
-			print (list_plan_remove_unmap)
+			# print (list_plan_remove_unmap)
 
 	return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
 
