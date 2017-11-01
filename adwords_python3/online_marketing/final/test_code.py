@@ -909,7 +909,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 			if flag:
 				list_plan_update.append(plan)
 			else:
-				check_real_date = CheckPlanUpdateRealDate(list_plan, plan)
+				check_real_date = CheckPlanUpdateRealDate(list_plan['plan'], plan)
 				if check_real_date:
 					list_plan_change_real_date.append(plan)
 				else:
