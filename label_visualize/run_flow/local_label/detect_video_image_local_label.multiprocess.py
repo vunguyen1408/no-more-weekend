@@ -224,7 +224,7 @@ def get_image_local_label(p_folder, p_path_folder_work, p_work_json):
         list_index.append(file_json)
 
     #multiprocessing
-    num_workers = 8
+    num_workers = 16
 
     manager = Manager()
     results = manager.list()
