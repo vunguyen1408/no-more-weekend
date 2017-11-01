@@ -8,6 +8,7 @@ from datetime import datetime , timedelta, date
 
 import mapping_campaign_plan as mapping_data
 import insert_data_map_to_total as insert_to_total
+import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
 
 def GetInstallAppsFlyer(connect, start_date, end_date, media_source, list_product_alias):
 	# ==================== Connect database =======================
@@ -29,12 +30,12 @@ def GetInstallAppsFlyer(connect, start_date, end_date, media_source, list_produc
 	and SNAPSHOT_DATE <= to_date('" + end_date + "', 'mm/dd/yyyy') and MEDIA_SOURCE like '%" + media_source +  "%'"
 
 	cursor.execute(statement)
-	print (statement)
+	# print (statement)
 
 	list_install = cursor.fetchall()
 	list_install_for_product = []
 	number_install = 0
-	print (list_product_alias)
+	# print (list_product_alias)
 	for i in list_install:
 		if i[5] in list_product_alias:
 			# print (i)
@@ -55,13 +56,15 @@ def CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date
 		return number_install
 	list_campaign_id = []
 	for camp in plan['CAMPAIGN']:
-		if str(camp['CAMPAIGN_ID']) not in list_campaign_id:
-			list_campaign_id.append(str(camp['CAMPAIGN_ID']))
-			for install in list_install_for_product:
-				d = str(install[0])[:10]
-				d = datetime.strptime(d, '%Y-%m-%d').date()
-				if d >= date_ and d <= to_date_ and str(camp['CAMPAIGN_ID']) == str(install[2]):
-					number_install += int(install[3])
+		date_camp = datetime.strptime(camp['Date'], '%Y-%m-%d').date()
+		if date_camp >= date_ and date_camp <= to_date_:
+			if str(camp['CAMPAIGN_ID']) not in list_campaign_id:
+				list_campaign_id.append(str(camp['CAMPAIGN_ID']))
+				for install in list_install_for_product:
+					d = str(install[0])[:10]
+					d = datetime.strptime(d, '%Y-%m-%d').date()
+					if d >= date_ and d <= to_date_ and str(camp['CAMPAIGN_ID']) == str(install[2]):
+						number_install += int(install[3])
 
 	return number_install
 
@@ -131,7 +134,7 @@ def InsertInstallToPlan(path_data, connect, date):
 			# if loop == 2:
 			# 	break
 			# print (plan)
-			if plan['UNIT_OPTION'] == 'CPI' and plan['CMONTH'] == '8' :
+			if plan['UNIT_OPTION'] == 'CPI':
 				# loop += 1
 				start_date, end_date = mapping_data.ChooseTime(plan)
 				# temp = GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
@@ -139,12 +142,12 @@ def InsertInstallToPlan(path_data, connect, date):
 				list_install_for_product = GetInstallAppsFlyer(connect, start_date, end_date, media_source, plan['APPSFLYER_PRODUCT'])
 				plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
 
-				print (len(list_install_for_product))
-				number_install = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
-				print("============================+++++++++==================================")
-				print (plan)
-				print (number_install)
-				print("================================================")
+				# print (len(list_install_for_product))
+				# number_install = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
+				# print("============================+++++++++==================================")
+				# print (plan)
+				# print (number_install)
+				# print("================================================")
 
 
 				plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = plan['TOTAL_CAMPAIGN']['INSTALL_CAMP']
@@ -153,25 +156,35 @@ def InsertInstallToPlan(path_data, connect, date):
 					# print (plan['MONTHLY'])
 					for month in plan['MONTHLY']:
 						install_before = month['TOTAL_CAMPAIGN_MONTHLY'].get('INSTALL_CAMP', 0)
-						number_install = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
 
 
-						print("================================================")
-						print (plan['MONTHLY'])
-						print (number_install)
-						print("================================================")
+						# number_install = CaculatorInstallForPlan(list_install_for_product, plan, month['START_DATE'], month['END_DATE'])
+						# print("================================================")
+						# print (plan['MONTHLY'])
+						# print (number_install)
+						# print("================================================")
 
 
-						month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
+						month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, month['START_DATE'], month['END_DATE'])
 						month['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']
 						# print ("--")
+		import time
+		start = time.time()
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		# with open (path_data_total_map,'w') as f:
-		# 	json.dump(data_total, f)
+		with open (path_data_total_map,'w') as f:
+			json.dump(data_total, f)
+		print ("Time : ", time.time() - start)
+		print ("ok")
 
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 date = '2017-09-30'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
 
+import time
+start = time.time()
 InsertInstallToPlan(path_data, connect, date)
+print ("Time : ", time.time() - start)
+start = time.time()
+insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
+print ("Time : ", time.time() - start)

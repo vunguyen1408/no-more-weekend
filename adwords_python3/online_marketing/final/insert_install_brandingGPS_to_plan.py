@@ -25,7 +25,8 @@ def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_
 	end_date = month + '/' + day + '/' + year
 
 
-	statement = "select * from ods_appsflyer where CAMPAIGN_ID = '{" + "BrandingGPS}' and SNAPSHOT_DATE >= to_date('" + start_date + "', 'mm/dd/yyyy') \
+	statement = "select * from ods_appsflyer where (CAMPAIGN_ID = '{" + "BrandingGPS}' \
+	or CAMPAIGN_ID is null) and SNAPSHOT_DATE >= to_date('" + start_date + "', 'mm/dd/yyyy') \
 	and SNAPSHOT_DATE <= to_date('" + end_date + "', 'mm/dd/yyyy') \
 	and (MEDIA_SOURCE like '" + media_source1 +  "' or MEDIA_SOURCE like '" + media_source2 +  "')"
 
@@ -33,16 +34,16 @@ def GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_
 	# print (statement)
 
 	list_install = cursor.fetchall()
-	print (len(list_install))
+	# print (len(list_install))
 	number_install = 0
-	print (list_product_alias)
+	# print (list_product_alias)
 	for i in list_install:
 		if i[5] in list_product_alias:
 			# print (i)
 			# print (int(i[3]))
 			number_install += int(i[3])
 
-	print (number_install)
+	# print (number_install)
 	return number_install
 
 def CaculatorStartEndDate(plan, start, end):
@@ -113,9 +114,9 @@ def AddBrandingGPSToPlan(path_data, connect, date):
 				plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
 				plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = plan['TOTAL_CAMPAIGN']['INSTALL_CAMP']
 				if ('MONTHLY' in plan):
-					print ("==========================")
-					print (plan['MONTHLY'])
-					print ("==========================")
+					# print ("==========================")
+					# print (plan['MONTHLY'])
+					# print ("==========================")
 					plan = CaculatorStartEndDate(plan, start_date, end_date)
 					# print (plan['MONTHLY'])
 					for month in plan['MONTHLY']:
