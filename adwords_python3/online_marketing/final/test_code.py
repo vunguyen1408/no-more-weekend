@@ -994,6 +994,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 	print('list_plan_new: ', len(list_plan_new))
 	print('list_plan_map: ', len(list_plan_map))
+	print('list_plan_change_real_date', list_plan_change_real_date)
 	print('list_plan_update: ', len(list_plan_update))
 	return list_camp_remove_unmap, list_camp_insert_unmap, \
 	list_plan_insert_total, list_plan_update_total, list_plan_remove_total, \
@@ -1009,7 +1010,9 @@ date = '2017-09-05'
 path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
 
 
-ClassifyPlan(connect, path_data, date, path_log)
+list_plan_insert_total, list_plan_update_total, list_plan_remove_total, \
+list_data_insert_map, list_plan_update_map, list_plan_remove_map, \
+list_plan_insert_unmap, list_plan_remove_unmap = ClassifyPlan(connect, path_data, date, path_log)
 
 
 
