@@ -133,7 +133,7 @@ def InsertInstallToPlan(path_data, connect, date):
 			# if loop == 2:
 			# 	break
 			# print (plan)
-			if plan['UNIT_OPTION'] == 'CPI' and plan['CMONTH'] == '8' and ('nikkithai' in plan['APPSFLYER_PRODUCT']) :
+			if plan['UNIT_OPTION'] == 'CPI':
 				# loop += 1
 				start_date, end_date = mapping_data.ChooseTime(plan)
 				# temp = GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
@@ -141,12 +141,12 @@ def InsertInstallToPlan(path_data, connect, date):
 				list_install_for_product = GetInstallAppsFlyer(connect, start_date, end_date, media_source, plan['APPSFLYER_PRODUCT'])
 				plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
 
-				print (len(list_install_for_product))
-				number_install = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
-				print("============================+++++++++==================================")
-				print (plan)
-				print (number_install)
-				print("================================================")
+				# print (len(list_install_for_product))
+				# number_install = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
+				# print("============================+++++++++==================================")
+				# print (plan)
+				# print (number_install)
+				# print("================================================")
 
 
 				plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = plan['TOTAL_CAMPAIGN']['INSTALL_CAMP']
@@ -155,21 +155,22 @@ def InsertInstallToPlan(path_data, connect, date):
 					# print (plan['MONTHLY'])
 					for month in plan['MONTHLY']:
 						install_before = month['TOTAL_CAMPAIGN_MONTHLY'].get('INSTALL_CAMP', 0)
-						number_install = CaculatorInstallForPlan(list_install_for_product, plan, month['START_DATE'], month['END_DATE'])
 
 
-						print("================================================")
-						print (plan['MONTHLY'])
-						print (number_install)
-						print("================================================")
+						# number_install = CaculatorInstallForPlan(list_install_for_product, plan, month['START_DATE'], month['END_DATE'])
+						# print("================================================")
+						# print (plan['MONTHLY'])
+						# print (number_install)
+						# print("================================================")
 
 
 						month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, month['START_DATE'], month['END_DATE'])
 						month['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']
 						# print ("--")
-		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 		# with open (path_data_total_map,'w') as f:
 		# 	json.dump(data_total, f)
+		print ("ok")
 
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
