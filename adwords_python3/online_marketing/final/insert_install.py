@@ -8,6 +8,7 @@ from datetime import datetime , timedelta, date
 
 import mapping_campaign_plan as mapping_data
 import insert_data_map_to_total as insert_to_total
+import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
 
 def GetInstallAppsFlyer(connect, start_date, end_date, media_source, list_product_alias):
 	# ==================== Connect database =======================
