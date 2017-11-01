@@ -502,6 +502,60 @@ def CheckPlanUpdateRealDate(list_plan, plan):
 
 	return False
 
+
+def GetCampFromDataMAP(data_map):
+	camp = {}
+	camp['Campaign ID'] = data_map['Campaign']
+	camp['Campaign'] = data_map['Campaign']
+	camp['Account ID'] = data_map['Campaign']
+	camp['Account Name'] = data_map['Campaign']
+	camp['Dept'] = data_map['Campaign']
+
+	camp['Campaign state'] = data_map['Campaign']
+	camp['Campaign serving status'] = data_map['Campaign']
+	camp['Advertising Channel'] = data_map['Campaign']
+	camp['Advertising Sub Channel'] = data_map['Campaign']
+	camp['Bid Strategy Type'] = data_map['Campaign']
+
+	camp['Start date'] = data_map['Campaign']
+	camp['End date'] = data_map['Campaign']
+	camp['Invalid clicks'] = data_map['Campaign']
+	camp['Conversions'] = data_map['Campaign']
+	camp['Engagements'] = data_map['Campaign']
+
+	camp['Impressions'] = data_map['Campaign']
+	camp['Unique cookies'] = data_map['Campaign']
+	camp['Clicks'] = data_map['Campaign']
+	camp['Interactions'] = data_map['Campaign']
+	camp['Interaction Rate'] = data_map['Campaign']
+
+	camp['Interaction Types'] = data_map['Campaign']
+	camp['Cost'] = data_map['Campaign']
+	camp['Views'] = data_map['Campaign']
+	camp['CTR'] = data_map['Campaign']
+	camp['Avg. position'] = data_map['Campaign']
+
+	camp['View rate'] = data_map['Campaign']
+	camp['Video played to 25%'] = data_map['Campaign']
+	camp['Video played to 50%'] = data_map['Campaign']
+	camp['Video played to 75%'] = data_map['Campaign']
+	camp['Video played to 100%'] = 	data_map['Campaign']
+
+	camp['Avg. CPE'] = 	data_map['Campaign']
+	camp['Avg. CPV'] = data_map['Campaign']
+	camp['Avg. CPC'] = data_map['Campaign']
+	camp['Avg. Cost'] = data_map['Campaign']
+	camp['Avg. CPM'] = data_map['Campaign']
+
+	camp['INSTALL_CAMP'] = data_map['Campaign']
+	camp['Mapping'] = data_map['Campaign']
+	camp['Date'] = data_map['Campaign']
+	camp['Plan'] = data_map['Campaign']
+	camp['STATUS'] =data_map['Campaign']
+
+	return camp
+	
+
 def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 	print('list_plan_modified: ', len(list_plan_modified))
 	list_camp_remove_unmap = []	
@@ -835,7 +889,7 @@ path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3
 final_log = '10/27/2017 10:00:00'
 
 # GetPlanModified(connect, path_data)
-ClassifyPlan(connect, path_data, date, path_log)
+# ClassifyPlan(connect, path_data, date, path_log)
 
 
 # list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
@@ -884,6 +938,12 @@ ClassifyPlan(connect, path_data, date, path_log)
 
 
 # path = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
+
+path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-03-01/DATA_MAPPING'
+with open(path, 'r') as fi:
+	data = json.load(fi)
+
+print(data['MAP'][0])
 
 
 
