@@ -270,7 +270,6 @@ def merger_data_map(data_map_all, data_map_GS5, data_map_WPL):
 	return(list_plan, list_camp)
 
 
-
 def Mapping_Auto(list_plan, list_full_uncamp):
 
 	list_camp_all = []
@@ -317,7 +316,6 @@ def Mapping_Auto(list_plan, list_full_uncamp):
 	list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
 
 	return list_plan, list_camp
-
 
 
 def NewPlan(path_data, date, list_plan):
@@ -434,7 +432,6 @@ def NewPlan(path_data, date, list_plan):
 	return list_camp_remove_unmap, list_plan_insert_total, list_data_insert_map, list_plan_insert_unmap
 
 
-
 def GetPlanModified(connect, path_data):
 	#====================== Get old plan in python ==========================
 	path_plan = os.path.join(path_data + '/' + str(date) + '/PLAN/plan.json')
@@ -480,7 +477,6 @@ def GetPlanModified(connect, path_data):
 	# for plan in list_plan:
 	# 	print(plan)
 	return list_plan
-
 
 
 def CheckPlanUpdateRealDate(list_plan, plan):
@@ -572,63 +568,9 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 	with open (path_data_total,'r') as f:
 		data_total = json.load(f)
 
-	list_plan, list_camp = Mapping_Auto(list_plan_map, data_total['UN_CAMPAIGN'])
-	
-	# list_full_camp = data_total['UN_CAMPAIGN']
-	# list_camp_all = []
-	# list_camp_GS5 = []
-	# list_camp_WPL = []
-
-	# for camp in list_full_camp:					
-	# 	# if (str(camp['Campaign ID']) == '702245469'):
-	# 	# 	list_full_camp[list_full_camp.index(camp)]['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
-	# 	# 	# print(camp)			
-		
-	# 	if (camp['Dept'] == 'GS5'):				
-	# 		list_camp_GS5.append(camp)
-	# 	elif (camp['Dept'] == 'WPL'):		
-	# 		list_camp_GS5.append(camp)
-	# 	else:
-	# 		list_camp_all.append(camp)
-
-	# end_get_camp = time.time()
-	# print("Time get camp: ", end_get_camp - get_camp)
-	
-	# #----------------- Mapping with campaign unmap -------------------------
-	# data_map_all = {
-	# 	'plan': [],
-	# 	'campaign': []
-	# }
-
-	# data_map_GS5 = {
-	# 	'plan': [],
-	# 	'campaign': []
-	# }
-
-	# data_map_WPL = {
-	# 	'plan': [],
-	# 	'campaign': []
-	# }
-
-	# auto_mapping  = time.time()
-
-	# if (len(list_camp_all) > 0):
-	# 	data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan_map, list_camp_all, date)
-
-	# if (len(list_camp_GS5) > 0):
-	# 	data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list_plan_map, list_camp_GS5, date)
-
-	# if (len(list_camp_WPL) > 0):
-	# 	data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan_map, list_camp_WPL, date)
-
-	# list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
-	# end_mapping = time.time()
-
-	# print("Time mapping: ", end_mapping - auto_mapping)
+	list_plan, list_camp = Mapping_Auto(list_plan_map, data_total['UN_CAMPAIGN'])	
 
 	list_plan_total, list_data_map = insert_to_total.SumTotalManyPlan(list_plan, list_camp)
-
-
 
 
 	# ----------------- Merger into database ------------------------
@@ -682,6 +624,8 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
 	print ('UN_PLAN: ', len(data_total['UN_PLAN']))
 	print ('TOTAL: ', len(data_total['TOTAL']))
+
+
 
 	#===================== CASE MAP ===================
 	#----------- Remove campaign unmap ---------------------
@@ -755,8 +699,8 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 	print ('list_plan_insert_total: ', len(list_plan_insert_total))
 	print ('list_data_insert_map: ', len(list_data_insert_map))		
 	print('list_plan_insert_unmap: ', len(list_plan_insert_unmap))
-	for pla in list_plan_insert_unmap:
-		print(pla)
+	# for pla in list_plan_insert_unmap:
+	# 	print(pla)
 	
 	# print()
 	# print('list_camp_remove_unmap: ', list_camp_remove_unmap)
@@ -777,7 +721,8 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 	# list_data_insert_map = []
 	# list_plan_insert_total = []
 
-	return list_camp_remove_unmap
+	return list_camp_remove_unmap, list_camp_insert_unmap, list_plan_remove_total, list_plan_remove_map, 
+	list_plan_remove_un_plan, list_plan_insert_unmap, list_data_insert_map, list_plan_insert_total
 
 
 
@@ -853,7 +798,9 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		list_plan_map = mapping.AddProductCode(path_data, list_plan_map, date)		
 		list_plan_map = nru.Add_NRU_into_list(connect, list_plan_map, date)  
 		list_plan_modified = GetPlanModified(connect, path_data)
-		camp_remove_unmap = ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified)
+		list_camp_remove_unmap, list_camp_insert_unmap, list_plan_remove_total, 
+		list_plan_remove_map, list_plan_remove_un_plan, list_plan_insert_unmap, 
+		list_data_insert_map, list_plan_insert_total = ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified)
 		list_camp_remove_unmap.extend(camp_remove_unmap)
 
 	#============== Case 3: Data update not map ===================
