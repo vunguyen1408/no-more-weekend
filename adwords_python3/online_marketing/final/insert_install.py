@@ -29,12 +29,12 @@ def GetInstallAppsFlyer(connect, start_date, end_date, media_source, list_produc
 	and SNAPSHOT_DATE <= to_date('" + end_date + "', 'mm/dd/yyyy') and MEDIA_SOURCE like '%" + media_source +  "%'"
 
 	cursor.execute(statement)
-	print (statement)
+	# print (statement)
 
 	list_install = cursor.fetchall()
 	list_install_for_product = []
 	number_install = 0
-	print (list_product_alias)
+	# print (list_product_alias)
 	for i in list_install:
 		if i[5] in list_product_alias:
 			# print (i)
@@ -177,4 +177,5 @@ connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 date = '2017-09-30'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
 
+start = 
 InsertInstallToPlan(path_data, connect, date)
