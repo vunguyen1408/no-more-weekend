@@ -841,9 +841,7 @@ def ChangeRealDatePlanToMap(path_data, list_plan_change, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	with open (path_data_total_map,'w') as f:
 		json.dump(data_total, f)
-	end_insert_file  = time.time()
-	print('Time insert file: ', end_insert_file - insert_file)
-
+	
 	print()
 	print('MAP: ', len(data_total['MAP']))
 	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
