@@ -375,7 +375,7 @@ def NewPlan(path_data, date, list_plan):
 	# 	'campaign': []
 	# }
 	
-	# auto_mapping  = time.time()
+	
 	# if (len(list_camp_all) > 0):
 	# 	data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
 
@@ -386,9 +386,7 @@ def NewPlan(path_data, date, list_plan):
 	# 	data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
 
 	# list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
-	end_mapping = time.time()
-
-	print("Time mapping: ", end_mapping - auto_mapping)
+	
 
 	list_plan_total, list_data_map = insert_to_total.SumTotalManyPlan(list_plan, list_camp)
 
@@ -917,7 +915,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		list_plan_update = nru.Add_NRU_into_list(connect, list_plan_update, date)  
 		UpdatePlan(path_data_total, list_plan_update)
 		list_plan_update_all.extend(list_plan_update)
-	print('list_plan_update_into_data: ', list_plan_update_all)
+	# print('list_plan_update_into_data: ', list_plan_update_all)
 
 	
 
