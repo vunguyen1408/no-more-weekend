@@ -1004,10 +1004,10 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
-date = '2017-05-31' 
+date = '2017-09-05' 
 # date = '2017-03-01' 
 path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
-final_log = '10/27/2017 10:00:00'
+
 
 ClassifyPlan(connect, path_data, date, path_log)
 
@@ -1072,14 +1072,14 @@ ClassifyPlan(connect, path_data, date, path_log)
 
 #============  Get file =========================================
 
-path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP/2017-09-30/DATA_MAPPING/total_mapping.json'
-with open(path, 'r') as fi:
-	data = json.load(fi)
+# path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP/2017-09-30/DATA_MAPPING/total_mapping.json'
+# with open(path, 'r') as fi:
+# 	data = json.load(fi)
 
-print(len(data['TOTAL'])
-print(len(data['MAP'])
-print(len(data['UN_PLAN'])
-print(len(data['UN_CAMPAIGN'])
+# print(len(data['TOTAL'])
+# print(len(data['MAP'])
+# print(len(data['UN_PLAN'])
+# print(len(data['UN_CAMPAIGN'])
 
 
 
