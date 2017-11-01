@@ -147,7 +147,7 @@ def InsertInstallToPlan(path_data, connect, date):
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 start_date = '2017-08-01'
 end_date = '2017-08-31'
-list_product_alias = ['thiennu']
+list_product_alias = ['cack']
 media_source = 'oogle'
 
 GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source, list_product_alias)
