@@ -721,7 +721,7 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 	# list_data_insert_map = []
 	# list_plan_insert_total = []
 
-	return list_camp_remove_unmap, list_camp_insert_unmap, list_plan_remove_total, list_plan_remove_map, 
+	return list_camp_remove_unmap, list_camp_insert_unmap, list_plan_remove_total, list_plan_remove_map, \
 	list_plan_remove_un_plan, list_plan_insert_unmap, list_data_insert_map, list_plan_insert_total
 
 
