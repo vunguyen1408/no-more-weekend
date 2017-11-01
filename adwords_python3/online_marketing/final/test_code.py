@@ -234,6 +234,9 @@ def UpdatePlan(path_data, list_plan_update):
 	if (len(list_plan) == 0):
 		print("Update complete...........")
 
+	print('list_plan_update_total: ', len(list_plan_update_total))
+	print('list_plan_update_map: ', len(list_plan_update_map))
+
 	return list_plan_update_total, list_plan_update_map
 
 
@@ -562,6 +565,8 @@ def GetCampFromDataMAP(data_map):
 
 def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 	print('list_plan_modified: ', len(list_plan_modified))
+	for i in list_plan_modified:
+		print(i)
 	list_camp_remove_unmap = []	
 	list_camp_insert_unmap = []
 	list_plan_remove_total = []
@@ -850,17 +855,12 @@ def ChangeRealDatePlanToMap(path_data, list_plan_change, date):
 
 	print()
 	print('list_camp_remove_unmap: ', len(list_camp_remove_unmap))
-	print ('list_plan_remove_unmap: ', len(list_plan_remove_unmap))
-	print ('list_data_insert_map: ', len(list_data_insert_map))		
-	print('list_plan_insert_total: ', len(list_plan_insert_total))
+	print ('list_data_insert_map: ', len(list_data_insert_map))
+	print ('list_plan_update_map: ', len(list_plan_update_map))		
+	print('list_plan_remove_unmap: ', len(list_plan_remove_unmap))
+	print ('list_plan_insert_total: ', len(list_plan_insert_total))		
+	print('list_plan_update_total: ', len(list_plan_update_total))
 	
-	list_camp_remove_unmap = []	
-	list_data_insert_map = []
-	list_plan_update_map = []	
-	list_plan_remove_unmap = []	
-	list_plan_insert_total = []
-	list_plan_update_total = []
-
 	return list_camp_remove_unmap, list_data_insert_map, list_plan_update_map, list_plan_remove_unmap, list_plan_insert_total, list_plan_update_total
 	
 
@@ -994,8 +994,24 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 	print('list_plan_new: ', len(list_plan_new))
 	print('list_plan_map: ', len(list_plan_map))
-	print('list_plan_change_real_date', list_plan_change_real_date)
+	print('list_plan_change_real_date', len(list_plan_change_real_date))
 	print('list_plan_update: ', len(list_plan_update))
+	print()
+	print()
+
+
+	print('list_camp_remove_unmap: ', len(list_camp_remove_unmap))
+	print('list_camp_insert_unmap: ', len(list_camp_insert_unmap))
+	print('list_plan_insert_total: ', len(list_plan_insert_total))
+	print('list_plan_update_total: ', len(list_plan_update_total))
+	print('list_plan_remove_total: ', len(list_plan_remove_total))
+	print('list_data_insert_map: ', len(list_data_insert_map))
+	print('list_plan_update_map: ', len(list_plan_update_map))
+	print('list_plan_remove_map: ', len(list_plan_remove_map))
+	print('list_plan_insert_unmap: ', len(list_plan_insert_unmap))
+	print('list_plan_remove_unmap: ', len(list_plan_remove_unmap))
+	print()
+	
 	return list_camp_remove_unmap, list_camp_insert_unmap, \
 	list_plan_insert_total, list_plan_update_total, list_plan_remove_total, \
 	list_data_insert_map, list_plan_update_map, list_plan_remove_map, \
