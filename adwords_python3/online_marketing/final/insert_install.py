@@ -41,7 +41,7 @@ def GetInstallAppsFlyer(connect, start_date, end_date, media_source, list_produc
 			# print (int(i[3]))
 			list_install_for_product.append(i)
 			# number_install += i[3]
-	print (number_install)
+	# print (number_install)
 	return list_install_for_product
 
 
