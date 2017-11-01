@@ -55,13 +55,15 @@ def CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date
 		return number_install
 	list_campaign_id = []
 	for camp in plan['CAMPAIGN']:
-		if str(camp['CAMPAIGN_ID']) not in list_campaign_id:
-			list_campaign_id.append(str(camp['CAMPAIGN_ID']))
-			for install in list_install_for_product:
-				d = str(install[0])[:10]
-				d = datetime.strptime(d, '%Y-%m-%d').date()
-				if d >= date_ and d <= to_date_ and str(camp['CAMPAIGN_ID']) == str(install[2]):
-					number_install += int(install[3])
+		date_camp = datetime.strptime(camp['Date'], '%Y-%m-%d').date()
+		if date_camp >= date_ and date_camp <= to_date_:
+			if str(camp['CAMPAIGN_ID']) not in list_campaign_id:
+				list_campaign_id.append(str(camp['CAMPAIGN_ID']))
+				for install in list_install_for_product:
+					d = str(install[0])[:10]
+					d = datetime.strptime(d, '%Y-%m-%d').date()
+					if d >= date_ and d <= to_date_ and str(camp['CAMPAIGN_ID']) == str(install[2]):
+						number_install += int(install[3])
 
 	return number_install
 
