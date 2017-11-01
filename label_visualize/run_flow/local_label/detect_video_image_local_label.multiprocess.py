@@ -161,7 +161,7 @@ def do_work(list_index,in_queue, out_list):
 
                 #not image_texts exist->init {}
                 if 'image_local_labels' not in _value:
-                    #print('init')
+                    print('init')
                     _value['image_local_labels'] = []
 
                     text={}
@@ -183,12 +183,12 @@ def do_work(list_index,in_queue, out_list):
                     if found>=0:
                         count=_value['image_local_labels'][found].get('api_call',0)
                         if count==0:
-                            #print('update')
+                            print('update')
                             _value['image_local_labels'][found]['labels']=detect_local_label(file_name)
                             _value['image_local_labels'][found]['api_call']=count+1
                     # append
                     else:
-                        #print('append')
+                        print('append')
                         text={}
                         text['name']=_file['name']
                         #file_text['text']=detect_text(file_name)
