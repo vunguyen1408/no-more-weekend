@@ -566,7 +566,7 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 	list_camp_insert_unmap = []
 	list_plan_remove_total = []
 	list_plan_remove_map  = []
-	list_plan_remove_un_plan = []
+	list_plan_remove_unmap = []
 	list_plan_insert_unmap = []
 	list_data_insert_map = []
 	list_plan_insert_total = []
@@ -627,7 +627,7 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 				and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
 				and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:				
 				data_total['UN_PLAN'].remove(plan_total)
-				list_plan_remove_un_plan .append(plan)
+				list_plan_remove_unmap.append(plan)
 	
 	print()
 	print('MAP: ', len(data_total['MAP']))
@@ -706,33 +706,20 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 
 	print()
 	print('list_camp_remove_unmap: ', len(list_camp_remove_unmap))
-	print ('list_plan_insert_total: ', len(list_plan_insert_total))
-	print ('list_data_insert_map: ', len(list_data_insert_map))		
-	print('list_plan_insert_unmap: ', len(list_plan_insert_unmap))
-	# for pla in list_plan_insert_unmap:
-	# 	print(pla)
-	
-	# print()
-	# print('list_camp_remove_unmap: ', list_camp_remove_unmap)
-	# print ('list_plan_insert_total: ', list_plan_insert_total)
-	# print ('list_data_insert_map: ', list_data_insert_map)	
-	# print('list_plan_insert_unmap: ', list_plan_insert_unmap)
+	print ('list_camp_insert_unmap: ', len(list_camp_insert_unmap))
+	print ('list_plan_remove_total: ', len(list_plan_remove_total))		
+	print('list_plan_remove_map: ', len(list_plan_remove_map))
 
-	total_time = time.time()
+	print('list_plan_remove_unmap: ', len(list_plan_remove_unmap))
+	print ('list_plan_insert_unmap: ', len(list_plan_insert_unmap))
+	print ('list_data_insert_map: ', len(list_data_insert_map))		
+	print('list_plan_insert_total: ', len(list_plan_insert_total))
+	
+		total_time = time.time()
 	print("TOTAL TIME: ", total_time - get_camp)
 
-
-	# list_camp_remove_unmap = []	
-	# list_camp_insert_unmap = []
-	# list_plan_remove_total = []
-	# list_plan_remove_map  = []
-	# list_plan_remove_un_plan = []
-	# list_plan_insert_unmap = []
-	# list_data_insert_map = []
-	# list_plan_insert_total = []
-
 	return list_camp_remove_unmap, list_camp_insert_unmap, list_plan_remove_total, list_plan_remove_map, \
-	list_plan_remove_un_plan, list_plan_insert_unmap, list_data_insert_map, list_plan_insert_total
+	list_plan_remove_unmap, list_plan_insert_unmap, list_data_insert_map, list_plan_insert_total
 
 
 def ChangeRealDatePlanToMap(path_data, list_plan_change, date):	
@@ -881,17 +868,19 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 	list_camp_remove_unmap = []
 	list_camp_insert_unmap = []
+
 	list_plan_insert_total = []
-	list_data_insert_map = []
-	list_plan_insert_unmap = []
-	list_plan_update_all = []
-	list_plan_remove_total = []
-	list_plan_remove_map = []
-	list_plan_remove_un_plan = []
-
 	list_plan_update_total = []
-	list_plan_update_map = []
+	list_plan_remove_total = [] 
 
+	list_data_insert_map = []
+	list_plan_update_map = []
+	list_plan_remove_map = []
+
+	list_plan_insert_unmap = []
+	list_plan_remove_unmap = []
+		
+	
 
 	# =============== Get plan change =====================	
 	# fi = open(path_log, 'r')
@@ -962,17 +951,17 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 		list_plan_modified = GetPlanModified(connect, path_data)
 		camp_remove_unmap, camp_insert_unmap, plan_remove_total, \
-		plan_remove_map, plan_remove_un_plan, plan_insert_unmap, \
-		data_insert_map, data_insert_map = ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified)
+		plan_remove_map, plan_remove_unmap, plan_insert_unmap, \
+		data_insert_map, plan_insert_total = ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified)
 
-		# list_camp_remove_unmap.extend(camp_remove_unmap)
-		# list_camp_insert_unmap.extend(camp_insert_unmap)
-		# list_plan_remove_total.extend(plan_remove_total)
-		# list_plan_remove_map.extend(plan_remove_map)
-		# list_plan_remove_un_plan.extend(plan_remove_un_plan)
-		# list_plan_insert_unmap.extend(plan_insert_unmap)
-		# list_data_insert_map.extend(data_insert_map)
-		# list_data_insert_map.extend(data_insert_map)
+		list_camp_remove_unmap.extend(camp_remove_unmap)
+		list_camp_insert_unmap.extend(camp_insert_unmap)
+		list_plan_remove_total.extend(plan_remove_total)
+		list_plan_remove_map.extend(plan_remove_map)
+		list_plan_remove_unmap.extend(plan_remove_unmap)
+		list_plan_insert_unmap.extend(plan_insert_unmap)
+		list_data_insert_map.extend(data_insert_map)
+		list_plan_insert_total.extend(plan_insert_total)
 
 	#======== Case 3: Data update can map
 	if (len(list_plan_change_real_date) > 0):
@@ -1001,26 +990,26 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 		list_plan_update_total, list_plan_update_map = UpdatePlan(path_data_total, list_plan_update)
 
-		# list_plan_update_all.extend(list_plan_update)
-	# print('list_plan_update_into_data: ', list_plan_update_all)
-
-	
+			
 
 	print('list_plan_new: ', len(list_plan_new))
 	print('list_plan_map: ', len(list_plan_map))
 	print('list_plan_update: ', len(list_plan_update))
-	return list_plan_new, list_plan_map, list_plan_update
+	return list_camp_remove_unmap, list_camp_insert_unmap, \
+	list_plan_insert_total, list_plan_update_total, list_plan_remove_total, \
+	list_data_insert_map, list_plan_update_map, list_plan_remove_map, \
+	list_plan_insert_unmap, list_plan_remove_unmap
 
 
 
-# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-# path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
-# date = '2017-05-31' 
-# # date = '2017-03-01' 
-# path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
-# final_log = '10/27/2017 10:00:00'
+connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
+date = '2017-05-31' 
+# date = '2017-03-01' 
+path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
+final_log = '10/27/2017 10:00:00'
 
-# ClassifyPlan(connect, path_data, date, path_log)
+ClassifyPlan(connect, path_data, date, path_log)
 
 
 
