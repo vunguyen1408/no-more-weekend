@@ -383,7 +383,7 @@ def ManualMap(connect, path_data, date):
 			print (len(list_camp_remove_unmap))
 			print (len(data_total['MAP']))
 			# print (list_camp_remove_unmap)
-			print (list_plan_remove_unmap)
+			# print (list_plan_remove_unmap)
 
 	return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
 
