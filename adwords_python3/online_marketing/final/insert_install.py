@@ -153,7 +153,7 @@ def InsertInstallToPlan(path_data, connect, date):
 					# print (plan['MONTHLY'])
 					for month in plan['MONTHLY']:
 						install_before = month['TOTAL_CAMPAIGN_MONTHLY'].get('INSTALL_CAMP', 0)
-						number_install = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
+						number_install = CaculatorInstallForPlan(list_install_for_product, plan, month['START_DATE'], month['END_DATE'])
 
 
 						print("================================================")
@@ -162,7 +162,7 @@ def InsertInstallToPlan(path_data, connect, date):
 						print("================================================")
 
 
-						month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
+						month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, month['START_DATE'], month['END_DATE'])
 						month['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']
 						# print ("--")
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
