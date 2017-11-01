@@ -963,7 +963,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		
 
 		camp_remove_unmap, camp_insert_unmap, \
-		plan_remove_total, plan_remove_map,  = ChangeRealDatePlanToMap(path_data, list_plan_change, date)
+		plan_remove_total, plan_remove_map,  = ChangeRealDatePlanToMap(path_data, list_plan_change_real_date, date)
 
 		# list_camp_remove_unmap.extend(camp_remove_unmap)
 		# list_camp_insert_unmap.extend(camp_insert_unmap)
