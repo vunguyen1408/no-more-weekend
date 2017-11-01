@@ -270,43 +270,24 @@ def merger_data_map(data_map_all, data_map_GS5, data_map_WPL):
 	return(list_plan, list_camp)
 
 
-def NewPlan(path_data, date, list_plan):
 
-	list_camp_remove_unmap = []
-	list_plan_insert_total = []
-	list_data_insert_map = []
-	list_plan_insert_unmap = []
+def Mapping_Auto(list_plan, list_full_uncamp):
 
-	get_camp = time.time()
-
-	# ------------- Get campaign for mapping ----------------		
-	path_data_total = GetFileTotal(path_data, date)		
-	with open (path_data_total,'r') as f:
-		data_total = json.load(f)	
-
-	list_full_camp = data_total['UN_CAMPAIGN']
 	list_camp_all = []
 	list_camp_GS5 = []
 	list_camp_WPL = []
-	for camp in list_full_camp:					
-		if (str(camp['Campaign ID']) == '702245469'):
-			list_full_camp[list_full_camp.index(camp)]['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
+
+	for camp in list_full_uncamp:					
+		# if (str(camp['Campaign ID']) == '702245469'):
+		# 	list_full_camp[list_full_camp.index(camp)]['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
 				
 		if (camp['Dept'] == 'GS5'):			
 			list_camp_GS5.append(camp)
 		elif (camp['Dept'] == 'WPL'):		
 			list_camp_GS5.append(camp)
 		else:
-			list_camp_all.append(camp)
+			list_camp_all.append(camp)	
 
-	end_get_camp = time.time()
-	print("Time get camp: ", end_get_camp - get_camp)
-
-	# print(len(list_full_camp))
-	# print(len(list_camp_all))
-	# print(len(list_camp_GS5))
-	# print(len(list_camp_WPL))	
-	
 	#----------------- Mapping with campaign unmap -------------------------
 	data_map_all = {
 		'plan': [],
@@ -334,6 +315,77 @@ def NewPlan(path_data, date, list_plan):
 		data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
 
 	list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
+
+	return list_plan, list_camp
+
+
+
+def NewPlan(path_data, date, list_plan):
+
+	list_camp_remove_unmap = []
+	list_plan_insert_total = []
+	list_data_insert_map = []
+	list_plan_insert_unmap = []
+
+	get_camp = time.time()
+
+	# ------------- Get campaign for mapping ----------------		
+	path_data_total = GetFileTotal(path_data, date)		
+	with open (path_data_total,'r') as f:
+		data_total = json.load(f)	
+
+	list_plan, list_camp = Mapping_Auto(list_plan, data_total['UN_CAMPAIGN'])
+
+	# list_full_camp = data_total['UN_CAMPAIGN']
+	# list_camp_all = []
+	# list_camp_GS5 = []
+	# list_camp_WPL = []
+	# for camp in list_full_camp:					
+	# 	# if (str(camp['Campaign ID']) == '702245469'):
+	# 	# 	list_full_camp[list_full_camp.index(camp)]['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
+				
+	# 	if (camp['Dept'] == 'GS5'):			
+	# 		list_camp_GS5.append(camp)
+	# 	elif (camp['Dept'] == 'WPL'):		
+	# 		list_camp_GS5.append(camp)
+	# 	else:
+	# 		list_camp_all.append(camp)
+
+	# end_get_camp = time.time()
+	# print("Time get camp: ", end_get_camp - get_camp)
+
+	# # print(len(list_full_camp))
+	# # print(len(list_camp_all))
+	# # print(len(list_camp_GS5))
+	# # print(len(list_camp_WPL))	
+	
+	# #----------------- Mapping with campaign unmap -------------------------
+	# data_map_all = {
+	# 	'plan': [],
+	# 	'campaign': []
+	# }
+
+	# data_map_GS5 = {
+	# 	'plan': [],
+	# 	'campaign': []
+	# }
+
+	# data_map_WPL = {
+	# 	'plan': [],
+	# 	'campaign': []
+	# }
+	
+	# auto_mapping  = time.time()
+	# if (len(list_camp_all) > 0):
+	# 	data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
+
+	# if (len(list_camp_GS5) > 0):
+	# 	data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_GS5, date)
+
+	# if (len(list_camp_WPL) > 0):
+	# 	data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
+
+	# list_plan, list_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
 	end_mapping = time.time()
 
 	print("Time mapping: ", end_mapping - auto_mapping)
