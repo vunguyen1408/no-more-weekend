@@ -136,9 +136,9 @@ def InsertInstallToPlan(path_data, connect, date):
 				list_install_for_product = GetInstallAppsFlyer(connect, start_date, end_date, media_source, plan['APPSFLYER_PRODUCT'])
 				plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
 
-
+				print (len(list_install_for_product))
 				number_install = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
-				print("================================================")
+				print("============================+++++++++==================================")
 				print (plan)
 				print (number_install)
 				print("================================================")
