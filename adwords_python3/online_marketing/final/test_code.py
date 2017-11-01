@@ -199,26 +199,26 @@ def UpdatePlan(path_data, list_plan_update):
 		for plan in data_total['MAP']:
 			if updated_plan['PRODUCT'] == plan['PRODUCT'] \
 			and updated_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-			and updated_plan['FORM_TYPE'] == plan['FORM_TYPE'] \
-			and updated_plan['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+			and updated_plan['FORM_TYPE'] == plan['FORM_TYPE'] :
+			# and updated_plan['UNIT_OPTION'] == plan['UNIT_OPTION'] :
 				UpdateOnePlan(data_total['MAP'][data_total['MAP'].index(plan)], updated_plan)
 				list_plan.remove(updated_plan)
 				list_plan_update_map.append(updated_plan)
 
 
-
+	list_plan_update = list_plan.copy()
 	#=========== Update plan in DATA TOTAL ======================	
 	for updated_plan in list_plan_update:
 		for plan in data_total['TOTAL']:
 			if updated_plan['PRODUCT'] == plan['PRODUCT'] \
 			and updated_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-			and updated_plan['FORM_TYPE'] == plan['FORM_TYPE'] \
-			and updated_plan['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+			and updated_plan['FORM_TYPE'] == plan['FORM_TYPE'] :
+			# and updated_plan['UNIT_OPTION'] == plan['UNIT_OPTION'] :
 				UpdateOnePlan(data_total['TOTAL'][data_total['TOTAL'].index(plan)], updated_plan)
 				list_plan.remove(updated_plan)
 				list_plan_update_total.append(updated_plan)
 
-
+	list_plan_update = list_plan.copy()
 	#=========== Update plan in UNMAP PLAN ======================	
 	for updated_plan in list_plan_update:
 		for plan in data_total['UN_PLAN']:
