@@ -1011,8 +1011,8 @@ path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3
 
 
 list_plan_insert_total, list_plan_update_total, list_plan_remove_total, \
-list_data_insert_map, list_plan_update_map, list_plan_remove_map, \
-list_plan_insert_unmap, list_plan_remove_unmap = ClassifyPlan(connect, path_data, date, path_log)
+	list_data_insert_map, list_plan_update_map, list_plan_remove_map, \
+	list_plan_insert_unmap, list_plan_remove_unmap = ClassifyPlan(connect, path_data, date, path_log)
 
 
 
