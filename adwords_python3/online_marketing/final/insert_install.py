@@ -168,9 +168,9 @@ def InsertInstallToPlan(path_data, connect, date):
 						month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, month['START_DATE'], month['END_DATE'])
 						month['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']
 						# print ("--")
-		# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		# with open (path_data_total_map,'w') as f:
-		# 	json.dump(data_total, f)
+		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		with open (path_data_total_map,'w') as f:
+			json.dump(data_total, f)
 		print ("ok")
 
 
@@ -181,5 +181,7 @@ path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
 import time
 start = time.time()
 InsertInstallToPlan(path_data, connect, date)
+print ("Time : ", time.time() - start)
+start = time.time()
 insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
 print ("Time : ", time.time() - start)

@@ -123,7 +123,7 @@ def AddBrandingGPSToPlan(path_data, connect, date):
 						month['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']
 						# print ("--")
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		# with open (path_data_total_map,'w') as f:
-		# 	json.dump(data_total, f)
+		with open (path_data_total_map,'w') as f:
+			json.dump(data_total, f)
 
 
