@@ -138,6 +138,8 @@ def do_work(list_index,in_queue, out_list):
         item = in_queue.get()
         #line_no, line = item
         _i,_value = item
+        print ('_i:',_i,' _value:',_value)
+
 
 
         # exit signal
@@ -152,7 +154,7 @@ def do_work(list_index,in_queue, out_list):
         #loop 2
         for _file in list_index:
 
-            if _file['video_index'] == _i:
+            if _file['video_name'] == _value['file_name'] :
 
                 # link = 'gs://python_video/' + folder + '/' + file_['name']
                 #file_name = p_path_folder_work + '/' + _file['name']
@@ -161,7 +163,7 @@ def do_work(list_index,in_queue, out_list):
 
                 #not image_texts exist->init {}
                 if 'image_local_labels' not in _value:
-                    print('init')
+                    #print('init')
                     _value['image_local_labels'] = []
 
                     text={}
@@ -183,12 +185,12 @@ def do_work(list_index,in_queue, out_list):
                     if found>=0:
                         count=_value['image_local_labels'][found].get('api_call',0)
                         if count==0:
-                            print('update')
+                            #print('update')
                             _value['image_local_labels'][found]['labels']=detect_local_label(file_name)
                             _value['image_local_labels'][found]['api_call']=count+1
                     # append
                     else:
-                        print('append')
+                        #print('append')
                         text={}
                         text['name']=_file['name']
                         #file_text['text']=detect_text(file_name)
@@ -207,24 +209,27 @@ def do_work(list_index,in_queue, out_list):
 
 
 
-def get_image_local_label(p_folder, p_path_folder_work, p_work_json):
+def get_image_local_label(p_folder, p_path_folder_work, p_work_json, p_process_num):
     print(len(p_work_json['my_json']))
     #list file
     list_index = []
+
+    print(p_path_folder_work)
     list_file = next(os.walk(p_path_folder_work))[2]
 
     for _file in list_file:
         #print(_file)
-        file_json = {
-            'name': _file,
-            'video_index': int(_file[11:-12]),
-            'full_name': p_path_folder_work + '/' + _file
-            #'image_index': int(_file[-7:-4])
-        }
-        list_index.append(file_json)
+        if len(_file) >24:
+            file_json = {
+                'name': _file,
+                'video_name': _file[:-8],
+                'full_name': p_path_folder_work + '/' + _file
+                #'image_index': int(_file[-7:-4])
+            }
+            list_index.append(file_json)
 
     #multiprocessing
-    num_workers = 16
+    num_workers = int(p_process_num)
 
     manager = Manager()
     results = manager.list()
@@ -294,7 +299,7 @@ def get_30_date(p_path_full_data, p_date, p_work_json):
     print ("======================================================================")
     return (list_work_json_before, p_work_json)
 
-def get_video_image_local_label(p_path, p_from_date = '2016-10-01', p_to_date = '2016-10-01'):
+def get_video_image_local_label(p_path, p_from_date = '2016-10-01', p_to_date = '2016-10-01', p_process_num=1):
     # Lấy danh sách path của các file json cần tổng hợp data
     list_file = []
     list_folder = next(os.walk(p_path))[1]
@@ -324,7 +329,7 @@ def get_video_image_local_label(p_path, p_from_date = '2016-10-01', p_to_date = 
                     work_json = json.load(_file_json)
                     # video_json = get_label_videos(folder, path_folder_audios, video_json)
                     list_json_before, work_json = get_30_date(p_path, _folder, work_json)
-                    work_json = get_image_local_label(_folder, path_folder_work, work_json)
+                    work_json = get_image_local_label(_folder, path_folder_work, work_json, p_process_num)
                     # print (video_json)
                     with open (path_file_work,'w') as _f:
                         json.dump(work_json, _f)
@@ -359,5 +364,5 @@ def get_video_image_local_label(p_path, p_from_date = '2016-10-01', p_to_date = 
 if __name__ == '__main__':
     from sys import argv
     g_path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
-    script, date, to_date = argv
-    get_video_image_local_label(g_path, date, to_date)
+    script, date, to_date, process_num = argv
+    get_video_image_local_label(g_path, date, to_date, process_num)

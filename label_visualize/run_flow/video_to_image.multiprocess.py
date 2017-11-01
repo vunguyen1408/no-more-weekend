@@ -16,7 +16,7 @@ import glob,itertools,time
 from datetime import datetime , timedelta, date
 from multiprocessing import Process, Manager
 
-def do_work(path_video,path_image, in_queue, out_list):
+def do_work(path_video,path_work, in_queue, out_list):
 
     while True:
         item = in_queue.get()
@@ -34,9 +34,9 @@ def do_work(path_video,path_image, in_queue, out_list):
         file_video = os.path.join(path_video, video)
         #file_name = video[0:video.rfind('.') ]+'_%03d' + '.png'
         file_name_check = video+'.*' + '.png'
-        file_image_check = os.path.join(path_image, file_name_check)
+        file_image_check = os.path.join(path_work, file_name_check)
         file_name = video+'.%03d' + '.png'
-        file_image = os.path.join(path_image, file_name)
+        file_image = os.path.join(path_work, file_name)
 
         if not glob.glob(file_image_check):
             subprocess.call(["ffmpeg", "-i", file_video,"-vf", "select='eq(pict_type,PICT_TYPE_I)'","-vsync","vfr",file_image ])
@@ -48,7 +48,7 @@ def do_work(path_video,path_image, in_queue, out_list):
 
 
 
-def convertVideoToImage(path_data, start_date, end_date):
+def convertVideoToImage(path_data, start_date, end_date,p_process_num):
     start = datetime.strptime(start_date, '%Y-%m-%d').date()
     end = datetime.strptime(end_date, '%Y-%m-%d').date()
 
@@ -57,14 +57,14 @@ def convertVideoToImage(path_data, start_date, end_date):
         path_date = os.path.join(path_data, start.strftime('%Y-%m-%d'))
         path_video = os.path.join(path_date, 'videos')
         if os.path.exists(path_video):
-            path_image = os.path.join(path_date, 'video_images')
-            if not os.path.exists(path_image):
-                os.makedirs(path_image)
+            path_work = os.path.join(path_date, 'video_images')
+            if not os.path.exists(path_work):
+                os.makedirs(path_work)
 
             list_video = next(os.walk(path_video))[2]
 
 			#multiprocessing
-            num_workers = 8
+            num_workers = int(p_process_num)
 
             manager = Manager()
             results = manager.list()
@@ -73,7 +73,7 @@ def convertVideoToImage(path_data, start_date, end_date):
 			# start for workers
             pool = []
             for i in range(num_workers):
-                p = Process(target=do_work, args=(path_video,path_image, work, results))
+                p = Process(target=do_work, args=(path_video,path_work, work, results))
                 p.start()
                 pool.append(p)
 
@@ -101,5 +101,5 @@ def convertVideoToImage(path_data, start_date, end_date):
 if __name__ == '__main__':
     from sys import argv
     path_data = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
-    script, date, to_date = argv
-    convertVideoToImage(path_data, date, to_date)
+    script, date, to_date , process_num= argv
+    convertVideoToImage(path_data, date, to_date,process_num)
