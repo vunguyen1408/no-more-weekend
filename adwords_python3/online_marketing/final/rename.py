@@ -463,7 +463,7 @@ def CacualatorChange(path_data, list_diff, date):
     list_plan_update = [] # Update plan change cost
     list_plan_remove_unmap = [] # Remove camp plan un map
     list_camp_need_remove = list_map_temp  # Remove campaign mapped
-    
+    data_total['MAP'].extend(list_map_temp)
     for plan in list_plan:
       # print (plan)
       flag = True

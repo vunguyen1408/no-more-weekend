@@ -179,7 +179,7 @@ def InsertInstallToPlan(path_data, connect, date):
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 date = '2017-09-30'
-path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG'
 
 import time
 start = time.time()
