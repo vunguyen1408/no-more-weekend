@@ -939,7 +939,7 @@ final_log = '10/27/2017 10:00:00'
 
 # path = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
 
-path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-03-01/DATA_MAPPING'
+path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-03-01/DATA_MAPPING/total_mapping.json'
 with open(path, 'r') as fi:
 	data = json.load(fi)
 
