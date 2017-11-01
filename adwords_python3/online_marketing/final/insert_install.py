@@ -139,7 +139,7 @@ def InsertInstallToPlan(path_data, connect, date):
 
 				number_install = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
 				print("================================================")
-				print (plan['MONTHLY'])
+				print (plan)
 				print (number_install)
 				print("================================================")
 
