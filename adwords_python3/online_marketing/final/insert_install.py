@@ -125,11 +125,11 @@ def InsertInstallToPlan(path_data, connect, date):
 		# print (len(data_total['TOTAL']))
 		loop = 0
 		for plan in data_total['TOTAL']:
-			if loop == 2:
-				break
+			# if loop == 2:
+			# 	break
 			# print (plan)
-			if plan['UNIT_OPTION'] == 'CPI':
-				loop += 1
+			if plan['UNIT_OPTION'] == 'CPI' and plan['CMONTH'] == '8' :
+				# loop += 1
 				start_date, end_date = mapping_data.ChooseTime(plan)
 				# temp = GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
 				install_before = plan['TOTAL_CAMPAIGN'].get('INSTALL_CAMP', 0)
