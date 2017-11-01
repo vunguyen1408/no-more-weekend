@@ -195,7 +195,7 @@ def UpdatePlan(path_data, list_plan_update):
 		data_total = json.load(fi)
 
 	#=========== Update plan in DATA MAPPING ======================	
-	for updated_plan in list_plan:
+	for updated_plan in list_plan_update:
 		for plan in data_total['MAP']:
 			if updated_plan['PRODUCT'] == plan['PRODUCT'] \
 			and updated_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
@@ -208,7 +208,7 @@ def UpdatePlan(path_data, list_plan_update):
 
 
 	#=========== Update plan in DATA TOTAL ======================	
-	for updated_plan in list_plan:
+	for updated_plan in list_plan_update:
 		for plan in data_total['TOTAL']:
 			if updated_plan['PRODUCT'] == plan['PRODUCT'] \
 			and updated_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
@@ -220,7 +220,7 @@ def UpdatePlan(path_data, list_plan_update):
 
 
 	#=========== Update plan in UNMAP PLAN ======================	
-	for updated_plan in list_plan:
+	for updated_plan in list_plan_update:
 		for plan in data_total['UN_PLAN']:
 			if updated_plan['PRODUCT'] == plan['PRODUCT'] \
 			and updated_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
