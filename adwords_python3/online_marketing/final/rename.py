@@ -10,9 +10,12 @@ from datetime import datetime , timedelta, date
 from googleads import adwords
 # ----------------- package -----------------
 import mapping_campaign_plan as mapping
-import insert_data_map_to_total as insert_to_total
 import history_name as history_name
 import down_load_name as down_load_name 
+
+import insert_nru_into_data as insert_nru_into_data
+import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
+import insert_install as insert_install
 
 logging.basicConfig(level=logging.INFO)
 logging.getLogger('suds.transport').setLevel(logging.DEBUG)
@@ -514,10 +517,17 @@ def CacualatorChange(path_data, list_diff, date):
       plan['MONTHLY'] = {}
       plan = insert_to_total.CaculatorTotalMonth(plan, date)
 
-    for plan in data_total['TOTAL']:
-        plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
-        for m in plan['MONTHLY']:
-          m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
+    import time
+    start = time.time()
+    data_total = insert_nru_into_data.AddNRU(connect, data_total, date)
+    data_total = insert_install.InsertInstallToPlan(data_total, connect, date)
+    data_total = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total, connect, date)
+    print ("Time : ", time.time() - start)
+
+    # for plan in data_total['TOTAL']:
+    #     plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
+    #     for m in plan['MONTHLY']:
+    #       m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
 
     #------------ Get list plan update ---------------
     for plan in list_plan:
