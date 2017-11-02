@@ -208,8 +208,8 @@ def CheckNameChange(path_data, list_customer, date):
 
     path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
     ###########################################
-    # with open (path_data_his,'w') as f:
-    #   json.dump(data_total, f)
+    with open (path_data_his,'w') as f:
+      json.dump(data_total, f)
     ############################################
   print("====================== Length =================")
   return (list_diff, data_total)
