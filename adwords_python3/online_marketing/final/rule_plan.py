@@ -983,6 +983,8 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 	#============== Case 4: Data update not map ===================
 	if (len(list_plan_update) > 0):
+		for plan in list_plan_update:
+			print(plan)
 		print("=========== Case 4: Data update not map	 ======================")
 		list_plan_update = mapping.AddProductCode(path_data, list_plan_update, date)		
 		list_plan_update = nru.Add_NRU_into_list(connect, list_plan_update, date) 
