@@ -329,7 +329,7 @@ with open(path_total, 'r') as fi:
 # 	print (plan_total['APPSFLYER_PRODUCT'])
 
 for plan_total in data_total['TOTAL']:
-  if plan_total['REASON_CODE_ORACLE'] == '1708007':
+  if plan_total['REASON_CODE_ORACLE'] == '1706010':
   # if str(plan_total['Campaign ID']) == '772872164':
     print (plan_total)
 
