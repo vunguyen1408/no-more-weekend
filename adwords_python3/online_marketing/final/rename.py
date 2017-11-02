@@ -15,7 +15,7 @@ import history_name as history_name
 import down_load_name as down_load_name 
 
 logging.basicConfig(level=logging.INFO)
-logging.getLogger('suds.transport').setLevel(print)
+logging.getLogger('suds.transport').setLevel(logging.DEBUG)
 
 
 PAGE_SIZE = 100
