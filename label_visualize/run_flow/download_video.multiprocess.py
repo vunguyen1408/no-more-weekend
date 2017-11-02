@@ -19,6 +19,70 @@ import sys
 
 #import Download_Parallel
 
+
+from multiprocessing import Process, Manager
+import itertools
+
+
+def do_work(folder_video,in_queue, out_list):
+
+
+    while True:
+        item = in_queue.get()
+        #line_no, line = item
+        i1,value1 = item
+        #print (item)
+
+        # exit signal
+        #if line == None:
+        #print(line)
+        if 'None->Exit' in value1 :
+            #print('exit')
+            return
+
+        # work
+        time.sleep(.1)
+        #loop 2
+
+
+
+        down = True
+        file_name1=""
+        url1=""
+        url1 = get_url_video(value1['page_id'], value1['video_id'])
+        if url1 != "":
+            file_name1 = parse_file_name(url1)
+            value1['file_name'] = file_name1
+            value1['video_renamed']=1 #after 2017-11-01
+
+            #=================== Download
+            file_name=os.path.join(folder_video, file_name1)
+            if not os.path.exists(file_name):
+                info = get_info(url1)
+                if info.get('size',0):
+                    #print(file_name)
+                    download_file(url1, file_name, info['size'])
+                    value1['hash_md5']=hash_md5(file_name)
+
+                    #Download_Parallel.DownloadFile_Parall(url1, file_name, 4)
+                    #obj = SmartDL(url1, file_name)
+                    #obj.start()
+                #
+            else:
+                if 'hash_md5' not in value1:
+                    value1['hash_md5']=hash_md5(file_name)
+
+
+
+
+        #print(result)
+        result = (i1,value1)
+
+        out_list.append(result)
+
+
+
+
 def hash_md5(p_file):
     import hashlib
     hash_md5 = hashlib.md5()
@@ -112,60 +176,53 @@ def download_file(url, filename, size):
         print ("========= Down load complete ============")
 
 
-def check_and_download_file(path_folder, path_file, folder):
+def check_and_download_file(path_folder, path_file, folder, p_process_num):
     from pySmartDL import SmartDL
 
     with open(path_file, 'r') as f:
-        data = json.load(f)
+        work_json = json.load(f)
+
     folder_video = os.path.join(path_folder, 'videos')
 
     if not os.path.exists(folder_video):
         os.makedirs(folder_video)
-    list_result = []
-    down = True
 
+    #multiprocessing
+    num_workers = int(p_process_num)
 
-    for i1, value1 in enumerate(data['my_json']):
-        down = True
-        file_name1=""
-        url1=""
-        url1 = get_url_video(value1['page_id'], value1['video_id'])
-        if url1 != "":
-            file_name1 = parse_file_name(url1)
-            data['my_json'][i1]['file_name'] = file_name1
+    manager = Manager()
+    results = manager.list()
+    work = manager.Queue(num_workers)
 
-            data['my_json'][i1]['video_renamed']=1 #after 2017-11-01
-            for i2 in range(0, i1):
-                value2 = data['my_json'][i2]
-                file_name2 = value2['file_name']
-                if file_name1 == file_name2:
-                    #print('found')
-                    down = False
-                    if data['my_json'][i1].get('hash_md5',''):
-                        data['my_json'][i1]['hash_md5']=data['my_json'][i2].get('hash_md5','')
-                    break
-            if down:
-                #=================== Download
-                info = get_info(url1)
+    # start for workers
+    pool = []
+    for i in range(num_workers):
+        p = Process(target=do_work, args=(folder_video, work, results))
+        p.start()
+        pool.append(p)
 
-                if info.get('size',0):
-                    # print (info)
-                    #file_name = os.path.join(folder_video, (str(folder) + '_' + str(i1) + '.' + info['format']))
-                    file_name=os.path.join(folder_video, file_name1)
+    # produce data
+    #with open("/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON/2017-06-01/ads_creatives_audit_content_2017-06-01.json") as f:
+    #print(type(work_json))
+    iters = itertools.chain(work_json['my_json'], ({'None->Exit'},)*num_workers)
+    for num_and_line in enumerate(iters):
+        work.put(num_and_line)
 
-                    if not os.path.exists(file_name):
-                        print(file_name)
-                        download_file(url1, file_name, info['size'])
-                        data['my_json'][i1]['hash_md5']=hash_md5(file_name)
+    for p in pool:
+        p.join()
 
-                        #Download_Parallel.DownloadFile_Parall(url1, file_name, 4)
-                        #obj = SmartDL(url1, file_name)
-                        #obj.start()
-                    #
-                    data['my_json'][i1]['hash_md5']=hash_md5(file_name)
+    return_json={}
+    return_json['my_json']=[]
+
+    for _json in results:
+        return_json['my_json'].append(_json[1])
+
 
     with open (path_file,'w') as f:
-        json.dump(data, f)
+        json.dump(return_json, f)
+
+
+
 
 
 def create_hash_file(path_folder, path_file, folder):
@@ -190,7 +247,7 @@ def create_hash_file(path_folder, path_file, folder):
 
 
 
-def download_video(path, date_, to_date_):
+def download_video(path, date_, to_date_, process_num=1):
     # Lấy danh sách path của các file json cần tổng hợp data
     list_file = []
     date = datetime.strptime(date_, '%Y-%m-%d').date()
@@ -205,7 +262,7 @@ def download_video(path, date_, to_date_):
             path_file = os.path.join(path_folder, file_name)
             if os.path.exists(path_file):
                 # time.sleep(5)
-                check_and_download_file(path_folder, path_file, folder)
+                check_and_download_file(path_folder, path_file, folder,process_num)
                 create_hash_file(path_folder, path_file, folder)
             print("---------------------------------------------------------------")
 
@@ -220,6 +277,6 @@ def download_video(path, date_, to_date_):
 
 if __name__ == '__main__':
     from sys import argv
-    script, start_date, end_date = argv
+    script, start_date, end_date, process_num = argv
     path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
-    download_video(path, start_date, end_date)
+    download_video(path, start_date, end_date,process_num)
