@@ -147,7 +147,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	print ("\n\n======================= RUN INSERT NRU WITH DATE : " + date + " =========================")
 	insert_nru = time.time()
 	insert_nru_into_data.AddNRUFile(connect, path_data, date)
-	time_insert = time.time() - insert_install
+	print ("Time NRYU: ", time.time() - insert_nru)
 
 
 	# ======================= Insert branding install ====================================

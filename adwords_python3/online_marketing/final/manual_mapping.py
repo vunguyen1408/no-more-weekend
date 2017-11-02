@@ -8,8 +8,10 @@ from datetime import datetime , timedelta, date
 #-------------- import file ---------------
 import insert_data_map_to_total as insert_data
 import mapping_campaign_plan as mapping
-import insert_nru_into_data as nru
-# import insert_nru_to_data as nru
+
+import insert_nru_into_data as insert_nru_into_data
+import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
+import insert_install as insert_install
 
 
 
@@ -359,18 +361,17 @@ def ManualMap(connect, path_data, date):
 
 			import time
 			start = time.time()
+			data_total = AddNRU(connect, data_total, date)
 			data_total = insert_install.InsertInstallToPlan(data_total, connect, date)
-			print ("Time : ", time.time() - start)
-			start = time.time()
-			data_total = insert_install.AddBrandingGPSToPlan(data_total, connect, date)
+			data_total = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total, connect, date)
 			print ("Time : ", time.time() - start)
 
 
 
 			for plan in data_total['TOTAL']:
-				plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_data.GetVolumeActualTotal(plan)
-				for m in plan['MONTHLY']:
-					m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_data.GetVolumeActualMonthly(plan, m)
+				# plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_data.GetVolumeActualTotal(plan)
+				# for m in plan['MONTHLY']:
+				# 	m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_data.GetVolumeActualMonthly(plan, m)
 
 				for plan_un in list_plan:
 					if plan_un['PRODUCT'] == plan['PRODUCT'] \
