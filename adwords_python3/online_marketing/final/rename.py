@@ -208,8 +208,8 @@ def CheckNameChange(path_data, list_customer, date):
 
     path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
     ###########################################
-    with open (path_data_his,'w') as f:
-      json.dump(data_total, f)
+    # with open (path_data_his,'w') as f:
+    #   json.dump(data_total, f)
     ############################################
   print("====================== Length =================")
   return (list_diff, data_total)
@@ -449,11 +449,13 @@ def CacualatorChange(path_data, list_diff, date):
 
 
     data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
+    for plan in list_plan['plan']:
+      if 'CAMPAIGN' not in plan:
+        print (plan)
 
     # for plan in data_map['plan']:
     #   if plan['REASON_CODE_ORACLE'] == '1708062' and plan['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
     #     print(plan)
-    print (list_plan['plan'])
     plan_sum, list_map_temp = insert_to_total.SumTotalManyPlan(data_map['plan'], data_map['campaign'])
 
 
