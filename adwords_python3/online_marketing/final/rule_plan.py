@@ -147,8 +147,8 @@ def CheckPlanUpdate(list_plan, plan):
 		_value['REAL_START_DATE'] == plan['REAL_START_DATE'] and \
 		_value['REAL_END_DATE'] == plan['REAL_END_DATE'] :
 
-			print(type(_value['REAL_START_DATE']), type(plan['REAL_START_DATE']))
-			print(type(_value['REAL_END_DATE']), type(plan['REAL_END_DATE']))
+			print(type(_value['REAL_START_DATE']), type(plan['REAL_START_DATE']), _value['REAL_START_DATE'], plan['REAL_START_DATE'])
+			print(type(_value['REAL_END_DATE']), type(plan['REAL_END_DATE']), _value['REAL_END_DATE'], plan['REAL_END_DATE'])
 			return True
 	
 	return False
@@ -1234,7 +1234,13 @@ for plan in data['plan']:
 	if plan['PRODUCT'] == '221' and plan['REASON_CODE_ORACLE'] == '1703048' :
 		print(plan)
 
-	if plan['PRODUCT'] == '252' and plan['REASON_CODE_ORACLE'] == '1702073':
+	if plan['REASON_CODE_ORACLE'] == '1702073':
+		print(plan)
+
+	if plan['REASON_CODE_ORACLE'] == '1709089':
+		print(plan)
+
+	if plan['REASON_CODE_ORACLE'] == '1709140':
 		print(plan)
 
 
