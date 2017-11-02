@@ -135,8 +135,6 @@ def AddBrandingGPSToPlan(data_total, connect, date):
 	cursor = conn.cursor()
 	media_source1 = 'googleadwords_int'
 	media_source2 = 'googleadwords_sem'
-	with open (path_data_total_map,'r') as f:
-		data_total = json.load(f)
 	for plan in data_total['TOTAL']:
 
 		if plan['UNIT_OPTION'] == 'CPI':
