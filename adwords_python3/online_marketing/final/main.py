@@ -152,7 +152,7 @@ def Daily(connect, path_data, date, list_customer_id):
 
 	# ======================= Insert branding install ====================================
 	# insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
-	import time
+	# import time
 	start = time.time()
 	insert_install.InsertInstall(path_data, connect, date)
 	insert_install_brandingGPS.AddBrandingGPS(path_data, connect, date)
