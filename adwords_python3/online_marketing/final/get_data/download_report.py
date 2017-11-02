@@ -190,7 +190,7 @@ def GetData(path_acc, path_camp, path_log, startDate, endDate):
   print('===========================================================')
 
   #=================  Get list account ============================  
-  list_mcc_id, list_mcc, list_dept = AccName.get_list_customer(path_acc)
+  list_mcc_id, list_mcc, list_dept = add_acc_name.get_list_customer(path_acc)
 
 
   #============== Get Campaign for all account =============

@@ -37,6 +37,29 @@ def InsertDetailUnmap(value, cursor):
 	# print("A row inserted!.......")
 
 
+def UpdatePlanDetail(value, cursor):
+	#==================== Insert data into database =============================
+	statement = 'update DTM_GG_PIVOT_DETAIL \
+	set SNAPSHOT_DATE = :1, CYEAR = :2, CMONTH = :3, LEGAL = :4, DEPARTMENT = :5, \
+	DEPARTMENT_NAME = :6, PRODUCT_NAME = :7, EFORM_NO = :8, \
+	START_DATE = :9, END_DATE = :10, CHANNEL = :11, UNIT_COST = :12, AMOUNT_USD = :13, \
+	CVALUE = :14, ENGAGEMENT = :15, IMPRESSIONS = :16, REACH = :17, FREQUENCY = :18, \
+	CLIKE = :19, CLICKS_ALL = :20, LINK_CLICKS = :21, CVIEWS = :22, C3S_VIDEO_VIEW = :23, \
+	INSTALL = :24, NRU = :25, OBJECTIVE = :26, \
+	EVENT_ID = :27, PRODUCT_ID = :28, CCD_NRU = :29\
+	where PRODUCT = :30 and REASON_CODE_ORACLE = :31 and EFORM_TYPE = :32 \
+	and UNIT_OPTION = :33'
+	
+		
+	cursor.execute(statement, (value['SNAPSHOT_DATE'], value['CYEAR'], value['CMONTH'], , value['LEGAL'], value['DEPARTMENT'], \
+		value['DEPARTMENT_NAME'], value['PRODUCT_NAME'], value['EFORM_NO'], \
+		value['START_DATE'], value['END_DATE'], value['CHANNEL'], , value['UNIT_COST'], value['AMOUNT_USD'], \
+		value['CVALUE'], value['ENGAGEMENT'], value['IMPRESSIONS'], value['REACH'], value['FREQUENCY'], \
+		value['CLIKE'], value['CLICKS_ALL'], value['LINK_CLICKS'], value['CVIEWS'], value['C3S_VIDEO_VIEW'], \
+		value['INSTALL'], value['NRU'], value['OBJECTIVE'], \
+		value['EVENT_ID'], value['PRODUCT_ID'], value['CCD_NRU'], \
+		value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION']))
+
 def SelectDetailUnmap(cursor):
 	#==================== Insert data into database =============================
 	statement = 'Select SNAPSHOT_DATE, CAMPAIGN_ID, \
@@ -48,8 +71,6 @@ def SelectDetailUnmap(cursor):
 	
 	return list_unmap
 	
-
-
 def ConvertJsonPlan(value):
 	json_ = {}	
 
@@ -155,7 +176,6 @@ def getProductID(value):
 		if (product_code == list_pro_code[i]):
 			return list_pro_id[i]
 	
-
 def ConvertJsonCamp(value):
 	json_ = {}	
 
@@ -221,7 +241,6 @@ def ConvertJsonCamp(value):
 	json_['GG_MCC_NAME'] = value['Account Name']
 
 	return json_
-
 
 def ConvertJsonMap(value):
 	json_ = {}	

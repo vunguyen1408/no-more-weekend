@@ -37,6 +37,14 @@ def UpdatePlanSum(value, cursor):
 
 	# print("   A row updated!.......")
 
+def DeletePlanSum(value, cursor):
+	#==================== Remove plan from database =============================
+	statement = 'delete from DTM_GG_PLAN_SUM \
+	where PRODUCT = :1 and REASON_CODE_ORACLE = :2 and EFORM_TYPE = :3 and UNIT_OPTION = :4'
+		
+	cursor.execute(statement, (value['PRODUCT'], value['REASON_CODE_ORACLE'], value['FORM_TYPE'], value['UNIT_OPTION']))	
+	
+	
 
 def MergerPlanSum(value, cursor):
 	#==================== Insert data into database =============================

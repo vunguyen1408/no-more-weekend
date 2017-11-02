@@ -22,6 +22,25 @@ def InsertMonthlySum(value, cursor):
 	# print("   A row inserted!.......")
 
 
+
+def UpdatePlanMonthlySum(value, cursor):
+	#==================== Insert data into database =============================
+	statement = 'update DTM_GG_MONTH_SUM \
+	set SNAPSHOT_DATE = :1, CYEAR = :2, CMONTH = :3, LEGAL = :4, DEPARTMENT = :5, \
+	DEPARTMENT_NAME = :6, PRODUCT_NAME = :7, EFORM_NO = :8, \
+	START_DATE = :9, END_DATE = :10, NET_BUDGET_VND = :11, \
+	NET_BUDGET = :12, UNIT_COST = :13, VOLUMN = :14, EVENT_ID = :15, PRODUCT_ID = :16 \
+	where PRODUCT = :17 and REASON_CODE_ORACLE = :18 and EFORM_TYPE = :19 \
+	and UNIT_OPTION = :20'
+	
+		
+	cursor.execute(statement, (value['SNAPSHOT_DATE'], value['CYEAR'], value['CMONTH'], value['LEGAL'], \
+		value['DEPARTMENT'], value['DEPARTMENT_NAME'], value['PRODUCT_NAME'], value['EFORM_NO'], \
+		value['START_DATE'], value['END_DATE'], value['NET_BUDGET_VND'], \
+		value['NET_BUDGET'], value['UNIT_COST'], value['VOLUMN'], value['EVENT_ID'], value['PRODUCT_ID'],\
+		value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION']))
+
+
 def UpdateMonthlySum(value, cursor):
 	#==================== Insert data into database =============================
 	statement = 'update DTM_GG_MONTH_SUM \

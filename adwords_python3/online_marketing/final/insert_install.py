@@ -177,14 +177,14 @@ def InsertInstallToPlan(path_data, connect, date):
 		print ("ok")
 
 
-connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-date = '2017-09-30'
-path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
+# connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+# date = '2017-09-30'
+# path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
 
-import time
-start = time.time()
-InsertInstallToPlan(path_data, connect, date)
-print ("Time : ", time.time() - start)
-start = time.time()
-insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
-print ("Time : ", time.time() - start)
+# import time
+# start = time.time()
+# InsertInstallToPlan(path_data, connect, date)
+# print ("Time : ", time.time() - start)
+# start = time.time()
+# insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
+# print ("Time : ", time.time() - start)

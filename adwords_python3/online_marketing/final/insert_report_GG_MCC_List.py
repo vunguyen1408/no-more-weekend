@@ -68,7 +68,7 @@ def InsertMCCListToDatabase(path_data, connect):
 					'STATUS': None, 
 					'CONTACT_POINT': None
 				}
-			else:
+			else (list_dept[i] is None):
 				value = {
 					'MCC': list_acc[i], 
 					'MCC_ID': list_acc_id[i], 
