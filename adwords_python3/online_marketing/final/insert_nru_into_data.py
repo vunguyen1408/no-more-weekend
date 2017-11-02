@@ -168,7 +168,6 @@ def Add_NRU_into_monthly(connect, path_data, date):
 				list_plan['UN_PLAN'][list_plan['UN_PLAN'].index(plan)]['MONTHLY'][i]['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
 
 	cursor.close()
-	insert_to_total.
 	with open(file_total, 'w') as fo:
 		json.dump(list_plan, fo)
 
