@@ -997,7 +997,9 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		list_plan_update = mapping.AddProductCode(path_data, list_plan_update, date)		
 		list_plan_update = nru.Add_NRU_into_list(connect, list_plan_update, date) 
 
-		list_plan_update_total, list_plan_update_map = UpdatePlan(path_data_total, list_plan_update)
+		plan_update_total, plan_update_map = UpdatePlan(path_data_total, list_plan_update)
+		list_plan_update_total.extend(plan_update_total)
+		list_plan_update_map.extend(plan_update_map)
 
 			
 
@@ -1248,6 +1250,9 @@ for plan in data['plan']:
 
 	if plan['REASON_CODE_ORACLE'] == '1709140':
 		print(plan)
+
+
+
 
 
 
