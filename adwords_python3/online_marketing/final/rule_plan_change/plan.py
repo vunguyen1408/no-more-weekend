@@ -1160,8 +1160,8 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		list_plan_update_map.extend(plan_update_map)
 
 
-	with open (path_data_total,'w') as f:
-		json.dump(data_total, f)
+	# with open (path_data_total,'w') as f:
+	# 	json.dump(data_total, f)
 
 	print('list_plan_new: ', len(list_plan_new))
 	print('list_plan_map: ', len(list_plan_map))
