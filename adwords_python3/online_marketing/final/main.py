@@ -21,6 +21,7 @@ import history_name as history
 import insert_nru_to_plan as nru
 # import insert_nru_into_data as nru
 import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
+import insert_install as insert_install
 
 
 import sys
@@ -152,6 +153,13 @@ def Daily(connect, path_data, date, list_customer_id):
 
 	# ======================= Insert branding install ====================================
 	# insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
+	import time
+	start = time.time()
+	InsertInstallToPlan(path_data, connect, date)
+	print ("Time : ", time.time() - start)
+	start = time.time()
+	insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
+	print ("Time : ", time.time() - start)
 
 	#======================== History name ==================================
 	# list_diff = history.InsertHistoryName(connect, path_data, list_customer_id, date)
@@ -165,10 +173,10 @@ def Daily(connect, path_data, date, list_customer_id):
 	list_map = []
 	list_camp_remove = []
 	
-	monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
-	detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
+	# detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date)
 
 
 	# time_insert_databse = time.time() - insert_databse

@@ -132,7 +132,7 @@ def GetListCampOfAccount(list_customer, date, to_date):
   list_camp_json = {}
   list_camp_json['history_name'] = list_camp
 
-  path_data_total_map = 'C:/Users/LAP11529-local/Desktop/history_name_temp.json'
+  path_data_total_map = 'C:/Users/LAP11529-local/Desktop/history_name.json'
   with open (path_data_total_map,'w') as f:
     json.dump(list_camp_json, f)
   return list_camp
@@ -598,7 +598,7 @@ list_customer_id = [
 
 date = '2017-01-01'
 to_date = '2017-09-30'
-# GetListCampOfAccount(list_, date, to_date)
+# GetListCampOfAccount(list_customer_id, date, to_date)
 
 # path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
 
