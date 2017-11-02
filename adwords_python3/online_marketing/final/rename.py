@@ -89,12 +89,12 @@ def DownloadNameOfAccount(adwords_client, customerId, date, to_date, path_log):
 
   startDate = down_load_name.DateToString(date)
   endDate = down_load_name.DateToString(to_date)
-  print (startDate)
-  print (endDate)
+  logging.debug(startDate)
+  logging.debug(endDate)
   #====================== CAMPAIGN ====================
   result_campaign = down_load_name.DownloadCampaignOfCustomer(adwords_client, customerId, startDate, endDate, path_log)
   result_json = down_load_name.TSVtoJson(result_campaign, date)
-  print (len(result_json))
+  logging.debug(len(result_json))
   list_name = []
   for campaign in result_json:
     if (campaign['Cost'] > 0) and campaign['Campaign state'] != 'Total':
@@ -104,7 +104,7 @@ def DownloadNameOfAccount(adwords_client, customerId, date, to_date, path_log):
             'ACCOUNT_ID' : customerId
           }
       list_name.append(camp)
-  print (len(list_name))
+  logging.debug(len(list_name))
   return list_name
 
 def GetListCampOfAccount(list_customer, date, to_date):
@@ -164,7 +164,7 @@ def CheckNameChange(path_data, list_customer, date):
     with open (path_data_total_map,'r') as f:
       data_total = json.load(f)
 
-    print (path_data_total_map)
+    logging.debug(path_data_total_map)
     # list_camp = GetListCampOfAccount(list_customer)
     path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/history_name.json'
     list_camp = []
@@ -175,19 +175,19 @@ def CheckNameChange(path_data, list_customer, date):
     ###########check code : duonglt 23-10 : 12:44 PM#################
     # for camp_ in list_camp:
     #     if str(camp_['CAMPAIGN_ID']) == '734063969':
-    #       print (camp_['CAMPAIGN_NAME'])
-    #       print (" TTTTTTTTTTT im thay")
+    #       logging.debug(camp_['CAMPAIGN_NAME'])
+    #       logging.debug(" TTTTTTTTTTT im thay")
     #       time.sleep(5)
-    # print ("================= history ======================")
+    # logging.debug("================= history ======================")
     ############################
 
-    print (len(list_camp))
+    logging.debug(len(list_camp))
     temp_ = []
     for camp_ in list_camp:
       flag = history_name.FindNameNew(data_total['HISTORY'], str(camp_['CAMPAIGN_ID']), camp_['CAMPAIGN_NAME'])
       if flag == -1:
         list_diff.append(camp_)
-        # print (camp_)
+        # logging.debug(camp_)
         temp = {
           'ACCOUNT_ID': camp_['ACCOUNT_ID'],
           'CAMPAIGN_ID' : str(camp_['CAMPAIGN_ID']),
@@ -202,7 +202,7 @@ def CheckNameChange(path_data, list_customer, date):
     time.sleep(5)
     #----------- Write file history new ----------------------
     path_folder = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING')
-    print (path_folder)
+    logging.debug(path_folder)
     if not os.path.exists(path_folder):
       os.makedirs(path_folder)
 
@@ -211,7 +211,7 @@ def CheckNameChange(path_data, list_customer, date):
     with open (path_data_his,'w') as f:
       json.dump(data_total, f)
     ############################################
-  print ("====================== Length =================")
+  logging.debug("====================== Length =================")
   return (list_diff, data_total)
 
 
@@ -219,7 +219,7 @@ def CheckNameChange(path_data, list_customer, date):
 # path_data = 'C:/Users/ltduo/Desktop/VNG/DATA/DATA_MAPPING'
 # date = '2017-06-01'
 # list_diff = CheckNameChange(path_data, list_customer, date)
-# print (list_diff)
+# logging.debug(list_diff)
 
 #================= Mapping campaign and plan WPL =====================
 def Map(path_folder, list_plan, list_campaign, date):
@@ -254,9 +254,9 @@ def Map(path_folder, list_plan, list_campaign, date):
 
       # if str(camp['Campaign ID']) == '794232395' and eform['REASON_CODE_ORACLE'] == '1708062' \
       #   and eform['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
-      #   print (camp)
-      #   print (eform)
-        # print ("\n\n")
+      #   logging.debug(camp)
+      #   logging.debug(eform)
+        # logging.debug("\n\n")
       t = True
 
       if (camp['Mapping'] == False): 
@@ -271,7 +271,7 @@ def Map(path_folder, list_plan, list_campaign, date):
             and (date_ <= end) ) \
             or  ( mapping.LogManualMap(path_folder, camp, eform, date) ):
             flag = True
-            # print ("mapping WPL")
+            # logging.debug("mapping WPL")
         else:
           # ============= GS5 ================
           if camp['Dept'].find('GS5') >= 0:
@@ -283,7 +283,7 @@ def Map(path_folder, list_plan, list_campaign, date):
               and (date_ <= end) ) \
               or  ( mapping.LogManualMap(path_folder, camp, eform, date) ):
               flag = True
-              # print ("mapping GS5")
+              # logging.debug("mapping GS5")
 
           else:
             try:
@@ -306,7 +306,7 @@ def Map(path_folder, list_plan, list_campaign, date):
               or ( mapping.LogManualMap(path_folder, camp, eform, date) ): 
               flag = True
               # if t:
-              #   print ("mapping =====================================\n\n\n")
+              #   logging.debug("mapping =====================================\n\n\n")
         if flag:
           camp['Mapping'] = True
           plan = {}
@@ -350,7 +350,7 @@ def Map(path_folder, list_plan, list_campaign, date):
               and (date_ >= start) \
               and (date_ <= end) ) \
               or  ( mapping.LogManualMap(path_folder, camp, eform, date) ): 
-              # print ("mapping GS5")
+              # logging.debug("mapping GS5")
               camp['Mapping'] = True
               plan = {}
               plan['PRODUCT_CODE'] = eform['PRODUCT_CODE']
@@ -375,8 +375,8 @@ def Map(path_folder, list_plan, list_campaign, date):
   data_map = {}
   data_map['campaign'] = list_campaign_map
   data_map['plan'] = list_plan
-  print (" -------------- Mapping------ ", number)
-  print (" -------------- Un mapping------ ", len(list_campaign_map) - number)
+  logging.debug(" -------------- Mapping------ ", number)
+  logging.debug(" -------------- Un mapping------ ", len(list_campaign_map) - number)
   return data_map
 
 def CacualatorChange(path_data, list_diff, date):
@@ -402,26 +402,26 @@ def CacualatorChange(path_data, list_diff, date):
     find = True
 
   if find:
-    print (path_data_total_map)
+    logging.debug(path_data_total_map)
     with open (path_data_total_map,'r') as f:
       data_total = json.load(f)
 
     list_camp_find = []
 
     for camp in list_diff:
-      # print (camp)
+      # logging.debug(camp)
       for campaign in data_total['UN_CAMPAIGN']:
         if str(camp['CAMPAIGN_ID']) == str(campaign['Campaign ID']):
-          # print (campaign)
+          # logging.debug(campaign)
         # if str(camp['CAMPAIGN_ID']) == str(campaign['Campaign ID']) and camp['CAMPAIGN_NAME'] != campaign['Campaign']: 
-          # print (campaign)      
+          # logging.debug(campaign)      
           temp = campaign
           campaign['Campaign'] = camp['CAMPAIGN_NAME']
           temp['Campaign'] = camp['CAMPAIGN_NAME']
           list_camp_find.append(temp)
-          # print (temp['Campaign'] + '  ===================  ' + str(temp['Campaign ID'] ))
+          # logging.debug(temp['Campaign'] + '  ===================  ' + str(temp['Campaign ID'] ))
 
-    # print (list_camp_find)
+    # logging.debug(list_camp_find)
     list_camp_update = list_camp_find # Update name
     mp2 = 0
     pg1 = 0
@@ -434,25 +434,25 @@ def CacualatorChange(path_data, list_diff, date):
       if camp['Account Name'].find('PG1') >= 0:
         pg1 += 1
 
-    print ("Camp MP2", mp2)
-    print ("Camp PG1", pg1)
-    print ("Camp PG2", pg2)
+    logging.debug("Camp MP2", mp2)
+    logging.debug("Camp PG1", pg1)
+    logging.debug("Camp PG2", pg2)
 
 
     list_plan = mapping.ReadPlan(path_data, date)
     list_plan['plan'] = mapping.AddProductCode(path_data, list_plan['plan'], date)
     # -------------- Call mapping ----------------
-    # print (len(list_camp_find))
+    # logging.debug(len(list_camp_find))
     # for plan in list_plan['plan']:
     #   if plan['REASON_CODE_ORACLE'] == '1708062' and plan['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
-    #     print (plan)
+    #     logging.debug(plan)
 
 
     data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
 
     # for plan in data_map['plan']:
     #   if plan['REASON_CODE_ORACLE'] == '1708062' and plan['FORM_TYPE'] == 'UNIVERSAL_APP_CAMPAIGN':
-    #     print (plan)
+    #     logging.debug(plan)
 
     plan_sum, list_map_temp = insert_to_total.SumTotalManyPlan(data_map['plan'], data_map['campaign'])
 
@@ -465,7 +465,7 @@ def CacualatorChange(path_data, list_diff, date):
     list_camp_need_remove = list_map_temp  # Remove campaign mapped
     data_total['MAP'].extend(list_map_temp)
     for plan in list_plan:
-      # print (plan)
+      # logging.debug(plan)
       flag = True
       for plan_total in data_total['TOTAL']:
         if plan_total['PRODUCT'] == plan['PRODUCT'] \
@@ -481,7 +481,7 @@ def CacualatorChange(path_data, list_diff, date):
         data_total['TOTAL'].append(plan)
 
 
-    # print (list_plan)
+    # logging.debug(list_plan)
 
     # -------- Xoa cac camp da duoc mapping lai ra khoi un map ----------
     for camp in list_map_temp:
@@ -500,13 +500,13 @@ def CacualatorChange(path_data, list_diff, date):
           data_total['UN_PLAN'].remove(plan_un)
           list_plan_remove_unmap.append(plan_un)
 
-    print ("---------------------------------------------------")
+    logging.debug("---------------------------------------------------")
     for plan in data_total['TOTAL']:
       plan['MONTHLY'] = {}
       plan = insert_to_total.CaculatorTotalMonth(plan, date)
 
-      # print (plan)
-    print ("---------------------------------------------------")
+      # logging.debug(plan)
+    logging.debug("---------------------------------------------------")
 
     for plan in data_total['UN_PLAN']:
       plan['MONTHLY'] = {}
@@ -525,23 +525,23 @@ def CacualatorChange(path_data, list_diff, date):
           and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
           and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
           list_plan_update.append(plan_total)
-          # print (plan)
+          # logging.debug(plan)
     # # ------------- Remove campaign mapped ----------------
     # for camp in data_map['campaign']:
     #   if camp['Plan'] == None:
     #     list_camp_need_removed.append(camp)
     #     for campaign in data_total['UN_CAMPAIGN']:
     #       if camp['Campaign ID'] == campaign['Campaign ID'] and camp['Date'] == campaign['Date']:
-    #         print (campaign)
+    #         logging.debug(campaign)
     #         data_total['UN_CAMPAIGN'].remove(campaign)
 
     # data_total = insert_to_total.AddToTotal(data_total, data_map, date)
 
-    print ("camp update", len(list_camp_update))
-    print ("plan update", len(list_plan_update))
-    print ("plan remove", len(list_plan_remove_unmap))
-    print ("camp remove", len(list_camp_need_remove))
-    print ("======== Mapped =================")
+    logging.debug("camp update", len(list_camp_update))
+    logging.debug("plan update", len(list_plan_update))
+    logging.debug("plan remove", len(list_plan_remove_unmap))
+    logging.debug("camp remove", len(list_camp_need_remove))
+    logging.debug("======== Mapped =================")
 
     ###########################################
     path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
