@@ -1212,140 +1212,140 @@ list_camp_remove_unmap, list_camp_insert_unmap, list_plan_insert_total, \
 
 
 
-import insert_report_monthly_detail as monthly_detail
-import insert_report_monthly_sum as monthly_sum
-import insert_report_plan_sum as plan_sum
-import insert_report_detail_map as detail_map
+# import insert_report_monthly_detail as monthly_detail
+# import insert_report_monthly_sum as monthly_sum
+# import insert_report_plan_sum as plan_sum
+# import insert_report_detail_map as detail_map
 
-def merger_data_plan_change(connect, list_camp_remove_unmap, list_camp_insert_unmap, \
-	list_plan_insert_total, list_plan_update_total, list_plan_remove_total, \
-	list_data_insert_map, list_data_remove_map, list_plan_update_map, \
-	list_plan_remove_map, list_plan_insert_unmap, list_plan_remove_unmap):
+# def merger_data_plan_change(connect, list_camp_remove_unmap, list_camp_insert_unmap, \
+# 	list_plan_insert_total, list_plan_update_total, list_plan_remove_total, \
+# 	list_data_insert_map, list_data_remove_map, list_plan_update_map, \
+# 	list_plan_remove_map, list_plan_insert_unmap, list_plan_remove_unmap):
 
-	# ==================== Connect database =======================
-	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
-	cursor = conn.cursor()
-
-
-	import time
-	start = time.time()
-	#=================== List campaign remove from table detail_unmap =====================
-	if (len(list_camp_remove_unmap) > 0):
-		for camp in list_camp_remove_unmap:
-			detail_map.DeleteCamp(camp, cursor)
-	print ("Time for list_camp_remove_unmap: ", (time.time() - start))
+# 	# ==================== Connect database =======================
+# 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
+# 	cursor = conn.cursor()
 
 
-	start = time.time()
-	#=================== List campaign insert into detail_unmap =====================
-	if (len(list_camp_insert_unmap) > 0):
-		for camp in list_camp_insert_unmap:
-			value = detail_map.ConvertJsonCamp(camp)
-			detail_map.InsertDetailUnmap(value, cursor)
-	print ("Time for list_camp_insert_unmap : ", (time.time() - start))
+# 	import time
+# 	start = time.time()
+# 	#=================== List campaign remove from table detail_unmap =====================
+# 	if (len(list_camp_remove_unmap) > 0):
+# 		for camp in list_camp_remove_unmap:
+# 			detail_map.DeleteCamp(camp, cursor)
+# 	print ("Time for list_camp_remove_unmap: ", (time.time() - start))
 
 
-	start = time.time()
-	# =============== List plan insert into total ============================
-	if (len(list_plan_insert_total) > 0):
-		for plan in list_plan_insert_total:
-			json_ = plan_sum.ConvertJsonPlanSum(plan)
-			plan_sum.InsertPlanSum(json_, cursor)
-
-			if ('MONTHLY' in plan):
-				for i in range(len(plan['MONTHLY'])):
-					json_ = monthly_sum.ConvertJsonMonthlySum(i, plan)
-					monthly_sum.InsertMonthlySum(json_, cursor)
-
-					json_ = monthly_detail.ConvertJsonMonthlyDetail(i, plan)
-					monthly_detail.InsertMonthlyDetail(json_, cursor)
-	print ("Time insert PLAN (map) into 3 report : ", (time.time() - start))
+# 	start = time.time()
+# 	#=================== List campaign insert into detail_unmap =====================
+# 	if (len(list_camp_insert_unmap) > 0):
+# 		for camp in list_camp_insert_unmap:
+# 			value = detail_map.ConvertJsonCamp(camp)
+# 			detail_map.InsertDetailUnmap(value, cursor)
+# 	print ("Time for list_camp_insert_unmap : ", (time.time() - start))
 
 
-	start = time.time()
-	# ============ List plan update into total =====================
-	if (len(list_plan_update_total) > 0):
-		for plan in list_plan_update_total:
-			json_ = plan_sum.ConvertJsonPlanSum(plan)
-			plan_sum.UpdatePlanPlanSum(json_, cursor)
+# 	start = time.time()
+# 	# =============== List plan insert into total ============================
+# 	if (len(list_plan_insert_total) > 0):
+# 		for plan in list_plan_insert_total:
+# 			json_ = plan_sum.ConvertJsonPlanSum(plan)
+# 			plan_sum.InsertPlanSum(json_, cursor)
 
-			if ('MONTHLY' in plan):
-				for i in range(len(plan['MONTHLY'])):
-					json_ = monthly_sum.ConvertJsonMonthlySum(i, plan)
-					monthly_sum.UpdatePlanMonthlySum(json_, cursor)
+# 			if ('MONTHLY' in plan):
+# 				for i in range(len(plan['MONTHLY'])):
+# 					json_ = monthly_sum.ConvertJsonMonthlySum(i, plan)
+# 					monthly_sum.InsertMonthlySum(json_, cursor)
 
-					json_ = monthly_detail.ConvertJsonMonthlyDetail(i, plan)
-					monthly_detail.UpdatePlanMonthlyDetail(json_, cursor)
-	print ("Time update PLAN into 3 report : ", (time.time() - start))
-
-
-
-	start = time.time()
-	# ============ List plan remove from total =====================
-	if (len(list_plan_remove_total) > 0):
-		for plan in list_plan_remove_total:			
-			plan_sum.DeletePlanSum(plan, cursor)			
-			monthly_sum.DeleteMonthlySum(plan, cursor)			
-			monthly_detail.DeleteMonthlyDetail(plan, cursor)
-	print ("Time remove PLAN into 3 report : ", (time.time() - start))
+# 					json_ = monthly_detail.ConvertJsonMonthlyDetail(i, plan)
+# 					monthly_detail.InsertMonthlyDetail(json_, cursor)
+# 	print ("Time insert PLAN (map) into 3 report : ", (time.time() - start))
 
 
-	start = time.time()
-	#=================== List data insert into detail_unmap =====================
-	if (len(list_data_insert_map) > 0):
-		for plan in list_data_insert_map:
-			value = detail_map.ConvertJsonMap(plan)
-			detail_map.InsertDetailUnmap(value, cursor)
-	print ("Time insert for list_data_insert_map : ", (time.time() - start))
+# 	start = time.time()
+# 	# ============ List plan update into total =====================
+# 	if (len(list_plan_update_total) > 0):
+# 		for plan in list_plan_update_total:
+# 			json_ = plan_sum.ConvertJsonPlanSum(plan)
+# 			plan_sum.UpdatePlanPlanSum(json_, cursor)
 
+# 			if ('MONTHLY' in plan):
+# 				for i in range(len(plan['MONTHLY'])):
+# 					json_ = monthly_sum.ConvertJsonMonthlySum(i, plan)
+# 					monthly_sum.UpdatePlanMonthlySum(json_, cursor)
 
-	start = time.time()
-	#=================== List data remove from detail_unmap =====================
-	if (len(list_data_remove_map) > 0):
-		for data in list_data_remove_map:
-			detail_map.DeleteCamp(data, cursor)
-	print ("Time remove for list_data_remove_map : ", (time.time() - start))
+# 					json_ = monthly_detail.ConvertJsonMonthlyDetail(i, plan)
+# 					monthly_detail.UpdatePlanMonthlyDetail(json_, cursor)
+# 	print ("Time update PLAN into 3 report : ", (time.time() - start))
 
 
 
-	start = time.time()
-	#=================== List data update into detail_unmap =====================
-	if (len(list_plan_update_map) > 0):
-		for plan in list_plan_update_map:
-			# _json = ConvertJsonMap(plan)
-			detail_map.UpdatePlanDetail(_json, cursor)
-	print ("Time update DETAIL MAP : ", (time.time() - start))
+# 	start = time.time()
+# 	# ============ List plan remove from total =====================
+# 	if (len(list_plan_remove_total) > 0):
+# 		for plan in list_plan_remove_total:			
+# 			plan_sum.DeletePlanSum(plan, cursor)			
+# 			monthly_sum.DeleteMonthlySum(plan, cursor)			
+# 			monthly_detail.DeleteMonthlyDetail(plan, cursor)
+# 	print ("Time remove PLAN into 3 report : ", (time.time() - start))
 
 
-	start = time.time()
-	#=================== List data remove from detail_unmap =====================
-	if (len(list_plan_remove_map) > 0):
-		for plan in list_plan_remove_map:
-			detail_map.DeleteCamp(data, cursor)
-	print ("Time remove DATA MAP : ", (time.time() - start))
+# 	start = time.time()
+# 	#=================== List data insert into detail_unmap =====================
+# 	if (len(list_data_insert_map) > 0):
+# 		for plan in list_data_insert_map:
+# 			value = detail_map.ConvertJsonMap(plan)
+# 			detail_map.InsertDetailUnmap(value, cursor)
+# 	print ("Time insert for list_data_insert_map : ", (time.time() - start))
 
 
-	start = time.time()
-	#=================== List data insert into detail_unmap =====================
-	if (len(list_plan_insert_unmap) > 0):
-		for plan in list_plan_insert_unmap:
-			value = detail_map.ConvertJsonPlan(plan)
-			detail_map.InsertDetailUnmap(value, cursor)
-	print ("Time insert UN_PLAN : ", (time.time() - start))
+# 	start = time.time()
+# 	#=================== List data remove from detail_unmap =====================
+# 	if (len(list_data_remove_map) > 0):
+# 		for data in list_data_remove_map:
+# 			detail_map.DeleteCamp(data, cursor)
+# 	print ("Time remove for list_data_remove_map : ", (time.time() - start))
 
 
-	start = time.time()
-	#=================== List data remove from detail_unmap =====================
-	if (len(list_plan_remove_unmap) > 0):
-		for plan in list_plan_remove_unmap:
-			detail_map.DeletePlan(value)
-	print ("Time remove UN_PLAN : ", (time.time() - start))
+
+# 	start = time.time()
+# 	#=================== List data update into detail_unmap =====================
+# 	if (len(list_plan_update_map) > 0):
+# 		for plan in list_plan_update_map:
+# 			# _json = ConvertJsonMap(plan)
+# 			detail_map.UpdatePlanDetail(_json, cursor)
+# 	print ("Time update DETAIL MAP : ", (time.time() - start))
+
+
+# 	start = time.time()
+# 	#=================== List data remove from detail_unmap =====================
+# 	if (len(list_plan_remove_map) > 0):
+# 		for plan in list_plan_remove_map:
+# 			detail_map.DeleteCamp(data, cursor)
+# 	print ("Time remove DATA MAP : ", (time.time() - start))
+
+
+# 	start = time.time()
+# 	#=================== List data insert into detail_unmap =====================
+# 	if (len(list_plan_insert_unmap) > 0):
+# 		for plan in list_plan_insert_unmap:
+# 			value = detail_map.ConvertJsonPlan(plan)
+# 			detail_map.InsertDetailUnmap(value, cursor)
+# 	print ("Time insert UN_PLAN : ", (time.time() - start))
+
+
+# 	start = time.time()
+# 	#=================== List data remove from detail_unmap =====================
+# 	if (len(list_plan_remove_unmap) > 0):
+# 		for plan in list_plan_remove_unmap:
+# 			detail_map.DeletePlan(value)
+# 	print ("Time remove UN_PLAN : ", (time.time() - start))
 	
 
-	#=================== Commit and close connect =================
-	conn.commit()
-	print("Committed!.......")
-	cursor.close()
+# 	#=================== Commit and close connect =================
+# 	conn.commit()
+# 	print("Committed!.......")
+# 	cursor.close()
 
 
 
@@ -1409,23 +1409,23 @@ def merger_data_plan_change(connect, list_camp_remove_unmap, list_camp_insert_un
 
 #============  Get file =========================================
 
-path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA/2017-10-25/PLAN/plan.json'
-with open(path, 'r') as fi:
-	data = json.load(fi)
+# path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA/2017-10-25/PLAN/plan.json'
+# with open(path, 'r') as fi:
+# 	data = json.load(fi)
 
 
-for plan in data['plan']:
-	if plan['PRODUCT'] == '221' and plan['REASON_CODE_ORACLE'] == '1703048' :
-		print(plan)
+# for plan in data['plan']:
+# 	if plan['PRODUCT'] == '221' and plan['REASON_CODE_ORACLE'] == '1703048' :
+# 		print(plan)
 
-	if plan['REASON_CODE_ORACLE'] == '1702073':
-		print(plan)
+# 	if plan['REASON_CODE_ORACLE'] == '1702073':
+# 		print(plan)
 
-	if plan['REASON_CODE_ORACLE'] == '1709089':
-		print(plan)
+# 	if plan['REASON_CODE_ORACLE'] == '1709089':
+# 		print(plan)
 
-	if plan['REASON_CODE_ORACLE'] == '1709140':
-		print(plan)
+# 	if plan['REASON_CODE_ORACLE'] == '1709140':
+# 		print(plan)
 
 
 
