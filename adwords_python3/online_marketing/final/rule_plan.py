@@ -146,8 +146,10 @@ def CheckPlanUpdate(list_plan, plan):
 		_value['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE'] and \
 		_value['REAL_START_DATE'] == plan['REAL_START_DATE'] and \
 		_value['REAL_END_DATE'] == plan['REAL_END_DATE'] :
-			return True
 
+			print(type(_value['REAL_START_DATE']), type(plan['REAL_START_DATE']))
+			print(type(_value['REAL_END_DATE']), type(plan['REAL_END_DATE']))
+			return True
 	
 	return False
 
@@ -884,7 +886,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	# =============== Get plan change =====================	
 	# fi = open(path_log, 'r')
 	# final_log = fi.read()
-	final_log = '11/01/2017 10:00:00'
+	final_log = '10/31/2017 13:35:00'
 	print(final_log)
 
 	list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
@@ -1223,7 +1225,7 @@ list_camp_remove_unmap, list_camp_insert_unmap, \
 
 #============  Get file =========================================
 
-path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA/2017-03-01/PLAN/plan.json'
+path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA/2017-10-25/PLAN/plan.json'
 with open(path, 'r') as fi:
 	data = json.load(fi)
 
