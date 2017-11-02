@@ -141,14 +141,14 @@ def CheckPlanUpdate(list_plan, plan):
 		if _value['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
 		_value['PRODUCT'] == plan['PRODUCT'] and \
 		_value['FORM_TYPE'] == plan['FORM_TYPE'] and \
+		_value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
 		_value['START_DAY'] == plan['START_DAY'] and \
 		_value['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE'] and \
 		_value['REAL_START_DATE'] == plan['REAL_START_DATE'] and \
 		_value['REAL_END_DATE'] == plan['REAL_END_DATE'] :
 			return True
 
-	# _value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
-
+	
 	return False
 
 
@@ -498,13 +498,12 @@ def CheckPlanUpdateRealDate(list_plan, plan):
 		if _value['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
 		_value['PRODUCT'] == plan['PRODUCT'] and \
 		_value['FORM_TYPE'] == plan['FORM_TYPE'] and \
+		_value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
 		_value['START_DAY'] == plan['START_DAY'] and \
 		_value['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE'] and \
 		(_value['REAL_START_DATE'] != plan['REAL_START_DATE'] or \
 		_value['REAL_END_DATE'] != plan['REAL_END_DATE'] ):
-			return True
-
-		# _value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
+			return True		
 
 	return False
 
