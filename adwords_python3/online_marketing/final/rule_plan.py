@@ -449,7 +449,8 @@ def NewPlan(path_data, date, list_plan):
 
 def GetPlanModified(connect, path_data):
 	#====================== Get old plan in python ==========================
-	path_plan = os.path.join(path_data + '/' + str(date) + '/PLAN/plan.json')
+	# path_plan = os.path.join(path_data + '/' + str(date) + '/PLAN/plan.json')
+	path_plan = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA/2017-10-25/PLAN/plan.json'
 	with open(path_plan, 'r') as fi:
 		data = json.load(fi)
 	list_plan =  data['plan'].copy()
