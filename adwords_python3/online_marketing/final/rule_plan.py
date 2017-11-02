@@ -945,7 +945,7 @@ def ReleaseCampOfPlanRealDate(path_data, date, list_plan_change):
 				camp = GetCampFromDataMAP(data_map)
 				list_camp_insert_unmap.append(camp)
 				data_total['MAP'].remove(data_map)
-				list_data_remove_map.(data_map)
+				list_data_remove_map.append(data_map)
 
 
 	# -------------- Re-compute TOTAL_CAMP in data TOTAL -------------
