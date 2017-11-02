@@ -145,10 +145,7 @@ def CheckPlanUpdate(list_plan, plan):
 		_value['START_DAY'] == plan['START_DAY'] and \
 		_value['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE'] and \
 		_value['REAL_START_DATE'] == plan['REAL_START_DATE'] and \
-		_value['REAL_END_DATE'] == plan['REAL_END_DATE'] :
-
-			print(type(_value['REAL_START_DATE']), type(plan['REAL_START_DATE']), _value['REAL_START_DATE'], plan['REAL_START_DATE'])
-			print(type(_value['REAL_END_DATE']), type(plan['REAL_END_DATE']), _value['REAL_END_DATE'], plan['REAL_END_DATE'])
+		_value['REAL_END_DATE'] == plan['REAL_END_DATE'] :			
 			return True
 	
 	return False
@@ -378,7 +375,7 @@ def NewPlan(path_data, date, list_plan):
 	list_data_insert_map.extend(list_data_map)
 
 	#---------- Insert data total ------------------
-	data_total['TOTAL'].extend(list_plan_total)
+	# data_total['TOTAL'].extend(list_plan_total)
 	list_plan_insert_total.extend(list_plan_total)   # Can tinh them MONTHLY
 
 	
@@ -398,13 +395,15 @@ def NewPlan(path_data, date, list_plan):
 
 
 	# =============== COMPUTE MONTHLY FOR EACH TOTAL PLAN ===================
-	for plan in data_total['TOTAL']:
-		plan['MONTHLY'] = {}
-		plan = insert_to_total.CaculatorTotalMonth(plan, date)
+	# for plan in data_total['TOTAL']:
+	# 	plan['MONTHLY'] = {}
+	# 	plan = insert_to_total.CaculatorTotalMonth(plan, date)
 
 	for plan in list_plan_insert_total:
 		plan['MONTHLY'] = {}
 		plan = insert_to_total.CaculatorTotalMonth(plan, date)
+
+	data_total['TOTAL'].extend(list_plan_insert_total)
 		
 	for plan in data_total['UN_PLAN']:
 		plan['MONTHLY'] = {}
@@ -489,83 +488,11 @@ def GetPlanModified(connect, path_data):
 				# and (new_plan['REAL_END_DATE'] == plan['REAL_END_DATE']) :	
 				list_plan.remove(plan)
 						
-	# print(len(list_plan))
-	# for plan in list_plan:
-	# 	print(plan)
+	
 	return list_plan
 
 
-def CheckPlanUpdateRealDate(list_plan, plan):
-	for _value in list_plan:
-		# ========= Change product id =====================
-		if _value['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
-		_value['PRODUCT'] == plan['PRODUCT'] and \
-		_value['FORM_TYPE'] == plan['FORM_TYPE'] and \
-		_value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
-		_value['START_DAY'] == plan['START_DAY'] and \
-		_value['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE'] and \
-		(_value['REAL_START_DATE'] != plan['REAL_START_DATE'] or \
-		_value['REAL_END_DATE'] != plan['REAL_END_DATE'] ):
-			return True		
-
-	return False
-
-
-def GetCampFromDataMAP(data_map):
-	camp = {}
-
-	camp['Campaign ID'] = data_map['Campaign ID']
-	camp['Campaign'] = data_map['Campaign']
-	camp['Account ID'] = data_map['Account ID']
-	camp['Account Name'] = data_map['Account Name']
-	camp['Dept'] = data_map['Dept']
-
-	camp['Campaign state'] = data_map['Campaign state']
-	camp['Campaign serving status'] = data_map['Campaign serving status']
-	camp['Advertising Channel'] = data_map['Advertising Channel']
-	camp['Advertising Sub Channel'] = data_map['Advertising Sub Channel']
-	camp['Bid Strategy Type'] = data_map['Bid Strategy Type']
-
-	camp['Start date'] = data_map['Start date']
-	camp['End date'] = data_map['End date']
-	camp['Invalid clicks'] = data_map['Invalid clicks']
-	camp['Conversions'] = data_map['Conversions']
-	camp['Engagements'] = data_map['Engagements']
-
-	camp['Impressions'] = data_map['Impressions']
-	camp['Unique cookies'] = data_map['Unique cookies']
-	camp['Clicks'] = data_map['Clicks']
-	camp['Interactions'] = data_map['Interactions']
-	camp['Interaction Rate'] = data_map['Interaction Rate']
-
-	camp['Interaction Types'] = data_map['Interaction Types']
-	camp['Cost'] = data_map['Cost']
-	camp['Views'] = data_map['Views']
-	camp['CTR'] = data_map['CTR']
-	camp['Avg. position'] = data_map['Avg. position']
-
-	camp['View rate'] = data_map['View rate']
-	camp['Video played to 25%'] = data_map['Video played to 25%']
-	camp['Video played to 50%'] = data_map['Video played to 50%']
-	camp['Video played to 75%'] = data_map['Video played to 75%']
-	camp['Video played to 100%'] = 	data_map['Video played to 100%']
-
-	camp['Avg. CPE'] = 	data_map['Avg. CPE']
-	camp['Avg. CPV'] = data_map['Avg. CPV']
-	camp['Avg. CPC'] = data_map['Avg. CPC']
-	camp['Avg. Cost'] = data_map['Avg. Cost']
-	camp['Avg. CPM'] = data_map['Avg. CPM']
-
-	camp['INSTALL_CAMP'] = data_map['INSTALL_CAMP']
-	camp['Mapping'] = data_map['Mapping']
-	camp['Date'] = data_map['Date']
-	camp['Plan'] = data_map['Plan']
-	camp['STATUS'] =data_map['STATUS']
-
-	return camp
-	
-
-def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
+def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified):
 	print('list_plan_modified: ', len(list_plan_modified))
 	for i in list_plan_modified:
 		print(i)
@@ -660,7 +587,7 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 	list_data_insert_map.extend(list_data_map)
 
 	#---------- Insert data total ------------------
-	data_total['TOTAL'].extend(list_plan_total)
+	# data_total['TOTAL'].extend(list_plan_total)
 	list_plan_insert_total.extend(list_plan_total)   # Can tinh them MONTHLY
 
 	
@@ -680,13 +607,15 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 
 
 	# =============== COMPUTE MONTHLY FOR EACH TOTAL PLAN ===================
-	for plan in data_total['TOTAL']:
+	# for plan in data_total['TOTAL']:
+	# 	plan['MONTHLY'] = {}
+	# 	plan = insert_to_total.CaculatorTotalMonth(plan, date)
+
+	for plan in list_plan_insert_total:
 		plan['MONTHLY'] = {}
 		plan = insert_to_total.CaculatorTotalMonth(plan, date)
 
-	for plan in list_plan_total:
-		plan['MONTHLY'] = {}
-		plan = insert_to_total.CaculatorTotalMonth(plan, date)
+	data_total['TOTAL'].extend(list_plan_insert_total)
 		
 	for plan in data_total['UN_PLAN']:
 		plan['MONTHLY'] = {}
@@ -729,7 +658,77 @@ def ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified):
 	list_plan_remove_unmap, list_plan_insert_unmap, list_data_insert_map, list_plan_insert_total
 
 
-def ChangeRealDatePlanToMap(path_data, list_plan_change, date):	
+def CheckPlanUpdateRealDate(list_plan, plan):
+	for _value in list_plan:
+		# ========= Change product id =====================
+		if _value['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
+		_value['PRODUCT'] == plan['PRODUCT'] and \
+		_value['FORM_TYPE'] == plan['FORM_TYPE'] and \
+		_value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
+		_value['START_DAY'] == plan['START_DAY'] and \
+		_value['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE'] and \
+		(_value['REAL_START_DATE'] != plan['REAL_START_DATE'] or \
+		_value['REAL_END_DATE'] != plan['REAL_END_DATE'] ):
+			return True		
+
+	return False
+
+
+def GetCampFromDataMAP(data_map):
+	camp = {}
+
+	camp['Campaign ID'] = data_map['Campaign ID']
+	camp['Campaign'] = data_map['Campaign']
+	camp['Account ID'] = data_map['Account ID']
+	camp['Account Name'] = data_map['Account Name']
+	camp['Dept'] = data_map['Dept']
+
+	camp['Campaign state'] = data_map['Campaign state']
+	camp['Campaign serving status'] = data_map['Campaign serving status']
+	camp['Advertising Channel'] = data_map['Advertising Channel']
+	camp['Advertising Sub Channel'] = data_map['Advertising Sub Channel']
+	camp['Bid Strategy Type'] = data_map['Bid Strategy Type']
+
+	camp['Start date'] = data_map['Start date']
+	camp['End date'] = data_map['End date']
+	camp['Invalid clicks'] = data_map['Invalid clicks']
+	camp['Conversions'] = data_map['Conversions']
+	camp['Engagements'] = data_map['Engagements']
+
+	camp['Impressions'] = data_map['Impressions']
+	camp['Unique cookies'] = data_map['Unique cookies']
+	camp['Clicks'] = data_map['Clicks']
+	camp['Interactions'] = data_map['Interactions']
+	camp['Interaction Rate'] = data_map['Interaction Rate']
+
+	camp['Interaction Types'] = data_map['Interaction Types']
+	camp['Cost'] = data_map['Cost']
+	camp['Views'] = data_map['Views']
+	camp['CTR'] = data_map['CTR']
+	camp['Avg. position'] = data_map['Avg. position']
+
+	camp['View rate'] = data_map['View rate']
+	camp['Video played to 25%'] = data_map['Video played to 25%']
+	camp['Video played to 50%'] = data_map['Video played to 50%']
+	camp['Video played to 75%'] = data_map['Video played to 75%']
+	camp['Video played to 100%'] = 	data_map['Video played to 100%']
+
+	camp['Avg. CPE'] = 	data_map['Avg. CPE']
+	camp['Avg. CPV'] = data_map['Avg. CPV']
+	camp['Avg. CPC'] = data_map['Avg. CPC']
+	camp['Avg. Cost'] = data_map['Avg. Cost']
+	camp['Avg. CPM'] = data_map['Avg. CPM']
+
+	camp['INSTALL_CAMP'] = data_map['INSTALL_CAMP']
+	camp['Mapping'] = data_map['Mapping']
+	camp['Date'] = data_map['Date']
+	camp['Plan'] = data_map['Plan']
+	camp['STATUS'] =data_map['STATUS']
+
+	return camp
+	
+
+def ChangeRealDatePlanToMap(path_data, date, list_plan_change):	
 	list_camp_remove_unmap = []	
 	list_data_insert_map = []
 	list_plan_update_map = []	
@@ -866,6 +865,103 @@ def ChangeRealDatePlanToMap(path_data, list_plan_change, date):
 	return list_camp_remove_unmap, list_data_insert_map, list_plan_update_map, list_plan_remove_unmap, list_plan_insert_total, list_plan_update_total
 	
 
+def RecomputeTotalPlan(plan, list_campaign):
+
+	"""
+		Hàm tính lại total cho một plan (trừ đi các campaign được nhả)
+	"""
+	sum_plan = plan['TOTAL_CAMPAIGN']
+	for campaign_in_plan in plan['CAMPAIGN']:
+		for campaign in list_campaign:
+			
+			if (str(campaign_in_plan['CAMPAIGN_ID']) == str(campaign['Campaign ID'])) \
+			and (campaign_in_plan['Date'] == campaign['Date']):
+				# --------------- Tính total ------------------
+				sum_plan['CLICKS'] -= float(campaign['Clicks'])
+				sum_plan['IMPRESSIONS'] -= float(campaign['Impressions'])
+				sum_plan['CTR'] -= float(campaign['CTR'])
+				sum_plan['AVG_CPC'] -= float(campaign['Avg. CPC'])
+				sum_plan['AVG_CPM'] -= float(campaign['Avg. CPM'])
+				sum_plan['COST'] -= float(campaign['Cost'])
+				sum_plan['CONVERSIONS'] -= float(campaign['Conversions'])
+				sum_plan['INVALID_CLICKS'] -= float(campaign['Invalid clicks'])
+				sum_plan['AVG_POSITION'] -= float(campaign['Avg. position'])
+				sum_plan['ENGAGEMENTS'] -= float(campaign['Engagements'])
+				sum_plan['AVG_CPE'] -= float(campaign['Avg. CPE'])
+				sum_plan['AVG_CPV'] -= float(campaign['Avg. CPV'])
+				sum_plan['INTERACTIONS'] -= float(campaign['Interactions'])
+				sum_plan['VIEWS'] -= float(campaign['Views'])
+				if 'INSTALL_CAMP' not in campaign:
+					campaign['INSTALL_CAMP'] = 0
+				sum_plan['INSTALL_CAMP'] -= float(campaign['INSTALL_CAMP'])
+				
+	plan['TOTAL_CAMPAIGN'] = sum_plan
+	print (plan['TOTAL_CAMPAIGN'])
+	return plan
+
+
+# def ReleaseCampOfPlanRealDate(path_data, date, list_plan_change):
+# 	list_camp_insert_unmap = []
+# 	list_data_remove_map = []
+
+# 	#========== Get data in file total mapping ===================
+# 	path_data_total = GetFileTotal(path_data, date)		
+# 	with open (path_data_total,'r') as f:
+# 		data_total = json.load(f)
+
+# 	# ---------- Remove camp from TOTAL --------------------
+# 	list_camp = []
+# 	for plan in list_plan_change:
+# 		for plan_total in data_total['TOTAL']:
+# 			if plan_total['PRODUCT'] == plan['PRODUCT'] and \
+# 				plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
+# 				plan_total['FORM_TYPE'] == plan['FORM_TYPE'] and \
+# 				plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
+# 				start, end = mapping.ChooseTime(plan)
+# 				if (len(plan_total['CAMPAIGN']) > 0):
+# 					for camp in plan_total['CAMPAIGN']:
+# 						if (camp['Date'] <= start) or (camp['Date'] >= end):
+# 							#----------- Remove from TOTAL -----------------
+# 							plan_total['CAMPAIGN'].remove(camp)
+# 							list_camp.append(camp)
+
+# 	# --------- Remove data from data map -----------------------------
+# 	for data in list_camp:
+# 		for data_map in data_total['MAP']:
+# 			if (str(data_map['Campaign ID']) == str(data['CAMPAIGN_ID']) and (data_map['Date'] == data['Date']):
+# 				camp = GetCampFromDataMAP(data_map)
+# 				list_camp_insert_unmap.append(camp)
+# 				data_total['MAP'].remove(data_map)
+# 				list_data_remove_map.(data_map)
+
+
+
+# 	# -------------- Insert camp unmap into UN_CAMP ---------------------
+# 	for camp in list_camp_insert_unmap:
+# 		for campaign in data_total['UN_CAMPAIGN']:
+# 			if camp['Campaign ID'] == campaign['Campaign ID'] and camp['Date'] == campaign['Date']:
+# 				data_total['UN_CAMPAIGN'].append(campaign)
+
+# 	print()
+# 	print('list_camp_insert_unmap: ', len(list_camp_insert_unmap))
+# 	print('list_data_remove_map: ', len(list_data_remove_map))
+
+
+# 	return list_camp_insert_unmap, list_data_remove_map
+				
+
+path = ''
+
+with open(path, 'r') as fi:
+	data = json.load(fi)
+
+
+
+		
+				
+
+
+
 def ClassifyPlan(connect, path_data, date, path_log):
 
 	list_camp_remove_unmap = []
@@ -933,22 +1029,12 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	path_data_total = GetFileTotal(path_data, date)
 	print(path_data_total)
 
-	#======== Case 1: New Plan	
-	if (len(list_plan_new) > 0):
-		print("=========== Case 1: New Plan	 ================")
-		list_plan_new = mapping.AddProductCode(path_data, list_plan_new, date)		
-		list_plan_new = nru.Add_NRU_into_list(connect, list_plan_new, date)  			
-		camp_remove_unmap, plan_insert_total, data_insert_map, plan_insert_unmap = NewPlan(path_data, date, list_plan_new)
-
-		list_camp_remove_unmap.extend(camp_remove_unmap)
-		list_plan_insert_total.extend(plan_insert_total)
-		list_data_insert_map.extend(data_insert_map)
-		list_plan_insert_unmap.extend(plan_insert_unmap)
 
 
-	#======== Case 2: Data update can map
+
+	#======== Case 1: Data update can map
 	if (len(list_plan_map) > 0):
-		print("=========== Case 2: Data update can map (not change real date) ==========")
+		print("=========== Case 1: Data update can map (not change real date) ==========")
 		for plan in list_plan_map:
 			print(plan)
 		list_plan_map = mapping.AddProductCode(path_data, list_plan_map, date)		
@@ -957,7 +1043,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		list_plan_modified = GetPlanModified(connect, path_data)
 		camp_remove_unmap, camp_insert_unmap, plan_remove_total, \
 		plan_remove_map, plan_remove_unmap, plan_insert_unmap, \
-		data_insert_map, plan_insert_total = ModifiedPlanToMap(path_data, list_plan_map, date, list_plan_modified)
+		data_insert_map, plan_insert_total = ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified)
 
 		list_camp_remove_unmap.extend(camp_remove_unmap)
 		list_camp_insert_unmap.extend(camp_insert_unmap)
@@ -968,9 +1054,9 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		list_data_insert_map.extend(data_insert_map)
 		list_plan_insert_total.extend(plan_insert_total)
 
-	#======== Case 3: Data update can map
+	#======== Case 2: Data update can map
 	if (len(list_plan_change_real_date) > 0):
-		print("=========== Case 3: Data update can map (change real date) ==========")
+		print("=========== Case 2: Data update can map (change real date) ==========")
 		for plan in list_plan_change_real_date:
 			print(plan)
 		list_plan_change_real_date = mapping.AddProductCode(path_data, list_plan_change_real_date, date)		
@@ -979,7 +1065,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		
 		camp_remove_unmap, data_insert_map, \
 		plan_update_map, plan_remove_unmap, \
-		plan_insert_total, plan_update_total  = ChangeRealDatePlanToMap(path_data, list_plan_change_real_date, date)
+		plan_insert_total, plan_update_total  = ChangeRealDatePlanToMap(path_data, date, list_plan_change_real_date)
 
 		list_camp_remove_unmap.extend(camp_remove_unmap)
 		list_data_insert_map.extend(data_insert_map)
@@ -987,7 +1073,21 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		list_plan_remove_unmap.extend(plan_remove_unmap)
 		list_plan_insert_total.extend(plan_insert_total)
 		list_plan_update_total.extend(plan_update_total)
-		
+	
+
+	#======== Case 3: New Plan	
+	if (len(list_plan_new) > 0):
+		print("=========== Case 3: New Plan	 ================")
+		list_plan_new = mapping.AddProductCode(path_data, list_plan_new, date)		
+		list_plan_new = nru.Add_NRU_into_list(connect, list_plan_new, date)  			
+		camp_remove_unmap, plan_insert_total, data_insert_map, plan_insert_unmap = NewPlan(path_data, date, list_plan_new)
+
+		list_camp_remove_unmap.extend(camp_remove_unmap)
+		list_plan_insert_total.extend(plan_insert_total)
+		list_data_insert_map.extend(data_insert_map)
+		list_plan_insert_unmap.extend(plan_insert_unmap)
+
+
 
 	#============== Case 4: Data update not map ===================
 	if (len(list_plan_update) > 0):		
@@ -1167,10 +1267,10 @@ date = '2017-09-05'
 path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
 
 
-list_camp_remove_unmap, list_camp_insert_unmap, \
-	list_plan_insert_total, list_plan_update_total, list_plan_remove_total, \
-	list_data_insert_map, list_plan_update_map, list_plan_remove_map, \
-	list_plan_insert_unmap, list_plan_remove_unmap = ClassifyPlan(connect, path_data, date, path_log)
+# list_camp_remove_unmap, list_camp_insert_unmap, \
+# 	list_plan_insert_total, list_plan_update_total, list_plan_remove_total, \
+# 	list_data_insert_map, list_plan_update_map, list_plan_remove_map, \
+# 	list_plan_insert_unmap, list_plan_remove_unmap = ClassifyPlan(connect, path_data, date, path_log)
 
 
 
