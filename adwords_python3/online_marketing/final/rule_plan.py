@@ -1232,7 +1232,7 @@ for plan in data['plan']:
 	if plan['PRODUCT'] == '221' and plan['REASON_CODE_ORACLE'] == '1703048' :
 		print(plan)
 
-	if plan['PRODUCT'] == '252' and plan['REASON_CODE_ORACLE'] == '1703073':
+	if plan['PRODUCT'] == '252' and plan['REASON_CODE_ORACLE'] == '1702073':
 		print(plan)
 
 
