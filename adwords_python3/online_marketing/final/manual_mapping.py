@@ -113,7 +113,7 @@ def ReadTableManualMap(connect, path_data, date):
 	# ------------ Cần đọc thông tin plan mới nhất --------------------
 	mapping.ReadPlanFromTable(connect, path_data, str(date))
 	mapping.ReadProductAlias(connect, path_data, str(date))
-	nru.Add_NRU_into_plan(connect, path_data, date)  
+	# nru.Add_NRU_into_plan(connect, path_data, date)  
 	list_plan = mapping.ReadPlan(path_data, str(date))
 
 
