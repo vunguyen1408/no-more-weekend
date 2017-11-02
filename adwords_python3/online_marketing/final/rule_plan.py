@@ -1079,8 +1079,8 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		list_plan_new = nru.Add_NRU_into_list(connect, list_plan_new, date)  
 		camp_insert_unmap, data_remove_map, plan_insert_unmap = ReleaseCampOfPlanRealDate(path_data, date, list_plan_change_real_date)
 
-		insert_install.InsertInstallToPlan(path_data, connect, date)
-		insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
+		# insert_install.InsertInstallToPlan(path_data, connect, date)
+		# insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
 
 		list_camp_insert_unmap.extend(camp_insert_unmap)
 		list_data_remove_map.extend(data_remove_map)
