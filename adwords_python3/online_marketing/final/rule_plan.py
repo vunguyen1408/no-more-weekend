@@ -886,7 +886,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	# =============== Get plan change =====================	
 	# fi = open(path_log, 'r')
 	# final_log = fi.read()
-	final_log = '10/31/2017 13:35:00'
+	final_log = '10/31/2017 13:36:00'
 	print(final_log)
 
 	list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
@@ -907,7 +907,8 @@ def ClassifyPlan(connect, path_data, date, path_log):
 			# print('new')
 		else:
 			# ========= Finally plan from data ==============
-			file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
+			# file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
+			file_plan = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA/2017-10-25/PLAN/plan.json'
 			with open(file_plan, 'r') as fi:
 				list_plan = json.load(fi)
 
