@@ -147,7 +147,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	# print ("\n\n======================= RUN INSERT NRU WITH DATE : " + date + " =========================")
 	# insert_nru = time.time()
 	# # nru.Add_Data_To_Plan(connect, path_data, date)
-	nru.Add_NRU_into_monthly(connect, path_data, date)
+	# nru.Add_NRU_into_monthly(connect, path_data, date)
 	# time_insert = time.time() - insert_nru
 	
 	# ======================= Insert branding install ====================================

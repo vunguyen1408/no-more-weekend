@@ -8,6 +8,7 @@ import os
 from googleads import adwords
 from datetime import datetime, timedelta
 # import get_accounts as get_accounts
+import add_acc_name as add_acc_name
 
 
 logging.basicConfig(level=logging.INFO)
@@ -32,8 +33,10 @@ def TSVtoJson(report_string, date):
     ele = line.split('\t')
     dict_campaign = {}
     if (ele[0] not in list_key) and (len(ele) > 1 ):
-      for i in range(len(list_key)):          
-        if (list_key[i] == 'Cost') or ((list_key[i].find('Avg') >= 0) and (list_key[i] != 'Avg. position')):         # Cost            
+      for i in range(len(list_key)):  
+        if (list_key[i] == 'Campaign ID'):
+          ele[i] = str(ele[i])
+        elif (list_key[i] == 'Cost') or ((list_key[i].find('Avg') >= 0) and (list_key[i] != 'Avg. position')):         # Cost            
           ele[i] = float(float(ele[i]) / 1000000)
         elif (ele[i].isdigit()):         # Integer        
           ele[i] = int(ele[i])
@@ -63,13 +66,12 @@ def TSVtoJson(report_string, date):
   return list_json
 
 
-def DownloadCampaignOfCustomer(adwords_client, customerId, startDate, endDate):
+def DownloadCampaignOfCustomer(adwords_client, customerId, startDate, endDate, path_log):
 
   adwords_client.SetClientCustomerId(customerId)
   print (customerId)
   report_downloader = adwords_client.GetReportDownloader(version='v201708')
-
-  path_log = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/log.txt'  
+   
   fi = open(path_log, 'a+') 
   
   date = startDate[0:4] + '-' + startDate[4:6] + '-' + startDate[6:]
@@ -128,7 +130,7 @@ def DownloadCampaignOfCustomer(adwords_client, customerId, startDate, endDate):
   result = report_downloader.DownloadReportAsString(
       report, skip_report_header=True, skip_column_header=False,
       skip_report_summary=False, include_zero_impressions=True)
-  print (result)
+  # print (result)
   return result
 
 
@@ -136,7 +138,7 @@ def DateToString(date):
   date = date[:-6] + date[5:-3] + date[8:]
   return date
 
-def DownloadOnDate(adwords_client, customerId, path, date):
+def DownloadOnDate(adwords_client, customerId, path, date, path_log, list_mcc, list_mcc_id, list_dept):
   
   startDate = DateToString(date)
   endDate = DateToString(date)
@@ -146,7 +148,7 @@ def DownloadOnDate(adwords_client, customerId, path, date):
     os.makedirs(path_folder)
 
   #====================== CAMPAIGN ====================
-    result_campaign = DownloadCampaignOfCustomer(adwords_client, customerId, startDate, endDate)
+    result_campaign = DownloadCampaignOfCustomer(adwords_client, customerId, startDate, endDate, path_log)
     print(result_campaign)
     path_file_campaign = os.path.join(path_folder, 'campaign_' + date)
     # with open(path_file_campaign + '.tsv', 'wb') as f:
@@ -154,16 +156,18 @@ def DownloadOnDate(adwords_client, customerId, path, date):
     result_json = TSVtoJson(result_campaign, date)
     print (result_json)
     for i in range(len(result_json)):
-      result_json[i]['Account ID'] = customerId
+      result_json[i]['Account ID'] = str(customerId)
+      result_json[i]['Account Name'] = list_mcc[list_mcc_id.index(result_json[i]['Account ID'])]
+      result_json[i]['Dept'] = list_dept[list_mcc_id.index(result_json[i]['Account ID'])]
     with open (path_file_campaign + '.json','w') as f:
       json.dump(result_json, f)
   else:
     print("Da get campaign...........")
 
-def GetCampainForAccount(path, customerId, day, to_day):
+def GetCampainForAccount(path, path_config, customerId, day, to_day, path_log, list_mcc, list_mcc_id, list_dept):
   
   # Initialize client object.
-  adwords_client = adwords.AdWordsClient.LoadFromStorage('D:/WorkSpace/Adwords/Finanlly/AdWords/adwords_python3/googleads.yaml')
+  adwords_client = adwords.AdWordsClient.LoadFromStorage()
 
   date_ = datetime.strptime(day, '%Y-%m-%d').date()
   to_date_ = datetime.strptime(to_day, '%Y-%m-%d').date()
@@ -172,81 +176,60 @@ def GetCampainForAccount(path, customerId, day, to_day):
   for i in range(n + 1):
     single_date = date_ + timedelta(i)
     d = single_date.strftime('%Y-%m-%d')
-    DownloadOnDate(adwords_client, customerId, path, str(d))
+    DownloadOnDate(adwords_client, customerId, path, str(d), path_log, list_mcc, list_mcc_id, list_dept)
 
 
 
 
+def GetData(path_acc, path_camp, path_log, startDate, endDate):
+  import time
 
-list_account = [ 
-# WPL
-'1033505012', '6376833586', '6493618146', '3764021980', '9019703669', \
-'5243164713', '1290781574', '8640138177', '1493302671', '7539462658', \
-'1669629424', '6940796638', '6942753385', '3818588895', '8559396163', \
-'9392975361', '1756174326', '5477521592', '7498338868', '6585673574', \
-'5993679244', '5990401446', '5460890494', '3959508668', '1954002502', \
-'1124503774', '2789627019', '5219026641', '8760733662', '8915969454', \
-'9299123796', \
-# MP2
-'2351496518', '3766974726', '8812868246', '3657450042', '4092061132', \
-'1066457627', '7077229774', '6708858633', '2205921749', '1731093088', \
-'2852598370', \
-# PG1
-'5008396449', '9021114325', '9420329501', '7976533276', \
-# PG2
-'5471697015', '8198035241', '8919123364', '8934377519', '7906284750', \
-'1670552192', '6507949288', '3752996996', '5515537799', '9280946488', \
-'8897792146', '4732571543', '6319649915', '4845283915', '4963434062', \
-'3950481958', '8977015372', \
-# PG3
-'2018040612', '1237086810', '2474373259', '9203404951', '8628673438', \
-'5957287971', '6267264008', '8583452877', '4227775753', '8003403685', \
-'3061049910', '2395877275', '1849103506', '7000297269', '6233988585', \
-'4018935765', '2675507443', '9493600480', '1609917649', '8180518027', \
-'6275441244', '6743848595', '1362424990', '5430766142', '5800450880', \
-'7687258619', '8303967886', '5709003531', '6201418435', '1257508037', \
-'6810675582', '5953925776', '9001610198', '8135096980', '5222928599', \
-'9963010276', '5062362839', '6360800174', '8844079195', '5856149801', \
-'3064549723', '6198751560', '9034826980', '3265423139', '7891987656', \
-'8483981986', '2686387743', '5930063870', '7061686256', '3994588490', \
-'3769240354', \
-# GS5
-'8726724391', '1040561513', '7449117049', '3346913196', '9595118601', \
-'9411633791', '4596687625', '8290128509', '3104172682', '6247736011', \
-'2861959872', \
-# PP
-'8024455693' 
-]
+  startTime = time.time()
+  print('================== START TIME =======================')
+  print(startTime)
+  print('===========================================================')
+
+  #=================  Get list account ============================  
+  list_mcc_id, list_mcc, list_dept = add_acc_name.get_list_customer(path_acc)
 
 
-#============== Get Campaign for all account =============
-path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/TEMP_DATA'
+  #============== Get Campaign for all account =============
+  for customer_id in list_mcc_id:    
+    GetCampainForAccount(path_camp, path_config, customer_id, startDate, endDate, path_log, list_mcc, list_mcc_id, list_dept)
+    time.sleep(1)
 
-date = '2017-09-01' 
-to_date = '2017-09-30'
-for customer_id in list_account:  
-  GetCampainForAccount(path, customer_id, date, to_date)
+  endTime = time.time()
+
+  print('================== TOTAL TIME DAILY =======================')
+  print("Total time for daily: ", endTime - startTime)
+
+
+  
+
+
+path_config = 'C:/Users/CPU10912-local/googleads.yaml'
+path_acc = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA'
+path_camp = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/T10'
+path_log = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/log.txt' 
+startDate = '2017-10-26' 
+endDate = '2017-10-31'
+GetData(path_acc, path_camp, path_log, startDate, endDate)
 
 
 
-# ============== Add account name ========================
-# import add_acc_name_into_data as AccName
-# path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA'
-# list_mcc_id, list_mcc = AccName.get_list_customer(path_data)
-# print(len(list_mcc))
-# print(len(list_mcc_id))
-# path = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/MP2_T8'
-# AccName.addAccName(path, list_mcc, list_mcc_id)
+# path_acc = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT'
+# path_camp = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT'
+# path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log.txt'
+# path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
+# startDate = '2017-03-01' 
+# endDate = '2017-03-01'
+
+# # list_acc = get_all_account(path_acc, path_camp, path_log, path_config, startDate, endDate)
+# list_mcc_id, list_mcc, list_dept = add_acc_name.get_list_customer(path_acc)
+# # get_all_camp(path_acc, path_camp, path_log, path_config, startDate, endDate)
+
+# GetCampainForAccount(path_camp, path_config, '5008396449', startDate, endDate, path_log, list_mcc, list_mcc_id, list_dept)
+# print("okkkkkkkkkkkkkk.................")
 
 
 
-# =============== Check acc not in list acc ===============
-# path_data = path
-# list_date = next(os.walk(path_data))[1]
-
-# for date in list_date:
-#   path_temp = os.path.join(path_data, date + '/ACCOUNT_ID')
-#   list_acc = next(os.walk(path_temp))[1]    
-#   for acc in list_acc:
-#     if acc not in list_account:
-#       print(acc)
