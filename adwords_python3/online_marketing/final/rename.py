@@ -10,6 +10,7 @@ from datetime import datetime , timedelta, date
 from googleads import adwords
 # ----------------- package -----------------
 import mapping_campaign_plan as mapping
+import insert_data_map_to_total as insert_to_total
 import history_name as history_name
 import down_load_name as down_load_name 
 
@@ -555,7 +556,6 @@ def CacualatorChange(path_data, list_diff, date):
     print("camp remove", len(list_camp_need_remove))
     print("======== Mapped =================")
     print("camp update", len(data_total['MAP']))
-    
 
     ###########################################
     path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
