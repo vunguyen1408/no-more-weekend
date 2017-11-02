@@ -361,7 +361,7 @@ def ManualMap(connect, path_data, date):
 
 			import time
 			start = time.time()
-			data_total = AddNRU(connect, data_total, date)
+			data_total = insert_nru_into_data.AddNRU(connect, data_total, date)
 			data_total = insert_install.InsertInstallToPlan(data_total, connect, date)
 			data_total = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total, connect, date)
 			print ("Time : ", time.time() - start)
