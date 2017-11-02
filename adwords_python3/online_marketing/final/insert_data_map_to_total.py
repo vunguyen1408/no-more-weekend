@@ -402,7 +402,10 @@ def GetVolumeActualMonthly(plan, month):
 	if unit_option == 'CPM':
 		return month['TOTAL_CAMPAIGN_MONTHLY']['INTERACTIONS']
 	if unit_option == 'CPA':
-		return month['TOTAL_CAMPAIGN_MONTHLY']['INTERACTIONS'] #CCD_NRU
+		if 'CCD_NRU' in month['TOTAL_CAMPAIGN_MONTHLY']:
+			return month['TOTAL_CAMPAIGN_MONTHLY']['CCD_NRU'] #CCD_NRU
+		else:
+			return month['TOTAL_CAMPAIGN_MONTHLY']['INTERACTIONS']
 	if unit_option == 'CPI':
 		return month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']  # Install
 	if unit_option == 'CPV':
@@ -417,7 +420,10 @@ def GetVolumeActualTotal(plan):
 	if unit_option == 'CPM':
 		return plan['TOTAL_CAMPAIGN']['INTERACTIONS']
 	if unit_option == 'CPA':
-		return plan['TOTAL_CAMPAIGN']['INTERACTIONS'] #CCD_NRU
+		if 'CCD_NRU' in plan['TOTAL_CAMPAIGN']:
+			return plan['TOTAL_CAMPAIGN']['CCD_NRU'] #CCD_NRU
+		else:
+			return plan['TOTAL_CAMPAIGN']['INTERACTIONS']
 	if unit_option == 'CPI':
 		return plan['TOTAL_CAMPAIGN']['INSTALL_CAMP']  # Install
 	if unit_option == 'CPV':
@@ -448,13 +454,13 @@ def CreateListPlanMonthly(path_data, date, list_plan_update):
 					and p['FORM_TYPE'] == plan['FORM_TYPE'] :
 					list_temp.append(plan)
 
-		sum_ = 0
-		for camp in data_map['UN_CAMPAIGN']:
-			# print (camp)
-			sum_ += camp['Cost']
-		# print ("=================================== SUM COST : " , sum_)
-		# print ("=================================== MAP ", len(data_map['MAP']))
-		# print ("=================================== UM MAP ", len(data_map['UN_CAMPAIGN']))
+		# sum_ = 0
+		# for camp in data_map['UN_CAMPAIGN']:
+		# 	# print (camp)
+		# 	sum_ += camp['Cost']
+		# # print ("=================================== SUM COST : " , sum_)
+		# # print ("=================================== MAP ", len(data_map['MAP']))
+		# # print ("=================================== UM MAP ", len(data_map['UN_CAMPAIGN']))
 		with open (path_data_total_map,'w') as f:
 			json.dump(data_map, f)	
 
@@ -479,6 +485,38 @@ def InsertManyDate(path_data, start_date, end_date):
 		# print (date)
 		# print ("------------------------")
 	
+def SetVolunmActual(data_map, date):
+	for plan in data_map['TOTAL']:
+		plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = GetVolumeActualTotal(plan)
+		for m in plan['MONTHLY']:
+			m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = GetVolumeActualMonthly(plan, m)
+	return data_map
+
+
+# Hai ham de set volum Actual
+def SetVolunmActualFile(path_data, date):
+	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+	if not os.path.exists(path_data_total_map):
+		i = 0
+		find = True
+		date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		while not os.path.exists(path_data_total_map):
+			i = i + 1
+			date_before = date_before - timedelta(1)
+			path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			if i == 60:
+				find = False
+				break
+		# ---- Neu tim thay file total truoc do -----
+	else:
+		find = True
+	if find:
+		with open (path_data_total_map,'r') as f:
+			data_map = json.load(f)
+		data_map = SetVolunmActual(data_map, date)
+		with open (path_data_total_map,'w') as f:
+			json.dump(data_map, f)	
 
 
 

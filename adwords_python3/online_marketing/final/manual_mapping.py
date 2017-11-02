@@ -357,6 +357,15 @@ def ManualMap(connect, path_data, date):
 			# 			and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION']:
 			# 			list_plan_update.append(plan)
 
+			import time
+			start = time.time()
+			data_total = insert_install.InsertInstallToPlan(data_total, connect, date)
+			print ("Time : ", time.time() - start)
+			start = time.time()
+			data_total = insert_install.AddBrandingGPSToPlan(data_total, connect, date)
+			print ("Time : ", time.time() - start)
+
+
 
 			for plan in data_total['TOTAL']:
 				plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_data.GetVolumeActualTotal(plan)

@@ -6,6 +6,7 @@ import json
 import cx_Oracle
 from datetime import datetime , timedelta, date
 import time
+import insert_data_map_to_total as insert_to_total
 
 #======================================================================================================
 #                                 Add NRU sum for each plan 
@@ -167,7 +168,7 @@ def Add_NRU_into_monthly(connect, path_data, date):
 				list_plan['UN_PLAN'][list_plan['UN_PLAN'].index(plan)]['MONTHLY'][i]['CCD_NRU'] = Read_NRU_for_total(cursor, start_date, end_date, plan['PRODUCT'])
 
 	cursor.close()
-
+	insert_to_total.
 	with open(file_total, 'w') as fo:
 		json.dump(list_plan, fo)
 
@@ -178,15 +179,51 @@ def Add_NRU_into_monthly(connect, path_data, date):
 # Add_NRU_into_monthly(connect, path_data, date)
 
 
+#===============  duongll  - 3/11
+def AddNRU(connect, list_plan, date):
+	# ==================== Connect database =======================
+	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
+	cursor = conn.cursor()
+
+	for plan in list_plan['TOTAL']:
+		start_date, end_date = ChooseTime(plan)
+		plan['CCD_NRU'] = Read_NRU_for_total(cursor, ConvertDate(start_date), ConvertDate(end_date), plan['PRODUCT'])
+		if ('MONTHLY' in plan):		
+			CaculatorStartEndDate(plan, start_date, end_date)	
+			for i in range(len(plan['MONTHLY'])):
+				start = ConvertDate(plan['MONTHLY'][i]['START_DATE'])
+				end = ConvertDate(plan['MONTHLY'][i]['END_DATE'])
+				list_plan['TOTAL'][list_plan['TOTAL'].index(plan)]['MONTHLY'][i]['CCD_NRU'] = Read_NRU_for_total(cursor, start, end, plan['PRODUCT'])
+	cursor.close()
+	list_plan = insert_to_total.SetVolunmActual(list_plan, date)
+	return list_plan
 
 
+def AddNRUFile(connect, path_data, date):
+	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+	if not os.path.exists(path_data_total_map):
+		i = 0
+		find = True
+		date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		while not os.path.exists(path_data_total_map):
+			i = i + 1
+			date_before = date_before - timedelta(1)
+			path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			if i == 60:
+				find = False
+				break
+		# ---- Neu tim thay file total truoc do -----
+	else:
+		find = True
+	if find:
+		with open (path_data_total_map,'r') as f:
+			list_plan = json.load(f)
 
-
-
-
-
-
-
+		list_plan = AddNRU(connect, list_plan, date)
+		
+		with open (path_data_total_map,'w') as f:
+			json.dump(list_plan, f)	
 
 
 

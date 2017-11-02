@@ -18,7 +18,7 @@ import insert_report_monthly_sum as monthly_sum
 import insert_report_plan_sum as plan_sum
 import insert_report_detail_map as detail_map
 import history_name as history
-import insert_nru_to_plan as nru
+import insert_nru_into_data as insert_nru_into_data
 # import insert_nru_into_data as nru
 import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
 import insert_install as insert_install
@@ -143,22 +143,19 @@ def Daily(connect, path_data, date, list_customer_id):
 	# print ("---------- Time insert manual mapping to total : ", time_insert_manual)
 
 	
-	#======================== Insert nru to plan ==============================
-	# print ("\n\n======================= RUN INSERT NRU WITH DATE : " + date + " =========================")
-	# insert_nru = time.time()
-	# nru.Add_Data_To_Plan(connect, path_data, date)
-	# nru.Add_NRU_into_monthly(connect, path_data, date)
-	# time_insert = time.time() - insert_install
+	# ======================== Insert nru to plan ==============================
+	print ("\n\n======================= RUN INSERT NRU WITH DATE : " + date + " =========================")
+	insert_nru = time.time()
+	insert_nru_into_data.AddNRUFile(connect, path_data, date)
+	time_insert = time.time() - insert_install
 
 
 	# ======================= Insert branding install ====================================
 	# insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
 	import time
 	start = time.time()
-	InsertInstallToPlan(path_data, connect, date)
-	print ("Time : ", time.time() - start)
-	start = time.time()
-	insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
+	insert_install.InsertInstall(path_data, connect, date)
+	insert_install_brandingGPS.AddBrandingGPS(path_data, connect, date)
 	print ("Time : ", time.time() - start)
 
 	#======================== History name ==================================

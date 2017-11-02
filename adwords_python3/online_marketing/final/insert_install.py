@@ -93,7 +93,7 @@ def CaculatorStartEndDate(plan, start, end):
 	return plan
 
 
-def InsertInstallToPlan(path_data, connect, date):
+def InsertInstallToPlanFile(path_data, connect, date):
 # ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
@@ -176,6 +176,63 @@ def InsertInstallToPlan(path_data, connect, date):
 		print ("Time : ", time.time() - start)
 		print ("ok")
 
+
+# Ham insert install voi dau vao laf data_toal
+def InsertInstallToPlan(data_total, connect, date):
+# ==================== Connect database =======================
+	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
+	cursor = conn.cursor()
+	media_source = 'oogle'
+	for plan in data_total['TOTAL']:
+		if plan['UNIT_OPTION'] == 'CPI':
+			start_date, end_date = mapping_data.ChooseTime(plan)
+			install_before = plan['TOTAL_CAMPAIGN'].get('INSTALL_CAMP', 0)
+			list_install_for_product = GetInstallAppsFlyer(connect, start_date, end_date, media_source, plan['APPSFLYER_PRODUCT'])
+			plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
+			plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = plan['TOTAL_CAMPAIGN']['INSTALL_CAMP']
+			if ('MONTHLY' in plan):
+				plan = CaculatorStartEndDate(plan, start_date, end_date)
+				for month in plan['MONTHLY']:
+					install_before = month['TOTAL_CAMPAIGN_MONTHLY'].get('INSTALL_CAMP', 0)
+					month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, month['START_DATE'], month['END_DATE'])
+					month['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']
+	data_total = insert_to_total.SetVolunmActual(data_total, date)
+	return data_total
+
+
+# Ham insert install voi dau vao la file
+def InsertInstall(path_data, connect, date):
+	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+	if not os.path.exists(path_data_total_map):
+		i = 0
+		find = True
+		date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		while not os.path.exists(path_data_total_map):
+			i = i + 1
+			date_before = date_before - timedelta(1)
+			path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			if i == 60:
+				find = False
+				break
+		# ---- Neu tim thay file total truoc do -----
+	else:
+		find = True
+
+	if find:
+		media_source = 'oogle'
+		with open (path_data_total_map,'r') as f:
+			data_total = json.load(f)
+			
+			data_total = InsertInstallToPlan(data_total, connect, date)
+
+			import time
+			start = time.time()
+			path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			with open (path_data_total_map,'w') as f:
+				json.dump(data_total, f)
+			print ("Time : ", time.time() - start)
+			print ("ok")
 
 # connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 # date = '2017-09-30'
