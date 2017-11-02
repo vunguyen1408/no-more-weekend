@@ -884,7 +884,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	# =============== Get plan change =====================	
 	# fi = open(path_log, 'r')
 	# final_log = fi.read()
-	final_log = '10/30/2017 10:00:00'
+	final_log = '11/01/2017 10:00:00'
 	print(final_log)
 
 	list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
