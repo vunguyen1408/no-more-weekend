@@ -332,6 +332,9 @@ for plan_total in data_total['TOTAL']:
   if plan_total['REASON_CODE_ORACLE'] == '1706010':
   # if str(plan_total['Campaign ID']) == '772872164':
     print (plan_total)
+print ("MAP: ", len(data_total['TOTAL']))
+print ("Un camp: ", len(data_total['UN_CAMPAIGN']))
+print ("Un plan: ", len(data_total['UN_PLAN']))
 
 # path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
 
