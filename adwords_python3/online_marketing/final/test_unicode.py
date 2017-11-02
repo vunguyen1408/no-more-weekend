@@ -332,7 +332,7 @@ for plan_total in data_total['TOTAL']:
   if plan_total['REASON_CODE_ORACLE'] == '1706010':
   # if str(plan_total['Campaign ID']) == '772872164':
     print (plan_total)
-print ("MAP: ", len(data_total['TOTAL']))
+print ("MAP: ", len(data_total['MAP']))
 print ("Un camp: ", len(data_total['UN_CAMPAIGN']))
 print ("Un plan: ", len(data_total['UN_PLAN']))
 
