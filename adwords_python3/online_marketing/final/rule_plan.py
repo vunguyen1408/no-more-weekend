@@ -141,14 +141,14 @@ def CheckPlanUpdate(list_plan, plan):
 		if _value['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
 		_value['PRODUCT'] == plan['PRODUCT'] and \
 		_value['FORM_TYPE'] == plan['FORM_TYPE'] and \
+		_value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
 		_value['START_DAY'] == plan['START_DAY'] and \
 		_value['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE'] and \
 		_value['REAL_START_DATE'] == plan['REAL_START_DATE'] and \
 		_value['REAL_END_DATE'] == plan['REAL_END_DATE'] :
 			return True
 
-	# _value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
-
+	
 	return False
 
 
@@ -199,8 +199,8 @@ def UpdatePlan(path_data, list_plan_update):
 		for plan in data_total['MAP']:
 			if updated_plan['PRODUCT'] == plan['PRODUCT'] \
 			and updated_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-			and updated_plan['FORM_TYPE'] == plan['FORM_TYPE'] :
-			# and updated_plan['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+			and updated_plan['FORM_TYPE'] == plan['FORM_TYPE'] \
+			and updated_plan['UNIT_OPTION'] == plan['UNIT_OPTION'] :
 				UpdateOnePlan(data_total['MAP'][data_total['MAP'].index(plan)], updated_plan)
 				list_plan.remove(updated_plan)
 				list_plan_update_map.append(updated_plan)
@@ -212,8 +212,8 @@ def UpdatePlan(path_data, list_plan_update):
 		for plan in data_total['TOTAL']:
 			if updated_plan['PRODUCT'] == plan['PRODUCT'] \
 			and updated_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-			and updated_plan['FORM_TYPE'] == plan['FORM_TYPE'] :
-			# and updated_plan['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+			and updated_plan['FORM_TYPE'] == plan['FORM_TYPE'] \
+			and updated_plan['UNIT_OPTION'] == plan['UNIT_OPTION'] :
 				UpdateOnePlan(data_total['TOTAL'][data_total['TOTAL'].index(plan)], updated_plan)
 				list_plan.remove(updated_plan)
 				list_plan_update_total.append(updated_plan)
@@ -498,13 +498,12 @@ def CheckPlanUpdateRealDate(list_plan, plan):
 		if _value['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
 		_value['PRODUCT'] == plan['PRODUCT'] and \
 		_value['FORM_TYPE'] == plan['FORM_TYPE'] and \
+		_value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
 		_value['START_DAY'] == plan['START_DAY'] and \
 		_value['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE'] and \
 		(_value['REAL_START_DATE'] != plan['REAL_START_DATE'] or \
 		_value['REAL_END_DATE'] != plan['REAL_END_DATE'] ):
-			return True
-
-		# _value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
+			return True		
 
 	return False
 
@@ -885,7 +884,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	# =============== Get plan change =====================	
 	# fi = open(path_log, 'r')
 	# final_log = fi.read()
-	final_log = '10/30/2017 10:00:00'
+	final_log = '11/01/2017 10:00:00'
 	print(final_log)
 
 	list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
@@ -984,6 +983,8 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 	#============== Case 4: Data update not map ===================
 	if (len(list_plan_update) > 0):
+		for plan in list_plan_update:
+			print(plan)
 		print("=========== Case 4: Data update not map	 ======================")
 		list_plan_update = mapping.AddProductCode(path_data, list_plan_update, date)		
 		list_plan_update = nru.Add_NRU_into_list(connect, list_plan_update, date) 
