@@ -277,6 +277,10 @@ def download_video(path, date_, to_date_, process_num=1):
 
 if __name__ == '__main__':
     from sys import argv
-    script, start_date, end_date, process_num = argv
-    path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+    # script, start_date, end_date, process_num = argv
+    # path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
+    path = 'C:/Users/LAP11529-local/Desktop/DATA\DWHVNG/APEX/MARKETING_TOOL_02_JSON'
+    start_date = '2017-06-28'
+    end_date = '2017-06-28'
+    process_num = 3
     download_video(path, start_date, end_date,process_num)
