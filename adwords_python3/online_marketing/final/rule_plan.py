@@ -948,6 +948,8 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	#======== Case 2: Data update can map
 	if (len(list_plan_map) > 0):
 		print("=========== Case 2: Data update can map (not change real date) ==========")
+		for plan in list_plan_map:
+			print(plan)
 		list_plan_map = mapping.AddProductCode(path_data, list_plan_map, date)		
 		list_plan_map = nru.Add_NRU_into_list(connect, list_plan_map, date) 
 
@@ -968,6 +970,8 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	#======== Case 3: Data update can map
 	if (len(list_plan_change_real_date) > 0):
 		print("=========== Case 3: Data update can map (change real date) ==========")
+		for plan in list_plan_change_real_date:
+			print(plan)
 		list_plan_change_real_date = mapping.AddProductCode(path_data, list_plan_change_real_date, date)		
 		list_plan_change_real_date = nru.Add_NRU_into_list(connect, list_plan_change_real_date, date)  
 		
@@ -985,10 +989,10 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		
 
 	#============== Case 4: Data update not map ===================
-	if (len(list_plan_update) > 0):
+	if (len(list_plan_update) > 0):		
+		print("=========== Case 4: Data update not map	 ======================")
 		for plan in list_plan_update:
 			print(plan)
-		print("=========== Case 4: Data update not map	 ======================")
 		list_plan_update = mapping.AddProductCode(path_data, list_plan_update, date)		
 		list_plan_update = nru.Add_NRU_into_list(connect, list_plan_update, date) 
 
