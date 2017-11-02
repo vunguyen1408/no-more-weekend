@@ -3,7 +3,7 @@
     Company : VNG Corporation
 
     Description: Download video for every date
-    
+
     Examples of Usage:
         python download_video.py 2016-10-01 2017-06-29
 """
@@ -16,6 +16,19 @@ import time
 import urllib.request
 import re
 import sys
+
+#import Download_Parallel
+
+def hash_md5(p_file):
+    import hashlib
+    hash_md5 = hashlib.md5()
+    if os.path.exists(p_file):
+        with open(p_file, "rb") as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                hash_md5.update(chunk)
+    return hash_md5.hexdigest()
+
+
 
 def parse_file_name(url):
     from urllib.parse import urlparse
@@ -36,7 +49,8 @@ def get_url_video(page_id, video_id):
             video_url = ((data[index:]).split('"'))[1]
     except:
         print ('error')
-        print (url)
+        #print (url)
+    #print('video_url',video_url)
     return video_url
 
 def get_info(video_url):
@@ -54,9 +68,10 @@ def get_info(video_url):
     except urllib.request.URLError:
         print (video_url)
         print ('error : get format video')
+    #print('info',info)
     return info
 
-def down_load_file(url, filename, size):
+def download_file(url, filename, size):
     if os.path.exists(filename):
         print ("Co video---")
         return True
@@ -85,7 +100,7 @@ def down_load_file(url, filename, size):
                     print ('cannot access file ' + filename)
 
                 try:
-                    print ("ket noi lai..............")
+                    #print ("ket noi lai..............")
                     h_url = urllib.request.urlopen(url)
                     flag = False
                 except urllib.request.URLError:
@@ -97,7 +112,9 @@ def down_load_file(url, filename, size):
         print ("========= Down load complete ============")
 
 
-def down_load_file_folder(path_folder, path_file, folder):
+def check_and_download_file(path_folder, path_file, folder):
+    from pySmartDL import SmartDL
+
     with open(path_file, 'r') as f:
         data = json.load(f)
     folder_video = os.path.join(path_folder, 'videos')
@@ -105,44 +122,75 @@ def down_load_file_folder(path_folder, path_file, folder):
     if not os.path.exists(folder_video):
         os.makedirs(folder_video)
     list_result = []
-    list_download = []
     down = True
+
+
     for i1, value1 in enumerate(data['my_json']):
         down = True
+        file_name1=""
+        url1=""
         url1 = get_url_video(value1['page_id'], value1['video_id'])
         if url1 != "":
             file_name1 = parse_file_name(url1)
             data['my_json'][i1]['file_name'] = file_name1
+
+            data['my_json'][i1]['video_renamed']=1 #after 2017-11-01
             for i2 in range(0, i1):
                 value2 = data['my_json'][i2]
                 file_name2 = value2['file_name']
                 if file_name1 == file_name2:
-                    if i2 in list_download:
-                        down = False
-                        break
+                    #print('found')
+                    down = False
+                    if data['my_json'][i1].get('hash_md5',''):
+                        data['my_json'][i1]['hash_md5']=data['my_json'][i2].get('hash_md5','')
+                    break
             if down:
                 #=================== Download
                 info = get_info(url1)
-                if not info['size'] == None:
-                    if (int(info['size'])) > 0:
-                        # print (info)
-                        file_name = os.path.join(folder_video, (str(folder) + '_' + str(i1) + '.' + info['format']))
-                        if not os.path.exists(file_name):
-                            down_load_file(url1, file_name, info['size'])
-                            list_download.append(i1)
-                            # time.sleep(5)
-                        else:
-                            print ("Co video---")
-                else:
-                    data['my_json'][i1]['file_name'] = ""
-        else:
-            print ("url hong.....")
-            data['my_json'][i1]['file_name'] = ""
+
+                if info.get('size',0):
+                    # print (info)
+                    #file_name = os.path.join(folder_video, (str(folder) + '_' + str(i1) + '.' + info['format']))
+                    file_name=os.path.join(folder_video, file_name1)
+
+                    if not os.path.exists(file_name):
+                        print(file_name)
+                        download_file(url1, file_name, info['size'])
+                        data['my_json'][i1]['hash_md5']=hash_md5(file_name)
+
+                        #Download_Parallel.DownloadFile_Parall(url1, file_name, 4)
+                        #obj = SmartDL(url1, file_name)
+                        #obj.start()
+                    #
+                    data['my_json'][i1]['hash_md5']=hash_md5(file_name)
+
     with open (path_file,'w') as f:
         json.dump(data, f)
 
 
-def create_content(path, date_, to_date_):
+def create_hash_file(path_folder, path_file, folder):
+	with open(path_file, 'r') as f:
+		data = json.load(f)
+
+	set_result=set()
+	list_result = []
+
+	for _json in  data['my_json']:
+		set_result.add(_json.get('hash_md5',''))
+
+	for _json in set_result:
+	       list_result.append(_json)
+
+	list_json = {}
+	list_json['hash_md5'] = list_result
+	file_name = os.path.join(path_folder, ('video_hash_' + str(folder) + '.json'))
+
+	with open (file_name,'w') as f:
+		json.dump(list_json, f)
+
+
+
+def download_video(path, date_, to_date_):
     # Lấy danh sách path của các file json cần tổng hợp data
     list_file = []
     date = datetime.strptime(date_, '%Y-%m-%d').date()
@@ -157,7 +205,8 @@ def create_content(path, date_, to_date_):
             path_file = os.path.join(path_folder, file_name)
             if os.path.exists(path_file):
                 # time.sleep(5)
-                down_load_file_folder(path_folder, path_file, folder)
+                check_and_download_file(path_folder, path_file, folder)
+                create_hash_file(path_folder, path_file, folder)
             print("---------------------------------------------------------------")
 
 
@@ -173,4 +222,4 @@ if __name__ == '__main__':
     from sys import argv
     script, start_date, end_date = argv
     path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
-    create_content(path, start_date, end_date)
+    download_video(path, start_date, end_date)
