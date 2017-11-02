@@ -1223,9 +1223,19 @@ list_camp_remove_unmap, list_camp_insert_unmap, \
 
 #============  Get file =========================================
 
-# path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP/2017-09-30/DATA_MAPPING/total_mapping.json'
-# with open(path, 'r') as fi:
-# 	data = json.load(fi)
+path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA/2017-03-01/PLAN/plan.json'
+with open(path, 'r') as fi:
+	data = json.load(fi)
+
+
+for plan in data['plan']:
+	if plan['PRODUCT'] == '221' and plan['REASON_CODE_ORACLE'] == '1703048' :
+		print(plan)
+
+	if plan['PRODUCT'] == '252' and plan['REASON_CODE_ORACLE'] == '1703073':
+		print(plan)
+
+
 
 # print(len(data['TOTAL'])
 # print(len(data['MAP'])
