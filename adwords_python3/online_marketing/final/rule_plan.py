@@ -1014,6 +1014,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	list_plan_remove_total = [] 
 
 	list_data_insert_map = []
+	list_data_remove_map = []
 	list_plan_update_map = []
 	list_plan_remove_map = []
 
@@ -1172,15 +1173,16 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	print('list_plan_update_total: ', len(list_plan_update_total))
 	print('list_plan_remove_total: ', len(list_plan_remove_total))
 	print('list_data_insert_map: ', len(list_data_insert_map))
+	print('list_data_remove_map: ', len(list_data_remove_map))
 	print('list_plan_update_map: ', len(list_plan_update_map))
 	print('list_plan_remove_map: ', len(list_plan_remove_map))
 	print('list_plan_insert_unmap: ', len(list_plan_insert_unmap))
 	print('list_plan_remove_unmap: ', len(list_plan_remove_unmap))
 	print()
 	
-	return list_camp_remove_unmap, list_camp_insert_unmap, \
-	list_plan_insert_total, list_plan_update_total, list_plan_remove_total, \
-	list_data_insert_map, list_plan_update_map, list_plan_remove_map, \
+	return list_camp_remove_unmap, list_camp_insert_unmap, list_plan_insert_total, \
+	list_plan_update_total, list_plan_remove_total, list_data_insert_map, \
+	list_data_remove_map, list_plan_update_map, list_plan_remove_map, \
 	list_plan_insert_unmap, list_plan_remove_unmap
 
 
@@ -1322,9 +1324,9 @@ date = '2017-09-05'
 path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
 
 
-list_camp_remove_unmap, list_camp_insert_unmap, \
-	list_plan_insert_total, list_plan_update_total, list_plan_remove_total, \
-	list_data_insert_map, list_plan_update_map, list_plan_remove_map, \
+list_camp_remove_unmap, list_camp_insert_unmap, list_plan_insert_total, \
+	list_plan_update_total, list_plan_remove_total, list_data_insert_map, \
+	list_data_remove_map, list_plan_update_map, list_plan_remove_map, \
 	list_plan_insert_unmap, list_plan_remove_unmap = ClassifyPlan(connect, path_data, date, path_log)
 
 
