@@ -264,6 +264,8 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
           camp['STATUS'] = 'SYS'
           eform['STATUS'] = 'SYS'
           number += 1
+    if eform['PRODUCT'] == '193':
+      print (eform)
   data_map = {}
   data_map['campaign'] = list_campaign_map
   data_map['plan'] = list_plan
@@ -469,8 +471,8 @@ def AddProductCode(path_folder, list_plan, date):
           temp['APPSFLYER_PRODUCT'].append(str(alias['APPSFLYER_PRODUCT'])) 
 
     list_temp.append(temp)
-    if str(temp['PRODUCT']) == '193' or str(temp['PRODUCT']) == '160':
-      print (temp)
+    # if str(temp['PRODUCT']) == '193' or str(temp['PRODUCT']) == '160':
+    #   print (temp)
 
     # print (temp['CCD_PRODUCT'])
   # for p in list_temp:
