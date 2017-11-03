@@ -964,8 +964,8 @@ def ReleaseCampOfPlanRealDate(path_data, date, list_plan_change, data_total):
 							if camp in plan_total['CAMPAIGN_MANUAL_MAP']:
 								plan_temp['CAMPAIGN_MANUAL_MAP'].append(camp)
 
-		if len(plan_temp['CAMPAIGN_MANUAL_MAP']) > 0:
-			list_remove_manual.append(plan_temp)
+				if len(plan_temp['CAMPAIGN_MANUAL_MAP']) > 0:
+					list_remove_manual.append(plan_temp)
 
 				if (len(plan_total['CAMPAIGN']) == 0):
 					data_total['TOTAL'].remove(plan_total)
