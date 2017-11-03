@@ -238,14 +238,16 @@ def CaculatorTotalMonth(list_camp, plan, date):
 		for m in plan['MONTHLY']:
 			if m['MONTH'] <= month:
 				plan = CaculatorStartEndDate(plan, start_plan, end_plan)
-				
+
 				start = datetime.strptime(m['START_DATE'], '%Y-%m-%d').date()
 				end = datetime.strptime(m['END_DATE'], '%Y-%m-%d').date()
 				for camp in plan['CAMPAIGN']:
 					d = datetime.strptime(camp['Date'], '%Y-%m-%d').date()
 					if d >= start and d <= end:
 						for campaign in list_camp:
-							if str(camp['Campaign ID']) == campaign['Campaign ID'] \
+							print (camp)
+							
+							if str(camp['CAMPAIGN_ID']) == campaign['Campaign ID'] \
 								and str(camp['Date']) == campaign['Date']:
 
 								m.get('TOTAL_CAMPAIGN_MONTHLY', CreateSum())
