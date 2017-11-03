@@ -300,7 +300,7 @@ def ManualMap(connect, path_data, date):
 				# print (len(list_camp_need_remove))
 
 				plan_temp = {
-					'PLAN' : plan.copy()
+					'PLAN' : plan.copy(),
 					'CAMPAIGN' : list_camp_need_remove.copy()
 				}
 				list_caculator_monthly.append(plan_temp)
