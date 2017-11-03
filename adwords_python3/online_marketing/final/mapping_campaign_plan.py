@@ -469,6 +469,8 @@ def AddProductCode(path_folder, list_plan, date):
           temp['APPSFLYER_PRODUCT'].append(str(alias['APPSFLYER_PRODUCT'])) 
 
     list_temp.append(temp)
+    if str(temp['PRODUCT']) == '193':
+      print (temp)
     # print (temp['CCD_PRODUCT'])
   # for p in list_temp:
   #   print (p['PRODUCT_CODE'])

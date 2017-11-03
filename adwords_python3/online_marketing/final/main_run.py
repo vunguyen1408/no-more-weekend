@@ -93,7 +93,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	# print ("\n\n======================= RUN INSERT INSTALL WITH DATE : " + date + " =========================")
 	# insert_install = time.time()
 
-	install.RunInsertInstall(connect, path_data, list_customer_id, date)
+	# install.RunInsertInstall(connect, path_data, list_customer_id, date)
 
 	# time_insert = time.time() - insert_install
 
@@ -102,8 +102,8 @@ def Daily(connect, path_data, date, list_customer_id):
 	#------------------ Read log manual mapping and get plan NRU ---------------------
 	mapping_data.ReadPlanFromTable(connect, path_data, date)
 	
-	mapping_data.ReadProductAlias(connect, path_data, date)
-	manual.ReadTableManualMap(connect, path_data, date)
+	# mapping_data.ReadProductAlias(connect, path_data, date)
+	# manual.ReadTableManualMap(connect, path_data, date)
 	#----------------------------------------------------------------
 	# print ("             Time insert install: ", time_insert)
 
@@ -112,7 +112,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	#======================== Mapping data for list account ============================
 	# print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
 	# mapping = time.time()
-	mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
+	# mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
 	# time_mapping = time.time() - mapping
 	# print ("             Time maping: ", time_mapping)
 
@@ -121,7 +121,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	#============================== Merge data ===============================
 	# print ("\n\n======================= RUN MERGE WITH DATE : " + date + " =========================")
 	# merge = time.time()
-	merge_date.Merge(path_data, list_customer_id, date)
+	# merge_date.Merge(path_data, list_customer_id, date)
 	# time_merge = time.time() - merge
 	# print ("             Time merge: ", time_merge)
 
@@ -129,7 +129,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	#============================== Insert data mapping to total ===============================
 	# print ("\n\n============= RUN INSERT DATA MAPPING TO TOTAL WITH DATE : " + date + " =================")
 	# insert_total = time.time()
-	insert_to_total.InsertDateToTotal(path_data, date)
+	# insert_to_total.InsertDateToTotal(path_data, date)
 	# time_insert_total = time.time() - insert_total
 	# print ("            Time insert data mapping to total : ", time_insert_total)
 
@@ -144,15 +144,15 @@ def Daily(connect, path_data, date, list_customer_id):
 	#======================== Insert nru to plan ==============================
 	# print ("\n\n======================= RUN INSERT NRU WITH DATE : " + date + " =========================")
 	# insert_nru = time.time()
-	nru.Add_Data_To_Plan(connect, path_data, date)
+	# nru.Add_Data_To_Plan(connect, path_data, date)
 	# time_insert = time.time() - insert_install
 
 
 	# ======================= Insert branding install ====================================
-	insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
+	# insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
 
 	#======================== History name ==================================
-	list_diff = history.InsertHistoryName(connect, path_data, list_customer_id, date)
+	# list_diff = history.InsertHistoryName(connect, path_data, list_customer_id, date)
 
 
 
@@ -200,7 +200,7 @@ def ManyDate(connect, path_data, start_date, end_date):
 
 # start_date = '2017-06-01'
 # end_date = '2017-06-30'
-path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 # ManyDate(connect, path_data, start_date, end_date)
 
