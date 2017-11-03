@@ -324,6 +324,8 @@ def AddToTotal (data_total, data_date, date):
 	for plan in data_total['TOTAL']:
 		plan['MONTHLY'] = {}
 		plan = CaculatorTotalMonth(data_date['campaign'], plan, date)
+		if plan['REASON_CODE_ORACLE'] == '1708007':
+			print (plan)
 
 
 	# --------------- Insert data map -------------------
