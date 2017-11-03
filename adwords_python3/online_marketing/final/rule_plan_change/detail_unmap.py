@@ -60,6 +60,7 @@ def UpdatePlanDetail(value, cursor):
 		value['EVENT_ID'], value['PRODUCT_ID'], value['CCD_NRU'], \
 		value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION']))
 
+
 def SelectDetailUnmap(cursor):
 	#==================== Insert data into database =============================
 	statement = 'Select SNAPSHOT_DATE, CAMPAIGN_ID, \
@@ -71,6 +72,7 @@ def SelectDetailUnmap(cursor):
 	
 	return list_unmap
 	
+
 def ConvertJsonPlan(value):
 	json_ = {}	
 
@@ -165,6 +167,7 @@ def ConvertJsonPlan(value):
 
 	return json_
 
+
 def getProductID(value):
 	file_product = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/product.xlsx'
 	# file_product = 'C:/Users/CPU10912-local/Desktop/product.xlsx'
@@ -176,6 +179,7 @@ def getProductID(value):
 		if (product_code == list_pro_code[i]):
 			return list_pro_id[i]
 	
+
 def ConvertJsonCamp(value):
 	json_ = {}	
 
@@ -241,6 +245,7 @@ def ConvertJsonCamp(value):
 	json_['GG_MCC_NAME'] = value['Account Name']
 
 	return json_
+
 
 def ConvertJsonMap(value):
 	json_ = {}	
@@ -338,6 +343,7 @@ def ConvertJsonMap(value):
 
 	return json_
 
+
 def DeletePlan(value, cursor):
 	#==================== Remove plan from database =============================
 	statement = 'delete from DTM_GG_PIVOT_DETAIL_UNMAP \
@@ -356,7 +362,6 @@ def DeleteCamp(value, cursor):
 	cursor.execute(statement, (value['Campaign ID'], value['Date']))	
 	
 	# print("A campaign deleted!.......")
-
 
 
 def DeleteListPlan(list_plan_remove, connect):
@@ -378,7 +383,6 @@ def DeleteListPlan(list_plan_remove, connect):
 	cursor.close()
 
 
-
 def DeleteListCamp(list_camp_remove, connect):
 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
@@ -396,6 +400,7 @@ def DeleteListCamp(list_camp_remove, connect):
 	conn.commit()
 	# print("Committed!.......")
 	cursor.close()
+
 
 def ReportDetailUnmap(path_data, connect):
 	if os.path.exists(path_data):
@@ -453,6 +458,7 @@ def ReportDetailUnmap(path_data, connect):
 		conn.commit()
 		print("Committed!.......")
 		cursor.close()
+
 
 def ReportDetailMap(path_data, connect):
 	if os.path.exists(path_data):
@@ -554,6 +560,7 @@ def InsertDataUnMap(path_data, connect):
 		conn.commit()
 		print("Committed!.......")
 		cursor.close()
+
 
 def InsertDataMap(path_data, connect):
 	if os.path.exists(path_data):

@@ -78,6 +78,67 @@ def ConvertListPlan(list_plan):
 	return list_plan_json
 
 
+def ReadPlanFromTable(connect, path_folder, date):
+	import datetime
+
+	folder = os.path.join(path_folder, str(date) + '/PLAN')
+	if not os.path.exists(folder):
+		os.makedirs(folder)
+	
+	file_plan = os.path.join(folder, 'plan.json')
+	
+
+	#============================== Connect database =============================	
+	conn = cx_Oracle.connect(connect)
+	cursor = conn.cursor()
+
+	#======================= Get data from database ==============================
+	query = 'select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, PRODUCT, REASON_CODE_ORACLE, EFORM_NO, \
+	      START_DAY, END_DAY_ESTIMATE, CHANNEL, EFORM_TYPE, UNIT_OPTION, UNIT_COST, AMOUNT_USD, CVALUE, \
+	      ENGAGEMENT, IMPRESSIONS, CLIKE, CVIEWS, INSTALL, NRU, INSERT_DATE, REAL_START_DATE, REAL_END_DATE, \
+	      STATUS, LAST_UPDATED_DATE \
+	  from STG_FA_DATA_GG'
+
+	cursor.execute(query)
+	row = cursor.fetchall()
+	temp = list(row)
+	cursor.close()
+
+
+
+	#===================== Convert data into json =================================
+
+	list_key = ['CYEAR', 'CMONTH', 'LEGAL', 'DEPARTMENT', 'DEPARTMENT_NAME', 'PRODUCT', 
+		'REASON_CODE_ORACLE', 'EFORM_NO', 'START_DAY', 'END_DAY_ESTIMATE', 'CHANNEL', 
+		'FORM_TYPE', 'UNIT_OPTION', 'UNIT_COST', 'AMOUNT_USD', 'CVALUE', 'ENGAGEMENT', 
+		'IMPRESSIONS', 'CLIKE', 'CVIEWS', 'INSTALL', 'NRU', 'INSERT_DATE', 
+		'REAL_START_DATE', 'REAL_END_DATE', 'STATUS', 'LAST_UPDATED_DATE']
+
+	list_json= []
+	for plan in temp: 
+		list_temp = []
+		unmap = {}
+		for value in plan:
+			val = value   
+			if isinstance(value, datetime.datetime):            
+				val = value.strftime('%Y-%m-%d')			
+			list_temp.append(val)
+
+		for i in range(len(list_key)):
+			unmap[list_key[i]] = list_temp[i]
+	list_json.append(unmap)
+	plan_ = {}
+	plan_['plan'] = list_json
+
+	#================ Add product id to plan =================
+	ReadProductAlias(connect, path_folder, date)	
+	plan_['plan'] = AddProductCode(path_folder, plan_['plan'], date)
+	
+
+	with open (file_plan, 'w') as f:
+		json.dump(plan_, f)
+
+
 def GetListPlanChangeFromTable(connect, final_log):	
 	#============ Connect database ==================
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
@@ -106,13 +167,7 @@ def GetListPlanChangeFromTable(connect, final_log):
 		list_plan_diff[i] = list(list_plan_diff[i])	
 
 	print('list_plan_diff: ', len(list_plan_diff))
-
-	# for plan in list_plan_diff:
-	# 	print(plan)
-
-	# print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-
-	print(final_log) 
+	# print(final_log) 
 	return list_plan_diff, final_log
 
 
@@ -1192,17 +1247,38 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		list_plan_update_map.extend(plan_update_map)
 
 
+
+	# =============== COMPUTE MONTHLY FOR EACH TOTAL PLAN ===================
+	for plan in data_total['TOTAL']:
+		plan['MONTHLY'] = {}
+		plan = insert_to_total.CaculatorTotalMonth(plan, date)
+		
+	for plan in data_total['UN_PLAN']:
+		plan['MONTHLY'] = {}
+		plan = insert_to_total.CaculatorTotalMonth(plan, date)
+
+				
+	for plan in data_total['TOTAL']:
+		plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
+		for m in plan['MONTHLY']:
+			m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
+
 	# with open (path_data_total,'w') as f:
 	# 	json.dump(data_total, f)
+
+
+	# ============== Ghi plan new verson into file plan.json ==========================
+	# ReadPlanFromTable(connect, path_data, date)
+	# nru.Add_NRU_into_plan(connect, path_data, date)
 
 	print('list_plan_new: ', len(list_plan_new))
 	print('list_plan_map: ', len(list_plan_map))
 	print('list_plan_change_real_date', len(list_plan_change_real_date))
 	print('list_plan_update: ', len(list_plan_update))
+	print()
+	print()
 
-
-
-	print('\n\nlist_camp_remove_unmap: ', len(list_camp_remove_unmap))
+	print('list_camp_remove_unmap: ', len(list_camp_remove_unmap))
 	print('list_camp_insert_unmap: ', len(list_camp_insert_unmap))
 	print('list_plan_insert_total: ', len(list_plan_insert_total))
 	print('list_plan_update_total: ', len(list_plan_update_total))
