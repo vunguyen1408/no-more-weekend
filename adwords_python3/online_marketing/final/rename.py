@@ -443,6 +443,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
     print("Camp PG2", pg2)
 
     # print (list_camp_find)
+    # mapping.ReadPlanFromTable(connect, path_data, str(date))
     list_plan = mapping.ReadPlan(path_data, date)
     list_plan['plan'] = mapping.AddProductCode(path_data, list_plan['plan'], date)
     # -------------- Call mapping ----------------
