@@ -246,11 +246,12 @@ def CaculatorTotalMonth(list_camp, plan, date):
 					if d >= start and d <= end:
 						for campaign in list_camp:
 							print (camp)
-							
+
 							if str(camp['CAMPAIGN_ID']) == campaign['Campaign ID'] \
 								and str(camp['Date']) == campaign['Date']:
-
-								m.get('TOTAL_CAMPAIGN_MONTHLY', CreateSum())
+								if 'TOTAL_CAMPAIGN_MONTHLY' not in m:
+									m['TOTAL_CAMPAIGN_MONTHLY'] = CreateSum()
+								# print (m)
 								m['DATA'] = True
 
 								m['TOTAL_CAMPAIGN_MONTHLY']['CLICKS'] += float(campaign['Clicks'])
