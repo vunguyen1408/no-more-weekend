@@ -312,29 +312,38 @@ import time
 # # ##################################################################################################
 
 
-path_alias = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-09-30/PLAN/product_alias.json'
+path_alias = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-09-29/PLAN/product_alias.json'
 path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-09-30/DATA_MAPPING/total_mapping.json'
+path_plan = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-09-30/PLAN/plan.json'
+# file_product = os.path.join(path_data, str(date) + '/PLAN/product_alias.json')
 
 with open(path_alias, 'r') as fi:
 	data_alias = json.load(fi)
 
+
+with open(path_plan, 'r') as fi:
+	data_plan = json.load(fi)
+
 with open(path_total, 'r') as fi:
 	data_total = json.load(fi)
 
-# for plan_total in data_total['TOTAL']:
-# 	plan_total['APPSFLYER_PRODUCT'] = []
-# 	for plan in data_alias['ALIAS']:
+for plan_total in data_alias['ALIAS']:
+	if  str(plan_total['PRODUCT_ID']) == '193':
+		print (plan_total)
+
+for plan_total in data_plan['plan']:
+	if  str(plan_total['PRODUCT']) == '193':
+		print (plan_total)
+		# 	for plan in data_alias['ALIAS']:
 # 		if plan_total['PRODUCT'] == plan['PRODUCT_ID'] and plan['APPSFLYER_PRODUCT'] != None:
 # 			plan_total['APPSFLYER_PRODUCT'].append(plan['APPSFLYER_PRODUCT'])
 # 	print (plan_total['APPSFLYER_PRODUCT'])
 
-for plan_total in data_total['TOTAL']:
-  if plan_total['REASON_CODE_ORACLE'] == '1706010':
-  # if str(plan_total['Campaign ID']) == '772872164':
-    print (plan_total)
-print ("MAP: ", len(data_total['MAP']))
-print ("Un camp: ", len(data_total['UN_CAMPAIGN']))
-print ("Un plan: ", len(data_total['UN_PLAN']))
+# for plan_total in data_total['MAP']:
+#   if plan_total['REASON_CODE_ORACLE'] == '1708039' and plan_total['Campaign ID'] == '260085044' and plan_total['Date'] == '2017-08-02':
+#   # if str(plan_total['Campaign ID']) == '772872164':
+#     print (plan_total)
+
 
 # path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
 
