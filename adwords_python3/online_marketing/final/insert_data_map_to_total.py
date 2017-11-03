@@ -187,8 +187,30 @@ def CaculatorListMonth(start_date, end_date):
 	return month
 
 
+def CaculatorStartEndDate(plan, start, end):
+	from datetime import datetime , timedelta, date
+	# Get start end
+	month_start = int(start[5:-3])
+	month_end = int(end[5:-3])
+	year_end = end[:4]
+	for month in plan['MONTHLY']:
+		if (int(month['MONTH']) == month_start):
+			start_date = datetime.strptime(start, '%Y-%m-%d').date()
+			end_date = start_date + timedelta(int(month['DAY']) - 1)
+			start_date = start_date.strftime('%Y-%m-%d')
+			end_date = end_date.strftime('%Y-%m-%d')
+		else:
+			start_date = year_end + '-' + str(month['MONTH']) + '-01'
+			start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+			end_date = start_date + timedelta(int(month['DAY']) - 1)
+			start_date = start_date.strftime('%Y-%m-%d')
+			end_date = end_date.strftime('%Y-%m-%d')
+		month['START_DATE'] = start_date
+		month['END_DATE'] = end_date
+	return plan
+
 # ----------- Tính total từng month -------------
-def CaculatorTotalMonth(plan, date):
+def CaculatorTotalMonth(list_camp, plan, date):
 	# print ("vao ham")
 	# if plan['REASON_CODE_ORACLE'] == '1708007':
 	# 		print (plan)
@@ -212,28 +234,61 @@ def CaculatorTotalMonth(plan, date):
 			plan['MONTHLY'] = CaculatorListMonth(start_plan, date)
 		# if plan['REASON_CODE_ORACLE'] == '1708007':
 		# 	print (plan)
-		for m in plan['MONTHLY']:
-			if m['MONTH'] <= month:
-				# Da co data
-				m['DATA'] = True
-				sum_plan = {}
-				sum_plan['CLICKS'] = (float(plan['TOTAL_CAMPAIGN']['CLICKS']) / number_date) * m['DAY']
-				sum_plan['IMPRESSIONS'] = (float(plan['TOTAL_CAMPAIGN']['IMPRESSIONS']) / number_date) * m['DAY']
-				sum_plan['UNIQUE_COOKIES'] = (float(plan['TOTAL_CAMPAIGN']['UNIQUE_COOKIES']) / number_date) * m['DAY']
-				sum_plan['CTR'] = (float(plan['TOTAL_CAMPAIGN']['CTR']) / number_date) * m['DAY']
-				sum_plan['AVG_CPC'] = (float(plan['TOTAL_CAMPAIGN']['AVG_CPC']) / number_date) * m['DAY']
-				sum_plan['AVG_CPM'] = (float(plan['TOTAL_CAMPAIGN']['AVG_CPM']) / number_date) * m['DAY']
-				sum_plan['COST'] = (float(plan['TOTAL_CAMPAIGN']['COST']) / number_date) * m['DAY']
-				sum_plan['CONVERSIONS'] = (float(plan['TOTAL_CAMPAIGN']['CONVERSIONS']) / number_date) * m['DAY']
-				sum_plan['INVALID_CLICKS'] = (float(plan['TOTAL_CAMPAIGN']['INVALID_CLICKS']) / number_date) * m['DAY']
-				sum_plan['AVG_POSITION'] = (float(plan['TOTAL_CAMPAIGN']['AVG_POSITION']) / number_date) * m['DAY']
-				sum_plan['ENGAGEMENTS'] = (float(plan['TOTAL_CAMPAIGN']['ENGAGEMENTS']) / number_date) * m['DAY']
-				sum_plan['AVG_CPE'] = (float(plan['TOTAL_CAMPAIGN']['AVG_CPE']) / number_date) * m['DAY']
-				sum_plan['AVG_CPV'] = (float(plan['TOTAL_CAMPAIGN']['AVG_CPV']) / number_date) * m['DAY']
-				sum_plan['INTERACTIONS'] = (float(plan['TOTAL_CAMPAIGN']['INTERACTIONS']) / number_date) * m['DAY']
-				sum_plan['VIEWS'] = (float(plan['TOTAL_CAMPAIGN']['VIEWS']) / number_date) * m['DAY']
-				sum_plan['INSTALL_CAMP'] = (float(plan['TOTAL_CAMPAIGN']['INSTALL_CAMP']) / number_date) * m['DAY']
-				m['TOTAL_CAMPAIGN_MONTHLY'] = sum_plan
+		if m['MONTH'] <= month:
+			plan = CaculatorStartEndDate(plan, start_plan, end_plan)
+			for m in plan['MONTHLY']:
+				start = datetime.strptime(m['START_DATE'], '%Y-%m-%d').date()
+				end = datetime.strptime(m['END_DATE'], '%Y-%m-%d').date()
+				for camp in plan['CAMPAIGN']:
+					d = datetime.strptime(camp['Date'], '%Y-%m-%d').date()
+					if d >= start and d <= end:
+						for campaign in list_camp:
+							if str(camp['Campaign ID']) == campaign['Campaign ID'] \
+								and str(camp['Date']) == campaign['Date']:
+
+								m.get('TOTAL_CAMPAIGN_MONTHLY', CreateSum())
+								m['DATA'] = True
+
+								m['TOTAL_CAMPAIGN_MONTHLY']['CLICKS'] += float(campaign['Clicks'])
+								m['TOTAL_CAMPAIGN_MONTHLY']['IMPRESSIONS'] += float(campaign['Impressions'])
+								m['TOTAL_CAMPAIGN_MONTHLY']['CTR'] += float(campaign['CTR'])
+								m['TOTAL_CAMPAIGN_MONTHLY']['AVG_CPC'] += float(campaign['Avg. CPC'])
+								m['TOTAL_CAMPAIGN_MONTHLY']['AVG_CPM'] += float(campaign['Avg. CPM'])
+								m['TOTAL_CAMPAIGN_MONTHLY']['COST'] += float(campaign['Cost'])
+								m['TOTAL_CAMPAIGN_MONTHLY']['CONVERSIONS'] += float(campaign['Conversions'])
+								m['TOTAL_CAMPAIGN_MONTHLY']['INVALID_CLICKS'] += float(campaign['Invalid clicks'])
+								m['TOTAL_CAMPAIGN_MONTHLY']['AVG_POSITION'] += float(campaign['Avg. position'])
+								m['TOTAL_CAMPAIGN_MONTHLY']['ENGAGEMENTS'] += float(campaign['Engagements'])
+								m['TOTAL_CAMPAIGN_MONTHLY']['AVG_CPE'] += float(campaign['Avg. CPE'])
+								m['TOTAL_CAMPAIGN_MONTHLY']['AVG_CPV'] += float(campaign['Avg. CPV'])
+								m['TOTAL_CAMPAIGN_MONTHLY']['INTERACTIONS'] += float(campaign['Interactions'])
+								m['TOTAL_CAMPAIGN_MONTHLY']['VIEWS'] += float(campaign['Views'])
+								if 'INSTALL_CAMP' not in campaign:
+									campaign['INSTALL_CAMP'] = 0
+								m['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] += float(campaign['INSTALL_CAMP'])
+								# m['TOTAL_CAMPAIGN_MONTHLY'] = sum_plan					
+
+			# if m['MONTH'] <= month:
+			# 	# Da co data
+			# 	m['DATA'] = True
+			# 	sum_plan = {}
+			# 	sum_plan['CLICKS'] = (float(plan['TOTAL_CAMPAIGN']['CLICKS']) / number_date) * m['DAY']
+			# 	sum_plan['IMPRESSIONS'] = (float(plan['TOTAL_CAMPAIGN']['IMPRESSIONS']) / number_date) * m['DAY']
+			# 	sum_plan['UNIQUE_COOKIES'] = (float(plan['TOTAL_CAMPAIGN']['UNIQUE_COOKIES']) / number_date) * m['DAY']
+			# 	sum_plan['CTR'] = (float(plan['TOTAL_CAMPAIGN']['CTR']) / number_date) * m['DAY']
+			# 	sum_plan['AVG_CPC'] = (float(plan['TOTAL_CAMPAIGN']['AVG_CPC']) / number_date) * m['DAY']
+			# 	sum_plan['AVG_CPM'] = (float(plan['TOTAL_CAMPAIGN']['AVG_CPM']) / number_date) * m['DAY']
+			# 	sum_plan['COST'] = (float(plan['TOTAL_CAMPAIGN']['COST']) / number_date) * m['DAY']
+			# 	sum_plan['CONVERSIONS'] = (float(plan['TOTAL_CAMPAIGN']['CONVERSIONS']) / number_date) * m['DAY']
+			# 	sum_plan['INVALID_CLICKS'] = (float(plan['TOTAL_CAMPAIGN']['INVALID_CLICKS']) / number_date) * m['DAY']
+			# 	sum_plan['AVG_POSITION'] = (float(plan['TOTAL_CAMPAIGN']['AVG_POSITION']) / number_date) * m['DAY']
+			# 	sum_plan['ENGAGEMENTS'] = (float(plan['TOTAL_CAMPAIGN']['ENGAGEMENTS']) / number_date) * m['DAY']
+			# 	sum_plan['AVG_CPE'] = (float(plan['TOTAL_CAMPAIGN']['AVG_CPE']) / number_date) * m['DAY']
+			# 	sum_plan['AVG_CPV'] = (float(plan['TOTAL_CAMPAIGN']['AVG_CPV']) / number_date) * m['DAY']
+			# 	sum_plan['INTERACTIONS'] = (float(plan['TOTAL_CAMPAIGN']['INTERACTIONS']) / number_date) * m['DAY']
+			# 	sum_plan['VIEWS'] = (float(plan['TOTAL_CAMPAIGN']['VIEWS']) / number_date) * m['DAY']
+			# 	sum_plan['INSTALL_CAMP'] = (float(plan['TOTAL_CAMPAIGN']['INSTALL_CAMP']) / number_date) * m['DAY']
+			# 	m['TOTAL_CAMPAIGN_MONTHLY'] = sum_plan
 		# if plan['REASON_CODE_ORACLE'] == '1708007':
 		# 	print (plan)
 	return plan
