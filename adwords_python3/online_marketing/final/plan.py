@@ -203,7 +203,8 @@ def UpdatePlan(path_data, list_plan_update, data_total):
 			and updated_plan['FORM_TYPE'] == plan['FORM_TYPE'] \
 			and updated_plan['UNIT_OPTION'] == plan['UNIT_OPTION'] :
 				UpdateOnePlan(data_total['MAP'][data_total['MAP'].index(plan)], updated_plan)
-				list_plan.remove(updated_plan)
+				if (updated_plan in list_plan):
+					list_plan.remove(updated_plan)
 				list_plan_update_map.append(updated_plan)
 
 
@@ -1030,7 +1031,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	# =============== Get plan change =====================	
 	# fi = open(path_log, 'r')
 	# final_log = fi.read()
-	final_log = '11/01/2017 10:10:00'
+	final_log = '11/01/2017 16:29:00'
 	print(final_log)
 
 	list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
