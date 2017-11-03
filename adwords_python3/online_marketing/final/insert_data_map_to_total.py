@@ -234,9 +234,11 @@ def CaculatorTotalMonth(list_camp, plan, date):
 			plan['MONTHLY'] = CaculatorListMonth(start_plan, date)
 		# if plan['REASON_CODE_ORACLE'] == '1708007':
 		# 	print (plan)
-		if m['MONTH'] <= month:
-			plan = CaculatorStartEndDate(plan, start_plan, end_plan)
-			for m in plan['MONTHLY']:
+
+		for m in plan['MONTHLY']:
+			if m['MONTH'] <= month:
+				plan = CaculatorStartEndDate(plan, start_plan, end_plan)
+				
 				start = datetime.strptime(m['START_DATE'], '%Y-%m-%d').date()
 				end = datetime.strptime(m['END_DATE'], '%Y-%m-%d').date()
 				for camp in plan['CAMPAIGN']:
