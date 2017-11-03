@@ -458,7 +458,10 @@ def GetVolumeActualMonthly(plan, month):
 	unit_option = plan['UNIT_OPTION']
 
 	if unit_option == 'CPC':
-		return month['TOTAL_CAMPAIGN_MONTHLY']['CLICKS']
+		try:
+			return month['TOTAL_CAMPAIGN_MONTHLY']['CLICKS']
+		except:
+			print (plan)
 	if unit_option == 'CPM':
 		return month['TOTAL_CAMPAIGN_MONTHLY']['INTERACTIONS']
 	if unit_option == 'CPA':

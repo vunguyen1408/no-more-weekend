@@ -264,8 +264,8 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
           camp['STATUS'] = 'SYS'
           eform['STATUS'] = 'SYS'
           number += 1
-    if eform['PRODUCT'] == '193':
-      print (eform)
+    # if eform['PRODUCT'] == '193':
+    #   print (eform)
   data_map = {}
   data_map['campaign'] = list_campaign_map
   data_map['plan'] = list_plan
