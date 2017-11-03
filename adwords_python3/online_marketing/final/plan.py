@@ -945,7 +945,7 @@ def ReleaseCampOfPlanRealDate(path_data, date, list_plan_change, data_total):
 	list_camp = []
 	for plan in list_plan_change:
 		plan_temp = {
-					'PLAN' : plan
+					'PLAN' : plan,
 					'CAMPAIGN_MANUAL_MAP' : []
 		}
 		for plan_total in data_total['TOTAL']:
