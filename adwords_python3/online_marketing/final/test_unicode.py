@@ -310,70 +310,71 @@ import time
 
 
 # # ##################################################################################################
-# ----------- Tính total từng month -------------
-def CaculatorTotalMonth(list_camp, plan, date):
-	# print ("vao ham")
-	# if plan['REASON_CODE_ORACLE'] == '1708007':
-	# 		print (plan)
-	# ---------------- Choose time real ----------------------
-	start_plan, end_plan = mapping_data.ChooseTime(plan)
+# # ----------- Tính total từng month -------------
+# def CaculatorTotalMonth(list_camp, plan, date):
+# 	# print ("vao ham")
+# 	# if plan['REASON_CODE_ORACLE'] == '1708007':
+# 	# 		print (plan)
+# 	# ---------------- Choose time real ----------------------
+# 	start_plan, end_plan = mapping_data.ChooseTime(plan)
 
-	plan['NUMBER_DATE'] = CaculatorNumberDate(start_plan, end_plan)
+# 	plan['NUMBER_DATE'] = CaculatorNumberDate(start_plan, end_plan)
 
-	if datetime.strptime(start_plan, '%Y-%m-%d').date() <= datetime.strptime(date, '%Y-%m-%d').date():
-		# Thang hien tai dang mapping
-		month = int(date[5:-3])
-		end_date = datetime.strptime(end_plan, '%Y-%m-%d').date()
-		now = datetime.strptime(date, '%Y-%m-%d').date()
+# 	if datetime.strptime(start_plan, '%Y-%m-%d').date() <= datetime.strptime(date, '%Y-%m-%d').date():
+# 		# Thang hien tai dang mapping
+# 		month = int(date[5:-3])
+# 		end_date = datetime.strptime(end_plan, '%Y-%m-%d').date()
+# 		now = datetime.strptime(date, '%Y-%m-%d').date()
 
-		if now > end_date:
-			plan['MONTHLY'] = CaculatorListMonth(start_plan, end_plan)
-			number_date = plan['NUMBER_DATE']
-		else:
-			# So ngay tu start_day den hien tai (co the tren lech 1 ngay)
-			number_date = CaculatorNumberDate(start_plan, date)
-			plan['MONTHLY'] = CaculatorListMonth(start_plan, date)
-		# if plan['REASON_CODE_ORACLE'] == '1708007':
-		# 	print (plan)
-		if m['MONTH'] <= month:
-			plan = CaculatorStartEndDate(plan, start_plan, end_plan)
-			for m in plan['MONTHLY']:
-				start = datetime.strptime(m['START_DATE'], '%Y-%m-%d').date()
-				end = datetime.strptime(m['END_DATE'], '%Y-%m-%d').date()
-				for camp in plan['CAMPAIGN']:
-					d = datetime.strptime(camp['Date'], '%Y-%m-%d').date()
-					if d >= start and d <= end:
-						for campaign in list_camp:
-							if str(camp['Campaign ID']) == campaign['Campaign ID'] \
-								and str(camp['Date']) == campaign['Date']:
+# 		if now > end_date:
+# 			plan['MONTHLY'] = CaculatorListMonth(start_plan, end_plan)
+# 			number_date = plan['NUMBER_DATE']
+# 		else:
+# 			# So ngay tu start_day den hien tai (co the tren lech 1 ngay)
+# 			number_date = CaculatorNumberDate(start_plan, date)
+# 			plan['MONTHLY'] = CaculatorListMonth(start_plan, date)
+# 		# if plan['REASON_CODE_ORACLE'] == '1708007':
+# 		# 	print (plan)
+# 		if m['MONTH'] <= month:
+# 			plan = CaculatorStartEndDate(plan, start_plan, end_plan)
+# 			for m in plan['MONTHLY']:
+# 				start = datetime.strptime(m['START_DATE'], '%Y-%m-%d').date()
+# 				end = datetime.strptime(m['END_DATE'], '%Y-%m-%d').date()
+# 				for camp in plan['CAMPAIGN']:
+# 					d = datetime.strptime(camp['Date'], '%Y-%m-%d').date()
+# 					if d >= start and d <= end:
+# 						for campaign in list_camp:
+# 							if str(camp['Campaign ID']) == campaign['Campaign ID'] \
+# 								and str(camp['Date']) == campaign['Date']:
 
-								m.get('TOTAL_CAMPAIGN_MONTHLY', CreateSum())
-								m['DATA'] = True
+# 								m.get('TOTAL_CAMPAIGN_MONTHLY', CreateSum())
+# 								m['DATA'] = True
 
-								m['TOTAL_CAMPAIGN_MONTHLY']['CLICKS'] += float(campaign['Clicks'])
-								m['TOTAL_CAMPAIGN_MONTHLY']['IMPRESSIONS'] += float(campaign['Impressions'])
-								m['TOTAL_CAMPAIGN_MONTHLY']['CTR'] += float(campaign['CTR'])
-								m['TOTAL_CAMPAIGN_MONTHLY']['AVG_CPC'] += float(campaign['Avg. CPC'])
-								m['TOTAL_CAMPAIGN_MONTHLY']['AVG_CPM'] += float(campaign['Avg. CPM'])
-								m['TOTAL_CAMPAIGN_MONTHLY']['COST'] += float(campaign['Cost'])
-								m['TOTAL_CAMPAIGN_MONTHLY']['CONVERSIONS'] += float(campaign['Conversions'])
-								m['TOTAL_CAMPAIGN_MONTHLY']['INVALID_CLICKS'] += float(campaign['Invalid clicks'])
-								m['TOTAL_CAMPAIGN_MONTHLY']['AVG_POSITION'] += float(campaign['Avg. position'])
-								m['TOTAL_CAMPAIGN_MONTHLY']['ENGAGEMENTS'] += float(campaign['Engagements'])
-								m['TOTAL_CAMPAIGN_MONTHLY']['AVG_CPE'] += float(campaign['Avg. CPE'])
-								m['TOTAL_CAMPAIGN_MONTHLY']['AVG_CPV'] += float(campaign['Avg. CPV'])
-								m['TOTAL_CAMPAIGN_MONTHLY']['INTERACTIONS'] += float(campaign['Interactions'])
-								m['TOTAL_CAMPAIGN_MONTHLY']['VIEWS'] += float(campaign['Views'])
-								if 'INSTALL_CAMP' not in campaign:
-									campaign['INSTALL_CAMP'] = 0
-								m['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] += float(campaign['INSTALL_CAMP'])
+# 								m['TOTAL_CAMPAIGN_MONTHLY']['CLICKS'] += float(campaign['Clicks'])
+# 								m['TOTAL_CAMPAIGN_MONTHLY']['IMPRESSIONS'] += float(campaign['Impressions'])
+# 								m['TOTAL_CAMPAIGN_MONTHLY']['CTR'] += float(campaign['CTR'])
+# 								m['TOTAL_CAMPAIGN_MONTHLY']['AVG_CPC'] += float(campaign['Avg. CPC'])
+# 								m['TOTAL_CAMPAIGN_MONTHLY']['AVG_CPM'] += float(campaign['Avg. CPM'])
+# 								m['TOTAL_CAMPAIGN_MONTHLY']['COST'] += float(campaign['Cost'])
+# 								m['TOTAL_CAMPAIGN_MONTHLY']['CONVERSIONS'] += float(campaign['Conversions'])
+# 								m['TOTAL_CAMPAIGN_MONTHLY']['INVALID_CLICKS'] += float(campaign['Invalid clicks'])
+# 								m['TOTAL_CAMPAIGN_MONTHLY']['AVG_POSITION'] += float(campaign['Avg. position'])
+# 								m['TOTAL_CAMPAIGN_MONTHLY']['ENGAGEMENTS'] += float(campaign['Engagements'])
+# 								m['TOTAL_CAMPAIGN_MONTHLY']['AVG_CPE'] += float(campaign['Avg. CPE'])
+# 								m['TOTAL_CAMPAIGN_MONTHLY']['AVG_CPV'] += float(campaign['Avg. CPV'])
+# 								m['TOTAL_CAMPAIGN_MONTHLY']['INTERACTIONS'] += float(campaign['Interactions'])
+# 								m['TOTAL_CAMPAIGN_MONTHLY']['VIEWS'] += float(campaign['Views'])
+# 								if 'INSTALL_CAMP' not in campaign:
+# 									campaign['INSTALL_CAMP'] = 0
+# 								m['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] += float(campaign['INSTALL_CAMP'])
 
-	return plan
+# 	return plan
 
 path_alias = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-09-29/PLAN/product_alias.json'
 path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-09-30/DATA_MAPPING/total_mapping.json'
 path_plan = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-09-30/PLAN/plan.json'
 # file_product = os.path.join(path_data, str(date) + '/PLAN/product_alias.json')
+import insert_data_map_to_total as insert_to_total
 
 with open(path_alias, 'r') as fi:
 	data_alias = json.load(fi)
@@ -401,7 +402,7 @@ for plan_total in data_total['TOTAL']:
 # if plan_total['REASON_CODE_ORACLE'] == '1708061':
 # # if str(plan_total['Campaign ID']) == '772872164':
 #   print (plan_total)
-	plan_total = CaculatorTotalMonth(data_total['MAP'], plan_total, date)
+	plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
 	if plan_total['REASON_CODE_ORACLE'] == '1708007':
 		print (plan_total)
 
