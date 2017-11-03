@@ -451,7 +451,7 @@ def NewPlan(path_data, date, list_plan, data_total):
 def GetPlanModified(connect, path_data):
 	#====================== Get old plan in python ==========================
 	# path_plan = os.path.join(path_data + '/' + str(date) + '/PLAN/plan.json')
-	path_plan = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA/2017-10-25/PLAN/plan.json'
+	path_plan = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA/2017-09-30/PLAN/plan.json'
 	with open(path_plan, 'r') as fi:
 		data = json.load(fi)
 	list_plan =  data['plan'].copy()
@@ -1054,7 +1054,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		else:
 			# ========= Finally plan from data ==============
 			# file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
-			file_plan = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA/2017-10-25/PLAN/plan.json'
+			file_plan = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA/2017-09-30/PLAN/plan.json'
 			with open(file_plan, 'r') as fi:
 				list_plan = json.load(fi)
 		
