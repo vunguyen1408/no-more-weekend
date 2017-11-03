@@ -507,6 +507,7 @@ def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_t
 	list_plan_insert_unmap = []
 	list_data_insert_map = []
 	list_plan_insert_total = []
+	list_remove_manual = []
 
 
 	get_camp = time.time()
@@ -522,14 +523,25 @@ def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_t
 
 	
 	# =================== Remove in data TOTAL ========================
-	for plan in list_plan_modified:			
+	for plan in list_plan_modified:		
 		for plan_total in data_total['TOTAL']:
 			if plan_total['PRODUCT'] == plan['PRODUCT'] \
 				and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 				and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
-				and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:				
+				and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
+
+				if len(plan_total['CAMPAIGN_MANUAL_MAP']) > 0 :
+					plan_temp = {
+						'PLAN': plan,
+						'CAMPAIGN_MANUAL_MAP': plan_total['CAMPAIGN_MANUAL_MAP']
+					}	
+					list_remove_manual.append(plan_temp)	
+
 				data_total['TOTAL'].remove(plan_total)
 				list_plan_remove_total.append(plan)
+				
+				
+
 				
 
 	# =================== Remove in data MAP and Re-Insert camp in UN_CAMPAIGN========================
@@ -659,12 +671,13 @@ def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_t
 	print ('list_plan_insert_unmap: ', len(list_plan_insert_unmap))
 	print ('list_data_insert_map: ', len(list_data_insert_map))		
 	print('list_plan_insert_total: ', len(list_plan_insert_total))
+	print('list_remove_manual: ', len(list_remove_manual))
 	
 	total_time = time.time()
 	print("TOTAL TIME: ", total_time - get_camp)
 
 	return data_total, list_camp_remove_unmap, list_camp_insert_unmap, list_plan_remove_total, list_plan_remove_map, \
-	list_plan_remove_unmap, list_plan_insert_unmap, list_data_insert_map, list_plan_insert_total
+	list_plan_remove_unmap, list_plan_insert_unmap, list_data_insert_map, list_plan_insert_total, list_remove_manual
 
 
 def CheckPlanUpdateRealDate(list_plan, plan):
@@ -914,6 +927,7 @@ def ReleaseCampOfPlanRealDate(path_data, date, list_plan_change, data_total):
 	list_camp_insert_unmap = []
 	list_data_remove_map = []
 	list_plan_insert_unmap = []
+	list_remove_manual = []
 
 	#========== Get data in file total mapping ===================
 	# path_data_total = GetFileTotal(path_data, date)		
@@ -930,6 +944,10 @@ def ReleaseCampOfPlanRealDate(path_data, date, list_plan_change, data_total):
 	# ---------- Remove camp from TOTAL --------------------
 	list_camp = []
 	for plan in list_plan_change:
+		plan_temp = {
+					'PLAN' : plan
+					'CAMPAIGN_MANUAL_MAP' : []
+		}
 		for plan_total in data_total['TOTAL']:
 			if plan_total['PRODUCT'] == plan['PRODUCT'] and \
 				plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
@@ -942,6 +960,13 @@ def ReleaseCampOfPlanRealDate(path_data, date, list_plan_change, data_total):
 							#----------- Remove from TOTAL -----------------
 							plan_total['CAMPAIGN'].remove(camp)
 							list_camp.append(camp)
+
+							if camp in plan_total['CAMPAIGN_MANUAL_MAP']:
+								plan_temp['CAMPAIGN_MANUAL_MAP'].append(camp)
+
+		if len(plan_temp['CAMPAIGN_MANUAL_MAP']) > 0:
+			list_remove_manual.append(plan_temp)
+
 				if (len(plan_total['CAMPAIGN']) == 0):
 					data_total['TOTAL'].remove(plan_total)
 					list_plan_insert_unmap.append(plan_total)
@@ -1005,8 +1030,9 @@ def ReleaseCampOfPlanRealDate(path_data, date, list_plan_change, data_total):
 	print('list_camp_insert_unmap: ', len(list_camp_insert_unmap))
 	print('list_data_remove_map: ', len(list_data_remove_map))
 	print('list_plan_insert_unmap: ', len(list_plan_insert_unmap))
+	print('list_remove_manual: ', len(list_remove_manual))
 
-	return data_total, list_camp_insert_unmap, list_data_remove_map, list_plan_insert_unmap	
+	return data_total, list_camp_insert_unmap, list_data_remove_map, list_plan_insert_unmap, list_remove_manual
 			
 
 def ClassifyPlan(connect, path_data, date, path_log):
@@ -1025,6 +1051,8 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 	list_plan_insert_unmap = []
 	list_plan_remove_unmap = []
+
+	list_remove_manual = []
 		
 	
 
@@ -1082,7 +1110,8 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	if (len(list_plan_change_real_date) > 0):
 		print("=========== Case 0: Release camp in list change real date ==========")
 		list_plan_change_real_date = mapping.AddProductCode(path_data, list_plan_change_real_date, date)		
-		data_total, camp_insert_unmap, data_remove_map, plan_insert_unmap = ReleaseCampOfPlanRealDate(path_data, date, list_plan_change_real_date, data_total)
+		data_total, camp_insert_unmap, data_remove_map, \
+		plan_insert_unmap, remove_manual = ReleaseCampOfPlanRealDate(path_data, date, list_plan_change_real_date, data_total)
 
 		# insert_install.InsertInstallToPlan(path_data, connect, date)
 		# insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
@@ -1090,6 +1119,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		list_camp_insert_unmap.extend(camp_insert_unmap)
 		list_data_remove_map.extend(data_remove_map)
 		list_plan_insert_unmap.extend(plan_insert_unmap)
+		list_remove_manual.extend(remove_manual)
 
 
 	#======== Case 1: Data update can map
@@ -1102,7 +1132,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		list_plan_modified = GetPlanModified(connect, path_data)
 		data_total, camp_remove_unmap, camp_insert_unmap, plan_remove_total, \
 		plan_remove_map, plan_remove_unmap, plan_insert_unmap, \
-		data_insert_map, plan_insert_total = ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_total)
+		data_insert_map, plan_insert_total, remove_manual = ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_total)
 
 		list_camp_remove_unmap.extend(camp_remove_unmap)
 		list_camp_insert_unmap.extend(camp_insert_unmap)
@@ -1112,6 +1142,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		list_plan_insert_unmap.extend(plan_insert_unmap)
 		list_data_insert_map.extend(data_insert_map)
 		list_plan_insert_total.extend(plan_insert_total)
+		list_remove_manual.extend(remove_manual)
 
 	#======== Case 2: Data update can map
 	if (len(list_plan_change_real_date) > 0):
