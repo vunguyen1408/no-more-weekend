@@ -327,22 +327,22 @@ with open(path_plan, 'r') as fi:
 with open(path_total, 'r') as fi:
 	data_total = json.load(fi)
 
-for plan_total in data_alias['ALIAS']:
-	if  str(plan_total['PRODUCT_ID']) == '193':
-		print (plan_total)
+# for plan_total in data_alias['ALIAS']:
+# 	if  str(plan_total['PRODUCT_ID']) == '193':
+# 		print (plan_total)
 
-for plan_total in data_plan['plan']:
-	if  str(plan_total['PRODUCT']) == '193':
-		print (plan_total)
+# for plan_total in data_plan['plan']:
+# 	if  str(plan_total['PRODUCT']) == '193':
+		# print (plan_total)
 		# 	for plan in data_alias['ALIAS']:
 # 		if plan_total['PRODUCT'] == plan['PRODUCT_ID'] and plan['APPSFLYER_PRODUCT'] != None:
 # 			plan_total['APPSFLYER_PRODUCT'].append(plan['APPSFLYER_PRODUCT'])
 # 	print (plan_total['APPSFLYER_PRODUCT'])
 
-# for plan_total in data_total['MAP']:
-#   if plan_total['REASON_CODE_ORACLE'] == '1708039' and plan_total['Campaign ID'] == '260085044' and plan_total['Date'] == '2017-08-02':
-#   # if str(plan_total['Campaign ID']) == '772872164':
-#     print (plan_total)
+for plan_total in data_total['MAP']:
+  if plan_total['REASON_CODE_ORACLE'] == '1708061':
+  # if str(plan_total['Campaign ID']) == '772872164':
+    print (plan_total)
 
 
 # path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
