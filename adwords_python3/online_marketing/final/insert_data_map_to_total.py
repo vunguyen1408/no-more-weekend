@@ -245,8 +245,7 @@ def CaculatorTotalMonth(list_camp, plan, date):
 					d = datetime.strptime(camp['Date'], '%Y-%m-%d').date()
 					if d >= start and d <= end:
 						for campaign in list_camp:
-							print (camp)
-
+							# print (camp)
 							if str(camp['CAMPAIGN_ID']) == campaign['Campaign ID'] \
 								and str(camp['Date']) == campaign['Date']:
 								if 'TOTAL_CAMPAIGN_MONTHLY' not in m:
