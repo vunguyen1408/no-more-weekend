@@ -117,6 +117,12 @@ def ReadTableManualMap(connect, path_data, date):
 	list_plan = mapping.ReadPlan(path_data, str(date))
 
 
+	# mapping.ReadPlanFromTable(connect, path_data, str(date))
+	# mapping.ReadProductAlias(connect, path_data, str(date))
+	# # nru.Add_NRU_into_plan(connect, path_data, date)  
+	# list_plan = mapping.ReadPlan(path_data, str(date))
+	# list_plan['plan'] = mapping.AddProductCode(path_data, list_plan['plan'], date)
+
 	# print (data_manual_map)
 	# print (list_diff)
 	# --------------- Get info plan ------------
