@@ -328,13 +328,11 @@ with open(path_total, 'r') as fi:
 # 			plan_total['APPSFLYER_PRODUCT'].append(plan['APPSFLYER_PRODUCT'])
 # 	print (plan_total['APPSFLYER_PRODUCT'])
 
-for plan_total in data_total['TOTAL']:
-  if plan_total['REASON_CODE_ORACLE'] == '1706010':
+for plan_total in data_total['MAP']:
+  if plan_total['REASON_CODE_ORACLE'] == '1708039' and plan_total['Campaign ID'] == '260085044' and plan_total['Date'] == '2017-08-02':
   # if str(plan_total['Campaign ID']) == '772872164':
     print (plan_total)
-print ("MAP: ", len(data_total['MAP']))
-print ("Un camp: ", len(data_total['UN_CAMPAIGN']))
-print ("Un plan: ", len(data_total['UN_PLAN']))
+
 
 # path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
 
