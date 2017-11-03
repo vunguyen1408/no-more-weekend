@@ -1,146 +1,309 @@
 import json
 import os 
+from datetime import datetime, timedelta, date
 
-def RecomputeTotalPlan(plan, list_campaign):
 
-	"""
-		Hàm tính lại total cho một plan (trừ đi các campaign được nhả)
-	"""
-	sum_plan = plan['TOTAL_CAMPAIGN'].copy()
-	for campaign_in_plan in plan['CAMPAIGN']:
-		for campaign in list_campaign:
+
+def RemoveLogManual(path_data, date, list_remove_manual):
+	path_log_manual = os.path.join(path_data, str(date), 'LOG_MANUAL/log_manual.json')
+	with open(path_log_manual, 'r') as fi:
+		data_manual  = json.load(fi)
+
+	for value in list_remove_manual:
+		for data in data_manual['LOG']:
+			if value['PLAN']['PRODUCT'] == data['PRODUCT'] \
+			and value['PLAN']['REASON_CODE_ORACLE'] == data['REASON_CODE_ORACLE'] \
+			and value['PLAN']['FORM_TYPE'] == data['FORM_TYPE'] \
+			and value['PLAN']['UNIT_OPTION'] == data['UNIT_OPTION']:
+
+				pass
+
+def GetMinDate(list_date):
+	list_temp = []
+	for date in list_date:
+		list_temp.append(datetime.strptime(date, '%Y-%m-%d'))
+
+	min_date = list_temp[0]
+	for temp in list_temp:
+		if (temp < min_date):
+			min_date = temp
+
+	min_date = min_date.strftime('%Y-%m-%d')	
+	return min_date
+
+
+def GetMaxDate(list_date):
+	list_temp = []
+	for date in list_date:
+		list_temp.append(datetime.strptime(date, '%Y-%m-%d'))
+
+	max_date = list_temp[0]
+	for temp in list_temp:
+		if (temp > max_date):
+			max_date = temp
+
+	max_date = max_date.strftime('%Y-%m-%d')	
+	return max_date
+
+
+def DivideRangeDate(value):
+
+	list_result = []
+	
+	min_date = datetime.strptime(GetMinDate(value['LIST_DATE']), '%Y-%m-%d')
+	max_date = datetime.strptime(GetMaxDate(value['LIST_DATE']), '%Y-%m-%d')
+	log = {
+		'PLAN': value['PLAN'],
+		'CAMPAIGN_ID': value['CAMPAIGN_ID'],
+		'START_DATE': min_date.strftime('%Y-%m-%d'),
+		'END_DATE': min_date.strftime('%Y-%m-%d')
+	}
+	
+	date = min_date
+	value['LIST_DATE'].remove(date.strftime('%Y-%m-%d'))
+	flag = True
+	while (date <= max_date) and flag:
+		date += timedelta(1)
+		if date.strftime('%Y-%m-%d') not in value['LIST_DATE']:
+			flag = False
+		else:
+			value['LIST_DATE'].remove(date.strftime('%Y-%m-%d'))
+
+	if flag == False:
+		log['END_DATE'] = (date - timedelta(1)).strftime('%Y-%m-%d')
+		# DivideRangeDate(value)
+
+	if (date > max_date):
+		log['END_DATE'] = max_date.strftime('%Y-%m-%d')
+
+	print(value['LIST_DATE'])
+	if len(value['LIST_DATE']) > 0:
+		result = DivideRangeDate(value)
+		list_result.extend(result)
+
+	list_result.append(log)	
+	return list_result
+
+
+def ConvertListCamp(list_remove_manual):
+	list_result = []
+	list_log = []	
+	
+	for plan in list_remove_manual:
+		list_temp = []
+		list_camp_id = []
+		for camp in plan['CAMPAIGN_MANUAL_MAP']:
+			if camp['CAMPAIGN_ID'] not in list_camp_id:				
+				list_camp_id.append(camp['CAMPAIGN_ID'])
+				_camp = {
+						"PLAN": plan['PLAN'],
+						"CAMPAIGN_ID": camp['CAMPAIGN_ID'],
+						"LIST_DATE": [camp['UPDATE_DATE']],
+						"START_DATE": None,
+						"END_DATE": None
+				}
+				list_temp.append(_camp)
+			else:
+				list_temp[list_camp_id.index(camp['CAMPAIGN_ID'])]['LIST_DATE'].append(camp['UPDATE_DATE'])
 			
-			if (str(campaign_in_plan['CAMPAIGN_ID']) == str(campaign['Campaign ID'])) \
-			and (campaign_in_plan['Date'] == campaign['Date']):
-				# --------------- Tính total ------------------
-				sum_plan['CLICKS'] -= float(campaign['Clicks'])
-				sum_plan['IMPRESSIONS'] -= float(campaign['Impressions'])
-				sum_plan['CTR'] -= float(campaign['CTR'])
-				sum_plan['AVG_CPC'] -= float(campaign['Avg. CPC'])
-				sum_plan['AVG_CPM'] -= float(campaign['Avg. CPM'])
-				sum_plan['COST'] -= float(campaign['Cost'])
-				sum_plan['CONVERSIONS'] -= float(campaign['Conversions'])
-				sum_plan['INVALID_CLICKS'] -= float(campaign['Invalid clicks'])
-				sum_plan['AVG_POSITION'] -= float(campaign['Avg. position'])
-				sum_plan['ENGAGEMENTS'] -= float(campaign['Engagements'])
-				sum_plan['AVG_CPE'] -= float(campaign['Avg. CPE'])
-				sum_plan['AVG_CPV'] -= float(campaign['Avg. CPV'])
-				sum_plan['INTERACTIONS'] -= float(campaign['Interactions'])
-				sum_plan['VIEWS'] -= float(campaign['Views'])
-				# if 'INSTALL_CAMP' not in campaign:
-				# 	campaign['INSTALL_CAMP'] = 0
-				# 	sum_plan['INSTALL_CAMP'] -= float(campaign['INSTALL_CAMP'])
-	print (plan['TOTAL_CAMPAIGN'])
-	print()		
-	plan['TOTAL_CAMPAIGN'] = sum_plan.copy()
-	print (plan['TOTAL_CAMPAIGN'])
-	return plan
+		list_result.extend(list_temp)	
+
+	for result in list_result:
+		log = DivideRangeDate(result)
+		list_log.extend(log)
+
+	return list_log
+
+
+def RemoveManualLog(path_data, date, list_remove_manual):
+	file_log = os.path.join(path_data, str(date) + '/LOG_MANUAL/log_manual.json')
+	with open(file_log, 'r') as fi:
+		data_log = json.load(fi)
+
+	list_log = ConvertListCamp(list_remove_manual)
+
+	for log in list_log:
+		for manual in data_log['LOG']:
+			if log['PLAN']['PRODUCT'] == manual['PRODUCT'] and \
+				log['PLAN']['REASON_CODE_ORACLE'] == manual['REASON_CODE_ORACLE'] and \
+				log['PLAN']['FORM_TYPE'] == manual['FORM_TYPE'] and \
+				log['PLAN']['UNIT_OPTION'] == manual['UNIT_OPTION']:
+			
 
 
 
-list_campaign = [
-{
-      "Campaign state": "enabled",
-      "Campaign": "JXM | 1610105 1611013 1611026 1611062 1703048 1704016 1706008 1707026 1709039 | Search Google Play Store",
-      "Advertising Channel": "SEARCH",
-      "Advertising Sub Channel": "Search Mobile App",
-      "Campaign ID": 682545537,
-      "Campaign serving status": "eligible",
-      "Clicks": 2990,
-      "Impressions": 16945,
-      "Unique cookies": "",
-      "CTR": 17.65,
-      "Avg. CPC": 128268,
-      "Avg. CPM": 22633225,
-      "Cost": 383.52,
-      "Conversions": 1113,
-      "Bid Strategy Type": "Target CPA",
-      "Invalid clicks": 454,
-      "Avg. position": 1.4,
-      "Engagements": 0,
-      "Avg. CPE": 0,
-      "View rate": 0,
-      "Views": 0,
-      "Avg. CPV": 0,
-      "Avg. Cost": 128268,
-      "Interaction Types": [
-        "Clicks"
-      ],
-      "Interactions": 2990,
-      "Interaction Rate": 17.65,
-      "Video played to 25%": 0,
-      "Video played to 50%": 0,
-      "Video played to 75%": 0,
-      "Video played to 100%": 0,
-      "Start date": "2016-10-16",
-      "End date": "",
-      "Mapping": False,
-      "Date": "2017-06-29",
+
+
+
+# path = 'C:/Users/CPU10912-local/Desktop/remove.json'
+# with open(path, 'r') as fi:
+# 	list_remove_manual = json.load(fi)
+
+list_remove_manual = [{
+  "PLAN": {
+      "CYEAR": "17",
+      "CMONTH": "6",
+      "LEGAL": "VNG",
+      "DEPARTMENT": "0902",
+      "DEPARTMENT_NAME": "PG1",
+      "PRODUCT": "221",
+      "REASON_CODE_ORACLE": "1706008",
+      "EFORM_NO": "FA-PA170529003",
+      "START_DAY": "2017-06-01",
+      "END_DAY_ESTIMATE": "2017-06-30",
+      "CHANNEL": "GG",
+      "FORM_TYPE": "SEARCH",
+      "UNIT_OPTION": "CPI",
+      "UNIT_COST": "1.3",
+      "AMOUNT_USD": 39000,
+      "CVALUE": 30000,
+      "ENGAGEMENT": None,
+      "IMPRESSIONS": None,
+      "CLIKE": None,
+      "CVIEWS": None,
       "INSTALL": 30000,
-      "Plan": None
-
-}, 
-{
-      "Campaign state": "enabled",
-      "Campaign": "JXM | 1610105 1611013 1611026 1611062 1703048 1704016 1706008 1707026 1709039 | Search Google Play Store",
-      "Advertising Channel": "SEARCH",
-      "Advertising Sub Channel": "Search Mobile App",
-      "Campaign ID": 682545537,
-      "Campaign serving status": "eligible",
-      "Clicks": 2990,
-      "Impressions": 16945,
-      "Unique cookies": "",
-      "CTR": 17.65,
-      "Avg. CPC": 128268,
-      "Avg. CPM": 22633225,
-      "Cost": 383.52,
-      "Conversions": 1113,
-      "Bid Strategy Type": "Target CPA",
-      "Invalid clicks": 454,
-      "Avg. position": 1.4,
-      "Engagements": 0,
-      "Avg. CPE": 0,
-      "View rate": 0,
-      "Views": 0,
-      "Avg. CPV": 0,
-      "Avg. Cost": 128268,
-      "Interaction Types": [
-        "Clicks"
-      ],
-      "Interactions": 2990,
-      "Interaction Rate": 17.65,
-      "Video played to 25%": 0,
-      "Video played to 50%": 0,
-      "Video played to 75%": 0,
-      "Video played to 100%": 0,
-      "Start date": "2016-10-16",
-      "End date": "",
-      "Mapping": False,
-      "Date": "2017-06-30",
+      "NRU": None,
+      "INSERT_DATE": "2017-09-13",
+	},
+	"CAMPAIGN_MANUAL_MAP": [
+		{
+          "CAMPAIGN_ID": 682545537,
+          "UPDATE_DATE": "2017-06-01"
+        },
+        {
+          "CAMPAIGN_ID": 682545537,
+          "UPDATE_DATE": "2017-06-02"
+        },
+        {
+          "CAMPAIGN_ID": 682545537,
+          "UPDATE_DATE": "2017-06-03"
+        },
+        {
+          "CAMPAIGN_ID": 682222537,
+          "UPDATE_DATE": "2017-06-04"
+        },
+        {
+          "CAMPAIGN_ID": 682222537,
+          "UPDATE_DATE": "2017-06-05"
+        },
+        {
+          "CAMPAIGN_ID": 682222537,
+          "UPDATE_DATE": "2017-06-06"
+        }
+      ]
+	},
+	{
+  "PLAN": {
+      "CYEAR": "17",
+      "CMONTH": "6",
+      "LEGAL": "VNG",
+      "DEPARTMENT": "0902",
+      "DEPARTMENT_NAME": "PG1",
+      "PRODUCT": "221",
+      "REASON_CODE_ORACLE": "1706008",
+      "EFORM_NO": "FA-PA170529003",
+      "START_DAY": "2017-06-01",
+      "END_DAY_ESTIMATE": "2017-06-30",
+      "CHANNEL": "GG",
+      "FORM_TYPE": "SEARCH",
+      "UNIT_OPTION": "CPI",
+      "UNIT_COST": "1.3",
+      "AMOUNT_USD": 39000,
+      "CVALUE": 30000,
+      "ENGAGEMENT": None,
+      "IMPRESSIONS": None,
+      "CLIKE": None,
+      "CVIEWS": None,
       "INSTALL": 30000,
-      "Plan": None
+      "NRU": None,
+      "INSERT_DATE": "2017-09-13",
+	},
+	"CAMPAIGN_MANUAL_MAP": [
+		{
+          "CAMPAIGN_ID": 682545537,
+          "UPDATE_DATE": "2017-06-01"
+        },
+        {
+          "CAMPAIGN_ID": 682545537,
+          "UPDATE_DATE": "2017-06-02"
+        },
+        {
+          "CAMPAIGN_ID": 682545537,
+          "UPDATE_DATE": "2017-06-03"
+        },
+        {
+          "CAMPAIGN_ID": 682545537,
+          "UPDATE_DATE": "2017-06-04"
+        },
+        {
+          "CAMPAIGN_ID": 682545537,
+          "UPDATE_DATE": "2017-06-05"
+        },
+        {
+          "CAMPAIGN_ID": 682545537,
+          "UPDATE_DATE": "2017-06-06"
+        }
+      ]
+	},
+	{"PLAN": {
+      "CYEAR": "17",
+      "CMONTH": "6",
+      "LEGAL": "VNG",
+      "DEPARTMENT": "0902",
+      "DEPARTMENT_NAME": "PG1",
+      "PRODUCT": "221",
+      "REASON_CODE_ORACLE": "1706008",
+      "EFORM_NO": "FA-PA170529003",
+      "START_DAY": "2017-06-01",
+      "END_DAY_ESTIMATE": "2017-06-30",
+      "CHANNEL": "GG",
+      "FORM_TYPE": "SEARCH",
+      "UNIT_OPTION": "CPI",
+      "UNIT_COST": "1.3",
+      "AMOUNT_USD": 39000,
+      "CVALUE": 30000,
+      "ENGAGEMENT": None,
+      "IMPRESSIONS": None,
+      "CLIKE": None,
+      "CVIEWS": None,
+      "INSTALL": 30000,
+      "NRU": None,
+      "INSERT_DATE": "2017-09-13",
+	},
+	"CAMPAIGN_MANUAL_MAP": [
+		{
+          "CAMPAIGN_ID": 682545537,
+          "UPDATE_DATE": "2017-09-01"
+        },
+        {
+          "CAMPAIGN_ID": 682545537,
+          "UPDATE_DATE": "2017-09-02"
+        },
+        {
+          "CAMPAIGN_ID": 682545537,
+          "UPDATE_DATE": "2017-09-03"
+        },
+        {
+          "CAMPAIGN_ID": 6111111117,
+          "UPDATE_DATE": "2017-10-04"
+        },
+        {
+          "CAMPAIGN_ID": 6111111117,
+          "UPDATE_DATE": "2017-10-05"
+        },
+        {
+          "CAMPAIGN_ID": 6111111117,
+          "UPDATE_DATE": "2017-11-06"
+        }
+      ]
+	}
+	]
 
-}]
 
+list_log = ConvertListCamp(list_remove_manual)
 
-path = 'C:/Users/CPU10912-local/Desktop/total.json'
-
-with open(path, 'r') as fi:
-	data = json.load(fi)
-
-RecomputeTotalPlan(data['TOTAL'][0], list_campaign)
-
-
-
-
-
-
-
-
-
-
-
-
+for log in list_log:
+	print(log)
 
 
 
