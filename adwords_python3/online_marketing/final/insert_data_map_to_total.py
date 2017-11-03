@@ -238,7 +238,6 @@ def CaculatorTotalMonth(list_camp, plan, date):
 		for m in plan['MONTHLY']:
 			if m['MONTH'] <= month:
 				plan = CaculatorStartEndDate(plan, start_plan, end_plan)
-
 				start = datetime.strptime(m['START_DATE'], '%Y-%m-%d').date()
 				end = datetime.strptime(m['END_DATE'], '%Y-%m-%d').date()
 				for camp in plan['CAMPAIGN']:
@@ -324,7 +323,7 @@ def AddToTotal (data_total, data_date, date):
 	# --------------- Tinh total month cho cac plan --------------
 	for plan in data_total['TOTAL']:
 		plan['MONTHLY'] = {}
-		plan = CaculatorTotalMonth(plan, date)
+		plan = CaculatorTotalMonth(data_date['campaign'], plan, date)
 
 
 	# --------------- Insert data map -------------------
@@ -372,7 +371,7 @@ def AddToTotal (data_total, data_date, date):
 	for plan in data_total['UN_PLAN']:
 		plan['MONTHLY'] = {}
 		s, e = mapping_data.ChooseTime(plan)
-		plan = CaculatorTotalMonth(plan, e)
+		plan = CaculatorTotalMonth(data_date['campaign'], plan, e)
 	list_plan_update = list_plan_total_date
 	return (data_total, list_data_map, list_plan_remove, list_plan_update)
 

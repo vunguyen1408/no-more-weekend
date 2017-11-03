@@ -285,6 +285,9 @@ def ManualMap(connect, path_data, date):
 			# print (len(data_total['UN_CAMPAIGN']))
 			import time
 			start_time = time.time()
+
+			list_caculator_monthly = []
+
 			for plan in list_plan:
 				plan, list_map, list_camp_need_remove = GetCampaignUnMapForPlan(plan, path_data_total_map, data_total)
 				list_map_all.extend(list_map)
@@ -295,6 +298,12 @@ def ManualMap(connect, path_data, date):
 				#------------- Insert data map ------------
 				data_total['MAP'].extend(list_map)
 				# print (len(list_camp_need_remove))
+
+				plan_temp = {
+					'PLAN' : plan.copy()
+					'CAMPAIGN' : list_camp_need_remove.copy()
+				}
+				list_caculator_monthly.append(plan_temp)
 
 				#----------- Remove unmap ---------------------
 				for camp in list_camp_need_remove:
@@ -351,12 +360,23 @@ def ManualMap(connect, path_data, date):
 			print ("---------------------------------------------------")
 			for plan in data_total['TOTAL']:
 				plan['MONTHLY'] = {}
-				plan = insert_data.CaculatorTotalMonth(plan, date)
-			print ("---------------------------------------------------")
+				for plan_un in list_caculator_monthly:
+					if plan_un['PLAN']['PRODUCT'] == plan['PRODUCT'] \
+						and plan_un['PLAN']['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+						and plan_un['PLAN']['FORM_TYPE'] == plan['FORM_TYPE'] \
+						and plan_un['PLAN']['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+						plan = insert_data.CaculatorTotalMonth(plan_un['CAMPAIGN'], plan, date)
+					print ("---------------------------------------------------")
 
 			for plan in data_total['UN_PLAN']:
 				plan['MONTHLY'] = {}
-				plan = insert_data.CaculatorTotalMonth(plan, date)
+				for plan_un in list_caculator_monthly:
+					if plan_un['PLAN']['PRODUCT'] == plan['PRODUCT'] \
+						and plan_un['PLAN']['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+						and plan_un['PLAN']['FORM_TYPE'] == plan['FORM_TYPE'] \
+						and plan_un['PLAN']['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+						plan = insert_data.CaculatorTotalMonth(plan_un['CAMPAIGN'], plan, date)
+					print ("---------------------------------------------------")
 
 			# 	for plan_un in list_plan:
 			# 		if plan_un['PRODUCT'] == plan['PRODUCT'] \
