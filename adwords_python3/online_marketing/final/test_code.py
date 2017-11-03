@@ -128,182 +128,193 @@ def RemoveManualLog(path_data, date, list_remove_manual):
 				log['PLAN']['REASON_CODE_ORACLE'] == manual['REASON_CODE_ORACLE'] and \
 				log['PLAN']['FORM_TYPE'] == manual['FORM_TYPE'] and \
 				log['PLAN']['UNIT_OPTION'] == manual['UNIT_OPTION']:
+					log_start = datetime.strptime(log['START_DATE'], '%Y-%m-%d')
+					log_end = datetime.strptime(log['END_DATE'], '%Y-%m-%d')
+					manual_start = datetime.strptime(manual['START_DATE'], '%Y-%m-%d')
+					manual_end = datetime.strptime(manual['END_DATE'], '%Y-%m-%d')
+
+					if (log_start == manual_start) \
+					and (log_end == manual_end) :
+						data_log['LOG'].remove(manual)
+
+					elif (log_start <= manual_start) \
+					and (log_end < manual_end) :
+						data_log['LOG']['START_DATE'] = log_end
+
+					elif (log_start >= manual_start) \
+					and (log_end >= manual_end) :
+						data_log['LOG']['END_DATE'] = log_start
+
+	with open(file_log, 'w') as fo:
+		json.load(data_log, fo)
 			
 
 
+# list_remove_manual = [{
+#   "PLAN": {
+#       "CYEAR": "17",
+#       "CMONTH": "6",
+#       "LEGAL": "VNG",
+#       "DEPARTMENT": "0902",
+#       "DEPARTMENT_NAME": "PG1",
+#       "PRODUCT": "221",
+#       "REASON_CODE_ORACLE": "1706008",
+#       "EFORM_NO": "FA-PA170529003",
+#       "START_DAY": "2017-06-01",
+#       "END_DAY_ESTIMATE": "2017-06-30",
+#       "CHANNEL": "GG",
+#       "FORM_TYPE": "SEARCH",
+#       "UNIT_OPTION": "CPI",
+#       "UNIT_COST": "1.3",
+#       "AMOUNT_USD": 39000,
+#       "CVALUE": 30000,
+#       "ENGAGEMENT": None,
+#       "IMPRESSIONS": None,
+#       "CLIKE": None,
+#       "CVIEWS": None,
+#       "INSTALL": 30000,
+#       "NRU": None,
+#       "INSERT_DATE": "2017-09-13",
+# 	},
+# 	"CAMPAIGN_MANUAL_MAP": [
+# 		{
+#           "CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-06-01"
+#         },
+#         {
+#           "CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-06-02"
+#         },
+#         {
+#           "CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-06-03"
+#         },
+#         {
+#           "CAMPAIGN_ID": 682222537,
+#           "UPDATE_DATE": "2017-06-04"
+#         },
+#         {
+#           "CAMPAIGN_ID": 682222537,
+#           "UPDATE_DATE": "2017-06-05"
+#         },
+#         {
+#           "CAMPAIGN_ID": 682222537,
+#           "UPDATE_DATE": "2017-06-06"
+#         }
+#       ]
+# 	},
+# 	{
+#   "PLAN": {
+#       "CYEAR": "17",
+#       "CMONTH": "6",
+#       "LEGAL": "VNG",
+#       "DEPARTMENT": "0902",
+#       "DEPARTMENT_NAME": "PG1",
+#       "PRODUCT": "221",
+#       "REASON_CODE_ORACLE": "1706008",
+#       "EFORM_NO": "FA-PA170529003",
+#       "START_DAY": "2017-06-01",
+#       "END_DAY_ESTIMATE": "2017-06-30",
+#       "CHANNEL": "GG",
+#       "FORM_TYPE": "SEARCH",
+#       "UNIT_OPTION": "CPI",
+#       "UNIT_COST": "1.3",
+#       "AMOUNT_USD": 39000,
+#       "CVALUE": 30000,
+#       "ENGAGEMENT": None,
+#       "IMPRESSIONS": None,
+#       "CLIKE": None,
+#       "CVIEWS": None,
+#       "INSTALL": 30000,
+#       "NRU": None,
+#       "INSERT_DATE": "2017-09-13",
+# 	},
+# 	"CAMPAIGN_MANUAL_MAP": [
+# 		{
+#           "CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-06-01"
+#         },
+#         {
+#           "CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-06-02"
+#         },
+#         {
+#           "CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-06-03"
+#         },
+#         {
+#           "CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-06-04"
+#         },
+#         {
+#           "CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-06-05"
+#         },
+#         {
+#           "CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-06-06"
+#         }
+#       ]
+# 	},
+# 	{"PLAN": {
+#       "CYEAR": "17",
+#       "CMONTH": "6",
+#       "LEGAL": "VNG",
+#       "DEPARTMENT": "0902",
+#       "DEPARTMENT_NAME": "PG1",
+#       "PRODUCT": "221",
+#       "REASON_CODE_ORACLE": "1706008",
+#       "EFORM_NO": "FA-PA170529003",
+#       "START_DAY": "2017-06-01",
+#       "END_DAY_ESTIMATE": "2017-06-30",
+#       "CHANNEL": "GG",
+#       "FORM_TYPE": "SEARCH",
+#       "UNIT_OPTION": "CPI",
+#       "UNIT_COST": "1.3",
+#       "AMOUNT_USD": 39000,
+#       "CVALUE": 30000,
+#       "ENGAGEMENT": None,
+#       "IMPRESSIONS": None,
+#       "CLIKE": None,
+#       "CVIEWS": None,
+#       "INSTALL": 30000,
+#       "NRU": None,
+#       "INSERT_DATE": "2017-09-13",
+# 	},
+# 	"CAMPAIGN_MANUAL_MAP": [
+# 		{
+#           "CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-09-01"
+#         },
+#         {
+#           "CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-09-02"
+#         },
+#         {
+#           "CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-09-03"
+#         },
+#         {
+#           "CAMPAIGN_ID": 6111111117,
+#           "UPDATE_DATE": "2017-10-04"
+#         },
+#         {
+#           "CAMPAIGN_ID": 6111111117,
+#           "UPDATE_DATE": "2017-10-05"
+#         },
+#         {
+#           "CAMPAIGN_ID": 6111111117,
+#           "UPDATE_DATE": "2017-11-06"
+#         }
+#       ]
+# 	}
+# 	]
 
 
+# list_log = ConvertListCamp(list_remove_manual)
 
-
-# path = 'C:/Users/CPU10912-local/Desktop/remove.json'
-# with open(path, 'r') as fi:
-# 	list_remove_manual = json.load(fi)
-
-list_remove_manual = [{
-  "PLAN": {
-      "CYEAR": "17",
-      "CMONTH": "6",
-      "LEGAL": "VNG",
-      "DEPARTMENT": "0902",
-      "DEPARTMENT_NAME": "PG1",
-      "PRODUCT": "221",
-      "REASON_CODE_ORACLE": "1706008",
-      "EFORM_NO": "FA-PA170529003",
-      "START_DAY": "2017-06-01",
-      "END_DAY_ESTIMATE": "2017-06-30",
-      "CHANNEL": "GG",
-      "FORM_TYPE": "SEARCH",
-      "UNIT_OPTION": "CPI",
-      "UNIT_COST": "1.3",
-      "AMOUNT_USD": 39000,
-      "CVALUE": 30000,
-      "ENGAGEMENT": None,
-      "IMPRESSIONS": None,
-      "CLIKE": None,
-      "CVIEWS": None,
-      "INSTALL": 30000,
-      "NRU": None,
-      "INSERT_DATE": "2017-09-13",
-	},
-	"CAMPAIGN_MANUAL_MAP": [
-		{
-          "CAMPAIGN_ID": 682545537,
-          "UPDATE_DATE": "2017-06-01"
-        },
-        {
-          "CAMPAIGN_ID": 682545537,
-          "UPDATE_DATE": "2017-06-02"
-        },
-        {
-          "CAMPAIGN_ID": 682545537,
-          "UPDATE_DATE": "2017-06-03"
-        },
-        {
-          "CAMPAIGN_ID": 682222537,
-          "UPDATE_DATE": "2017-06-04"
-        },
-        {
-          "CAMPAIGN_ID": 682222537,
-          "UPDATE_DATE": "2017-06-05"
-        },
-        {
-          "CAMPAIGN_ID": 682222537,
-          "UPDATE_DATE": "2017-06-06"
-        }
-      ]
-	},
-	{
-  "PLAN": {
-      "CYEAR": "17",
-      "CMONTH": "6",
-      "LEGAL": "VNG",
-      "DEPARTMENT": "0902",
-      "DEPARTMENT_NAME": "PG1",
-      "PRODUCT": "221",
-      "REASON_CODE_ORACLE": "1706008",
-      "EFORM_NO": "FA-PA170529003",
-      "START_DAY": "2017-06-01",
-      "END_DAY_ESTIMATE": "2017-06-30",
-      "CHANNEL": "GG",
-      "FORM_TYPE": "SEARCH",
-      "UNIT_OPTION": "CPI",
-      "UNIT_COST": "1.3",
-      "AMOUNT_USD": 39000,
-      "CVALUE": 30000,
-      "ENGAGEMENT": None,
-      "IMPRESSIONS": None,
-      "CLIKE": None,
-      "CVIEWS": None,
-      "INSTALL": 30000,
-      "NRU": None,
-      "INSERT_DATE": "2017-09-13",
-	},
-	"CAMPAIGN_MANUAL_MAP": [
-		{
-          "CAMPAIGN_ID": 682545537,
-          "UPDATE_DATE": "2017-06-01"
-        },
-        {
-          "CAMPAIGN_ID": 682545537,
-          "UPDATE_DATE": "2017-06-02"
-        },
-        {
-          "CAMPAIGN_ID": 682545537,
-          "UPDATE_DATE": "2017-06-03"
-        },
-        {
-          "CAMPAIGN_ID": 682545537,
-          "UPDATE_DATE": "2017-06-04"
-        },
-        {
-          "CAMPAIGN_ID": 682545537,
-          "UPDATE_DATE": "2017-06-05"
-        },
-        {
-          "CAMPAIGN_ID": 682545537,
-          "UPDATE_DATE": "2017-06-06"
-        }
-      ]
-	},
-	{"PLAN": {
-      "CYEAR": "17",
-      "CMONTH": "6",
-      "LEGAL": "VNG",
-      "DEPARTMENT": "0902",
-      "DEPARTMENT_NAME": "PG1",
-      "PRODUCT": "221",
-      "REASON_CODE_ORACLE": "1706008",
-      "EFORM_NO": "FA-PA170529003",
-      "START_DAY": "2017-06-01",
-      "END_DAY_ESTIMATE": "2017-06-30",
-      "CHANNEL": "GG",
-      "FORM_TYPE": "SEARCH",
-      "UNIT_OPTION": "CPI",
-      "UNIT_COST": "1.3",
-      "AMOUNT_USD": 39000,
-      "CVALUE": 30000,
-      "ENGAGEMENT": None,
-      "IMPRESSIONS": None,
-      "CLIKE": None,
-      "CVIEWS": None,
-      "INSTALL": 30000,
-      "NRU": None,
-      "INSERT_DATE": "2017-09-13",
-	},
-	"CAMPAIGN_MANUAL_MAP": [
-		{
-          "CAMPAIGN_ID": 682545537,
-          "UPDATE_DATE": "2017-09-01"
-        },
-        {
-          "CAMPAIGN_ID": 682545537,
-          "UPDATE_DATE": "2017-09-02"
-        },
-        {
-          "CAMPAIGN_ID": 682545537,
-          "UPDATE_DATE": "2017-09-03"
-        },
-        {
-          "CAMPAIGN_ID": 6111111117,
-          "UPDATE_DATE": "2017-10-04"
-        },
-        {
-          "CAMPAIGN_ID": 6111111117,
-          "UPDATE_DATE": "2017-10-05"
-        },
-        {
-          "CAMPAIGN_ID": 6111111117,
-          "UPDATE_DATE": "2017-11-06"
-        }
-      ]
-	}
-	]
-
-
-list_log = ConvertListCamp(list_remove_manual)
-
-for log in list_log:
-	print(log)
+# for log in list_log:
+# 	print(log)
 
 
 
