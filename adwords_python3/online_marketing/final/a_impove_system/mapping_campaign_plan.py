@@ -516,7 +516,7 @@ def MapDataForAllAccount(connect, list_customer, path_data, date):
   list_plan = ReadPlanFromTable(connect, path_data, date)
   
   # Read list account WPL and GS5
-  list_account_wpl, list_account_gs5 = ReadListAccountGS5AndWPL(path_folder)
+  list_account_wpl, list_account_gs5 = ReadListAccountGS5AndWPL(path_data)
 
 
   for customer in list_customer:
