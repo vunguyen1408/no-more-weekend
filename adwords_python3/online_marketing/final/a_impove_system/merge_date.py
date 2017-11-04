@@ -6,7 +6,7 @@ from datetime import datetime , timedelta, date
 
 
 #================= Merger data to folder MAPPING =====================
-def MergerDataAccount(path_data, customer_id, date):
+def MergerDataAccount(path_data, data_map, customer_id, date):
   #========= List acc folder ===============
   # print (path_data)
   path_customer = os.path.join(path_data, str(date) + '/ACCOUNT_ID/' +  customer_id)
@@ -23,19 +23,7 @@ def MergerDataAccount(path_data, customer_id, date):
     # print (path_folder)
     if not os.path.exists(path_folder):
       os.makedirs(path_folder)
-    path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
-
-    #-------------------- Init file -----------------------------
-    if not os.path.exists(path_data_map):
-      data_map = {}
-      data_map['UN_CAMP'] = []
-      data_map['PLAN'] = []
-      with open (path_data_map,'w') as f:
-        json.dump(data_map, f)
-    #-----------------------------------------------------------
-
-    with open (path_data_map,'r') as f:
-      data_map = json.load(f)
+    
       
     if data_map_date != []:
       #--------------------- UN MAP CAMPAIGN ---------------------
@@ -71,15 +59,32 @@ def MergerDataAccount(path_data, customer_id, date):
           # Plan moi
           if flag == False:
             data_map['PLAN'].append(plan_date)
-    with open (path_data_map,'w') as f:
-      json.dump(data_map, f)
+  return data_map
+
 
 
 def MergeDataMapping(path_data, list_customer_id, date):
+
+  path_folder = path_data + '/' + str(date) + '/DATA_MAPPING'
+  path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
+  #-------------------- Init file -----------------------------
+  if not os.path.exists(path_data_map):
+    data_map = {}
+    data_map['UN_CAMP'] = []
+    data_map['PLAN'] = []
+    with open (path_data_map,'w') as f:
+      json.dump(data_map, f)
+  #-----------------------------------------------------------
+  with open (path_data_map,'r') as f:
+    data_map = json.load(f)
+
   for account in list_customer_id:
     path_customer = os.path.join(path_data, str(date) + '/ACCOUNT_ID/' + account)
     if os.path.exists(path_customer):
-      MergerDataAccount(path_data, account, date)
+      data_map = MergerDataAccount(path_data, data_map, account, date)
+
+  with open (path_data_map,'w') as f:
+    json.dump(data_map, f)
 
 
 
