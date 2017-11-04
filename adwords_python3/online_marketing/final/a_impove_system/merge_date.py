@@ -21,8 +21,6 @@ def MergerDataAccount(path_data, data_map, customer_id, date):
     #------------------- Open json ma and un map on date ------------------------------
     path_folder = path_data + '/' + str(date) + '/DATA_MAPPING'
     # print (path_folder)
-    if not os.path.exists(path_folder):
-      os.makedirs(path_folder)
     
       
     if data_map_date != []:
@@ -66,6 +64,8 @@ def MergerDataAccount(path_data, data_map, customer_id, date):
 def MergeDataMapping(path_data, list_customer_id, date):
 
   path_folder = path_data + '/' + str(date) + '/DATA_MAPPING'
+  if not os.path.exists(path_folder):
+    os.makedirs(path_folder)
   path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
   #-------------------- Init file -----------------------------
   if not os.path.exists(path_data_map):
