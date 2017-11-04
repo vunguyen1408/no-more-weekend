@@ -8,9 +8,6 @@ from datetime import datetime , timedelta, date
 
 # ------------ PACKAGE --------------
 import mapping_campaign_plan as mapping_data
-import sys
-sys.path.insert(0, 'C:/Users/LAP11529-local/Desktop/VNG/no-more-weekend/adwords_python3/online_marketing/get_data')
-
 import add_acc_name as add_acc_name
 
 def Daily(connect, path_data, date, list_customer_id):
