@@ -15,6 +15,12 @@ def Daily(connect, path_data, date, list_customer_id):
 	start_work_flow = time.time()
 	
 
+	#======================== Mapping data for list account ============================
+	print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
+	mapping = time.time()
+	mapping_data.MapDataForAllAccount(list_customer_id, path_data, date)
+	time_mapping = time.time() - mapping
+	print ("             Time maping: ", time_mapping)
 
 	
 	time_run_work_flow  = time.time() - start_work_flow
