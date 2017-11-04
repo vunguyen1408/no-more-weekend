@@ -197,6 +197,9 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
   data_map = {}
   data_map['UN_CAMP'] = list_un_campaign
   data_map['PLAN'] = list_plan
+  for plan in list_plan:
+    if str(plan['REASON_CODE_ORACLE']) == '1708039' and str(plan['PRODUCT']) == '193':
+      print (plan)
   print (" -------------- Campaign ------ ", len(list_campaign_map))
   print (" -------------- Mapping------ ", number)
   print (" -------------- Un mapping------ ", len(list_un_campaign))
