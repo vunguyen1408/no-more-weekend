@@ -138,6 +138,7 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
   data_map = {}
   data_map['UN_CAMP'] = list_un_campaign
   data_map['PLAN'] = list_plan
+  print (" -------------- Campaign ------ ", len(list_campaign_map))
   print (" -------------- Mapping------ ", number)
   print (" -------------- Un mapping------ ", len(list_un_campaign))
   return data_map
@@ -195,6 +196,7 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
   data_map = {}
   data_map['UN_CAMP'] = list_un_campaign
   data_map['PLAN'] = list_plan
+  print (" -------------- Campaign ------ ", len(list_campaign_map))
   print (" -------------- Mapping------ ", number)
   print (" -------------- Un mapping------ ", len(list_un_campaign))
   return data_map
@@ -305,9 +307,16 @@ def MapAccountWithCampaignGS5(path_folder, list_plan, list_campaign, date):
             eform['CAMPAIGN'].append(campaign)
             number += 1
 
+  list_un_campaign = []
+  for camp in list_campaign_map:
+    if camp['Mapping'] == False:
+      camp['STATUS'] = ""
+      list_un_campaign.append(ConvertCampaignToJsonContent(camp))
+
   data_map = {}
   data_map['UN_CAMP'] = list_un_campaign
   data_map['PLAN'] = list_plan
+  print (" -------------- Campaign ------ ", len(list_campaign_map))
   print (" -------------- Mapping------ ", number)
   print (" -------------- Un mapping------ ", len(list_un_campaign))
   return data_map
@@ -512,9 +521,15 @@ def ReadListAccountGS5AndWPL(path_folder):
 def MapDataForAllAccount(connect, list_customer, path_data, date):
   #========== Create list plan
   # Doc file product alias.
+  import time
+  mapping = time.time()
+
   ReadProductAlias(connect, path_data, date)
   list_plan = ReadPlanFromTable(connect, path_data, date)
-  
+
+  time_mapping = time.time() - mapping
+  print ("             Time maping: ", time_mapping)
+
   # Read list account WPL and GS5
   list_account_wpl, list_account_gs5 = ReadListAccountGS5AndWPL(path_data)
 
