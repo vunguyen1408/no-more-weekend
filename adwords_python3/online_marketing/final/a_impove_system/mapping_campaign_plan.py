@@ -140,7 +140,8 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
   data_map['PLAN'] = list_plan
   print (" -------------- Campaign ------ ", len(list_campaign_map))
   print (" -------------- Mapping------ ", number)
-  print (" -------------- Un mapping------ \n", len(list_un_campaign))
+  print (" -------------- Un mapping------ ", len(list_un_campaign))
+  print ("\n")
   return data_map
 
 #================= Mapping campaign and plan WPL =====================
@@ -198,7 +199,8 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
   data_map['PLAN'] = list_plan
   print (" -------------- Campaign ------ ", len(list_campaign_map))
   print (" -------------- Mapping------ ", number)
-  print (" -------------- Un mapping------ \n", len(list_un_campaign))
+  print (" -------------- Un mapping------ ", len(list_un_campaign))
+  print ("\n")
   return data_map
 
 
@@ -318,7 +320,8 @@ def MapAccountWithCampaignGS5(path_folder, list_plan, list_campaign, date):
   data_map['PLAN'] = list_plan
   print (" -------------- Campaign ------ ", len(list_campaign_map))
   print (" -------------- Mapping------ ", number)
-  print (" -------------- Un mapping------ \n", len(list_un_campaign))
+  print (" -------------- Un mapping------ ", len(list_un_campaign))
+  print ("\n")
   return data_map
 
 
