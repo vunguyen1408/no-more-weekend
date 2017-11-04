@@ -315,6 +315,9 @@ def MapAccountWithCampaignGS5(path_folder, list_plan, list_campaign, date):
 
 # ========================= PRODUCT ALIAS =============================
 def ReadProductAlias(connect, path_data, date):
+  path_folder = os.path.join(path_data, str(date) + '/PLAN')
+  if not os.path.exists(path_folder):
+    os.makedirs(path_folder)
   file_product = os.path.join(path_data, str(date) + '/PLAN/product_alias.json')
   # ==================== Connect database =======================
   conn = cx_Oracle.connect(connect)
