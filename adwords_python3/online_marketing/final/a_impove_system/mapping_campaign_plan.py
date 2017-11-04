@@ -4,12 +4,12 @@ import pandas as pd
 import numpy as np
 import json
 import cx_Oracle
+import logging
 from datetime import datetime , timedelta, date
-import insert_nru_to_plan as nru
 #-------------- import package -----------------
 
-# logging.basicConfig(level=logging.INFO)
-# logging.getLogger('suds.transport').setLevel(logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
+logging.getLogger('suds.transport').setLevel(logging.DEBUG)
 
 def ChangeCampaignType(campaign_type):
   if campaign_type.find('Multi Channel') == 0:
@@ -269,7 +269,7 @@ def MapAccountWithCampaignGS5(path_folder, list_plan, list_campaign, date):
           and (date_ >= start) \
           and (date_ <= end) ) \
           or  ( LogManualMap(path_folder, camp, eform, date) ): 
-          
+
           camp['Mapping'] = True
           camp['STATUS'] = 'SYS'
           campaign = ConvertCampaignToJsonContent(camp)
