@@ -9,6 +9,7 @@ from datetime import datetime , timedelta, date
 # ------------ PACKAGE --------------
 import mapping_campaign_plan as mapping_data
 import add_acc_name as add_acc_name
+import merge_date as merge_date
 
 def Daily(connect, path_data, date, list_customer_id):
 	#----------------------------------------- Begin ---------------------------------------------
@@ -21,6 +22,14 @@ def Daily(connect, path_data, date, list_customer_id):
 	mapping_data.MapDataForAllAccount(connect, list_customer_id, path_data, date)
 	time_mapping = time.time() - mapping
 	print ("             Time maping: ", time_mapping)
+
+	
+	#============================== Merge data ===============================
+	print ("\n\n======================= RUN MERGE WITH DATE : " + date + " =========================")
+	merge = time.time()
+	merge_date.MergeDataMapping(path_data, list_customer_id, date)
+	time_merge = time.time() - merge
+	print ("             Time merge: ", time_merge)
 
 	
 	time_run_work_flow  = time.time() - start_work_flow
