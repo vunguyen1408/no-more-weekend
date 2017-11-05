@@ -198,7 +198,7 @@ def InsertInstallToPlan(data_total, connect, date):
 				for month in plan['MONTHLY']:
 					if 'INSTALL_CAMP' not in month['TOTAL_CAMPAIGN_MONTHLY']:
 						month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] = 0
-					if float(plan['TOTAL_CAMPAIGN_MONTHLY']['COST']) > 0:
+					if float(month['TOTAL_CAMPAIGN_MONTHLY']['COST']) > 0:
 						month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, month['START_DATE'], month['END_DATE'])
 					month['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']
 		else:

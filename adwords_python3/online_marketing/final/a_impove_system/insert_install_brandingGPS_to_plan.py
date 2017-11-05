@@ -147,7 +147,7 @@ def AddBrandingGPSToPlan(data_total, connect, date):
 				plan = CaculatorStartEndDate(plan, start_date, end_date)
 
 				for month in plan['MONTHLY']:
-					if float(plan['TOTAL_CAMPAIGN_MONTHLY']['COST']) > 0:
+					if float(month['TOTAL_CAMPAIGN_MONTHLY']['COST']) > 0:
 						month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, month['START_DATE'], month['END_DATE'], media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
 					month['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']
 	data_total = insert_to_total.SetVolunmActual(data_total, date)
