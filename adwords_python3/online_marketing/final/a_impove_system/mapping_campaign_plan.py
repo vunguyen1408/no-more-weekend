@@ -509,10 +509,10 @@ def CheckIsAccountGS5(list_account, account_id):
   return False
 
 #================= Read list plan, product code, save file mapping =====================
-def MapData(customer, path_folder, list_plan, list_account_wpl, list_account_gs5, date): 
+def MapData(customer, path_folder, list_account_wpl, list_account_gs5, date): 
 
   # =============== List plan code ================
-  # list_plan = ReadPlan(path_folder, date)
+  list_plan = ReadPlan(path_folder, date)
 
   #================ Add product id to plan =================
   # list_plan = AddProductCode(path_folder, list_plan, date)
@@ -593,4 +593,4 @@ def MapDataForAllAccount(connect, list_customer, path_data, date):
   for customer in list_customer:
     path_customer = os.path.join(path_data, str(date) + '/ACCOUNT_ID/' + customer)
     if os.path.exists(path_customer):
-      MapData(customer, path_data, list_plan, list_account_wpl, list_account_gs5, date)
+      MapData(customer, path_data, list_account_wpl, list_account_gs5, date)
