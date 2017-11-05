@@ -692,6 +692,14 @@ def MergeDataToTotal(path_data, date):
 
 		data_total['TOTAL'] = CaculatorForPlan(data_total['TOTAL'])
 
+		for plan_total in data_total['TOTAL']:
+		# if plan_total['REASON_CODE_ORACLE'] == '1708061':
+		# # if str(plan_total['Campaign ID']) == '772872164':
+		#   print (plan_total)
+			# plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
+			if plan_total['REASON_CODE_ORACLE'] == '1708007':
+				print (plan_total)
+
 
 		print ("=================== LUU FILE ===========================")
 
