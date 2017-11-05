@@ -35,9 +35,6 @@ def MergerDataAccount(path_data, data_map, customer_id, date):
         data_map['PLAN'] = list(data_map_date['PLAN'])
       else:
         for plan_date in data_map_date['PLAN']:
-          # if str(plan_date['REASON_CODE_ORACLE']) == '1708007' and len(plan_date['CAMPAIGN']) > 0:
-          #   print (plan_date)
-
           flag = False
           for plan in data_map['PLAN']:
             if str(plan['PRODUCT_CODE']) == str(plan_date['PRODUCT_CODE']) \
@@ -86,23 +83,8 @@ def MergeDataMapping(path_data, list_customer_id, date):
     if os.path.exists(path_customer):
       print (account)
       data_map = MergerDataAccount(path_data, data_map, account, date)
-
-  # for plan_total in data_map['PLAN']:
-  #   # print (plan_total)
-  # # if plan_total['REASON_CODE_ORACLE'] == '1708061':
-  # # # if str(plan_total['Campaign ID']) == '772872164':
-  # #   print (plan_total)
-  #   # plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
-  #   if str(plan_total['REASON_CODE_ORACLE']) == '1708007':
-  #     # for camp in plan_total['CAMPAIGN']:
-  #     #   print (camp)
-  #     print (plan_total)
-  #   if plan_total['REASON_CODE_ORACLE'] == '1708007':
-  #     print ("================  ======================")
-  #   #----------------- Write file map and unmap ------------------
-
-  # # with open (path_data_map,'w') as f:
-  # #   json.dump(data_map, f)
+  with open (path_data_map,'w') as f:
+    json.dump(data_map, f)
 
 
 
