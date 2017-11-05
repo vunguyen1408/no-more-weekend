@@ -528,6 +528,7 @@ def MapData(customer, path_folder, list_plan, list_account_wpl, list_account_gs5
     # print (len(list_campaign))
     if len(list_campaign) > 0:
       # data_map = []
+      print (customer)
       # ------------- Check account ----------------
       if CheckIsAccountWPL(list_account_wpl, customer):
         print ("================ WPL ======================")
@@ -537,6 +538,7 @@ def MapData(customer, path_folder, list_plan, list_account_wpl, list_account_gs5
           print ("================ GS5 ======================")
           data_map = MapAccountWithCampaignGS5(path_folder, list_plan['plan'], list_campaign, date)
         else:
+          print ("================ ALL ======================")
           data_map = MapAccountWithCampaignAll(path_folder, list_plan['plan'], list_campaign, date)
 
       # for plan_total in data_map['PLAN']:
@@ -553,7 +555,7 @@ def MapData(customer, path_folder, list_plan, list_account_wpl, list_account_gs5
         #   print ("================  ======================")
       #----------------- Write file map and unmap ------------------
       path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
-      print (path_data_map)
+      # print (path_data_map)
       with open (path_data_map,'w') as f:
         json.dump(data_map, f)
 
