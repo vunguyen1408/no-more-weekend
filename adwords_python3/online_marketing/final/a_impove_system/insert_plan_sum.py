@@ -163,7 +163,7 @@ def ReportPlanSum(path_data, connect):
 		with open(path_data, 'r') as fi:
 			data = json.load(fi)
 
-		for value in data['TOTAL']:		
+		for value in data:		
 			json_ = ConvertJsonPlanSum(value)
 			InsertPlanSum(json_, cursor)
 		#==================== Commit and close connect ===============================
