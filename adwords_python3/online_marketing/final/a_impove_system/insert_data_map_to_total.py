@@ -587,6 +587,7 @@ def CaculatorForPlan(list_plan):
 	for plan in list_plan:
 		plan, list_map = SumTotalPlan(plan, plan['CAMPAIGN'])
 		plan = SumMonthly(plan, plan['CAMPAIGN'])
+	return list_plan
 
 
 def AddToTotal (data_total, data_date, date):
