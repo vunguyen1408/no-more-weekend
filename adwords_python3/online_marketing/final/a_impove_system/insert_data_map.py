@@ -212,7 +212,7 @@ def ConvertJsonCamp(value):
 	json_['GG_CAMPAIGN_TYPE'] = value['Advertising Channel']	
 	json_['GG_SPEND'] = value['Cost']
 
-	json_['GG_APPSFLYER_INSTALL'] = value['INSTALL_CAMP']		
+	json_['GG_APPSFLYER_INSTALL'] = None
 	json_['GG_STRATEGY_BID_TYPE'] = value['Bid Strategy Type']
 	json_['CAMPAIGN_ID'] = str(value['Campaign ID'])
 	json_['CAMPAIGN_NAME'] = value['Campaign']
@@ -309,7 +309,7 @@ def ConvertJsonMap(value):
 	json_['GG_CAMPAIGN_TYPE'] = value['Advertising Channel']	
 	json_['GG_SPEND'] = value['Cost']
 
-	json_['GG_APPSFLYER_INSTALL'] = float(value['INSTALL_CAMP'])
+	json_['GG_APPSFLYER_INSTALL'] = None
 	json_['GG_STRATEGY_BID_TYPE'] = value['Bid Strategy Type']
 	json_['CAMPAIGN_ID'] = str(value['Campaign ID'])
 	json_['CAMPAIGN_NAME'] = value['Campaign']
@@ -449,7 +449,7 @@ def InsertDataMap(path_data_total_map, path_data_un_map, connect):
 				InsertDetailUnmap(value, cursor)
 			except:
 				pass
-				
+
 		print ("Time insert unmap : ", (time.time() - start))
 
 		conn.commit()
