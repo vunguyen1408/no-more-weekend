@@ -691,6 +691,7 @@ def MergeDataToTotal(path_data, date):
 		list_plan_update = list(data_total['TOTAL'])
 		print (data_total)
 		print (data_date['PLAN'])
+		print (len(data_date['PLAN']))
 
 		data_total, list_plan_insert, list_plan_remove = AddToTotal (data_total, data_date, date)
 
