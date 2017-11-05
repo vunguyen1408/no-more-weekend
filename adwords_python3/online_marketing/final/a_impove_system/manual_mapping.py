@@ -295,7 +295,7 @@ def ManualMap(connect, path_data, date):
 
 			data_total, list_plan_insert, list_plan_remove = insert_data.AddToTotal (data_total, data_date, date)
 
-			data_total['TOTAL'] = CaculatorForPlan(data_total['TOTAL'])
+			data_total['TOTAL'] = insert_data.CaculatorForPlan(data_total['TOTAL'])
 
 			list_plan_remove_unmap = list_plan_remove
 			list_camp_remove_unmap = list_map_all
