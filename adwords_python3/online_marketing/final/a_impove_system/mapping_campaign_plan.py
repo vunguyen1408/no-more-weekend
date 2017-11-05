@@ -551,10 +551,10 @@ def MapData(customer, path_folder, list_plan, list_account_wpl, list_account_gs5
       #     print (plan_total)
         # if plan_total['REASON_CODE_ORACLE'] == '1708007':
         #   print ("================  ======================")
-    #-----------S------ Write file map and unmap ------------------
+    #----------------- Write file map and unmap ------------------
     path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
     print (path_data_map)
-    with open (pSath_data_map,'w') as f:
+    with open (path_data_map,'w') as f:
       json.dump(data_map, f)
 
 
