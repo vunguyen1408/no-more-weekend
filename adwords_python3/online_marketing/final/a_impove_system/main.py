@@ -11,7 +11,7 @@ import mapping_campaign_plan as mapping_data
 import add_acc_name as add_acc_name
 import merge_date as merge_date
 import insert_data_map_to_total as insert_to_total
-import insert_data_base as 
+import insert_data_base as insert_data_base
 import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
 import insert_install as insert_install
 
