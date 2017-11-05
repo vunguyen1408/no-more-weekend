@@ -98,6 +98,8 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
 
     for j, camp in enumerate(list_campaign_map):
       camp['Advertising Channel'] = ChangeCampaignType(camp['Advertising Channel'])
+      if camp['Campaign ID'] == '699351990':
+        print (camp)
       if 'Plan' not in camp:
         camp['Plan'] = None
         camp['STATUS'] = None
@@ -504,15 +506,15 @@ def MapData(customer, path_folder, list_plan, list_account_wpl, list_account_gs5
         else:
           data_map = MapAccountWithCampaignAll(path_folder, list_plan['plan'], list_campaign, date)
 
-      for plan_total in data_map['PLAN']:
-        # print (plan_total)
-      # if plan_total['REASON_CODE_ORACLE'] == '1708061':
-      # # if str(plan_total['Campaign ID']) == '772872164':
-      #   print (plan_total)
-        # plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
-        if plan_total['REASON_CODE_ORACLE'] == '1708007':
-          for camp in plan_total['CAMPAIGN']:
-            print (camp)
+      # for plan_total in data_map['PLAN']:
+      #   # print (plan_total)
+      # # if plan_total['REASON_CODE_ORACLE'] == '1708061':
+      # # # if str(plan_total['Campaign ID']) == '772872164':
+      # #   print (plan_total)
+      #   # plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
+      #   if plan_total['REASON_CODE_ORACLE'] == '1708007':
+      #     for camp in plan_total['CAMPAIGN']:
+      #       print (camp)
 
     #----------------- Write file map and unmap ------------------
     path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
