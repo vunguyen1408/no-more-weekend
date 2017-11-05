@@ -542,6 +542,12 @@ def InsertDataMap(path_data, connect):
 		conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 		cursor = conn.cursor()
 
+		import time
+		start = time.time()
+		statement = 'delete from DTM_GG_PIVOT_DETAIL_UNMAP'
+		cursor.execute(statement)
+		print ("Time delete unmap : ", (time.time() - start))
+
 		with open(path_data, 'r') as fi:
 			data = json.load(fi)	
 		print ('len data map:', len (data['MAP']))
