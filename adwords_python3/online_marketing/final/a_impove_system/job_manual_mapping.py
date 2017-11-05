@@ -7,7 +7,7 @@ from datetime import datetime , timedelta, date
 
 
 import manual_mapping as manual
-
+import merge_data_manual_mapping as merge_data_manual_mapping
 
 # import plan_change as plan_change
 # import merge_data_manual_mapping as merge_data_manual_mapping
