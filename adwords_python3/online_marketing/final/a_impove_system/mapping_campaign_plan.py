@@ -524,8 +524,6 @@ def MapData(customer, path_folder, list_plan, list_account_wpl, list_account_gs5
       with open (path_data_map,'w') as f:
         json.dump(data_map, f)
 
-  return data_map
-
 
 def ReadListAccountGS5AndWPL(path_folder):
   list_account_wpl = []
