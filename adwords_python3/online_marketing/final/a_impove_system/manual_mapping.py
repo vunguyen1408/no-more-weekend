@@ -280,6 +280,7 @@ def ManualMap(connect, path_data, date):
 				plan, list_map = GetCampaignUnMapForPlan(plan, data_total)
 
 				list_map_all.extend(list_map)
+				print (len(list_map))
 
 			#----------- Remove unmap ---------------------
 			for camp in list_map_all:
