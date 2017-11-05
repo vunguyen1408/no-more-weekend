@@ -184,6 +184,7 @@ def InsertInstallToPlan(data_total, connect, date):
 	cursor = conn.cursor()
 	media_source = 'oogle'
 	for plan in data_total:
+		install_before = plan['TOTAL_CAMPAIGN'].get('INSTALL_CAMP', 0)
 		if plan['UNIT_OPTION'] == 'CPI':
 			start_date, end_date = mapping_data.ChooseTime(plan)
 			install_before = plan['TOTAL_CAMPAIGN'].get('INSTALL_CAMP', 0)
