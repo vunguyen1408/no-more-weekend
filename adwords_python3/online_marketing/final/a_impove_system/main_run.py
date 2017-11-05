@@ -18,6 +18,7 @@ import insert_install as insert_install
 import insert_monthly_detail as insert_monthly_detail
 import insert_monthly_sum as insert_monthly_sum
 import insert_plan_sum as insert_plan_sum
+import insert_data_map as insert_data_map
 
 def Daily(connect, path_data, date, list_customer_id):
 	#----------------------------------------- Begin ---------------------------------------------
