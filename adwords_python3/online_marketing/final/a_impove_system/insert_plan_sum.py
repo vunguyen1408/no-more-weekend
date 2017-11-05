@@ -165,22 +165,14 @@ def ReportPlanSum(path_data, connect):
 
 		for value in data['TOTAL']:		
 			json_ = ConvertJsonPlanSum(value)
-			MergerPlanSum(json_, cursor)
-
-
-		#=================..........=====================
-		for value in data['UN_PLAN']:		
-			json_ = ConvertJsonPlanSumUnMap(value)
-			MergerPlanSum(json_, cursor)
-		#=================..........=====================
-
+			InsertPlanSum(json_, cursor)
 		#==================== Commit and close connect ===============================
 		conn.commit()
 		# print("Committed!.......")
 		cursor.close()
 
 
-def InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date):
+def InsertPlanSumToDatabase(path_data, connect, list_plan_insert, list_plan_update, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	ReportPlanSum(path_data_total_map, connect)
 

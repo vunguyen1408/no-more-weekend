@@ -17,6 +17,7 @@ import insert_install as insert_install
 
 import insert_monthly_detail as insert_monthly_detail
 import insert_monthly_sum as insert_monthly_sum
+import insert_plan_sum as insert_plan_sum
 
 def Daily(connect, path_data, date, list_customer_id):
 	#----------------------------------------- Begin ---------------------------------------------
@@ -63,6 +64,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	list_plan_update = []
 	insert_monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
 	insert_monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
+	insert_plan_sum.InsertPlanSumToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
 
 	time_insert_databse = time.time() - insert_databse
 	print ("            Time insert data to database : ", time_insert_databse)
