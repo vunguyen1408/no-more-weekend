@@ -11,7 +11,9 @@ import mapping_campaign_plan as mapping_data
 import add_acc_name as add_acc_name
 import merge_date as merge_date
 import insert_data_map_to_total as insert_to_total
-import insert_data_base as insert_data_base
+import insert_data_base as 
+import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
+import insert_install as insert_install
 
 def Daily(connect, path_data, date, list_customer_id):
 	#----------------------------------------- Begin ---------------------------------------------
@@ -43,6 +45,12 @@ def Daily(connect, path_data, date, list_customer_id):
 
 	# time_insert_total = time.time() - insert_total
 	# print ("            Time insert data mapping to total : ", time_insert_total)
+
+	# ======================= Insert branding install ====================================
+	start = time.time()
+	insert_install.InsertInstall(path_data, connect, date)
+	insert_install_brandingGPS.AddBrandingGPS(path_data, connect, date)
+	print ("Time : ", time.time() - start)
 
 
 	#=============================== Update to database =========================================
