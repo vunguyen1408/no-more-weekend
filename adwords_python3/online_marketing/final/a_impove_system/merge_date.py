@@ -83,8 +83,22 @@ def MergeDataMapping(path_data, list_customer_id, date):
     if os.path.exists(path_customer):
       data_map = MergerDataAccount(path_data, data_map, account, date)
 
-  with open (path_data_map,'w') as f:
-    json.dump(data_map, f)
+  for plan_total in data_map['PLAN']:
+    # print (plan_total)
+  # if plan_total['REASON_CODE_ORACLE'] == '1708061':
+  # # if str(plan_total['Campaign ID']) == '772872164':
+  #   print (plan_total)
+    # plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
+    if str(plan_total['REASON_CODE_ORACLE']) == '1708007':
+      # for camp in plan_total['CAMPAIGN']:
+      #   print (camp)
+      print (plan_total)
+    if plan_total['REASON_CODE_ORACLE'] == '1708007':
+      print ("================  ======================")
+    #----------------- Write file map and unmap ------------------
+    
+  # with open (path_data_map,'w') as f:
+  #   json.dump(data_map, f)
 
 
 
