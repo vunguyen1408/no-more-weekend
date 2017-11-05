@@ -82,7 +82,7 @@ def MergeDataMapping(path_data, list_customer_id, date):
     path_customer = os.path.join(path_data, str(date) + '/ACCOUNT_ID/' + account)
     if os.path.exists(path_customer):
       # print (account)
-      print (len(data_map['UN_CAMP']))
+      # print (len(data_map['UN_CAMP']))
       data_map = MergerDataAccount(path_data, data_map, account, date)
   with open (path_data_map,'w') as f:
     json.dump(data_map, f)

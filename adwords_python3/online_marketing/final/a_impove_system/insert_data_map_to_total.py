@@ -725,7 +725,7 @@ def MergeDataToTotal(path_data, date):
 		
 
 
-		print ("=================== LUU FILE ===========================")
+		# print ("=================== LUU FILE ===========================")
 
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 		print (path_data_total_map)
