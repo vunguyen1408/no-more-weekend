@@ -10,6 +10,7 @@ from datetime import datetime , timedelta, date
 import mapping_campaign_plan as mapping_data
 import add_acc_name as add_acc_name
 import merge_date as merge_date
+import insert_data_map_to_total as insert_to_total
 
 def Daily(connect, path_data, date, list_customer_id):
 	#----------------------------------------- Begin ---------------------------------------------
