@@ -135,7 +135,7 @@ def AddBrandingGPSToPlan(data_total, connect, date):
 	cursor = conn.cursor()
 	media_source1 = 'googleadwords_int'
 	media_source2 = 'googleadwords_sem'
-	for plan in data_total['TOTAL']:
+	for plan in data_total:
 
 		if plan['UNIT_OPTION'] == 'CPI':
 			start_date, end_date = mapping_data.ChooseTime(plan)

@@ -183,7 +183,7 @@ def InsertInstallToPlan(data_total, connect, date):
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 	media_source = 'oogle'
-	for plan in data_total['TOTAL']:
+	for plan in data_total:
 		if plan['UNIT_OPTION'] == 'CPI':
 			start_date, end_date = mapping_data.ChooseTime(plan)
 			install_before = plan['TOTAL_CAMPAIGN'].get('INSTALL_CAMP', 0)
