@@ -29,7 +29,7 @@ def ManualMapping (connect, path_data, date):
 	if list_plan_remove_unmap != [] or list_camp_remove_unmap != []:
 		update_manual = time.time()
 
-		# merge_data_manual_mapping.merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
+		merge_data_manual_mapping.merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
 		
 		time_update_manual = time.time() - update_manual
 		print("---------- Time update manual mapping to total : ", time_update_manual)
