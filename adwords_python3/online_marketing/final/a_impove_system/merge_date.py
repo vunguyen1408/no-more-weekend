@@ -84,6 +84,7 @@ def MergeDataMapping(path_data, list_customer_id, date):
   for account in list_customer_id:
     path_customer = os.path.join(path_data, str(date) + '/ACCOUNT_ID/' + account)
     if os.path.exists(path_customer):
+      print (account)
       data_map = MergerDataAccount(path_data, data_map, account, date)
 
   # for plan_total in data_map['PLAN']:
