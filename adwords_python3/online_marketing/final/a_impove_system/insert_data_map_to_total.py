@@ -684,6 +684,7 @@ def MergeDataToTotal(path_data, date):
 
 
 		for plan_total in data_date['PLAN']:
+			print (plan_total)
 		# if plan_total['REASON_CODE_ORACLE'] == '1708061':
 		# # if str(plan_total['Campaign ID']) == '772872164':
 		#   print (plan_total)
