@@ -11,9 +11,12 @@ import mapping_campaign_plan as mapping_data
 import add_acc_name as add_acc_name
 import merge_date as merge_date
 import insert_data_map_to_total as insert_to_total
-import insert_data_base as insert_data_base
+
 import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
 import insert_install as insert_install
+
+import insert_monthly_detail as insert_monthly_detail
+import insert_monthly_sum as insert_monthly_sum
 
 def Daily(connect, path_data, date, list_customer_id):
 	#----------------------------------------- Begin ---------------------------------------------
@@ -59,6 +62,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	list_plan_insert = []
 	list_plan_update = []
 	insert_data_base.InsertMonthlyDetailToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
+	insert_monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
 
 	time_insert_databse = time.time() - insert_databse
 	print ("            Time insert data to database : ", time_insert_databse)
