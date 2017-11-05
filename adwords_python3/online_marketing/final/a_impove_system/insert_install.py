@@ -184,7 +184,8 @@ def InsertInstallToPlan(data_total, connect, date):
 	cursor = conn.cursor()
 	media_source = 'oogle'
 	for plan in data_total:
-		install_before = plan['TOTAL_CAMPAIGN'].get('INSTALL_CAMP', 0)
+		if 'INSTALL_CAMP' not in plan['TOTAL_CAMPAIGN']:
+			plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] =  0
 		if plan['UNIT_OPTION'] == 'CPI':
 			start_date, end_date = mapping_data.ChooseTime(plan)
 			install_before = plan['TOTAL_CAMPAIGN'].get('INSTALL_CAMP', 0)
@@ -194,13 +195,14 @@ def InsertInstallToPlan(data_total, connect, date):
 			if ('MONTHLY' in plan):
 				plan = CaculatorStartEndDate(plan, start_date, end_date)
 				for month in plan['MONTHLY']:
-					install_before = month['TOTAL_CAMPAIGN_MONTHLY'].get('INSTALL_CAMP', 0)
+					if 'INSTALL_CAMP' not in month['TOTAL_CAMPAIGN_MONTHLY']:
+						month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] = 0
 					month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, month['START_DATE'], month['END_DATE'])
 					month['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']
 		else:
 			if ('MONTHLY' in plan):
 				for month in plan['MONTHLY']:
-					install_before = month['TOTAL_CAMPAIGN_MONTHLY'].get('INSTALL_CAMP', 0)
+					month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] = 0
 	data_total = insert_to_total.SetVolunmActual(data_total, date)
 	return data_total
 
