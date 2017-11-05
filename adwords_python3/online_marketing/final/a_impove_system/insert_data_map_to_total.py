@@ -630,7 +630,7 @@ def AddToTotal (data_total, data_date, date):
 			list_plan_insert.append(plan_date)
 
 
-		return (data_total, list_plan_insert, list_plan_remove)
+	return (data_total, list_plan_insert, list_plan_remove)
 
 def GetListMapOnDate(data_date):
 	list_map = []
