@@ -387,6 +387,7 @@ def CreateDataMap(data_total):
 			for camp in plan['CAMPAIGN']:
 				z = camp.copy()
 				z.update(plan)
+				print (z)
 				json_ = ConvertJsonMap(z)
 				list_map.append(json_)
 		else:
