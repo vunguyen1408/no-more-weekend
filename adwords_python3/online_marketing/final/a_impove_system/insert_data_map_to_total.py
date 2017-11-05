@@ -622,7 +622,7 @@ def AddToTotal (data_total, data_date, date):
 		if flag == False:
 			data_total['TOTAL'].append(plan_date)
 			# Plan nay, neu unmap (list campaign == 0) se insert vao trong plan un, con neu map se insert vao total.
-			list_plan_insert.append(plan)
+			list_plan_insert.append(plan_date)
 
 
 		return (data_total, list_plan_insert, list_plan_remove)
