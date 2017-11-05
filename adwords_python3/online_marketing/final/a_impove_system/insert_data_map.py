@@ -424,7 +424,13 @@ def InsertDataMap(path_data_total_map, path_data_un_map, connect):
 		print ('Length plan un:', len (list_plan_un))
 		print ('Length camp un:', len (list_un_camp))
 		
+
 		import time
+		start = time.time()
+		statement = 'delete from DTM_GG_PIVOT_DETAIL_UNMAP'
+		cursor.execute(statement)
+		print ("Time delete unmap : ", (time.time() - start))
+
 		start = time.time()
 		for value in list_map:
 			try:		
