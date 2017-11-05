@@ -197,6 +197,10 @@ def InsertInstallToPlan(data_total, connect, date):
 					install_before = month['TOTAL_CAMPAIGN_MONTHLY'].get('INSTALL_CAMP', 0)
 					month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, month['START_DATE'], month['END_DATE'])
 					month['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']
+		else:
+			if ('MONTHLY' in plan):
+				for month in plan['MONTHLY']:
+					install_before = month['TOTAL_CAMPAIGN_MONTHLY'].get('INSTALL_CAMP', 0)
 	data_total = insert_to_total.SetVolunmActual(data_total, date)
 	return data_total
 
