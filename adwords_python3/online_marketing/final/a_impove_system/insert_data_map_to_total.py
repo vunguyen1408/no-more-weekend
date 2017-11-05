@@ -560,7 +560,6 @@ def SumTotalPlan(plan, list_campaign):
 	list_map = []
 	sum_plan = CreateSum()
 	for campaign in list_campaign:
-		print (campaign)
 		# --------------- Tính total ------------------
 		sum_plan['CLICKS'] += float(campaign['Clicks'])
 		sum_plan['IMPRESSIONS'] += float(campaign['Impressions'])
@@ -580,10 +579,7 @@ def SumTotalPlan(plan, list_campaign):
 	return (plan, list_map)
 
 def CaculatorForPlan(list_plan):
-	print (len(list_plan))
 	for plan in list_plan:
-		if plan['REASON_CODE_ORACLE'] == '1708007':
-			print (plan)
 		plan, list_map = SumTotalPlan(plan, plan['CAMPAIGN'])
 		plan = SumMonthly(plan, plan['CAMPAIGN'])
 		# print (plan)
