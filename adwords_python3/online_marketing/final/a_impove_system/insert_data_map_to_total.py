@@ -566,7 +566,7 @@ def SumTotalPlan(plan, list_campaign):
 		sum_plan['IMPRESSIONS'] += float(campaign['Impressions'])
 		sum_plan['CTR'] += float(campaign['CTR'])
 		sum_plan['COST'] += float(campaign['Cost'])
-		sum_plan['CONVERSIONS'] += float(campaign['Conversions'])
+		# sum_plan['CONVERSIONS'] += float(campaign['Conversions'])
 		sum_plan['INVALID_CLICKS'] += float(campaign['Invalid clicks'])
 		sum_plan['ENGAGEMENTS'] += float(campaign['Engagements'])
 		sum_plan['INTERACTIONS'] += float(campaign['Interactions'])
