@@ -51,11 +51,11 @@ def Daily(connect, path_data, date, list_customer_id):
 	# time_insert_total = time.time() - insert_total
 	# print ("            Time insert data mapping to total : ", time_insert_total)
 
-	# # ======================= Insert branding install ====================================
-	# start = time.time()
-	# insert_install.InsertInstall(path_data, connect, date)
-	# insert_install_brandingGPS.AddBrandingGPS(path_data, connect, date)
-	# print ("Time : ", time.time() - start)
+	# ======================= Insert branding install ====================================
+	start = time.time()
+	insert_install.InsertInstall(path_data, connect, date)
+	insert_install_brandingGPS.AddBrandingGPS(path_data, connect, date)
+	print ("Time : ", time.time() - start)
 
 
 	# =============================== Update to database =========================================
