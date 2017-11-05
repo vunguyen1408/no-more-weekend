@@ -164,7 +164,7 @@ def ReportPlanSum(path_data, connect):
 		start = time.time()
 		statement = 'delete from DTM_GG_PLAN_SUM'	
 		cursor.execute(statement)
-		print ("Time delete: ", (start - time.time()))
+		print ("\tTime delete: ", (time.time() - start))
 
 		#=================== Read data from file json ===============================
 		with open(path_data, 'r') as fi:

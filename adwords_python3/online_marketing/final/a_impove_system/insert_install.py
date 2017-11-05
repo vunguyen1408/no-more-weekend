@@ -190,14 +190,16 @@ def InsertInstallToPlan(data_total, connect, date):
 			start_date, end_date = mapping_data.ChooseTime(plan)
 			install_before = plan['TOTAL_CAMPAIGN'].get('INSTALL_CAMP', 0)
 			list_install_for_product = GetInstallAppsFlyer(connect, start_date, end_date, media_source, plan['APPSFLYER_PRODUCT'])
-			plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
+			if float(plan['TOTAL_CAMPAIGN']['COST']) > 0:
+				plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, start_date, end_date)
 			plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = plan['TOTAL_CAMPAIGN']['INSTALL_CAMP']
 			if ('MONTHLY' in plan):
 				plan = CaculatorStartEndDate(plan, start_date, end_date)
 				for month in plan['MONTHLY']:
 					if 'INSTALL_CAMP' not in month['TOTAL_CAMPAIGN_MONTHLY']:
 						month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] = 0
-					month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, month['START_DATE'], month['END_DATE'])
+					if float(plan['TOTAL_CAMPAIGN_MONTHLY']['COST']) > 0:
+						month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] = CaculatorInstallForPlan(list_install_for_product, plan, month['START_DATE'], month['END_DATE'])
 					month['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']
 		else:
 			if ('MONTHLY' in plan):

@@ -139,14 +139,16 @@ def AddBrandingGPSToPlan(data_total, connect, date):
 
 		if plan['UNIT_OPTION'] == 'CPI':
 			start_date, end_date = mapping_data.ChooseTime(plan)
-			plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
+			if float(plan['TOTAL_CAMPAIGN']['COST']) > 0:
+				plan['TOTAL_CAMPAIGN']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, start_date, end_date, media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
 			plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = plan['TOTAL_CAMPAIGN']['INSTALL_CAMP']
 			if ('MONTHLY' in plan):
 
 				plan = CaculatorStartEndDate(plan, start_date, end_date)
 
 				for month in plan['MONTHLY']:
-					month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, month['START_DATE'], month['END_DATE'], media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
+					if float(plan['TOTAL_CAMPAIGN_MONTHLY']['COST']) > 0:
+						month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP'] += GetDataSummaryAppsFlyer(connect, month['START_DATE'], month['END_DATE'], media_source1, media_source2, plan['APPSFLYER_PRODUCT'])
 					month['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = month['TOTAL_CAMPAIGN_MONTHLY']['INSTALL_CAMP']
 	data_total = insert_to_total.SetVolunmActual(data_total, date)
 	return data_total
