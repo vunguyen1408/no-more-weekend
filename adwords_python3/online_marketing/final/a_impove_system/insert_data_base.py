@@ -63,6 +63,7 @@ def DeleteMonthlyDetail(value, cursor):
 	cursor.execute(statement, (value['PRODUCT'], value['REASON_CODE_ORACLE'], value['FORM_TYPE'], value['UNIT_OPTION']))	
 
 def ConvertJsonMonthlyDetail(index, value):
+	print (value)
 	json_ = {}	
 
 	json_['CYEAR'] = '20' + value['CYEAR']
