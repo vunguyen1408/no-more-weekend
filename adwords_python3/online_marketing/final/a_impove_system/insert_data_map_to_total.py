@@ -565,8 +565,8 @@ def SumTotalPlan(plan, list_campaign):
 		sum_plan['IMPRESSIONS'] += float(campaign['Impressions'])
 		sum_plan['CTR'] += float(campaign['CTR'])
 		sum_plan['COST'] += float(campaign['Cost'])
-		sum_plan['CONVERSIONS'] = 0
-		# sum_plan['CONVERSIONS'] += float(campaign['Conversions'])
+		# sum_plan['CONVERSIONS'] = 0
+		sum_plan['CONVERSIONS'] += float(campaign['Conversions'])
 		sum_plan['INVALID_CLICKS'] += float(campaign['Invalid clicks'])
 		sum_plan['ENGAGEMENTS'] += float(campaign['Engagements'])
 		sum_plan['INTERACTIONS'] += float(campaign['Interactions'])
@@ -683,21 +683,24 @@ def MergeDataToTotal(path_data, date):
 			data_total['UN_CAMP'] = json.load(f)
 
 
-		
-
-
 		list_data_map = GetListMapOnDate(data_date)
 		list_plan_update = list(data_total['TOTAL'])
-		print (data_total)
+		# print (data_total)
 		# print (data_date['PLAN'])
-		print (len(data_date['PLAN']))
+		# print (len(data_date['PLAN']))
 
 		data_total, list_plan_insert, list_plan_remove = AddToTotal (data_total, data_date, date)
-		print (len(data_total['TOTAL']))
+		# print (len(data_total['TOTAL']))
 
 		data_total['TOTAL'] = CaculatorForPlan(data_total['TOTAL'])
 
-
+		for plan_total in data_total['TOTAL']:
+		# if plan_total['REASON_CODE_ORACLE'] == '1708061':
+		# # if str(plan_total['Campaign ID']) == '772872164':
+		#   print (plan_total)
+			# plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
+			if plan_total['REASON_CODE_ORACLE'] == '1708007':
+				print (plan_total)
 		
 
 
