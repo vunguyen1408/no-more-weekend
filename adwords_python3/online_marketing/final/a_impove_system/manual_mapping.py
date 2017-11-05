@@ -226,7 +226,7 @@ def GetCampaignUnMapForPlan(plan, data_total):
 			plan['CAMPAIGN'].append(campaign)
 
 	list_map = []
-	return (plan, list_map_temp)
+	return (plan, list_map)
 
 
 def ManualMap(connect, path_data, date):
