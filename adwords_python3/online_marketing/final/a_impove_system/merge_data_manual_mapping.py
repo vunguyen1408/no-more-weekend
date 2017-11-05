@@ -2,9 +2,9 @@ import cx_Oracle
 import json
 import os
 from datetime import datetime , timedelta, date
-import insert__monthly_detail as monthly_detail
-import insert__monthly_sum as monthly_sum
-import insert__plan_sum as plan_sum
+import insert_monthly_detail as monthly_detail
+import insert_monthly_sum as monthly_sum
+import insert_plan_sum as plan_sum
 import insert_data_map as detail_map
 import history_name as history_name
 
