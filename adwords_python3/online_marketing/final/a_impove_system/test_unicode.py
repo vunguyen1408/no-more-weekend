@@ -407,7 +407,7 @@ for plan_total in data_total:
 		print (plan_total['REASON_CODE_ORACLE'])
 		print (plan_total['PRODUCT'])
 		# print ()
-		print (plan_total['COST'])
+		print (plan_total['TOTAL_CAMPAIGN']['COST'])
 		print (plan_total['MONTHLY'])
 		print ("============================================\n\n")
 
