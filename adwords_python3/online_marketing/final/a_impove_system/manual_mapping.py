@@ -209,7 +209,6 @@ def GetCampaignUnMapForPlan(plan, data_total):
 	# print (start)
 	# print (end)
 	list_map = []
-	list_camp = []
 	plan['CAMPAIGN'] = []
 	list_camp_need_remove = []
 	# print (len(list_campaign))
@@ -221,12 +220,12 @@ def GetCampaignUnMapForPlan(plan, data_total):
 			z = camp.copy()
 			z.update(plan)
 			list_map.append(z)
-			list_camp.append(camp)
+			list_map.append(camp)
 
 			campaign = camp.copy()
 			plan['CAMPAIGN'].append(campaign)
 
-	list_map_temp = []
+	list_map = []
 	return (plan, list_map_temp)
 
 
