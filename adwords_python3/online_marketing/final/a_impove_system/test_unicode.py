@@ -370,9 +370,9 @@ import time
 
 # 	return plan
 
-path_alias = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-09-29/PLAN/product_alias.json'
-path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-09-30/DATA_MAPPING/total_mapping.json'
-path_plan = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-09-30/PLAN/plan.json'
+path_alias = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-08-31/PLAN/product_alias.json'
+path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
+path_plan = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-08-31/PLAN/plan.json'
 # file_product = os.path.join(path_data, str(date) + '/PLAN/product_alias.json')
 import insert_data_map_to_total as insert_to_total
 
