@@ -55,6 +55,7 @@ def checkProductCode(name, list_product_code):
 def ConvertCampaignToJsonContent(camp):
   campaign = {}
   campaign['Date'] = camp['Date']
+  campaign['Conversions'] = camp['Conversions']
   campaign['Invalid clicks'] = camp['Invalid clicks']
   campaign['Engagements'] = camp['Engagements']
   campaign['Views'] = camp['Views']

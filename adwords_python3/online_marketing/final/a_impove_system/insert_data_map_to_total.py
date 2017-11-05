@@ -560,6 +560,7 @@ def SumTotalPlan(plan, list_campaign):
 	list_map = []
 	sum_plan = CreateSum()
 	for campaign in list_campaign:
+		print (campaign)
 		# --------------- Tính total ------------------
 		sum_plan['CLICKS'] += float(campaign['Clicks'])
 		sum_plan['IMPRESSIONS'] += float(campaign['Impressions'])
