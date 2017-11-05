@@ -711,16 +711,16 @@ def MergeDataToTotal(path_data, date):
 		list_plan_update = list(data_total['TOTAL'])
 		# print (data_total)
 		# print (data_date['PLAN'])
-		print (len(data_date['PLAN']))
+		# print (len(data_date['PLAN']))
 
 		data_total, list_plan_insert, list_plan_remove = AddToTotal (data_total, data_date, date)
-		print (len(data_total['TOTAL']))
+		# print (len(data_total['TOTAL']))
 
 		data_total['TOTAL'] = CaculatorForPlan(data_total['TOTAL'])
 
-		for plan_total in data_total['TOTAL']:
-			if plan_total['REASON_CODE_ORACLE'] == '1708007':
-				print (plan_total)
+		# for plan_total in data_total['TOTAL']:
+		# 	if plan_total['REASON_CODE_ORACLE'] == '1708007':
+		# 		print (plan_total)
 		
 
 

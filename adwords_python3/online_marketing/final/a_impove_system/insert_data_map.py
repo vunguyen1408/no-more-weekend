@@ -536,26 +536,61 @@ def InsertDataUnMap(path_data, connect):
 		print("Committed!.......")
 		cursor.close()
 
+def CreateDataMap(data_total):
+	list_map = []
+	list_plan_un = []
+	for plan in data_total:
+		if len(plan['CAMPAIGN']) > 0:
+			for camp in plan['CAMPAIGN']:
+				z = camp.copy()
+				z.update(plan)
+				json_ = ConvertJsonMap(z)
+				list_map.append(json_)
+		else:
+			json_ = ConvertJsonPlan(plan)
+			list_plan_un.append(json_)
+
+	return (list_map, list_plan_un)
+
+def CreateDataUnMap(data_camp):
+	list_un_camp = []
+	for camp in data_camp:
+		json_ = ConvertJsonCamp(camp)
+		list_un_camp.append(json_)
+	return list_un_camp
+
+
+
 def InsertDataMap(path_data_total_map, path_data_un_map, connect):
-	if os.path.exists(path_data):
+	if os.path.exists(path_data_total_map):
 	 	# ==================== Connect database =======================
 		conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 		cursor = conn.cursor()
+		# Open file total
+		with open(path_data_total_map, 'r') as fi:
+			data_total = json.load(fi)	
 
-		
+		# Open file un_map_camp
+		with open(path_data_un_map, 'r') as fi:
+			data_camp = json.load(fi)	
 
-		with open(path_data, 'r') as fi:
-			data = json.load(fi)	
-		print ('len data map:', len (data['MAP']))
+		list_map, list_plan_un = CreateDataMap(data_total)
+		list_un_camp = CreateDataUnMap(data_camp)
+
+		print ('Length data map:', len (list_map))
+		print ('Length plan un:', len (list_plan_un))
+		print ('Length camp un:', len (list_un_camp))
 		
-		for value in data['MAP']:
-			json_ = ConvertJsonMap(value)	
+		for value in list_map:
 			try:		
 				InsertDetailUnmap(json_, cursor)
-			except UnicodeEncodeError as e:
-				i = i + 1
-				json_['CAMPAIGN_NAME'] = value['Campaign'].encode('utf-8')
-				InsertDetailUnmap(json_, cursor)
+			except as e:
+				print (e)
+				pass
+
+		
+
+
 		conn.commit()
 		print("Committed!.......")
 		cursor.close()
