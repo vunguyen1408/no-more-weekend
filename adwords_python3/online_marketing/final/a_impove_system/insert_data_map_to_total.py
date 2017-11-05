@@ -587,6 +587,7 @@ def CaculatorForPlan(list_plan):
 	for plan in list_plan:
 		plan, list_map = SumTotalPlan(plan, plan['CAMPAIGN'])
 		plan = SumMonthly(plan, plan['CAMPAIGN'])
+		print (plan)
 	return list_plan
 
 
@@ -692,6 +693,7 @@ def MergeDataToTotal(path_data, date):
 		data_total, list_plan_insert, list_plan_remove = AddToTotal (data_total, data_date, date)
 
 		data_total['TOTAL'] = CaculatorForPlan(data_total['TOTAL'])
+
 
 		for plan_total in data_total['TOTAL']:
 		# if plan_total['REASON_CODE_ORACLE'] == '1708061':
