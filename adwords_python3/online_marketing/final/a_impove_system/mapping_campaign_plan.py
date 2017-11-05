@@ -142,6 +142,18 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
   data_map = {}
   data_map['UN_CAMP'] = list_un_campaign
   data_map['PLAN'] = list_plan
+
+  for plan_total in data_map['PLAN']:
+    # print (plan_total)
+  # if plan_total['REASON_CODE_ORACLE'] == '1708061':
+  # # if str(plan_total['Campaign ID']) == '772872164':
+  #   print (plan_total)
+    # plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
+    if plan_total['REASON_CODE_ORACLE'] == '1708007':
+      for camp in plan_total['CAMPAIGN']:
+        print (camp)
+
+  
   print (" -------------- Campaign ------ ", len(list_campaign_map))
   print (" -------------- Mapping------ ", number)
   print (" -------------- Un mapping------ ", len(list_un_campaign))
