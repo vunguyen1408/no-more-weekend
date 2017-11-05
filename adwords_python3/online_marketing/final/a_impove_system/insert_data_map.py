@@ -225,7 +225,7 @@ def ConvertJsonCamp(value):
 
 def ConvertJsonMap(value):
 	json_ = {}	
-
+	print (value)
 	json_['SNAPSHOT_DATE'] = value['Date']
 	json_['CYEAR'] = '20' + value['CYEAR']
 	# if (len(value['CMONTH']) == 1):
