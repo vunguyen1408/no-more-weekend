@@ -125,7 +125,7 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
           and (date_ >= start) 
           and (date_ <= end) ) \
           or ( LogManualMap(path_folder, camp, eform, date) ):  
-
+          print ("===================================== MP ====================================")
           camp['Mapping'] = True
           camp['STATUS'] = 'SYS'
           campaign = ConvertCampaignToJsonContent(camp)
