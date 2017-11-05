@@ -403,8 +403,13 @@ for plan_total in data_total:
 # # if str(plan_total['Campaign ID']) == '772872164':
 #   print (plan_total)
 	# plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
-	if plan_total['REASON_CODE_ORACLE'] == '1708007':
-		print (plan_total)
+	if plan_total['CMONTH'] == '8' and plan_total['DEPARTMENT_NAME'] == 'PG1':
+		print (plan_total['REASON_CODE_ORACLE'])
+		print (plan_total['PRODUCT'])
+		# print ()
+		print (plan_total['COST'])
+		print (plan_total['MONTHLY'])
+		print ("============================================\n\n")
 
 
 # path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
