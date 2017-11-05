@@ -751,4 +751,6 @@ def MergeDataToTotal(path_data, date):
 
 
 def InsertDateToTotal(path_data, date):
-	list_data_map, list_plan_insert, list_plan_remove, list_plan_update= MergeDataToTotal(path_data, str(date))
+	list_data_map, list_plan_insert, list_plan_remove, list_plan_update = MergeDataToTotal(path_data, str(date))
+
+	return (list_data_map, list_plan_insert, list_plan_remove, list_plan_update)

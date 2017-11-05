@@ -11,6 +11,7 @@ import mapping_campaign_plan as mapping_data
 import add_acc_name as add_acc_name
 import merge_date as merge_date
 import insert_data_map_to_total as insert_to_total
+import insert_data_base as insert_data_base
 
 def Daily(connect, path_data, date, list_customer_id):
 	#----------------------------------------- Begin ---------------------------------------------
@@ -33,12 +34,27 @@ def Daily(connect, path_data, date, list_customer_id):
 	# print ("             Time merge: ", time_merge)
 
 
-	# ============================== Insert data mapping to total ===============================
-	print ("\n\n============= RUN INSERT DATA MAPPING TO TOTAL WITH DATE : " + date + " =================")
-	insert_total = time.time()
-	insert_to_total.InsertDateToTotal(path_data, date)
-	time_insert_total = time.time() - insert_total
-	print ("            Time insert data mapping to total : ", time_insert_total)
+	# # ============================== Insert data mapping to total ===============================
+	# print ("\n\n============= RUN INSERT DATA MAPPING TO TOTAL WITH DATE : " + date + " =================")
+	# insert_total = time.time()
+
+	# list_data_map, list_plan_insert, list_plan_remove, list_plan_update \
+	# = insert_to_total.InsertDateToTotal(path_data, date)
+
+	# time_insert_total = time.time() - insert_total
+	# print ("            Time insert data mapping to total : ", time_insert_total)
+
+
+	#=============================== Update to database =========================================
+	print ("\n\n============= RUN INSERT DATA TO DATABASE WITH DATE : " + date + " =================")
+	insert_databse = time.time()
+	list_plan_insert = []
+	list_plan_update = []
+	insert_data_base.InsertMonthlyDetailToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
+
+	time_insert_databse = time.time() - insert_databse
+	print ("            Time insert data to database : ", time_insert_total)
+
 
 	
 	time_run_work_flow  = time.time() - start_work_flow
