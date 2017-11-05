@@ -492,25 +492,15 @@ def CreateListPlanMonthly(path_data, date, list_plan_update):
 
 # 	return (list_data_map, list_plan_remove, list_plan_update)
 	
-def InsertManyDate(path_data, start_date, end_date):
-	startDate = datetime.strptime(start_date, '%Y-%m-%d').date()  
-	endDate = datetime.strptime(end_date, '%Y-%m-%d').date()   
 
-	date = startDate
-	while(date <= endDate):
-		MergeDataToTotal(path_data, str(date))
-		CreateListPlanMonthly(path_data, str(date))
-		date = date + timedelta(1)
-		# print (date)
-		# print ("------------------------")
-	
+
+
 def SetVolunmActual(data_map, date):
-	for plan in data_map['TOTAL']:
+	for plan in data_map:
 		plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = GetVolumeActualTotal(plan)
 		for m in plan['MONTHLY']:
 			m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = GetVolumeActualMonthly(plan, m)
 	return data_map
-
 
 # Hai ham de set volum Actual
 def SetVolunmActualFile(path_data, date):
