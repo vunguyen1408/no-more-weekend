@@ -494,7 +494,7 @@ def MapData(customer, path_folder, list_account_wpl, list_account_gs5, date):
     # print (len(list_campaign))
     if len(list_campaign) > 0:
       # data_map = []
-      print (customer)
+      # print (customer)
       # ------------- Check account ----------------
       if CheckIsAccountWPL(list_account_wpl, customer):
         print ("================ WPL ======================")
