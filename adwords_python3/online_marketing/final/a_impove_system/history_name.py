@@ -12,8 +12,8 @@ def FindNameNew(data_total, camp_id, camp_name):
 	name_max = ''
 	camp_id_ = ''
 	index = 0
-	if str(camp_id) == '734063969' or str(camp_id) == '772872164':
-		return -1
+	# if str(camp_id) == '734063969' or str(camp_id) == '772872164':
+	# 	return -1
 	for i, name in enumerate(data_total):
 		# print (i)
 		if str(camp_id) == str(name['CAMPAIGN_ID']):
@@ -22,7 +22,7 @@ def FindNameNew(data_total, camp_id, camp_name):
 				name_max = name['CAMPAIGN_NAME']
 				date_max = str(name['UPDATE_DATE'])
 				camp_id_ = str(name['CAMPAIGN_ID'])
-				index = i
+				# index = i
 
 	if flag == 0:
 		return 0
