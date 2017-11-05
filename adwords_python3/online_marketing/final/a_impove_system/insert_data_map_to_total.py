@@ -680,10 +680,12 @@ def MergeDataToTotal(path_data, date):
 	find = True
 	date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
 	path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+	path_data_un_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'un_map_camp' + '.json')
 	while not os.path.exists(path_data_total_map):
 		i = i + 1
 		date_before = date_before - timedelta(1)
 		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		path_data_un_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'un_map_camp' + '.json')
 		if i == 60:
 			find = False
 			break
