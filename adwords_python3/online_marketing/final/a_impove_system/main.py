@@ -61,7 +61,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	insert_data_base.InsertMonthlyDetailToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
 
 	time_insert_databse = time.time() - insert_databse
-	print ("            Time insert data to database : ", time_insert_total)
+	print ("            Time insert data to database : ", time_insert_databse)
 
 
 	
