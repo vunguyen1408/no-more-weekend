@@ -584,7 +584,7 @@ def SumTotalPlan(plan, list_campaign):
 	return (plan, list_map)
 
 def CaculatorForPlan(list_plan):
-	print ()
+	print (len(list_plan))
 	for plan in list_plan:
 		if plan['REASON_CODE_ORACLE'] == '1708007':
 			print (plan)
