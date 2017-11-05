@@ -484,7 +484,6 @@ def MapData(customer, path_folder, list_plan, list_account_wpl, list_account_gs5
   #================ Add product id to plan =================
   # list_plan = AddProductCode(path_folder, list_plan, date)
 
-  data_map = []
 
   # # #=========== Map Account with Campaign =======================  
   path = os.path.join(path_folder, str(date) + '/ACCOUNT_ID/' + customer)
