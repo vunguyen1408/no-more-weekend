@@ -98,8 +98,6 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
 
     for j, camp in enumerate(list_campaign_map):
       camp['Advertising Channel'] = ChangeCampaignType(camp['Advertising Channel'])
-      if camp['Campaign ID'] == '699351990':
-        print (camp)
       if 'Plan' not in camp:
         camp['Plan'] = None
         camp['STATUS'] = None
@@ -125,6 +123,8 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
           and (date_ >= start) 
           and (date_ <= end) ) \
           or ( LogManualMap(path_folder, camp, eform, date) ):  
+          if camp['Campaign ID'] == '699351990':
+            print (camp)
           print ("===================================== MP ====================================")
           camp['Mapping'] = True
           camp['STATUS'] = 'SYS'
