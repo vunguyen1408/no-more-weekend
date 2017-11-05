@@ -63,6 +63,7 @@ def ConvertCampaignToJsonContent(camp):
   campaign['Interactions'] = camp['Interactions']
   campaign['Clicks'] = camp['Clicks']
   campaign['Advertising Channel'] = camp['Advertising Channel']
+  campaign['Bid Strategy Type'] = camp['Bid Strategy Type']
   campaign['Cost'] = camp['Cost']
   campaign['Campaign'] = camp['Campaign']
   campaign['Campaign ID'] = camp['Campaign ID']

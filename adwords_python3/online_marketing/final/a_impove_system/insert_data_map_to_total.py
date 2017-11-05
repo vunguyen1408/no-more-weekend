@@ -12,17 +12,17 @@ def CreateSum():
 	sum_plan = {}
 	sum_plan['CLICKS'] = 0
 	sum_plan['IMPRESSIONS'] = 0
-	sum_plan['UNIQUE_COOKIES'] = 0
+	# sum_plan['UNIQUE_COOKIES'] = 0
 	sum_plan['CTR'] = 0
-	sum_plan['AVG_CPC'] = 0
-	sum_plan['AVG_CPM'] = 0
+	# sum_plan['AVG_CPC'] = 0
+	# sum_plan['AVG_CPM'] = 0
 	sum_plan['COST'] = 0
 	sum_plan['CONVERSIONS'] = 0
 	sum_plan['INVALID_CLICKS'] = 0
-	sum_plan['AVG_POSITION'] = 0
+	# sum_plan['AVG_POSITION'] = 0
 	sum_plan['ENGAGEMENTS'] = 0
-	sum_plan['AVG_CPE'] = 0
-	sum_plan['AVG_CPV'] = 0
+	# sum_plan['AVG_CPE'] = 0
+	# sum_plan['AVG_CPV'] = 0
 	sum_plan['INTERACTIONS'] = 0
 	sum_plan['VIEWS'] = 0
 	return sum_plan
@@ -564,15 +564,10 @@ def SumTotalPlan(plan, list_campaign):
 		sum_plan['CLICKS'] += float(campaign['Clicks'])
 		sum_plan['IMPRESSIONS'] += float(campaign['Impressions'])
 		sum_plan['CTR'] += float(campaign['CTR'])
-		sum_plan['AVG_CPC'] += float(campaign['Avg. CPC'])
-		sum_plan['AVG_CPM'] += float(campaign['Avg. CPM'])
 		sum_plan['COST'] += float(campaign['Cost'])
 		sum_plan['CONVERSIONS'] += float(campaign['Conversions'])
 		sum_plan['INVALID_CLICKS'] += float(campaign['Invalid clicks'])
-		sum_plan['AVG_POSITION'] += float(campaign['Avg. position'])
 		sum_plan['ENGAGEMENTS'] += float(campaign['Engagements'])
-		sum_plan['AVG_CPE'] += float(campaign['Avg. CPE'])
-		sum_plan['AVG_CPV'] += float(campaign['Avg. CPV'])
 		sum_plan['INTERACTIONS'] += float(campaign['Interactions'])
 		sum_plan['VIEWS'] += float(campaign['Views'])
 		#---------------- Add data map ------------------
