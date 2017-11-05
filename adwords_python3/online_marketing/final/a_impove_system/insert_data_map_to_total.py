@@ -584,10 +584,13 @@ def SumTotalPlan(plan, list_campaign):
 	return (plan, list_map)
 
 def CaculatorForPlan(list_plan):
+	print ()
 	for plan in list_plan:
+		if plan['REASON_CODE_ORACLE'] == '1708007':
+			print (plan)
 		plan, list_map = SumTotalPlan(plan, plan['CAMPAIGN'])
 		plan = SumMonthly(plan, plan['CAMPAIGN'])
-		print (plan)
+		# print (plan)
 	return list_plan
 
 
