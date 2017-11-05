@@ -579,10 +579,42 @@ def SumTotalPlan(plan, list_campaign):
 	# print (len(list_map))
 	return (plan, list_map)
 
+def SumMonthlyPlan(plan, list_campaign):
+	"""
+		Hàm tính total monthly cho một plan (tổng các campaign)
+	"""
+	sum_plan = CreateSum()
+	for month in plan['MONTHLY']:
+		start = datetime.strptime(month['START_DATE'], '%Y-%m-%d').date()
+		end = datetime.strptime(month['END_DATE'], '%Y-%m-%d').date()
+		for campaign in list_campaign:
+			date = datetime.strptime(campaign['Date'], '%Y-%m-%d').date()
+			if date >= start and date <= end:
+				# --------------- Tính total ------------------
+				sum_plan['CLICKS'] += float(campaign['Clicks'])
+				sum_plan['IMPRESSIONS'] += float(campaign['Impressions'])
+				sum_plan['CTR'] += float(campaign['CTR'])
+				sum_plan['COST'] += float(campaign['Cost'])
+				# sum_plan['CONVERSIONS'] = 0
+				sum_plan['CONVERSIONS'] += float(campaign['Conversions'])
+				sum_plan['INVALID_CLICKS'] += float(campaign['Invalid clicks'])
+				sum_plan['ENGAGEMENTS'] += float(campaign['Engagements'])
+				sum_plan['INTERACTIONS'] += float(campaign['Interactions'])
+				sum_plan['VIEWS'] += float(campaign['Views'])
+				#---------------- Add data map ------------------
+				# z = campaign.copy()
+				# z.update(plan)
+				# list_map.append(z)
+		month['TOTAL_CAMPAIGN_MONTHLY'] = sum_plan
+	# print (len(list_map))
+	return plan
+
 def CaculatorForPlan(list_plan):
 	for plan in list_plan:
 		plan, list_map = SumTotalPlan(plan, plan['CAMPAIGN'])
 		plan = SumMonthly(plan, plan['CAMPAIGN'])
+		plan = SumMonthlyPlan(plan, plan['CAMPAIGN'])
+		
 		# print (plan)
 	return list_plan
 
