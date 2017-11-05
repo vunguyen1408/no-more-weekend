@@ -159,6 +159,13 @@ def ReportPlanSum(path_data, connect):
 		conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 		cursor = conn.cursor()
 
+		# =================== Delete table ==================
+		import time
+		start = time.time()
+		statement = 'delete from DTM_GG_PLAN_SUM'	
+		cursor.execute(statement)
+		print ("Time delete: ", (start - time.time()))
+
 		#=================== Read data from file json ===============================
 		with open(path_data, 'r') as fi:
 			data = json.load(fi)
@@ -170,7 +177,6 @@ def ReportPlanSum(path_data, connect):
 		conn.commit()
 		# print("Committed!.......")
 		cursor.close()
-
 
 def InsertPlanSumToDatabase(path_data, connect, list_plan_insert, list_plan_update, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
