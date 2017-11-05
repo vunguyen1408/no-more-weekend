@@ -721,6 +721,7 @@ def MergeDataToTotal(path_data, date):
 		# for plan_total in data_total['TOTAL']:
 		# 	if plan_total['REASON_CODE_ORACLE'] == '1708007':
 		# 		print (plan_total)
+		data_total['UN_CAMP'].extend(data_date['UN_CAMP'])
 		
 
 
