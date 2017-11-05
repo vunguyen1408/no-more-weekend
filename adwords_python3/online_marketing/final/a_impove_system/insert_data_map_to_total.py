@@ -614,7 +614,7 @@ def CaculatorForPlan(list_plan):
 		plan, list_map = SumTotalPlan(plan, plan['CAMPAIGN'])
 		plan = SumMonthly(plan, plan['CAMPAIGN'])
 		plan = SumMonthlyPlan(plan, plan['CAMPAIGN'])
-		
+
 		# print (plan)
 	return list_plan
 
@@ -727,10 +727,6 @@ def MergeDataToTotal(path_data, date):
 		data_total['TOTAL'] = CaculatorForPlan(data_total['TOTAL'])
 
 		for plan_total in data_total['TOTAL']:
-		# if plan_total['REASON_CODE_ORACLE'] == '1708061':
-		# # if str(plan_total['Campaign ID']) == '772872164':
-		#   print (plan_total)
-			# plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
 			if plan_total['REASON_CODE_ORACLE'] == '1708007':
 				print (plan_total)
 		
@@ -741,12 +737,12 @@ def MergeDataToTotal(path_data, date):
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 		print (path_data_total_map)
 		#-------------------------- Write total lần 1------------------
-		# with open (path_data_total_map,'w') as f:
-		# 	json.dump(data_total['TOTAL'], f)
+		with open (path_data_total_map,'w') as f:
+			json.dump(data_total['TOTAL'], f)
 
-		# path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
-		# with open (path_data_un_map,'w') as f:
-		# 	json.dump(data_total['UN_CAMP'], f)
+		path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+		with open (path_data_un_map,'w') as f:
+			json.dump(data_total['UN_CAMP'], f)
 
 
 	return (list_data_map, list_plan_insert, list_plan_remove, list_plan_update)
