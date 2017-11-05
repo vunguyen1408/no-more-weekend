@@ -25,20 +25,20 @@ def Daily(connect, path_data, date, list_customer_id):
 	start_work_flow = time.time()
 	
 
-	# #======================== Mapping data for list account ============================
-	# print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
-	# mapping = time.time()
-	# mapping_data.MapDataForAllAccount(connect, list_customer_id, path_data, date)
-	# time_mapping = time.time() - mapping
-	# print ("             Time maping: ", time_mapping)
+	#======================== Mapping data for list account ============================
+	print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
+	mapping = time.time()
+	mapping_data.MapDataForAllAccount(connect, list_customer_id, path_data, date)
+	time_mapping = time.time() - mapping
+	print ("             Time maping: ", time_mapping)
 
 	
-	# #============================== Merge data ===============================
-	# print ("\n\n======================= RUN MERGE WITH DATE : " + date + " =========================")
-	# merge = time.time()
-	# merge_date.MergeDataMapping(path_data, list_customer_id, date)
-	# time_merge = time.time() - merge
-	# print ("             Time merge: ", time_merge)
+	#============================== Merge data ===============================
+	print ("\n\n======================= RUN MERGE WITH DATE : " + date + " =========================")
+	merge = time.time()
+	merge_date.MergeDataMapping(path_data, list_customer_id, date)
+	time_merge = time.time() - merge
+	print ("             Time merge: ", time_merge)
 
 
 	# # ============================== Insert data mapping to total ===============================
@@ -51,7 +51,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	# time_insert_total = time.time() - insert_total
 	# print ("            Time insert data mapping to total : ", time_insert_total)
 
-	# ======================= Insert branding install ====================================
+	# # ======================= Insert branding install ====================================
 	# start = time.time()
 	# insert_install.InsertInstall(path_data, connect, date)
 	# insert_install_brandingGPS.AddBrandingGPS(path_data, connect, date)
@@ -59,16 +59,16 @@ def Daily(connect, path_data, date, list_customer_id):
 
 
 	#=============================== Update to database =========================================
-	print ("\n\n============= RUN INSERT DATA TO DATABASE WITH DATE : " + date + " =================")
-	insert_databse = time.time()
-	list_plan_insert = []
-	list_plan_update = []
-	insert_monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
-	insert_monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
-	insert_plan_sum.InsertPlanSumToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
-	insert_data_map.InsertDataMapToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
-	time_insert_databse = time.time() - insert_databse
-	print ("            Time insert data to database : ", time_insert_databse)
+	# print ("\n\n============= RUN INSERT DATA TO DATABASE WITH DATE : " + date + " =================")
+	# insert_databse = time.time()
+	# list_plan_insert = []
+	# list_plan_update = []
+	# insert_monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
+	# insert_monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
+	# insert_plan_sum.InsertPlanSumToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
+	# insert_data_map.InsertDataMapToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
+	# time_insert_databse = time.time() - insert_databse
+	# print ("            Time insert data to database : ", time_insert_databse)
 
 
 	
