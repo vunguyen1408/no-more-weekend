@@ -683,15 +683,7 @@ def MergeDataToTotal(path_data, date):
 			data_total['UN_CAMP'] = json.load(f)
 
 
-		for plan_total in data_date['PLAN']:
-			print (plan_total)
-		# if plan_total['REASON_CODE_ORACLE'] == '1708061':
-		# # if str(plan_total['Campaign ID']) == '772872164':
-		#   print (plan_total)
-			# plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
-			if plan_total['REASON_CODE_ORACLE'] == '1708007':
-				for camp in plan_total['CAMPAIGN']:
-					print (camp)
+		
 
 
 		list_data_map = GetListMapOnDate(data_date)

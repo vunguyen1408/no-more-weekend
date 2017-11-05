@@ -17,20 +17,20 @@ def Daily(connect, path_data, date, list_customer_id):
 	start_work_flow = time.time()
 	
 
-	# #======================== Mapping data for list account ============================
-	# print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
-	# mapping = time.time()
-	# mapping_data.MapDataForAllAccount(connect, list_customer_id, path_data, date)
-	# time_mapping = time.time() - mapping
-	# print ("             Time maping: ", time_mapping)
+	#======================== Mapping data for list account ============================
+	print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
+	mapping = time.time()
+	mapping_data.MapDataForAllAccount(connect, list_customer_id, path_data, date)
+	time_mapping = time.time() - mapping
+	print ("             Time maping: ", time_mapping)
 
 	
-	# #============================== Merge data ===============================
-	# print ("\n\n======================= RUN MERGE WITH DATE : " + date + " =========================")
-	# merge = time.time()
-	# merge_date.MergeDataMapping(path_data, list_customer_id, date)
-	# time_merge = time.time() - merge
-	# print ("             Time merge: ", time_merge)
+	#============================== Merge data ===============================
+	print ("\n\n======================= RUN MERGE WITH DATE : " + date + " =========================")
+	merge = time.time()
+	merge_date.MergeDataMapping(path_data, list_customer_id, date)
+	time_merge = time.time() - merge
+	print ("             Time merge: ", time_merge)
 
 
 	#============================== Insert data mapping to total ===============================
