@@ -10,7 +10,7 @@ import manual_mapping as manual
 
 
 # import plan_change as plan_change
-import merge_data_manual_mapping as merge_data_manual_mapping
+# import merge_data_manual_mapping as merge_data_manual_mapping
 
 def ManualMapping (connect, path_data, date):
 	# =============================== Manual mapping =========================================
