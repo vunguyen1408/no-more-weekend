@@ -25,30 +25,30 @@ def Daily(connect, path_data, date, list_customer_id):
 	
 
 	#======================== Mapping data for list account ============================
-	print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
-	mapping = time.time()
+	# print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
+	# mapping = time.time()
 	mapping_data.MapDataForAllAccount(connect, list_customer_id, path_data, date)
-	time_mapping = time.time() - mapping
-	print ("             Time maping: ", time_mapping)
+	# time_mapping = time.time() - mapping
+	# print ("             Time maping: ", time_mapping)
 
 	
 	#============================== Merge data ===============================
-	print ("\n\n======================= RUN MERGE WITH DATE : " + date + " =========================")
-	merge = time.time()
+	# print ("\n\n======================= RUN MERGE WITH DATE : " + date + " =========================")
+	# merge = time.time()
 	merge_date.MergeDataMapping(path_data, list_customer_id, date)
-	time_merge = time.time() - merge
-	print ("             Time merge: ", time_merge)
+	# time_merge = time.time() - merge
+	# print ("             Time merge: ", time_merge)
 
 
 	# ============================== Insert data mapping to total ===============================
-	print ("\n\n============= RUN INSERT DATA MAPPING TO TOTAL WITH DATE : " + date + " =================")
-	insert_total = time.time()
+	# print ("\n\n============= RUN INSERT DATA MAPPING TO TOTAL WITH DATE : " + date + " =================")
+	# insert_total = time.time()
 
 	list_data_map, list_plan_insert, list_plan_remove, list_plan_update \
 	= insert_to_total.InsertDateToTotal(path_data, date)
 
-	time_insert_total = time.time() - insert_total
-	print ("            Time insert data mapping to total : ", time_insert_total)
+	# time_insert_total = time.time() - insert_total
+	# print ("            Time insert data mapping to total : ", time_insert_total)
 
 	# ======================= Insert branding install ====================================
 	# start = time.time()

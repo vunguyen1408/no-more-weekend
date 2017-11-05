@@ -624,7 +624,7 @@ def AddToTotal (data_total, data_date, date):
 				and plan['START_DAY'] == plan_date['START_DAY'] \
 				and plan['END_DAY_ESTIMATE'] == plan_date['END_DAY_ESTIMATE']:
 
-				if len(plan_date['CAMPAIGN']) > 0 and len(plan['CAMPAIGN']) > 0:
+				if len(plan_date['CAMPAIGN']) > 0 and len(plan['CAMPAIGN']) == 0:
 					list_plan_remove.append(plan_date)
 
 				# Cap nhat real date
@@ -728,7 +728,7 @@ def MergeDataToTotal(path_data, date):
 		# print ("=================== LUU FILE ===========================")
 
 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		print (path_data_total_map)
+		# print (path_data_total_map)
 		#-------------------------- Write total lần 1------------------
 		with open (path_data_total_map,'w') as f:
 			json.dump(data_total['TOTAL'], f)
