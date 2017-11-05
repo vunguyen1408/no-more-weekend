@@ -9,8 +9,8 @@ from datetime import datetime , timedelta, date
 def MergerDataAccount(path_data, data_map, customer_id, date):
   #========= List acc folder ===============
   # print (path_data)
-  path_customer = os.path.join(path_data, str(date) + '/ACCOUNT_ID/' +  customer_id)
-  path_folder = path_customer
+  path_folder = os.path.join(path_data, str(date) + '/ACCOUNT_ID/' +  customer_id)
+
 
   #------------------- Open json ma and un map on date ------------------------------
   path_data_map_date = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
@@ -19,7 +19,7 @@ def MergerDataAccount(path_data, data_map, customer_id, date):
       data_map_date = json.load(f)
 
     #------------------- Open json ma and un map on date ------------------------------
-    path_folder = path_data + '/' + str(date) + '/DATA_MAPPING'
+    # path_folder = path_data + '/' + str(date) + '/DATA_MAPPING'
     # print (path_folder)
     
       
@@ -35,8 +35,8 @@ def MergerDataAccount(path_data, data_map, customer_id, date):
         data_map['PLAN'] = list(data_map_date['PLAN'])
       else:
         for plan_date in data_map_date['PLAN']:
-          if str(plan_date['REASON_CODE_ORACLE']) == '1708007' and len(plan_date['CAMPAIGN']) > 0:
-            print (plan_date)
+          # if str(plan_date['REASON_CODE_ORACLE']) == '1708007' and len(plan_date['CAMPAIGN']) > 0:
+          #   print (plan_date)
 
           flag = False
           for plan in data_map['PLAN']:
