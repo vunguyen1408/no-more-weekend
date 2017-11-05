@@ -536,11 +536,13 @@ def InsertDataUnMap(path_data, connect):
 		print("Committed!.......")
 		cursor.close()
 
-def InsertDataMap(path_data, connect):
+def InsertDataMap(path_data_total_map, path_data_un_map, connect):
 	if os.path.exists(path_data):
 	 	# ==================== Connect database =======================
 		conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 		cursor = conn.cursor()
+
+		
 
 		with open(path_data, 'r') as fi:
 			data = json.load(fi)	
@@ -561,15 +563,8 @@ def InsertDataMap(path_data, connect):
 
 def InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		#---------- Delete plan and camp ---------------
-	DeleteListPlan(list_plan_remove_unmap, connect)
-	DeleteListCamp(list_camp_remove_unmap, connect)
-
-
-	# ReportDetailMap(path_data_total_map, connect)
-	# ReportDetailUnmap(path_data_total_map, connect)
-	InsertDataUnMap(path_data_total_map, connect)
-	InsertDataMap(path_data_total_map, connect)
+	path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+	InsertDataMap(path_data_total_map, path_data_un_map, connect)
 
 # path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/DATA_MAPPING/mapping_final.json'
 # path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/total_mapping1.json'
