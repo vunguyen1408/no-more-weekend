@@ -50,10 +50,10 @@ def Daily(connect, path_data, date, list_customer_id):
 	# print ("            Time insert data mapping to total : ", time_insert_total)
 
 	# ======================= Insert branding install ====================================
-	start = time.time()
-	insert_install.InsertInstall(path_data, connect, date)
-	insert_install_brandingGPS.AddBrandingGPS(path_data, connect, date)
-	print ("Time : ", time.time() - start)
+	# start = time.time()
+	# insert_install.InsertInstall(path_data, connect, date)
+	# insert_install_brandingGPS.AddBrandingGPS(path_data, connect, date)
+	# print ("Time : ", time.time() - start)
 
 
 	#=============================== Update to database =========================================
@@ -61,7 +61,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	insert_databse = time.time()
 	list_plan_insert = []
 	list_plan_update = []
-	insert_data_base.InsertMonthlyDetailToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
+	insert_monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
 	insert_monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
 
 	time_insert_databse = time.time() - insert_databse
