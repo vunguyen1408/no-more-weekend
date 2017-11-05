@@ -435,23 +435,21 @@ def InsertDataMap(path_data_total_map, path_data_un_map, connect):
 		for value in list_map:
 			try:		
 				InsertDetailUnmap(value, cursor)
-			except as e:
-				print (e)
+			except:
 				pass
 
 		for value in list_plan_un:
 			try:		
 				InsertDetailUnmap(value, cursor)
-			except as e:
-				print (e)
+			except:
 				pass
 		
 		for value in list_un_camp:
 			try:		
 				InsertDetailUnmap(value, cursor)
-			except as e:
-				print (e)
+			except:
 				pass
+				
 		print ("Time insert unmap : ", (time.time() - start))
 
 		conn.commit()
