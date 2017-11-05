@@ -295,6 +295,7 @@ def ManualMap(connect, path_data, date):
 						and camp['Date'] == campaign['Date']:
 						data_total['UN_CAMP'].remove(campaign)
 
+
 			print ("Time get in manual 1 : ", (time.time() - start_time))
 
 			data_date = {}
@@ -303,6 +304,10 @@ def ManualMap(connect, path_data, date):
 			data_total, list_plan_insert, list_plan_remove = insert_data.AddToTotal (data_total, data_date, date)
 
 			data_total['TOTAL'] = insert_data.CaculatorForPlan(data_total['TOTAL'])
+
+			for plan_total in data_total['TOTAL']:
+				if str(plan_total['REASON_CODE_ORACLE']) == '1708007':
+					print (plan_total)
 
 			list_plan_remove_unmap = list_plan_remove
 			list_camp_remove_unmap = list_map_all
