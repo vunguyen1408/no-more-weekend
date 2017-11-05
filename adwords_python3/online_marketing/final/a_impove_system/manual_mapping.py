@@ -276,10 +276,10 @@ def ManualMap(connect, path_data, date):
 			# print (len(data_total['UN_CAMPAIGN']))
 
 			for plan_total in list_plan:
-				if plan_total['REASON_CODE_ORACLE'] == '1708007':
+				if str(plan_total['REASON_CODE_ORACLE']) == '1708007':
 					print (plan_total)
 
-					
+
 			import time
 			start_time = time.time()
 			for plan in list_plan:
