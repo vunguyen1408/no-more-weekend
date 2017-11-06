@@ -23,7 +23,7 @@ def ManualMapping (connect, path_data, date):
 	# --------------- 
 	for map_ in list_map:
 		print (map_)
-		time,sleep(4)
+		time.sleep(4)
 		print ("\n\n")
 
 	print(list_plan_remove_unmap != [])
