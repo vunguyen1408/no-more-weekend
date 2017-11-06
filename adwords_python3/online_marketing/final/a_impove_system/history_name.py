@@ -7,6 +7,7 @@ import cx_Oracle
 from datetime import datetime , timedelta, date
 
 def FindNameNew(data_total, camp_id, camp_name):
+	return -1
 	flag = 0
 	date_max = '0001-01-01'
 	name_max = ''
