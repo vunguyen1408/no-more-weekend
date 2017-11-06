@@ -448,9 +448,10 @@ for log in data_total['LOG']:
 				log['CAMPAIGN_NAME'] = camp['CAMPAIGN_NAME']
 			else:
 				log['CAMPAIGN_NAME'] = None
+				print ("==================================")
 		print (log)
-		insert(log, cursor)
-		break
+		# insert(log, cursor)
+		# break
 		number += 1
 print (number)
 conn.commit()
