@@ -444,7 +444,7 @@ for log in data_total['LOG']:
 	if log['REASON_CODE_ORACLE'] == '1705028':
 		for camp in data['HISTORY']:
 			if log['CAMPAIGN_ID'] == camp['CAMPAIGN_ID']:
-				print ("Gasn")
+				# print ("Gasn")
 				log['CAMPAIGN_NAME'] = camp['CAMPAIGN_NAME']
 			else:
 				log['CAMPAIGN_NAME'] = None
