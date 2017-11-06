@@ -208,6 +208,8 @@ def DeleteUnMapPlan(plan, data_total):
 	end = datetime.strptime(plan['CAMPAIGN_MANUAL_MAP'][0]['END_DATE_MANUAL_MAP'], '%Y-%m-%d').date()
 	number = 0
 	list_camp_map_need_remove = []
+	print (start)
+	print (end)
 	# print (len(list_campaign))
 	for plan_total in data_total['TOTAL']:
 		if str(plan['PRODUCT_CODE']) == str(plan_total['PRODUCT_CODE']) \
