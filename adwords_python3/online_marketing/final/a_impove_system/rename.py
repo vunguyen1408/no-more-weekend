@@ -203,8 +203,8 @@ def CheckNameChange(path_data, list_customer, date):
 
     path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
     ###########################################
-    with open (path_data_his,'w') as f:
-      json.dump(data_total, f)
+    # with open (path_data_his,'w') as f:
+    #   json.dump(data_total, f)
     ############################################
   print("====================== Length =================")
   return (list_diff, data_total)
@@ -429,11 +429,11 @@ def CacualatorChange(connect, path_data, list_diff, date):
     print (len(list_plan_remove))
 
     list_map_all, list_plan_un, list_map_ = detail_map.CreateDataMap(data_map['PLAN'])
-    
-    for camp in list_map_all:
+
+    for camp in list_map_:
       for campaign in data_total['UN_CAMP']:
-        if camp['Campaign ID'] == campaign['Campaign ID'] \
-          and camp['Date'] == campaign['Date']:
+        if str(camp['Campaign ID']) == str(campaign['Campaign ID']) \
+          and str(camp['Date']) == str(campaign['Date']):
           data_total['UN_CAMP'].remove(campaign)
 
     data_total['TOTAL'] = insert_to_total.CaculatorForPlan(data_total['TOTAL'])

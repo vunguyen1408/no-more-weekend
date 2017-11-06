@@ -29,7 +29,7 @@ def ManualMapping (connect, path_data, date):
 		list_plan_insert_un_map = []
 		is_manual_map = 1
 		merge_data_manual_mapping.merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, \
-						list_camp_remove_unmap, list_plan_update, list_plan_insert_un_map, is_manual_map)
+						list_camp_remove_unmap, list_plan_update, list_plan_insert_un_map)
 		
 		time_update_manual = time.time() - update_manual
 		print("---------- Time update manual mapping to total : ", time_update_manual)
@@ -47,7 +47,7 @@ def ManualMapping (connect, path_data, date):
 # 	print(len(list_camp_remove_unmap))
 # 	if list_camp_remove_unmap != []:
 # 		update_manual = time.time()
-# 		list_map = []
+# 		list_map = list_camp_remove_unmap.copy()
 # 		list_plan_remove_unmap = []
 # 		is_manual_map = 2
 # 		merge_data_manual_mapping.merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, \

@@ -31,7 +31,7 @@ def UpdateRename(connect, list_camp_update, data):
 	cursor.close()
 
 
-def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert_un_map, is_manual_map):
+def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert_un_map):
 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
@@ -49,12 +49,8 @@ def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_c
 
 	# =========== List Campaign Remove ==================
 	if (len(list_camp_remove_unmap) > 0):
-		if is_manual_map == 1:
-			for camp in list_camp_remove_unmap:
-				detail_map.DeleteCamp(camp, cursor)
-		else: 
-			if is_manual_map == 2:
-				print ("234")
+		for camp in list_camp_remove_unmap:
+			detail_map.DeleteCamp(camp, cursor)
 			# Un map thi update camp thanh unmap
 
 	print ("Time remove camp : ", (time.time() - start))
@@ -72,6 +68,13 @@ def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_c
 				json_['CAMPAIGN_NAME'] = value['Campaign'].encode('utf-8')
 				detail_map.InsertDetailUnmap(json_, cursor)
 	print ("Time insert map : ", (time.time() - start))
+
+	if len(list_plan_insert_un_map) > 0:
+		# Insert unmap plan
+		print ("Length plan un map : ", len(list_plan_insert_un_map))
+		for plan in list_plan_insert_un_map:
+			json_ = detail_map.ConvertJsonPlan(plan)			
+			detail_map.InsertDetailUnmap(json_, cursor)
 
 	start = time.time()
 	# ============ List plan update =====================
