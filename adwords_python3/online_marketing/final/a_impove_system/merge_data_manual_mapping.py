@@ -72,12 +72,12 @@ def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_c
 		else:
 			if is_manual_map == 2:
 				for value in list_map:	
-				# print (list_map)				
-				json_ = detail_map.ConvertJsonCamp(value)	
-				try:		
-					detail_map.InsertDetailUnmap(json_, cursor)
-				except:
-					pass
+					# print (list_map)				
+					json_ = detail_map.ConvertJsonCamp(value)	
+					try:		
+						detail_map.InsertDetailUnmap(json_, cursor)
+					except:
+						pass
 
 	print ("Time insert map : ", (time.time() - start))
 
