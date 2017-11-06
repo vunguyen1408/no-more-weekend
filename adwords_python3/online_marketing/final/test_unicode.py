@@ -420,9 +420,12 @@ path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-09-30/
 with open(path_total, 'r') as fi:
 	data_total = json.load(fi)
 
+number = 0
 for log in data_total['LOG']:
 	if log['REASON_CODE_ORACLE'] == '1705028':
 		print (log)
+		number += 1
+print (number)
 
 
 
