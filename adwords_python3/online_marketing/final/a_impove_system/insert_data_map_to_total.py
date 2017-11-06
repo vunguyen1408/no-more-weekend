@@ -12,20 +12,19 @@ def CreateSum():
 	sum_plan = {}
 	sum_plan['CLICKS'] = 0
 	sum_plan['IMPRESSIONS'] = 0
-	sum_plan['UNIQUE_COOKIES'] = 0
+	# sum_plan['UNIQUE_COOKIES'] = 0
 	sum_plan['CTR'] = 0
-	sum_plan['AVG_CPC'] = 0
-	sum_plan['AVG_CPM'] = 0
+	# sum_plan['AVG_CPC'] = 0
+	# sum_plan['AVG_CPM'] = 0
 	sum_plan['COST'] = 0
 	sum_plan['CONVERSIONS'] = 0
 	sum_plan['INVALID_CLICKS'] = 0
-	sum_plan['AVG_POSITION'] = 0
+	# sum_plan['AVG_POSITION'] = 0
 	sum_plan['ENGAGEMENTS'] = 0
-	sum_plan['AVG_CPE'] = 0
-	sum_plan['AVG_CPV'] = 0
+	# sum_plan['AVG_CPE'] = 0
+	# sum_plan['AVG_CPV'] = 0
 	sum_plan['INTERACTIONS'] = 0
 	sum_plan['VIEWS'] = 0
-	sum_plan['INSTALL_CAMP'] = 0
 	return sum_plan
 
 def SumTotalPlan(plan, list_campaign):
@@ -337,80 +336,80 @@ def AddToTotal (data_total, data_date, date):
 	list_plan_update = list_plan_total_date
 	return (data_total, list_data_map, list_plan_remove, list_plan_update)
 
-def MergeDataToTotal(path_data, date):
+# def MergeDataToTotal(path_data, date):
 
-	path_folder = path_data + '/' + str(date) +  '/DATA_MAPPING'
-	list_data_map = []
-	list_plan_remove = []
-	list_plan_update = []
-	if not os.path.exists(path_folder):
-		os.makedirs(path_folder)
+# 	path_folder = path_data + '/' + str(date) +  '/DATA_MAPPING'
+# 	list_data_map = []
+# 	list_plan_remove = []
+# 	list_plan_update = []
+# 	if not os.path.exists(path_folder):
+# 		os.makedirs(path_folder)
 
-	i = 0
-	find = True
-	date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
-	path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
-	while not os.path.exists(path_data_total_map):
-		i = i + 1
-		date_before = date_before - timedelta(1)
-		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		if i == 60:
-			find = False
-			break
-
-
-	path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
-	if not find:
-		# print ("=========================================================")
-		# print ("=========================================================")
-		# print ("=========================================================")
-		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		data_total = {}
-		data_total['TOTAL'] = []
-		data_total['MAP'] = []
-		data_total['UN_PLAN'] = []
-		data_total['UN_CAMPAIGN'] = []
-		with open (path_data_total_map,'w') as f:
-			json.dump(data_total, f)
-	if os.path.exists(path_data_map):
-		with open (path_data_map,'r') as f:
-			data_date = json.load(f)
-		# print (path_data_total_map)
-		with open (path_data_total_map,'r') as f:
-			data_total = json.load(f)
-		# print (len(data_total['TOTAL']))
-
-		data_total, list_data_map, list_plan_remove, list_plan_update = AddToTotal (data_total, data_date, date)
+# 	i = 0
+# 	find = True
+# 	date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+# 	path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+# 	while not os.path.exists(path_data_total_map):
+# 		i = i + 1
+# 		date_before = date_before - timedelta(1)
+# 		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+# 		if i == 60:
+# 			find = False
+# 			break
 
 
-		# 	# print (plan)
-		# print (len(data_total['TOTAL']))
-		# print (len(data_total['UN_PLAN']))
-		# for camp in data_total['MAP']:
-		# 	loop = 0
-		# 	for c in data_total['MAP']:
-		# 		if camp['PRODUCT'] == c['PRODUCT'] \
-		# 			and camp['REASON_CODE_ORACLE'] == c['REASON_CODE_ORACLE'] \
-		# 			and camp['FORM_TYPE'] == c['FORM_TYPE'] \
-		# 			and camp['Campaign ID'] == c['Campaign ID'] \
-		# 			and camp['Date'] == c['Date']:
-		# 			loop += 1
-		# 	if loop > 1:
-		# 		print ("//////////////////////////////////////////////////////////////////")
-		# 		print ("//////////////////////////////////////////////////////////////////")
-		# 		print ("//////////////////////////////////////////////////////////////////")
-		# 		print (camp)
+# 	path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
+# 	if not find:
+# 		# print ("=========================================================")
+# 		# print ("=========================================================")
+# 		# print ("=========================================================")
+# 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+# 		data_total = {}
+# 		data_total['TOTAL'] = []
+# 		data_total['MAP'] = []
+# 		data_total['UN_PLAN'] = []
+# 		data_total['UN_CAMPAIGN'] = []
+# 		with open (path_data_total_map,'w') as f:
+# 			json.dump(data_total, f)
+# 	if os.path.exists(path_data_map):
+# 		with open (path_data_map,'r') as f:
+# 			data_date = json.load(f)
+# 		# print (path_data_total_map)
+# 		with open (path_data_total_map,'r') as f:
+# 			data_total = json.load(f)
+# 		# print (len(data_total['TOTAL']))
+
+# 		data_total, list_data_map, list_plan_remove, list_plan_update = AddToTotal (data_total, data_date, date)
+
+
+# 		# 	# print (plan)
+# 		# print (len(data_total['TOTAL']))
+# 		# print (len(data_total['UN_PLAN']))
+# 		# for camp in data_total['MAP']:
+# 		# 	loop = 0
+# 		# 	for c in data_total['MAP']:
+# 		# 		if camp['PRODUCT'] == c['PRODUCT'] \
+# 		# 			and camp['REASON_CODE_ORACLE'] == c['REASON_CODE_ORACLE'] \
+# 		# 			and camp['FORM_TYPE'] == c['FORM_TYPE'] \
+# 		# 			and camp['Campaign ID'] == c['Campaign ID'] \
+# 		# 			and camp['Date'] == c['Date']:
+# 		# 			loop += 1
+# 		# 	if loop > 1:
+# 		# 		print ("//////////////////////////////////////////////////////////////////")
+# 		# 		print ("//////////////////////////////////////////////////////////////////")
+# 		# 		print ("//////////////////////////////////////////////////////////////////")
+# 		# 		print (camp)
 
 
 
-		print ("=================== LUU FILE ===========================")
+# 		print ("=================== LUU FILE ===========================")
 
-		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		print (path_data_total_map)
-		#-------------------------- Write total lần 1------------------
-		with open (path_data_total_map,'w') as f:
-			json.dump(data_total, f)
-	return (list_data_map, list_plan_remove, list_plan_update)
+# 		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+# 		print (path_data_total_map)
+# 		#-------------------------- Write total lần 1------------------
+# 		with open (path_data_total_map,'w') as f:
+# 			json.dump(data_total, f)
+# 	return (list_data_map, list_plan_remove, list_plan_update)
 
 
 #--------------- Insert Volume actual --------------------
@@ -487,31 +486,21 @@ def CreateListPlanMonthly(path_data, date, list_plan_update):
 	return list_temp
 
 
-def InsertDateToTotal(path_data, date):
-	list_data_map, list_plan_remove, list_plan_update = MergeDataToTotal(path_data, str(date))
-	list_plan_update = CreateListPlanMonthly(path_data, str(date), list_plan_update)
+# def InsertDateToTotal(path_data, date):
+# 	list_data_map, list_plan_remove, list_plan_update = MergeDataToTotal(path_data, str(date))
+# 	list_plan_update = CreateListPlanMonthly(path_data, str(date), list_plan_update)
 
-	return (list_data_map, list_plan_remove, list_plan_update)
+# 	return (list_data_map, list_plan_remove, list_plan_update)
 	
-def InsertManyDate(path_data, start_date, end_date):
-	startDate = datetime.strptime(start_date, '%Y-%m-%d').date()  
-	endDate = datetime.strptime(end_date, '%Y-%m-%d').date()   
 
-	date = startDate
-	while(date <= endDate):
-		MergeDataToTotal(path_data, str(date))
-		CreateListPlanMonthly(path_data, str(date))
-		date = date + timedelta(1)
-		# print (date)
-		# print ("------------------------")
-	
+
+
 def SetVolunmActual(data_map, date):
-	for plan in data_map['TOTAL']:
+	for plan in data_map:
 		plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = GetVolumeActualTotal(plan)
 		for m in plan['MONTHLY']:
 			m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = GetVolumeActualMonthly(plan, m)
 	return data_map
-
 
 # Hai ham de set volum Actual
 def SetVolunmActualFile(path_data, date):
@@ -540,7 +529,224 @@ def SetVolunmActualFile(path_data, date):
 
 
 
-# startDate = '2017-06-01'
-# endDate = '2017-06-01'
-# path_data = 'C:/Users/ltduo/Desktop/VNG/DATA/END'
-# InsertManyDate(path_data, startDate, endDate)
+
+
+
+
+def SumMonthly(plan, list_campaign):
+	start_plan, end_plan = mapping_data.ChooseTime(plan)
+
+	plan['NUMBER_DATE'] = CaculatorNumberDate(start_plan, end_plan)
+	plan['MONTHLY'] = CaculatorListMonth(start_plan, end_plan)
+	plan = CaculatorStartEndDate(plan, start_plan, end_plan)
+
+
+	return plan
+
+def SumTotalPlan(plan, list_campaign):
+	"""
+		Hàm tính total cho một plan (tổng các campaign)
+	"""
+	list_map = []
+	sum_plan = CreateSum()
+	for campaign in list_campaign:
+		# --------------- Tính total ------------------
+		sum_plan['CLICKS'] += float(campaign['Clicks'])
+		sum_plan['IMPRESSIONS'] += float(campaign['Impressions'])
+		sum_plan['CTR'] += float(campaign['CTR'])
+		sum_plan['COST'] += float(campaign['Cost'])
+		# sum_plan['CONVERSIONS'] = 0
+		sum_plan['CONVERSIONS'] += float(campaign['Conversions'])
+		sum_plan['INVALID_CLICKS'] += float(campaign['Invalid clicks'])
+		sum_plan['ENGAGEMENTS'] += float(campaign['Engagements'])
+		sum_plan['INTERACTIONS'] += float(campaign['Interactions'])
+		sum_plan['VIEWS'] += float(campaign['Views'])
+		#---------------- Add data map ------------------
+		z = campaign.copy()
+		z.update(plan)
+		list_map.append(z)
+	plan['TOTAL_CAMPAIGN'] = sum_plan
+	# print (len(list_map))
+	return (plan, list_map)
+
+def SumMonthlyPlan(plan, list_campaign):
+	"""
+		Hàm tính total monthly cho một plan (tổng các campaign)
+	"""
+	sum_plan = CreateSum()
+	for month in plan['MONTHLY']:
+		start = datetime.strptime(month['START_DATE'], '%Y-%m-%d').date()
+		end = datetime.strptime(month['END_DATE'], '%Y-%m-%d').date()
+		for campaign in list_campaign:
+			date = datetime.strptime(campaign['Date'], '%Y-%m-%d').date()
+			if date >= start and date <= end:
+				# --------------- Tính total ------------------
+				sum_plan['CLICKS'] += float(campaign['Clicks'])
+				sum_plan['IMPRESSIONS'] += float(campaign['Impressions'])
+				sum_plan['CTR'] += float(campaign['CTR'])
+				sum_plan['COST'] += float(campaign['Cost'])
+				# sum_plan['CONVERSIONS'] = 0
+				sum_plan['CONVERSIONS'] += float(campaign['Conversions'])
+				sum_plan['INVALID_CLICKS'] += float(campaign['Invalid clicks'])
+				sum_plan['ENGAGEMENTS'] += float(campaign['Engagements'])
+				sum_plan['INTERACTIONS'] += float(campaign['Interactions'])
+				sum_plan['VIEWS'] += float(campaign['Views'])
+				#---------------- Add data map ------------------
+				# z = campaign.copy()
+				# z.update(plan)
+				# list_map.append(z)
+		month['TOTAL_CAMPAIGN_MONTHLY'] = sum_plan
+	# print (len(list_map))
+	return plan
+
+def CaculatorForPlan(list_plan):
+	for plan in list_plan:
+		plan, list_map = SumTotalPlan(plan, plan['CAMPAIGN'])
+		plan = SumMonthly(plan, plan['CAMPAIGN'])
+		plan = SumMonthlyPlan(plan, plan['CAMPAIGN'])
+
+		# print (plan)
+	return list_plan
+
+
+def AddToTotal (data_total, data_date, date):
+
+	list_plan_insert = []
+	list_plan_remove = []
+	# Merge plan cua ngay voi total
+	for plan_date in data_date['PLAN']:
+		flag = False
+		for plan in data_total['TOTAL']:
+			# print (plan)
+			# print (plan_date)
+			if plan['PRODUCT_CODE'] == plan_date['PRODUCT_CODE'] \
+				and plan['REASON_CODE_ORACLE'] == plan_date['REASON_CODE_ORACLE'] \
+				and plan['FORM_TYPE'] == plan_date['FORM_TYPE'] \
+				and plan['UNIT_OPTION'] == plan_date['UNIT_OPTION'] \
+				and plan['START_DAY'] == plan_date['START_DAY'] \
+				and plan['END_DAY_ESTIMATE'] == plan_date['END_DAY_ESTIMATE']:
+
+				if len(plan_date['CAMPAIGN']) > 0 and len(plan['CAMPAIGN']) == 0:
+					# print (len(plan_date['CAMPAIGN']))
+					# print (len(plan['CAMPAIGN']))
+					# print ("add reomve")
+					list_plan_remove.append(plan_date)
+
+				# Cap nhat real date
+				plan['REAL_START_DATE'] = plan_date['REAL_START_DATE']
+				plan['REAL_END_DATE'] = plan_date['REAL_END_DATE']
+
+				# Chuyen campaign maping duoc cua plan
+				temp_date = plan_date['CAMPAIGN']
+				temp = plan['CAMPAIGN']
+				temp.extend(temp_date)
+				plan['CAMPAIGN'] = temp
+				flag = True
+
+		# Plan moi
+		if flag == False:
+			data_total['TOTAL'].append(plan_date)
+			# Plan nay, neu unmap (list campaign == 0) se insert vao trong plan un, con neu map se insert vao total.
+			list_plan_insert.append(plan_date)
+
+	# print (len(list_plan_remove))
+	return (data_total, list_plan_insert, list_plan_remove)
+
+def GetListMapOnDate(data_date):
+	list_map = []
+	for plan in data_date['PLAN']:
+		for camp in plan['CAMPAIGN']:
+			z = camp.copy()
+			z.update(plan)
+			list_map.append(z)
+	return list_map
+
+def MergeDataToTotal(path_data, date):
+
+	path_folder = path_data + '/' + str(date) +  '/DATA_MAPPING'
+	list_data_map = []
+	list_plan_remove = []
+	list_plan_update = []
+	list_plan_insert = []
+	if not os.path.exists(path_folder):
+		os.makedirs(path_folder)
+
+	i = 0
+	find = True
+	date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+	path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+	path_data_un_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+	while not os.path.exists(path_data_total_map):
+		i = i + 1
+		date_before = date_before - timedelta(1)
+		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		path_data_un_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+		if i == 60:
+			find = False
+			break
+
+
+	path_data_map = os.path.join(path_folder, 'mapping_' + str(date) + '.json')
+	if not find:
+		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		data_total = {}
+		data_total['TOTAL'] = []
+		data_total['UN_CAMP'] = []
+		with open (path_data_total_map,'w') as f:
+			json.dump(data_total['TOTAL'], f)
+
+		# ======== Un map camp ===============
+		path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+		with open (path_data_un_map,'w') as f:
+			json.dump(data_total['UN_CAMP'], f)
+
+
+	if os.path.exists(path_data_map):
+		with open (path_data_map,'r') as f:
+			data_date = json.load(f)
+
+		data_total = {}
+		with open (path_data_total_map,'r') as f:
+			data_total['TOTAL'] = json.load(f)
+		with open (path_data_un_map,'r') as f:
+			data_total['UN_CAMP'] = json.load(f)
+
+
+		list_data_map = GetListMapOnDate(data_date)
+		list_plan_update = list(data_total['TOTAL'])
+		# print (data_total)
+		# print (data_date['PLAN'])
+		# print (len(data_date['PLAN']))
+
+		data_total, list_plan_insert, list_plan_remove = AddToTotal (data_total, data_date, date)
+		# print (len(data_total['TOTAL']))
+
+		data_total['TOTAL'] = CaculatorForPlan(data_total['TOTAL'])
+
+		# for plan_total in data_total['TOTAL']:
+		# 	if plan_total['REASON_CODE_ORACLE'] == '1708007':
+		# 		print (plan_total)
+		data_total['UN_CAMP'].extend(data_date['UN_CAMP'])
+		
+
+
+		# print ("=================== LUU FILE ===========================")
+
+		path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		# print (path_data_total_map)
+		#-------------------------- Write total lần 1------------------
+		with open (path_data_total_map,'w') as f:
+			json.dump(data_total['TOTAL'], f)
+
+		path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+		with open (path_data_un_map,'w') as f:
+			json.dump(data_total['UN_CAMP'], f)
+
+
+	return (list_data_map, list_plan_insert, list_plan_remove, list_plan_update)
+
+
+def InsertDateToTotal(path_data, date):
+	list_data_map, list_plan_insert, list_plan_remove, list_plan_update = MergeDataToTotal(path_data, str(date))
+
+	return (list_data_map, list_plan_insert, list_plan_remove, list_plan_update)

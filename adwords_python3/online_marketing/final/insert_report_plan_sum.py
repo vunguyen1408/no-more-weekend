@@ -159,6 +159,13 @@ def ReportPlanSum(path_data, connect):
 		conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 		cursor = conn.cursor()
 
+		# =================== Delete table ==================
+		import time
+		start = time.time()
+		statement = 'delete from DTM_GG_PLAN_SUM'	
+		cursor.execute(statement)
+		print ("\tTime delete: ", (time.time() - start))
+
 		#=================== Read data from file json ===============================
 		with open(path_data, 'r') as fi:
 			data = json.load(fi)

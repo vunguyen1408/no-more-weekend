@@ -62,23 +62,8 @@ def DeleteMonthlyDetail(value, cursor):
 		
 	cursor.execute(statement, (value['PRODUCT'], value['REASON_CODE_ORACLE'], value['FORM_TYPE'], value['UNIT_OPTION']))	
 
-
-def MergerMonthlyDetail(value, cursor):
-	#==================== Insert data into database =============================
-	statement = 'select * from DTM_GG_PIVOT_DETAIL \
-	where PRODUCT = :1 and REASON_CODE_ORACLE = :2 and EFORM_TYPE = :3 and UNIT_OPTION = :4 and SNAPSHOT_DATE=:5'	
-		
-	cursor.execute(statement, (value['PRODUCT'], value['REASON_CODE_ORACLE'], value['EFORM_TYPE'], value['UNIT_OPTION'], value['SNAPSHOT_DATE']))
-	res = list(cursor.fetchall())
-	
-	if (len(res) == 0):
-		InsertMonthlyDetail(value, cursor)
-	else:
-		UpdateMonthlyDetail(value, cursor)
-	# print("	A row mergered!.......")
-
-
 def ConvertJsonMonthlyDetail(index, value):
+	# print (value)
 	json_ = {}	
 
 	json_['CYEAR'] = '20' + value['CYEAR']
@@ -387,6 +372,7 @@ def ReportMonthlyDetail(path_data, connect):
 		conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 		cursor = conn.cursor()
 
+		# =================== Delete table ==================
 		import time
 		start = time.time()
 		statement = 'delete from DTM_GG_PIVOT_DETAIL'	
@@ -397,33 +383,15 @@ def ReportMonthlyDetail(path_data, connect):
 		with open(path_data, 'r') as fi:
 			data = json.load(fi)
 
-		for value in data['TOTAL']:
+		for value in data:
 			for i in range(len(value['MONTHLY'])):			
 				json_ = ConvertJsonMonthlyDetail(i, value)
-				MergerMonthlyDetail(json_, cursor)
+				InsertMonthlyDetail(json_, cursor)
 
-		#=================..........=====================
-		for value in data['UN_PLAN']:	
-			if (len(value['MONTHLY']) == 0):
-				json_ = ConvertJsonMonthlyDetailUnMap_1(value)
-				MergerMonthlyDetail(json_, cursor)
-			else:
-				for i in range(len(value['MONTHLY'])):
-					json_ = ConvertJsonMonthlyDetailUnMap_2(i, value)
-					MergerMonthlyDetail(json_, cursor)
-		#=================..........=====================
-		
-
-		#==================== Commit and close connect ===============================
 		conn.commit()
-		# print("Committed!.......")
 		cursor.close()
 
 
-def InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date):
+def InsertMonthlyDetailToDatabase(path_data, connect, list_plan_insert, list_plan_update, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	ReportMonthlyDetail(path_data_total_map, connect)
-
-
-# path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/total_mapping.json'
-# ReportMonthlyDetail(path_data, connect)

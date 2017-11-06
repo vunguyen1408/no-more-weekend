@@ -236,25 +236,10 @@ def ReportMonthlySum(path_data, connect):
 			data = json.load(fi)
 
 		
-		for value in data['TOTAL']:
-			if value['REASON_CODE_ORACLE'] == '1708007':
-				print (value)
+		for value in data:
 			for i in range(len(value['MONTHLY'])):						
 				json_ = ConvertJsonMonthlySum(i, value)
-				MergerMonthlySum(json_, cursor)
-
-
-		# =================..........=====================
-		for value in data['UN_PLAN']:
-			
-			if (len(value['MONTHLY']) == 0):
-				json_ = ConvertJsonMonthlySumUnMap_1(value)
-				MergerMonthlySum(json_, cursor)
-			else:
-				for i in range(len(value['MONTHLY'])):	
-					json_ = ConvertJsonMonthlySumUnMap_2(i, value)
-					MergerMonthlySum(json_, cursor)
-			
+				InsertMonthlySum(json_, cursor)
 		# =================..........=====================
 
 		#==================== Commit and close connect ===============================
@@ -262,7 +247,7 @@ def ReportMonthlySum(path_data, connect):
 		# print("Committed!.......")
 		cursor.close()
 
-def InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove, list_camp_remove, date):
+def InsertMonthlySumToDatabase(path_data, connect, list_plan_insert, list_plan_update, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	ReportMonthlySum(path_data_total_map, connect)
 

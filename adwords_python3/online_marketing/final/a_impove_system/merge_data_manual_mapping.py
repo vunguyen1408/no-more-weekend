@@ -2,10 +2,10 @@ import cx_Oracle
 import json
 import os
 from datetime import datetime , timedelta, date
-import insert_report_monthly_detail as monthly_detail
-import insert_report_monthly_sum as monthly_sum
-import insert_report_plan_sum as plan_sum
-import insert_report_detail_map as detail_map
+import insert_monthly_detail as monthly_detail
+import insert_monthly_sum as monthly_sum
+import insert_plan_sum as plan_sum
+import insert_data_map as detail_map
 import history_name as history_name
 
 def UpdateRename(connect, list_camp_update, data):
@@ -49,6 +49,7 @@ def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_c
 	# =========== List Campaign Remove ==================
 	if (len(list_camp_remove_unmap) > 0):
 		for camp in list_camp_remove_unmap:
+			# print (camp)
 			detail_map.DeleteCamp(camp, cursor)
 	print ("Time remove camp : ", (time.time() - start))
 
@@ -56,7 +57,8 @@ def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_c
 	# =========== List data manual map ==================
 	print ("Length map : ", len(list_map))
 	if  (len(list_map) > 0):
-		for value in list_map:					
+		for value in list_map:	
+			# print (list_map)				
 			json_ = detail_map.ConvertJsonMap(value)	
 			try:		
 				detail_map.InsertDetailUnmap(json_, cursor)

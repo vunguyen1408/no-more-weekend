@@ -55,6 +55,7 @@ def checkProductCode(name, list_product_code):
 def ConvertCampaignToJsonContent(camp):
   campaign = {}
   campaign['Date'] = camp['Date']
+  campaign['Conversions'] = camp['Conversions']
   campaign['Invalid clicks'] = camp['Invalid clicks']
   campaign['Engagements'] = camp['Engagements']
   campaign['Views'] = camp['Views']
@@ -63,6 +64,7 @@ def ConvertCampaignToJsonContent(camp):
   campaign['Interactions'] = camp['Interactions']
   campaign['Clicks'] = camp['Clicks']
   campaign['Advertising Channel'] = camp['Advertising Channel']
+  campaign['Bid Strategy Type'] = camp['Bid Strategy Type']
   campaign['Cost'] = camp['Cost']
   campaign['Campaign'] = camp['Campaign']
   campaign['Campaign ID'] = camp['Campaign ID']
@@ -121,7 +123,9 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
           and (date_ >= start) 
           and (date_ <= end) ) \
           or ( LogManualMap(path_folder, camp, eform, date) ):  
-
+          # if camp['Campaign ID'] == '699351990':
+          #   print (camp)
+          # print ("===================================== MP ====================================")
           camp['Mapping'] = True
           camp['STATUS'] = 'SYS'
           campaign = ConvertCampaignToJsonContent(camp)
@@ -138,10 +142,11 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
   data_map = {}
   data_map['UN_CAMP'] = list_un_campaign
   data_map['PLAN'] = list_plan
-  print (" -------------- Campaign ------ ", len(list_campaign_map))
-  print (" -------------- Mapping------ ", number)
-  print (" -------------- Un mapping------ ", len(list_un_campaign))
-  print ("\n")
+
+  # print (" -------------- Campaign ------ ", len(list_campaign_map))
+  # print (" -------------- Mapping------ ", number)
+  # print (" -------------- Un mapping------ ", len(list_un_campaign))
+  # print ("\n")
   return data_map
 
 #================= Mapping campaign and plan WPL =====================
@@ -197,10 +202,11 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
   data_map = {}
   data_map['UN_CAMP'] = list_un_campaign
   data_map['PLAN'] = list_plan
-  print (" -------------- Campaign ------ ", len(list_campaign_map))
-  print (" -------------- Mapping------ ", number)
-  print (" -------------- Un mapping------ ", len(list_un_campaign))
-  print ("\n")
+
+  # print (" -------------- Campaign ------ ", len(list_campaign_map))
+  # print (" -------------- Mapping------ ", number)
+  # print (" -------------- Un mapping------ ", len(list_un_campaign))
+  # print ("\n")
   return data_map
 
 
@@ -318,10 +324,11 @@ def MapAccountWithCampaignGS5(path_folder, list_plan, list_campaign, date):
   data_map = {}
   data_map['UN_CAMP'] = list_un_campaign
   data_map['PLAN'] = list_plan
-  print (" -------------- Campaign ------ ", len(list_campaign_map))
-  print (" -------------- Mapping------ ", number)
-  print (" -------------- Un mapping------ ", len(list_un_campaign))
-  print ("\n")
+
+  # print (" -------------- Campaign ------ ", len(list_campaign_map))
+  # print (" -------------- Mapping------ ", number)
+  # print (" -------------- Un mapping------ ", len(list_un_campaign))
+  # print ("\n")
   return data_map
 
 
@@ -468,15 +475,14 @@ def CheckIsAccountGS5(list_account, account_id):
   return False
 
 #================= Read list plan, product code, save file mapping =====================
-def MapData(customer, path_folder, list_plan, list_account_wpl, list_account_gs5, date): 
+def MapData(customer, path_folder, list_account_wpl, list_account_gs5, date): 
 
   # =============== List plan code ================
-  # list_plan = ReadPlan(path_folder, date)
+  list_plan = ReadPlan(path_folder, date)
 
   #================ Add product id to plan =================
   # list_plan = AddProductCode(path_folder, list_plan, date)
 
-  data_map = []
 
   # # #=========== Map Account with Campaign =======================  
   path = os.path.join(path_folder, str(date) + '/ACCOUNT_ID/' + customer)
@@ -487,24 +493,25 @@ def MapData(customer, path_folder, list_plan, list_account_wpl, list_account_gs5
       list_campaign = json.load(f)
     # print (len(list_campaign))
     if len(list_campaign) > 0:
-
+      # data_map = []
+      # print (customer)
       # ------------- Check account ----------------
       if CheckIsAccountWPL(list_account_wpl, customer):
-        print ("================ WPL ======================")
+        # print ("================ WPL ======================")
         data_map = MapAccountWithCampaignWPL(path_folder, list_plan['plan'], list_campaign, date)
       else:
         if CheckIsAccountGS5(list_account_gs5, customer): # La account WPL
-          print ("================ GS5 ======================")
+          # print ("================ GS5 ======================")
           data_map = MapAccountWithCampaignGS5(path_folder, list_plan['plan'], list_campaign, date)
         else:
+          # print ("================ ALL ======================")
           data_map = MapAccountWithCampaignAll(path_folder, list_plan['plan'], list_campaign, date)
 
       #----------------- Write file map and unmap ------------------
-    path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
-    with open (path_data_map,'w') as f:
-      json.dump(data_map, f)
-
-  return data_map
+      path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
+      # print (path_data_map)
+      with open (path_data_map,'w') as f:
+        json.dump(data_map, f)
 
 
 def ReadListAccountGS5AndWPL(path_folder):
@@ -531,7 +538,7 @@ def MapDataForAllAccount(connect, list_customer, path_data, date):
   list_plan = ReadPlanFromTable(connect, path_data, date)
 
   time_mapping = time.time() - mapping
-  print ("             Time maping: ", time_mapping)
+  # print ("             Time maping: ", time_mapping)
 
   # Read list account WPL and GS5
   list_account_wpl, list_account_gs5 = ReadListAccountGS5AndWPL(path_data)
@@ -540,4 +547,4 @@ def MapDataForAllAccount(connect, list_customer, path_data, date):
   for customer in list_customer:
     path_customer = os.path.join(path_data, str(date) + '/ACCOUNT_ID/' + customer)
     if os.path.exists(path_customer):
-      MapData(customer, path_data, list_plan, list_account_wpl, list_account_gs5, date)
+      MapData(customer, path_data, list_account_wpl, list_account_gs5, date)

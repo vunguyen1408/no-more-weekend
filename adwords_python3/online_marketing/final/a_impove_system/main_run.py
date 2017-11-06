@@ -26,7 +26,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	start_work_flow = time.time()
 	
 
-	# #======================== Mapping data for list account ============================
+	#======================== Mapping data for list account ============================
 	# print ("\n\n======================= RUN MAPPING WITH DATE : " + date + " =========================")
 	# mapping = time.time()
 	# mapping_data.MapDataForAllAccount(connect, list_customer_id, path_data, date)
@@ -34,7 +34,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	# print ("             Time maping: ", time_mapping)
 
 	
-	# #============================== Merge data ===============================
+	#============================== Merge data ===============================
 	# print ("\n\n======================= RUN MERGE WITH DATE : " + date + " =========================")
 	# merge = time.time()
 	# merge_date.MergeDataMapping(path_data, list_customer_id, date)
@@ -42,7 +42,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	# print ("             Time merge: ", time_merge)
 
 
-	# # ============================== Insert data mapping to total ===============================
+	# ============================== Insert data mapping to total ===============================
 	# print ("\n\n============= RUN INSERT DATA MAPPING TO TOTAL WITH DATE : " + date + " =================")
 	# insert_total = time.time()
 
@@ -52,26 +52,25 @@ def Daily(connect, path_data, date, list_customer_id):
 	# time_insert_total = time.time() - insert_total
 	# print ("            Time insert data mapping to total : ", time_insert_total)
 
-	# # ======================= Insert branding install ====================================
+	# ======================= Insert branding install ====================================
 	# start = time.time()
 	# insert_install.InsertInstall(path_data, connect, date)
 	# insert_install_brandingGPS.AddBrandingGPS(path_data, connect, date)
 	# print ("Time : ", time.time() - start)
 
-
 	history_name.InsertHistoryName(connect, path_data, list_customer_id, date)
 
 	# =============================== Update to database =========================================
-	print ("\n\n============= RUN INSERT DATA TO DATABASE WITH DATE : " + date + " =================")
-	insert_databse = time.time()
-	list_plan_insert = []
-	list_plan_update = []
-	insert_monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
-	insert_monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
-	insert_plan_sum.InsertPlanSumToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
-	insert_data_map.InsertDataMapToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
-	time_insert_databse = time.time() - insert_databse
-	print ("            Time insert data to database : ", time_insert_databse)
+	# print ("\n\n============= RUN INSERT DATA TO DATABASE WITH DATE : " + date + " =================")
+	# insert_databse = time.time()
+	# list_plan_insert = []
+	# list_plan_update = []
+	# insert_monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
+	# insert_monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
+	# insert_plan_sum.InsertPlanSumToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
+	# insert_data_map.InsertDataMapToDatabase(path_data, connect, list_plan_insert, list_plan_update, date)
+	# time_insert_databse = time.time() - insert_databse
+	# print ("            Time insert data to database : ", time_insert_databse)
 
 
 	
@@ -101,7 +100,7 @@ def ManyDate(connect, path_data, start_date, end_date):
 
 # start_date = '2017-06-01'
 # end_date = '2017-06-30'
-path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_03_10'
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 # ManyDate(connect, path_data, start_date, end_date)
 

@@ -212,7 +212,7 @@ def ConvertJsonCamp(value):
 	json_['GG_CAMPAIGN_TYPE'] = value['Advertising Channel']	
 	json_['GG_SPEND'] = value['Cost']
 
-	json_['GG_APPSFLYER_INSTALL'] = value['INSTALL_CAMP']		
+	json_['GG_APPSFLYER_INSTALL'] = None
 	json_['GG_STRATEGY_BID_TYPE'] = value['Bid Strategy Type']
 	json_['CAMPAIGN_ID'] = str(value['Campaign ID'])
 	json_['CAMPAIGN_NAME'] = value['Campaign']
@@ -225,7 +225,7 @@ def ConvertJsonCamp(value):
 
 def ConvertJsonMap(value):
 	json_ = {}	
-
+	# print (value)
 	json_['SNAPSHOT_DATE'] = value['Date']
 	json_['CYEAR'] = '20' + value['CYEAR']
 	# if (len(value['CMONTH']) == 1):
@@ -309,7 +309,7 @@ def ConvertJsonMap(value):
 	json_['GG_CAMPAIGN_TYPE'] = value['Advertising Channel']	
 	json_['GG_SPEND'] = value['Cost']
 
-	json_['GG_APPSFLYER_INSTALL'] = float(value['INSTALL_CAMP'])
+	json_['GG_APPSFLYER_INSTALL'] = None
 	json_['GG_STRATEGY_BID_TYPE'] = value['Bid Strategy Type']
 	json_['CAMPAIGN_ID'] = str(value['Campaign ID'])
 	json_['CAMPAIGN_NAME'] = value['Campaign']
@@ -331,10 +331,12 @@ def DeletePlan(value, cursor):
 
 def DeleteCamp(value, cursor):
 	#==================== Remove campaign from database =============================
+
 	statement = 'delete from DTM_GG_PIVOT_DETAIL_UNMAP \
 	where CAMPAIGN_ID = :1 and SNAPSHOT_DATE = :2'
-		
-	cursor.execute(statement, (value['Campaign ID'], value['Date']))	
+	
+	value = ConvertJsonCamp(value)
+	cursor.execute(statement, (value['CAMPAIGN_ID'], value['SNAPSHOT_DATE']))	
 	
 	# print("A campaign deleted!.......")
 
@@ -378,204 +380,91 @@ def DeleteListCamp(list_camp_remove, connect):
 	# print("Committed!.......")
 	cursor.close()
 
-def ReportDetailUnmap(path_data, connect):
-	if os.path.exists(path_data):
+
+def CreateDataMap(data_total):
+	list_map = []
+	list_plan_un = []
+	list_map_ = []
+	for plan in data_total:
+		if len(plan['CAMPAIGN']) > 0:
+			for camp in plan['CAMPAIGN']:
+				z = camp.copy()
+				z.update(plan)
+				# print (z)
+				list_map_.append(z)
+				json_ = ConvertJsonMap(z)
+				list_map.append(json_)
+		else:
+			json_ = ConvertJsonPlan(plan)
+			list_plan_un.append(json_)
+
+	return (list_map, list_plan_un, list_map_)
+
+def CreateDataUnMap(data_camp):
+	list_un_camp = []
+	for camp in data_camp:
+		json_ = ConvertJsonCamp(camp)
+		list_un_camp.append(json_)
+	return list_un_camp
+
+
+
+def InsertDataMap(path_data_total_map, path_data_un_map, connect):
+	if os.path.exists(path_data_total_map):
 	 	# ==================== Connect database =======================
 		conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 		cursor = conn.cursor()
+		# Open file total
+		with open(path_data_total_map, 'r') as fi:
+			data_total = json.load(fi)	
 
-		#=================== Read data from file json ===============================
-		with open(path_data, 'r') as fi:
-			data = json.load(fi)
+		# Open file un_map_camp
+		with open(path_data_un_map, 'r') as fi:
+			data_camp = json.load(fi)	
 
-		#============== Load table unmap =================================
-		list_unmap = SelectDetailUnmap(cursor)
+		list_map, list_plan_un, list_map_ = CreateDataMap(data_total)
+		list_un_camp = CreateDataUnMap(data_camp)
+
+		print ('Length data map:', len (list_map))
+		print ('Length plan un:', len (list_plan_un))
+		print ('Length camp un:', len (list_un_camp))
 		
-		#================== Unmap Plan data ==============================
-		iter = 0
-		print ('len un plan: ', len (data['UN_PLAN']))
-		print ('len un camp', len (data['UN_CAMPAIGN']))
-		for plan in data['UN_PLAN']:
-			flag = False
-			if plan['REASON_CODE_ORACLE'] is not None:
-				for value in list_unmap:
-					if str(plan['PRODUCT']) == str(value[2]) \
-					 and str(plan['REASON_CODE_ORACLE']) == str(value[3]) \
-					 and str(plan['FORM_TYPE']) == str(value[4]) \
-					 and str(plan['UNIT_OPTION']) == str(value[5]):
-							flag = True
-				if (flag == False) and (len(plan['CAMPAIGN']) == 0):
-					json_ = ConvertJsonPlan(plan)			
-					InsertDetailUnmap(json_, cursor)
-					iter += 1
-		# print("Unmap plan insert", iter, "rows success!.......")
-
-		#================== Unmap Campaign data ==============================
-		iter = 0
-		# sumCampaign(data['campaign'])
-
-		for camp in data['UN_CAMPAIGN']:
-			flag = False
-			if camp['Campaign ID'] is not None:
-				for value in list_unmap:
-					if str(camp['Date']) == str(value[0]) and str(camp['Campaign ID']) == str(value[1]):		
-						flag = True
-				if (flag == False) and (camp['Plan'] is None):
-					json_ = ConvertJsonCamp(camp)		
-					try:	
-						InsertDetailUnmap(json_, cursor)
-					except UnicodeEncodeError as e:
-						json_['CAMPAIGN_NAME'] = camp['Campaign'].encode('utf-8')
-						InsertDetailUnmap(json_, cursor)
-					iter += 1
-		print("Unmap campaign insert", iter, "rows success!.......")
-
-		# ==================== Commit and close connect ===============================
-		conn.commit()
-		print("Committed!.......")
-		cursor.close()
-
-def ReportDetailMap(path_data, connect):
-	if os.path.exists(path_data):
-	 	# ==================== Connect database =======================
-		conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
-		cursor = conn.cursor()
-
-		#=================== Read data from file json ===============================
-		with open(path_data, 'r') as fi:
-			data = json.load(fi)
-		list_unmap = SelectDetailUnmap(cursor)
-		#================== Data Map ==============================
-		iter = 0
-		i = 0
-		
-		print ('len data map:', len (data['MAP']))
-
-		# for value in data['MAP']:
-		# 	num = 0
-		# 	for val in data['MAP']:
-		# 		if str(value['PRODUCT']) == str(val['PRODUCT']) and str(value['REASON_CODE_ORACLE']) == str(val['REASON_CODE_ORACLE']) and \
-		# 		str(value['FORM_TYPE']) == str(val['FORM_TYPE']) and str(value['UNIT_OPTION']) == str(val['UNIT_OPTION']) and \
-		# 		str(value['Date']) == str(val['Date']) and str(value['Campaign ID']) == str(val['Campaign ID']):
-		# 			num += 1
-		# 	if (num > 1):
-		# 		print('Trung===================================')
-				# print(value['Date'], value['Campaign ID'])
-
-
-		
-		for value in data['MAP']:
-			flag = False
-			list_plan_remove = []	
-			list_camp_remove = []
-			for val in list_unmap:
-				if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
-				str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
-				str(value['Date']) == str(val[0]) and str(value['Campaign ID']) == str(val[1]):
-					flag = True
-						
-				if str(value['PRODUCT']) == str(val[2]) and str(value['REASON_CODE_ORACLE']) == str(val[3]) and \
-				str(value['FORM_TYPE']) == str(val[4]) and str(value['UNIT_OPTION']) == str(val[5]) and \
-				str(value['Date'])[0:-3] == str(val[0]) and (val[1] is None):
-					list_plan_remove.append(value)
-					# print('Delete ===================')
-
-				if (val[3] is None) and \
-				str(value['Date']) == str(val[0]) and str(value['Campaign ID']) == str(val[1]):
-					list_camp_remove.append(value)
-					print('Delete ===================')				
-			
-			if flag == False:				
-				json_ = ConvertJsonMap(value)	
-				try:		
-					InsertDetailUnmap(json_, cursor)
-				except UnicodeEncodeError as e:
-					i = i + 1
-					json_['CAMPAIGN_NAME'] = value['Campaign'].encode('utf-8')
-					InsertDetailUnmap(json_, cursor)
-					# print ("-------------- Erros ------------" + e)
-				iter += 1
-
-			DeleteListPlan(list_plan_remove, connect)
-			DeleteListCamp(list_camp_remove, connect)
-
-
-
-		# print("Map data insert", iter, "rows success!.......")
-		# print("Number erros UnicodeEncodeError", i)
-
-		#==================== Commit and close connect ===============================
-		conn.commit()
-		print("Committed!.......")
-		cursor.close()
-
-
-def InsertDataUnMap(path_data, connect):
-	if os.path.exists(path_data):
-	 	# ==================== Connect database =======================
-		conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
-		cursor = conn.cursor()
-
-		with open(path_data, 'r') as fi:
-			data = json.load(fi)
-		print ('len data UN_CAMPAIGN:', len (data['UN_CAMPAIGN']))
-		
-		for camp in data['UN_CAMPAIGN']:
-			json_ = ConvertJsonCamp(camp)		
-			try:	
-				InsertDetailUnmap(json_, cursor)
-			except UnicodeEncodeError as e:
-				json_['CAMPAIGN_NAME'] = camp['Campaign'].encode('utf-8')
-				InsertDetailUnmap(json_, cursor)
-		print ('len data UN_PLAN:', len (data['UN_PLAN']))
-		for plan in data['UN_PLAN']:
-			json_ = ConvertJsonPlan(plan)			
-			InsertDetailUnmap(json_, cursor)
-
-		conn.commit()
-		print("Committed!.......")
-		cursor.close()
-
-def InsertDataMap(path_data, connect):
-	if os.path.exists(path_data):
-	 	# ==================== Connect database =======================
-		conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
-		cursor = conn.cursor()
 
 		import time
 		start = time.time()
 		statement = 'delete from DTM_GG_PIVOT_DETAIL_UNMAP'
 		cursor.execute(statement)
 		print ("Time delete unmap : ", (time.time() - start))
-
-		with open(path_data, 'r') as fi:
-			data = json.load(fi)	
-		print ('len data map:', len (data['MAP']))
-		
-		for value in data['MAP']:
-			json_ = ConvertJsonMap(value)	
+		start = time.time()
+		for value in list_map:
 			try:		
-				InsertDetailUnmap(json_, cursor)
-			except UnicodeEncodeError as e:
-				i = i + 1
-				json_['CAMPAIGN_NAME'] = value['Campaign'].encode('utf-8')
-				InsertDetailUnmap(json_, cursor)
+				InsertDetailUnmap(value, cursor)
+			except:
+				pass
+
+		for value in list_plan_un:
+			try:		
+				InsertDetailUnmap(value, cursor)
+			except:
+				pass
+		
+		for value in list_un_camp:
+			try:		
+				InsertDetailUnmap(value, cursor)
+			except:
+				pass
+
+		print ("Time insert unmap : ", (time.time() - start))
+
 		conn.commit()
 		print("Committed!.......")
 		cursor.close()
 
 
-def InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date):
+def InsertDataMapToDatabase(path_data, connect, list_plan_insert, list_plan_update, date):
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		#---------- Delete plan and camp ---------------
-	DeleteListPlan(list_plan_remove_unmap, connect)
-	DeleteListCamp(list_camp_remove_unmap, connect)
-
-
-	# ReportDetailMap(path_data_total_map, connect)
-	# ReportDetailUnmap(path_data_total_map, connect)
-	InsertDataUnMap(path_data_total_map, connect)
-	InsertDataMap(path_data_total_map, connect)
+	path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+	InsertDataMap(path_data_total_map, path_data_un_map, connect)
 
 # path_data = 'D:/WorkSpace/Adwords/Finanlly/AdWords/DATA/DATA_MAPPING/mapping_final.json'
 # path_data = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/insert_data_to_oracle/total_mapping1.json'
