@@ -377,6 +377,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
       data_total['UN_CAMP'] = json.load(f)
 
     list_camp_find = []
+    print ("=========================")
     print (len(data_total['UN_CAMP']))
     print (len(list_diff))
     for camp in list_diff:
