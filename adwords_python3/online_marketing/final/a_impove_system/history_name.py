@@ -101,9 +101,9 @@ def AccountFromCampaign(customer, path_data, date):
 							'IMPORT_DATE' : None
 						}
 						data_total['HISTORY'].append(temp)
-			print (date)
-			print (len(data_total['HISTORY']))
-			print ("=================================================")
+			# print (date)
+			# print (len(data_total['HISTORY']))
+			# print ("=================================================")
 			path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
 			with open (path_data_his,'w') as f:
 				json.dump(data_total, f)
