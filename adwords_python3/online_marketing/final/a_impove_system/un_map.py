@@ -225,7 +225,7 @@ def DeleteUnMapPlan(plan, data_total):
 					print (camp)
 					d = datetime.strptime(camp['Date'], '%Y-%m-%d').date()
 					if d >= start and d <= end:
-						plan_total['CAMPAIGN'].remove(camp)
+						# plan_total['CAMPAIGN'].remove(camp)
 						data_total['UN_CAMP'].append(camp)  
 						number += 1
 						# print (number)
