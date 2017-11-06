@@ -336,7 +336,7 @@ def DeleteCamp(value, cursor):
 	where CAMPAIGN_ID = :1 and SNAPSHOT_DATE = :2'
 	
 	value = ConvertJsonCamp(value)
-	cursor.execute(statement, (value['CAMPAIGN_ID'], value['Date']))	
+	cursor.execute(statement, (value['CAMPAIGN_ID'], value['SNAPSHOT_DATE']))	
 	
 	# print("A campaign deleted!.......")
 
