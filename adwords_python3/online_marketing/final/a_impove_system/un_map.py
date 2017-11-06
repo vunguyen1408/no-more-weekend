@@ -218,12 +218,12 @@ def DeleteUnMapPlan(plan, data_total):
 			and str(plan['FORM_TYPE']) == str(plan_total['FORM_TYPE']) \
 			and str(plan['START_DAY']) == str(plan_total['START_DAY']) \
 			and str(plan['END_DAY_ESTIMATE']) == str(plan_total['END_DAY_ESTIMATE']):
-			print (plan_total)
-			print (len(plan_total['CAMPAIGN']))
+			# print (plan_total)
+			# print (len(plan_total['CAMPAIGN']))
 			for camp in plan_total['CAMPAIGN']:
 				if str(plan['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID']) == str(camp['Campaign ID']):
-					print (plan['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID'])
-					print (camp)
+					# print (plan['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID'])
+					# print (camp)
 					d = datetime.strptime(camp['Date'], '%Y-%m-%d').date()
 					if d >= start and d <= end:
 						# plan_total['CAMPAIGN'].remove(camp)
@@ -292,12 +292,12 @@ def UnMapManual(connect, path_data, date):
 			start_time = time.time()
 			for plan in list_plan:
 				data_total, list_camp, list_plan_insert = DeleteUnMapPlan(plan, data_total)
-				print (len(list_camp))
+				# print (len(list_camp))
 				list_plan_insert_un_map.extend(list_plan_insert)
 				list_camp_all_plan.extend(list_camp)
 				# print (len(list_map))
 			print ("Time get in manual 1 : ", (time.time() - start_time))
-
+			print (len(data_total['UN_CAMP']))
 			
 			data_total['TOTAL'] = insert_data.CaculatorForPlan(data_total['TOTAL'])
 
