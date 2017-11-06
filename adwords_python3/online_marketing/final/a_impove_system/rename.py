@@ -423,7 +423,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
     print ("Insert install: ", (time.time() - start))
 
     list_map_all, list_plan_un = detail_map.CreateDataMap(data_map['PLAN'])
-
+    print (list_map_all[0])
     list_plan_remove_unmap = list_plan_remove
     list_camp_need_remove = list_map_all
     list_plan_update = data_total['TOTAL']
