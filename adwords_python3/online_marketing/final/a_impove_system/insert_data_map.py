@@ -334,7 +334,7 @@ def DeleteCamp(value, cursor):
 	statement = 'delete from DTM_GG_PIVOT_DETAIL_UNMAP \
 	where CAMPAIGN_ID = :1 and SNAPSHOT_DATE = :2'
 		
-	cursor.execute(statement, (value['Campaign ID'], value['Date']))	
+	cursor.execute(statement, (value['CAMPAIGN_ID'], value['Date']))	
 	
 	# print("A campaign deleted!.......")
 
