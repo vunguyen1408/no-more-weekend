@@ -67,7 +67,8 @@ def ReadTableManualMap(connect, path_data, date):
 	statement = "select PRODUCT, REASON_CODE_ORACLE, \
 					EFORM_TYPE, UNIT_OPTION, \
 					USER_NAME, ACCOUNT_ID, CAMPAIGN_ID, \
-					TO_CHAR(START_DATE, 'YYYY-MM-DD'), TO_CHAR(END_DATE, 'YYYY-MM-DD') from ODS_CAMP_FA_MAPPING_GG"
+					TO_CHAR(START_DATE, 'YYYY-MM-DD'), TO_CHAR(END_DATE, 'YYYY-MM-DD') from ODS_CAMP_FA_MAPPING_GG \
+					where TYPE = 1"
 	cursor.execute(statement)
 	log_manual = cursor.fetchall()
 
