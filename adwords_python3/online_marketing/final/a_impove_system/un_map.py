@@ -215,6 +215,7 @@ def DeleteUnMapPlan(plan, data_total):
 			and str(plan['FORM_TYPE']) == str(plan_total['FORM_TYPE']) \
 			and str(plan['START_DAY']) == str(plan_total['START_DAY']) \
 			and str(plan['END_DAY_ESTIMATE']) == str(plan_total['END_DAY_ESTIMATE']):
+			print (plan_total)
 			for camp in plan_total['CAMPAIGN']:
 				if str(plan['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID']) == str(camp['Campaign ID']):
 					d = datetime.strptime(camp['Date'], '%Y-%m-%d').date()
