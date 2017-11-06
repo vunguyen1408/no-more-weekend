@@ -108,7 +108,7 @@ def DownloadNameOfAccount(adwords_client, customerId, date, to_date, path_log):
             'ACCOUNT_ID' : customerId
           }
       list_name.append(camp)
-  print(len(list_name))
+  # print(len(list_name))
   return list_name
 
 def GetListCampOfAccount(list_customer, date, to_date):
@@ -391,7 +391,8 @@ def CacualatorChange(connect, path_data, list_diff, date):
           temp = campaign
           campaign['Campaign'] = camp['CAMPAIGN_NAME']
           temp['Campaign'] = camp['CAMPAIGN_NAME']
-          list_camp_find.append(temp)
+          if int(campaign['Date'][5:-3]) != 10:
+            list_camp_find.append(temp)
 
     list_camp_update = list_camp_find # Update name
 
