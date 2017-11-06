@@ -201,34 +201,30 @@ def ChooseTimeManualMap(plan):
 	return (start, end)
 
 #-------- Vào data unmap sum các camp cho một plan ----------
-def GetCampaignUnMapForPlan(plan, data_total):
-	import time
-	# start_time = time.time()
-	# # with open (path_data_total_map,'r') as f:
-	# # 	data_total = json.load(f)
-	# print ("Time load file : ", (time.time() - start_time))
+def DeleteUnMapPlan(plan, data_total):
 
 	list_campaign = data_total['UN_CAMP']
-	start, end = ChooseTimeManualMap(plan)
-	# print (start)
-	# print (end)
-	list_map = []
-	plan['CAMPAIGN'] = []
-	list_camp_need_remove = []
-	# print (len(list_campaign))
-	for camp in list_campaign:
-		d = datetime.strptime(camp['Date'], '%Y-%m-%d').date()
-		if str(plan['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID']) == str(camp['Campaign ID']) \
-		and d >= start and d <= end:
-			# --------- Data map ----------
-			z = camp.copy()
-			z.update(plan)
-			list_map.append(z)
-			# list_map.append(camp)
+	start = datetime.strptime(plan['CAMPAIGN_MANUAL_MAP'][0]['START_DATE_MANUAL_MAP'], '%Y-%m-%d').date()
+	end = datetime.strptime(plan['CAMPAIGN_MANUAL_MAP'][0]['END_DATE_MANUAL_MAP'], '%Y-%m-%d').date()
 
-			campaign = camp.copy()
-			plan['CAMPAIGN'].append(campaign)
-	return (plan, list_map)
+	list_camp_map_need_remove = []
+	# print (len(list_campaign))
+	for plan_total in data_total['TOTAL']:
+		if str(plan['PRODUCT_CODE']) == str(plan_total['PRODUCT_CODE']) \
+			and str(plan['REASON_CODE_ORACLE']) == str(plan_total['REASON_CODE_ORACLE']) \
+			and str(plan['FORM_TYPE']) == str(plan_total['FORM_TYPE']) \
+			and str(plan['START_DAY']) == str(plan_total['START_DAY']) \
+			and str(plan['END_DAY_ESTIMATE']) == str(plan_total['END_DAY_ESTIMATE']):
+			for camp in plan_total['CAMPAIGN']:
+				if str(plan['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID']) == str(camp['Campaign ID']):
+					d = datetime.strptime(camp['Date'], '%Y-%m-%d').date()
+					if d >= start and d <= end:
+						plan_total['CAMPAIGN'].remove(camp)
+						data_total['UN_CAMP'].append(camp)  
+
+						list_camp_map_need_remove.append(camp)
+
+	return (data_total, list_camp_map_need_remove)
 
 
 def UnMapManual(connect, path_data, date):
@@ -271,25 +267,18 @@ def UnMapManual(connect, path_data, date):
 		is_un_map = True
 		list_plan = ReadTableManualMap(connect, path_data, date, is_un_map)
 		print (list_plan)
-		# if len(list_plan) > 0:
+		if len(list_plan) > 0:
 
-		# 	list_camp_all_plan = []
-		# 	list_plan_remove_unmap = []
-		# 	import time
-		# 	start_time = time.time()
-		# 	for plan in list_plan:
-		# 		plan, list_camp = GetCampaignUnMapForPlan(plan, data_total)
+			list_camp_all_plan = []
+			list_plan_remove_unmap = []
+			import time
+			start_time = time.time()
+			for plan in list_plan:
+				data_total, list_camp = DeleteUnMapPlan(plan, data_total)
 
-		# 		list_camp_all_plan.extend(list_camp)
-		# 		# print (len(list_map))
-		# 	print ("Time get in manual 1 : ", (time.time() - start_time))
-		# 	#----------- Remove unmap ---------------------
-		# 	for camp in list_map_all:
-		# 		for campaign in data_total['UN_CAMP']:
-		# 			if camp['Campaign ID'] == campaign['Campaign ID'] \
-		# 				and camp['Date'] == campaign['Date']:
-		# 				data_total['UN_CAMP'].remove(campaign)
-
+				list_camp_all_plan.extend(list_camp)
+				# print (len(list_map))
+			print ("Time get in manual 1 : ", (time.time() - start_time))
 
 			
 
