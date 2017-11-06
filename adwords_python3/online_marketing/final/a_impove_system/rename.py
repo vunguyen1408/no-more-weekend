@@ -223,7 +223,7 @@ def Map(path_folder, list_plan, list_campaign, date):
   # print(len(list_campaign))
   for j, camp in enumerate(list_campaign):
     t = False
-    print ("==========================================")
+    # print ("==========================================")
     camp['Advertising Channel'] = mapping.ChangeCampaignType(camp['Advertising Channel'])
     if 'Plan' not in camp:
       camp['Plan'] = None
