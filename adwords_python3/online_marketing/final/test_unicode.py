@@ -415,51 +415,62 @@ path = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_03_10/2017-09-30/DAT
 # print ("DONE")
 
 
-def insert(value, cursor):
-	statement = 'insert into ODS_CAMP_FA_MAPPING_GG (ACCOUNT_ID, CAMPAIGN_ID, START_DATE, END_DATE, EFORM_TYPE, \
-	UNIT_OPTION, PRODUCT, REASON_CODE_ORACLE, USER_NAME, STATUS, CAMPAIGN_NAME) \
-	values (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11)'
+# def insert(value, cursor):
+# 	statement = 'insert into ODS_CAMP_FA_MAPPING_GG (ACCOUNT_ID, CAMPAIGN_ID, START_DATE, END_DATE, EFORM_TYPE, \
+# 	UNIT_OPTION, PRODUCT, REASON_CODE_ORACLE, USER_NAME, STATUS, CAMPAIGN_NAME) \
+# 	values (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11)'
 
-	cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID'], datetime.strptime( value['START_DATE'], '%Y-%m-%d'),\
-		datetime.strptime(value['END_DATE'], '%Y-%m-%d'), value['FORM_TYPE'], \
-		value['UNIT_OPTION'], value['PRODUCT'], value['REASON_CODE_ORACLE'], value['USER_NAME'], 'USER', \
-		value['CAMPAIGN_NAME']))
+# 	cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID'], datetime.strptime( value['START_DATE'], '%Y-%m-%d'),\
+# 		datetime.strptime(value['END_DATE'], '%Y-%m-%d'), value['FORM_TYPE'], \
+# 		value['UNIT_OPTION'], value['PRODUCT'], value['REASON_CODE_ORACLE'], value['USER_NAME'], 'USER', \
+# 		value['CAMPAIGN_NAME']))
 
 
 
-path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-09-30/LOG_MANUAL/log_manual.json'
-with open(path_total, 'r') as fi:
-	data_total = json.load(fi)
+# path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-09-30/LOG_MANUAL/log_manual.json'
+# with open(path_total, 'r') as fi:
+# 	data_total = json.load(fi)
 
-with open(path, 'r') as fi:
-	data = json.load(fi)
+# with open(path, 'r') as fi:
+# 	data = json.load(fi)
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
-conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
+# conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
+# cursor = conn.cursor()
+# number = 0
+# print (len(data['HISTORY']))
+
+# for log in data_total['LOG']:
+# 	if log['REASON_CODE_ORACLE'] == '1705028':
+# 		flag = False
+# 		for camp in data['HISTORY']:
+# 			if log['CAMPAIGN_ID'] == camp['CAMPAIGN_ID']:
+# 				# print ("Gasn")
+# 				log['CAMPAIGN_NAME'] = camp['CAMPAIGN_NAME']
+# 				flag = True
+# 		if not flag:
+# 			log['CAMPAIGN_NAME'] = None
+# 		print (log)
+# 		insert(log, cursor)
+# 		# break
+# 		number += 1
+# print (number)
+# conn.commit()
+
+
+
+
+conn = cx_Oracle.connect(connect)
 cursor = conn.cursor()
-number = 0
-print (len(data['HISTORY']))
 
-for log in data_total['LOG']:
-	if log['REASON_CODE_ORACLE'] == '1705028':
-		flag = False
-		for camp in data['HISTORY']:
-			if log['CAMPAIGN_ID'] == camp['CAMPAIGN_ID']:
-				# print ("Gasn")
-				log['CAMPAIGN_NAME'] = camp['CAMPAIGN_NAME']
-				flag = True
-		if not flag:
-			log['CAMPAIGN_NAME'] = None
-		print (log)
-		insert(log, cursor)
-		# break
-		number += 1
-print (number)
-conn.commit()
-
-
-
-
+statement = "select PRODUCT, REASON_CODE_ORACLE, \
+				EFORM_TYPE, UNIT_OPTION, \
+				USER_NAME, ACCOUNT_ID, CAMPAIGN_ID, \
+				TO_CHAR(START_DATE, 'YYYY-MM-DD'), TO_CHAR(END_DATE, 'YYYY-MM-DD') from ODS_CAMP_FA_MAPPING_GG \
+				where TYPE = '2'"
+cursor.execute(statement)
+log_manual = cursor.fetchall()
+print (log_manual)
 
 
 
