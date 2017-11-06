@@ -409,6 +409,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
     data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
 
     data_total, list_plan_insert, list_plan_remove = insert_to_total.AddToTotal (data_total, data_map, date)
+    print (len(list_plan_remove))
 
     data_total['TOTAL'] = insert_to_total.CaculatorForPlan(data_total['TOTAL'])
 
