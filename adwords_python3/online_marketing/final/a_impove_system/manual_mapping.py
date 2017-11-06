@@ -316,13 +316,13 @@ def ManualMap(connect, path_data, date):
 			list_camp_remove_unmap = list_map_all
 			list_plan_update = data_total['TOTAL']
 
-			# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-			# with open (path_data_total_map,'w') as f:
-			# 	json.dump(data_total['TOTAL'], f)
+			path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			with open (path_data_total_map,'w') as f:
+				json.dump(data_total['TOTAL'], f)
 
-			# path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
-			# with open (path_data_un_map,'w') as f:
-			# 	json.dump(data_total['UN_CAMP'], f)
+			path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+			with open (path_data_un_map,'w') as f:
+				json.dump(data_total['UN_CAMP'], f)
 
 			print (len(data_total['UN_CAMP']))
 			print (len(list_map_all))
