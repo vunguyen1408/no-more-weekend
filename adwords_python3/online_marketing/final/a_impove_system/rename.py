@@ -336,7 +336,7 @@ def Map(path_folder, list_plan, list_campaign, date):
   data_map['UN_CAMP'] = list_un_campaign
   data_map['PLAN'] = list_plan
   print(" -------------- Mapping------ ", number)
-  print(" -------------- Un mapping------ ", len(list_campaign_map) - number)
+  print(" -------------- Un mapping------ ", len(list_un_campaign))
   return data_map
 
 def CacualatorChange(connect, path_data, list_diff, date):
@@ -408,7 +408,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
 
     data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
 
-    data_total, list_plan_insert, list_plan_remove = insert_data.AddToTotal (data_total, data_map, date)
+    data_total, list_plan_insert, list_plan_remove = insert_to_total.AddToTotal (data_total, data_map, date)
 
     data_total['TOTAL'] = insert_to_total.CaculatorForPlan(data_total['TOTAL'])
 
