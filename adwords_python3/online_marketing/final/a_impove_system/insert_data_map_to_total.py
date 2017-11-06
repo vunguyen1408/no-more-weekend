@@ -647,7 +647,7 @@ def AddToTotal (data_total, data_date, date):
 			# Plan nay, neu unmap (list campaign == 0) se insert vao trong plan un, con neu map se insert vao total.
 			list_plan_insert.append(plan_date)
 
-	print (len(list_plan_remove))
+	# print (len(list_plan_remove))
 	return (data_total, list_plan_insert, list_plan_remove)
 
 def GetListMapOnDate(data_date):
