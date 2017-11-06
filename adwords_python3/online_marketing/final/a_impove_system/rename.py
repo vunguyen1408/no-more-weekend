@@ -377,7 +377,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
     list_camp_find = []
     print (len(list_diff))
     for camp in list_diff:
-      # print(camp)
+      print(camp)
       for campaign in data_total['UN_CAMP']:
         if str(camp['CAMPAIGN_ID']) == str(campaign['Campaign ID']):    
           temp = campaign
