@@ -43,9 +43,10 @@ def ParseLogManualToJson(log):
 	}
 	return temp
 
-def ReadTableManualMap(connect, path_data, date):
+def ReadTableManualMap(connect, path_data, date, is_un_map):
 	path_folder = os.path.join(path_data, str(date) + '/LOG_MANUAL')
-	path_data_total_map = os.path.join(path_folder, 'log_manual.json')
+	if is_un_map == True:
+		path_data_total_map = os.path.join(path_folder, 'log_un_map.json')
 	if not os.path.exists(path_folder):
 		os.makedirs(path_folder)
 
@@ -67,7 +68,8 @@ def ReadTableManualMap(connect, path_data, date):
 	statement = "select PRODUCT, REASON_CODE_ORACLE, \
 					EFORM_TYPE, UNIT_OPTION, \
 					USER_NAME, ACCOUNT_ID, CAMPAIGN_ID, \
-					TO_CHAR(START_DATE, 'YYYY-MM-DD'), TO_CHAR(END_DATE, 'YYYY-MM-DD') from ODS_CAMP_FA_MAPPING_GG"
+					TO_CHAR(START_DATE, 'YYYY-MM-DD'), TO_CHAR(END_DATE, 'YYYY-MM-DD') from ODS_CAMP_FA_MAPPING_GG \
+					where TYPE = 2"
 	cursor.execute(statement)
 	log_manual = cursor.fetchall()
 
