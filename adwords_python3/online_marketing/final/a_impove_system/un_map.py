@@ -309,9 +309,9 @@ def UnMapManual(connect, path_data, date):
 
 			print (len(list_camp_all_plan))
 			print (len(list_plan_insert))
-			for plan_total in data_total['TOTAL']:
-				if str(plan_total['REASON_CODE_ORACLE']) == '1708008':
-					print (plan_total)
+			# for plan_total in data_total['TOTAL']:
+			# 	if str(plan_total['REASON_CODE_ORACLE']) == '1708008':
+			# 		print (plan_total)
 
 			list_camp_remove_unmap = list_camp_all_plan
 			list_plan_update = data_total['TOTAL']
