@@ -331,9 +331,11 @@ def DeletePlan(value, cursor):
 
 def DeleteCamp(value, cursor):
 	#==================== Remove campaign from database =============================
+
 	statement = 'delete from DTM_GG_PIVOT_DETAIL_UNMAP \
 	where CAMPAIGN_ID = :1 and SNAPSHOT_DATE = :2'
-		
+	
+	value = ConvertJsonCamp(value)
 	cursor.execute(statement, (value['CAMPAIGN_ID'], value['Date']))	
 	
 	# print("A campaign deleted!.......")
