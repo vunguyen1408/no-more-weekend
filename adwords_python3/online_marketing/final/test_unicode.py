@@ -451,7 +451,7 @@ for log in data_total['LOG']:
 		if not flag:
 			log['CAMPAIGN_NAME'] = None
 		print (log)
-		# insert(log, cursor)
+		insert(log, cursor)
 		# break
 		number += 1
 print (number)
