@@ -302,6 +302,12 @@ def ManualMap(connect, path_data, date):
 
 			data_total['TOTAL'] = insert_data.CaculatorForPlan(data_total['TOTAL'])
 
+			import time
+			start = time.time()
+			data_total['TOTAL'] = insert_install.InsertInstallToPlan(data_total['TOTAL'], connect, date)
+			data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
+			print ("Insert install: ", (time.time() - start))
+
 			# for plan_total in data_total['TOTAL']:
 			# 	if str(plan_total['REASON_CODE_ORACLE']) == '1708007':
 			# 		print (plan_total)
