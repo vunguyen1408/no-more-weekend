@@ -426,6 +426,7 @@ def insert(value, cursor):
 		value['CAMPAIGN_NAME']))
 
 
+
 path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-09-30/LOG_MANUAL/log_manual.json'
 with open(path_total, 'r') as fi:
 	data_total = json.load(fi)
@@ -452,6 +453,7 @@ for log in data_total['LOG']:
 		break
 		number += 1
 print (number)
+conn.commit()
 
 
 
