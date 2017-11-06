@@ -59,7 +59,7 @@ def Daily(connect, path_data, date, list_customer_id):
 	# print ("Time : ", time.time() - start)
 
 
-	history_name.InsertHistoryName(connect, path_data, list_customer_id, date)
+	# history_name.InsertHistoryName(connect, path_data, list_customer_id, date)
 
 	# =============================== Update to database =========================================
 	print ("\n\n============= RUN INSERT DATA TO DATABASE WITH DATE : " + date + " =================")
