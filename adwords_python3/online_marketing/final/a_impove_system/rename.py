@@ -325,12 +325,14 @@ def Map(path_folder, list_plan, list_campaign, date):
               
               eform['CAMPAIGN'].append(campaign)
               number += 1
-
+  number = 0
   list_un_campaign = []
   for camp in list_campaign_map:
     if camp['Mapping'] == False:
       camp['STATUS'] = ""
       list_un_campaign.append(mapping.ConvertCampaignToJsonContent(camp))
+    else:
+      number += 1
 
   data_map = {}
   data_map['UN_CAMP'] = list_un_campaign
