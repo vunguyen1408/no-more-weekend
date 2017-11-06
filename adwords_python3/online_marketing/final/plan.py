@@ -506,8 +506,8 @@ def NewPlan(path_data, date, list_plan, data_total):
 
 def GetPlanModified(connect, path_data):
 	#====================== Get old plan in python ==========================
-	# path_plan = os.path.join(path_data + '/' + str(date) + '/PLAN/plan.json')
-	path_plan = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA/2017-09-30/PLAN/plan.json'
+	path_plan = os.path.join(path_data + '/' + str(date) + '/PLAN/plan.json')
+	# path_plan = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA/2017-09-30/PLAN/plan.json'
 	with open(path_plan, 'r') as fi:
 		data = json.load(fi)
 	list_plan =  data['plan'].copy()
@@ -1114,7 +1114,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	# =============== Get plan change =====================	
 	# fi = open(path_log, 'r')
 	# final_log = fi.read()
-	final_log = '10/31/2017 16:29:00'
+	final_log = '11/06/2017 03:46:00'
 	print(final_log)
 
 	list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
@@ -1137,8 +1137,8 @@ def ClassifyPlan(connect, path_data, date, path_log):
 			# print('new')
 		else:
 			# ========= Finally plan from data ==============
-			# file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
-			file_plan = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA/2017-09-30/PLAN/plan.json'
+			file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
+			# file_plan = '/u01/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA/2017-09-30/PLAN/plan.json'
 			with open(file_plan, 'r') as fi:
 				list_plan = json.load(fi)
 		
@@ -1299,7 +1299,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
-date = '2017-09-30' 
+date = '2017-10-31' 
 # date = '2017-03-01' 
 path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
 
