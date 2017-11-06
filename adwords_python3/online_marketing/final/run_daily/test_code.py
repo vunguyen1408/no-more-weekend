@@ -1189,11 +1189,11 @@ def ClassifyPlan(connect, path_data, date, path_log):
 			data_total['UN_CAMPAIGN'] = json.load(f)
 		print('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
 
-		path_plan = os.path.join(path_data + '/' + str(date) + '/PLAN', 'plan' + '.json')
-		print(path_plan)
-		with open (path_plan,'r') as f:
-			data_plan = json.load(f)
-		print('PLAN: ', len(data_plan['plan']))
+	path_plan = os.path.join(path_data + '/' + str(date) + '/PLAN', 'plan' + '.json')
+	print(path_plan)
+	with open (path_plan,'r') as f:
+		data_plan = json.load(f)
+	print('PLAN: ', len(data_plan['plan']))
 
 	# #============ Case 0: Release camp in list change real date ===============
 	# 	if (len(list_plan_change_real_date) > 0):
