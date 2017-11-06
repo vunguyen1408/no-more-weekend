@@ -270,24 +270,17 @@ def UnMapManual(connect, path_data, date):
 
 		is_un_map = True
 		list_plan = ReadTableManualMap(connect, path_data, date, is_un_map)
-		print (len(list_plan))
+		print (list_plan)
 		# if len(list_plan) > 0:
 
-		# 	list_map_all = []
+		# 	list_camp_all_plan = []
 		# 	list_plan_remove_unmap = []
-		# 	# print (len(data_total['UN_CAMPAIGN']))
-
-		# 	# for plan_total in list_plan:
-		# 	# 	if str(plan_total['REASON_CODE_ORACLE']) == '1708007':
-		# 	# 		print (plan_total)
-
-
 		# 	import time
 		# 	start_time = time.time()
 		# 	for plan in list_plan:
-		# 		plan, list_map = GetCampaignUnMapForPlan(plan, data_total)
+		# 		plan, list_camp = GetCampaignUnMapForPlan(plan, data_total)
 
-		# 		list_map_all.extend(list_map)
+		# 		list_camp_all_plan.extend(list_camp)
 		# 		# print (len(list_map))
 		# 	print ("Time get in manual 1 : ", (time.time() - start_time))
 		# 	#----------- Remove unmap ---------------------
