@@ -316,13 +316,13 @@ def UnMapManual(connect, path_data, date):
 			list_camp_remove_unmap = list_camp_all_plan
 			list_plan_update = data_total['TOTAL']
 
-		# 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		# 	with open (path_data_total_map,'w') as f:
-		# 		json.dump(data_total['TOTAL'], f)
+			# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			# with open (path_data_total_map,'w') as f:
+			# 	json.dump(data_total['TOTAL'], f)
 
-		# 	path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
-		# 	with open (path_data_un_map,'w') as f:
-		# 		json.dump(data_total['UN_CAMP'], f)
+			# path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+			# with open (path_data_un_map,'w') as f:
+			# 	json.dump(data_total['UN_CAMP'], f)
 
 			print (len(data_total['UN_CAMP']))
 			print (len(list_plan_insert_un_map))
@@ -336,4 +336,4 @@ date = '2017-10-31'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 
-UnMapManual(connect, path_data, date)
+# UnMapManual(connect, path_data, date)
