@@ -612,7 +612,7 @@ list_customer_id = [
 
 date = '2017-01-01'
 to_date = '2017-09-30'
-# GetListCampOfAccount(list_customer_id, date, to_date)
+GetListCampOfAccount(list_customer_id, date, to_date)
 
 # path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
 
