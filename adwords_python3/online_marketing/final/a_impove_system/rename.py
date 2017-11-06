@@ -223,6 +223,7 @@ def Map(path_folder, list_plan, list_campaign, date):
   # print(len(list_campaign))
   for j, camp in enumerate(list_campaign):
     t = False
+    print ("==========================================")
     camp['Advertising Channel'] = mapping.ChangeCampaignType(camp['Advertising Channel'])
     if 'Plan' not in camp:
       camp['Plan'] = None
@@ -411,6 +412,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
     import time
 
     # print (list_camp_find[0])
+    print("MAP")
     start = time.time()
     data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
     print ("Mapping: ", (time.time() - start))
