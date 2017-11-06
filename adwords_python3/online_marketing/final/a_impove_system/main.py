@@ -14,6 +14,7 @@ import insert_data_map_to_total as insert_to_total
 
 import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
 import insert_install as insert_install
+import history_name as history_name
 
 import insert_monthly_detail as insert_monthly_detail
 import insert_monthly_sum as insert_monthly_sum
@@ -57,6 +58,8 @@ def Daily(connect, path_data, date, list_customer_id):
 	# insert_install_brandingGPS.AddBrandingGPS(path_data, connect, date)
 	# print ("Time : ", time.time() - start)
 
+
+	history_name.InsertHistoryName(connect, path_data, list_customer_id, date)
 
 	# # =============================== Update to database =========================================
 	# print ("\n\n============= RUN INSERT DATA TO DATABASE WITH DATE : " + date + " =================")
