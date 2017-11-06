@@ -422,7 +422,7 @@ def insert(value, cursor):
 
 	cursor.execute(statement, (value['ACCOUNT_ID'], value['CAMPAIGN_ID'], datetime.strptime( value['START_DATE'], '%Y-%m-%d'),\
 		datetime.strptime(value['END_DATE'], '%Y-%m-%d'), value['FORM_TYPE'], \
-		value['UNIT_OPTION'], value['PRODUCT'], value['REASON_CODE_ORACLE'], value['USER_NAME'], value['STATUS'], \
+		value['UNIT_OPTION'], value['PRODUCT'], value['REASON_CODE_ORACLE'], value['USER_NAME'], 'USER', \
 		value['CAMPAIGN_NAME']))
 
 
