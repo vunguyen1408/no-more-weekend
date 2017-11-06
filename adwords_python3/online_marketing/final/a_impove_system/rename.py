@@ -375,7 +375,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
       data_total['UN_CAMP'] = json.load(f)
 
     list_camp_find = []
-
+    print (len(list_diff))
     for camp in list_diff:
       # print(camp)
       for campaign in data_total['UN_CAMP']:
@@ -410,7 +410,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
 
     data_total, list_plan_insert, list_plan_remove = insert_data.AddToTotal (data_total, data_map, date)
 
-    data_total['TOTAL'] = insert_data.CaculatorForPlan(data_total['TOTAL'])
+    data_total['TOTAL'] = insert_to_total.CaculatorForPlan(data_total['TOTAL'])
 
     import time
     start = time.time()
