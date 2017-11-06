@@ -220,7 +220,7 @@ def GetCampaignUnMapForPlan(plan, data_total):
 			z = camp.copy()
 			z.update(plan)
 			list_map.append(z)
-			list_map.append(camp)
+			# list_map.append(camp)
 
 			campaign = camp.copy()
 			plan['CAMPAIGN'].append(campaign)
