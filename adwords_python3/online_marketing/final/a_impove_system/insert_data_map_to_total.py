@@ -617,8 +617,8 @@ def AddToTotal (data_total, data_date, date):
 	for plan_date in data_date['PLAN']:
 		flag = False
 		for plan in data_total['TOTAL']:
-			print (plan)
-			print (plan_date)
+			# print (plan)
+			# print (plan_date)
 			if plan['PRODUCT_CODE'] == plan_date['PRODUCT_CODE'] \
 				and plan['REASON_CODE_ORACLE'] == plan_date['REASON_CODE_ORACLE'] \
 				and plan['FORM_TYPE'] == plan_date['FORM_TYPE'] \
