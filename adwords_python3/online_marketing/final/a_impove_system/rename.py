@@ -422,10 +422,10 @@ def CacualatorChange(connect, path_data, list_diff, date):
     data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
     print ("Insert install: ", (time.time() - start))
 
-    list_map_all, list_plan_un = detail_map.CreateDataMap(data_map['PLAN'])
-    print (list_map_all[0])
+    list_map_all, list_plan_un, list_map_ = detail_map.CreateDataMap(data_map['PLAN'])
+    print (list_map_[0])
     list_plan_remove_unmap = list_plan_remove
-    list_camp_need_remove = list_map_all
+    list_camp_need_remove = list_map_
     list_plan_update = data_total['TOTAL']
 
     print("camp update", len(list_camp_update))

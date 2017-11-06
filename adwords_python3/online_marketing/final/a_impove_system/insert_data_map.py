@@ -382,19 +382,21 @@ def DeleteListCamp(list_camp_remove, connect):
 def CreateDataMap(data_total):
 	list_map = []
 	list_plan_un = []
+	list_map_ = []
 	for plan in data_total:
 		if len(plan['CAMPAIGN']) > 0:
 			for camp in plan['CAMPAIGN']:
 				z = camp.copy()
 				z.update(plan)
 				# print (z)
+				list_map_.append(z)
 				json_ = ConvertJsonMap(z)
 				list_map.append(json_)
 		else:
 			json_ = ConvertJsonPlan(plan)
 			list_plan_un.append(json_)
 
-	return (list_map, list_plan_un)
+	return (list_map, list_plan_un, list_map_)
 
 def CreateDataUnMap(data_camp):
 	list_un_camp = []
@@ -418,7 +420,7 @@ def InsertDataMap(path_data_total_map, path_data_un_map, connect):
 		with open(path_data_un_map, 'r') as fi:
 			data_camp = json.load(fi)	
 
-		list_map, list_plan_un = CreateDataMap(data_total)
+		list_map, list_plan_un, list_map_ = CreateDataMap(data_total)
 		list_un_camp = CreateDataUnMap(data_camp)
 
 		print ('Length data map:', len (list_map))
