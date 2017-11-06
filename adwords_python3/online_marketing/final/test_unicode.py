@@ -444,6 +444,7 @@ for log in data_total['LOG']:
 				log['CAMPAIGN_NAME'] = camp['CAMPAIGN_NAME']
 			else:
 				log['CAMPAIGN_NAME'] = None
+		print (log)
 		insert(log, cursor)
 		break
 		number += 1
