@@ -177,6 +177,7 @@ def CheckNameChange(path_data, list_customer, date):
 
     temp_ = []
     for camp_ in list_camp:
+      if str(camp_['CAMPAIGN_ID']) == '794232395'
       flag = history_name.FindNameNew(data_total['HISTORY'], str(camp_['CAMPAIGN_ID']), camp_['CAMPAIGN_NAME'])
       if flag == -1:
         list_diff.append(camp_)
