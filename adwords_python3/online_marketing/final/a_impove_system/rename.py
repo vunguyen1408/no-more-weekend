@@ -203,8 +203,8 @@ def CheckNameChange(path_data, list_customer, date):
 
     path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
     ###########################################
-    # with open (path_data_his,'w') as f:
-    #   json.dump(data_total, f)
+    with open (path_data_his,'w') as f:
+      json.dump(data_total, f)
     ############################################
   print("====================== Length =================")
   return (list_diff, data_total)
@@ -220,7 +220,7 @@ def Map(path_folder, list_plan, list_campaign, date):
   #   if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
   #     list_campaign_map.append(camp)
 
-  print(len(list_campaign))
+  # print(len(list_campaign))
   for j, camp in enumerate(list_campaign):
     t = False
     camp['Advertising Channel'] = mapping.ChangeCampaignType(camp['Advertising Channel'])
@@ -376,11 +376,11 @@ def CacualatorChange(connect, path_data, list_diff, date):
       data_total['UN_CAMP'] = json.load(f)
 
     list_camp_find = []
-    print ("=========================")
-    print (len(data_total['UN_CAMP']))
-    print (len(list_diff))
+    # print ("=========================")
+    # print (len(data_total['UN_CAMP']))
+    # print (len(list_diff))
     for camp in list_diff:
-      print(camp)
+      # print(camp)
       for campaign in data_total['UN_CAMP']:
         if str(camp['CAMPAIGN_ID']) == str(campaign['Campaign ID']):    
           temp = campaign
@@ -423,7 +423,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
     print ("Insert install: ", (time.time() - start))
 
     list_map_all, list_plan_un, list_map_ = detail_map.CreateDataMap(data_map['PLAN'])
-    print (list_map_[0])
+    # print (list_map_[0])
     list_plan_remove_unmap = list_plan_remove
     list_camp_need_remove = list_map_
     list_plan_update = data_total['TOTAL']
@@ -432,7 +432,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
     print("plan update", len(list_plan_update))
     print("plan remove", len(list_plan_remove_unmap))
     print("camp remove", len(list_camp_need_remove))
-    print (list_camp_need_remove[0])
+    # print (list_camp_need_remove[0])
 
     ###########################################
     path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
