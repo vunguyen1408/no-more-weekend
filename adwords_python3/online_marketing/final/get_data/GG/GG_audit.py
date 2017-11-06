@@ -97,30 +97,30 @@ def DownloadAdsOfAdGroup(adwords_client, customerId, startDate, endDate):
 
 						# Metric
 						'Clicks',
-						'InvalidClicks',
+						# 'InvalidClicks',
 						'Conversions',
 						'Engagements',
 						'Impressions',
 						
-						'Interactions',
-						'InteractionTypes',						
-						'InteractionRate',
+						# 'Interactions',
+						# 'InteractionTypes',						
+						# 'InteractionRate',
 
 						'VideoViews',
-						'VideoViewRate',
-						'VideoQuartile25Rate',
-						'VideoQuartile50Rate',
-						'VideoQuartile75Rate',
-						'VideoQuartile100Rate',
+						# 'VideoViewRate',
+						# 'VideoQuartile25Rate',
+						# 'VideoQuartile50Rate',
+						# 'VideoQuartile75Rate',
+						# 'VideoQuartile100Rate',
 
 						'Cost',
-						'Ctr',
-						'AverageCpc',
-						'AverageCpm',
-						'AverageCpe',
-						'AverageCpv',
-						'AverageCost',					
-						'AveragePosition'
+						# 'Ctr',
+						# 'AverageCpc',
+						# 'AverageCpm',
+						# 'AverageCpe',
+						# 'AverageCpv',
+						# 'AverageCost',					
+						# 'AveragePosition',
 
 				]
 			}
