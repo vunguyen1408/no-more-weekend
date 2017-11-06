@@ -438,6 +438,8 @@ conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 cursor = conn.cursor()
 number = 0
 print (len(data['HISTORY']))
+print (len(data['LOG']))
+
 for log in data_total['LOG']:
 	if log['REASON_CODE_ORACLE'] == '1705028':
 		for camp in data['HISTORY']:
