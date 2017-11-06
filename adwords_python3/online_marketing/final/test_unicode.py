@@ -437,6 +437,7 @@ connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 cursor = conn.cursor()
 number = 0
+print (len(data['HISTORY']))
 for log in data_total['LOG']:
 	if log['REASON_CODE_ORACLE'] == '1705028':
 		for camp in data['HISTORY']:
