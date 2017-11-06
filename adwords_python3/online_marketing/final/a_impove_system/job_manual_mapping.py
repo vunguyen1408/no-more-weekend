@@ -41,7 +41,7 @@ def ManualMapping (connect, path_data, date):
 		
 
 
-date = '2017-08-31'
+date = '2017-10-31'
 # path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
