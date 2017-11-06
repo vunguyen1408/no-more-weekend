@@ -295,13 +295,7 @@ def UnMapManual(connect, path_data, date):
 			print ("Time get in manual 1 : ", (time.time() - start_time))
 
 			
-
-		# 	data_date = {}
-		# 	data_date['PLAN'] = list_plan
-		# 	start_time = time.time()
-		# 	data_total, list_plan_insert, list_plan_remove = insert_data.AddToTotal (data_total, data_date, date)
-		# 	print ("Add total : ", (time.time() - start_time))
-		# 	data_total['TOTAL'] = insert_data.CaculatorForPlan(data_total['TOTAL'])
+			data_total['TOTAL'] = insert_data.CaculatorForPlan(data_total['TOTAL'])
 
 		# 	import time
 		# 	start = time.time()
