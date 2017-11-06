@@ -56,7 +56,8 @@ def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_c
 	# =========== List data manual map ==================
 	print ("Length map : ", len(list_map))
 	if  (len(list_map) > 0):
-		for value in list_map:					
+		for value in list_map:	
+			print (list_map)				
 			json_ = detail_map.ConvertJsonMap(value)	
 			try:		
 				detail_map.InsertDetailUnmap(json_, cursor)

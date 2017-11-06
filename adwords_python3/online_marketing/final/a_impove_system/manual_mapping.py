@@ -322,7 +322,7 @@ def ManualMap(connect, path_data, date):
 			print (len(list_map_all))
 			print (len(list_plan_remove_unmap))
 			print (len(list_camp_remove_unmap))
-			print (list_map_all[0])
+			print (list_map_all[0]['CYEAR'])
 
 	return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
 
