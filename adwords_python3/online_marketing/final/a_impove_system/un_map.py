@@ -231,6 +231,11 @@ def DeleteUnMapPlan(plan, data_total):
 						# print (number)
 						list_camp_map_need_remove.append(camp)
 						# print (camp)
+			for camp in plan_total['CAMPAIGN']:
+				for camp_ in list_camp_map_need_remove:
+					if str(camp_['Campaign ID']) == str(camp['Campaign ID']) and str(camp_['Date']) == str(camp['Date']):
+						plan_total['CAMPAIGN'].remove(camp)
+			print (len(plan_total['CAMPAIGN']))
 
 	return (data_total, list_camp_map_need_remove)
 
