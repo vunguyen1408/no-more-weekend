@@ -319,8 +319,10 @@ def ManualMap(connect, path_data, date):
 			# 	json.dump(data_total['UN_CAMP'], f)
 
 			print (len(data_total['UN_CAMP']))
+			print (len(list_map_all))
 			print (len(list_plan_remove_unmap))
 			print (len(list_camp_remove_unmap))
+			print (list_map_all[0])
 
 	return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
 
