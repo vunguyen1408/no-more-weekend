@@ -76,7 +76,7 @@ def DivideRangeDate(value):
 	if (date > max_date):
 		log['END_DATE'] = max_date.strftime('%Y-%m-%d')
 
-	print(value['LIST_DATE'])
+	
 	if len(value['LIST_DATE']) > 0:
 		result = DivideRangeDate(value)
 		list_result.extend(result)
@@ -119,31 +119,62 @@ def RemoveManualLog(path_data, date, list_remove_manual):
 	file_log = os.path.join(path_data, str(date) + '/LOG_MANUAL/log_manual.json')
 	with open(file_log, 'r') as fi:
 		data_log = json.load(fi)
-
+	
 	list_log = ConvertListCamp(list_remove_manual)
 
 	for log in list_log:
-		for manual in data_log['LOG']:
+		for manual in data_log['LOG']:			
 			if log['PLAN']['PRODUCT'] == manual['PRODUCT'] and \
 				log['PLAN']['REASON_CODE_ORACLE'] == manual['REASON_CODE_ORACLE'] and \
-				log['PLAN']['FORM_TYPE'] == manual['FORM_TYPE'] and \
-				log['PLAN']['UNIT_OPTION'] == manual['UNIT_OPTION']:
+				log['PLAN']['FORM_TYPE'] == manual['EFORM_TYPE'] and \
+				log['PLAN']['UNIT_OPTION'] == manual['UNIT_OPTION']:							
 					log_start = datetime.strptime(log['START_DATE'], '%Y-%m-%d')
 					log_end = datetime.strptime(log['END_DATE'], '%Y-%m-%d')
+					# manual_start = manual['START_DATE'].date()
+					# manual_end = manual['END_DATE'].date()
 					manual_start = datetime.strptime(manual['START_DATE'], '%Y-%m-%d')
 					manual_end = datetime.strptime(manual['END_DATE'], '%Y-%m-%d')
 
-					if (log_start == manual_start) \
-					and (log_end == manual_end) :
-						data_log['LOG'].remove(manual)
-
-					elif (log_start <= manual_start) \
-					and (log_end < manual_end) :
-						data_log['LOG']['START_DATE'] = log_end
-
-					elif (log_start >= manual_start) \
+					# ========== CASE 1: ===============
+					if (log_start <= manual_start) \
 					and (log_end >= manual_end) :
-						data_log['LOG']['END_DATE'] = log_start
+						# print("========== CASE 1: ===============")
+						data_log['LOG'].remove(manual)
+						
+
+					# ========== CASE 2: ===============					
+					elif (log_start <= manual_start) \
+					and (manual_start < log_end) \
+					and (log_end < manual_end) :
+						# print("========== CASE 2: ===============")
+						manual['START_DATE'] = (log_end + timedelta(1)).strftime('%Y-%m-%d')
+						
+					# ========== CASE 3: ===============					
+					elif (manual_start < log_start) \
+					and (log_start < manual_end) \
+					and (log_end >= manual_end) :
+						# print("========== CASE 3: ===============")
+						manual['END_DATE'] = (log_start - timedelta(1)).strftime('%Y-%m-%d')
+						
+
+					# ========== CASE 4: ===============					
+					elif (manual_start < log_start) \
+					and (log_start < manual_end) \
+					and (manual_start < log_end) \
+					and (log_end < manual_end) :
+						# print("========== CASE 4: ===============")
+						manual_1 = manual.copy()
+						manual_1['START_DATE'] = manual['START_DATE']
+						manual_1['END_DATE'] = (log_start - timedelta(1)).strftime('%Y-%m-%d')
+
+						manual_2 = manual.copy()
+						manual_2['START_DATE'] = (log_end + timedelta(1)).strftime('%Y-%m-%d')
+						manual_2['END_DATE'] = manual['END_DATE']
+
+						data_log['LOG'].remove(manual)
+						data_log['LOG'].append(manual_1)
+						data_log['LOG'].append(manual_2)
+
 
 	with open(file_log, 'w') as fo:
 		json.load(data_log, fo)
@@ -163,7 +194,7 @@ def RemoveManualLog(path_data, date, list_remove_manual):
 #       "START_DAY": "2017-06-01",
 #       "END_DAY_ESTIMATE": "2017-06-30",
 #       "CHANNEL": "GG",
-#       "FORM_TYPE": "SEARCH",
+#       "FORM_TYPE": "UNIVERSAL_APP_CAMPAIGN",
 #       "UNIT_OPTION": "CPI",
 #       "UNIT_COST": "1.3",
 #       "AMOUNT_USD": 39000,
@@ -185,22 +216,10 @@ def RemoveManualLog(path_data, date, list_remove_manual):
 #           "CAMPAIGN_ID": 682545537,
 #           "UPDATE_DATE": "2017-06-02"
 #         },
-#         {
+# 	{
 #           "CAMPAIGN_ID": 682545537,
 #           "UPDATE_DATE": "2017-06-03"
-#         },
-#         {
-#           "CAMPAIGN_ID": 682222537,
-#           "UPDATE_DATE": "2017-06-04"
-#         },
-#         {
-#           "CAMPAIGN_ID": 682222537,
-#           "UPDATE_DATE": "2017-06-05"
-#         },
-#         {
-#           "CAMPAIGN_ID": 682222537,
-#           "UPDATE_DATE": "2017-06-06"
-#         }
+#         }         
 #       ]
 # 	},
 # 	{
@@ -216,7 +235,7 @@ def RemoveManualLog(path_data, date, list_remove_manual):
 #       "START_DAY": "2017-06-01",
 #       "END_DAY_ESTIMATE": "2017-06-30",
 #       "CHANNEL": "GG",
-#       "FORM_TYPE": "SEARCH",
+#       "FORM_TYPE": "UNIVERSAL_APP_CAMPAIGN",
 #       "UNIT_OPTION": "CPI",
 #       "UNIT_COST": "1.3",
 #       "AMOUNT_USD": 39000,
@@ -231,29 +250,21 @@ def RemoveManualLog(path_data, date, list_remove_manual):
 # 	},
 # 	"CAMPAIGN_MANUAL_MAP": [
 # 		{
+# 		"CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-06-29"
+#         },
+# 	{
 #           "CAMPAIGN_ID": 682545537,
-#           "UPDATE_DATE": "2017-06-01"
+#           "UPDATE_DATE": "2017-06-30"
+#         },
+# 	{
+#           "CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-07-01"
 #         },
 #         {
 #           "CAMPAIGN_ID": 682545537,
-#           "UPDATE_DATE": "2017-06-02"
-#         },
-#         {
-#           "CAMPAIGN_ID": 682545537,
-#           "UPDATE_DATE": "2017-06-03"
-#         },
-#         {
-#           "CAMPAIGN_ID": 682545537,
-#           "UPDATE_DATE": "2017-06-04"
-#         },
-#         {
-#           "CAMPAIGN_ID": 682545537,
-#           "UPDATE_DATE": "2017-06-05"
-#         },
-#         {
-#           "CAMPAIGN_ID": 682545537,
-#           "UPDATE_DATE": "2017-06-06"
-#         }
+#           "UPDATE_DATE": "2017-07-02"
+#         }      
 #       ]
 # 	},
 # 	{"PLAN": {
@@ -268,7 +279,7 @@ def RemoveManualLog(path_data, date, list_remove_manual):
 #       "START_DAY": "2017-06-01",
 #       "END_DAY_ESTIMATE": "2017-06-30",
 #       "CHANNEL": "GG",
-#       "FORM_TYPE": "SEARCH",
+#       "FORM_TYPE": "UNIVERSAL_APP_CAMPAIGN",
 #       "UNIT_OPTION": "CPI",
 #       "UNIT_COST": "1.3",
 #       "AMOUNT_USD": 39000,
@@ -283,38 +294,71 @@ def RemoveManualLog(path_data, date, list_remove_manual):
 # 	},
 # 	"CAMPAIGN_MANUAL_MAP": [
 # 		{
+# 		"CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-06-06"
+#         },
+# 		{
 #           "CAMPAIGN_ID": 682545537,
-#           "UPDATE_DATE": "2017-09-01"
+#           "UPDATE_DATE": "2017-06-07"
+#         },
+# 		{
+#           "CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-06-08"
 #         },
 #         {
 #           "CAMPAIGN_ID": 682545537,
-#           "UPDATE_DATE": "2017-09-02"
+#           "UPDATE_DATE": "2017-06-09"
+#         }  
+#       ]
+# 	},
+# 	{"PLAN": {
+#       "CYEAR": "17",
+#       "CMONTH": "6",
+#       "LEGAL": "VNG",
+#       "DEPARTMENT": "0902",
+#       "DEPARTMENT_NAME": "PG1",
+#       "PRODUCT": "221",
+#       "REASON_CODE_ORACLE": "1706008",
+#       "EFORM_NO": "FA-PA170529003",
+#       "START_DAY": "2017-06-01",
+#       "END_DAY_ESTIMATE": "2017-06-30",
+#       "CHANNEL": "GG",
+#       "FORM_TYPE": "UNIVERSAL_APP_CAMPAIGN",
+#       "UNIT_OPTION": "CPI",
+#       "UNIT_COST": "1.3",
+#       "AMOUNT_USD": 39000,
+#       "CVALUE": 30000,
+#       "ENGAGEMENT": None,
+#       "IMPRESSIONS": None,
+#       "CLIKE": None,
+#       "CVIEWS": None,
+#       "INSTALL": 30000,
+#       "NRU": None,
+#       "INSERT_DATE": "2017-09-13",
+# 	},
+# 	"CAMPAIGN_MANUAL_MAP": [
+# 		{
+# 		"CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-06-03"
 #         },
 #         {
 #           "CAMPAIGN_ID": 682545537,
-#           "UPDATE_DATE": "2017-09-03"
+#           "UPDATE_DATE": "2017-06-04"
 #         },
-#         {
-#           "CAMPAIGN_ID": 6111111117,
-#           "UPDATE_DATE": "2017-10-04"
-#         },
-#         {
-#           "CAMPAIGN_ID": 6111111117,
-#           "UPDATE_DATE": "2017-10-05"
-#         },
-#         {
-#           "CAMPAIGN_ID": 6111111117,
-#           "UPDATE_DATE": "2017-11-06"
+# 		{
+#           "CAMPAIGN_ID": 682545537,
+#           "UPDATE_DATE": "2017-06-05"
 #         }
 #       ]
 # 	}
-# 	]
+# ]
 
 
-# list_log = ConvertListCamp(list_remove_manual)
+# path_data = 'C:/Users/CPU10912-local/Desktop/GG'
+# date = '2017-09-30'
+# RemoveManualLog(path_data, date, list_remove_manual)
 
-# for log in list_log:
-# 	print(log)
+
 
 
 
