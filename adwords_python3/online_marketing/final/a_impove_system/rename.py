@@ -214,9 +214,9 @@ def Map(path_folder, list_plan, list_campaign, date):
 
   list_campaign_map = []
   number = 0
-  for j, camp in enumerate(list_campaign):
-    if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
-      list_campaign_map.append(camp)
+  # for j, camp in enumerate(list_campaign):
+  #   if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
+  #     list_campaign_map.append(camp)
 
 
   for j, camp in enumerate(list_campaign_map):
