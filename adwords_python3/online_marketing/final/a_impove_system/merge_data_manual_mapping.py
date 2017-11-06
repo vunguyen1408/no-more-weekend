@@ -49,6 +49,7 @@ def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_c
 	# =========== List Campaign Remove ==================
 	if (len(list_camp_remove_unmap) > 0):
 		for camp in list_camp_remove_unmap:
+			print (camp)
 			detail_map.DeleteCamp(camp, cursor)
 	print ("Time remove camp : ", (time.time() - start))
 
