@@ -408,7 +408,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
 
     list_plan = mapping.ReadPlan(path_data, date)
 
-
+    print (list_camp_find[0])
     data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
 
     data_total, list_plan_insert, list_plan_remove = insert_to_total.AddToTotal (data_total, data_map, date)
