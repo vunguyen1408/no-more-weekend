@@ -6,11 +6,10 @@ from datetime import datetime , timedelta, date
 
 
 import rename as rename
-import insert_report_monthly_detail as monthly_detail
-import insert_report_monthly_sum as monthly_sum
-import insert_report_plan_sum as plan_sum
-import insert_report_detail_map as detail_map
-import insert_nru_to_plan as nru
+import insert_monthly_detail as monthly_detail
+import insert_monthly_sum as monthly_sum
+import insert_plan_sum as plan_sum
+import insert_data_map as detail_map
 import history_name as history_name
 
 import merge_data_manual_mapping as merge_data_manual_mapping
@@ -44,8 +43,8 @@ def Rename (connect, path_data, list_customer_id, date):
 		# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 		# detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 
-		merge_data_manual_mapping.UpdateRename(connect, list_camp_update, data_total)
-		merge_data_manual_mapping.merger_data_manual_mapping(connect, list_camp_remove_unmap, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
+		# merge_data_manual_mapping.UpdateRename(connect, list_camp_update, data_total)
+		# merge_data_manual_mapping.merger_data_manual_mapping(connect, list_camp_remove_unmap, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
 		time_update_manual = time.time() - update_manual
 		print ("---------- Time update rename to total : ", time_update_manual)
 	else:
