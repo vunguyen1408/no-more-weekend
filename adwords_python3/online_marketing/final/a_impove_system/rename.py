@@ -330,7 +330,7 @@ def Map(path_folder, list_plan, list_campaign, date):
   
   number = 0
   list_un_campaign = []
-  for camp in list_campaign_map:
+  for camp in list_campaign:
     if camp['Mapping'] == False:
       camp['STATUS'] = ""
       list_un_campaign.append(camp)
@@ -381,7 +381,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
 
     list_camp_find = []
     # print ("=========================")
-    # print (len(data_total['UN_CAMP']))
+    print (len(data_total['UN_CAMP']))
     # print (len(list_diff))
     for camp in list_diff:
       # print(camp)
@@ -414,7 +414,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
     import time
 
     print (len(list_camp_find))
-    list_camp_find = list_camp_find[:1000]
+    list_camp_find = list_camp_find[:100]
     print("MAP")
     start = time.time()
     data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
