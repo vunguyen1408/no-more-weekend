@@ -64,3 +64,4 @@ date = '2017-10-31'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 ManualMapping (connect, path_data, date)
+UnMapping (connect, path_data, date)
