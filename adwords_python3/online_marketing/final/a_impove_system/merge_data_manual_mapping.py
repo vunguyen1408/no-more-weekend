@@ -31,7 +31,7 @@ def UpdateRename(connect, list_camp_update, data):
 	cursor.close()
 
 
-def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert_un_map):
+def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert_un_map, is_manual_map):
 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
@@ -60,14 +60,25 @@ def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_c
 	# =========== List data manual map ==================
 	print ("Length map : ", len(list_map))
 	if  (len(list_map) > 0):
-		for value in list_map:	
-			# print (list_map)				
-			json_ = detail_map.ConvertJsonMap(value)	
-			try:		
-				detail_map.InsertDetailUnmap(json_, cursor)
-			except UnicodeEncodeError as e:				
-				json_['CAMPAIGN_NAME'] = value['Campaign'].encode('utf-8')
-				detail_map.InsertDetailUnmap(json_, cursor)
+		if is_manual_map == 1:
+			for value in list_map:	
+				# print (list_map)				
+				json_ = detail_map.ConvertJsonMap(value)	
+				try:		
+					detail_map.InsertDetailUnmap(json_, cursor)
+				except UnicodeEncodeError as e:				
+					json_['CAMPAIGN_NAME'] = value['Campaign'].encode('utf-8')
+					detail_map.InsertDetailUnmap(json_, cursor)
+		else:
+			if is_manual_map == 2:
+				for value in list_map:	
+				# print (list_map)				
+				json_ = detail_map.ConvertJsonCamp(value)	
+				try:		
+					detail_map.InsertDetailUnmap(json_, cursor)
+				except:
+					pass
+
 	print ("Time insert map : ", (time.time() - start))
 
 	if len(list_plan_insert_un_map) > 0:
