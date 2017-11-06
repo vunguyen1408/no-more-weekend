@@ -480,8 +480,8 @@ list_customer_id = [
   ]
 # list_ = ['5062362839', '6360800174', '8180518027', '9001610198', '9493600480']
 
-date = '2017-01-01'
-to_date = '2017-09-30'
+# date = '2017-01-01'
+# to_date = '2017-09-30'
 # GetListCampOfAccount(list_customer_id, date, to_date)
 
 # path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
