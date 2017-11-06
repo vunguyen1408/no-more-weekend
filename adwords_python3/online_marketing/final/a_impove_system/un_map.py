@@ -223,6 +223,7 @@ def DeleteUnMapPlan(plan, data_total):
 						data_total['UN_CAMP'].append(camp)  
 
 						list_camp_map_need_remove.append(camp)
+						print (camp)
 
 	return (data_total, list_camp_map_need_remove)
 
