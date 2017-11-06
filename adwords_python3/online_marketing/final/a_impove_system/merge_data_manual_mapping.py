@@ -31,7 +31,7 @@ def UpdateRename(connect, list_camp_update, data):
 	cursor.close()
 
 
-def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update):
+def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert_un_map, is_manual_map):
 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
@@ -46,11 +46,16 @@ def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_c
 
 
 	start = time.time()
+
 	# =========== List Campaign Remove ==================
 	if (len(list_camp_remove_unmap) > 0):
-		for camp in list_camp_remove_unmap:
-			# print (camp)
-			detail_map.DeleteCamp(camp, cursor)
+		if is_manual_map == 1:
+			for camp in list_camp_remove_unmap:
+				detail_map.DeleteCamp(camp, cursor)
+		else: 
+			if is_manual_map == 2:
+			# Un map thi update camp thanh unmap
+
 	print ("Time remove camp : ", (time.time() - start))
 
 	start = time.time()
