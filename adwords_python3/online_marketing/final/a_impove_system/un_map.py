@@ -216,16 +216,18 @@ def DeleteUnMapPlan(plan, data_total):
 			and str(plan['START_DAY']) == str(plan_total['START_DAY']) \
 			and str(plan['END_DAY_ESTIMATE']) == str(plan_total['END_DAY_ESTIMATE']):
 			print (plan_total)
+			print (len(plan_total['CAMPAIGN']))
 			for camp in plan_total['CAMPAIGN']:
 				if str(plan['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID']) == str(camp['Campaign ID']):
+					print (camp)
 					d = datetime.strptime(camp['Date'], '%Y-%m-%d').date()
 					if d >= start and d <= end:
 						plan_total['CAMPAIGN'].remove(camp)
 						data_total['UN_CAMP'].append(camp)  
 						number += 1
-						print (number)
+						# print (number)
 						list_camp_map_need_remove.append(camp)
-						print (camp)
+						# print (camp)
 
 	return (data_total, list_camp_map_need_remove)
 
