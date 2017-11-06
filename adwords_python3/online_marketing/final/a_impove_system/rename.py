@@ -294,9 +294,8 @@ def Map(path_folder, list_plan, list_campaign, date):
         if flag:
           camp['Mapping'] = True
           camp['STATUS'] = 'SYS'
-          campaign = mapping.ConvertCampaignToJsonContent(camp)
           
-          eform['CAMPAIGN'].append(campaign)
+          eform['CAMPAIGN'].append(camp)
           number += 1
 
 
@@ -322,17 +321,15 @@ def Map(path_folder, list_plan, list_campaign, date):
               or  ( mapping.LogManualMap(path_folder, camp, eform, date) ): 
               # print("mapping GS5")
               camp['Mapping'] = True
-              camp['STATUS'] = 'SYS'
-              campaign = mapping.ConvertCampaignToJsonContent(camp)
-              
-              eform['CAMPAIGN'].append(campaign)
+              camp['STATUS'] = 'SYS'      
+              eform['CAMPAIGN'].append(camp)
               number += 1
   number = 0
   list_un_campaign = []
   for camp in list_campaign_map:
     if camp['Mapping'] == False:
       camp['STATUS'] = ""
-      list_un_campaign.append(mapping.ConvertCampaignToJsonContent(camp))
+      list_un_campaign.append(camp)
     else:
       number += 1
 
