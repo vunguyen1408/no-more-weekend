@@ -272,9 +272,9 @@ def ManualMap(connect, path_data, date):
 			list_plan_remove_unmap = []
 			# print (len(data_total['UN_CAMPAIGN']))
 
-			for plan_total in list_plan:
-				if str(plan_total['REASON_CODE_ORACLE']) == '1708007':
-					print (plan_total)
+			# for plan_total in list_plan:
+			# 	if str(plan_total['REASON_CODE_ORACLE']) == '1708007':
+			# 		print (plan_total)
 
 
 			import time
@@ -302,9 +302,9 @@ def ManualMap(connect, path_data, date):
 
 			data_total['TOTAL'] = insert_data.CaculatorForPlan(data_total['TOTAL'])
 
-			for plan_total in data_total['TOTAL']:
-				if str(plan_total['REASON_CODE_ORACLE']) == '1708007':
-					print (plan_total)
+			# for plan_total in data_total['TOTAL']:
+			# 	if str(plan_total['REASON_CODE_ORACLE']) == '1708007':
+			# 		print (plan_total)
 
 			list_plan_remove_unmap = list_plan_remove
 			list_camp_remove_unmap = list_map_all
