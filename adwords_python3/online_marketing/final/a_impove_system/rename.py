@@ -213,7 +213,8 @@ def CheckNameChange(path_data, list_customer, date):
 #================= Mapping campaign and plan WPL =====================
 def Map(path_folder, list_plan, list_campaign, date):
   import time 
-
+  print (len(list_plan))
+  print (len(list_campaign))
   list_campaign_map = []
   number = 0
   # for j, camp in enumerate(list_campaign):
