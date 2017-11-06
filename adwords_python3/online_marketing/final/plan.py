@@ -1159,6 +1159,8 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	print(path_data_total)
 	with open (path_data_total,'r') as f:
 		data_total = json.load(f)
+
+		
 	#============ Case 0: Release camp in list change real date ===============
 	if (len(list_plan_change_real_date) > 0):
 		print("=========== Case 0: Release camp in list change real date ==========")
