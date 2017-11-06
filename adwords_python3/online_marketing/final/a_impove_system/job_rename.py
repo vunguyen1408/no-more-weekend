@@ -37,8 +37,7 @@ def Rename (connect, path_data, list_customer_id, date):
 	if list_camp_remove_unmap != [] or list_camp_update != []:
 		update_manual = time.time()
 		print ("insert data")
-          list_plan_insert_un_map = []
-		# nru.Add_Data_To_Plan(connect, path_data, date)
+		list_plan_insert_un_map = []
 		# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 		# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 		# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
