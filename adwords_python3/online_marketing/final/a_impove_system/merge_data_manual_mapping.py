@@ -54,6 +54,7 @@ def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_c
 				detail_map.DeleteCamp(camp, cursor)
 		else: 
 			if is_manual_map == 2:
+				print ("234")
 			# Un map thi update camp thanh unmap
 
 	print ("Time remove camp : ", (time.time() - start))
