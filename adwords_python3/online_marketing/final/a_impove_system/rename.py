@@ -428,6 +428,14 @@ def CacualatorChange(connect, path_data, list_diff, date):
     print ("add to total: ", (time.time() - start))
     print (len(list_plan_remove))
 
+    list_map_all, list_plan_un, list_map_ = detail_map.CreateDataMap(data_map['PLAN'])
+    
+    for camp in list_map_all:
+      for campaign in data_total['UN_CAMP']:
+        if camp['Campaign ID'] == campaign['Campaign ID'] \
+          and camp['Date'] == campaign['Date']:
+          data_total['UN_CAMP'].remove(campaign)
+
     data_total['TOTAL'] = insert_to_total.CaculatorForPlan(data_total['TOTAL'])
 
     import time
@@ -436,7 +444,9 @@ def CacualatorChange(connect, path_data, list_diff, date):
     data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
     print ("Insert install: ", (time.time() - start))
 
-    list_map_all, list_plan_un, list_map_ = detail_map.CreateDataMap(data_map['PLAN'])
+    
+
+
     # print (list_map_[0])
     list_plan_remove_unmap = list_plan_remove
     list_camp_need_remove = list_map_
