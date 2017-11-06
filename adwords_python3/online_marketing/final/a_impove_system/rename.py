@@ -259,6 +259,7 @@ def Map(path_folder, list_plan, list_campaign, date):
         else:
           # ============= GS5 ================
           if camp['Dept'].find('GS5') >= 0:
+            type_campaign = mapping.GetCampaignTypeOfGS5(camp['Campaign'])
             if (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
               # and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
               and mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) \
@@ -407,11 +408,17 @@ def CacualatorChange(connect, path_data, list_diff, date):
 
 
     list_plan = mapping.ReadPlan(path_data, date)
+    import time
 
-    print (list_camp_find[0])
+    # print (list_camp_find[0])
+    start = time.time()
     data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
+    print ("Mapping: ", (time.time() - start))
 
+    
+    start = time.time()
     data_total, list_plan_insert, list_plan_remove = insert_to_total.AddToTotal (data_total, data_map, date)
+    print ("add to total: ", (time.time() - start))
     print (len(list_plan_remove))
 
     data_total['TOTAL'] = insert_to_total.CaculatorForPlan(data_total['TOTAL'])

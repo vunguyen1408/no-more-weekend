@@ -625,9 +625,9 @@ def AddToTotal (data_total, data_date, date):
 				and plan['END_DAY_ESTIMATE'] == plan_date['END_DAY_ESTIMATE']:
 
 				if len(plan_date['CAMPAIGN']) > 0 and len(plan['CAMPAIGN']) == 0:
-					print (len(plan_date['CAMPAIGN']))
-					print (len(plan['CAMPAIGN']))
-					print ("add reomve")
+					# print (len(plan_date['CAMPAIGN']))
+					# print (len(plan['CAMPAIGN']))
+					# print ("add reomve")
 					list_plan_remove.append(plan_date)
 
 				# Cap nhat real date

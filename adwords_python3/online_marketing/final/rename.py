@@ -279,6 +279,7 @@ def Map(path_folder, list_plan, list_campaign, date):
         else:
           # ============= GS5 ================
           if camp['Dept'].find('GS5') >= 0:
+            type_campaign = mapping.GetCampaignTypeOfGS5(camp['Campaign'])
             if (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
               # and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
               and mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) \
