@@ -432,6 +432,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
     print("plan update", len(list_plan_update))
     print("plan remove", len(list_plan_remove_unmap))
     print("camp remove", len(list_camp_need_remove))
+    print (list_camp_need_remove[0])
 
     ###########################################
     # path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
