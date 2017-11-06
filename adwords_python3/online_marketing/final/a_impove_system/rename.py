@@ -203,8 +203,8 @@ def CheckNameChange(path_data, list_customer, date):
 
     path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
     ###########################################
-    # with open (path_data_his,'w') as f:
-    #   json.dump(data_total, f)
+    with open (path_data_his,'w') as f:
+      json.dump(data_total, f)
     ############################################
   print("====================== Length =================")
   return (list_diff, data_total)
@@ -449,13 +449,13 @@ def CacualatorChange(connect, path_data, list_diff, date):
     # print (list_camp_need_remove[0])
 
     ###########################################
-    # path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-    # with open (path_data_total_map,'w') as f:
-    #   json.dump(data_total['TOTAL'], f)
+    path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+    with open (path_data_total_map,'w') as f:
+      json.dump(data_total['TOTAL'], f)
 
-    # path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
-    # with open (path_data_un_map,'w') as f:
-    #   json.dump(data_total['UN_CAMP'], f)
+    path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+    with open (path_data_un_map,'w') as f:
+      json.dump(data_total['UN_CAMP'], f)
     ##########################################
 
   return (list_plan_remove_unmap, list_camp_need_remove, list_plan_update, list_camp_update)
