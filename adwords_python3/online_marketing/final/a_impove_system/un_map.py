@@ -235,7 +235,7 @@ def DeleteUnMapPlan(plan, data_total):
 				for camp in plan_total['CAMPAIGN']:
 					if str(camp_['Campaign ID']) == str(camp['Campaign ID']) and str(camp_['Date']) == str(camp['Date']):
 						plan_total['CAMPAIGN'].remove(camp)
-			print (len(plan_total['CAMPAIGN']))
+			
 
 	return (data_total, list_camp_map_need_remove)
 
@@ -288,6 +288,7 @@ def UnMapManual(connect, path_data, date):
 			start_time = time.time()
 			for plan in list_plan:
 				data_total, list_camp = DeleteUnMapPlan(plan, data_total)
+				print (len(list_camp))
 
 				list_camp_all_plan.extend(list_camp)
 				# print (len(list_map))
