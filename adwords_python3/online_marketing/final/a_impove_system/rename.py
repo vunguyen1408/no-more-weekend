@@ -218,7 +218,7 @@ def Map(path_folder, list_plan, list_campaign, date):
   #   if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
   #     list_campaign_map.append(camp)
 
-
+  print(len(list_campaign_map))
   for j, camp in enumerate(list_campaign_map):
     t = False
     camp['Advertising Channel'] = mapping.ChangeCampaignType(camp['Advertising Channel'])
