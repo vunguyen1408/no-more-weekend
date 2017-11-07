@@ -124,7 +124,7 @@ class VoiceActivityDetector():
         plt.figure()
         plt.plot(data_speech)
         plt.plot(data)
-        plt.show()
+        #plt.show()
         return self
 
     def detect_speech(self):

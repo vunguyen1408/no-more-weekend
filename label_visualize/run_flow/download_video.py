@@ -156,13 +156,15 @@ def check_and_download_file(path_folder, path_file, folder):
                     if not os.path.exists(file_name):
                         print(file_name)
                         download_file(url1, file_name, info['size'])
-                        data['my_json'][i1]['hash_md5']=hash_md5(file_name)
+                        if os.path.exists(file_name) and os.path.getsize(file_name) >0:
+                            data['my_json'][i1]['hash_md5']=hash_md5(file_name)
 
                         #Download_Parallel.DownloadFile_Parall(url1, file_name, 4)
                         #obj = SmartDL(url1, file_name)
                         #obj.start()
-                    #
-                    data['my_json'][i1]['hash_md5']=hash_md5(file_name)
+                    #                    
+                    if os.path.exists(file_name) and os.path.getsize(file_name) >0:
+                        data['my_json'][i1]['hash_md5']=hash_md5(file_name)
 
     with open (path_file,'w') as f:
         json.dump(data, f)

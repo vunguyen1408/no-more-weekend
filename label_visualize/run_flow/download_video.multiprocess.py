@@ -22,6 +22,7 @@ import sys
 
 from multiprocessing import Process, Manager
 import itertools
+from hash_md5 import hash_md5
 
 
 def do_work(folder_video,in_queue, out_list):
@@ -62,7 +63,8 @@ def do_work(folder_video,in_queue, out_list):
                 if info.get('size',0):
                     #print(file_name)
                     download_file(url1, file_name, info['size'])
-                    value1['hash_md5']=hash_md5(file_name)
+                    if os.path.exists(file_name) and  os.path.getsize(file_name) >0:
+                        value1['hash_md5']=hash_md5(file_name)
 
                     #Download_Parallel.DownloadFile_Parall(url1, file_name, 4)
                     #obj = SmartDL(url1, file_name)
@@ -70,7 +72,9 @@ def do_work(folder_video,in_queue, out_list):
                 #
             else:
                 if 'hash_md5' not in value1:
-                    value1['hash_md5']=hash_md5(file_name)
+                    if os.path.exists(file_name) and  os.path.getsize(file_name) >0:
+                        value1['hash_md5']=hash_md5(file_name)
+                    
 
 
 
@@ -82,15 +86,6 @@ def do_work(folder_video,in_queue, out_list):
 
 
 
-
-def hash_md5(p_file):
-    import hashlib
-    hash_md5 = hashlib.md5()
-    if os.path.exists(p_file):
-        with open(p_file, "rb") as f:
-            for chunk in iter(lambda: f.read(4096), b""):
-                hash_md5.update(chunk)
-    return hash_md5.hexdigest()
 
 
 
@@ -229,14 +224,45 @@ def create_hash_file(path_folder, path_file, folder):
 	with open(path_file, 'r') as f:
 		data = json.load(f)
 
-	set_result=set()
+
 	list_result = []
 
 	for _json in  data['my_json']:
-		set_result.add(_json.get('hash_md5',''))
 
-	for _json in set_result:
-	       list_result.append(_json)
+
+		if 'hash_md5' in _json:
+
+			#print(_json['hash_md5'])
+
+			temp_hash=_json['hash_md5']
+			temp_file=_json['file_name']
+
+			find_hash = -1
+			for _i,_hash in enumerate(list_result):
+				#print(_i)
+				if _hash['hash_md5']==temp_hash:
+
+					#print(list_result[_i]['file_name'])
+					find_file=-1
+					for _file  in list_result[_i].get('file_name',[]):
+						if _file==temp_file:
+							find_file=1
+							break
+
+					if find_file < 0:
+                    #append
+						list_result[_i]['file_name'].append(temp_file)
+					find_hash=_i
+					break
+
+			if find_hash <0:
+				new_hash={}
+				new_hash['hash_md5']=temp_hash
+				new_hash['file_name']=[]
+				new_hash['file_name'].append(temp_file)
+				list_result.append(new_hash)
+
+
 
 	list_json = {}
 	list_json['hash_md5'] = list_result
@@ -277,6 +303,9 @@ def download_video(path, date_, to_date_, process_num=1):
 
 if __name__ == '__main__':
     from sys import argv
+
+
+
     script, start_date, end_date, process_num = argv
     path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
     download_video(path, start_date, end_date,process_num)
