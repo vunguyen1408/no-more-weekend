@@ -29,7 +29,7 @@ def LogManualMap(path_data, campaign, plan, date, is_manual_map):
   if is_manual_map == 2:
     path_data_total_map = os.path.join(path_folder, 'log_un_map.json')
 
-  if os.path.exists(path_customer):
+  if os.path.exists(path_data_total_map):
     with open (path_data_total_map,'r') as f:
       data_manual_map = json.load(f)
 
