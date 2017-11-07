@@ -423,7 +423,7 @@ for plan_total in data_total:
 # # if str(plan_total['Campaign ID']) == '772872164':
 #   print (plan_total)
 	# plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
-	if plan_total['REASON_CODE_ORACLE'] == '1708008' and plan_total['UNIT_OPTION'] == 'CPV':
+	if plan_total['REASON_CODE_ORACLE'] == '1708008' and plan_total['UNIT_OPTION'] == 'CPV' and plan_total['FORM_TYPE'] == 'SEARCH':
 		print (plan_total)
 		# for camp in plan_total['CAMPAIGN']:
 		# 	if camp['Campaign ID'] == '218681005':
