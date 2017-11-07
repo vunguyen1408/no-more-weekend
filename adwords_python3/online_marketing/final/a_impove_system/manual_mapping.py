@@ -240,6 +240,7 @@ def ManualMap(connect, path_data, date):
 	list_plan_remove_unmap = []
 	list_plan_update = []
 	list_camp_remove_unmap = []
+	list_plan_insert_temp = []
 	if not os.path.exists(path_data_total_map):
 		i = 0
 		find = True
