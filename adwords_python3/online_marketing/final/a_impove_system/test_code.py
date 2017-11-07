@@ -343,8 +343,8 @@ def AddToTotal (data_total, data_date, date):
 def merger_data_map(data_map_all, data_map_GS5, data_map_WPL, date):
 	#============= Merger Plan ==================	
 	list_plan = data_map_all['PLAN'].copy()
-	list_plan, list_data_map, list_plan_remove, list_plan_update = AddToTotal (list_plan['PLAN'], data_map_GS5['PLAN'], date)
-	list_plan, list_data_map, list_plan_remove, list_plan_update = AddToTotal (list_plan['PLAN'], data_map_WPL['PLAN'], date)
+	list_plan, list_data_map, list_plan_remove, list_plan_update = AddToTotal (list_plan, data_map_GS5['PLAN'], date)
+	list_plan, list_data_map, list_plan_remove, list_plan_update = AddToTotal (list_plan, data_map_WPL['PLAN'], date)
 
 
 	#============= Merger Campaign ==============
