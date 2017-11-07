@@ -358,7 +358,7 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 
 
 
-	list_plan, list_un_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
+	list_plan, list_un_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL, date)
 
 	return list_plan, list_un_camp
 
