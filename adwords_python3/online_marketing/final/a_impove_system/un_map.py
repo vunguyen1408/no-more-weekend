@@ -208,6 +208,7 @@ def DeleteUnMapPlan(plan, data_total):
 	end = datetime.strptime(plan['CAMPAIGN_MANUAL_MAP'][0]['END_DATE_MANUAL_MAP'], '%Y-%m-%d').date()
 	number = 0
 	list_camp_map_need_remove = []
+	list_plan_insert_un_map = []
 	print (start)
 	print (end)
 	# print (len(list_campaign))
@@ -217,12 +218,12 @@ def DeleteUnMapPlan(plan, data_total):
 			and str(plan['FORM_TYPE']) == str(plan_total['FORM_TYPE']) \
 			and str(plan['START_DAY']) == str(plan_total['START_DAY']) \
 			and str(plan['END_DAY_ESTIMATE']) == str(plan_total['END_DAY_ESTIMATE']):
-			print (plan_total)
-			print (len(plan_total['CAMPAIGN']))
+			# print (plan_total)
+			# print (len(plan_total['CAMPAIGN']))
 			for camp in plan_total['CAMPAIGN']:
 				if str(plan['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID']) == str(camp['Campaign ID']):
-					print (plan['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID'])
-					print (camp)
+					# print (plan['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID'])
+					# print (camp)
 					d = datetime.strptime(camp['Date'], '%Y-%m-%d').date()
 					if d >= start and d <= end:
 						# plan_total['CAMPAIGN'].remove(camp)
@@ -235,9 +236,11 @@ def DeleteUnMapPlan(plan, data_total):
 				for camp in plan_total['CAMPAIGN']:
 					if str(camp_['Campaign ID']) == str(camp['Campaign ID']) and str(camp_['Date']) == str(camp['Date']):
 						plan_total['CAMPAIGN'].remove(camp)
+			if len(plan_total['CAMPAIGN']) == 0:
+				list_plan_insert_un_map.append(plan_total)
 			
 
-	return (data_total, list_camp_map_need_remove)
+	return (data_total, list_camp_map_need_remove, list_plan_insert_un_map)
 
 
 def UnMapManual(connect, path_data, date):
@@ -247,7 +250,7 @@ def UnMapManual(connect, path_data, date):
 	path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
 	
 	list_map_all = []
-	list_plan_remove_unmap = []
+	list_plan_insert_un_map = []
 	list_plan_update = []
 	list_camp_remove_unmap = []
 	if not os.path.exists(path_data_total_map):
@@ -279,59 +282,53 @@ def UnMapManual(connect, path_data, date):
 
 		is_un_map = True
 		list_plan = ReadTableManualMap(connect, path_data, date, is_un_map)
+		print (len(data_total['UN_CAMP']))
+
 		print (list_plan)
 		if len(list_plan) > 0:
 
 			list_camp_all_plan = []
-			list_plan_remove_unmap = []
 			import time
 			start_time = time.time()
 			for plan in list_plan:
-				data_total, list_camp = DeleteUnMapPlan(plan, data_total)
-				print (len(list_camp))
-
+				data_total, list_camp, list_plan_insert = DeleteUnMapPlan(plan, data_total)
+				# print (len(list_camp))
+				list_plan_insert_un_map.extend(list_plan_insert)
 				list_camp_all_plan.extend(list_camp)
 				# print (len(list_map))
 			print ("Time get in manual 1 : ", (time.time() - start_time))
-
+			print (len(data_total['UN_CAMP']))
 			
+			data_total['TOTAL'] = insert_data.CaculatorForPlan(data_total['TOTAL'])
 
-		# 	data_date = {}
-		# 	data_date['PLAN'] = list_plan
-		# 	start_time = time.time()
-		# 	data_total, list_plan_insert, list_plan_remove = insert_data.AddToTotal (data_total, data_date, date)
-		# 	print ("Add total : ", (time.time() - start_time))
-		# 	data_total['TOTAL'] = insert_data.CaculatorForPlan(data_total['TOTAL'])
+			import time
+			start = time.time()
+			data_total['TOTAL'] = insert_install.InsertInstallToPlan(data_total['TOTAL'], connect, date)
+			data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
+			print ("Insert install: ", (time.time() - start))
 
-		# 	import time
-		# 	start = time.time()
-		# 	data_total['TOTAL'] = insert_install.InsertInstallToPlan(data_total['TOTAL'], connect, date)
-		# 	data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
-		# 	print ("Insert install: ", (time.time() - start))
+			print (len(list_camp_all_plan))
+			print (len(list_plan_insert))
+			# for plan_total in data_total['TOTAL']:
+			# 	if str(plan_total['REASON_CODE_ORACLE']) == '1708008':
+			# 		print (plan_total)
 
-		# 	# for plan_total in data_total['TOTAL']:
-		# 	# 	if str(plan_total['REASON_CODE_ORACLE']) == '1708007':
-		# 	# 		print (plan_total)
+			list_camp_remove_unmap = list_camp_all_plan
+			list_plan_update = data_total['TOTAL']
 
-		# 	list_plan_remove_unmap = list_plan_remove
-		# 	list_camp_remove_unmap = list_map_all
-		# 	list_plan_update = data_total['TOTAL']
+			# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			# with open (path_data_total_map,'w') as f:
+			# 	json.dump(data_total['TOTAL'], f)
 
-		# 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-		# 	with open (path_data_total_map,'w') as f:
-		# 		json.dump(data_total['TOTAL'], f)
+			# path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+			# with open (path_data_un_map,'w') as f:
+			# 	json.dump(data_total['UN_CAMP'], f)
 
-		# 	path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
-		# 	with open (path_data_un_map,'w') as f:
-		# 		json.dump(data_total['UN_CAMP'], f)
+			print (len(data_total['UN_CAMP']))
+			print (len(list_plan_insert_un_map))
+			print (len(list_camp_remove_unmap))
 
-		# 	print (len(data_total['UN_CAMP']))
-		# 	print (len(list_map_all))
-		# 	print (len(list_plan_remove_unmap))
-		# 	print (len(list_camp_remove_unmap))
-		# 	print (list_map_all[0]['CYEAR'])
-
-	return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
+	return (list_plan_insert_un_map, list_camp_remove_unmap, list_plan_update)
 
 
 date = '2017-10-31'
@@ -339,4 +336,4 @@ date = '2017-10-31'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 
-UnMapManual(connect, path_data, date)
+# UnMapManual(connect, path_data, date)

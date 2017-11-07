@@ -428,6 +428,14 @@ def CacualatorChange(connect, path_data, list_diff, date):
     print ("add to total: ", (time.time() - start))
     print (len(list_plan_remove))
 
+    list_map_all, list_plan_un, list_map_ = detail_map.CreateDataMap(data_map['PLAN'])
+
+    for camp in list_map_:
+      for campaign in data_total['UN_CAMP']:
+        if str(camp['Campaign ID']) == str(campaign['Campaign ID']) \
+          and str(camp['Date']) == str(campaign['Date']):
+          data_total['UN_CAMP'].remove(campaign)
+
     data_total['TOTAL'] = insert_to_total.CaculatorForPlan(data_total['TOTAL'])
 
     import time
@@ -436,7 +444,9 @@ def CacualatorChange(connect, path_data, list_diff, date):
     data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
     print ("Insert install: ", (time.time() - start))
 
-    list_map_all, list_plan_un, list_map_ = detail_map.CreateDataMap(data_map['PLAN'])
+    
+
+
     # print (list_map_[0])
     list_plan_remove_unmap = list_plan_remove
     list_camp_need_remove = list_map_
@@ -449,13 +459,13 @@ def CacualatorChange(connect, path_data, list_diff, date):
     # print (list_camp_need_remove[0])
 
     ###########################################
-    # path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-    # with open (path_data_total_map,'w') as f:
-    #   json.dump(data_total['TOTAL'], f)
+    path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+    with open (path_data_total_map,'w') as f:
+      json.dump(data_total['TOTAL'], f)
 
-    # path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
-    # with open (path_data_un_map,'w') as f:
-    #   json.dump(data_total['UN_CAMP'], f)
+    path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+    with open (path_data_un_map,'w') as f:
+      json.dump(data_total['UN_CAMP'], f)
     ##########################################
 
   return (list_plan_remove_unmap, list_camp_need_remove, list_plan_update, list_camp_update)
