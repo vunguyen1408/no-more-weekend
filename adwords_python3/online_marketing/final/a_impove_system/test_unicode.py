@@ -425,6 +425,7 @@ for plan_total in data_total:
 	# plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
 	if plan_total['REASON_CODE_ORACLE'] == '1708008' and plan_total['UNIT_OPTION'] == 'CPV' and plan_total['FORM_TYPE'] == 'SEARCH':
 		print (plan_total)
+		data_total.remove(plan_total)
 		# for camp in plan_total['CAMPAIGN']:
 		# 	if camp['Campaign ID'] == '218681005':
 		# 		print (camp)
@@ -438,8 +439,8 @@ for plan_total in data_total:
 
 # path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
 
-# with open (path_total,'w') as f:
-# 	json.dump(data_total, f)
+with open (path_total,'w') as f:
+	json.dump(data_total, f)
 
 print ("DONE")
 
