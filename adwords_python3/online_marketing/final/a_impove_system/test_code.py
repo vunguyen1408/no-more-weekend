@@ -640,14 +640,14 @@ def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_t
 	data_total['TOTAL'], list_plan_insert, list_plan_remove = AddToTotal (data_total['TOTAL'], list_plan_total, date)
 	
 	#==================== CASE UNMAP ==========================		
-	#----------- Insert unmap plan new into un_plan -------
-	for plan in list_plan:
+	#----------- Insert unmap plan new into total -------
+	for plan in list_plan_total:
 		flag = True   # True if plan un map
-		for plan_map in list_plan_total:					
-			if plan_map['PRODUCT'] == plan['PRODUCT'] \
-				and plan_map['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-				and plan_map['FORM_TYPE'] == plan['FORM_TYPE'] \
-				and plan_map['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+		for plan_total in data_total['TOTAL']:					
+			if plan_total['PRODUCT'] == plan['PRODUCT'] \
+				and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+				and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
+				and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION'] :
 				flag = False
 		if flag:			
 			data_total['TOTAL'].append(plan)	
