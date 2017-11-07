@@ -404,7 +404,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
           temp = campaign
           campaign['Campaign'] = camp['CAMPAIGN_NAME']
           temp['Campaign'] = camp['CAMPAIGN_NAME']
-          if int(campaign['Date'][5:-3]) != 10:
+          if int(campaign['Date'][5:-3]) == 10:
             list_camp_find.append(temp)
 
     list_camp_update = list_camp_find # Update name
