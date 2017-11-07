@@ -296,6 +296,7 @@ def ManualMap(connect, path_data, date):
 						and camp['Date'] == campaign['Date']:
 						data_total['UN_CAMP'].remove(campaign)
 
+			# Check lai xem cac plan mapping duoc moi add to total
 			list_temp = []
 			for plan in list_plan:
 				if 'CAMPAIGN' in plan:
