@@ -371,7 +371,7 @@ import time
 # 	return plan
 
 path_alias = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-08-31/PLAN/product_alias.json'
-path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
+path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-10-31/DATA_MAPPING/total_mapping.json'
 path_plan = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-08-31/PLAN/plan.json'
 # file_product = os.path.join(path_data, str(date) + '/PLAN/product_alias.json')
 import insert_data_map_to_total as insert_to_total
@@ -403,13 +403,16 @@ for plan_total in data_total:
 # # if str(plan_total['Campaign ID']) == '772872164':
 #   print (plan_total)
 	# plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
-	if plan_total['CMONTH'] == '8' and plan_total['DEPARTMENT_NAME'] == 'PG1':
-		print (plan_total['REASON_CODE_ORACLE'])
-		print (plan_total['PRODUCT'])
-		# print ()
-		print (plan_total['TOTAL_CAMPAIGN']['COST'])
-		print (plan_total['MONTHLY'])
-		print ("============================================\n\n")
+	if plan_total['REASON_CODE_ORACLE'] == '1704024' and plan_total['PRODUCT'] == '122':
+		for camp in plan_total['CAMPAIGN']:
+			if camp['Campaign Id'] == '218681005':
+				print (camp)
+				# print (plan_total['REASON_CODE_ORACLE'])
+				# print (plan_total['PRODUCT'])
+				# # print ()
+				# print (plan_total['TOTAL_CAMPAIGN']['COST'])
+				# print (plan_total['MONTHLY'])
+				print ("============================================\n")
 
 
 # path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
