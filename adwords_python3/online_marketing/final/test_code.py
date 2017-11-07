@@ -1182,9 +1182,9 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		data_total = {}
 		data_total['TOTAL'] = []
 		data_total['UN_CAMPAIGN'] = []
-		with open (path_data_total_map,'r') as f:
-			data_total['TOTAL'] = json.load(f)
-		print('TOTAL: ', len(data_total['TOTAL']))
+		# with open (path_data_total_map,'r') as f:
+		# 	data_total['TOTAL'] = json.load(f)
+		# print('TOTAL: ', len(data_total['TOTAL']))
 
 		for plan in data_total['TOTAL']:
 			if plan['REASON_CODE_ORACLE'] == '1704024' \
@@ -1197,9 +1197,9 @@ def ClassifyPlan(connect, path_data, date, path_log):
 			data_total['UN_CAMPAIGN'] = json.load(f)
 		print('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
 
-		# for camp in data_total['UN_CAMPAIGN']:
-		# 	if (camp['Campaign ID'] == '218681005') and (camp['Date'].find('-04-') > 0):
-		# 		print(camp)
+		for camp in data_total['UN_CAMPAIGN']:
+			if (camp['Campaign ID'] == '218681005') and (camp['Date'].find('-04-') > 0):
+				print(camp)
 	# print()
 	# path_plan = os.path.join(path_data + '/' + str(date) + '/PLAN', 'plan' + '.json')
 	# print(path_plan)
