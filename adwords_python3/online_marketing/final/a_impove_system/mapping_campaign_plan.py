@@ -36,7 +36,7 @@ def LogManualMap(path_data, campaign, plan, date, is_manual_map):
       if is_manual_map == 1:
         flag = 0
         for manual in data_manual_map['LOG']:
-          print (manual)
+          # print (manual)
           if str(plan['PRODUCT']) == str(manual['PRODUCT']) \
             and str(plan['REASON_CODE_ORACLE']) == str(manual['REASON_CODE_ORACLE']) \
             and str(plan['FORM_TYPE']) == str(manual['FORM_TYPE']) \
