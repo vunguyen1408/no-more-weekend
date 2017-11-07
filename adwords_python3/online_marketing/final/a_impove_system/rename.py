@@ -335,7 +335,7 @@ def Map(path_folder, list_plan, list_campaign, date):
               and (eform['UNIT_OPTION'].find(unit_option) >= 0) \
               and (date_ >= start) \
               and (date_ <= end) ) \
-              or  ( mapping.LogManualMap(path_folder, camp, eform, date) == 1 ): 
+              or  ( mapping.LogManualMap(path_folder, camp, eform, date, 2) == 1 ): 
               # print("mapping GS5")
               camp['Mapping'] = True
               camp['STATUS'] = 'SYS'      
