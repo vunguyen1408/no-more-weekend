@@ -402,6 +402,8 @@ def CacualatorChange(connect, path_data, list_diff, date):
     mp2 = 0
     pg1 = 0
     pg2 = 0
+    pg3 = 0
+    wpl = 0
     for camp in list_camp_find:
       if camp['Account Name'].find('MP2') >= 0:
         mp2 += 1
@@ -409,11 +411,16 @@ def CacualatorChange(connect, path_data, list_diff, date):
         pg2 += 1
       if camp['Account Name'].find('PG1') >= 0:
         pg1 += 1
+      if camp['Account Name'].find('PG1') >= 0:
+        pg3 += 1
+      if camp['Account Name'].find('PG1') >= 0:
+        wpl += 1
 
     print("Camp MP2", mp2)
     print("Camp PG1", pg1)
     print("Camp PG2", pg2)
-
+    print("Camp WPL", wpl)
+    print("Camp PG3", pg3)
 
     list_plan = mapping.ReadPlan(path_data, date)
     import time
