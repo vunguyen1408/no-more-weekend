@@ -75,59 +75,59 @@ def DownloadAdsOfAdGroup(adwords_client, customerId, startDate, endDate):
 				'fields': [
 						# Attribute
 						'AdGroupId',
-						# 'AdGroupName',
-						# 'AdGroupStatus',
-						# 'AdType',
+						'AdGroupName',
+						'AdGroupStatus',
+						'AdType',
 
-						# 'CampaignId',
-						# 'CampaignName',
-						# 'CampaignStatus',						
+						'CampaignId',
+						'CampaignName',
+						'CampaignStatus',						
 
-						# # 'CreativeFinalUrls',
-						# # 'CreativeDestinationUrl',
+						'CreativeFinalUrls',
+						'CreativeDestinationUrl',
 
-						# 'Id',
-						# 'ImageAdUrl',
-						# 'DisplayUrl',
-						# 'ImageCreativeName',
-						# 'Description',
-						# # 'DevicePreference',                    
-						# # 'ExternalCustomerId',          
-						# # 'Headline',
+						'Id',
+						'ImageAdUrl',
+						'DisplayUrl',
+						'ImageCreativeName',
+						'Description',
+						'DevicePreference',                    
+						'ExternalCustomerId',          
+						'Headline',
 
 						# # Metric
-						# 'Clicks',
-						# # 'InvalidClicks',
-						# 'Conversions',
-						# 'Engagements',
-						# 'Impressions',
+						'Clicks',
+						# 'InvalidClicks',
+						'Conversions',
+						'Engagements',
+						'Impressions',
 						
-						# # 'Interactions',
-						# # 'InteractionTypes',						
-						# # 'InteractionRate',
+						'Interactions',
+						'InteractionTypes',						
+						'InteractionRate',
 
-						# 'VideoViews',
-						# # 'VideoViewRate',
-						# # 'VideoQuartile25Rate',
-						# # 'VideoQuartile50Rate',
-						# # 'VideoQuartile75Rate',
-						# # 'VideoQuartile100Rate',
+						'VideoViews',
+						'VideoViewRate',
+						'VideoQuartile25Rate',
+						'VideoQuartile50Rate',
+						'VideoQuartile75Rate',
+						'VideoQuartile100Rate',
 
-						# 'Cost'
-						# # 'Ctr',
-						# # 'AverageCpc',
-						# # 'AverageCpm',
-						# # 'AverageCpe',
-						# # 'AverageCpv',
-						# # 'AverageCost',					
-						# # 'AveragePosition',
+						'Cost',
+						'Ctr',
+						'AverageCpc',
+						'AverageCpm',
+						'AverageCpe',
+						'AverageCpv',
+						'AverageCost',					
+						'AveragePosition'
 
 				]
 			}
 		}
 
 	result = report_downloader.DownloadReportAsString(
-		report, skip_report_header=True, skip_column_header=False,
+		report, skip_report_header=True, skip_column_header=False, \
 		skip_report_summary=False, include_zero_impressions=True)
 	# print(result)
 	return result
@@ -264,21 +264,22 @@ def DownloadKeyword(adwords_client, customerId, startDate, endDate):
 
 
 
-adwords_client = adwords.AdWordsClient.LoadFromStorage('D:/WorkSpace/Adwords/Finanlly/AdWords/adwords_python3/googleads.yaml')
+adwords_client = adwords.AdWordsClient.LoadFromStorage('C:/Users/admin/Documents/GitHub/AdWords/adwords_python3/googleads.yaml')
 customerId = '5008396449'
 startDate = '2017-10-02' 
 endDate = '2017-10-02' 
 
 #===================== Downloads Ads ======================
-# path_file_ads = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/ads.json'
+path_file_ads = 'C:/Users/admin/Documents/GitHub/no-more-weekend/adwords_python3/online_marketing/final/get_data/GG/ads.json'
 
-# result_ads = DownloadAdsOfAdGroup(adwords_client, customerId, startDate, endDate)
-# result_json = TSVtoJson(result_ads, startDate)
-# with open (path_file_ads, 'w') as f:
-# 	json.dump(result_json, f)
+result_ads = DownloadAdsOfAdGroup(adwords_client, customerId, startDate, endDate)
+result_json = TSVtoJson(result_ads, startDate)
+with open (path_file_ads, 'w') as f:
+	json.dump(result_json, f)
+print("Save ads into file ............")
 
-#===================== Downloads Video ======================
-path_file_video = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/video.json'
+# #===================== Downloads Video ======================
+path_file_video = 'C:/Users/admin/Documents/GitHub/no-more-weekend/adwords_python3/online_marketing/final/get_data/GG/video.json'
 
 result_ads = DownloadVideo(adwords_client, customerId, startDate, endDate)
 result_json = TSVtoJson(result_ads, startDate)
@@ -286,8 +287,8 @@ with open (path_file_video, 'w') as f:
 	json.dump(result_json, f)
 print("Save videos into file ............")
 
-#===================== Downloads Keywords ======================
-path_file_keyword = 'C:/Users/CPU10912-local/Desktop/Adword/DATA/ACCOUNT_ID/keyword.json'
+# #===================== Downloads Keywords ======================
+path_file_keyword = 'C:/Users/admin/Documents/GitHub/no-more-weekend/adwords_python3/online_marketing/final/get_data/GG/keyword.json'
 
 result_ads = DownloadKeyword(adwords_client, customerId, startDate, endDate)
 result_json = TSVtoJson(result_ads, startDate)
