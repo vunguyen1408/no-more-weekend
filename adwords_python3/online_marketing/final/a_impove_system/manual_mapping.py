@@ -287,7 +287,7 @@ def ManualMap(connect, path_data, date):
 
 				list_map_all.extend(list_map)
 				# print (len(list_map))
-			print ("Time get camp map : ", (time.time() - start_time))
+			# print ("Time get camp map : ", (time.time() - start_time))
 			#----------- Remove unmap ---------------------
 			for camp in list_map_all:
 				for campaign in data_total['UN_CAMP']:
@@ -306,14 +306,14 @@ def ManualMap(connect, path_data, date):
 			data_date['PLAN'] = list_temp
 			start_time = time.time()
 			data_total, list_plan_insert, list_plan_remove = insert_data.AddToTotal (data_total, data_date, date)
-			print ("Add data to total : ", (time.time() - start_time))
+			# print ("Add data to total : ", (time.time() - start_time))
 			data_total['TOTAL'] = insert_data.CaculatorForPlan(data_total['TOTAL'])
 
 			import time
 			start = time.time()
 			data_total['TOTAL'] = insert_install.InsertInstallToPlan(data_total['TOTAL'], connect, date)
 			data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
-			print ("Insert install: ", (time.time() - start))
+			# print ("Insert install: ", (time.time() - start))
 
 			# for plan_total in data_total['TOTAL']:
 			# 	if str(plan_total['REASON_CODE_ORACLE']) == '1708007':
