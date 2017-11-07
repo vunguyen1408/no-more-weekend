@@ -1146,9 +1146,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 			# insert_install.InsertInstallToPlan(path_data, connect, date)
 			# insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
 
-			list_camp_insert_unmap.extend(camp_insert_unmap)
-			list_data_remove_map.extend(data_remove_map)
-			list_plan_insert_unmap.extend(plan_insert_unmap)
+			list_camp_insert_unmap.extend(camp_insert_unmap)			
 			list_remove_manual.extend(remove_manual)
 
 
@@ -1274,7 +1272,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
-date = '2017-10-31' 
+date = '2017-09-30' 
 # date = '2017-03-01' 
 path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
 
