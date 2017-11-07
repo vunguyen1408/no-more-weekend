@@ -1185,15 +1185,23 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		with open (path_data_total_map,'r') as f:
 			data_total['TOTAL'] = json.load(f)
 		print('TOTAL: ', len(data_total['TOTAL']))
+
+		# for plan in data_total['TOTAL']:
+		# 	if plan['REASON_CODE_ORACLE'] = '1704024'
+
 		with open (path_data_un_map,'r') as f:
 			data_total['UN_CAMPAIGN'] = json.load(f)
 		print('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
-	print()
-	path_plan = os.path.join(path_data + '/' + str(date) + '/PLAN', 'plan' + '.json')
-	print(path_plan)
-	with open (path_plan,'r') as f:
-		data_plan = json.load(f)
-	print('PLAN: ', len(data_plan['plan']))
+
+		for camp in data_total['UN_CAMPAIGN']:
+			if (camp['Campaign_ID'] == '218681005'):
+				print(camp)
+	# print()
+	# path_plan = os.path.join(path_data + '/' + str(date) + '/PLAN', 'plan' + '.json')
+	# print(path_plan)
+	# with open (path_plan,'r') as f:
+	# 	data_plan = json.load(f)
+	# print('PLAN: ', len(data_plan['plan']))
 
 	#============ Case 0: Release camp in list change real date ===============
 		# if (len(list_plan_change_real_date) > 0):
@@ -1333,7 +1341,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_03_10'
-date = '2017-09-30' 
+date = '2017-10-31' 
 # date = '2017-03-01' 
 path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
 
