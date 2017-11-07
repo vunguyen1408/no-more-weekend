@@ -332,18 +332,18 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 
 	#----------------- Mapping with campaign unmap -------------------------
 	data_map_all = {
-		'plan': [],
-		'campaign': []
+		'PLAN': [],
+		'UN_CAMP': []
 	}
 
 	data_map_GS5 = {
-		'plan': [],
-		'campaign': []
+		'PLAN': [],
+		'UN_CAMP': []
 	}
 
 	data_map_WPL = {
-		'plan': [],
-		'campaign': []
+		'PLAN': [],
+		'UN_CAMP': []
 	}
 	
 	auto_mapping  = time.time()
