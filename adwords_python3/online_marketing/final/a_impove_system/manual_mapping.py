@@ -320,11 +320,11 @@ def ManualMap(connect, path_data, date):
 			for plan in list_plan_insert:
 				for plan_total in data_total['TOTAL']:
 					if str(plan['PRODUCT_CODE']) == str(plan_total['PRODUCT_CODE']) \
-					and str(plan['REASON_CODE_ORACLE']) == str(plan_total['REASON_CODE_ORACLE']) \
-					and str(plan['FORM_TYPE']) == str(plan_total['FORM_TYPE']) \
-					and str(plan['START_DAY']) == str(plan_total['START_DAY']) \
-					and str(plan['END_DAY_ESTIMATE']) == str(plan_total['END_DAY_ESTIMATE']):
-					list_plan_insert_temp.append(plan_total)
+						and str(plan['REASON_CODE_ORACLE']) == str(plan_total['REASON_CODE_ORACLE']) \
+						and str(plan['FORM_TYPE']) == str(plan_total['FORM_TYPE']) \
+						and str(plan['START_DAY']) == str(plan_total['START_DAY']) \
+						and str(plan['END_DAY_ESTIMATE']) == str(plan_total['END_DAY_ESTIMATE']):
+						list_plan_insert_temp.append(plan_total)
 
 
 			list_plan_remove_unmap = list_plan_remove
