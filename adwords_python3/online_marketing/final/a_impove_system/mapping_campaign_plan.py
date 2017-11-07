@@ -22,42 +22,30 @@ def ChangeCampaignType(campaign_type):
     campaign_type = 'VIDEO'
   return campaign_type
 
-def LogManualMap(path_data, campaign, plan, date, is_manual_map):
-  path_folder = os.path.join(path_data, str(date) + '/LOG_MANUAL')
+def LogManualMap(data_manual_map, campaign, plan, date, is_manual_map):
   if is_manual_map == 1:
-    path_data_total_map = os.path.join(path_folder, 'log_manual.json')
+    flag = 0
+    for manual in data_manual_map['LOG']:
+      # print (manual)
+      if str(plan['PRODUCT']) == str(manual['PRODUCT']) \
+        and str(plan['REASON_CODE_ORACLE']) == str(manual['REASON_CODE_ORACLE']) \
+        and str(plan['FORM_TYPE']) == str(manual['FORM_TYPE']) \
+        and str(plan['UNIT_OPTION']) == str(manual['UNIT_OPTION']) \
+        and str(campaign['Campaign ID']) == str(manual['CAMPAIGN_ID']):
+          flag = 1
+          break
+    return flag
   if is_manual_map == 2:
-    path_data_total_map = os.path.join(path_folder, 'log_un_map.json')
-
-  if os.path.exists(path_data_total_map):
-    with open (path_data_total_map,'r') as f:
-      data_manual_map = json.load(f)
-
-      if is_manual_map == 1:
-        flag = 0
-        for manual in data_manual_map['LOG']:
-          # print (manual)
-          if str(plan['PRODUCT']) == str(manual['PRODUCT']) \
-            and str(plan['REASON_CODE_ORACLE']) == str(manual['REASON_CODE_ORACLE']) \
-            and str(plan['FORM_TYPE']) == str(manual['FORM_TYPE']) \
-            and str(plan['UNIT_OPTION']) == str(manual['UNIT_OPTION']) \
-            and str(campaign['Campaign ID']) == str(manual['CAMPAIGN_ID']):
-              flag = 1
-              break
-        return flag
-      if is_manual_map == 2:
-        flag = 1
-        for manual in data_manual_map['LOG']:
-          if str(plan['PRODUCT']) == str(manual['PRODUCT']) \
-            and str(plan['REASON_CODE_ORACLE']) == str(manual['REASON_CODE_ORACLE']) \
-            and str(plan['FORM_TYPE']) == str(manual['FORM_TYPE']) \
-            and str(plan['UNIT_OPTION']) == str(manual['UNIT_OPTION']) \
-            and str(campaign['Campaign ID']) == str(manual['CAMPAIGN_ID']):
-              flag = 0
-              break
-        return flag
-  else:
-    return 2
+    flag = 1
+    for manual in data_manual_map['LOG']:
+      if str(plan['PRODUCT']) == str(manual['PRODUCT']) \
+        and str(plan['REASON_CODE_ORACLE']) == str(manual['REASON_CODE_ORACLE']) \
+        and str(plan['FORM_TYPE']) == str(manual['FORM_TYPE']) \
+        and str(plan['UNIT_OPTION']) == str(manual['UNIT_OPTION']) \
+        and str(campaign['Campaign ID']) == str(manual['CAMPAIGN_ID']):
+          flag = 0
+          break
+    return flag
 
 
 

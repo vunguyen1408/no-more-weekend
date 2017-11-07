@@ -217,6 +217,16 @@ def Map(path_folder, list_plan, list_campaign, date):
   print (len(list_campaign))
   list_campaign_map = []
   number = 0
+
+  path_data = os.path.join(path_folder, str(date) + '/LOG_MANUAL')
+  path_data_manual = os.path.join(path_data, 'log_manual.json')
+  path_data_un_map = os.path.join(path_data, 'log_un_map.json')
+
+  with open (path_data_manual,'r') as f:
+    data_manual = json.load(f)
+  with open (path_data_un_map,'r') as f:
+    data_un_map = json.load(f)
+
   # for j, camp in enumerate(list_campaign):
   #   if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
   #     list_campaign_map.append(camp)
@@ -248,7 +258,7 @@ def Map(path_folder, list_plan, list_campaign, date):
 
       if (camp['Mapping'] == False): 
         flag = False
-        if mapping.LogManualMap(path_folder, camp, eform, date, 1) == 1:
+        if mapping.LogManualMap(data_manual, camp, eform, date, 1) == 1:
           flag = True
         else:
           #============= WPL -================
@@ -259,7 +269,7 @@ def Map(path_folder, list_plan, list_campaign, date):
               and (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) \
               and (date_ >= start) \
               and (date_ <= end) ) \
-              and  ( mapping.LogManualMap(path_folder, camp, eform, date, 2) == 1):
+              and  ( mapping.LogManualMap(data_un_map, camp, eform, date, 2) == 1):
               flag = True
               # print("mapping WPL")
           else:
@@ -272,7 +282,7 @@ def Map(path_folder, list_plan, list_campaign, date):
                 and (eform['FORM_TYPE'].find(type_campaign) >= 0) \
                 and (date_ >= start) \
                 and (date_ <= end) ) \
-                and  ( mapping.LogManualMap(path_folder, camp, eform, date, 2) ):
+                and  ( mapping.LogManualMap(data_un_map, camp, eform, date, 2) ):
                 flag = True
                 # print("mapping GS5")
 
@@ -294,7 +304,7 @@ def Map(path_folder, list_plan, list_campaign, date):
                 and (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) 
                 and (date_ >= start) 
                 and (date_ <= end) ) \
-                and ( mapping.LogManualMap(path_folder, camp, eform, date, 2) == 1): 
+                and ( mapping.LogManualMap(data_un_map, camp, eform, date, 2) == 1): 
                 flag = True
                 # if t:
                 #   print("mapping =====================================\n\n\n")
