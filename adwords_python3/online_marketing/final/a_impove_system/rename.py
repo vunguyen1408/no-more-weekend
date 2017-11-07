@@ -167,7 +167,7 @@ def CheckNameChange(path_data, list_customer, date):
     with open (path_data_total_map,'r') as f:
       data_total = json.load(f)
 
-    print(path_data_total_map)
+    # print(path_data_total_map)
     # list_camp = GetListCampOfAccount(list_customer)
     path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/history_name.json'
     list_camp = []
@@ -440,7 +440,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
     import time
 
     print (len(list_camp_find))
-    list_camp_find = list_camp_find[100:]
+    # list_camp_find = list_camp_find[100:]
     print("MAP")
     start = time.time()
     data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
