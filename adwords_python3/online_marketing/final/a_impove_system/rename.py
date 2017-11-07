@@ -287,7 +287,7 @@ def Map(path_folder, list_plan, list_campaign, date):
                   # checkProductCode(camp['Campaign'], eform['CCD_PRODUCT']) or \
                   # checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) or \
                   mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) or \
-                  product_id.find(str(eform['PRODsUCT'])) >= 0
+                  product_id.find(str(eform['PRODUCT'])) >= 0
                 )
                 and \
                 (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) \
