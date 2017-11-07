@@ -36,10 +36,11 @@ def LogManualMap(path_data, campaign, plan, date, is_manual_map):
       if is_manual_map == 1:
         flag = 0
         for manual in data_manual_map:
-          if str(manual['PRODUCT']) == str(manual['PRODUCT']) \
-            and str(manual['REASON_CODE_ORACLE']) == str(manual['REASON_CODE_ORACLE']) \
-            and str(manual['FORM_TYPE']) == str(manual['FORM_TYPE']) \
-            and str(manual['UNIT_OPTION']) == str(manual['UNIT_OPTION']) \
+          print (manual)
+          if str(plan['PRODUCT']) == str(manual['PRODUCT']) \
+            and str(plan['REASON_CODE_ORACLE']) == str(manual['REASON_CODE_ORACLE']) \
+            and str(plan['FORM_TYPE']) == str(manual['FORM_TYPE']) \
+            and str(plan['UNIT_OPTION']) == str(manual['UNIT_OPTION']) \
             and str(campaign['Campaign ID']) == str(manual['CAMPAIGN_ID']):
               flag = 1
               break
@@ -47,10 +48,10 @@ def LogManualMap(path_data, campaign, plan, date, is_manual_map):
       if is_manual_map == 2:
         flag = 1
         for manual in data_manual_map:
-          if str(manual['PRODUCT']) == str(manual['PRODUCT']) \
-            and str(manual['REASON_CODE_ORACLE']) == str(manual['REASON_CODE_ORACLE']) \
-            and str(manual['FORM_TYPE']) == str(manual['FORM_TYPE']) \
-            and str(manual['UNIT_OPTION']) == str(manual['UNIT_OPTION']) \
+          if str(plan['PRODUCT']) == str(manual['PRODUCT']) \
+            and str(plan['REASON_CODE_ORACLE']) == str(manual['REASON_CODE_ORACLE']) \
+            and str(plan['FORM_TYPE']) == str(manual['FORM_TYPE']) \
+            and str(plan['UNIT_OPTION']) == str(manual['UNIT_OPTION']) \
             and str(campaign['Campaign ID']) == str(manual['CAMPAIGN_ID']):
               flag = 0
               break
