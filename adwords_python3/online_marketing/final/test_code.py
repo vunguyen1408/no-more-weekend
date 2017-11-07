@@ -1196,7 +1196,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 			# and plan['PRODUCT'] == '122' \
 			# and plan['FORM_TYPE'] == 'SEARCH' \
 			# and plan['UNIT_OPTION'] == 'CPI':
-				print(plan)
+				# print(plan)
 
 		with open (path_data_un_map,'r') as f:
 			data_total['UN_CAMPAIGN'] = json.load(f)
