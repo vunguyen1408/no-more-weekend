@@ -2,7 +2,7 @@ import json
 import os
 import cx_Oracle 
 from datetime import datetime , timedelta, date
-import manual_mapping_and_remap as manual
+# import manual_mapping_and_remap as manual
 import mapping_campaign_plan as mapping
 import insert_data_map_to_total as insert_to_total
 import insert_nru_into_data as nru
