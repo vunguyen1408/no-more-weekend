@@ -440,7 +440,8 @@ def CacualatorChange(connect, path_data, list_diff, date):
     import time
 
     print (len(list_camp_find))
-    # list_camp_find = list_camp_find[100:]
+    list_camp_find = list_camp_find[:100]
+
     print("MAP")
     start = time.time()
     data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
@@ -483,13 +484,13 @@ def CacualatorChange(connect, path_data, list_diff, date):
     # print (list_camp_need_remove[0])
 
     ###########################################
-    path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-    with open (path_data_total_map,'w') as f:
-      json.dump(data_total['TOTAL'], f)
+    # path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+    # with open (path_data_total_map,'w') as f:
+    #   json.dump(data_total['TOTAL'], f)
 
-    path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
-    with open (path_data_un_map,'w') as f:
-      json.dump(data_total['UN_CAMP'], f)
+    # path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+    # with open (path_data_un_map,'w') as f:
+    #   json.dump(data_total['UN_CAMP'], f)
     ##########################################
 
   return (list_plan_remove_unmap, list_camp_need_remove, list_plan_update, list_camp_update)
