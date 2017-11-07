@@ -442,21 +442,21 @@ def InsertDataMap(path_data_total_map, path_data_un_map, connect):
 				InsertDetailUnmap(value, cursor)
 			except:
 				pass
-
+		print ("Insert un map : ", (time.time() - start))
 		start = time.time()
 		for value in list_plan_un:
 			try:		
 				InsertDetailUnmap(value, cursor)
 			except:
 				pass
-		# print ("Insert un map : ", (time.time() - start))
+		print ("Insert plan un map : ", (time.time() - start))
 		start = time.time()
 		for value in list_un_camp:
 			try:		
 				InsertDetailUnmap(value, cursor)
 			except:
 				pass
-		# print ("Insert map : ", (time.time() - start))
+		print ("Insert map : ", (time.time() - start))
 		print ("Time insert unmap : ", (time.time() - sum_time))
 
 		conn.commit()
