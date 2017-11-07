@@ -47,10 +47,6 @@ def LogManualMap(data_manual_map, campaign, plan, date, is_manual_map):
           break
     return flag
 
-
-
-  return False
-
 def ChooseTime(plan):
   if plan['REAL_START_DATE'] is not None:
     start_plan = plan['REAL_START_DATE']
