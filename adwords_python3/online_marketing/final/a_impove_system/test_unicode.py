@@ -439,8 +439,8 @@ for plan_total in data_total:
 
 # path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
 
-with open (path_total,'w') as f:
-	json.dump(data_total, f)
+# with open (path_total,'w') as f:
+# 	json.dump(data_total, f)
 
 print ("DONE")
 
