@@ -297,11 +297,54 @@ def UpdatePlan(path_data, list_plan_update, data_total):
 	return data_total, list_plan_update_total, list_plan_update_map
 
 
+def AddToTotal (data_total, data_date, date):
+
+	list_plan_insert = []
+	list_plan_remove = []
+	# Merge plan cua ngay voi total
+	for plan_date in data_date:
+		flag = False
+		for plan in data_total:
+			# print (plan)
+			# print (plan_date)
+			if plan['PRODUCT_CODE'] == plan_date['PRODUCT_CODE'] \
+				and plan['REASON_CODE_ORACLE'] == plan_date['REASON_CODE_ORACLE'] \
+				and plan['FORM_TYPE'] == plan_date['FORM_TYPE'] \
+				and plan['UNIT_OPTION'] == plan_date['UNIT_OPTION'] \
+				and plan['START_DAY'] == plan_date['START_DAY'] \
+				and plan['END_DAY_ESTIMATE'] == plan_date['END_DAY_ESTIMATE']:
+
+				if len(plan_date['CAMPAIGN']) > 0 and len(plan['CAMPAIGN']) == 0:
+					# print (len(plan_date['CAMPAIGN']))
+					# print (len(plan['CAMPAIGN']))
+					# print ("add reomve")
+					list_plan_remove.append(plan_date)
+
+				# Cap nhat real date
+				plan['REAL_START_DATE'] = plan_date['REAL_START_DATE']
+				plan['REAL_END_DATE'] = plan_date['REAL_END_DATE']
+
+				# Chuyen campaign maping duoc cua plan
+				temp_date = plan_date['CAMPAIGN']
+				temp = plan['CAMPAIGN']
+				temp.extend(temp_date)
+				plan['CAMPAIGN'] = temp
+				flag = True
+
+		# Plan moi
+		if flag == False:
+			data_total.append(plan_date)
+			# Plan nay, neu unmap (list campaign == 0) se insert vao trong plan un, con neu map se insert vao total.
+			list_plan_insert.append(plan_date)
+
+	# print (len(list_plan_remove))
+	return (data_total, list_plan_insert, list_plan_remove)
+
 def merger_data_map(data_map_all, data_map_GS5, data_map_WPL, date):
 	#============= Merger Plan ==================	
-	list_plan = data_map_all.copy()
-	list_plan, list_data_map, list_plan_remove, list_plan_update = insert_to_total.AddToTotal (list_plan, data_map_GS5, date)
-	list_plan, list_data_map, list_plan_remove, list_plan_update = insert_to_total.AddToTotal (list_plan, data_map_WPL, date)
+	list_plan = data_map_all['PLAN'].copy()
+	list_plan, list_data_map, list_plan_remove, list_plan_update = AddToTotal (list_plan['PLAN'], data_map_GS5['PLAN'], date)
+	list_plan, list_data_map, list_plan_remove, list_plan_update = AddToTotal (list_plan['PLAN'], data_map_WPL['PLAN'], date)
 
 
 	#============= Merger Campaign ==============
