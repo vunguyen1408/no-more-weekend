@@ -405,7 +405,7 @@ for plan_total in data_total:
 	# plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
 	if plan_total['REASON_CODE_ORACLE'] == '1704024' and plan_total['PRODUCT'] == '122':
 		for camp in plan_total['CAMPAIGN']:
-			if camp['Campaign Id'] == '218681005':
+			if camp['Campaign ID'] == '218681005':
 				print (camp)
 				# print (plan_total['REASON_CODE_ORACLE'])
 				# print (plan_total['PRODUCT'])
