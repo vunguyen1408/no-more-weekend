@@ -43,7 +43,7 @@ def LogManualMap(path_data, campaign, plan, date, is_manual_map):
             and str(campaign['Campaign ID']) == str(manual['CAMPAIGN_ID']):
               flag = 1
               break
-        return flag:
+        return flag
       if is_manual_map == 2:
         flag = 1
         for manual in data_manual_map:
@@ -54,7 +54,7 @@ def LogManualMap(path_data, campaign, plan, date, is_manual_map):
             and str(campaign['Campaign ID']) == str(manual['CAMPAIGN_ID']):
               flag = 0
               break
-        return flag:
+        return flag
   else:
     return 2
 
