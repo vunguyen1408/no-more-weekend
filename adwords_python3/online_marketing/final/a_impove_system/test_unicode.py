@@ -371,10 +371,12 @@ import time
 # 	return plan
 
 path_alias = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-08-31/PLAN/product_alias.json'
-path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-10-31/DATA_MAPPING/total_mapping.json'
+# path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-10-31/DATA_MAPPING/total_mapping.json'
 # path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-10-31/DATA_MAPPING/un_map_camp.json'
 path_plan = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-08-31/PLAN/plan.json'
 # file_product = os.path.join(path_data, str(date) + '/PLAN/product_alias.json')
+path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-10-31/DATA_MAPPING/history_name.json'
+
 import insert_data_map_to_total as insert_to_total
 
 with open(path_alias, 'r') as fi:
@@ -386,6 +388,10 @@ with open(path_plan, 'r') as fi:
 
 with open(path_total, 'r') as fi:
 	data_total = json.load(fi)
+
+for name in data_total['HISTORY']:
+	if name['CAMPAIGN_ID'] == '953916682':
+		print (name)
 
 # for plan_total in data_alias['ALIAS']:
 # 	if  str(plan_total['PRODUCT_ID']) == '193':
@@ -417,15 +423,15 @@ with open(path_total, 'r') as fi:
 
 
 
-date = '2017-09-30'
-for plan_total in data_total:
-# if plan_total['REASON_CODE_ORACLE'] == '1708061':
-# # if str(plan_total['Campaign ID']) == '772872164':
-#   print (plan_total)
-	# plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
-	if plan_total['REASON_CODE_ORACLE'] == '1708008' and plan_total['UNIT_OPTION'] == 'CPV' and plan_total['FORM_TYPE'] == 'SEARCH':
-		print (plan_total)
-		data_total.remove(plan_total)
+# date = '2017-09-30'
+# for plan_total in data_total:
+# # if plan_total['REASON_CODE_ORACLE'] == '1708061':
+# # # if str(plan_total['Campaign ID']) == '772872164':
+# #   print (plan_total)
+# 	# plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
+# 	if plan_total['REASON_CODE_ORACLE'] == '1708008' and plan_total['UNIT_OPTION'] == 'CPV' and plan_total['FORM_TYPE'] == 'SEARCH':
+# 		print (plan_total)
+# 		data_total.remove(plan_total)
 		# for camp in plan_total['CAMPAIGN']:
 		# 	if camp['Campaign ID'] == '218681005':
 		# 		print (camp)
@@ -435,6 +441,8 @@ for plan_total in data_total:
 		# 		# print (plan_total['TOTAL_CAMPAIGN']['COST'])
 		# 		# print (plan_total['MONTHLY'])
 		# 		print ("============================================\n")
+
+
 
 
 # path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA/2017-08-31/DATA_MAPPING/total_mapping.json'
