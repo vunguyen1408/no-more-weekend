@@ -22,11 +22,44 @@ def ChangeCampaignType(campaign_type):
     campaign_type = 'VIDEO'
   return campaign_type
 
-def LogManualMap(path_data, campaign, plan, date):
-  # path_folder = os.path.join(path_data, str(date) + '/LOG_MANUAL')
-  # path_data_total_map = os.path.join(path_folder, 'log_manual.json')
-  # with open (path_data_total_map,'r') as f:
-  #   data_manual_map = json.load(f)
+def LogManualMap(path_data, campaign, plan, date, is_manual_map):
+  path_folder = os.path.join(path_data, str(date) + '/LOG_MANUAL')
+  if is_manual_map == 1:
+    path_data_total_map = os.path.join(path_folder, 'log_manual.json')
+  if is_manual_map == 2:
+    path_data_total_map = os.path.join(path_folder, 'log_un_map.json')
+
+  if os.path.exists(path_customer):
+    with open (path_data_total_map,'r') as f:
+      data_manual_map = json.load(f)
+
+      if is_manual_map == 1:
+        flag = 0
+        for manual in data_manual_map:
+          if str(manual['PRODUCT']) == str(manual['PRODUCT']) \
+            and str(manual['REASON_CODE_ORACLE']) == str(manual['REASON_CODE_ORACLE']) \
+            and str(manual['FORM_TYPE']) == str(manual['FORM_TYPE']) \
+            and str(manual['UNIT_OPTION']) == str(manual['UNIT_OPTION']) \
+            and str(campaign['Campaign ID']) == str(manual['CAMPAIGN_ID']):
+              flag = 1
+              break
+        return flag:
+      if is_manual_map == 2:
+        flag = 1
+        for manual in data_manual_map:
+          if str(manual['PRODUCT']) == str(manual['PRODUCT']) \
+            and str(manual['REASON_CODE_ORACLE']) == str(manual['REASON_CODE_ORACLE']) \
+            and str(manual['FORM_TYPE']) == str(manual['FORM_TYPE']) \
+            and str(manual['UNIT_OPTION']) == str(manual['UNIT_OPTION']) \
+            and str(campaign['Campaign ID']) == str(manual['CAMPAIGN_ID']):
+              flag = 0
+              break
+        return flag:
+  else:
+    return 2
+
+
+
   return False
 
 def ChooseTime(plan):
@@ -111,7 +144,11 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
           product_id = (camp['Campaign'].split('|'))[1]
         except IndexError as e:
           product_id = ''
-        if(  (eform['PRODUCT_CODE'] != [] or eform['CCD_PRODUCT'] != []) and \
+        # Check manual mapping
+        map_ = False
+        if (LogManualMap(path_folder, camp, eform, date, 1) == 1):
+          map_ = True
+        elif:(  (eform['PRODUCT_CODE'] != [] or eform['CCD_PRODUCT'] != []) and \
           (
             checkProductCode(camp['Campaign'], eform['PRODUCT_CODE']) or \
             checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) or \
@@ -122,10 +159,12 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
           and (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) 
           and (date_ >= start) 
           and (date_ <= end) ) \
-          or ( LogManualMap(path_folder, camp, eform, date) ):  
+          or ( LogManualMap(path_folder, camp, eform, date, 2) == 2):  
+          map_ = True
           # if camp['Campaign ID'] == '699351990':
           #   print (camp)
           # print ("===================================== MP ====================================")
+        if map_:
           camp['Mapping'] = True
           camp['STATUS'] = 'SYS'
           campaign = ConvertCampaignToJsonContent(camp)
@@ -177,15 +216,20 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
         camp['STATUS'] = None
       date_ = datetime.strptime(camp['Date'], '%Y-%m-%d')
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == 'WPL'): 
+        # Check log manual mapping
+        map_ = False
+        if (LogManualMap(path_folder, camp, eform, date, 1) == 1):
+          map_ = True
 
-        if (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
+        elif (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
           and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
           or checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) ) \
           and (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) \
           and (date_ >= start) \
           and (date_ <= end) ) \
-          or  ( LogManualMap(path_folder, camp, eform, date) ): 
-
+          or  ( LogManualMap(path_folder, camp, eform, date, 2) == 1): 
+          map_ = True
+        if map_:
           camp['Mapping'] = True
           camp['STATUS'] = 'SYS'
           campaign = ConvertCampaignToJsonContent(camp)
@@ -269,17 +313,20 @@ def MapAccountWithCampaignGS5(path_folder, list_plan, list_campaign, date):
       start = datetime.strptime(start, '%Y-%m-%d')
       end = datetime.strptime(end, '%Y-%m-%d')
 
-      
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == 'GS5'): 
+        map_ = False
+        if (LogManualMap(path_folder, camp, eform, date, 1) == 1):
+          map_ = True
 
-        if (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
+        elif (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
           # and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
           and checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) \
           and (eform['FORM_TYPE'].find(type_campaign) >= 0) \
           and (date_ >= start) \
           and (date_ <= end) ) \
-          or  ( LogManualMap(path_folder, camp, eform, date) ): 
-
+          or  ( LogManualMap(path_folder, camp, eform, date) == 1): 
+          map_ = True
+        if map_:
           camp['Mapping'] = True
           camp['STATUS'] = 'SYS'
           campaign = ConvertCampaignToJsonContent(camp)
@@ -306,7 +353,7 @@ def MapAccountWithCampaignGS5(path_folder, list_plan, list_campaign, date):
             and (eform['UNIT_OPTION'].find(unit_option) >= 0) \
             and (date_ >= start) \
             and (date_ <= end) ) \
-            or  ( LogManualMap(path_folder, camp, eform, date) ): 
+            or  ( LogManualMap(path_folder, camp, eform, date) == 1 ): 
 
             camp['Mapping'] = True
             camp['STATUS'] = 'SYS'
