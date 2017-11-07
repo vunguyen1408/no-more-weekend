@@ -564,7 +564,7 @@ def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_t
 					}	
 					list_remove_manual.append(plan_temp)	
 
-				for camp in data_total['CAMPAIGN']:
+				for camp in plan_total['CAMPAIGN']:
 					data_total['UN_CAMPAIGN'].append(camp)
 					list_camp_insert_unmap.append(camp)
 
