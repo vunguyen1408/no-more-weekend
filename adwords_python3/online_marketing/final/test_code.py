@@ -1305,12 +1305,12 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		# # ReadPlanFromTable(connect, path_data, date)
 		# # nru.Add_NRU_into_plan(connect, path_data, date)
 
-		print('list_plan_new: ', len(list_plan_new))
-		print('list_plan_map: ', len(list_plan_map))
-		print('list_plan_change_real_date', len(list_plan_change_real_date))
-		print('list_plan_update: ', len(list_plan_update))
-		print()
-		print()
+	print('list_plan_new: ', len(list_plan_new))
+	print('list_plan_map: ', len(list_plan_map))
+	print('list_plan_change_real_date', len(list_plan_change_real_date))
+	print('list_plan_update: ', len(list_plan_update))
+	print()
+	print()
 
 		# print('list_camp_remove_unmap: ', len(list_camp_remove_unmap))
 		# print('list_camp_insert_unmap: ', len(list_camp_insert_unmap))
