@@ -1001,7 +1001,9 @@ def ReleaseCampOfPlanRealDate(path_data, date, list_plan_change, data_total):
 					'PLAN' : plan,
 					'CAMPAIGN_MANUAL_MAP' : []
 		}
+		print((data_total['TOTAL'][0]['CAMPAIGN_MANUAL_MAP']))
 		for plan_total in data_total['TOTAL']:
+
 			if plan_total['PRODUCT'] == plan['PRODUCT'] and \
 				plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
 				plan_total['FORM_TYPE'] == plan['FORM_TYPE'] and \
@@ -1012,7 +1014,7 @@ def ReleaseCampOfPlanRealDate(path_data, date, list_plan_change, data_total):
 					for camp in plan_total['CAMPAIGN']:
 						if (camp['Date'] <= start) or (camp['Date'] >= end):
 							#----------- Remove from TOTAL -----------------
-							# if (camp[''])
+							
 							plan_total['CAMPAIGN'].remove(camp)
 							list_camp.append(camp)
 
