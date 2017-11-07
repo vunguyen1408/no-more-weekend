@@ -1194,7 +1194,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		print('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
 
 		for camp in data_total['UN_CAMPAIGN']:
-			if (camp['Campaign ID'] == '218681005') and (camp['Date'].find('-04-')):
+			if (camp['Campaign ID'] == '218681005') and (camp['Date'].find('-04-') > 0):
 				print(camp)
 	# print()
 	# path_plan = os.path.join(path_data + '/' + str(date) + '/PLAN', 'plan' + '.json')
