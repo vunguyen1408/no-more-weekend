@@ -315,9 +315,17 @@ def ManualMap(connect, path_data, date):
 			data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
 			# print ("Insert install: ", (time.time() - start))
 
-			# for plan_total in data_total['TOTAL']:
-			# 	if str(plan_total['REASON_CODE_ORACLE']) == '1708007':
-			# 		print (plan_total)
+			# Get plan insert
+			list_plan_insert_temp = []
+			for plan in list_plan_insert:
+				for plan_total in data_total['TOTAL']:
+					if str(plan['PRODUCT_CODE']) == str(plan_total['PRODUCT_CODE']) \
+					and str(plan['REASON_CODE_ORACLE']) == str(plan_total['REASON_CODE_ORACLE']) \
+					and str(plan['FORM_TYPE']) == str(plan_total['FORM_TYPE']) \
+					and str(plan['START_DAY']) == str(plan_total['START_DAY']) \
+					and str(plan['END_DAY_ESTIMATE']) == str(plan_total['END_DAY_ESTIMATE']):
+					list_plan_insert_temp.append(plan_total)
+
 
 			list_plan_remove_unmap = list_plan_remove
 			list_camp_remove_unmap = list_map_all
@@ -336,5 +344,5 @@ def ManualMap(connect, path_data, date):
 			print ("Camp moi duoc map: ", len(list_camp_remove_unmap))
 			# print (list_map_all[0]['CYEAR'])
 
-	return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
+	return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert_temp)
 

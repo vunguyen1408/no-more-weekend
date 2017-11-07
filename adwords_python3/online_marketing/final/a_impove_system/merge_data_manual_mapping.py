@@ -31,7 +31,8 @@ def UpdateRename(connect, list_camp_update, data):
 	cursor.close()
 
 
-def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert_un_map, is_manual_map):
+def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, \
+								list_plan_update, list_plan_insert_un_map, list_plan_insert_sum, is_manual_map):
 	# ==================== Connect database =======================
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
@@ -103,6 +104,21 @@ def merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, list_c
 					json_ = monthly_detail.ConvertJsonMonthlyDetail(i, plan)
 					monthly_detail.UpdateMonthlyDetail(json_, cursor)
 	print ("Time update plan : ", (time.time() - start))
+
+	# Insert plan new
+	start = time.time()
+	if (len(list_plan_insert_sum) > 0):
+		for plan in list_plan_insert_sum:
+			json_ = plan_sum.ConvertJsonPlanSum(plan)
+			plan_sum.InsertPlanSum(json_, cursor)
+			if ('MONTHLY' in plan):
+				for i in range(len(plan['MONTHLY'])):
+					json_ = monthly_sum.ConvertJsonMonthlySum(i, plan)
+					monthly_sum.InsertMonthlySum(json_, cursor)
+
+					json_ = monthly_detail.ConvertJsonMonthlyDetail(i, plan)
+					monthly_detail.InsertMonthlyDetail(json_, cursor)
+	print ("Time insert plan : ", (time.time() - start))
 
 	#=================== Commit and close connect =================
 	conn.commit()
