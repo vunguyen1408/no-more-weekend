@@ -148,7 +148,7 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
         map_ = False
         if (LogManualMap(path_folder, camp, eform, date, 1) == 1):
           map_ = True
-        elif:(  (eform['PRODUCT_CODE'] != [] or eform['CCD_PRODUCT'] != []) and \
+        elif(  (eform['PRODUCT_CODE'] != [] or eform['CCD_PRODUCT'] != []) and \
           (
             checkProductCode(camp['Campaign'], eform['PRODUCT_CODE']) or \
             checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) or \
