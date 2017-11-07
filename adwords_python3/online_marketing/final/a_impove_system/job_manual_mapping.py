@@ -46,7 +46,7 @@ def UnMapping (connect, path_data, date):
 
 	print(len(list_camp_remove_unmap))
 	if list_camp_remove_unmap != []:
-		# update_manual = time.time()
+		update_manual = time.time()
 		# list_map = list_camp_remove_unmap.copy()
 		# list_plan_remove_unmap = []
 		# is_manual_map = 2
