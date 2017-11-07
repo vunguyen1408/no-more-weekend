@@ -155,16 +155,16 @@ def ReadTableManualMap(connect, path_data, date, is_un_map):
 					list_plan_diff.append(temp)
 					flag = False
 		# ----------- Plan moi duoc tao -----------------
-		if flag:
-			temp = plan_temp.copy()
-			temp['UNIT_OPTION'] = plan['UNIT_OPTION']
-			temp['FORM_TYPE'] = plan['FORM_TYPE']
-			temp['CAMPAIGN_MANUAL_MAP'] = []
-			temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
-			temp['USER_MAP'] = plan['USER_NAME']
-			temp['STATUS'] = 'USER'
-			list_plan_diff.append(temp)
-			list_plan_new.append(temp)
+		# if flag:
+		# 	temp = plan_temp.copy()
+		# 	temp['UNIT_OPTION'] = plan['UNIT_OPTION']
+		# 	temp['FORM_TYPE'] = plan['FORM_TYPE']
+		# 	temp['CAMPAIGN_MANUAL_MAP'] = []
+		# 	temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
+		# 	temp['USER_MAP'] = plan['USER_NAME']
+		# 	temp['STATUS'] = 'USER'
+		# 	list_plan_diff.append(temp)
+		# 	list_plan_new.append(temp)
 	print (len(list_plan_diff))
 	return (list_plan_diff)
 
