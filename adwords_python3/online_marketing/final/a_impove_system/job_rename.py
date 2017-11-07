@@ -38,8 +38,7 @@ def Rename (connect, path_data, list_customer_id, date):
 		update_manual = time.time()
 		print ("insert data")
 		list_plan_insert_un_map = []
-          list_plan_insert_sum = []
-		# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+		list_plan_insert_sum = []
 		# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 		# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 		is_manual_map = 1
