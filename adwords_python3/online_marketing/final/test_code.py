@@ -557,7 +557,7 @@ def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_t
 				and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
 				and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
 
-				if len(plan_total['CAMPAIGN_MANUAL_MAP']) > 0 :
+				if ('CAMPAIGN_MANUAL_MAP' in plan_total) and len(plan_total['CAMPAIGN_MANUAL_MAP']) > 0 :
 					plan_temp = {
 						'PLAN': plan,
 						'CAMPAIGN_MANUAL_MAP': plan_total['CAMPAIGN_MANUAL_MAP']
