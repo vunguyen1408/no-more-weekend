@@ -324,9 +324,9 @@ def UnMapManual(connect, path_data, date):
 			with open (path_data_un_map,'w') as f:
 				json.dump(data_total['UN_CAMP'], f)
 
-			print (len(data_total['UN_CAMP']))
-			print (len(list_plan_insert_un_map))
-			print (len(list_camp_remove_unmap))
+			print ("Data unmap: ", len(data_total['UN_CAMP']))
+			print ("Plan insert: ", len(list_plan_insert_un_map))
+			print ("Camp un map", len(list_camp_remove_unmap))
 
 	return (list_plan_insert_un_map, list_camp_remove_unmap, list_plan_update)
 
