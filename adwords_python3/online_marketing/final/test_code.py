@@ -1033,6 +1033,8 @@ def ReleaseCampOfPlanRealDate(path_data, date, list_plan_change, data_total):
 	return data_total, list_camp_insert_unmap, list_remove_manual
 			
 
+			
+
 def ClassifyPlan(connect, path_data, date, path_log):
 
 	list_camp_remove_unmap = []
@@ -1148,6 +1150,8 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 			list_camp_insert_unmap.extend(camp_insert_unmap)			
 			list_remove_manual.extend(remove_manual)
+
+
 
 
 		# #======== Case 1: Data update can map
