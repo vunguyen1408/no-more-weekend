@@ -1188,20 +1188,23 @@ def ClassifyPlan(connect, path_data, date, path_log):
 			data_total['TOTAL'] = json.load(f)
 		print('TOTAL: ', len(data_total['TOTAL']))
 
-		# for plan in data_total['TOTAL']:
-		# 	if plan['REASON_CODE_ORACLE'] == '1704024' \
-		# 	and plan['PRODUCT'] == '122' \
-		# 	and plan['FORM_TYPE'] == 'SEARCH' \
-		# 	and plan['UNIT_OPTION'] == 'CPI':
-		# 		print(plan)
+		for plan in data_total['TOTAL']:
+			for camp in  plan['CAMPAIGN']:
+				if (camp['STATUS'] != 'SYS') and (camp['STATUS'] != ''):
+					print(camp['STATUS'])
+			# if plan['REASON_CODE_ORACLE'] == '1704024' \
+			# and plan['PRODUCT'] == '122' \
+			# and plan['FORM_TYPE'] == 'SEARCH' \
+			# and plan['UNIT_OPTION'] == 'CPI':
+				print(plan)
 
 		with open (path_data_un_map,'r') as f:
 			data_total['UN_CAMPAIGN'] = json.load(f)
 		print('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
 
-		for camp in data_total['UN_CAMPAIGN']:
-			if (camp['STATUS'] != 'SYS') and (camp['STATUS'] != ''): #(camp['Campaign ID'] == '218681005') and (camp['Date'].find('-04-') > 0):
-				print(camp['STATUS'])
+		# for camp in data_total['UN_CAMPAIGN']:
+		# 	if (camp['STATUS'] != 'SYS') and (camp['STATUS'] != ''): #(camp['Campaign ID'] == '218681005') and (camp['Date'].find('-04-') > 0):
+		# 		print(camp['STATUS'])
 	# print()
 	# path_plan = os.path.join(path_data + '/' + str(date) + '/PLAN', 'plan' + '.json')
 	# print(path_plan)
