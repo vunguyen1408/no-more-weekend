@@ -127,7 +127,7 @@ def GetListCampOfAccount(list_customer, date, to_date):
   
   path_log = 'C:/Users/LAP11529-local/Desktop/log.txt'
   for acccount in list_customer:
-    time.sleep(5)
+    # time.sleep(5)
     temp = DownloadNameOfAccount(adwords_client, acccount, date, to_date, path_log)
     # temp = GetCampaign(adwords_client, acccount)
     list_camp.extend(temp)
@@ -608,12 +608,13 @@ list_customer_id = [
   # PP
   '8024455693' 
   ]
-# list_ = ['5062362839', '6360800174', '8180518027', '9001610198', '9493600480']
-
+# # list_ = ['5062362839', '6360800174', '8180518027', '9001610198', '9493600480']
+import add_acc_name as add_acc_name
+path_acc = 'C:/Users/LAP11529-local/Desktop/VNG/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT'
+list_acc, list_mcc, list_dept = add_acc_name.get_list_customer(path_acc)
 date = '2017-01-01'
-to_date = '2017-09-30'
-GetListCampOfAccount(list_customer_id, date, to_date)
-
+to_date = '2017-10-31'
+GetListCampOfAccount(list_acc, date, to_date)
 # path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
 
 # # CacualatorChange(path_data, list_customer, date)

@@ -71,7 +71,7 @@ def ReadTableManualMap(connect, path_data, date, is_un_map):
 					EFORM_TYPE, UNIT_OPTION, \
 					USER_NAME, ACCOUNT_ID, CAMPAIGN_ID, \
 					TO_CHAR(START_DATE, 'YYYY-MM-DD'), TO_CHAR(END_DATE, 'YYYY-MM-DD') from ODS_CAMP_FA_MAPPING_GG \
-					where TYPE = '2'"
+					where TYPE != '1'"
 	cursor.execute(statement)
 	log_manual = cursor.fetchall()
 
@@ -109,8 +109,8 @@ def ReadTableManualMap(connect, path_data, date, is_un_map):
 
 	#--------------- Write file manual log -------------------
 	data_manual_map['LOG'] = list_out
-	# with open (path_data_total_map,'w') as f:
-	# 	json.dump(data_manual_map, f)
+	with open (path_data_total_map,'w') as f:
+		json.dump(data_manual_map, f)
 
 
 	# ------------ Cần đọc thông tin plan mới nhất --------------------
@@ -316,13 +316,13 @@ def UnMapManual(connect, path_data, date):
 			list_camp_remove_unmap = list_camp_all_plan
 			list_plan_update = data_total['TOTAL']
 
-			# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-			# with open (path_data_total_map,'w') as f:
-			# 	json.dump(data_total['TOTAL'], f)
+			path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			with open (path_data_total_map,'w') as f:
+				json.dump(data_total['TOTAL'], f)
 
-			# path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
-			# with open (path_data_un_map,'w') as f:
-			# 	json.dump(data_total['UN_CAMP'], f)
+			path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+			with open (path_data_un_map,'w') as f:
+				json.dump(data_total['UN_CAMP'], f)
 
 			print (len(data_total['UN_CAMP']))
 			print (len(list_plan_insert_un_map))

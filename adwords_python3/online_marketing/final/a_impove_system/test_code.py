@@ -2,11 +2,11 @@ import json
 import os
 import cx_Oracle 
 from datetime import datetime , timedelta, date
-import manual_mapping_and_remap as manual
+# import manual_mapping_and_remap as manual
 import mapping_campaign_plan as mapping
 import insert_data_map_to_total as insert_to_total
-import insert_nru_into_data as nru
-import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
+# import insert_nru_into_data as nru
+# import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
 import insert_install as insert_install
 import time
 
@@ -297,11 +297,54 @@ def UpdatePlan(path_data, list_plan_update, data_total):
 	return data_total, list_plan_update_total, list_plan_update_map
 
 
+def AddToTotal (data_total, data_date, date):
+
+	list_plan_insert = []
+	list_plan_remove = []
+	# Merge plan cua ngay voi total
+	for plan_date in data_date:
+		flag = False
+		for plan in data_total:
+			# print (plan)
+			# print (plan_date)
+			if plan['PRODUCT_CODE'] == plan_date['PRODUCT_CODE'] \
+				and plan['REASON_CODE_ORACLE'] == plan_date['REASON_CODE_ORACLE'] \
+				and plan['FORM_TYPE'] == plan_date['FORM_TYPE'] \
+				and plan['UNIT_OPTION'] == plan_date['UNIT_OPTION'] \
+				and plan['START_DAY'] == plan_date['START_DAY'] \
+				and plan['END_DAY_ESTIMATE'] == plan_date['END_DAY_ESTIMATE']:
+
+				if len(plan_date['CAMPAIGN']) > 0 and len(plan['CAMPAIGN']) == 0:
+					# print (len(plan_date['CAMPAIGN']))
+					# print (len(plan['CAMPAIGN']))
+					# print ("add reomve")
+					list_plan_remove.append(plan_date)
+
+				# Cap nhat real date
+				plan['REAL_START_DATE'] = plan_date['REAL_START_DATE']
+				plan['REAL_END_DATE'] = plan_date['REAL_END_DATE']
+
+				# Chuyen campaign maping duoc cua plan
+				temp_date = plan_date['CAMPAIGN']
+				temp = plan['CAMPAIGN']
+				temp.extend(temp_date)
+				plan['CAMPAIGN'] = temp
+				flag = True
+
+		# Plan moi
+		if flag == False:
+			data_total.append(plan_date)
+			# Plan nay, neu unmap (list campaign == 0) se insert vao trong plan un, con neu map se insert vao total.
+			list_plan_insert.append(plan_date)
+
+	# print (len(list_plan_remove))
+	return (data_total, list_plan_insert, list_plan_remove)
+
 def merger_data_map(data_map_all, data_map_GS5, data_map_WPL, date):
 	#============= Merger Plan ==================	
 	list_plan = data_map_all['PLAN'].copy()
-	list_plan, list_data_map, list_plan_remove, list_plan_update = AddToTotal (list_plan, data_map_GS5['PLAN'], date)
-	list_plan, list_data_map, list_plan_remove, list_plan_update = AddToTotal (list_plan, data_map_WPL['PLAN'], date)
+	list_plan, list_plan_insert, list_plan_remove = AddToTotal (list_plan, data_map_GS5['PLAN'], date)
+	list_plan, list_plan_insert, list_plan_remove = AddToTotal (list_plan, data_map_WPL['PLAN'], date)
 
 
 	#============= Merger Campaign ==============
@@ -532,6 +575,7 @@ def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_t
 	list_camp_insert_unmap = []
 	list_plan_remove_total = []	
 	list_plan_remove_unmap = []
+	list_plan_remove_map = []
 	list_plan_insert_unmap = []
 	list_data_insert_map = []
 	list_plan_insert_total = []
@@ -594,17 +638,17 @@ def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_t
 
 
 	#---------- Insert data total ------------------
-	data_total['TOTAL'], list_data_map, list_plan_remove, list_plan_update = AddToTotal (data_total['TOTAL'], list_plan_total, date)
+	data_total['TOTAL'], list_plan_insert, list_plan_remove = AddToTotal (data_total['TOTAL'], list_plan_total, date)
 	
 	#==================== CASE UNMAP ==========================		
-	#----------- Insert unmap plan new into un_plan -------
-	for plan in list_plan:
+	#----------- Insert unmap plan new into total -------
+	for plan in list_plan_total:
 		flag = True   # True if plan un map
-		for plan_map in list_plan_total:					
-			if plan_map['PRODUCT'] == plan['PRODUCT'] \
-				and plan_map['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-				and plan_map['FORM_TYPE'] == plan['FORM_TYPE'] \
-				and plan_map['UNIT_OPTION'] == plan['UNIT_OPTION'] :
+		for plan_total in data_total['TOTAL']:					
+			if plan_total['PRODUCT'] == plan['PRODUCT'] \
+				and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+				and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
+				and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION'] :
 				flag = False
 		if flag:			
 			data_total['TOTAL'].append(plan)	
