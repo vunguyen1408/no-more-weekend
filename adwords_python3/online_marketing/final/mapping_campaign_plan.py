@@ -215,7 +215,7 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
   number = 0
   # Remove line total in report
   for j, camp in enumerate(list_campaign):
-    if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
+    if (camp['Cost'] > 0) and ('Campaign state' in camp) and camp['Campaign state'] != 'Total':
       list_campaign_map.append(camp)
 
   for i, eform in enumerate(list_plan):  
@@ -311,7 +311,7 @@ def MapAccountWithCampaignGS5(path_folder, list_plan, list_campaign, date):
   number = 0
   # Remove line total in report
   for j, camp in enumerate(list_campaign):
-    if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
+    if (camp['Cost'] > 0) and ('Campaign state' in camp) and camp['Campaign state'] != 'Total':
       list_campaign_map.append(camp)
 
 
