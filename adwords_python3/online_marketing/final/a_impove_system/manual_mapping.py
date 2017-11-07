@@ -77,7 +77,7 @@ def ReadTableManualMap(connect, path_data, date):
 	list_out = []
 	#------------- Check manual map change --------------------
 	# print (log_manual)
-	print (len(log_manual))
+	print ("Length log manual: ", len(log_manual))
 	for data in log_manual:
 		if data[0] != None and data[1] != None \
 		and data[2] != None and data[3] != None \
@@ -164,7 +164,7 @@ def ReadTableManualMap(connect, path_data, date):
 		# 	temp['STATUS'] = 'USER'
 		# 	list_plan_diff.append(temp)
 		# 	list_plan_new.append(temp)
-	print (len(list_plan_diff))
+	print ("Length plan diff : ", len(list_plan_diff))
 	return (list_plan_diff)
 
 
@@ -268,7 +268,7 @@ def ManualMap(connect, path_data, date):
 			data_total['UN_CAMP'] = json.load(f)
 
 		list_plan = ReadTableManualMap(connect, path_data, date)
-		print (len(list_plan))
+		# print (len(list_plan))
 		if len(list_plan) > 0:
 
 			list_map_all = []
@@ -287,7 +287,7 @@ def ManualMap(connect, path_data, date):
 
 				list_map_all.extend(list_map)
 				# print (len(list_map))
-			print ("Time get in manual 1 : ", (time.time() - start_time))
+			print ("Time get camp map : ", (time.time() - start_time))
 			#----------- Remove unmap ---------------------
 			for camp in list_map_all:
 				for campaign in data_total['UN_CAMP']:
@@ -295,14 +295,18 @@ def ManualMap(connect, path_data, date):
 						and camp['Date'] == campaign['Date']:
 						data_total['UN_CAMP'].remove(campaign)
 
+			list_temp = []
+			for plan in list_plan:
+				if 'CAMPAIGN' in plan:
+					if len(plan['CAMPAIGN']) > 0:
+						list_temp.append(plan)
 
-			
-
+			print ("So luong plan map : ", len(list_temp))
 			data_date = {}
-			data_date['PLAN'] = list_plan
+			data_date['PLAN'] = list_temp
 			start_time = time.time()
 			data_total, list_plan_insert, list_plan_remove = insert_data.AddToTotal (data_total, data_date, date)
-			print ("Add total : ", (time.time() - start_time))
+			print ("Add data to total : ", (time.time() - start_time))
 			data_total['TOTAL'] = insert_data.CaculatorForPlan(data_total['TOTAL'])
 
 			import time

@@ -307,8 +307,8 @@ def UnMapManual(connect, path_data, date):
 			data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
 			print ("Insert install: ", (time.time() - start))
 
-			print (len(list_camp_all_plan))
-			print (len(list_plan_insert))
+			# print (len(list_camp_all_plan))
+			# print (len(list_plan_insert))
 			# for plan_total in data_total['TOTAL']:
 			# 	if str(plan_total['REASON_CODE_ORACLE']) == '1708008':
 			# 		print (plan_total)
