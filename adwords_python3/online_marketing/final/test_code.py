@@ -577,7 +577,7 @@ def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_t
 	print ('TOTAL: ', len(data_total['TOTAL']))
 
 	
-	list_plan_total, list_un_camp = Mapping_Auto(list_plan_map, data_total['UN_CAMPAIGN'])
+	list_plan_total, list_un_camp = Mapping_Auto(path_data, date, list_plan_map, data_total['UN_CAMPAIGN'])
 
 	
 	#===================== CASE MAP ===================
