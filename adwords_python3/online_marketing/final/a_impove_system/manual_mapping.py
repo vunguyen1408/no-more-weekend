@@ -101,7 +101,7 @@ def ReadTableManualMap(connect, path_data, date):
 				temp = ParseLogManualToJson(data)
 				# print (temp)
 				list_diff.append(temp)
-				print ("--------------- Da add them ---------------")
+				# print ("--------------- Da add them ---------------")
 	# print (list_diff)
 
 	#--------------- Write file manual log -------------------
