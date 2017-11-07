@@ -1187,10 +1187,10 @@ def ClassifyPlan(connect, path_data, date, path_log):
 		print('TOTAL: ', len(data_total['TOTAL']))
 
 		for plan in data_total['TOTAL']:
-			if plan['REASON_CODE_ORACLE'] = '1704024' \
-			and plan['PRODUCT'] = '122' \
-			and plan['FORM_TYPE'] = 'SEARCH' \
-			and plan['UNIT_OPTION'] = 'CPI':
+			if plan['REASON_CODE_ORACLE'] == '1704024' \
+			and plan['PRODUCT'] == '122' \
+			and plan['FORM_TYPE'] == 'SEARCH' \
+			and plan['UNIT_OPTION'] == 'CPI':
 				print(plan)
 
 		with open (path_data_un_map,'r') as f:
