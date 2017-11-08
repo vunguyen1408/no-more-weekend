@@ -241,7 +241,7 @@ def UpdateOnePlan(plan, updated_plan):
 	plan['LAST_UPDATED_DATE'] = updated_plan['LAST_UPDATED_DATE']
 
 
-def UpdatePlan(path_data, list_plan_update, data_total):
+def UpdatePlan(data_total, list_plan_update):
 
 	list_plan_update_total = []	
 	
@@ -1019,7 +1019,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 			list_plan_update = mapping.AddProductCode(path_data, list_plan_update, date)		
 			# list_plan_update = nru.Add_NRU_into_list(connect, list_plan_update, date) 
 
-			data_total, plan_update_total = UpdatePlan(path_data_total, list_plan_update, data_total)
+			data_total, plan_update_total = UpdatePlan(data_total, list_plan_update)
 			list_plan_update_total.extend(plan_update_total)
 			
 
