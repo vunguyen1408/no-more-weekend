@@ -1343,7 +1343,7 @@ def CompareTwoPlan(plan_1, plan_2, list_key):
 			if (str(plan_1[list_key[i]]).find(u'\xa0') >= 0):				
 				plan_1[list_key[i]] = plan_1[list_key[i]].replace(u'\xa0', u'')
 			if (str(plan_2[list_key[i]]).find(u'\xa0') >= 0):				
-				plan_2[list_key[i]] = plan_2[list_key[i]].replace('\xa0', u'')
+				plan_2[list_key[i]] = plan_2[list_key[i]].replace(u'\xa0', u'')
 
 			if (str(plan_1[list_key[i]]).find(' ') >= 0):
 				plan_1[list_key[i]] = plan_1[list_key[i]].replace(' ', '')
@@ -1428,6 +1428,8 @@ def GetListDiff(connect, path_data, date):
 			_value['REAL_END_DATE'] != plan['REAL_END_DATE'] ):
 				list_plan_change_real.append(plan)
 				flag = False
+				print(plan)
+				print(_value)
 
 			if _value['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
 			_value['PRODUCT'] == plan['PRODUCT'] and \
@@ -1442,21 +1444,19 @@ def GetListDiff(connect, path_data, date):
 
 				print()
 				print(plan)
-				print(_value)
-				print(type(plan['EFORM_NO']), type(_value['EFORM_NO']))
-				print(plan['EFORM_NO'] == _value['EFORM_NO'])
-
-				
+				print(_value)				
 					
 
 		if flag:
 			list_plan_new.append(plan)
+			print(plan)
+				
 
 
 
 	print('list_diff: ', len(list_diff))
 	print('list_plan_new: ', len(list_plan_new))
-	print('list_plan_only_update: ', len(list_plan_only_update))
+	print('list_plan_only_update: ', len(list_plan_only_update))	
 	print('list_plan_change_real: ', len(list_plan_change_real))
 	
 
