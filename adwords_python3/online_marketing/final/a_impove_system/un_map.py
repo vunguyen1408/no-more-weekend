@@ -24,15 +24,27 @@ def ParseFormatDate(data):
 	d = str(datetime.strptime(d, '%Y-%m-%d').date())
 	return d
 
-def UpdateLog(connect, list_log):
-	statement = 'update DTM_GG_PIVOT_DETAIL \
-	set GG_VIEWS = :1, GG_CONVERSION = :2, GG_INVALID_CLICKS = :3, \
-	GG_ENGAGEMENTS = :4, GG_VIDEO_VIEW = :5, GG_CTR = :6, \
-	GG_IMPRESSIONS = :7, GG_INTERACTIONS = :8, GG_CLICKS = :9,\
-	GG_COST = :10, GG_SPEND = :11, GG_APPSFLYER_INSTALL = :12 \
-	where PRODUCT = :13 and REASON_CODE_ORACLE = :14 and EFORM_TYPE = :15 \
-	and UNIT_OPTION = :16 and SNAPSHOT_DATE = :17'
-	return 0
+def UpdateLog(cursor, value, type_):
+	statement = "update ODS_CAMP_FA_MAPPING_GG \
+	set STATUS_2 = :1\
+	where PRODUCT = :2 and REASON_CODE_ORACLE = :3 and EFORM_TYPE = :4 \
+	and UNIT_OPTION = :5 and CAMPAIGN_ID = :6 and START_DATE = :7 and END_DATE = :8 and TYPE = :9"
+
+	cursor.execute(statement, (0 , value['PRODUCT'], value['REASON_CODE_ORACLE'], value['FORM_TYPE'], value['UNIT_OPTION'], \
+		value['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID'] , datetime.strptime(value['CAMPAIGN_MANUAL_MAP'][0]['START_DATE_MANUAL_MAP'], '%Y-%m-%d'), \
+		datetime.strptime(value['CAMPAIGN_MANUAL_MAP'][0]['END_DATE_MANUAL_MAP'], '%Y-%m-%d'), type_))	
+
+def UpdateListLog(connect, list_log, type_):
+	conn = cx_Oracle.connect(connect)
+	cursor = conn.cursor()
+
+	for value in list_log:
+		UpdateLog(cursor, value, type_)
+
+	conn.commit()
+	print("Committed!.......")
+	cursor.close()
+
 
 
 
@@ -172,7 +184,7 @@ def ReadTableManualMap(connect, path_data, date, is_un_map):
 		# 	temp['STATUS'] = 'USER'
 		# 	list_plan_diff.append(temp)
 		# 	list_plan_new.append(temp)
-	# UpdateLog(connect, list_plan_diff)
+	UpdateListLog(connect, list_plan_diff, 2)
 	print ("Plan diff : ", len(list_plan_diff))
 	return (list_plan_diff)
 
