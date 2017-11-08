@@ -219,6 +219,8 @@ def CheckNameChange(path_data, list_customer, date):
           }
         list_diff.append(camp_)
         data_total['HISTORY'].append(temp)
+
+    print (len(list_diff))
     # time.sleep(5)
     #----------- Write file history new ----------------------
     path_folder = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING')
