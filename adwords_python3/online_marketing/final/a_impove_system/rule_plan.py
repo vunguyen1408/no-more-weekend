@@ -7,7 +7,7 @@ from datetime import datetime , timedelta, date
 
 import mapping_campaign_plan as mapping
 import insert_data_map_to_total as insert_to_total
-import insert_nru_into_data as nru
+# import insert_nru_into_data as nru
 import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
 import insert_install as insert_install
 
