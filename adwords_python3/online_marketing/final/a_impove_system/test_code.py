@@ -1437,6 +1437,7 @@ def GetListDiff(connect, path_data, date):
 	print('list_plan_new: ', len(list_plan_new))
 	print('list_plan_only_update: ', len(list_plan_only_update))
 	print('list_plan_change_real: ', len(list_plan_change_real))
+	print(list_diff)
 
 		
 
