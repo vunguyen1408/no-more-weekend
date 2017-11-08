@@ -8,5 +8,5 @@ def hash_md5(p_file):
             for chunk in iter(lambda: f.read(4096), b""):
                 hash_md5.update(chunk)
 
-    print('md5:',hash_md5.hexdigest())
+    #print('md5:',hash_md5.hexdigest())
     return hash_md5.hexdigest()

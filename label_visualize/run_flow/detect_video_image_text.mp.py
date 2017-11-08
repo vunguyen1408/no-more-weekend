@@ -38,71 +38,47 @@ from google.cloud.gapic.videointelligence.v1beta1 import enums
 from google.cloud.gapic.videointelligence.v1beta1 import (
     video_intelligence_service_client)
 
-from VoiceActivityDetector import VoiceActivityDetector
-
-
-def transcribe_audio(p_speech_file, p_sample_rate):
-    """Transcribe the given audio file asynchronously."""
-    from google.cloud import speech
-    from google.cloud.speech import enums
-    from google.cloud.speech import types
-    client = speech.SpeechClient()
-
-    # [START migration_async_request]
-    with io.open(p_speech_file, 'rb') as audio_file:
-        content = audio_file.read()
-
-    audio = types.RecognitionAudio(content=content)
-    config = types.RecognitionConfig(
-        #encoding=enums.RecognitionConfig.AudioEncoding.FLAC,
-        sample_rate_hertz=int(p_sample_rate),
-        language_code='vi-VN')
-
-    # [START migration_async_response]
-    try:
-        operation = client.long_running_recognize(config, audio)
-        print('Waiting for operation to complete...')
-        response = operation.result(timeout=90)
-
-        text = {}
-
-        # Print the first alternative of all the consecutive results.
-        for result in response.results:
-            print('Transcript: {}'.format(result.alternatives[0].transcript))
-            print('Confidence: {}'.format(result.alternatives[0].confidence))
-            text['transcript'] = result.alternatives[0].transcript
-            text['confidence'] = result.alternatives[0].confidence
-            #print(text)
-        # [END migration_async_response]
-
-        return text
-
-    except Exception as ex:
-        print("Failed with error %r", ex)
-
-    # [END migration_async_request]
+from google.cloud import vision
+from google.cloud.vision import types
 
 
 
+def detect_text(p_path):
+    """Detects text in the file."""
+    client = vision.ImageAnnotatorClient()
+
+    # [START migration_text_detection]
+    with io.open(p_path, 'rb') as image_file:
+        content = image_file.read()
+
+    image = types.Image(content=content)
+
+    response = client.text_detection(image=image)
+    texts = response.text_annotations
+    #print('Texts:')
+
+    list_text_info=[]
+
+    for text in texts:
 
 
 
-def detect_audio_text(p_file_work):
-    #============== Get sample rate ==================
-    cmd = "ffprobe " + p_file_work + " -show_entries" + " stream=sample_rate"
-    out = subprocess.check_output(cmd)
-    #print(out)
-    if (isinstance(out, bytes)):
-        out = str(out)
-        sample_rate = int(out[(out.find('=') + 1) : (out.rfind('[') - 4)])
-    elif (isinstance(out, str)):
-        sample_rate = int(out[(out.find('=') + 1) : (out.rfind('['))])
-    print(sample_rate)
+        #print('\n"{}"'.format(text.description))
 
-    #============== Get text of audio ===================
-    text = transcribe_audio(p_file_work, sample_rate)
+        vertices = (['({},{})'.format(vertex.x, vertex.y)
+                    for vertex in text.bounding_poly.vertices])
 
-    return text
+        #print('bounds: {}'.format(','.join(vertices)))
+
+        text_info={}
+        text_info['description'] =text.description
+        text_info['bounds'] =','.join(vertices)
+        list_text_info.append(text_info)
+
+    return list_text_info
+
+    # [END migration_text_detection]
+# [END def_detect_text]
 
 
 def do_work(in_queue, out_list):
@@ -127,32 +103,26 @@ def do_work(in_queue, out_list):
 
 
 
-        if 'audio_text' not in line  :
+        if 'image_text' not in line  :
 
-            file_source_wav = os.path.join(line['folder_name'], line['video_hash_md5']+'.16.wav')
-            file_source_flac = os.path.join(line['folder_name'], line['video_hash_md5']+'.16.flac')
-
-
-            if os.path.exists(file_source_wav) and os.path.getsize(file_source_wav)  >0:
-                v = VoiceActivityDetector(file_source_wav)
-                raw_detection = v.detect_speech()
-                speech_labels = v.convert_windows_to_readible_labels(raw_detection)
+            file_source = os.path.join(line['folder_name'], line['video_image_name'])
 
 
-                line['audio_text'] = {}
+
+            if os.path.exists(file_source) and os.path.getsize(file_source)  >0:
+                line['image_texts'] = []
+
                 text={}
-                if (len(speech_labels) > 3):
-                    #print('init')
-                    text['transcript']=detect_audio_text(file_source_flac)
-
+                #file_text['text']=detect_text(file_name)
+                text['texts']=detect_text(file_source)
                 text['api_call']=1
-                line['audio_text']=text
+                line['image_texts'].append(text)
 
         else:
             #print('exist')
             #exist -> update
 
-            api_count=line['audio_text'].get('api_call',0)
+            api_count=line['image_text'].get('api_call',0)
             #speech_count=line['audio_text'].get('speech_found',-1)
 
 
@@ -160,23 +130,16 @@ def do_work(in_queue, out_list):
             if api_count==0 :
                 #print('update')
 
-                file_source_wav = os.path.join(line['folder_name'], line['video_hash_md5']+'.16.wav')
-                file_source_flac = os.path.join(line['folder_name'], line['video_hash_md5']+'.16.flac')
-
-                if os.path.exists(file_source_wav) and os.path.getsize(file_source_wav)  >0:
-
-
-                    v = VoiceActivityDetector(file_source_wav)
-                    raw_detection = v.detect_speech()
-                    speech_labels = v.convert_windows_to_readible_labels(raw_detection)
+                file_source = os.path.join(line['folder_name'], line['video_image_name'])
+                if os.path.exists(file_source) and os.path.getsize(file_source)  >0:
 
                     text={}
-                    if (len(speech_labels) > 3):
-                        text['transcript']=detect_audio_text(file_source_flac)
-                        #print('Call API + update')
+                    #file_text['text']=detect_text(file_name)
+                    text['texts']=detect_text(file_source)
+                    line['image_texts'].append(text)
 
                     text['api_call']=api_count+1
-                    line['audio_text']=text
+                    line['image_text']=text
 
                             ###############
 
@@ -202,7 +165,7 @@ def get_detected_value(p_base_dir, p_date, p_delta, p_work_json):
 
         date = start.strftime('%Y-%m-%d')
         folder_date=os.path.join(p_base_dir, date)
-        file_source = os.path.join(folder_date, 'audio_hash_' + str(p_date) + '.json')
+        file_source = os.path.join(folder_date, 'video_image_hash_' + str(p_date) + '.json')
 
         if os.path.exists(file_source) and os.path.getsize(file_source) >0 :
             with open (file_source,'r') as _file_json:
@@ -212,14 +175,14 @@ def get_detected_value(p_base_dir, p_date, p_delta, p_work_json):
             for _source_json in data['hash_md5']:
 
                     #loop dest
-                    for _dest_json in p_work_json['hash_md5']:
+                    for _dest_json in p_work_json:
 
-                        if _source_json['video_hash_md5']==_dest_json['video_hash_md5']:
-                            if 'audio_text' in _source_json  :
+                        if _source_json['video_image_hash_md5']==_dest_json['video_image_hash_md5']:
+                            if 'image_text' in _source_json  :
                                 #make sure data empty
-                                if not _source_json['audio_text'].get('transcript',''):
+                                if not len(_source_json['image_text']) > 0:
                                     #update
-                                    _dest_json['audio_text']=_source_json['audio_text']
+                                    _dest_json['image_text']=_source_json['image_text']
                             break
 
 
@@ -230,51 +193,86 @@ def get_detected_value(p_base_dir, p_date, p_delta, p_work_json):
 
 
 
-def run_detect_video_audio_text(p_base_dir,p_date,p_process_num):
+def run_detect_video_image_text(p_base_dir,p_date,p_process_num):
 
     #list file
     list_file = []
 
     folder_date=os.path.join(p_base_dir, p_date)
-    folder_source = os.path.join(folder_date, 'video_audios')
-    folder_dest = os.path.join(folder_date, 'video_audios')
+    folder_source = os.path.join(folder_date, 'video_images')
+    folder_dest = os.path.join(folder_date, 'video_images')
     if not os.path.exists(folder_dest):
         os.makedirs(folder_dest)
 
-    file_source = os.path.join(folder_date, 'audio_hash_' + str(p_date) + '.json')
-    file_dest= os.path.join(folder_date, 'audio_hash_' + str(p_date) + '.json')
+    file_source_1 = os.path.join(folder_date, 'audio_hash_' + str(p_date) + '.json')
+    file_source_2 = os.path.join(folder_date, 'video_image_hash_' + str(p_date) + '.json')
+    file_dest= os.path.join(folder_date, 'video_image_hash_' + str(p_date) + '.json')
+    file_dest_test= os.path.join(folder_date, 'test_video_image_hash_' + str(p_date) + '.json')
 
-    #print(file_source)
-    if os.path.exists(file_source):
-        with open (file_source,'r') as _file:
-            work_json = json.load(_file)
-    else:
-        print('exit')
-        return
+
+    with open (file_source_1,'r') as _file:
+        work_json_1 = json.load(_file)
+
+    with open (file_source_2,'r') as _file:
+        work_json_2 = json.load(_file)
+
+    #look up for video_hash dont have transcript
+    list_video_1=[]
+
+
+
+    for _json in work_json_1['hash_md5']:
+        if 'audio_text' in _json:
+
+            if 'transcript' in _json['audio_text'] :
+                if _json['audio_text']['transcript'] is None :
+                    list_video_1.append(_json['video_hash_md5'])
+                else:
+                    #video have no transcript after call api
+                    if  not _json['audio_text']['transcript'].get('transcript','')  and _json['audio_text'].get('api_call',0) > 0  :
+                        list_video_1.append(_json['video_hash_md5'])
+
+
+    #print(len(list_video_1))
+    #print(list_video_1)
+
+    list_image=[]
+
+    for _json in work_json_2['hash_md5']:
+        for _video in list_video_1:
+            if _video==_json['video_hash_md5']:
+                file_json = {
+                    'video_hash_md5':_json['video_hash_md5'],
+                    'video_image_hash_md5':_json['video_image_hash_md5'],
+                    'video_image_name': _json['video_image_name'][0],
+                    'folder_name': folder_source
+                    #'image_index': int(_file[-7:-4])
+                }
+                list_image.append(file_json)
 
 
     #get_detected_value
 
 
-    work_json=get_detected_value(p_base_dir, p_date, 30, work_json)
+    work_json_3=get_detected_value(p_base_dir, p_date, 30, list_image)
 
 
 
-
-
-    for _json in work_json['hash_md5']:
-        if 'audio_text' in _json:
+    for _json in work_json_3:
+        if 'image_text' in _json:
             file_json = {
                 'video_hash_md5':_json['video_hash_md5'],
-                'audio_hash_md5':_json['audio_hash_md5'],
-                'audio_text': _json['audio_text'],
+                'video_image_hash_md5':_json['video_image_hash_md5'],
+                'video_image_name':_json['video_image_name'],
+                'image_text': _json['image_text'],
                 'folder_name': folder_source
                 #'image_index': int(_file[-7:-4])
             }
         else:
             file_json = {
                 'video_hash_md5':_json['video_hash_md5'],
-                'audio_hash_md5':_json['audio_hash_md5'],
+                'video_image_hash_md5':_json['video_image_hash_md5'],
+                'video_image_name':_json['video_image_name'],
                 'folder_name': folder_source
                 #'image_index': int(_file[-7:-4])
             }
@@ -314,20 +312,22 @@ def run_detect_video_audio_text(p_base_dir,p_date,p_process_num):
     for _json in results:
         work_hash={}
         work_hash['video_hash_md5']=_json[1]['video_hash_md5']
-        work_hash['audio_hash_md5']=_json[1]['audio_hash_md5']
-        if 'audio_text' in _json[1]:
-            work_hash['audio_text']=_json[1]['audio_text']
+        work_hash['video_image_hash_md5']=_json[1]['video_image_hash_md5']
+        work_hash['video_image_name']=_json[1]['video_image_name']
+        if 'image_text' in _json[1]:
+            work_hash['image_text']=_json[1]['image_text']
 
         return_json['hash_md5'].append(work_hash)
 
-    with open (file_dest,'w') as _file:
-            json.dump(return_json, _file)
+
+    with open (file_dest_test,'w') as _file:
+        json.dump(return_json, _file)
 
 
 
 
 
-def run_update_audio_text(p_base_dir,p_date):
+def run_update_content_audio_text(p_base_dir,p_date):
 
     #list file
     list_file = []
@@ -358,7 +358,7 @@ def run_update_audio_text(p_base_dir,p_date):
 
     #loop1
     for _json_1 in work_json_1['hash_md5']:
-        if 'audio_text' in _json_1:
+        if 'image_text' in _json_1:
             found_1=-1
 
             #loop2
@@ -379,19 +379,19 @@ def run_update_audio_text(p_base_dir,p_date):
                             index_json=work_json_3['my_json'][_j3]['index_json']
                             index_video=work_json_3['my_json'][_j3]['index_video']
 
-                            dest_json['my_json'][index_json]['audit_content']['video_ids'][index_video]['audio_text']=_json_1['audio_text']
+                            dest_json['my_json'][index_json]['audit_content']['video_ids'][index_video]['image_text']=_json_1['image_text']
 
     with open (file_dest,'w') as _file:
             json.dump(dest_json, _file)
 
 
 
-def detect_video_audio_text_date(p_base_dir, p_date ,p_process_num):
-    run_detect_video_audio_text(p_base_dir,p_date,p_process_num)
-    run_update_audio_text(p_base_dir,p_date)
+def detect_video_image_text_date(p_base_dir, p_date ,p_process_num):
+    run_detect_video_image_text(p_base_dir,p_date,p_process_num)
+    #run_update_video_image_text(p_base_dir,p_date)
 
 
-def detect_video_audio_text_period(p_base_dir, p_from_date , p_to_date ,p_process_num):
+def detect_video_image_text_period(p_base_dir, p_from_date , p_to_date ,p_process_num):
 
     start = datetime.strptime(p_from_date, '%Y-%m-%d').date()
     end = datetime.strptime(p_to_date, '%Y-%m-%d').date()
@@ -399,7 +399,7 @@ def detect_video_audio_text_period(p_base_dir, p_from_date , p_to_date ,p_proces
     while(start <= end):
 
         date = start.strftime('%Y-%m-%d')
-        detect_video_audio_text_date (p_base_dir, date,p_process_num)
+        detect_video_image_text_date (p_base_dir, date,p_process_num)
         start += timedelta(1)
 
 
@@ -420,4 +420,4 @@ if __name__ == '__main__':
 
     #p_base_dir = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
     script, base_dir ,from_date, to_date, process_num = argv
-    detect_video_audio_text_period( base_dir, from_date, to_date, process_num)
+    detect_video_image_text_period( base_dir, from_date, to_date, process_num)
