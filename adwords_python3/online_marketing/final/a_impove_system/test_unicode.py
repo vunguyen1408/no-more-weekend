@@ -389,9 +389,9 @@ with open(path_plan, 'r') as fi:
 with open(path_total, 'r') as fi:
 	data_total = json.load(fi)
 
-for name in data_total['HISTORY']:
-	if name['CAMPAIGN_ID'] == '953916682':
-		print (name)
+# for name in data_total['HISTORY']:
+# 	if name['CAMPAIGN_ID'] == '953916682':
+# 		print (name)
 
 # for plan_total in data_alias['ALIAS']:
 # 	if  str(plan_total['PRODUCT_ID']) == '193':
