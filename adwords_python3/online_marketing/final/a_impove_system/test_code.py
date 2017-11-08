@@ -1388,7 +1388,7 @@ def GetListDiff(connect, path_data, date):
 	
 	#============ Get list plan diff =================
 	
-
+	list_temp = []
 	list_diff = []
 	list_plan_new = []
 	list_plan_only_update = []
@@ -1402,6 +1402,7 @@ def GetListDiff(connect, path_data, date):
 
 		if flag == False:
 			list_diff.append(new_plan)
+			list_temp.append(plan)
 
 	for plan in list_diff:		
 		flag = True
@@ -1437,7 +1438,7 @@ def GetListDiff(connect, path_data, date):
 	print('list_plan_new: ', len(list_plan_new))
 	print('list_plan_only_update: ', len(list_plan_only_update))
 	print('list_plan_change_real: ', len(list_plan_change_real))
-	print(list_diff)
+	print(list_temp)
 
 		
 
