@@ -1363,12 +1363,17 @@ def GetListDiff(connect, path_data, date):
           			STATUS, LAST_UPDATED_DATE\
       		from STG_FA_DATA_GG"
 
-	
+	list_all_key = ['CYEAR', 'CMONTH', 'LEGAL', 'DEPARTMENT', 'DEPARTMENT_NAME', 'PRODUCT', 
+		'REASON_CODE_ORACLE', 'EFORM_NO', 'START_DAY', 'END_DAY_ESTIMATE', 'CHANNEL', 
+		'FORM_TYPE', 'UNIT_OPTION', 'UNIT_COST', 'AMOUNT_USD', 'CVALUE', 'ENGAGEMENT', 
+		'IMPRESSIONS', 'CLIKE', 'CVIEWS', 'INSTALL', 'NRU', 'INSERT_DATE', 
+		'REAL_START_DATE', 'REAL_END_DATE', 'STATUS', 'LAST_UPDATED_DATE']
+		
 	cursor.execute(query) 	
 	list_new_plan = cursor.fetchall()
 	list_new_plan = list(list_new_plan)
 	cursor.close()
-	list_new_plan = ConvertPlanToJson(list_new_plan, list_key)
+	list_new_plan = ConvertPlanToJson(list_new_plan, list_all_key)
 
 	#============== Read Plan from file plan.json =============
 	path_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
@@ -1383,11 +1388,7 @@ def GetListDiff(connect, path_data, date):
 	print(data_plan['plan'][0])
 	print(list_new_plan[0])
 	#============ Get list plan diff =================
-	list_all_key = ['CYEAR', 'CMONTH', 'LEGAL', 'DEPARTMENT', 'DEPARTMENT_NAME', 'PRODUCT', 
-		'REASON_CODE_ORACLE', 'EFORM_NO', 'START_DAY', 'END_DAY_ESTIMATE', 'CHANNEL', 
-		'FORM_TYPE', 'UNIT_OPTION', 'UNIT_COST', 'AMOUNT_USD', 'CVALUE', 'ENGAGEMENT', 
-		'IMPRESSIONS', 'CLIKE', 'CVIEWS', 'INSTALL', 'NRU', 'INSERT_DATE', 
-		'REAL_START_DATE', 'REAL_END_DATE', 'STATUS', 'LAST_UPDATED_DATE']
+	
 
 	list_diff = []
 	list_plan_new = []
