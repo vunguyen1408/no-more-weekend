@@ -600,8 +600,7 @@ def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_t
 				and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 				and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
 				and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
-				print(len(plan_total['CAMPAIGN']))
-
+				
 				if ('CAMPAIGN_MANUAL_MAP' in plan_total) and len(plan_total['CAMPAIGN_MANUAL_MAP']) > 0 :
 					plan_temp = {
 						'PLAN': plan,
@@ -621,9 +620,8 @@ def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_t
 	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))	
 	print ('TOTAL: ', len(data_total['TOTAL']))
 
-	print(len(data_total['UN_CAMPAIGN']))
 	list_plan_total, list_un_camp = Mapping_Auto(path_data, date, list_plan_map, data_total['UN_CAMPAIGN'])
-	print(len(data_total['UN_CAMPAIGN']), len(list_un_camp))
+	
 	
 	#===================== CASE MAP ===================
 	#----------- Remove campaign unmap ---------------------	
@@ -681,14 +679,7 @@ def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_t
 	total_time = time.time()
 	print("TOTAL TIME: ", total_time - get_camp)
 
-	for plan in list_plan_map:		
-		for plan_total in data_total['TOTAL']:
-			if plan_total['PRODUCT'] == plan['PRODUCT'] \
-				and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-				and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
-				and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
-				print(len(plan_total['CAMPAIGN']))
-
+	
 	return data_total, list_camp_remove_unmap, list_camp_insert_unmap, list_plan_remove_total, list_plan_remove_map, \
 	list_plan_remove_unmap, list_plan_insert_unmap, list_data_insert_map, list_plan_insert_total, list_remove_manual
 
@@ -763,141 +754,73 @@ def GetCampFromDataMAP(data_map):
 	return camp
 	
 
-# def ChangeRealDatePlanToMap(path_data, date, list_plan_change, data_total):	
-# 	list_camp_remove_unmap = []	
-# 	list_data_insert_map = []
-# 	list_plan_update_map = []	
-# 	list_plan_remove_unmap = []	
-# 	list_plan_insert_total = []
-# 	list_plan_update_total = []
+def ChangeRealDatePlanToMap(path_data, date, list_plan_change, data_total):	
+	list_camp_remove_unmap = []	
+	list_data_insert_map = []
+	list_plan_update_map = []	
+	list_plan_remove_unmap = []	
+	list_plan_insert_total = []
+	list_plan_update_total = []
 	
 
-# 	list_plan_total, list_un_camp = Mapping_Auto(path_data, date, list_plan_change, data_total['UN_CAMPAIGN'])
+	list_plan_total, list_un_camp = Mapping_Auto(path_data, date, list_plan_change, data_total['UN_CAMPAIGN'])
 
 	
-# 	# ----------------- Merger into database ------------------------		
-# 	print()
-# 	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
-# 	print ('TOTAL: ', len(data_total['TOTAL']))
+	# ----------------- Merger into database ------------------------		
+	print()
+	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
+	print ('TOTAL: ', len(data_total['TOTAL']))
 
 
-# 	#===================== CASE MAP ===================
-# 	#----------- Remove campaign unmap ---------------------
-# 	for campaign in data_total['UN_CAMPAIGN']:
-# 		flag = True    # True if just map
-# 		for camp in list_un_camp:				  
-# 			if camp['Campaign ID'] == campaign['Campaign ID'] \
-# 			and camp['Date'] == campaign['Date']:
-# 				flag = False   # False if un_map
-# 		if flag:
-# 			list_camp_remove_unmap.append(campaign)
-# 			data_total['UN_CAMPAIGN'].remove(campaign)
+	#===================== CASE MAP ===================
+	#----------- Remove campaign unmap ---------------------
+	if (len(list_un_camp) > 0):
+		for campaign in data_total['UN_CAMPAIGN']:
+			flag = True    # True if just map
+			for camp in list_un_camp:				  
+				if camp['Campaign ID'] == campaign['Campaign ID'] \
+				and camp['Date'] == campaign['Date']:
+					flag = False   # False if un_map
+			if flag:
+				list_camp_remove_unmap.append(campaign)
+				data_total['UN_CAMPAIGN'].remove(campaign)
 
-# 	for camp in list_data_map:		
-# 		for campaign in data_total['UN_CAMPAIGN']:
-# 			if camp['Campaign ID'] == campaign['Campaign ID'] \
-# 				and camp['Date'] == campaign['Date']:
-# 				data_total['UN_CAMPAIGN'].remove(campaign)
-# 				list_camp_remove_unmap.append(campaign)
+	
 
-# 	#--------------------- Insert mapping data ------------------
-# 	data_total['MAP'].extend(list_data_map)	
-# 	list_data_insert_map.extend(list_data_map)
+	#------------- Insert total ------------
+	data_total['TOTAL'], list_plan_insert, list_plan_remove = AddToTotal (data_total['TOTAL'], list_plan_total, date)
 
-# 	# ----------- Update Real date ------------
-# 	for data_map in data_total['MAP']:
-# 		for plan in list_plan:
-# 			if data_map['PRODUCT'] == plan['PRODUCT'] \
-# 				and data_map['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-# 				and data_map['FORM_TYPE'] == plan['FORM_TYPE'] \
-# 				and data_map['UNIT_OPTION'] == plan['UNIT_OPTION'] :
-# 				data_total['MAP'][data_total['MAP'].index(data_map)]['REAL_START_DATE'] = plan['REAL_START_DATE']
-# 				data_total['MAP'][data_total['MAP'].index(data_map)]['REAL_END_DATE'] = plan['REAL_END_DATE']
-# 				list_plan_update_map.append(plan)
-
-
-# 	# -------------- Remove into UN_PLAN if unmap before ------------
-# 	for plan in list_plan_total:
-# 		for plan_un in data_total['UN_PLAN']:
-# 			if plan_un['PRODUCT'] == plan['PRODUCT'] \
-# 				and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-# 				and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
-# 				and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
-# 				data_total['UN_PLAN'].remove(plan_un)
-# 				list_plan_remove_unmap.append(plan_un)
-
-# 	#------------- Insert total ------------
-# 	for plan in list_plan_total:
-# 		flag = True
-# 		for plan_total in data_total['TOTAL']:
-# 			if plan_total['PRODUCT'] == plan['PRODUCT'] \
-# 				and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-# 				and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
-# 				and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:						
-# 				plan_total['TOTAL_CAMPAIGN'] = insert_to_total.SumTwoTotal(plan_total['TOTAL_CAMPAIGN'], plan['TOTAL_CAMPAIGN'])
-# 				flag = False
-# 				data_total['TOTAL'][data_total['TOTAL'].index(plan_total)]['REAL_START_DATE'] = plan['REAL_START_DATE']
-# 				data_total['TOTAL'][data_total['TOTAL'].index(plan_total)]['REAL_END_DATE'] = plan['REAL_END_DATE']
-# 				list_plan_update_total.append(plan)
+	for plan in list_plan_total:		
+		for plan_total in data_total['TOTAL']:
+			if plan_total['PRODUCT'] == plan['PRODUCT'] \
+				and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+				and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
+				and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:						
+								
+				plan_total['REAL_START_DATE'] = plan['REAL_START_DATE']
+				plan_total['REAL_END_DATE'] = plan['REAL_END_DATE']
+				list_plan_update_total.append(plan)
 		
-# 		if flag:    #----- Không tìm thấy trong total ------			
-# 			data_total['TOTAL'].append(plan)
-# 			list_plan_insert_total.append(plan)
 					
 				
 		
-# 	#==================== CASE UNMAP ==========================		
-# 	# ----------- Update Real date in UN_PLAN ------------
-# 	for plan in list_plan:
-# 		if (plan not in list_plan_total):
-# 			for plan_un in data_total['UN_PLAN']:		
-# 				if plan_un['PRODUCT'] == plan['PRODUCT'] \
-# 					and plan_un['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-# 					and plan_un['FORM_TYPE'] == plan['FORM_TYPE'] \
-# 					and plan_un['UNIT_OPTION'] == plan['UNIT_OPTION'] :
-# 					data_total['UN_PLAN'][data_total['UN_PLAN'].index(plan_un)]['REAL_START_DATE'] = plan['REAL_START_DATE']
-# 					data_total['UN_PLAN'][data_total['UN_PLAN'].index(plan_un)]['REAL_END_DATE'] = plan['REAL_END_DATE']
-# 					list_plan_update_map.append(plan)
-
-# 	# =============== COMPUTE MONTHLY FOR EACH TOTAL PLAN ===================
-# 	# for plan in data_total['TOTAL']:
-# 	# 	plan['MONTHLY'] = {}
-# 	# 	plan = insert_to_total.CaculatorTotalMonth(plan, date)
-
-# 	# for plan in list_plan_insert_total:
-# 	# 	plan['MONTHLY'] = {}
-# 	# 	plan = insert_to_total.CaculatorTotalMonth(plan, date)
-		
-# 	# for plan in data_total['UN_PLAN']:
-# 	# 	plan['MONTHLY'] = {}
-# 	# 	plan = insert_to_total.CaculatorTotalMonth(plan, date)
-
-				
-# 	# for plan in data_total['TOTAL']:
-# 	# 	plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
-# 	# 	for m in plan['MONTHLY']:
-# 	# 		m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
-
-		
-# 	# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-# 	# with open (path_data_total_map,'w') as f:
-# 	# 	json.dump(data_total, f)
+	#==================== CASE UNMAP ==========================			
+	# ----------- Update Real date in UN_PLAN ------------
 	
-# 	print()
-# 	print('MAP: ', len(data_total['MAP']))
-# 	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
-# 	print ('UN_PLAN: ', len(data_total['UN_PLAN']))
-# 	print ('TOTAL: ', len(data_total['TOTAL']))
-
-# 	print()
-# 	print('list_camp_remove_unmap: ', len(list_camp_remove_unmap))
-# 	print ('list_data_insert_map: ', len(list_data_insert_map))
-# 	print ('list_plan_update_map: ', len(list_plan_update_map))		
-# 	print('list_plan_remove_unmap: ', len(list_plan_remove_unmap))
-# 	print ('list_plan_insert_total: ', len(list_plan_insert_total))		
-# 	print('list_plan_update_total: ', len(list_plan_update_total))
 	
-# 	return data_total, list_camp_remove_unmap, list_data_insert_map, list_plan_update_map, list_plan_remove_unmap, list_plan_insert_total, list_plan_update_total
+	print()
+	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
+	print ('TOTAL: ', len(data_total['TOTAL']))
+
+	print()
+	print('list_camp_remove_unmap: ', len(list_camp_remove_unmap))
+	print ('list_data_insert_map: ', len(list_data_insert_map))
+	print ('list_plan_update_map: ', len(list_plan_update_map))		
+	print('list_plan_remove_unmap: ', len(list_plan_remove_unmap))
+	print ('list_plan_insert_total: ', len(list_plan_insert_total))		
+	print('list_plan_update_total: ', len(list_plan_update_total))
+	
+	return data_total, list_camp_remove_unmap, list_data_insert_map, list_plan_update_map, list_plan_remove_unmap, list_plan_insert_total, list_plan_update_total
 	
 
 def RecomputeTotalPlan(plan, list_campaign):
@@ -1135,24 +1058,24 @@ def ClassifyPlan(connect, path_data, date, path_log):
 			list_remove_manual.extend(remove_manual)
 
 		# #======== Case 2: Data update can map
-		# if (len(list_plan_change_real_date) > 0):
-		# 	print("=========== Case 2: Data update can map (change real date) ==========")
-		# 	# for plan in list_plan_change_real_date:
-		# 	# 	print(plan)
-		# 	list_plan_change_real_date = mapping.AddProductCode(path_data, list_plan_change_real_date, date)		
-		# 	# list_plan_change_real_date = nru.Add_NRU_into_list(connect, list_plan_change_real_date, date)  
+		if (len(list_plan_change_real_date) > 0):
+			print("=========== Case 2: Data update can map (change real date) ==========")
+			# for plan in list_plan_change_real_date:
+			# 	print(plan)
+			list_plan_change_real_date = mapping.AddProductCode(path_data, list_plan_change_real_date, date)		
+			# list_plan_change_real_date = nru.Add_NRU_into_list(connect, list_plan_change_real_date, date)  
 			
 			
-		# 	data_total, camp_remove_unmap, data_insert_map, \
-		# 	plan_update_map, plan_remove_unmap, \
-		# 	plan_insert_total, plan_update_total  = ChangeRealDatePlanToMap(path_data, date, list_plan_change_real_date, data_total)
+			data_total, camp_remove_unmap, data_insert_map, \
+			plan_update_map, plan_remove_unmap, \
+			plan_insert_total, plan_update_total  = ChangeRealDatePlanToMap(path_data, date, list_plan_change_real_date, data_total)
 
-		# 	list_camp_remove_unmap.extend(camp_remove_unmap)
-		# 	list_data_insert_map.extend(data_insert_map)
-		# 	list_plan_update_map.extend(plan_update_map)
-		# 	list_plan_remove_unmap.extend(plan_remove_unmap)
-		# 	list_plan_insert_total.extend(plan_insert_total)
-		# 	list_plan_update_total.extend(plan_update_total)
+			list_camp_remove_unmap.extend(camp_remove_unmap)
+			list_data_insert_map.extend(data_insert_map)
+			list_plan_update_map.extend(plan_update_map)
+			list_plan_remove_unmap.extend(plan_remove_unmap)
+			list_plan_insert_total.extend(plan_insert_total)
+			list_plan_update_total.extend(plan_update_total)
 		
 
 		# #======== Case 3: New Plan	
