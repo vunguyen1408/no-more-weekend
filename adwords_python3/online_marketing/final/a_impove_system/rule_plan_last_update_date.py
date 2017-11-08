@@ -101,7 +101,7 @@ def GetPlanModified(connect, data_plan):
 	for i in range(len(list_modified_plan)):		
 		list_new_plan.append(ConvertPlan(list(list_modified_plan[i])))
 	
-	for plan in data['plan']:
+	for plan in data_plan['plan']:
 		for new_plan in list_new_plan:
 			if (new_plan['PRODUCT'] == plan['PRODUCT']) \
 				and (new_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE']) \
