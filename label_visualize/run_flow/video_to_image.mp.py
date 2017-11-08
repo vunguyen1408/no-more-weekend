@@ -22,7 +22,7 @@ from __future__ import print_function
 import argparse
 import io
 import sys
-import os
+import os,glob
 import json
 import subprocess
 from datetime import datetime , timedelta, date
@@ -51,44 +51,16 @@ def do_work(in_queue, out_list):
         #file_video = os.path.join(path_video, video)
         file_video = video['full_name']
 
-        #file_name = video[0:video.rfind('.') ]+'_%03d' + '.png'
-        #file_name_check =  video['hash_md5']+ '.wav'
-        #file_work_check = os.path.join(video['folder_dest'], file_name_check)
+        file_image_check=video['folder_dest']+ '/' + video['hash_md5']+'.*' + '.png'
+        file_image=video['folder_dest']+ '/' + video['hash_md5']+'.%03d' + '.png'
 
-        file_name = video['hash_md5']+ '.wav'
-        file_work = os.path.join(video['folder_dest'], file_name)
+        if not glob.glob(file_image_check):
+            subprocess.call(["ffmpeg", "-i", file_video,"-vf", "select='eq(pict_type,PICT_TYPE_I)'","-vsync","vfr",file_image ])
 
-        file_name_2 = video['hash_md5']+ '.16.wav'
-        file_work_2 = os.path.join(video['folder_dest'], file_name_2)
-
-        file_name_3 = video['hash_md5']+ '.flac'
-        file_work_3 = os.path.join(video['folder_dest'], file_name_3)
-
-        file_name_4 = video['hash_md5']+ '.16.flac'
-        file_work_4 = os.path.join(video['folder_dest'], file_name_4)
 
 
         #if not glob.glob(file_work_check):
         #    subprocess.call(["ffmpeg", "-i", file_video,"-vf", "select='eq(pict_type,PICT_TYPE_I)'","-vsync","vfr",file_image ])
-
-
-
-        #wav for voice detect
-        if not os.path.exists(file_work):
-            #subprocess.call(["ffmpeg", "-i", file_video,"-c:a", "wav", file_work])
-            #print (file_video)
-            subprocess.call(["ffmpeg", "-i", file_video, file_work])
-
-        if not os.path.exists(file_work_2):
-            subprocess.call(["sox", file_work, "--channels=1", "--bits=16", file_work_2])
-
-
-        #flac for voice transcript cause lower bandwith
-        if not os.path.exists(file_work_3):
-            subprocess.call(["ffmpeg", "-i", file_video,"-c:a", "flac", file_work_3])
-
-        if not os.path.exists(file_work_4):
-            subprocess.call(["sox", file_work_3, "--channels=1", "--bits=16", file_work_4])
 
 
 
@@ -126,9 +98,10 @@ def do_work_2(in_queue, out_list):
 
 
         #if os.path.exists(file_work):
-        if 'audio_hash_md5' not in line:
+        if 'video_image_hash_md5' not in line:
             file_source = line['full_name']
-            line['audio_hash_md5']=hash_md5(file_source)
+            line['video_image_hash_md5']=hash_md5(file_source)
+            line['video_image_name']=os.path.basename(file_source)
 
 
         result = (line_no, line)
@@ -138,21 +111,21 @@ def do_work_2(in_queue, out_list):
 
 
 #def run_hash_audio(path_folder, path_file, folder):
-def run_hash_video_audio(p_base_dir,p_date,p_process_num):
+def run_hash_video_image(p_base_dir,p_date,p_process_num):
 
 
     #list file
     list_file = []
 
     folder_date=os.path.join(p_base_dir, p_date)
-    folder_source = os.path.join(folder_date, 'video_audios')
-    folder_dest = os.path.join(folder_date, 'video_audios')
+    folder_source = os.path.join(folder_date, 'video_images')
+    folder_dest = os.path.join(folder_date, 'video_images')
 
     if not os.path.exists(folder_dest):
         os.makedirs(folder_dest)
 
     file_source = os.path.join(folder_date, 'video_hash_' + str(p_date) + '.json')
-    file_dest = os.path.join(folder_date, 'audio_hash_' + str(p_date) + '.json')
+    file_dest = os.path.join(folder_date, 'video_image_hash_' + str(p_date) + '.json')
 
 
     if os.path.exists(file_source):
@@ -168,15 +141,17 @@ def run_hash_video_audio(p_base_dir,p_date,p_process_num):
         #print('init')
 
         for _json in source_json['hash_md5']:
-            file_json={
-                'video_hash_md5':_json['hash_md5'],
-                'full_name': folder_source + '/' +  _json['hash_md5']+ '.16.wav',
-                'folder_dest': folder_dest
-                #'image_index': int(_file[-7:-4])
-            }
 
-            if os.path.exists(file_json['full_name']) and os.path.getsize(file_json['full_name']) >0:
-                list_file.append(file_json)
+            file_image_check=folder_source+ '/' + _json['hash_md5']+'.*' + '.png'
+            list_image = glob.glob(file_image_check)
+            for _file in list_image:
+	            file_json={
+	                'video_hash_md5':_json['hash_md5'],
+	                'full_name': _file
+	            }
+
+	            if os.path.exists(file_json['full_name']) and os.path.getsize(file_json['full_name']) >0:
+	                list_file.append(file_json)
 
 
     else:
@@ -186,26 +161,31 @@ def run_hash_video_audio(p_base_dir,p_date,p_process_num):
             dest_json = json.load(_file)
 
         for _json in source_json['hash_md5']:
+
             found=-1
             for _dest_json in dest_json['hash_md5']:
-                if _dest_json['video_hash_md5']==_json['hash_md5'] :
+                if _dest_json['video_hash_md5']==_json['hash_md5'] and 'video_image_hash_md5' in _json:
                     found=1
                     break
 
-
             if found < 0 :
-                file_json = {
-                    'video_hash_md5':_json['hash_md5'],
-                    'full_name': folder_source + '/' +  _json['hash_md5']+ '.16.wav'
-                }
-                if os.path.exists(file_json['full_name']) and os.path.getsize(file_json['full_name']) >0:
-                    print(file_json)
-                    list_file.append(file_json)
+
+                file_image_check=folder_dest+ '/' + _json['hash_md5']+'.*' + '.png'
+                list_image = glob.glob(file_image_check)
+                for _file in list_image:
+                    file_json={
+                        'video_hash_md5':_json['hash_md5'],
+                        'full_name': _file
+                        }
+
+                    if os.path.exists(file_json['full_name']) and os.path.getsize(file_json['full_name']) >0:
+                        list_file.append(file_json)
+
             else:
                 #skip
                 file_json = {
                     'video_hash_md5':_dest_json['video_hash_md5'],
-                    'audio_hash_md5':_dest_json['audio_hash_md5']
+                    'video_image_hash_md5':_dest_json['video_image_hash_md5']
                 }
                 list_file.append(file_json)
 
@@ -237,12 +217,44 @@ def run_hash_video_audio(p_base_dir,p_date,p_process_num):
     return_json={}
     return_json['hash_md5']=[]
 
-    for _json in results:
-        work_hash={}
-        work_hash['video_hash_md5']=_json[1]['video_hash_md5']
-        work_hash['audio_hash_md5']=_json[1]['audio_hash_md5']
 
-        return_json['hash_md5'].append(work_hash)
+    list_result = []
+
+    for _json in results:
+        #print(_json)
+
+        temp_video_hash=_json[1]['video_hash_md5']
+        temp_video_image_hash=_json[1]['video_image_hash_md5']
+        temp_file=_json[1]['video_image_name']
+
+        find_hash = -1
+        for _i,_hash in enumerate(list_result):
+            #print(_i)
+            if _hash['video_image_hash_md5']==temp_video_image_hash:
+
+                #print(list_result[_i]['file_name'])
+                find_file=-1
+                for _file  in list_result[_i].get('video_image_name',[]):
+                    if _file==temp_file:
+                        find_file=1
+                        break
+
+                if find_file < 0:
+                #append
+                    list_result[_i]['video_image_name'].append(temp_file)
+                find_hash=_i
+                break
+
+        if find_hash <0:
+            new_hash={}
+            new_hash['video_hash_md5']=temp_video_hash
+            new_hash['video_image_hash_md5']=temp_video_image_hash
+            new_hash['video_image_name']=[]
+            new_hash['video_image_name'].append(temp_file)
+            list_result.append(new_hash)
+
+
+    return_json['hash_md5']=list_result
 
     with open (file_dest,'w') as _file:
             json.dump(return_json, _file)
@@ -250,14 +262,15 @@ def run_hash_video_audio(p_base_dir,p_date,p_process_num):
     #return return_json
 
 
-def run_convert_video_to_audio(p_base_dir,p_date,p_process_num):
+
+def run_convert_video_to_image(p_base_dir,p_date,p_process_num):
 
     #list file
     list_file = []
 
     folder_date=os.path.join(p_base_dir, p_date)
     folder_source = os.path.join(folder_date, 'videos')
-    folder_dest = os.path.join(folder_date, 'video_audios')
+    folder_dest = os.path.join(folder_date, 'video_images')
     if not os.path.exists(folder_dest):
         os.makedirs(folder_dest)
 
@@ -319,12 +332,12 @@ def run_convert_video_to_audio(p_base_dir,p_date,p_process_num):
     return return_json
 
 
-def convert_video_to_audio_date(p_base_dir, p_date ,p_process_num):
-    run_convert_video_to_audio(p_base_dir,p_date,p_process_num)
-    run_hash_video_audio(p_base_dir,p_date,p_process_num)
+def convert_video_to_image_date(p_base_dir, p_date ,p_process_num):
+    #run_convert_video_to_image(p_base_dir,p_date,p_process_num)
+    run_hash_video_image(p_base_dir,p_date,p_process_num)
 
 
-def convert_video_to_audio_period(p_base_dir, p_from_date , p_to_date ,p_process_num):
+def convert_video_to_image_period(p_base_dir, p_from_date , p_to_date ,p_process_num):
 
     start = datetime.strptime(p_from_date, '%Y-%m-%d').date()
     end = datetime.strptime(p_to_date, '%Y-%m-%d').date()
@@ -332,7 +345,7 @@ def convert_video_to_audio_period(p_base_dir, p_from_date , p_to_date ,p_process
     while(start <= end):
 
         date = start.strftime('%Y-%m-%d')
-        convert_video_to_audio_date (p_base_dir, date,p_process_num)
+        convert_video_to_image_date (p_base_dir, date,p_process_num)
         start += timedelta(1)
 
 
@@ -353,4 +366,4 @@ if __name__ == '__main__':
 
     #p_base_dir = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'
     script, base_dir ,from_date, to_date, process_num = argv
-    convert_video_to_audio_period( base_dir, from_date, to_date, process_num)
+    convert_video_to_image_period( base_dir, from_date, to_date, process_num)
