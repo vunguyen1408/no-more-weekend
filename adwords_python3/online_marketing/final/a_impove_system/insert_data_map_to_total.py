@@ -396,6 +396,8 @@ def SumMonthlyPlan(plan, list_campaign):
 				# list_map.append(z)
 		month['TOTAL_CAMPAIGN_MONTHLY'] = sum_plan
 	# print (len(list_map))
+	if plan['REASON_CODE_ORACLE'] == '1703061':
+		print (plan)
 	return plan
 
 def CaculatorForPlan(list_plan):
