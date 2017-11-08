@@ -1342,7 +1342,7 @@ def GetListDiff(connect, path_data, date):
 		data_plan = json.load(fi)
 
 
-	print('list_old_plan: ',len(data_plan))
+	print('list_old_plan: ',len(data_plan['plan']))
 	print('list_new_plan: ', len(list_new_plan))	
 	# return list_new_plan
 
