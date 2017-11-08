@@ -199,13 +199,13 @@ def ReleaseCampOfPlanRealDate(list_plan_change, data_total):
 					for camp in plan_total['CAMPAIGN']:
 						if (camp['Date'] <= start) or (camp['Date'] >= end):
 							#----------- Remove from TOTAL -----------------
-							if camp in plan_total['CAMPAIGN_MANUAL_MAP']:
+							if ('CAMPAIGN_MANUAL_MAP' in plan_total) and (camp in plan_total['CAMPAIGN_MANUAL_MAP']):
 								plan_temp['CAMPAIGN_MANUAL_MAP'].append(camp)
 							
 							plan_total['CAMPAIGN'].remove(camp)		
 							list_camp_insert_unmap.append(camp)
 
-				if len(plan_temp['CAMPAIGN_MANUAL_MAP']) > 0:
+				if ('CAMPAIGN_MANUAL_MAP' in plan_total) and (len(plan_temp['CAMPAIGN_MANUAL_MAP']) > 0):
 					list_remove_manual.append(plan_temp)
 
 			
