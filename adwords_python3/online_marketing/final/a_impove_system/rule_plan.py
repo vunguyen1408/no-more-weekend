@@ -267,6 +267,50 @@ def ReleaseModifiedPlan(list_plan_modified, data_total):
 	return data_total, list_camp_insert_unmap, list_plan_remove_total, list_remove_manual
 
 
+def NewPlan(path_data, date, list_plan, data_total):
+
+	list_camp_remove_unmap = []
+	list_plan_insert_total = []
+		
+	list_plan_total, list_un_camp = Mapping_Auto(path_data, date, list_plan, data_total['UN_CAMPAIGN'])
+
+	
+	#---------------- Merger data unmap ---------------------------------------
+	print ()
+	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
+	print ('TOTAL: ', len(data_total['TOTAL']))	
+
+	#===================== CASE MAP ===================
+	#----------- Remove campaign unmap ---------------------
+	if (len(list_un_camp) > 0):
+		for campaign in data_total['UN_CAMPAIGN']:
+			flag = True    # True if just map
+			for camp in list_un_camp:				  
+				if camp['Campaign ID'] == campaign['Campaign ID'] \
+				and camp['Date'] == campaign['Date']:
+					flag = False   # False if un_map
+			if flag:
+				list_camp_remove_unmap.append(campaign)
+				data_total['UN_CAMPAIGN'].remove(campaign)
+
+	#===================== CASE MAP AND UN_MAP===================
+	#---------- Insert data total ------------------
+	data_total['TOTAL'], list_plan_insert, list_plan_remove = AddToTotal (data_total['TOTAL'], list_plan_total, date)
+	list_plan_insert_total.extend(list_plan_total)   
+			
+	
+	print()
+	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
+	print ('TOTAL: ', len(data_total['TOTAL']))
+
+	print()
+	print('list_camp_remove_unmap: ', len(list_camp_remove_unmap))
+	print ('list_plan_insert_total: ', len(list_plan_insert_total))
+	
+	
+	return data_total, list_camp_remove_unmap, list_plan_insert_total
+
+
 def ClassifyPlan(connect, path_data, date):
 
 	list_camp_remove_unmap = []
@@ -348,13 +392,24 @@ def ClassifyPlan(connect, path_data, date):
 
 	# ============ Case 1: Release list plan modified ===============
 		if (len(list_plan_modified) > 0):
-			print("=========== Case 0: Release camp in list change real date ==========")					
+			print("=========== Case 1: Release list plan modified ==========")					
 			data_total, camp_insert_unmap, plan_remove_total, \
 			remove_manual = ReleaseModifiedPlan(list_plan_modified, data_total)
 
 			list_camp_insert_unmap.extend(camp_insert_unmap)	
 			list_plan_remove_total.extend(plan_remove_total)		
 			list_remove_manual.extend(remove_manual)
+
+
+	#================== Case 3: New Plan	==================
+		if (len(list_plan_new) > 0):
+			print("=========== Case 3: New Plan	 ================")
+			list_plan_new = mapping.AddProductCode(path_data, list_plan_new, date)			 			
+			data_total, camp_remove_unmap, plan_insert_total = NewPlan(path_data, date, list_plan_new, data_total)
+
+			list_camp_remove_unmap.extend(camp_remove_unmap)
+			list_plan_insert_total.extend(plan_insert_total)
+			
 
 
 
@@ -402,17 +457,7 @@ def ClassifyPlan(connect, path_data, date):
 	# 		list_plan_update_total.extend(plan_update_total)
 		
 
-	# 	# #======== Case 3: New Plan	
-	# 	if (len(list_plan_new) > 0):
-	# 		print("=========== Case 3: New Plan	 ================")
-	# 		list_plan_new = mapping.AddProductCode(path_data, list_plan_new, date)		
-	# 		# list_plan_new = nru.Add_NRU_into_list(connect, list_plan_new, date)  			
-	# 		data_total, camp_remove_unmap, plan_insert_total, data_insert_map, plan_insert_unmap = NewPlan(path_data, date, list_plan_new, data_total)
-
-	# 		list_camp_remove_unmap.extend(camp_remove_unmap)
-	# 		list_plan_insert_total.extend(plan_insert_total)
-	# 		list_data_insert_map.extend(data_insert_map)
-	# 		list_plan_insert_unmap.extend(plan_insert_unmap)
+	
 
 
 
