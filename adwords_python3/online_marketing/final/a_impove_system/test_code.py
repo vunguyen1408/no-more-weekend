@@ -244,26 +244,7 @@ def UpdateOnePlan(plan, updated_plan):
 def UpdatePlan(path_data, list_plan_update, data_total):
 
 	list_plan_update_total = []	
-	list_plan_update_map = []
-
-	list_plan = list_plan_update.copy()	
-	# with open(path_data) as fi:
-	# 	data_total = json.load(fi)
-
-	#=========== Update plan in DATA MAPPING ======================	
-	for updated_plan in list_plan_update:
-		for plan in data_total['MAP']:
-			if updated_plan['PRODUCT'] == plan['PRODUCT'] \
-			and updated_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-			and updated_plan['FORM_TYPE'] == plan['FORM_TYPE'] \
-			and updated_plan['UNIT_OPTION'] == plan['UNIT_OPTION'] :
-				UpdateOnePlan(data_total['MAP'][data_total['MAP'].index(plan)], updated_plan)
-				if (updated_plan in list_plan):
-					list_plan.remove(updated_plan)
-				list_plan_update_map.append(updated_plan)
-
-
-	list_plan_update = list_plan.copy()
+	
 	#=========== Update plan in DATA TOTAL ======================	
 	for updated_plan in list_plan_update:
 		for plan in data_total['TOTAL']:
@@ -271,30 +252,16 @@ def UpdatePlan(path_data, list_plan_update, data_total):
 			and updated_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 			and updated_plan['FORM_TYPE'] == plan['FORM_TYPE'] \
 			and updated_plan['UNIT_OPTION'] == plan['UNIT_OPTION'] :
-				UpdateOnePlan(data_total['TOTAL'][data_total['TOTAL'].index(plan)], updated_plan)
-				list_plan.remove(updated_plan)
+				UpdateOnePlan(data_total['TOTAL'][data_total['TOTAL'].index(plan)], updated_plan)				
 				list_plan_update_total.append(updated_plan)
 
-	list_plan_update = list_plan.copy()
-	#=========== Update plan in UNMAP PLAN ======================	
-	for updated_plan in list_plan_update:
-		for plan in data_total['UN_PLAN']:
-			if updated_plan['PRODUCT'] == plan['PRODUCT'] \
-			and updated_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
-			and updated_plan['FORM_TYPE'] == plan['FORM_TYPE'] \
-			and updated_plan['UNIT_OPTION'] == plan['UNIT_OPTION'] :
-				UpdateOnePlan(data_total['UN_PLAN'][data_total['UN_PLAN'].index(plan)], updated_plan)
-				list_plan.remove(updated_plan)
-				list_plan_update_map.append(updated_plan)
-
-
+	
 	if (len(list_plan) == 0):
 		print("Update complete...........")
 
 	print('list_plan_update_total: ', len(list_plan_update_total))
-	print('list_plan_update_map: ', len(list_plan_update_map))
-
-	return data_total, list_plan_update_total, list_plan_update_map
+	
+	return data_total, list_plan_update_total
 
 
 def AddToTotal (data_total, data_date, date):
@@ -1045,16 +1012,16 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 
 		# #============== Case 4: Data update not map ===================
-		# if (len(list_plan_update) > 0):		
-		# 	print("=========== Case 4: Data update not map	 ======================")
-		# 	# for plan in list_plan_update:
-		# 	# 	print(plan)
-		# 	list_plan_update = mapping.AddProductCode(path_data, list_plan_update, date)		
-		# 	# list_plan_update = nru.Add_NRU_into_list(connect, list_plan_update, date) 
+		if (len(list_plan_update) > 0):		
+			print("=========== Case 4: Data update not map	 ======================")
+			# for plan in list_plan_update:
+			# 	print(plan)
+			list_plan_update = mapping.AddProductCode(path_data, list_plan_update, date)		
+			# list_plan_update = nru.Add_NRU_into_list(connect, list_plan_update, date) 
 
-		# 	data_total, plan_update_total, plan_update_map = UpdatePlan(path_data_total, list_plan_update, data_total)
-		# 	list_plan_update_total.extend(plan_update_total)
-		# 	list_plan_update_map.extend(plan_update_map)
+			data_total, plan_update_total = UpdatePlan(path_data_total, list_plan_update, data_total)
+			list_plan_update_total.extend(plan_update_total)
+			
 
 
 
