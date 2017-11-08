@@ -267,6 +267,113 @@ def ReleaseModifiedPlan(list_plan_modified, data_total):
 	return data_total, list_camp_insert_unmap, list_plan_remove_total, list_remove_manual
 
 
+def AddToTotal (data_total, data_date):
+
+	list_plan_insert = []
+	list_plan_remove = []
+	# Merge plan cua ngay voi total
+	for plan_date in data_date:
+		flag = False
+		for plan in data_total:
+			# print (plan)
+			# print (plan_date)
+			if plan['PRODUCT_CODE'] == plan_date['PRODUCT_CODE'] \
+				and plan['REASON_CODE_ORACLE'] == plan_date['REASON_CODE_ORACLE'] \
+				and plan['FORM_TYPE'] == plan_date['FORM_TYPE'] \
+				and plan['UNIT_OPTION'] == plan_date['UNIT_OPTION'] \
+				and plan['START_DAY'] == plan_date['START_DAY'] \
+				and plan['END_DAY_ESTIMATE'] == plan_date['END_DAY_ESTIMATE']:
+
+				if len(plan_date['CAMPAIGN']) > 0 and len(plan['CAMPAIGN']) == 0:					
+					list_plan_remove.append(plan_date)
+
+				# Cap nhat real date
+				plan['REAL_START_DATE'] = plan_date['REAL_START_DATE']
+				plan['REAL_END_DATE'] = plan_date['REAL_END_DATE']
+
+				# Chuyen campaign maping duoc cua plan
+				temp_date = plan_date['CAMPAIGN']
+				temp = plan['CAMPAIGN']
+				temp.extend(temp_date)
+				plan['CAMPAIGN'] = temp
+				flag = True
+
+		# Plan moi
+		if flag == False:
+			data_total.append(plan_date)
+			# Plan nay, neu unmap (list campaign == 0) se insert vao trong plan un, con neu map se insert vao total.
+			list_plan_insert.append(plan_date)
+
+	# print (len(list_plan_remove))
+	return (data_total, list_plan_insert, list_plan_remove)
+
+
+def merger_data_map(data_map_all, data_map_GS5, data_map_WPL):
+	#============= Merger Plan ==================	
+	list_plan = data_map_all['PLAN'].copy()
+	list_plan, list_plan_insert, list_plan_remove = AddToTotal (list_plan, data_map_GS5['PLAN'])
+	list_plan, list_plan_insert, list_plan_remove = AddToTotal (list_plan, data_map_WPL['PLAN'])
+
+
+	#============= Merger Campaign ==============
+	list_un_camp = []
+	list_un_camp.extend(data_map_all['UN_CAMP'])
+	list_un_camp.extend(data_map_GS5['UN_CAMP'])
+	list_un_camp.extend(data_map_WPL['UN_CAMP'])
+	
+	return(list_plan, list_un_camp)
+
+
+def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
+
+	list_camp_all = []
+	list_camp_GS5 = []
+	list_camp_WPL = []
+
+	for camp in list_full_uncamp:					
+		# if (str(camp['Campaign ID']) == '702245469'):
+		# 	list_full_camp[list_full_camp.index(camp)]['Campaign'] = 'ROW|239|1705131|AND|IN|SEM_Competitor global vn'	
+				
+		if (camp['Dept'] == 'GS5'):			
+			list_camp_GS5.append(camp)
+		elif (camp['Dept'] == 'WPL'):		
+			list_camp_GS5.append(camp)
+		else:
+			list_camp_all.append(camp)	
+
+	#----------------- Mapping with campaign unmap -------------------------
+	data_map_all = {
+		'PLAN': [],
+		'UN_CAMP': []
+	}
+
+	data_map_GS5 = {
+		'PLAN': [],
+		'UN_CAMP': []
+	}
+
+	data_map_WPL = {
+		'PLAN': [],
+		'UN_CAMP': []
+	}
+	
+	auto_mapping  = time.time()
+	if (len(list_camp_all) > 0):
+		data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
+
+	if (len(list_camp_GS5) > 0):
+		data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_GS5, date)
+
+	if (len(list_camp_WPL) > 0):
+		data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
+
+
+
+	list_plan, list_un_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
+
+	return list_plan, list_un_camp
+
+
 def NewPlan(path_data, date, list_plan, data_total):
 
 	list_camp_remove_unmap = []
@@ -295,7 +402,7 @@ def NewPlan(path_data, date, list_plan, data_total):
 
 	#===================== CASE MAP AND UN_MAP===================
 	#---------- Insert data total ------------------
-	data_total['TOTAL'], list_plan_insert, list_plan_remove = AddToTotal (data_total['TOTAL'], list_plan_total, date)
+	data_total['TOTAL'], list_plan_insert, list_plan_remove = AddToTotal (data_total['TOTAL'], list_plan_total)
 	list_plan_insert_total.extend(list_plan_total)   
 			
 	
