@@ -179,7 +179,7 @@ def GetListDiff(connect, path_data, date):
      
 
 
-def ClassifyPlan(connect, path_data, date, path_log):
+def ClassifyPlan(connect, path_data, date):
 
 	list_camp_remove_unmap = []
 	list_camp_insert_unmap = []
@@ -376,3 +376,13 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	list_plan_update_total, list_plan_remove_total, list_data_insert_map, \
 	list_data_remove_map, list_plan_update_map, list_plan_remove_map, \
 	list_plan_insert_unmap, list_plan_remove_unmap, list_remove_manual
+
+
+connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
+date = '2017-10-31' 
+
+list_camp_remove_unmap, list_camp_insert_unmap, list_plan_insert_total, \
+	list_plan_update_total, list_plan_remove_total, list_data_insert_map, \
+	list_data_remove_map, list_plan_update_map, list_plan_remove_map, \
+	list_plan_insert_unmap, list_plan_remove_unmap, list_remove_manual = ClassifyPlan(connect, path_data, date)
