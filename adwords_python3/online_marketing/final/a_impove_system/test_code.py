@@ -1319,7 +1319,7 @@ def ConvertPlanToJson(list_new_plan, list_key):
 		unmap = {}
 		for value in plan:
 			val = value   
-			if isinstance(value, datetime.datetime):            
+			if isinstance(value, datetime):            
 				val = value.strftime('%Y-%m-%d')			
 			list_temp.append(val)
 
@@ -1368,7 +1368,7 @@ def GetListDiff(connect, path_data, date):
 		'FORM_TYPE', 'UNIT_OPTION', 'UNIT_COST', 'AMOUNT_USD', 'CVALUE', 'ENGAGEMENT', 
 		'IMPRESSIONS', 'CLIKE', 'CVIEWS', 'INSTALL', 'NRU', 'INSERT_DATE', 
 		'REAL_START_DATE', 'REAL_END_DATE', 'STATUS', 'LAST_UPDATED_DATE']
-		
+
 	cursor.execute(query) 	
 	list_new_plan = cursor.fetchall()
 	list_new_plan = list(list_new_plan)
