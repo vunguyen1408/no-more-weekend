@@ -1341,7 +1341,7 @@ def CompareTwoPlan(plan_1, plan_2, list_key):
 	for i in range(len(list_key)):
 		if (list_key[i] == 'EFORM_NO'):
 			if (str(plan_1[list_key[i]]).find('\xa0') >= 0):
-				print('ok')
+				print('ok111111')
 			if (str(plan_1[list_key[i]]).find(u'\xa0') >= 0):
 				print('ok')
 				plan_1[list_key[i]] = plan_1[list_key[i]].replace(u'\xa0', '')
