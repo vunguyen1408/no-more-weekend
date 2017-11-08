@@ -17,45 +17,50 @@ from datetime import datetime , timedelta, date
 import time
 
 def check_file_exist(photo_link, path_down_load_file):
-    import io
-    import os
+	import io
+	import os
 
-    try:
-        from urllib.request import urlretrieve  # Python 3
-        from urllib.error import HTTPError,ContentTooShortError
-    except ImportError:
-        from urllib import urlretrieve  # Python 2
+	try:
+		from urllib.request import urlretrieve  # Python 3
+		from urllib.error import HTTPError,ContentTooShortError
+	except ImportError:
+		from urllib import urlretrieve  # Python 2
 
 
 
-    try:
-        from urllib.parse import urlparse  # Python 3
-    except ImportError:
-        from urlparse import urlparse  # Python 2
-    from os.path import splitext, basename, join
-    picture_page = photo_link
-    disassembled = urlparse(picture_page)
-    filename, file_ext = splitext(basename(disassembled.path))
-    filename = filename + file_ext
-    fullfilename = os.path.join(path_down_load_file, filename)
+	try:
+		from urllib.parse import urlparse  # Python 3
+	except ImportError:
+		from urlparse import urlparse  # Python 2
+		from os.path import splitext, basename, join
+		picture_page = photo_link
+		disassembled = urlparse(picture_page)
+		filename, file_ext = splitext(basename(disassembled.path))
+		filename = filename + file_ext
+		fullfilename = os.path.join(path_down_load_file, filename)
 
-    if not os.path.exists(fullfilename):
+	if not os.path.exists(fullfilename):
 
-	    #download
-	    try:
-	        urlretrieve(photo_link, fullfilename)
+	#download
+		try:
+			urlretrieve(photo_link, fullfilename)
 
-	    except HTTPError as err:
-	        return '0'
-	        print(err.code)
-	    except ContentTooShortError as err:
-	        #retry 1 times
-	        try:
-	            urlretrieve(photo_link, fullfilename)
-	        except ContentTooShortError as err:
-	            print(err.code)
-	            return '0'
-    return fullfilename
+		except HTTPError as err:
+			return '0'
+			print(err.code)
+		except ContentTooShortError as err:
+			#retry 1 times
+			try:
+				urlretrieve(photo_link, fullfilename)
+			except ContentTooShortError as err:
+				print(err.code)
+				return '0'
+	if not os.path.exists(fullfilename):
+		return '0'
+	else:
+		os.remove(fullfilename)
+		return fullfilename
+	return fullfilename
 
 #-------------- Do data audit ------------------
 def InsertContentAds(cursor, ads, d):
@@ -144,8 +149,8 @@ def add_label_video_to_data(connect, path, date_, to_date_):
 	cursor.close()
 
 if __name__ == '__main__':
-    from sys import argv
-    path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'  
-    connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'  
-    script, date, to_date = argv
-    add_label_video_to_data(connect, path, date, to_date)
+	from sys import argv
+	path = '/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON'  
+	connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'  
+	script, date, to_date = argv
+	add_label_video_to_data(connect, path, date, to_date)
