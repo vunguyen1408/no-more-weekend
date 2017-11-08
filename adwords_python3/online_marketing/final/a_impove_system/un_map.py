@@ -25,7 +25,7 @@ def ParseFormatDate(data):
 	return d
 
 def UpdateLog(cursor, value):
-	statement = "update DTM_GG_PIVOT_DETAIL \
+	statement = "update ODS_CAMP_FA_MAPPING_GG \
 	set STATUS_2 = :1\
 	where PRODUCT = :2 and REASON_CODE_ORACLE = :3 and EFORM_TYPE = :4 \
 	and UNIT_OPTION = :5 and CAMPAIGN_ID = :6 and START_DATE = :7 and END_DATE = :8 and TYPE = :9"
