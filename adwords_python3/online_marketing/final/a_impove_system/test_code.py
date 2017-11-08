@@ -1311,7 +1311,42 @@ path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3
 # print(len(data['UN_CAMPAIGN'])
 
 
-# def 
+def ConvertPlanToJson(list_new_plan, list_key):
+	
+	list_json= []
+	for plan in list_new_plan: 
+		list_temp = []
+		unmap = {}
+		for value in plan:
+			val = value   
+			if isinstance(value, datetime.datetime):            
+				val = value.strftime('%Y-%m-%d')			
+			list_temp.append(val)
+
+		for i in range(len(list_key)):
+			unmap[list_key[i]] = list_temp[i]
+		list_json.append(unmap)
+	return list_json
+
+
+def CompareTwoPlan(plan_1, plan_2, list_key):
+
+	"""
+		Return: 
+			1 if only update
+			2 if only map
+			3 if only change real date
+	"""
+	check_num = 0
+	for i in len(list_key):
+		if plan_1[list_key[i]] == plan_2[list_key[i]]:
+			check_num += 1
+
+	if (check_num == len(list_key)):
+		return True
+
+	return False
+
 
 
 def GetListDiff(connect, path_data, date):	
@@ -1333,7 +1368,7 @@ def GetListDiff(connect, path_data, date):
 	list_new_plan = cursor.fetchall()
 	list_new_plan = list(list_new_plan)
 	cursor.close()
-
+	list_new_plan = ConvertPlanToJson(list_new_plan, list_key)
 
 	#============== Read Plan from file plan.json =============
 	path_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
@@ -1348,9 +1383,64 @@ def GetListDiff(connect, path_data, date):
 	print(data_plan['plan'][0])
 	print(list_new_plan[0])
 	#============ Get list plan diff =================
-	# for new_plan in list_new_plan:
-	# 	for plan in data_plan['plan']:
-	# 		if ()
+	list_all_key = ['CYEAR', 'CMONTH', 'LEGAL', 'DEPARTMENT', 'DEPARTMENT_NAME', 'PRODUCT', 
+		'REASON_CODE_ORACLE', 'EFORM_NO', 'START_DAY', 'END_DAY_ESTIMATE', 'CHANNEL', 
+		'FORM_TYPE', 'UNIT_OPTION', 'UNIT_COST', 'AMOUNT_USD', 'CVALUE', 'ENGAGEMENT', 
+		'IMPRESSIONS', 'CLIKE', 'CVIEWS', 'INSTALL', 'NRU', 'INSERT_DATE', 
+		'REAL_START_DATE', 'REAL_END_DATE', 'STATUS', 'LAST_UPDATED_DATE']
+
+	list_diff = []
+	list_plan_new = []
+	list_plan_only_update = []
+	list_plan_change_real = []
+
+	for new_plan in list_new_plan:
+		flag = False
+		for plan in data_plan['plan']:
+			if (CompareTwoPlan(plan_1, plan_2, list_all_key)):
+				flag = True
+
+		if flag == False:
+			list_diff.append(new_plan)
+
+	for plan in list_diff:		
+		
+		for _value in data_plan['plan']:
+			flag = True
+			if _value['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
+			_value['PRODUCT'] == plan['PRODUCT'] and \
+			_value['FORM_TYPE'] == plan['FORM_TYPE'] and \
+			_value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
+			_value['START_DAY'] == plan['START_DAY'] and \
+			_value['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE'] and \
+			(_value['REAL_START_DATE'] != plan['REAL_START_DATE'] or \
+			_value['REAL_END_DATE'] != plan['REAL_END_DATE'] ):
+				list_plan_change_real.append(plan)
+				flag = False
+
+			if _value['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
+			_value['PRODUCT'] == plan['PRODUCT'] and \
+			_value['FORM_TYPE'] == plan['FORM_TYPE'] and \
+			_value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
+			_value['START_DAY'] == plan['START_DAY'] and \
+			_value['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE'] and \
+			_value['REAL_START_DATE'] == plan['REAL_START_DATE'] and \
+			_value['REAL_END_DATE'] == plan['REAL_END_DATE'] :
+				list_plan_only_update.append(plan)
+				flag = False
+
+			if flag:
+				list_plan_new.append(plan)
+
+
+
+	print('list_diff: ', len(list_diff))
+	print('list_plan_new: ', len(list_plan_new))
+	print('list_plan_only_update: ', len(list_plan_only_update))
+	print('list_plan_change_real: ', len(list_plan_change_real))
+
+		
+
 
 
 
