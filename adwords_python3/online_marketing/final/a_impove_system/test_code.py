@@ -627,15 +627,16 @@ def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_t
 	
 	#===================== CASE MAP ===================
 	#----------- Remove campaign unmap ---------------------	
-	for campaign in data_total['UN_CAMPAIGN']:
-		flag = False    # False if just map
-		for camp in list_un_camp:				  
-			if camp['Campaign ID'] == campaign['Campaign ID'] \
-			and camp['Date'] == campaign['Date']:
-				flag = True   # True if un_map
-		if flag == False:
-			list_camp_remove_unmap.append(campaign)
-			data_total['UN_CAMPAIGN'].remove(campaign)
+	if (len(list_un_camp) > 0):
+		for campaign in data_total['UN_CAMPAIGN']:
+			flag = False    # False if just map
+			for camp in list_un_camp:				  
+				if camp['Campaign ID'] == campaign['Campaign ID'] \
+				and camp['Date'] == campaign['Date']:
+					flag = True   # True if un_map
+			if flag == False:
+				list_camp_remove_unmap.append(campaign)
+				data_total['UN_CAMPAIGN'].remove(campaign)
 
 	print()
 	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
