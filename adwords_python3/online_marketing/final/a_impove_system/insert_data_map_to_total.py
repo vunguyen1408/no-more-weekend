@@ -369,10 +369,11 @@ def SumMonthlyPlan(plan, list_campaign):
 	"""
 		Hàm tính total monthly cho một plan (tổng các campaign)
 	"""
-	sum_plan = CreateSum()
+	
 	for month in plan['MONTHLY']:
 		start = datetime.strptime(month['START_DATE'], '%Y-%m-%d').date()
 		end = datetime.strptime(month['END_DATE'], '%Y-%m-%d').date()
+		sum_plan = CreateSum()
 		for campaign in list_campaign:
 			date = datetime.strptime(campaign['Date'], '%Y-%m-%d').date()
 			if date >= start and date <= end:
