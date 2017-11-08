@@ -1311,7 +1311,7 @@ path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3
 # print(len(data['UN_CAMPAIGN'])
 
 
-
+# def 
 
 
 def GetListDiff(connect, path_data, date):	
@@ -1344,7 +1344,13 @@ def GetListDiff(connect, path_data, date):
 
 	print('list_old_plan: ',len(data_plan['plan']))
 	print('list_new_plan: ', len(list_new_plan))	
-	# return list_new_plan
+	
+	print(data_plan['plan'][0])
+	print(list_new_plan[0])
+	#============ Get list plan diff =================
+	# for new_plan in list_new_plan:
+	# 	for plan in data_plan['plan']:
+	# 		if ()
 
 
 
