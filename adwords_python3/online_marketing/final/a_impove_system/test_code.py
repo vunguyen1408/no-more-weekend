@@ -6,7 +6,7 @@ from datetime import datetime , timedelta, date
 import mapping_campaign_plan as mapping
 import insert_data_map_to_total as insert_to_total
 # import insert_nru_into_data as nru
-# import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
+import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
 import insert_install as insert_install
 import time
 
@@ -1021,26 +1021,18 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 
 
-		# # =============== COMPUTE MONTHLY FOR EACH TOTAL PLAN ===================
-		# for plan in data_total['TOTAL']:
-		# 	plan['MONTHLY'] = {}
-		# 	plan = insert_to_total.CaculatorTotalMonth(plan, date)
-			
-		# for plan in data_total['UN_PLAN']:
-		# 	plan['MONTHLY'] = {}
-		# 	plan = insert_to_total.CaculatorTotalMonth(plan, date)
+		# # =============== COMPUTE MONTHLY FOR EACH TOTAL PLAN ===================		
 
-					
-		# for plan in data_total['TOTAL']:
-		# 	plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualTotal(plan)
-		# 	for m in plan['MONTHLY']:
-		# 		m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = insert_to_total.GetVolumeActualMonthly(plan, m)
+		data_total['TOTAL'] = insert_to_total.CaculatorForPlan(data_total['TOTAL'])
+		
+		data_total['TOTAL'] = insert_install.InsertInstallToPlan(data_total['TOTAL'], connect, date)
+		data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
 
 		# # with open (path_data_total,'w') as f:
 		# # 	json.dump(data_total, f)
 
 
-		# # ============== Ghi plan new verson into file plan.json ==========================
+		# # ============== Write plan new verson into file plan.json ==========================
 		# # ReadPlanFromTable(connect, path_data, date)
 		# # nru.Add_NRU_into_plan(connect, path_data, date)
 
