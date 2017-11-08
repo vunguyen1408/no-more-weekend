@@ -255,10 +255,6 @@ def UpdatePlan(data_total, list_plan_update):
 				UpdateOnePlan(data_total['TOTAL'][data_total['TOTAL'].index(plan)], updated_plan)				
 				list_plan_update_total.append(updated_plan)
 
-	
-	if (len(list_plan) == 0):
-		print("Update complete...........")
-
 	print('list_plan_update_total: ', len(list_plan_update_total))
 	
 	return data_total, list_plan_update_total
