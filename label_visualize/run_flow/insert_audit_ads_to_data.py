@@ -81,7 +81,7 @@ def InsertContentAds(cursor, ads, d):
 				if 'percent_predict' in image:
 					try:
 						file_name = check_file_exist(image['image_url'], path_down_load_file)
-					except ContentTooShortError as e:
+					except Exception as e:
 						file_name = '0'
 					if file_name == '0':
 						flag = 0
