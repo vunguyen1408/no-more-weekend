@@ -855,7 +855,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	# =============== Get plan change =====================	
 	# fi = open(path_log, 'r')
 	# final_log = fi.read()
-	final_log = '11/01/2017 17:17:00'
+	final_log = '11/06/2017 03:46:00'
 	print(final_log)
 
 	list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
@@ -1069,10 +1069,10 @@ date = '2017-10-31'
 path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
 
 
-# list_camp_remove_unmap, list_camp_insert_unmap, list_plan_insert_total, \
-# 	list_plan_update_total, list_plan_remove_total, list_data_insert_map, \
-# 	list_data_remove_map, list_plan_update_map, list_plan_remove_map, \
-# 	list_plan_insert_unmap, list_plan_remove_unmap, list_remove_manual = ClassifyPlan(connect, path_data, date, path_log)
+list_camp_remove_unmap, list_camp_insert_unmap, list_plan_insert_total, \
+	list_plan_update_total, list_plan_remove_total, list_data_insert_map, \
+	list_data_remove_map, list_plan_update_map, list_plan_remove_map, \
+	list_plan_insert_unmap, list_plan_remove_unmap, list_remove_manual = ClassifyPlan(connect, path_data, date, path_log)
 
 
 
@@ -1434,9 +1434,7 @@ def GetListDiff(connect, path_data, date):
 			_value['REAL_END_DATE'] != plan['REAL_END_DATE'] ):
 				list_plan_change_real.append(plan)
 				flag = False
-				print(plan)
-				print(_value)
-
+				
 			if _value['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
 			_value['PRODUCT'] == plan['PRODUCT'] and \
 			_value['FORM_TYPE'] == plan['FORM_TYPE'] and \
@@ -1448,14 +1446,11 @@ def GetListDiff(connect, path_data, date):
 				list_plan_only_update.append(plan)
 				flag = False
 
-				print()
-				print(plan)
-				print(_value)				
-					
+									
 
 		if flag:
 			list_plan_new.append(plan)
-			print(plan)
+			
 				
 
 
