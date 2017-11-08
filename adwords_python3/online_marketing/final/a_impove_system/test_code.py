@@ -1385,8 +1385,7 @@ def GetListDiff(connect, path_data, date):
 	print('list_old_plan: ',len(data_plan['plan']))
 	print('list_new_plan: ', len(list_new_plan))	
 	
-	print(data_plan['plan'][0])
-	print(list_new_plan[0])
+	
 	#============ Get list plan diff =================
 	
 
@@ -1398,7 +1397,7 @@ def GetListDiff(connect, path_data, date):
 	for new_plan in list_new_plan:
 		flag = False
 		for plan in data_plan['plan']:
-			if (CompareTwoPlan(plan_1, plan_2, list_all_key)):
+			if (CompareTwoPlan(plan, new_plan, list_all_key)):
 				flag = True
 
 		if flag == False:
