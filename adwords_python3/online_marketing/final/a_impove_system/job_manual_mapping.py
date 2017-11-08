@@ -15,7 +15,7 @@ import merge_data_manual_mapping as merge_data_manual_mapping
 
 def ManualMapping (connect, path_data, date):
 	# =============================== Manual mapping =========================================
-	print("\n\n============= RUN INSERT MANUAL MAPPING TO TOTAL WITH DATE : " + str(datetime.now()) + " =================")
+	print("\n============= RUN INSERT MANUAL MAPPING TO TOTAL WITH DATE : " + str(datetime.now()) + " =================")
 	caculator_manual = time.time()
 	list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert_sum \
 																 = manual.ManualMap(connect, path_data, date)
@@ -39,7 +39,7 @@ def ManualMapping (connect, path_data, date):
 
 def UnMapping (connect, path_data, date):
 	# =============================== Manual mapping =========================================
-	print("\n============= RUN UN MAPPING TO TOTAL WITH DATE : " + str(datetime.now()) + " =================")
+	print("\n\n============= RUN UN MAPPING TO TOTAL WITH DATE : " + str(datetime.now()) + " =================")
 	caculator_manual = time.time()
 	list_plan_insert_un_map, list_camp_remove_unmap, list_plan_update = un_map.UnMapManual(connect, path_data, date)
 	time_caculator_manual = time.time() - caculator_manual
