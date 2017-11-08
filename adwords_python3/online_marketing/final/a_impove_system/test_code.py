@@ -303,6 +303,7 @@ def AddToTotal (data_total, data_date, date):
 	# print (len(list_plan_remove))
 	return (data_total, list_plan_insert, list_plan_remove)
 
+
 def merger_data_map(data_map_all, data_map_GS5, data_map_WPL, date):
 	#============= Merger Plan ==================	
 	list_plan = data_map_all['PLAN'].copy()
