@@ -24,7 +24,14 @@ def ParseFormatDate(data):
 	d = str(datetime.strptime(d, '%Y-%m-%d').date())
 	return d
 
-def InsertPlanToDataBase(connect, plan):
+def UpdateLog(connect, list_log):
+	statement = 'update DTM_GG_PIVOT_DETAIL \
+	set GG_VIEWS = :1, GG_CONVERSION = :2, GG_INVALID_CLICKS = :3, \
+	GG_ENGAGEMENTS = :4, GG_VIDEO_VIEW = :5, GG_CTR = :6, \
+	GG_IMPRESSIONS = :7, GG_INTERACTIONS = :8, GG_CLICKS = :9,\
+	GG_COST = :10, GG_SPEND = :11, GG_APPSFLYER_INSTALL = :12 \
+	where PRODUCT = :13 and REASON_CODE_ORACLE = :14 and EFORM_TYPE = :15 \
+	and UNIT_OPTION = :16 and SNAPSHOT_DATE = :17'
 	return 0
 
 
@@ -165,6 +172,7 @@ def ReadTableManualMap(connect, path_data, date, is_un_map):
 		# 	temp['STATUS'] = 'USER'
 		# 	list_plan_diff.append(temp)
 		# 	list_plan_new.append(temp)
+	# UpdateLog(connect, list_plan_diff)
 	print ("Plan diff : ", len(list_plan_diff))
 	return (list_plan_diff)
 
