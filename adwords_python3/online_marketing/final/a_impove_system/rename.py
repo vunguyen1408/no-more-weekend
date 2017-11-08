@@ -289,7 +289,7 @@ def Map(path_folder, list_plan, list_campaign, date):
 
       if (camp['Mapping'] == False): 
         flag = False
-        if mapping.LogManualMap(data_manual, camp, eform, date, 1) == 1:
+        if mapping.LogManualMap(data_manual, camp, eform, date, 1) == 1 and (date_ >= start) and (date_ <= end):
           flag = True
         else:
           #============= WPL -================
