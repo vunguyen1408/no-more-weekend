@@ -613,7 +613,7 @@ import add_acc_name as add_acc_name
 path_acc = 'C:/Users/LAP11529-local/Desktop/VNG/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT'
 list_acc, list_mcc, list_dept = add_acc_name.get_list_customer(path_acc)
 date = '2017-01-01'
-to_date = '2017-10-31'
+to_date = '2017-11-05'
 GetListCampOfAccount(list_acc, date, to_date)
 # path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
 
