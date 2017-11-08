@@ -257,7 +257,7 @@ def Map(path_folder, list_plan, list_campaign, date):
       t = True
 
       # Duonglt check mapping auto
-      if eform['REASON_CODE_ORACLE'] == '1710027' and camp['Campaign ID'] == '952021132':
+      if str(eform['REASON_CODE_ORACLE']) == '1710027' and str(camp['Campaign ID']) == '952021132':
         print (camp)
         print (eform)
 
