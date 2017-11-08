@@ -19,9 +19,6 @@ import insert_install as insert_install
 
 
 
-
-
-
 def ConvertPlanToJson(list_new_plan, list_key):
 	
 	list_json= []
@@ -281,10 +278,10 @@ def AddToTotal (data_total, data_date):
 
 				
 				# Chuyen campaign maping duoc cua plan
-				temp_date = plan_date['CAMPAIGN']
-				temp = plan['CAMPAIGN']
+				temp_date = plan_date['CAMPAIGN'].copy()
+				temp = plan['CAMPAIGN'].copy()
 				temp.extend(temp_date)
-				plan['CAMPAIGN'] = temp
+				plan['CAMPAIGN'] = temp.copy()
 				flag = True
 
 		# Plan moi
