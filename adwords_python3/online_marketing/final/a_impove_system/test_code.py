@@ -1367,7 +1367,7 @@ def GetListDiff(connect, path_data, date):
 		'REASON_CODE_ORACLE', 'EFORM_NO', 'START_DAY', 'END_DAY_ESTIMATE', 'CHANNEL', 
 		'FORM_TYPE', 'UNIT_OPTION', 'UNIT_COST', 'AMOUNT_USD', 'CVALUE', 'ENGAGEMENT', 
 		'IMPRESSIONS', 'CLIKE', 'CVIEWS', 'INSTALL', 'NRU', 'INSERT_DATE', 
-		'REAL_START_DATE', 'REAL_END_DATE', 'STATUS', 'LAST_UPDATED_DATE']
+		'REAL_START_DATE', 'REAL_END_DATE']
 
 	cursor.execute(query) 	
 	list_new_plan = cursor.fetchall()
