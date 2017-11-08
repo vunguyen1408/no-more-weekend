@@ -14,11 +14,6 @@ import insert_install as insert_install
 
 
 
-
-
-
-
-
 def ConvertPlanToJson(list_new_plan, list_key):
 	
 	list_json= []
@@ -39,25 +34,14 @@ def ConvertPlanToJson(list_new_plan, list_key):
 
 def CompareTwoPlan(plan_1, plan_2, list_key):
 
-	"""
-		Return: 
-			1 if only update
-			2 if only map
-			3 if only change real date
-	"""
 	check_num = 0
-	for i in range(len(list_key)):
-		# if (list_key[i] == 'EFORM_NO'):			
+	for i in range(len(list_key)):		
 		if (str(plan_1[list_key[i]]).find(u'\xa0') >= 0):				
 			plan_1[list_key[i]] = plan_1[list_key[i]].replace(u'\xa0', u' ')
 		if (str(plan_2[list_key[i]]).find(u'\xa0') >= 0):				
 			plan_2[list_key[i]] = plan_2[list_key[i]].replace(u'\xa0', u' ')
 
-			# if (str(plan_1[list_key[i]]).find(' ') >= 0):
-			# 	plan_1[list_key[i]] = plan_1[list_key[i]].replace(' ', '')
-			# if (str(plan_2[list_key[i]]).find(' ') >= 0):
-			# 	plan_2[list_key[i]] = plan_2[list_key[i]].replace(' ', '')
-
+			
 		if (isinstance(plan_1[list_key[i]], float)):
 			plan_1[list_key[i]] = round(plan_1[list_key[i]], 0)
 
@@ -501,6 +485,7 @@ def UpdatePlan(data_total, list_plan_update):
 	
 	return data_total, list_plan_update_total
 
+
 def ClassifyPlan(connect, path_data, date):
 
 	list_camp_remove_unmap = []
@@ -627,10 +612,10 @@ def ClassifyPlan(connect, path_data, date):
 		if (len(list_plan_new) > 0)	and (len(list_plan_change_real_date) > 0 ):
 			data_total['TOTAL'] = insert_to_total.CaculatorForPlan(data_total['TOTAL'])
 
-			start = time.time()
+			install = time.time()
 			data_total['TOTAL'] = insert_install.InsertInstallToPlan(data_total['TOTAL'], connect, date)
 			data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
-			print ("Insert install: ", (time.time() - start))
+			print ("Insert install: ", (time.time() - install))
 
 		print('list_camp_remove_unmap: ', len(list_camp_remove_unmap))
 		print('list_camp_insert_unmap: ', len(list_camp_insert_unmap))
@@ -640,6 +625,7 @@ def ClassifyPlan(connect, path_data, date):
 		print('list_data_insert_map: ', len(list_data_insert_map))
 		print('list_remove_manual: ', len(list_remove_manual))		
 		print()	
+		print ("TOTAL TIME: ", (time.time() - start))
 
 	return list_camp_remove_unmap, list_camp_insert_unmap, list_plan_insert_total, \
 	list_plan_update_total, list_plan_remove_total, list_data_insert_map, list_remove_manual
