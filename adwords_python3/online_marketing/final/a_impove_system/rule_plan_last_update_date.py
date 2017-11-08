@@ -135,7 +135,8 @@ def GetListDiff(connect, path_data, date, path_log = None):
 	list_plan_change_real_date = []
 	list_plan_update = []
 
-	for plan in list_plan_diff:			
+	for _plan in list_plan_diff:	
+		plan = ConvertPlan(_plan)		
 		if CheckPlanUpdate(list_plan['plan'], plan):
 			list_plan_update.append(plan)
 		else:			
