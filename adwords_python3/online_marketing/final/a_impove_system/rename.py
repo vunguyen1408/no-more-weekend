@@ -449,10 +449,14 @@ def CacualatorChange(connect, path_data, list_diff, date):
 
     print("MAP")
     start = time.time()
-    data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
+    # data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
     print ("Mapping: ", (time.time() - start))
 
-    
+    ############## check code
+    data_map = {}
+    data_map['PLAN'] = []
+    #####################
+
     start = time.time()
     data_total, list_plan_insert, list_plan_remove = insert_to_total.AddToTotal (data_total, data_map, date)
     print ("add to total: ", (time.time() - start))
