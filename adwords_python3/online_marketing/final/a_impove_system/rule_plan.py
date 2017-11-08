@@ -7,7 +7,7 @@ from datetime import datetime , timedelta, date
 
 import mapping_campaign_plan as mapping
 import insert_data_map_to_total as insert_to_total
-# import insert_nru_into_data as nru
+import insert_nru_into_data as nru
 import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
 import insert_install as insert_install
 
@@ -516,8 +516,10 @@ def ClassifyPlan(connect, path_data, date):
 	
 
 	# =============== Get plan change =====================	
+	start = time.time()
 	list_plan_diff, list_plan_new, list_plan_change_real_date, \
 	list_plan_update, list_plan_modified = GetListDiff(connect, path_data, date)
+	print ("Get lists diff: ", (time.time() - start))
 
 	print('list_diff: ', len(list_plan_diff))
 	print('list_plan_new: ', len(list_plan_new))
@@ -621,27 +623,14 @@ def ClassifyPlan(connect, path_data, date):
 		print('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
 
 
-	# 	# # =============== COMPUTE MONTHLY FOR EACH TOTAL PLAN ===================		
-	# 	start = time.time()
-	# 	data_total['TOTAL'] = insert_to_total.CaculatorForPlan(data_total['TOTAL'])
-		
-	# 	data_total['TOTAL'] = insert_install.InsertInstallToPlan(data_total['TOTAL'], connect, date)
-	# 	data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
-	# 	print('Compute MONTHLY time: ', time.time() - start)
-	# 	# # with open (path_data_total,'w') as f:
-	# 	# # 	json.dump(data_total, f)
-
-
-	# 	# # ============== Write plan new verson into file plan.json ==========================
-	# 	# # ReadPlanFromTable(connect, path_data, date)
-	# 	# # nru.Add_NRU_into_plan(connect, path_data, date)
-
-	# print('list_plan_new: ', len(list_plan_new))
-	# print('list_plan_map: ', len(list_plan_map))
-	# print('list_plan_change_real_date: ', len(list_plan_change_real_date))
-	# print('list_plan_update: ', len(list_plan_update))
-	# print()
-	# print()
+		# =============== COMPUTE MONTHLY FOR EACH TOTAL PLAN ===================	
+		if (len(list_plan_new) > 0)	and (len(list_plan_change_real_date) > 0 ):
+			data_total['TOTAL'] = insert_to_total.CaculatorForPlan(data_total['TOTAL'])
+		    
+		    start = time.time()
+		    data_total['TOTAL'] = insert_install.InsertInstallToPlan(data_total['TOTAL'], connect, date)
+		    data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
+		    print ("Insert install: ", (time.time() - start))
 
 		print('list_camp_remove_unmap: ', len(list_camp_remove_unmap))
 		print('list_camp_insert_unmap: ', len(list_camp_insert_unmap))
