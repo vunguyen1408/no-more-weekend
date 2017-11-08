@@ -1337,8 +1337,9 @@ def GetListDiff(connect, path_data, date):
 
 	#============== Read Plan from file plan.json =============
 	path_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
+	print(path_plan)
 	with open(path_plan, 'r') as fi:
-		data_plan = json.load(path_plan)
+		data_plan = json.load(fi)
 
 
 	print('list_old_plan: ',len(data_total))
