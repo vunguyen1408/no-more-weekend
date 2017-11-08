@@ -627,6 +627,15 @@ def ClassifyPlan(connect, path_data, date):
 		print()	
 		print ("TOTAL TIME: ", (time.time() - start))
 
+
+		# with open (path_data_total,'w') as f:
+		# 	json.dump(data_total, f)
+
+
+		# ============== Write plan new verson into file plan.json ==========================
+		# ReadPlanFromTable(connect, path_data, date)
+		# nru.Add_NRU_into_plan(connect, path_data, date)
+
 	return list_camp_remove_unmap, list_camp_insert_unmap, list_plan_insert_total, \
 	list_plan_update_total, list_plan_remove_total, list_data_insert_map, list_remove_manual
 

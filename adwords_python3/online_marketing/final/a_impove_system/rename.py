@@ -229,8 +229,8 @@ def CheckNameChange(path_data, list_customer, date):
 
     path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
     ###########################################
-    with open (path_data_his,'w') as f:
-      json.dump(data_total, f)
+    # with open (path_data_his,'w') as f:
+    #   json.dump(data_total, f)
     ############################################
   print("====================== Length =================")
   return (list_diff, data_total)
@@ -441,28 +441,6 @@ def CacualatorChange(connect, path_data, list_diff, date):
           
 
     list_camp_update = list_camp_find # Update name
-    # mp2 = 0
-    # pg1 = 0
-    # pg2 = 0
-    # pg3 = 0
-    # wpl = 0
-    # for camp in list_camp_find:
-    #   if camp['Account Name'].find('MP2') >= 0:
-    #     mp2 += 1
-    #   if camp['Campaign'].find('1708050') >= 0:
-    #     pg2 += 1
-    #   if camp['Account Name'].find('PG1') >= 0:
-    #     pg1 += 1
-    #   if camp['Account Name'].find('PG1') >= 0:
-    #     pg3 += 1
-    #   if camp['Account Name'].find('PG1') >= 0:
-    #     wpl += 1
-
-    # print("Camp MP2", mp2)
-    # print("Camp PG1", pg1)
-    # print("Camp PG2", pg2)
-    # print("Camp WPL", wpl)
-    # print("Camp PG3", pg3)
 
     mapping.ReadProductAlias(connect, path_data, date)
     list_plan = mapping.ReadPlanFromTable(connect, path_data, date)
@@ -476,7 +454,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
 
     print("MAP")
     start = time.time()
-    data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
+    # data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
     print ("Mapping: ", (time.time() - start))
 
     ############## check code
@@ -502,8 +480,10 @@ def CacualatorChange(connect, path_data, list_diff, date):
     import time
     start = time.time()
     data_total['TOTAL'] = insert_install.InsertInstallToPlan(data_total['TOTAL'], connect, date)
-    data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
     print ("Insert install: ", (time.time() - start))
+    start = time.time()
+    data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
+    print ("Insert install GPS: ", (time.time() - start))
 
     
 
@@ -520,13 +500,13 @@ def CacualatorChange(connect, path_data, list_diff, date):
     # print (list_camp_need_remove[0])
 
     ###########################################
-    path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-    with open (path_data_total_map,'w') as f:
-      json.dump(data_total['TOTAL'], f)
+    # path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+    # with open (path_data_total_map,'w') as f:
+    #   json.dump(data_total['TOTAL'], f)
 
-    path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
-    with open (path_data_un_map,'w') as f:
-      json.dump(data_total['UN_CAMP'], f)
+    # path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+    # with open (path_data_un_map,'w') as f:
+    #   json.dump(data_total['UN_CAMP'], f)
     ##########################################
 
   return (list_plan_remove_unmap, list_camp_need_remove, list_plan_update, list_camp_update)

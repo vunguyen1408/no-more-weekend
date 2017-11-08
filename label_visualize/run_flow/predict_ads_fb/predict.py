@@ -99,9 +99,11 @@ def predict_image(path_content_crawler, percent_train, percent_test, number_rela
                             print (percent)
                             print (feature)
                             print (folder)
+                            print (image['image_url'])
                             print ("==================")
                             image['percent_predict'] = percent
                             image['feature'] = feature
+                            print (image)
 
 
 def predict(path_data, path_content_crawler, percent_train, percent_test, number_relationship, date_, to_date_):
@@ -122,8 +124,8 @@ def predict(path_data, path_content_crawler, percent_train, percent_test, number
                     for ads in data['my_json']:
                         predict_image(path_content_crawler, percent_train, percent_test, number_relationship, ads)
 
-                with open (path_file,'w') as f:
-                    json.dump(data, f)
+                # with open (path_file,'w') as f:
+                #     json.dump(data, f)
 
 if __name__ == '__main__':
     from sys import argv
