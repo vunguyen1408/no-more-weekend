@@ -20,7 +20,7 @@ def ManualMapping (connect, path_data, date):
 	list_map, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert_sum \
 																 = manual.ManualMap(connect, path_data, date)
 	time_caculator_manual = time.time() - caculator_manual
-	print("---------- Time caculator manual mapping to total : ", time_caculator_manual)
+	print("             Time caculator manual mapping to total : ", time_caculator_manual)
 
 	# print(list_plan_remove_unmap != [])
 	# print(list_camp_remove_unmap != [])
@@ -55,7 +55,7 @@ def UnMapping (connect, path_data, date):
 		merge_data_manual_mapping.merger_data_manual_mapping(connect, list_map, list_plan_remove_unmap, \
 					list_camp_remove_unmap, list_plan_update, list_plan_insert_un_map, list_plan_insert_sum, is_manual_map)
 		time_update_manual = time.time() - update_manual
-		print("---------- Time update un mapping to total : ", time_update_manual)
+		print("	      Time update un mapping to total : ", time_update_manual)
 	else:
 		print(" Not change")
 		
