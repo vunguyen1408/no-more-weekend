@@ -1022,12 +1022,12 @@ def ClassifyPlan(connect, path_data, date, path_log):
 
 
 		# # =============== COMPUTE MONTHLY FOR EACH TOTAL PLAN ===================		
-
+		start = time.time()
 		data_total['TOTAL'] = insert_to_total.CaculatorForPlan(data_total['TOTAL'])
 		
 		data_total['TOTAL'] = insert_install.InsertInstallToPlan(data_total['TOTAL'], connect, date)
 		data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
-
+		print('Compute MONTHLY time: ', time.time() - start)
 		# # with open (path_data_total,'w') as f:
 		# # 	json.dump(data_total, f)
 
