@@ -103,6 +103,7 @@ def predict_image(path_content_crawler, percent_train, percent_test, number_rela
                             print ("==================")
                             image['percent_predict'] = percent
                             image['feature'] = feature
+                            print (image)
 
 
 def predict(path_data, path_content_crawler, percent_train, percent_test, number_relationship, date_, to_date_):
