@@ -162,6 +162,17 @@ def CheckNameChange(path_data, list_customer, date):
   else:
     find = True
 
+
+    # Neu tim khong thay thi tao file moi
+  if not find:
+    data_total = {}
+    data_total['HISTORY'] = []
+
+    path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
+    path_data_total_map = path_data_his
+    with open (path_data_his,'w') as f:
+      json.dump(data_total, f)
+
   list_diff = []
   if find:
     with open (path_data_total_map,'r') as f:
@@ -176,13 +187,27 @@ def CheckNameChange(path_data, list_customer, date):
     list_camp = list_camp['history_name']
 
     temp_ = []
-    for camp_ in list_camp:
-      if str(camp_['CAMPAIGN_ID']) == '794232395' or str(camp_['CAMPAIGN_ID']) == '713543033':
-        print (camp_['CAMPAIGN_NAME'])
-      flag = history_name.FindNameNew(data_total['HISTORY'], str(camp_['CAMPAIGN_ID']), camp_['CAMPAIGN_NAME'])
-      if flag == -1:
-        list_diff.append(camp_)
-        # print(camp_)
+    if len(data_total['HISTORY']) > 0:
+      for camp_ in list_camp:
+        if str(camp_['CAMPAIGN_ID']) == '794232395' or str(camp_['CAMPAIGN_ID']) == '713543033':
+          print (camp_['CAMPAIGN_NAME'])
+        flag = history_name.FindNameNew(data_total['HISTORY'], str(camp_['CAMPAIGN_ID']), camp_['CAMPAIGN_NAME'])
+        if flag == -1:
+          list_diff.append(camp_)
+          # print(camp_)
+          temp = {
+            'ACCOUNT_ID': camp_['ACCOUNT_ID'],
+            'CAMPAIGN_ID' : str(camp_['CAMPAIGN_ID']),
+
+            'CAMPAIGN_NAME' : camp_['CAMPAIGN_NAME'],
+            'DATE_GET' : str(date),
+            'UPDATE_DATE': str(date),
+            'IMPORT_DATE' : None
+          }
+
+          data_total['HISTORY'].append(temp)
+    else:
+      for camp_ in list_camp:
         temp = {
           'ACCOUNT_ID': camp_['ACCOUNT_ID'],
           'CAMPAIGN_ID' : str(camp_['CAMPAIGN_ID']),
@@ -191,10 +216,10 @@ def CheckNameChange(path_data, list_customer, date):
           'DATE_GET' : str(date),
           'UPDATE_DATE': str(date),
           'IMPORT_DATE' : None
-        }
-
+          }
+        list_diff.append(camp_)
         data_total['HISTORY'].append(temp)
-    time.sleep(5)
+    # time.sleep(5)
     #----------- Write file history new ----------------------
     path_folder = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING')
     print(path_folder)
