@@ -621,21 +621,22 @@ def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_t
 	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))	
 	print ('TOTAL: ', len(data_total['TOTAL']))
 
-	
+	print(len(data_total['UN_CAMPAIGN']))
 	list_plan_total, list_un_camp = Mapping_Auto(path_data, date, list_plan_map, data_total['UN_CAMPAIGN'])
-
+	print(len(data_total['UN_CAMPAIGN']), len(list_un_camp))
 	
 	#===================== CASE MAP ===================
 	#----------- Remove campaign unmap ---------------------	
-	for campaign in data_total['UN_CAMPAIGN']:
-		flag = False    # False if just map
-		for camp in list_un_camp:				  
-			if camp['Campaign ID'] == campaign['Campaign ID'] \
-			and camp['Date'] == campaign['Date']:
-				flag = True   # True if un_map
-		if flag == False:
-			list_camp_remove_unmap.append(campaign)
-			data_total['UN_CAMPAIGN'].remove(campaign)
+	if (len(list_un_camp) > 0):
+		for campaign in data_total['UN_CAMPAIGN']:
+			flag = False    # False if just map
+			for camp in list_un_camp:				  
+				if camp['Campaign ID'] == campaign['Campaign ID'] \
+				and camp['Date'] == campaign['Date']:
+					flag = True   # True if un_map
+			if flag == False:
+				list_camp_remove_unmap.append(campaign)
+				data_total['UN_CAMPAIGN'].remove(campaign)
 
 	print()
 	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
@@ -679,6 +680,14 @@ def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_t
 	
 	total_time = time.time()
 	print("TOTAL TIME: ", total_time - get_camp)
+
+	for plan in list_plan_map:		
+		for plan_total in data_total['TOTAL']:
+			if plan_total['PRODUCT'] == plan['PRODUCT'] \
+				and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+				and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
+				and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
+				print(len(plan_total['CAMPAIGN']))
 
 	return data_total, list_camp_remove_unmap, list_camp_insert_unmap, list_plan_remove_total, list_plan_remove_map, \
 	list_plan_remove_unmap, list_plan_insert_unmap, list_data_insert_map, list_plan_insert_total, list_remove_manual
