@@ -442,11 +442,11 @@ def CacualatorChange(connect, path_data, list_diff, date):
 
     list_camp_update = list_camp_find # Update name
     for camp in list_camp_find:
-      if camp['CAMPAIGN_ID'] == '953916682':
-            print (temp)
+      if camp['Campaign ID'] == '953916682':
+            print (camp)
     for camp in list_diff:
       if camp['CAMPAIGN_ID'] == '953916682':
-            print (temp)
+            print (camp)
     # mp2 = 0
     # pg1 = 0
     # pg2 = 0
