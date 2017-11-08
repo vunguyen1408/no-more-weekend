@@ -296,6 +296,38 @@ def GetVolumeActualTotal(plan):
 	return ''
 
 
+def SetVolunmActual(data_map, date):
+	for plan in data_map:
+		plan['TOTAL_CAMPAIGN']['VOLUME_ACTUAL'] = GetVolumeActualTotal(plan)
+		for m in plan['MONTHLY']:
+			m['TOTAL_CAMPAIGN_MONTHLY']['VOLUME_ACTUAL'] = GetVolumeActualMonthly(plan, m)
+	return data_map
+
+# Hai ham de set volum Actual
+def SetVolunmActualFile(path_data, date):
+	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+	if not os.path.exists(path_data_total_map):
+		i = 0
+		find = True
+		date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		while not os.path.exists(path_data_total_map):
+			i = i + 1
+			date_before = date_before - timedelta(1)
+			path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			if i == 60:
+				find = False
+				break
+		# ---- Neu tim thay file total truoc do -----
+	else:
+		find = True
+	if find:
+		with open (path_data_total_map,'r') as f:
+			data_map = json.load(f)
+		data_map = SetVolunmActual(data_map, date)
+		with open (path_data_total_map,'w') as f:
+			json.dump(data_map, f)	
+
 
 def SumMonthly(plan, list_campaign):
 	start_plan, end_plan = mapping_data.ChooseTime(plan)
