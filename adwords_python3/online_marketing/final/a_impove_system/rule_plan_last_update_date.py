@@ -114,6 +114,65 @@ def GetPlanModified(connect, data_plan):
 	
 	return list_plan
 
+
+def ConvertPlan(plan):	
+	json_ = {}
+
+	json_['CYEAR'] = plan[0]
+	json_['CMONTH'] = plan[1]
+	json_['LEGAL'] = plan[2]
+	json_['DEPARTMENT'] = plan[3]
+	json_['DEPARTMENT_NAME'] = plan[4]
+
+	json_['PRODUCT'] = plan[5]
+	json_['REASON_CODE_ORACLE'] = plan[6]
+	json_['EFORM_NO'] = plan[7]
+	if (plan[8] is None):
+		json_['START_DAY'] = plan[8]
+	else:
+		json_['START_DAY'] = plan[8].strftime('%Y-%m-%d')
+	if (plan[9] is None):
+		json_['END_DAY_ESTIMATE'] = plan[9]
+	else:
+		json_['END_DAY_ESTIMATE'] = plan[9].strftime('%Y-%m-%d')	
+
+	json_['CHANNEL'] = plan[10]
+	json_['FORM_TYPE'] = plan[11]
+	json_['UNIT_OPTION'] = plan[12]
+	json_['UNIT_COST'] = plan[13]
+	json_['AMOUNT_USD'] = plan[14]
+
+	json_['CVALUE'] = plan[15]
+	json_['ENGAGEMENT'] = plan[16]
+	json_['IMPRESSIONS'] = plan[17]
+	json_['CLIKE'] = plan[18]
+	json_['CVIEWS'] = plan[19]
+
+	json_['INSTALL'] = plan[20]
+	json_['NRU'] = plan[21]
+	if (plan[22] is None):
+		json_['INSERT_DATE'] = plan[22]
+	else:
+		json_['INSERT_DATE'] = plan[22].strftime('%Y-%m-%d')
+	
+	if (plan[23] is None):
+		json_['REAL_START_DATE'] = plan[23]
+	else:
+		json_['REAL_START_DATE'] = plan[23].strftime('%Y-%m-%d')
+	if (plan[24] is None):
+		json_['REAL_END_DATE'] = plan[24]
+	else:
+		json_['REAL_END_DATE'] = plan[24].strftime('%Y-%m-%d')
+
+	json_['STATUS'] = plan[25]
+	if (plan[26] is None):
+		json_['LAST_UPDATED_DATE'] = plan[26]
+	else:
+		json_['LAST_UPDATED_DATE'] = plan[26].strftime('%Y-%m-%d')
+
+	return json_
+
+
 def GetListDiff(connect, path_data, date, path_log = None):
 	# fi = open(path_log, 'r')
 	# final_log = fi.read()
