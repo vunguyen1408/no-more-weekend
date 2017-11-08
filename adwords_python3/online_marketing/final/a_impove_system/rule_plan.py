@@ -626,11 +626,11 @@ def ClassifyPlan(connect, path_data, date):
 		# =============== COMPUTE MONTHLY FOR EACH TOTAL PLAN ===================	
 		if (len(list_plan_new) > 0)	and (len(list_plan_change_real_date) > 0 ):
 			data_total['TOTAL'] = insert_to_total.CaculatorForPlan(data_total['TOTAL'])
-		    
-		    start = time.time()
-		    data_total['TOTAL'] = insert_install.InsertInstallToPlan(data_total['TOTAL'], connect, date)
-		    data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
-		    print ("Insert install: ", (time.time() - start))
+
+			start = time.time()
+			data_total['TOTAL'] = insert_install.InsertInstallToPlan(data_total['TOTAL'], connect, date)
+			data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
+			print ("Insert install: ", (time.time() - start))
 
 		print('list_camp_remove_unmap: ', len(list_camp_remove_unmap))
 		print('list_camp_insert_unmap: ', len(list_camp_insert_unmap))
