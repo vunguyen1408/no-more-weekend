@@ -1340,15 +1340,16 @@ def CompareTwoPlan(plan_1, plan_2, list_key):
 	check_num = 0
 	for i in range(len(list_key)):
 		if (list_key[i] == 'EFORM_NO'):
+
 			if (str(plan_1[list_key[i]]).find('\xa0') >= 0):
-				plan_1[list_key[i]].replace('\xa0', '')
+				plan_1[list_key[i]] = plan_1[list_key[i]].replace('\xa0', '')
 			if (str(plan_2[list_key[i]]).find('\xa0') >= 0):
-				plan_2[list_key[i]].replace(' ', '')
+				plan_2[list_key[i]] = plan_2[list_key[i]].replace(' ', '')
 
 			if (str(plan_1[list_key[i]]).find(' ') >= 0):
-				plan_1[list_key[i]].replace(' ', '')
+				plan_1[list_key[i]] = plan_1[list_key[i]].replace(' ', '')
 			if (str(plan_2[list_key[i]]).find(' ') >= 0):
-				plan_2[list_key[i]].replace(' ', '')
+				plan_2[list_key[i]] = plan_2[list_key[i]].replace(' ', '')
 
 		if plan_1[list_key[i]] == plan_2[list_key[i]]:
 			check_num += 1
@@ -1443,6 +1444,11 @@ def GetListDiff(connect, path_data, date):
 				print()
 				print(plan)
 				print(_value)
+				print(type(plan['EFORM_NO']), type(_value['EFORM_NO']))
+				print(plan['EFORM_NO'] == _value['EFORM_NO'])
+
+				
+					
 
 		if flag:
 			list_plan_new.append(plan)
