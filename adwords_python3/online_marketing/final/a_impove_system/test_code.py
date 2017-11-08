@@ -1069,10 +1069,10 @@ date = '2017-10-31'
 path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
 
 
-list_camp_remove_unmap, list_camp_insert_unmap, list_plan_insert_total, \
-	list_plan_update_total, list_plan_remove_total, list_data_insert_map, \
-	list_data_remove_map, list_plan_update_map, list_plan_remove_map, \
-	list_plan_insert_unmap, list_plan_remove_unmap, list_remove_manual = ClassifyPlan(connect, path_data, date, path_log)
+# list_camp_remove_unmap, list_camp_insert_unmap, list_plan_insert_total, \
+# 	list_plan_update_total, list_plan_remove_total, list_data_insert_map, \
+# 	list_data_remove_map, list_plan_update_map, list_plan_remove_map, \
+# 	list_plan_insert_unmap, list_plan_remove_unmap, list_remove_manual = ClassifyPlan(connect, path_data, date, path_log)
 
 
 
@@ -1309,6 +1309,53 @@ list_camp_remove_unmap, list_camp_insert_unmap, list_plan_insert_total, \
 # print(len(data['MAP'])
 # print(len(data['UN_PLAN'])
 # print(len(data['UN_CAMPAIGN'])
+
+
+
+
+
+def GetListDiff(connect, path_data, date):	
+	#============ Connect database ==================
+	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
+	cursor = conn.cursor()
+	
+	#============ Read Plan from Table ===============
+	query = "select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, \
+					PRODUCT, REASON_CODE_ORACLE, EFORM_NO, START_DAY, END_DAY_ESTIMATE, \
+					CHANNEL, EFORM_TYPE, UNIT_OPTION, UNIT_COST, AMOUNT_USD, \
+					CVALUE, ENGAGEMENT, IMPRESSIONS, CLIKE, CVIEWS, \
+					INSTALL, NRU, INSERT_DATE, REAL_START_DATE, REAL_END_DATE, \
+          			STATUS, LAST_UPDATED_DATE\
+      		from STG_FA_DATA_GG"
+
+	
+	cursor.execute(query) 	
+	list_new_plan = cursor.fetchall()
+	list_new_plan = list(list_new_plan)
+	cursor.close()
+
+
+	#============== Read Plan from file plan.json =============
+	path_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
+	with open(path_plan, 'r') as fi:
+		data_plan = json.load(path_plan)
+
+
+	print('list_old_plan: ',len(data_total))
+	print('list_new_plan: ', len(list_new_plan))	
+	# return list_new_plan
+
+
+
+connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
+date = '2017-10-31' 
+
+import time
+start = time.time()
+GetListDiff(connect, path_data, date)
+print('Time GetListDiff:',  time.time() - start)
+
 
 
 
