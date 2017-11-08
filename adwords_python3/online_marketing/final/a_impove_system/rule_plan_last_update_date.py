@@ -74,6 +74,7 @@ def CheckPlanUpdateRealDate(list_plan, plan):
 
 	return False
 
+
 def GetPlanModified(connect, data_plan):
 	#====================== Get old plan in python ==========================	
 	list_new_plan = []
@@ -161,5 +162,5 @@ date = '2017-10-31'
 path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
 
 list_plan_diff, list_plan_new, list_plan_change_real_date, \
-list_plan_update, list_plan_modified = GetListDiff(connect, path_data, date, path_log = None)
+list_plan_update, list_plan_modified = GetListDiff(connect, path_data, date, path_log)
 
