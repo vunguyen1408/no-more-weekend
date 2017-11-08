@@ -1338,7 +1338,7 @@ def CompareTwoPlan(plan_1, plan_2, list_key):
 			3 if only change real date
 	"""
 	check_num = 0
-	for i in len(list_key):
+	for i in range(len(list_key)):
 		if plan_1[list_key[i]] == plan_2[list_key[i]]:
 			check_num += 1
 
