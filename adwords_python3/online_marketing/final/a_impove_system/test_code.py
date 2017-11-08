@@ -1311,7 +1311,7 @@ path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3
 # print(len(data['UN_CAMPAIGN'])
 
 
-def 
+# def 
 
 
 def GetListDiff(connect, path_data, date):	
