@@ -569,8 +569,8 @@ def GetPlanModified(connect, path_data):
 
 def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_total):
 	print('list_plan_modified: ', len(list_plan_modified))
-	for i in list_plan_modified:
-		print(i)
+	# for i in list_plan_modified:
+		# print(i)
 	list_camp_remove_unmap = []	
 	list_camp_insert_unmap = []
 	list_plan_remove_total = []	
@@ -600,6 +600,7 @@ def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_t
 				and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
 				and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
 				and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
+				print(len(plan_total['CAMPAIGN']))
 
 				if ('CAMPAIGN_MANUAL_MAP' in plan_total) and len(plan_total['CAMPAIGN_MANUAL_MAP']) > 0 :
 					plan_temp = {
