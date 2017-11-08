@@ -99,6 +99,7 @@ def predict_image(path_content_crawler, percent_train, percent_test, number_rela
                             print (percent)
                             print (feature)
                             print (folder)
+                            print (image['image_url'])
                             print ("==================")
                             image['percent_predict'] = percent
                             image['feature'] = feature
