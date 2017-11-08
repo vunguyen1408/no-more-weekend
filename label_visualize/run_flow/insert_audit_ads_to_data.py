@@ -55,6 +55,11 @@ def check_file_exist(photo_link, path_down_load_file):
 	        except ContentTooShortError as err:
 	            print(err.code)
 	            return '0'
+	if not os.path.exists(fullfilename):
+		return '0'
+	else:
+		os.remove(fullfilename)
+		return '1'
     return fullfilename
 
 #-------------- Do data audit ------------------
