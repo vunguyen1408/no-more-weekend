@@ -189,6 +189,8 @@ def CheckNameChange(path_data, list_customer, date):
     temp_ = []
     if len(data_total['HISTORY']) > 0:
       for camp_ in list_camp:
+        if camp_['CCAMPAIGN_ID'] == '953916682':
+          print (camp_)
         if str(camp_['CAMPAIGN_ID']) == '794232395' or str(camp_['CAMPAIGN_ID']) == '713543033':
           print (camp_['CAMPAIGN_NAME'])
         flag = history_name.FindNameNew(data_total['HISTORY'], str(camp_['CAMPAIGN_ID']), camp_['CAMPAIGN_NAME'])
@@ -208,6 +210,8 @@ def CheckNameChange(path_data, list_customer, date):
           data_total['HISTORY'].append(temp)
     else:
       for camp_ in list_camp:
+        if camp_['CCAMPAIGN_ID'] == '953916682':
+          print (camp_)
         temp = {
           'ACCOUNT_ID': camp_['ACCOUNT_ID'],
           'CAMPAIGN_ID' : str(camp_['CAMPAIGN_ID']),
