@@ -103,19 +103,12 @@ def GetListDiff(connect, path_data, date):
 	list_new_plan = ConvertPlanToJson(list_new_plan, list_all_key)
 
 	#============== Read Plan from file plan.json =============
-	path_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')
-	print(path_plan)
+	path_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')	
 	with open(path_plan, 'r') as fi:
 		data_plan = json.load(fi)
-
-
-	print('list_old_plan: ',len(data_plan['plan']))
-	print('list_new_plan: ', len(list_new_plan))	
-	
+		
 	
 	#============ Get list plan diff =================
-	
-	
 	list_diff = []
 	list_plan_new = []
 	list_plan_only_update = []
@@ -176,7 +169,102 @@ def GetListDiff(connect, path_data, date):
 
 	return list_diff, list_plan_new, list_plan_change_real, list_plan_only_update, list_plan_modified
 
-     
+
+def ReleaseCampOfPlanRealDate(list_plan_change, data_total):
+	list_camp_insert_unmap = []	
+	list_remove_manual = []
+
+	print()	
+	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))	
+	print ('TOTAL: ', len(data_total['TOTAL']))
+
+
+	# ---------- Remove camp from TOTAL --------------------
+	list_camp = []
+	for plan in list_plan_change:
+		plan_temp = {
+					'PLAN' : plan,
+					'CAMPAIGN_MANUAL_MAP' : []
+		}
+		
+		for plan_total in data_total['TOTAL']:
+			if plan_total['PRODUCT'] == plan['PRODUCT'] and \
+				plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
+				plan_total['FORM_TYPE'] == plan['FORM_TYPE'] and \
+				plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
+
+				start, end = mapping.ChooseTime(plan)
+
+				if (len(plan_total['CAMPAIGN']) > 0):
+					for camp in plan_total['CAMPAIGN']:
+						if (camp['Date'] <= start) or (camp['Date'] >= end):
+							#----------- Remove from TOTAL -----------------
+							if camp in plan_total['CAMPAIGN_MANUAL_MAP']:
+								plan_temp['CAMPAIGN_MANUAL_MAP'].append(camp)
+							
+							plan_total['CAMPAIGN'].remove(camp)		
+							list_camp_insert_unmap.append(camp)
+
+				if len(plan_temp['CAMPAIGN_MANUAL_MAP']) > 0:
+					list_remove_manual.append(plan_temp)
+
+			
+	# -------------- Insert camp unmap into UN_CAMPAIGN ---------------------
+	data_total['UN_CAMPAIGN'].extend(list_camp_insert_unmap)
+
+	
+
+	print()	
+	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))	
+	print ('TOTAL: ', len(data_total['TOTAL']))
+
+	print()
+	print('list_camp_insert_unmap: ', len(list_camp_insert_unmap))	
+	print('list_remove_manual: ', len(list_remove_manual))
+
+	return data_total, list_camp_insert_unmap, list_remove_manual
+
+
+def ReleaseModifiedPlan(list_plan_modified, data_total):
+		
+	list_camp_insert_unmap = []
+	list_plan_remove_total = []		
+	list_remove_manual = []
+
+	# ----------------- Merger into database ------------------------
+	print()
+	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))	
+	print ('TOTAL: ', len(data_total['TOTAL']))
+	
+	# =================== Remove in data TOTAL and Re-Insert camp in UN_CAMPAIGN ========================
+	for plan in list_plan_modified:		
+		for plan_total in data_total['TOTAL']:
+			if plan_total['PRODUCT'] == plan['PRODUCT'] \
+				and plan_total['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] \
+				and plan_total['FORM_TYPE'] == plan['FORM_TYPE'] \
+				and plan_total['UNIT_OPTION'] == plan['UNIT_OPTION']:
+				
+				if ('CAMPAIGN_MANUAL_MAP' in plan_total) and len(plan_total['CAMPAIGN_MANUAL_MAP']) > 0 :
+					plan_temp = {
+						'PLAN': plan,
+						'CAMPAIGN_MANUAL_MAP': plan_total['CAMPAIGN_MANUAL_MAP']
+					}	
+					list_remove_manual.append(plan_temp)	
+
+				for camp in plan_total['CAMPAIGN']:
+					data_total['UN_CAMPAIGN'].append(camp)
+					list_camp_insert_unmap.append(camp)
+
+				data_total['TOTAL'].remove(plan_total)
+				list_plan_remove_total.append(plan)		
+	
+	
+	print()	
+	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))	
+	print ('TOTAL: ', len(data_total['TOTAL']))	
+
+	
+	return data_total, list_camp_insert_unmap, list_plan_remove_total, list_remove_manual
 
 
 def ClassifyPlan(connect, path_data, date):
@@ -211,57 +299,62 @@ def ClassifyPlan(connect, path_data, date):
 	print('list_plan_modified: ', len(list_plan_modified))
 
 
-	# ============= Process with each case =======================
-	# path_data_total = GetFileTotal(path_data, date)
-	# print(path_data_total)
-	# with open (path_data_total,'r') as f:
-	# 	data_total = json.load(f)
-	# path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
-	# path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+	# ============= Process with each case =======================	
+	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
+	path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
 
-	# if not os.path.exists(path_data_total_map):
-	# 	i = 0
-	# 	find = True
-	# 	date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
-	# 	path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
-	# 	path_data_un_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'un_map_camp' + '.json')
-	# 	while not os.path.exists(path_data_total_map):
-	# 		i = i + 1
-	# 		date_before = date_before - timedelta(1)
-	# 		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
-	# 		path_data_un_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'un_map_camp' + '.json')
-	# 		if i == 60:
-	# 			find = False
-	# 			break
-	# 	# ---- Neu tim thay file total truoc do -----
-	# else:
-	# 	find = True
+	if not os.path.exists(path_data_total_map):
+		i = 0
+		find = True
+		date_before = datetime.strptime(date, '%Y-%m-%d').date() - timedelta(1)
+		path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+		path_data_un_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+		while not os.path.exists(path_data_total_map):
+			i = i + 1
+			date_before = date_before - timedelta(1)
+			path_data_total_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'total_mapping' + '.json')
+			path_data_un_map = os.path.join(path_data + '/' + str(date_before) + '/DATA_MAPPING', 'un_map_camp' + '.json')
+			if i == 60:
+				find = False
+				break
+		# ---- Neu tim thay file total truoc do -----
+	else:
+		find = True
 
-	# if find:
-	# 	data_total = {}
-	# 	data_total['TOTAL'] = []
-	# 	data_total['UN_CAMPAIGN'] = []
-	# 	with open (path_data_total_map,'r') as f:
-	# 		data_total['TOTAL'] = json.load(f)
-	# 	print('TOTAL: ', len(data_total['TOTAL']))		
+	if find:
+		data_total = {}
+		data_total['TOTAL'] = []
+		data_total['UN_CAMPAIGN'] = []
 
-	# 	with open (path_data_un_map,'r') as f:
-	# 		data_total['UN_CAMPAIGN'] = json.load(f)
-	# 	print('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
+		with open (path_data_total_map,'r') as f:
+			data_total['TOTAL'] = json.load(f)			
+
+		with open (path_data_un_map,'r') as f:
+			data_total['UN_CAMPAIGN'] = json.load(f)
+
+		print('TOTAL: ', len(data_total['TOTAL']))	
+		print('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
 
 
 
-	# #============ Case 0: Release camp in list change real date ===============
-	# 	if (len(list_plan_change_real_date) > 0):
-	# 		print("=========== Case 0: Release camp in list change real date ==========")
-	# 		list_plan_change_real_date = mapping.AddProductCode(path_data, list_plan_change_real_date, date)		
-	# 		data_total, camp_insert_unmap, remove_manual = ReleaseCampOfPlanRealDate(path_data, date, list_plan_change_real_date, data_total)
+	# ============ Case 0: Release camp in list change real date ===============
+		if (len(list_plan_change_real_date) > 0):
+			print("=========== Case 0: Release camp in list change real date ==========")					
+			data_total, camp_insert_unmap, remove_manual = ReleaseCampOfPlanRealDate(path_data, date, list_plan_change_real_date, data_total)
 
-	# 		# insert_install.InsertInstallToPlan(path_data, connect, date)
-	# 		# insert_install_brandingGPS.AddBrandingGPSToPlan(path_data, connect, date)
+			list_camp_insert_unmap.extend(camp_insert_unmap)			
+			list_remove_manual.extend(remove_manual)
 
-	# 		list_camp_insert_unmap.extend(camp_insert_unmap)			
-	# 		list_remove_manual.extend(remove_manual)
+
+	# ============ Case 1: Release list plan modified ===============
+		if (len(list_plan_modified) > 0):
+			print("=========== Case 0: Release camp in list change real date ==========")					
+			data_total, camp_insert_unmap, plan_remove_total, \
+			remove_manual = ReleaseModifiedPlan(list_plan_modified, data_total)
+
+			list_camp_insert_unmap.extend(camp_insert_unmap)	
+			list_plan_remove_total.extend(plan_remove_total)		
+			list_remove_manual.extend(remove_manual)
 
 
 
