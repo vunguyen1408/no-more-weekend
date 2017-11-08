@@ -24,7 +24,7 @@ def ParseFormatDate(data):
 	d = str(datetime.strptime(d, '%Y-%m-%d').date())
 	return d
 
-def UpdateLog(cursor, value):
+def UpdateLog(cursor, value, type_):
 	statement = "update ODS_CAMP_FA_MAPPING_GG \
 	set STATUS_2 = :1\
 	where PRODUCT = :2 and REASON_CODE_ORACLE = :3 and EFORM_TYPE = :4 \
@@ -32,14 +32,14 @@ def UpdateLog(cursor, value):
 
 	cursor.execute(statement, (0 , value['PRODUCT'], value['REASON_CODE_ORACLE'], value['FORM_TYPE'], value['UNIT_OPTION'], \
 		value['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID'] , datetime.strptime(value['CAMPAIGN_MANUAL_MAP'][0]['START_DATE_MANUAL_MAP'], '%Y-%m-%d'), \
-		datetime.strptime(value['CAMPAIGN_MANUAL_MAP'][0]['END_DATE_MANUAL_MAP'], '%Y-%m-%d'), 2))	
+		datetime.strptime(value['CAMPAIGN_MANUAL_MAP'][0]['END_DATE_MANUAL_MAP'], '%Y-%m-%d'), type_))	
 
-def UpdateListLog(connect, list_log):
+def UpdateListLog(connect, list_log, type_):
 	conn = cx_Oracle.connect(connect)
 	cursor = conn.cursor()
 
 	for value in list_log:
-		UpdateLog(cursor, value)
+		UpdateLog(cursor, value, type_)
 
 	conn.commit()
 	print("Committed!.......")
@@ -184,7 +184,7 @@ def ReadTableManualMap(connect, path_data, date, is_un_map):
 		# 	temp['STATUS'] = 'USER'
 		# 	list_plan_diff.append(temp)
 		# 	list_plan_new.append(temp)
-	UpdateListLog(connect, list_plan_diff)
+	UpdateListLog(connect, list_plan_diff, 2)
 	print ("Plan diff : ", len(list_plan_diff))
 	return (list_plan_diff)
 
