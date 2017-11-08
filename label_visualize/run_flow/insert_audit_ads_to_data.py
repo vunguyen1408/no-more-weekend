@@ -87,6 +87,7 @@ def InsertContentAds(cursor, ads, d):
 						flag = 0
 					else:
 						flag = 1
+					print (flag)
 					print (image)
 					print (str(image['feature']))
 					cursor.execute(statement, (ads['ad_id'], ads['list_product'][0], image['image_url'], 'image_url', image['percent_predict'], i,  \
