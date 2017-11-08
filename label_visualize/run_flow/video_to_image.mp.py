@@ -163,13 +163,14 @@ def run_hash_video_image(p_base_dir,p_date,p_process_num):
         for _json in source_json['hash_md5']:
 
             found=-1
-            for _dest_json in dest_json['hash_md5']:
+            for _i,_dest_json in enumerate(dest_json['hash_md5']):
                 if _dest_json['video_hash_md5']==_json['hash_md5'] and 'video_image_hash_md5' in _json:
-                    found=1
+                    found=_i
                     break
 
             if found < 0 :
 
+                # add all file
                 file_image_check=folder_dest+ '/' + _json['hash_md5']+'.*' + '.png'
                 list_image = glob.glob(file_image_check)
                 for _file in list_image:
@@ -184,9 +185,17 @@ def run_hash_video_image(p_base_dir,p_date,p_process_num):
             else:
                 #skip
                 file_json = {
-                    'video_hash_md5':_dest_json['video_hash_md5'],
-                    'video_image_hash_md5':_dest_json['video_image_hash_md5']
+                    'video_hash_md5':dest_json[found]['video_hash_md5'],
+                    'video_image_hash_md5':dest_json[found]['video_image_hash_md5']
                 }
+                if 'video_image_name' in dest_json[found]:
+                    file_json['video_image_name']=dest_json[found]['video_image_name']
+                if 'image_text' in dest_json[found]:
+                    file_json['image_text']=_dest_json[found]['image_text']
+                if 'image_local_label' in dest_json[found]:
+                    file_json['image_local_label']=_dest_json[found]['image_local_label']
+                if 'image_local_text' in dest_json[found]:
+                    file_json['image_local_text']=_dest_json[found]['image_local_text']
                 list_file.append(file_json)
 
 
@@ -242,6 +251,13 @@ def run_hash_video_image(p_base_dir,p_date,p_process_num):
                 if find_file < 0:
                 #append
                     list_result[_i]['video_image_name'].append(temp_file)
+                    if 'image_text' in _json:
+                        list_result[_i]['image_text']=_json['image_text']
+                    if 'image_local_text' in _json:
+                        list_result[_i]['image_local_text']=_json['image_local_text']
+                    if 'image_local_label' in _json:
+                        list_result[_i]['image_local_label']=_json['image_local_label']
+
                 find_hash=_i
                 break
 

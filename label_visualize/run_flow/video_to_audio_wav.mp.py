@@ -130,6 +130,7 @@ def do_work_2(in_queue, out_list):
             file_source = line['full_name']
             line['audio_hash_md5']=hash_md5(file_source)
 
+        print(line)
 
         result = (line_no, line)
 
@@ -187,9 +188,9 @@ def run_hash_video_audio(p_base_dir,p_date,p_process_num):
 
         for _json in source_json['hash_md5']:
             found=-1
-            for _dest_json in dest_json['hash_md5']:
+            for _i,_dest_json in enumerate(dest_json['hash_md5']):
                 if _dest_json['video_hash_md5']==_json['hash_md5'] :
-                    found=1
+                    found=_i
                     break
 
 
@@ -204,9 +205,11 @@ def run_hash_video_audio(p_base_dir,p_date,p_process_num):
             else:
                 #skip
                 file_json = {
-                    'video_hash_md5':_dest_json['video_hash_md5'],
-                    'audio_hash_md5':_dest_json['audio_hash_md5']
+                    'video_hash_md5':dest_json['hash_md5'][found]['video_hash_md5'],
+                    'audio_hash_md5':dest_json['hash_md5'][found]['audio_hash_md5']
                 }
+                if 'audio_text' in dest_json['hash_md5'][found]:
+                    file_json['audio_text']=dest_json['hash_md5'][found]['audio_text']
                 list_file.append(file_json)
 
 
@@ -237,10 +240,14 @@ def run_hash_video_audio(p_base_dir,p_date,p_process_num):
     return_json={}
     return_json['hash_md5']=[]
 
+
+
     for _json in results:
         work_hash={}
         work_hash['video_hash_md5']=_json[1]['video_hash_md5']
         work_hash['audio_hash_md5']=_json[1]['audio_hash_md5']
+        if 'audio_text' in _json[1]:
+            work_hash['audio_text']=_json[1]['audio_text']
 
         return_json['hash_md5'].append(work_hash)
 

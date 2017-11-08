@@ -110,13 +110,13 @@ def do_work(in_queue, out_list):
 
 
             if os.path.exists(file_source) and os.path.getsize(file_source)  >0:
-                line['image_texts'] = []
 
                 text={}
                 #file_text['text']=detect_text(file_name)
                 text['texts']=detect_text(file_source)
+                #text['texts']={'a':'a','b':'b'}
                 text['api_call']=1
-                line['image_texts'].append(text)
+                line['image_text']=text
 
         else:
             #print('exist')
@@ -136,10 +136,11 @@ def do_work(in_queue, out_list):
                     text={}
                     #file_text['text']=detect_text(file_name)
                     text['texts']=detect_text(file_source)
-                    line['image_texts'].append(text)
-
                     text['api_call']=api_count+1
+                    #text['texts']={'a':'a','b':'b'}
                     line['image_text']=text
+
+
 
                             ###############
 
@@ -207,7 +208,7 @@ def run_detect_video_image_text(p_base_dir,p_date,p_process_num):
     file_source_1 = os.path.join(folder_date, 'audio_hash_' + str(p_date) + '.json')
     file_source_2 = os.path.join(folder_date, 'video_image_hash_' + str(p_date) + '.json')
     file_dest= os.path.join(folder_date, 'video_image_hash_' + str(p_date) + '.json')
-    file_dest_test= os.path.join(folder_date, 'test_video_image_hash_' + str(p_date) + '.json')
+    #file_dest_test= os.path.join(folder_date, 'test_video_image_hash_' + str(p_date) + '.json')
 
 
     with open (file_source_1,'r') as _file:
@@ -309,25 +310,36 @@ def run_detect_video_image_text(p_base_dir,p_date,p_process_num):
     return_json={}
     return_json['hash_md5']=[]
 
-    for _json in results:
+
+    for _json in work_json_2['hash_md5']:
+        found=-1
+        for _i,_result in enumerate(results):
+            if _result[1]['video_image_hash_md5']==_json['video_image_hash_md5']:
+                found=_i
+                break
+
         work_hash={}
-        work_hash['video_hash_md5']=_json[1]['video_hash_md5']
-        work_hash['video_image_hash_md5']=_json[1]['video_image_hash_md5']
-        work_hash['video_image_name']=_json[1]['video_image_name']
-        if 'image_text' in _json[1]:
-            work_hash['image_text']=_json[1]['image_text']
+        work_hash['video_hash_md5']=_json['video_hash_md5']
+        work_hash['video_image_hash_md5']=_json['video_image_hash_md5']
+        work_hash['video_image_name']=_json['video_image_name']
+
+        if found>=0:
+            if 'image_text' in results[_i][1]:
+                work_hash['image_text']=results[_i][1]['image_text']
 
         return_json['hash_md5'].append(work_hash)
 
 
-    with open (file_dest_test,'w') as _file:
+
+
+    with open (file_dest,'w') as _file:
         json.dump(return_json, _file)
 
 
 
 
 
-def run_update_content_audio_text(p_base_dir,p_date):
+def run_update_video_image_text(p_base_dir,p_date):
 
     #list file
     list_file = []
@@ -335,7 +347,7 @@ def run_update_content_audio_text(p_base_dir,p_date):
     folder_date=os.path.join(p_base_dir, p_date)
 
 
-    file_source_1 = os.path.join(folder_date, 'audio_hash_' + str(p_date) + '.json')
+    file_source_1 = os.path.join(folder_date, 'test_video_image_hash_' + str(p_date) + '.json')
     file_source_2= os.path.join(folder_date, 'video_hash_' + str(p_date) + '.json')
     file_source_3= os.path.join(folder_date, 'video_url_' + str(p_date) + '.json')
     file_dest= os.path.join(folder_date, 'ads_creatives_audit_content_' + str(p_date) + '.json')
