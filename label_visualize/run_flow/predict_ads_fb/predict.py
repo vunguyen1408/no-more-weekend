@@ -122,8 +122,8 @@ def predict(path_data, path_content_crawler, percent_train, percent_test, number
                     for ads in data['my_json']:
                         predict_image(path_content_crawler, percent_train, percent_test, number_relationship, ads)
 
-                with open (path_file,'w') as f:
-                    json.dump(data, f)
+                # with open (path_file,'w') as f:
+                #     json.dump(data, f)
 
 if __name__ == '__main__':
     from sys import argv
