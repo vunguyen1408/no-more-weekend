@@ -416,7 +416,7 @@ def NewPlan(path_data, date, list_plan, data_total):
 	get_camp = time.time()
 
 	
-	list_plan_total, list_un_camp = Mapping_Auto(path_data, date, list_plan_change, data_total['UN_CAMPAIGN'])
+	list_plan_total, list_un_camp = Mapping_Auto(path_data, date, list_plan, data_total['UN_CAMPAIGN'])
 
 	
 	#---------------- Merger data unmap ---------------------------------------
