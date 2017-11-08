@@ -809,9 +809,7 @@ def ChangeRealDatePlanToMap(path_data, date, list_plan_change, data_total):
 	
 	
 	print()
-	print('MAP: ', len(data_total['MAP']))
 	print ('UN_CAMPAIGN: ', len(data_total['UN_CAMPAIGN']))
-	print ('UN_PLAN: ', len(data_total['UN_PLAN']))
 	print ('TOTAL: ', len(data_total['TOTAL']))
 
 	print()
