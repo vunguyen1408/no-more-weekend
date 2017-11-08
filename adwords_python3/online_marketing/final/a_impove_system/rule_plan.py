@@ -340,7 +340,7 @@ def ClassifyPlan(connect, path_data, date):
 	# ============ Case 0: Release camp in list change real date ===============
 		if (len(list_plan_change_real_date) > 0):
 			print("=========== Case 0: Release camp in list change real date ==========")					
-			data_total, camp_insert_unmap, remove_manual = ReleaseCampOfPlanRealDate(path_data, date, list_plan_change_real_date, data_total)
+			data_total, camp_insert_unmap, remove_manual = ReleaseCampOfPlanRealDate(list_plan_change_real_date, data_total)
 
 			list_camp_insert_unmap.extend(camp_insert_unmap)			
 			list_remove_manual.extend(remove_manual)
