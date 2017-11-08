@@ -33,17 +33,17 @@ def ManualMapping (connect, path_data, date):
 						list_camp_remove_unmap, list_plan_update, list_plan_insert_un_map, list_plan_insert_sum, is_manual_map)
 		
 		time_update_manual = time.time() - update_manual
-		print("---------- Time update manual mapping to total : ", time_update_manual)
+		print("        Time update manual mapping to total : ", time_update_manual)
 	else:
 		print(" Not change")
 
 def UnMapping (connect, path_data, date):
 	# =============================== Manual mapping =========================================
-	print("\n\n============= RUN UN MAPPING TO TOTAL WITH DATE : " + str(datetime.now()) + " =================")
+	print("\n============= RUN UN MAPPING TO TOTAL WITH DATE : " + str(datetime.now()) + " =================")
 	caculator_manual = time.time()
 	list_plan_insert_un_map, list_camp_remove_unmap, list_plan_update = un_map.UnMapManual(connect, path_data, date)
 	time_caculator_manual = time.time() - caculator_manual
-	print("---------- Time caculator manual mapping to total : ", time_caculator_manual)
+	print("         Time caculator manual mapping to total : ", time_caculator_manual)
 
 	print("So luong un map: ", len(list_camp_remove_unmap))
 	if list_camp_remove_unmap != []:
