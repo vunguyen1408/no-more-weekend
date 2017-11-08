@@ -371,31 +371,33 @@ import time
 # 	return plan
 
 # path_alias = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-09-29/PLAN/product_alias.json'
-path = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_03_10/2017-09-30/DATA_MAPPING/history_name.json'
+path = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_03_10/2017-09-30/DATA_MAPPING/total_mapping.json'
 # path_plan = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-09-30/PLAN/plan.json'
 # # file_product = os.path.join(path_data, str(date) + '/PLAN/product_alias.json')
 # import insert_data_map_to_total as insert_to_total
+
+path_plan = 'C:/Users/LAP11529-local/Desktop/history_name.json'
 
 # with open(path_alias, 'r') as fi:
 # 	data_alias = json.load(fi)
 
 
-# with open(path_plan, 'r') as fi:
-# 	data_plan = json.load(fi)
+with open(path_plan, 'r') as fi:
+	data_plan = json.load(fi)
 
 # with open(path_total, 'r') as fi:
 # 	data_total = json.load(fi)
 
-# # for plan_total in data_alias['ALIAS']:
-# # 	if  str(plan_total['PRODUCT_ID']) == '193':
-# # 		print (plan_total)
+for plan_total in data_plan['history_name']:
+	if  str(plan_total['CAMPAIGN_ID']) == '953916682':
+		print (plan_total)
 
-# # for plan_total in data_plan['plan']:
-# # 	if  str(plan_total['PRODUCT']) == '193':
-# 		# print (plan_total)
-# 		# 	for plan in data_alias['ALIAS']:
-# # 		if plan_total['PRODUCT'] == plan['PRODUCT_ID'] and plan['APPSFLYER_PRODUCT'] != None:
-# # 			plan_total['APPSFLYER_PRODUCT'].append(plan['APPSFLYER_PRODUCT'])
+# for plan_total in data_plan['plan']:
+# 	if  str(plan_total['PRODUCT']) == '193':
+		# print (plan_total)
+		# 	for plan in data_alias['ALIAS']:
+# 		if plan_total['PRODUCT'] == plan['PRODUCT_ID'] and plan['APPSFLYER_PRODUCT'] != None:
+# 			plan_total['APPSFLYER_PRODUCT'].append(plan['APPSFLYER_PRODUCT'])
 # # 	print (plan_total['APPSFLYER_PRODUCT'])
 # date = '2017-09-30'
 # for plan_total in data_total:
@@ -403,7 +405,7 @@ path = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_03_10/2017-09-30/DAT
 # # # if str(plan_total['Campaign ID']) == '772872164':
 # #   print (plan_total)
 # 	# plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
-# 	if plan_total['REASON_CODE_ORACLE'] == '1708007':
+# 	if plan_total['REASON_CODE_ORACLE'] == '1703061':
 # 		print (plan_total)
 
 
@@ -412,7 +414,7 @@ path = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_03_10/2017-09-30/DAT
 # with open (path_total,'w') as f:
 # 	json.dump(data_total, f)
 
-# print ("DONE")
+print ("DONE")
 
 
 # def insert(value, cursor):
@@ -460,17 +462,17 @@ connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 
 
 
-conn = cx_Oracle.connect(connect)
-cursor = conn.cursor()
+# conn = cx_Oracle.connect(connect)
+# cursor = conn.cursor()
 
-statement = "select PRODUCT, REASON_CODE_ORACLE, \
-				EFORM_TYPE, UNIT_OPTION, \
-				USER_NAME, ACCOUNT_ID, CAMPAIGN_ID, \
-				TO_CHAR(START_DATE, 'YYYY-MM-DD'), TO_CHAR(END_DATE, 'YYYY-MM-DD') from ODS_CAMP_FA_MAPPING_GG \
-				where TYPE = '2'"
-cursor.execute(statement)
-log_manual = cursor.fetchall()
-print (log_manual)
+# statement = "select PRODUCT, REASON_CODE_ORACLE, \
+# 				EFORM_TYPE, UNIT_OPTION, \
+# 				USER_NAME, ACCOUNT_ID, CAMPAIGN_ID, \
+# 				TO_CHAR(START_DATE, 'YYYY-MM-DD'), TO_CHAR(END_DATE, 'YYYY-MM-DD') from ODS_CAMP_FA_MAPPING_GG \
+# 				where TYPE = '2'"
+# cursor.execute(statement)
+# log_manual = cursor.fetchall()
+# print (log_manual)
 
 
 

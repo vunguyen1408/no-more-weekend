@@ -139,6 +139,7 @@ def check_ver2(list_label, list_bigger, label_relationship):
             num_labels_true += 1
             list_label_true.append(label)
     percent_true = num_labels_true * 100.0 / len(list_label)
+    # print (percent_true)
     return (percent_true, list_label_true)
 
 def check_percent_ver2(list_label, list_bigger, label_relationship, percent_face):
@@ -158,4 +159,4 @@ def check_percent_ver2(list_label, list_bigger, label_relationship, percent_face
     # =============== Check percent True of an image ==============
     percent_true, list_label_true = check_ver2(list_label, list_bigger, label_relationship)
         
-    return (max_percent_true, list_label_true, flag_finally)
+    return (percent_true, list_label_true, flag_finally)

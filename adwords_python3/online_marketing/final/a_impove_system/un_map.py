@@ -24,8 +24,27 @@ def ParseFormatDate(data):
 	d = str(datetime.strptime(d, '%Y-%m-%d').date())
 	return d
 
-def InsertPlanToDataBase(connect, plan):
-	return 0
+def UpdateLog(cursor, value, type_):
+	statement = "update ODS_CAMP_FA_MAPPING_GG \
+	set STATUS_2 = :1\
+	where PRODUCT = :2 and REASON_CODE_ORACLE = :3 and EFORM_TYPE = :4 \
+	and UNIT_OPTION = :5 and CAMPAIGN_ID = :6 and START_DATE = :7 and END_DATE = :8 and TYPE = :9"
+
+	cursor.execute(statement, (0 , value['PRODUCT'], value['REASON_CODE_ORACLE'], value['FORM_TYPE'], value['UNIT_OPTION'], \
+		value['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID'] , datetime.strptime(value['CAMPAIGN_MANUAL_MAP'][0]['START_DATE_MANUAL_MAP'], '%Y-%m-%d'), \
+		datetime.strptime(value['CAMPAIGN_MANUAL_MAP'][0]['END_DATE_MANUAL_MAP'], '%Y-%m-%d'), type_))	
+
+def UpdateListLog(connect, list_log, type_):
+	conn = cx_Oracle.connect(connect)
+	cursor = conn.cursor()
+
+	for value in list_log:
+		UpdateLog(cursor, value, type_)
+
+	conn.commit()
+	print("Committed!.......")
+	cursor.close()
+
 
 
 
@@ -80,7 +99,7 @@ def ReadTableManualMap(connect, path_data, date, is_un_map):
 	list_out = []
 	#------------- Check manual map change --------------------
 	# print (log_manual)
-	print (len(log_manual))
+	print ("So luong log un map: ", len(log_manual))
 	for data in log_manual:
 		if data[0] != None and data[1] != None \
 		and data[2] != None and data[3] != None \
@@ -104,7 +123,7 @@ def ReadTableManualMap(connect, path_data, date, is_un_map):
 				temp = ParseLogManualToJson(data)
 				# print (temp)
 				list_diff.append(temp)
-				print ("--------------- Da add them ---------------")
+				# print ("--------------- Da add them ---------------")
 	# print (list_diff)
 
 	#--------------- Write file manual log -------------------
@@ -155,17 +174,18 @@ def ReadTableManualMap(connect, path_data, date, is_un_map):
 					list_plan_diff.append(temp)
 					flag = False
 		# ----------- Plan moi duoc tao -----------------
-		if flag:
-			temp = plan_temp.copy()
-			temp['UNIT_OPTION'] = plan['UNIT_OPTION']
-			temp['FORM_TYPE'] = plan['FORM_TYPE']
-			temp['CAMPAIGN_MANUAL_MAP'] = []
-			temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
-			temp['USER_MAP'] = plan['USER_NAME']
-			temp['STATUS'] = 'USER'
-			list_plan_diff.append(temp)
-			list_plan_new.append(temp)
-	print (len(list_plan_diff))
+		# if flag:
+		# 	temp = plan_temp.copy()
+		# 	temp['UNIT_OPTION'] = plan['UNIT_OPTION']
+		# 	temp['FORM_TYPE'] = plan['FORM_TYPE']
+		# 	temp['CAMPAIGN_MANUAL_MAP'] = []
+		# 	temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
+		# 	temp['USER_MAP'] = plan['USER_NAME']
+		# 	temp['STATUS'] = 'USER'
+		# 	list_plan_diff.append(temp)
+		# 	list_plan_new.append(temp)
+	UpdateListLog(connect, list_plan_diff, 2)
+	print ("Plan diff : ", len(list_plan_diff))
 	return (list_plan_diff)
 
 
@@ -209,8 +229,8 @@ def DeleteUnMapPlan(plan, data_total):
 	number = 0
 	list_camp_map_need_remove = []
 	list_plan_insert_un_map = []
-	print (start)
-	print (end)
+	# print (start)
+	# print (end)
 	# print (len(list_campaign))
 	for plan_total in data_total['TOTAL']:
 		if str(plan['PRODUCT_CODE']) == str(plan_total['PRODUCT_CODE']) \
@@ -282,9 +302,9 @@ def UnMapManual(connect, path_data, date):
 
 		is_un_map = True
 		list_plan = ReadTableManualMap(connect, path_data, date, is_un_map)
-		print (len(data_total['UN_CAMP']))
+		print ("Data un map : ", len(data_total['UN_CAMP']))
 
-		print (list_plan)
+		# print (list_plan)
 		if len(list_plan) > 0:
 
 			list_camp_all_plan = []
@@ -296,8 +316,8 @@ def UnMapManual(connect, path_data, date):
 				list_plan_insert_un_map.extend(list_plan_insert)
 				list_camp_all_plan.extend(list_camp)
 				# print (len(list_map))
-			print ("Time get in manual 1 : ", (time.time() - start_time))
-			print (len(data_total['UN_CAMP']))
+			# print ("Time get un camp : ", (time.time() - start_time))
+			# print (len(data_total['UN_CAMP']))
 			
 			data_total['TOTAL'] = insert_data.CaculatorForPlan(data_total['TOTAL'])
 
@@ -305,10 +325,10 @@ def UnMapManual(connect, path_data, date):
 			start = time.time()
 			data_total['TOTAL'] = insert_install.InsertInstallToPlan(data_total['TOTAL'], connect, date)
 			data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
-			print ("Insert install: ", (time.time() - start))
+			# print ("Insert install: ", (time.time() - start))
 
-			print (len(list_camp_all_plan))
-			print (len(list_plan_insert))
+			# print (len(list_camp_all_plan))
+			# print (len(list_plan_insert))
 			# for plan_total in data_total['TOTAL']:
 			# 	if str(plan_total['REASON_CODE_ORACLE']) == '1708008':
 			# 		print (plan_total)
@@ -324,9 +344,9 @@ def UnMapManual(connect, path_data, date):
 			with open (path_data_un_map,'w') as f:
 				json.dump(data_total['UN_CAMP'], f)
 
-			print (len(data_total['UN_CAMP']))
-			print (len(list_plan_insert_un_map))
-			print (len(list_camp_remove_unmap))
+			print ("Data unmap: ", len(data_total['UN_CAMP']))
+			print ("Plan insert: ", len(list_plan_insert_un_map))
+			print ("Camp un map", len(list_camp_remove_unmap))
 
 	return (list_plan_insert_un_map, list_camp_remove_unmap, list_plan_update)
 

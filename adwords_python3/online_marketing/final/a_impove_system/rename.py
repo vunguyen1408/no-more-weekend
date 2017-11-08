@@ -162,6 +162,17 @@ def CheckNameChange(path_data, list_customer, date):
   else:
     find = True
 
+
+    # Neu tim khong thay thi tao file moi
+  if not find:
+    data_total = {}
+    data_total['HISTORY'] = []
+
+    path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
+    path_data_total_map = path_data_his
+    with open (path_data_his,'w') as f:
+      json.dump(data_total, f)
+
   list_diff = []
   if find:
     with open (path_data_total_map,'r') as f:
@@ -169,20 +180,32 @@ def CheckNameChange(path_data, list_customer, date):
 
     # print(path_data_total_map)
     # list_camp = GetListCampOfAccount(list_customer)
-    path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/history_name.json'
+    path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/a_impove_system/history_name.json'
     list_camp = []
     with open (path,'r') as f:
       list_camp = json.load(f)
     list_camp = list_camp['history_name']
 
     temp_ = []
-    for camp_ in list_camp:
-      if str(camp_['CAMPAIGN_ID']) == '794232395' or str(camp_['CAMPAIGN_ID']) == '713543033':
-        print (camp_['CAMPAIGN_NAME'])
-      flag = history_name.FindNameNew(data_total['HISTORY'], str(camp_['CAMPAIGN_ID']), camp_['CAMPAIGN_NAME'])
-      if flag == -1:
-        list_diff.append(camp_)
-        # print(camp_)
+    if len(data_total['HISTORY']) > 0:
+      for camp_ in list_camp:
+        flag = history_name.FindNameNew(data_total['HISTORY'], str(camp_['CAMPAIGN_ID']), camp_['CAMPAIGN_NAME'])
+        if flag == -1:
+          list_diff.append(camp_)
+          # print(camp_)
+          temp = {
+            'ACCOUNT_ID': camp_['ACCOUNT_ID'],
+            'CAMPAIGN_ID' : str(camp_['CAMPAIGN_ID']),
+
+            'CAMPAIGN_NAME' : camp_['CAMPAIGN_NAME'],
+            'DATE_GET' : str(date),
+            'UPDATE_DATE': str(date),
+            'IMPORT_DATE' : None
+          }
+
+          data_total['HISTORY'].append(temp)
+    else:
+      for camp_ in list_camp:
         temp = {
           'ACCOUNT_ID': camp_['ACCOUNT_ID'],
           'CAMPAIGN_ID' : str(camp_['CAMPAIGN_ID']),
@@ -191,10 +214,13 @@ def CheckNameChange(path_data, list_customer, date):
           'DATE_GET' : str(date),
           'UPDATE_DATE': str(date),
           'IMPORT_DATE' : None
-        }
-
+          }
+        list_diff.append(camp_)
         data_total['HISTORY'].append(temp)
-    time.sleep(5)
+
+    print (len(list_diff))
+    print ("=====")
+    # time.sleep(5)
     #----------- Write file history new ----------------------
     path_folder = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING')
     print(path_folder)
@@ -203,8 +229,8 @@ def CheckNameChange(path_data, list_customer, date):
 
     path_data_his = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'history_name' + '.json')
     ###########################################
-    # with open (path_data_his,'w') as f:
-    #   json.dump(data_total, f)
+    with open (path_data_his,'w') as f:
+      json.dump(data_total, f)
     ############################################
   print("====================== Length =================")
   return (list_diff, data_total)
@@ -256,58 +282,64 @@ def Map(path_folder, list_plan, list_campaign, date):
 
       t = True
 
+      # Duonglt check mapping auto
+      # if str(eform['REASON_CODE_ORACLE']) == '1710027' and str(camp['Campaign ID']) == '952021132':
+      #   print (camp)
+      #   print (eform)
+
       if (camp['Mapping'] == False): 
         flag = False
-        if mapping.LogManualMap(data_manual, camp, eform, date, 1) == 1:
+        if mapping.LogManualMap(data_manual, camp, eform, date, 1) == 1 and (date_ >= start) and (date_ <= end):
           flag = True
         else:
           #============= WPL -================
-          if camp['Dept'].find('WPL') >= 0:
-            if (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
-              and (mapping.checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
-              or mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) ) \
-              and (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) \
-              and (date_ >= start) \
-              and (date_ <= end) ) \
-              and  ( mapping.LogManualMap(data_un_map, camp, eform, date, 2) == 1):
-              flag = True
-              # print("mapping WPL")
-          else:
-            # ============= GS5 ================
-            if camp['Dept'].find('GS5') >= 0:
-              type_campaign = mapping.GetCampaignTypeOfGS5(camp['Campaign'])
+          if camp['Dept'] != None:
+            if camp['Dept'].find('WPL') >= 0:
               if (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
-                # and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
-                and mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) \
-                and (eform['FORM_TYPE'].find(type_campaign) >= 0) \
+                and (mapping.checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
+                or mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) ) \
+                and (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) \
                 and (date_ >= start) \
                 and (date_ <= end) ) \
-                and  ( mapping.LogManualMap(data_un_map, camp, eform, date, 2) ):
+                and  ( mapping.LogManualMap(data_un_map, camp, eform, date, 2) == 1):
                 flag = True
-                # print("mapping GS5")
-
+                # print("mapping WPL")
             else:
-              try:
-                product_id = (camp['Campaign'].split('|'))[1]
-              except IndexError as e:
-                product_id = ''
-              if(  (eform['PRODUCT_CODE'] != [] or eform['CCD_PRODUCT'] != []) and \
-                (
-                  mapping.checkProductCode(camp['Campaign'], eform['PRODUCT_CODE']) or \
-                  # checkProductCode(camp['Campaign'], eform['CCD_PRODUCT']) or \
-                  # checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) or \
-                  mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) or \
-                  product_id.find(str(eform['PRODUCT'])) >= 0
-                )
-                and \
-                (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) \
-                and (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) 
-                and (date_ >= start) 
-                and (date_ <= end) ) \
-                and ( mapping.LogManualMap(data_un_map, camp, eform, date, 2) == 1): 
-                flag = True
-                # if t:
-                #   print("mapping =====================================\n\n\n")
+              # ============= GS5 ================
+              if camp['Dept'].find('GS5') >= 0:
+                type_campaign = mapping.GetCampaignTypeOfGS5(camp['Campaign'])
+                if (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
+                  # and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
+                  and mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) \
+                  and (eform['FORM_TYPE'].find(type_campaign) >= 0) \
+                  and (date_ >= start) \
+                  and (date_ <= end) ) \
+                  and  ( mapping.LogManualMap(data_un_map, camp, eform, date, 2) ):
+                  flag = True
+                  # print("mapping GS5")
+
+              else:
+                try:
+                  product_id = (camp['Campaign'].split('|'))[1]
+                except IndexError as e:
+                  product_id = ''
+                if(  (eform['PRODUCT_CODE'] != [] or eform['CCD_PRODUCT'] != []) and \
+                  (
+                    mapping.checkProductCode(camp['Campaign'], eform['PRODUCT_CODE']) or \
+                    # checkProductCode(camp['Campaign'], eform['CCD_PRODUCT']) or \
+                    # checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) or \
+                    mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) or \
+                    product_id.find(str(eform['PRODUCT'])) >= 0
+                  )
+                  and \
+                  (camp['Campaign'].find(str(eform['REASON_CODE_ORACLE'])) >= 0) \
+                  and (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) 
+                  and (date_ >= start) 
+                  and (date_ <= end) ) \
+                  and ( mapping.LogManualMap(data_un_map, camp, eform, date, 2) == 1): 
+                  flag = True
+                  # if t:
+                  #   print("mapping =====================================\n\n\n")
         if flag:
           camp['Mapping'] = True
           camp['STATUS'] = 'SYS'
@@ -315,33 +347,33 @@ def Map(path_folder, list_plan, list_campaign, date):
           eform['CAMPAIGN'].append(camp)
           number += 1
 
+      if camp['Dept'] != None:
+        if camp['Mapping'] == False and camp['Dept'].find('GS5') >= 0:
+          for i, eform in enumerate(list_plan):  
+            if 'CAMPAIGN' not in eform:
+              eform['CAMPAIGN'] = []
+              eform['STATUS'] = None
+            # -------------------- Choose time real ------------------------
+            start, end = mapping.ChooseTime(eform)
+            start = datetime.strptime(start, '%Y-%m-%d')
+            end = datetime.strptime(end, '%Y-%m-%d')
 
-      if camp['Mapping'] == False and camp['Dept'].find('GS5') >= 0:
-        for i, eform in enumerate(list_plan):  
-          if 'CAMPAIGN' not in eform:
-            eform['CAMPAIGN'] = []
-            eform['STATUS'] = None
-          # -------------------- Choose time real ------------------------
-          start, end = mapping.ChooseTime(eform)
-          start = datetime.strptime(start, '%Y-%m-%d')
-          end = datetime.strptime(end, '%Y-%m-%d')
+            unit_option = mapping.GetUnitOptionOfGS5(camp['Account Name'])
+            if (eform['DEPARTMENT_NAME'] == 'GS5'): 
 
-          unit_option = mapping.GetUnitOptionOfGS5(camp['Account Name'])
-          if (eform['DEPARTMENT_NAME'] == 'GS5'): 
-
-            if (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
-              # and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
-              and mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) \
-              and (eform['UNIT_OPTION'].find(unit_option) >= 0) \
-              and (date_ >= start) \
-              and (date_ <= end) ) \
-              or  ( mapping.LogManualMap(path_folder, camp, eform, date, 2) == 1 ): 
-              # print("mapping GS5")
-              camp['Mapping'] = True
-              camp['STATUS'] = 'SYS'      
-              eform['CAMPAIGN'].append(camp)
-              number += 1
-  
+              if (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
+                # and (checkProductCode(camp['Account Name'], eform['CCD_PRODUCT']) \
+                and mapping.checkProductCode(camp['Account Name'], eform['PRODUCT_CODE']) \
+                and (eform['UNIT_OPTION'].find(unit_option) >= 0) \
+                and (date_ >= start) \
+                and (date_ <= end) ) \
+                or  ( mapping.LogManualMap(data_un_map, camp, eform, date, 2) == 1 ): 
+                # print("mapping GS5")
+                camp['Mapping'] = True
+                camp['STATUS'] = 'SYS'      
+                eform['CAMPAIGN'].append(camp)
+                number += 1
+    
   number = 0
   list_un_campaign = []
   for camp in list_campaign:
@@ -406,31 +438,31 @@ def CacualatorChange(connect, path_data, list_diff, date):
           temp['Campaign'] = camp['CAMPAIGN_NAME']
           if int(campaign['Date'][5:-3]) == 10:
             list_camp_find.append(temp)
+          
 
     list_camp_update = list_camp_find # Update name
+    # mp2 = 0
+    # pg1 = 0
+    # pg2 = 0
+    # pg3 = 0
+    # wpl = 0
+    # for camp in list_camp_find:
+    #   if camp['Account Name'].find('MP2') >= 0:
+    #     mp2 += 1
+    #   if camp['Campaign'].find('1708050') >= 0:
+    #     pg2 += 1
+    #   if camp['Account Name'].find('PG1') >= 0:
+    #     pg1 += 1
+    #   if camp['Account Name'].find('PG1') >= 0:
+    #     pg3 += 1
+    #   if camp['Account Name'].find('PG1') >= 0:
+    #     wpl += 1
 
-    mp2 = 0
-    pg1 = 0
-    pg2 = 0
-    pg3 = 0
-    wpl = 0
-    for camp in list_camp_find:
-      if camp['Account Name'].find('MP2') >= 0:
-        mp2 += 1
-      if camp['Campaign'].find('1708050') >= 0:
-        pg2 += 1
-      if camp['Account Name'].find('PG1') >= 0:
-        pg1 += 1
-      if camp['Account Name'].find('PG1') >= 0:
-        pg3 += 1
-      if camp['Account Name'].find('PG1') >= 0:
-        wpl += 1
-
-    print("Camp MP2", mp2)
-    print("Camp PG1", pg1)
-    print("Camp PG2", pg2)
-    print("Camp WPL", wpl)
-    print("Camp PG3", pg3)
+    # print("Camp MP2", mp2)
+    # print("Camp PG1", pg1)
+    # print("Camp PG2", pg2)
+    # print("Camp WPL", wpl)
+    # print("Camp PG3", pg3)
 
     mapping.ReadProductAlias(connect, path_data, date)
     list_plan = mapping.ReadPlanFromTable(connect, path_data, date)
@@ -440,14 +472,18 @@ def CacualatorChange(connect, path_data, list_diff, date):
     import time
 
     print (len(list_camp_find))
-    list_camp_find = list_camp_find[:1000]
+    # list_camp_find = list_camp_find[:500]
 
     print("MAP")
     start = time.time()
     data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
     print ("Mapping: ", (time.time() - start))
 
-    
+    ############## check code
+    data_map = {}
+    data_map['PLAN'] = []
+    #####################
+
     start = time.time()
     data_total, list_plan_insert, list_plan_remove = insert_to_total.AddToTotal (data_total, data_map, date)
     print ("add to total: ", (time.time() - start))
@@ -496,46 +532,46 @@ def CacualatorChange(connect, path_data, list_diff, date):
   return (list_plan_remove_unmap, list_camp_need_remove, list_plan_update, list_camp_update)
 
 
-list_customer_id = [ 
-  # WPL
-  '1033505012', '6376833586', '6493618146', '3764021980', '9019703669', \
-  '5243164713', '1290781574', '8640138177', '1493302671', '7539462658', \
-  '1669629424', '6940796638', '6942753385', '3818588895', '8559396163', \
-  '9392975361', '1756174326', '5477521592', '7498338868', '6585673574', \
-  '5993679244', '5990401446', '5460890494', '3959508668', '1954002502', \
-  '1124503774', '2789627019', '5219026641', '8760733662', '8915969454', \
-  '9299123796', \
-  # MP2
-  '2351496518', '3766974726', '8812868246', '3657450042', '4092061132', \
-  '1066457627', '7077229774', '6708858633', '2205921749', '1731093088', \
-  '2852598370', \
-  # PG1
-  '5008396449', '9021114325', '9420329501', '7976533276', \
-  # PG2
-  '5471697015', '8198035241', '8919123364', '8934377519', '7906284750', \
-  '1670552192', '6507949288', '3752996996', '5515537799', '9280946488', \
-  '8897792146', '4732571543', '6319649915', '4845283915', '4963434062', \
-  '3950481958', '8977015372', \
-  # PG3
-  '2018040612', '1237086810', '2474373259', '9203404951', '8628673438', \
-  '5957287971', '6267264008', '8583452877', '4227775753', '8003403685', \
-  '3061049910', '2395877275', '1849103506', '7000297269', '6233988585', \
-  '4018935765', '2675507443', '9493600480', '1609917649', '8180518027', \
-  '6275441244', '6743848595', '1362424990', '5430766142', '5800450880', \
-  '7687258619', '8303967886', '5709003531', '6201418435', '1257508037', \
-  '6810675582', '5953925776', '9001610198', '8135096980', '5222928599', \
-  '9963010276', '5062362839', '6360800174', '8844079195', '5856149801', \
-  '3064549723', '6198751560', '9034826980', '3265423139', '7891987656', \
-  '8483981986', '2686387743', '5930063870', '7061686256', '3994588490', \
-  '3769240354', \
-  # GS5
-  '8726724391', '1040561513', '7449117049', '3346913196', '9595118601', \
-  '9411633791', '4596687625', '8290128509', '3104172682', '6247736011', \
-  '2861959872', \
+# list_customer_id = [ 
+#   # WPL
+#   '1033505012', '6376833586', '6493618146', '3764021980', '9019703669', \
+#   '5243164713', '1290781574', '8640138177', '1493302671', '7539462658', \
+#   '1669629424', '6940796638', '6942753385', '3818588895', '8559396163', \
+#   '9392975361', '1756174326', '5477521592', '7498338868', '6585673574', \
+#   '5993679244', '5990401446', '5460890494', '3959508668', '1954002502', \
+#   '1124503774', '2789627019', '5219026641', '8760733662', '8915969454', \
+#   '9299123796', \
+#   # MP2
+#   '2351496518', '3766974726', '8812868246', '3657450042', '4092061132', \
+#   '1066457627', '7077229774', '6708858633', '2205921749', '1731093088', \
+#   '2852598370', \
+#   # PG1
+#   '5008396449', '9021114325', '9420329501', '7976533276', \
+#   # PG2
+#   '5471697015', '8198035241', '8919123364', '8934377519', '7906284750', \
+#   '1670552192', '6507949288', '3752996996', '5515537799', '9280946488', \
+#   '8897792146', '4732571543', '6319649915', '4845283915', '4963434062', \
+#   '3950481958', '8977015372', \
+#   # PG3
+#   '2018040612', '1237086810', '2474373259', '9203404951', '8628673438', \
+#   '5957287971', '6267264008', '8583452877', '4227775753', '8003403685', \
+#   '3061049910', '2395877275', '1849103506', '7000297269', '6233988585', \
+#   '4018935765', '2675507443', '9493600480', '1609917649', '8180518027', \
+#   '6275441244', '6743848595', '1362424990', '5430766142', '5800450880', \
+#   '7687258619', '8303967886', '5709003531', '6201418435', '1257508037', \
+#   '6810675582', '5953925776', '9001610198', '8135096980', '5222928599', \
+#   '9963010276', '5062362839', '6360800174', '8844079195', '5856149801', \
+#   '3064549723', '6198751560', '9034826980', '3265423139', '7891987656', \
+#   '8483981986', '2686387743', '5930063870', '7061686256', '3994588490', \
+#   '3769240354', \
+#   # GS5
+#   '8726724391', '1040561513', '7449117049', '3346913196', '9595118601', \
+#   '9411633791', '4596687625', '8290128509', '3104172682', '6247736011', \
+#   '2861959872', \
   
-  # PP
-  '8024455693' 
-  ]
+#   # PP
+#   '8024455693' 
+#   ]
 # list_ = ['5062362839', '6360800174', '8180518027', '9001610198', '9493600480']
 
 # date = '2017-01-01'

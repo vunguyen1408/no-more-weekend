@@ -24,8 +24,26 @@ def ParseFormatDate(data):
 	d = str(datetime.strptime(d, '%Y-%m-%d').date())
 	return d
 
-def InsertPlanToDataBase(connect, plan):
-	return 0
+def UpdateLog(cursor, value, type_):
+	statement = "update ODS_CAMP_FA_MAPPING_GG \
+	set STATUS_2 = :1\
+	where PRODUCT = :2 and REASON_CODE_ORACLE = :3 and EFORM_TYPE = :4 \
+	and UNIT_OPTION = :5 and CAMPAIGN_ID = :6 and START_DATE = :7 and END_DATE = :8 and TYPE = :9"
+
+	cursor.execute(statement, (0 , value['PRODUCT'], value['REASON_CODE_ORACLE'], value['FORM_TYPE'], value['UNIT_OPTION'], \
+		value['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID'] , datetime.strptime(value['CAMPAIGN_MANUAL_MAP'][0]['START_DATE_MANUAL_MAP'], '%Y-%m-%d'), \
+		datetime.strptime(value['CAMPAIGN_MANUAL_MAP'][0]['END_DATE_MANUAL_MAP'], '%Y-%m-%d'), type_))	
+
+def UpdateListLog(connect, list_log, type_):
+	conn = cx_Oracle.connect(connect)
+	cursor = conn.cursor()
+
+	for value in list_log:
+		UpdateLog(cursor, value, type_)
+
+	conn.commit()
+	print("Committed!.......")
+	cursor.close()
 
 
 
@@ -77,7 +95,7 @@ def ReadTableManualMap(connect, path_data, date):
 	list_out = []
 	#------------- Check manual map change --------------------
 	# print (log_manual)
-	print (len(log_manual))
+	print ("Length log manual: ", len(log_manual))
 	for data in log_manual:
 		if data[0] != None and data[1] != None \
 		and data[2] != None and data[3] != None \
@@ -101,7 +119,7 @@ def ReadTableManualMap(connect, path_data, date):
 				temp = ParseLogManualToJson(data)
 				# print (temp)
 				list_diff.append(temp)
-				print ("--------------- Da add them ---------------")
+				# print ("--------------- Da add them ---------------")
 	# print (list_diff)
 
 	#--------------- Write file manual log -------------------
@@ -154,17 +172,21 @@ def ReadTableManualMap(connect, path_data, date):
 					list_plan_diff.append(temp)
 					flag = False
 		# ----------- Plan moi duoc tao -----------------
-		if flag:
-			temp = plan_temp.copy()
-			temp['UNIT_OPTION'] = plan['UNIT_OPTION']
-			temp['FORM_TYPE'] = plan['FORM_TYPE']
-			temp['CAMPAIGN_MANUAL_MAP'] = []
-			temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
-			temp['USER_MAP'] = plan['USER_NAME']
-			temp['STATUS'] = 'USER'
-			list_plan_diff.append(temp)
-			list_plan_new.append(temp)
-	print (len(list_plan_diff))
+		# if flag:
+		# 	temp = plan_temp.copy()
+		# 	temp['UNIT_OPTION'] = plan['UNIT_OPTION']
+		# 	temp['FORM_TYPE'] = plan['FORM_TYPE']
+		# 	temp['CAMPAIGN_MANUAL_MAP'] = []
+		# 	temp['CAMPAIGN_MANUAL_MAP'].append(campaign)
+		# 	temp['USER_MAP'] = plan['USER_NAME']
+		# 	temp['STATUS'] = 'USER'
+		# 	list_plan_diff.append(temp)
+		# 	list_plan_new.append(temp)
+
+	# Update log
+	UpdateListLog(connect, list_plan_diff, 1)
+
+	print ("Length plan diff : ", len(list_plan_diff))
 	return (list_plan_diff)
 
 
@@ -240,6 +262,7 @@ def ManualMap(connect, path_data, date):
 	list_plan_remove_unmap = []
 	list_plan_update = []
 	list_camp_remove_unmap = []
+	list_plan_insert_temp = []
 	if not os.path.exists(path_data_total_map):
 		i = 0
 		find = True
@@ -268,7 +291,7 @@ def ManualMap(connect, path_data, date):
 			data_total['UN_CAMP'] = json.load(f)
 
 		list_plan = ReadTableManualMap(connect, path_data, date)
-		print (len(list_plan))
+		# print (len(list_plan))
 		if len(list_plan) > 0:
 
 			list_map_all = []
@@ -287,7 +310,7 @@ def ManualMap(connect, path_data, date):
 
 				list_map_all.extend(list_map)
 				# print (len(list_map))
-			print ("Time get in manual 1 : ", (time.time() - start_time))
+			# print ("Time get camp map : ", (time.time() - start_time))
 			#----------- Remove unmap ---------------------
 			for camp in list_map_all:
 				for campaign in data_total['UN_CAMP']:
@@ -295,25 +318,38 @@ def ManualMap(connect, path_data, date):
 						and camp['Date'] == campaign['Date']:
 						data_total['UN_CAMP'].remove(campaign)
 
+			# Check lai xem cac plan mapping duoc moi add to total
+			list_temp = []
+			for plan in list_plan:
+				if 'CAMPAIGN' in plan:
+					if len(plan['CAMPAIGN']) > 0:
+						list_temp.append(plan)
 
-			
-
+			print ("So luong plan map : ", len(list_temp))
 			data_date = {}
-			data_date['PLAN'] = list_plan
+			data_date['PLAN'] = list_temp
 			start_time = time.time()
 			data_total, list_plan_insert, list_plan_remove = insert_data.AddToTotal (data_total, data_date, date)
-			print ("Add total : ", (time.time() - start_time))
+			# print ("Add data to total : ", (time.time() - start_time))
 			data_total['TOTAL'] = insert_data.CaculatorForPlan(data_total['TOTAL'])
 
 			import time
 			start = time.time()
 			data_total['TOTAL'] = insert_install.InsertInstallToPlan(data_total['TOTAL'], connect, date)
 			data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
-			print ("Insert install: ", (time.time() - start))
+			# print ("Insert install: ", (time.time() - start))
 
-			# for plan_total in data_total['TOTAL']:
-			# 	if str(plan_total['REASON_CODE_ORACLE']) == '1708007':
-			# 		print (plan_total)
+			# Get plan insert
+			list_plan_insert_temp = []
+			for plan in list_plan_insert:
+				for plan_total in data_total['TOTAL']:
+					if str(plan['PRODUCT_CODE']) == str(plan_total['PRODUCT_CODE']) \
+						and str(plan['REASON_CODE_ORACLE']) == str(plan_total['REASON_CODE_ORACLE']) \
+						and str(plan['FORM_TYPE']) == str(plan_total['FORM_TYPE']) \
+						and str(plan['START_DAY']) == str(plan_total['START_DAY']) \
+						and str(plan['END_DAY_ESTIMATE']) == str(plan_total['END_DAY_ESTIMATE']):
+						list_plan_insert_temp.append(plan_total)
+
 
 			list_plan_remove_unmap = list_plan_remove
 			list_camp_remove_unmap = list_map_all
@@ -327,11 +363,10 @@ def ManualMap(connect, path_data, date):
 			with open (path_data_un_map,'w') as f:
 				json.dump(data_total['UN_CAMP'], f)
 
-			print (len(data_total['UN_CAMP']))
-			print (len(list_map_all))
-			print (len(list_plan_remove_unmap))
-			print (len(list_camp_remove_unmap))
+			print ("So luong data un map: ", len(data_total['UN_CAMP']))
+			print ("Plan duoc map:", len(list_plan_remove_unmap))
+			print ("Camp moi duoc map: ", len(list_camp_remove_unmap))
 			# print (list_map_all[0]['CYEAR'])
 
-	return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update)
+	return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert_temp)
 

@@ -300,6 +300,11 @@ print("Save keywords into file ............")
 
 
 
+# video_pre = 'https://www.youtube.com/watch?v'
+# image_pre = https://tpc.googlesyndication.com/pageadimg/imgad?id='
+
+
+
 
 
 
