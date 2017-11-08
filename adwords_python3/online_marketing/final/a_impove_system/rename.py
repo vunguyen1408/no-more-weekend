@@ -180,7 +180,7 @@ def CheckNameChange(path_data, list_customer, date):
 
     # print(path_data_total_map)
     # list_camp = GetListCampOfAccount(list_customer)
-    path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/history_name.json'
+    path = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/a_impove_system/history_name.json'
     list_camp = []
     with open (path,'r') as f:
       list_camp = json.load(f)
