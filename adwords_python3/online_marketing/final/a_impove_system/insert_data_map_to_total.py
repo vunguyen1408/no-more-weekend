@@ -344,7 +344,7 @@ def SumMonthlyPlan(plan, list_campaign):
 		for campaign in list_campaign:
 			date = datetime.strptime(campaign['Date'], '%Y-%m-%d').date()
 			if date >= start and date <= end:
-				if plan_total['REASON_CODE_ORACLE'] == '1703061':
+				if plan['REASON_CODE_ORACLE'] == '1703061':
 					print (month)
 					print (campaign)
 				# --------------- Tính total ------------------
