@@ -375,7 +375,7 @@ path_alias = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-08-3
 path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-10-31/DATA_MAPPING/un_map_camp.json'
 path_plan = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-08-31/PLAN/plan.json'
 # file_product = os.path.join(path_data, str(date) + '/PLAN/product_alias.json')
-# path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-10-31/DATA_MAPPING/history_name.json'
+path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-10-31/DATA_MAPPING/history_name.json'
 
 import insert_data_map_to_total as insert_to_total
 
@@ -389,9 +389,9 @@ with open(path_plan, 'r') as fi:
 with open(path_total, 'r') as fi:
 	data_total = json.load(fi)
 
-# for name in data_total['HISTORY']:
-# 	if name['CAMPAIGN_ID'] == '953916682':
-# 		print (name)
+for name in data_total['HISTORY']:
+	if name['CAMPAIGN_ID'] == '953916682':
+		print (name)
 
 # for plan_total in data_alias['ALIAS']:
 # 	if  str(plan_total['PRODUCT_ID']) == '193':
@@ -404,14 +404,14 @@ with open(path_total, 'r') as fi:
 # 		if plan_total['PRODUCT'] == plan['PRODUCT_ID'] and plan['APPSFLYER_PRODUCT'] != None:
 	# 		plan_total['APPSFLYER_PRODUCT'].append(plan['APPSFLYER_PRODUCT'])
 	# print (plan_total['APPSFLYER_PRODUCT'])
-date = '2017-09-30'
-for plan_total in data_total:
-# if plan_total['REASON_CODE_ORACLE'] == '1708061':
-# # if str(plan_total['Campaign ID']) == '772872164':
-#   print (plan_total)
-	# plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
-	if plan_total['Campaign ID'] == '953916682':
-		print (plan_total)
+# date = '2017-09-30'
+# for plan_total in data_total:
+# # if plan_total['REASON_CODE_ORACLE'] == '1708061':
+# # # if str(plan_total['Campaign ID']) == '772872164':
+# #   print (plan_total)
+# 	# plan_total = insert_to_total.CaculatorTotalMonth(data_total['MAP'], plan_total, date)
+# 	if plan_total['Campaign ID'] == '953916682':
+# 		print (plan_total)
 		
 
 		# for camp in plan_total['CAMPAIGN']:
