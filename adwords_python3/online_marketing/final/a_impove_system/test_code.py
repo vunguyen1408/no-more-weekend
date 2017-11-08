@@ -569,8 +569,8 @@ def GetPlanModified(connect, path_data):
 
 def ModifiedPlanToMap(path_data, date, list_plan_map, list_plan_modified, data_total):
 	print('list_plan_modified: ', len(list_plan_modified))
-	# for i in list_plan_modified:
-	# 	print(i)
+	for i in list_plan_modified:
+		print(i)
 	list_camp_remove_unmap = []	
 	list_camp_insert_unmap = []
 	list_plan_remove_total = []	
