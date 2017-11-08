@@ -1404,9 +1404,8 @@ def GetListDiff(connect, path_data, date):
 			list_diff.append(new_plan)
 
 	for plan in list_diff:		
-		
-		for _value in data_plan['plan']:
-			flag = True
+		flag = True
+		for _value in data_plan['plan']:			
 			if _value['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
 			_value['PRODUCT'] == plan['PRODUCT'] and \
 			_value['FORM_TYPE'] == plan['FORM_TYPE'] and \
@@ -1429,8 +1428,8 @@ def GetListDiff(connect, path_data, date):
 				list_plan_only_update.append(plan)
 				flag = False
 
-			if flag:
-				list_plan_new.append(plan)
+		if flag:
+			list_plan_new.append(plan)
 
 
 
