@@ -443,7 +443,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
           temp = campaign
           campaign['Campaign'] = camp['CAMPAIGN_NAME']
           temp['Campaign'] = camp['CAMPAIGN_NAME']
-          if int(campaign['Date'][5:-3]) == 10:
+          if int(campaign['Date'][5:-3]) != 10:
             list_camp_find.append(temp)
           
 
@@ -460,6 +460,12 @@ def CacualatorChange(connect, path_data, list_diff, date):
     # list_camp_find = list_camp_find[:500]
     # print (len(data_map))
 
+    ############################## Check code
+    for camp in list_camp_find:
+      if camp['Mapping'] == True:
+        print ("1")
+    ################################################3
+
     print("MAP")
     start = time.time()
     # data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
@@ -475,9 +481,10 @@ def CacualatorChange(connect, path_data, list_diff, date):
     start = time.time()
     data_total['TOTAL'], list_plan_insert, list_plan_remove = insert_to_total.AddToTotal (data_total['TOTAL'], data_map['PLAN'], date)
     print ("add to total: ", (time.time() - start))
-    print (len(list_plan_remove))
+    
 
     list_map_all, list_plan_un, list_map_ = detail_map.CreateDataMap(data_map['PLAN'])
+    print (len(list_map_))
 
     for camp in list_map_:
       for campaign in data_total['UN_CAMP']:
