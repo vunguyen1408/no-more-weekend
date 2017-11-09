@@ -1,28 +1,9 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import sys
 import json
 import os
 import time
 import logging
+import cx_Oracle
 from datetime import datetime , timedelta, date
 
 
