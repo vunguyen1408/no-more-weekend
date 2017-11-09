@@ -18,6 +18,8 @@ import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
 import insert_install as insert_install
 import insert_data_map as detail_map
 
+import rule_plan_file as rule_plan_file
+
 logging.basicConfig(level=logging.INFO)
 logging.getLogger('suds.transport').setLevel(logging.DEBUG)
 
@@ -459,7 +461,8 @@ def CacualatorChange(connect, path_data, list_diff, date):
 
     print("MAP")
     start = time.time()
-    data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
+    # data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
+    data_map = rule_plan_file.Mapping_Auto(path_data, date, list_plan['plan'], list_camp_find)
     print ("Mapping: ", (time.time() - start))
 
     ############## check code
