@@ -9,7 +9,7 @@ import time
 
 
 path_un = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-10-31/DATA_MAPPING/un_map_camp.json'
-path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-10-31/DATA_MAPPING/history_name.json'
+path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG/2017-10-31/DATA_MAPPING/total_mapping.json'
 
 import insert_data_map_to_total as insert_to_total
 
