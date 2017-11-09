@@ -304,11 +304,18 @@ def run_detect_video_image_local_label(p_base_dir,p_date,p_process_num):
         p.join()
 
 
-    return_json={}
-    return_json['hash_md5']=results
 
-    with open (file_dest_test,'w') as _file:
-        json.dump(return_json, _file)
+    return_json={}
+    return_json['hash_md5']=[]
+
+    for _json in results:
+        work_hash=_json[1]
+        work_hash.pop('folder_source', None)
+        return_json['hash_md5'].append(work_hash)
+
+    with open (file_dest,'w') as _file:
+            json.dump(return_json, _file)
+
 
 
 
