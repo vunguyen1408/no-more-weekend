@@ -8,6 +8,7 @@ import insert_monthly_detail as monthly_detail
 import insert_monthly_sum as monthly_sum
 import insert_plan_sum as plan_sum
 import insert_data_map as detail_map
+import remove_log_manual as remove_log_manual
 
 
 
