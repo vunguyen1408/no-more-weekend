@@ -1,3 +1,4 @@
+
 import json
 import os
 import cx_Oracle 
@@ -11,209 +12,144 @@ import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
 import insert_install as insert_install
 
 
-def GetListPlanChangeFromTable(connect, final_log):	
+
+
+def ConvertPlanToJson(list_new_plan, list_key):
+	
+	list_json= []
+	for plan in list_new_plan: 
+		list_temp = []
+		unmap = {}
+		for value in plan:
+			val = value   
+			if isinstance(value, datetime):            
+				val = value.strftime('%Y-%m-%d')			
+			list_temp.append(val)
+
+		for i in range(len(list_key)):
+			unmap[list_key[i]] = list_temp[i]
+		list_json.append(unmap)
+	return list_json
+
+
+def CompareTwoPlan(plan_1, plan_2, list_key):
+
+	check_num = 0
+	for i in range(len(list_key)):		
+		if (str(plan_1[list_key[i]]).find(u'\xa0') >= 0):				
+			plan_1[list_key[i]] = plan_1[list_key[i]].replace(u'\xa0', u' ')
+		if (str(plan_2[list_key[i]]).find(u'\xa0') >= 0):				
+			plan_2[list_key[i]] = plan_2[list_key[i]].replace(u'\xa0', u' ')
+
+			
+		if (isinstance(plan_1[list_key[i]], float)):
+			plan_1[list_key[i]] = round(plan_1[list_key[i]], 0)
+
+		if (isinstance(plan_2[list_key[i]], float)):
+			plan_2[list_key[i]] = round(plan_2[list_key[i]], 0)
+
+		if plan_1[list_key[i]] == plan_2[list_key[i]]:
+			check_num += 1
+
+	if (check_num == len(list_key)):
+		return True
+
+	return False
+
+
+def GetListDiff(connect, path_data, date):	
 	#============ Connect database ==================
 	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
 	cursor = conn.cursor()
 	
 	#============ Read Plan from Table ===============
-
 	query = "select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, \
 					PRODUCT, REASON_CODE_ORACLE, EFORM_NO, START_DAY, END_DAY_ESTIMATE, \
 					CHANNEL, EFORM_TYPE, UNIT_OPTION, UNIT_COST, AMOUNT_USD, \
 					CVALUE, ENGAGEMENT, IMPRESSIONS, CLIKE, CVIEWS, \
 					INSTALL, NRU, INSERT_DATE, REAL_START_DATE, REAL_END_DATE, \
           			STATUS, LAST_UPDATED_DATE\
-      		from STG_FA_DATA_GG \
-      		where LAST_UPDATED_DATE is not null \
-      		and LAST_UPDATED_DATE >= to_timestamp('" + final_log + "', 'mm/dd/yyyy hh24:mi:ss')"
+      		from STG_FA_DATA_GG"
 
-	
-	cursor.execute(query) 
-	final_log = datetime.now().strftime('%m/%d/%Y %H:%M:%S')	
+	list_all_key = ['CYEAR', 'CMONTH', 'LEGAL', 'DEPARTMENT', 'DEPARTMENT_NAME', 'PRODUCT', 
+		'REASON_CODE_ORACLE', 'EFORM_NO', 'START_DAY', 'END_DAY_ESTIMATE', 'CHANNEL', 
+		'FORM_TYPE', 'UNIT_OPTION', 'UNIT_COST', 'AMOUNT_USD', 'CVALUE', 'ENGAGEMENT', 
+		'IMPRESSIONS', 'CLIKE', 'CVIEWS', 'INSTALL', 'NRU', 'INSERT_DATE', 
+		'REAL_START_DATE', 'REAL_END_DATE']
+
+	cursor.execute(query) 	
 	list_new_plan = cursor.fetchall()
-	list_plan_diff = list(list_new_plan)
+	list_new_plan = list(list_new_plan)
 	cursor.close()
+	list_new_plan = ConvertPlanToJson(list_new_plan, list_all_key)
 
-	for i in range(len(list_plan_diff)):
-		list_plan_diff[i] = list(list_plan_diff[i])	
-
-	print('list_plan_diff: ', len(list_plan_diff))
+	#============== Read Plan from file plan.json =============
+	path_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')	
+	with open(path_plan, 'r') as fi:
+		data_plan = json.load(fi)
+		
 	
-	return list_plan_diff, final_log
+	#============ Get list plan diff =================
+	list_diff = []
+	list_plan_new = []
+	list_plan_only_update = []
+	list_plan_change_real = []
+	list_plan_modified = []
 
 
-def CheckPlanUpdate(list_plan, plan):
-	for _value in list_plan:
-		# ========= Change product id =====================
-		if _value['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
-		_value['PRODUCT'] == plan['PRODUCT'] and \
-		_value['FORM_TYPE'] == plan['FORM_TYPE'] and \
-		_value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
-		_value['START_DAY'] == plan['START_DAY'] and \
-		_value['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE'] and \
-		_value['REAL_START_DATE'] == plan['REAL_START_DATE'] and \
-		_value['REAL_END_DATE'] == plan['REAL_END_DATE'] :			
-			return True
-	
-	return False
+	for new_plan in list_new_plan:
+		flag = False
+		for plan in data_plan['plan']:
+			if (CompareTwoPlan(plan, new_plan, list_all_key)):
+				flag = True
+
+		if flag == False:
+			list_diff.append(new_plan)
+			
+
+	for plan in list_diff:		
+		flag = True
+		for _value in data_plan['plan']:			
+			if _value['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
+			_value['PRODUCT'] == plan['PRODUCT'] and \
+			_value['FORM_TYPE'] == plan['FORM_TYPE'] and \
+			_value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
+			_value['START_DAY'] == plan['START_DAY'] and \
+			_value['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE'] and \
+			(_value['REAL_START_DATE'] != plan['REAL_START_DATE'] or \
+			_value['REAL_END_DATE'] != plan['REAL_END_DATE'] ):
+				list_plan_change_real.append(plan)
+				flag = False
+				
+			if _value['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
+			_value['PRODUCT'] == plan['PRODUCT'] and \
+			_value['FORM_TYPE'] == plan['FORM_TYPE'] and \
+			_value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
+			_value['START_DAY'] == plan['START_DAY'] and \
+			_value['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE'] and \
+			_value['REAL_START_DATE'] == plan['REAL_START_DATE'] and \
+			_value['REAL_END_DATE'] == plan['REAL_END_DATE'] :
+				list_plan_only_update.append(plan)
+				flag = False
+
+		if flag:
+			list_plan_new.append(plan)	
 
 
-def CheckPlanUpdateRealDate(list_plan, plan):
-	for _value in list_plan:
-		# ========= Change product id =====================
-		if _value['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE'] and \
-		_value['PRODUCT'] == plan['PRODUCT'] and \
-		_value['FORM_TYPE'] == plan['FORM_TYPE'] and \
-		_value['UNIT_OPTION'] == plan['UNIT_OPTION'] and \
-		_value['START_DAY'] == plan['START_DAY'] and \
-		_value['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE'] and \
-		(_value['REAL_START_DATE'] != plan['REAL_START_DATE'] or \
-		_value['REAL_END_DATE'] != plan['REAL_END_DATE'] ):
-			return True		
-
-	return False
-
-
-def GetPlanModified(connect, data_plan):
-	#====================== Get old plan in python ==========================	
-	list_new_plan = []
-	list_plan =  data_plan['plan'].copy()
-	
-	#======================= Get new plan in database ========================	
-	#==================== Connect database ==================
-	conn = cx_Oracle.connect(connect, encoding = "UTF-8", nencoding = "UTF-8")
-	cursor = conn.cursor()
-
-	#============ Read Plan from Table ===============
-	query = 'select CYEAR, CMONTH, LEGAL, DEPARTMENT, DEPARTMENT_NAME, \
-					PRODUCT, REASON_CODE_ORACLE, EFORM_NO, START_DAY, END_DAY_ESTIMATE, \
-					CHANNEL, EFORM_TYPE, UNIT_OPTION, UNIT_COST, AMOUNT_USD, \
-					CVALUE, ENGAGEMENT, IMPRESSIONS, CLIKE, CVIEWS, \
-					INSTALL, NRU, INSERT_DATE, REAL_START_DATE, REAL_END_DATE, \
-          			STATUS, LAST_UPDATED_DATE \
-      		from STG_FA_DATA_GG'
-
-	cursor.execute(query)
-	new_plan = cursor.fetchall()
-	list_modified_plan = list(new_plan)
-	cursor.close()
-	for i in range(len(list_modified_plan)):		
-		list_new_plan.append(ConvertPlan(list(list_modified_plan[i])))
-	
-	for plan in data_plan['plan']:
-		for new_plan in list_new_plan:
-			if (new_plan['PRODUCT'] == plan['PRODUCT']) \
-				and (new_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE']) \
-				and (new_plan['FORM_TYPE'] == plan['FORM_TYPE']) \
-				and (new_plan['UNIT_OPTION'] == plan['UNIT_OPTION'])\
-				and (new_plan['START_DAY'] == plan['START_DAY']) \
-				and (new_plan['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE']):				
-				list_plan.remove(plan)
+		# ==================== Get list modified ==================
+		list_plan_modified = data_plan['plan'].copy()
+		for plan in data_plan['plan']:
+			for new_plan in list_new_plan:
+				if (new_plan['PRODUCT'] == plan['PRODUCT']) \
+					and (new_plan['REASON_CODE_ORACLE'] == plan['REASON_CODE_ORACLE']) \
+					and (new_plan['FORM_TYPE'] == plan['FORM_TYPE']) \
+					and (new_plan['UNIT_OPTION'] == plan['UNIT_OPTION'])\
+					and (new_plan['START_DAY'] == plan['START_DAY']) \
+					and (new_plan['END_DAY_ESTIMATE'] == plan['END_DAY_ESTIMATE']):
 						
-	
-	return list_plan
+					list_plan_modified.remove(plan)			
 
-
-def ConvertPlan(plan):	
-	json_ = {}
-
-	json_['CYEAR'] = plan[0]
-	json_['CMONTH'] = plan[1]
-	json_['LEGAL'] = plan[2]
-	json_['DEPARTMENT'] = plan[3]
-	json_['DEPARTMENT_NAME'] = plan[4]
-
-	json_['PRODUCT'] = plan[5]
-	json_['REASON_CODE_ORACLE'] = plan[6]
-	json_['EFORM_NO'] = plan[7]
-	if (plan[8] is None):
-		json_['START_DAY'] = plan[8]
-	else:
-		json_['START_DAY'] = plan[8].strftime('%Y-%m-%d')
-	if (plan[9] is None):
-		json_['END_DAY_ESTIMATE'] = plan[9]
-	else:
-		json_['END_DAY_ESTIMATE'] = plan[9].strftime('%Y-%m-%d')	
-
-	json_['CHANNEL'] = plan[10]
-	json_['FORM_TYPE'] = plan[11]
-	json_['UNIT_OPTION'] = plan[12]
-	json_['UNIT_COST'] = plan[13]
-	json_['AMOUNT_USD'] = plan[14]
-
-	json_['CVALUE'] = plan[15]
-	json_['ENGAGEMENT'] = plan[16]
-	json_['IMPRESSIONS'] = plan[17]
-	json_['CLIKE'] = plan[18]
-	json_['CVIEWS'] = plan[19]
-
-	json_['INSTALL'] = plan[20]
-	json_['NRU'] = plan[21]
-	if (plan[22] is None):
-		json_['INSERT_DATE'] = plan[22]
-	else:
-		json_['INSERT_DATE'] = plan[22].strftime('%Y-%m-%d')
-	
-	if (plan[23] is None):
-		json_['REAL_START_DATE'] = plan[23]
-	else:
-		json_['REAL_START_DATE'] = plan[23].strftime('%Y-%m-%d')
-	if (plan[24] is None):
-		json_['REAL_END_DATE'] = plan[24]
-	else:
-		json_['REAL_END_DATE'] = plan[24].strftime('%Y-%m-%d')
-
-	json_['STATUS'] = plan[25]
-	if (plan[26] is None):
-		json_['LAST_UPDATED_DATE'] = plan[26]
-	else:
-		json_['LAST_UPDATED_DATE'] = plan[26].strftime('%Y-%m-%d')
-
-	return json_
-
-
-def GetListDiff(connect, path_data, date, path_log = None):
-	fi = open(path_log, 'r')
-	final_log = fi.read()
-	# final_log = '11/06/2017 03:46:00'
-	
-	list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
-
-	fi = open(path_log, 'w') 
-	fi.writelines(final_log)
-	print("Save log ok..........")
-
-
-	file_plan = os.path.join(path_data, str(date) + '/PLAN/plan.json')			
-	with open(file_plan, 'r') as fi:
-		list_plan = json.load(fi)		
-
-	# ============== Classify plan diff ===================
-	list_plan_new = []	
-	list_plan_change_real_date = []
-	list_plan_update = []
-
-	for _plan in list_plan_diff:	
-		plan = ConvertPlan(_plan)		
-		if CheckPlanUpdate(list_plan['plan'], plan):
-			list_plan_update.append(plan)
-		else:			
-			if CheckPlanUpdateRealDate(list_plan['plan'], plan):
-				list_plan_change_real_date.append(plan)
-			else:
-				list_plan_new.append(plan)
-
-	# ============ List plan modified ================
-	list_plan_modified = GetPlanModified(connect, list_plan)
-
-	print('list_diff: ', len(list_plan_diff))
-	print('list_plan_new: ', len(list_plan_new))
-	print('list_plan_only_update: ', len(list_plan_update))	
-	print('list_plan_change_real: ', len(list_plan_change_real_date))
-	print('list_plan_modified: ', len(list_plan_modified))
-
-	return list_plan_diff, list_plan_new, list_plan_change_real_date, list_plan_update, list_plan_modified 
+	return list_diff, list_plan_new, list_plan_change_real, list_plan_only_update, list_plan_modified
 
 
 def ReleaseCampOfPlanRealDate(list_plan_change, data_total):
@@ -551,7 +487,7 @@ def UpdatePlan(data_total, list_plan_update):
 	return data_total, list_plan_update_total
 
 
-def ClassifyPlan(connect, path_data, date, path_log):
+def ClassifyPlan(connect, path_data, date):
 
 	list_camp_remove_unmap = []
 	list_camp_insert_unmap = []
@@ -568,7 +504,7 @@ def ClassifyPlan(connect, path_data, date, path_log):
 	# =============== Get plan change =====================	
 	start = time.time()
 	list_plan_diff, list_plan_new, list_plan_change_real_date, \
-	list_plan_update, list_plan_modified = GetListDiff(connect, path_data, date, path_log)
+	list_plan_update, list_plan_modified = GetListDiff(connect, path_data, date)
 	print ("Get lists diff: ", (time.time() - start))
 
 	print('list_diff: ', len(list_plan_diff))
@@ -708,11 +644,8 @@ def ClassifyPlan(connect, path_data, date, path_log):
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEST_DATA'
 date = '2017-10-31' 
-path_log = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/log_plan_change.txt'
 
 list_camp_remove_unmap, list_camp_insert_unmap, \
 list_plan_insert_total, list_plan_update_total, \
 list_plan_remove_total, list_data_insert_map, \
-list_remove_manual = ClassifyPlan(connect, path_data, date, path_log)
-
-
+list_remove_manual = ClassifyPlan(connect, path_data, date)

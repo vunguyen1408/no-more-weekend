@@ -47,6 +47,7 @@ def UpdateListLog(connect, list_log, type_):
 
 
 
+
 def ParseLogManualToJson(log):
 	temp = {
 		'PRODUCT' : log[0],
@@ -61,9 +62,12 @@ def ParseLogManualToJson(log):
 	}
 	return temp
 
-def ReadTableManualMap(connect, path_data, date):
+def ReadTableManualMap(connect, path_data, date, is_un_map):
 	path_folder = os.path.join(path_data, str(date) + '/LOG_MANUAL')
-	path_data_total_map = os.path.join(path_folder, 'log_manual.json')
+	if is_un_map == True:
+		path_data_total_map = os.path.join(path_folder, 'log_un_map.json')
+	else:
+		path_data_total_map = os.path.join(path_folder, 'log_manual.json')
 	if not os.path.exists(path_folder):
 		os.makedirs(path_folder)
 
@@ -86,7 +90,7 @@ def ReadTableManualMap(connect, path_data, date):
 					EFORM_TYPE, UNIT_OPTION, \
 					USER_NAME, ACCOUNT_ID, CAMPAIGN_ID, \
 					TO_CHAR(START_DATE, 'YYYY-MM-DD'), TO_CHAR(END_DATE, 'YYYY-MM-DD') from ODS_CAMP_FA_MAPPING_GG \
-					where TYPE = '1' or TYPE is null"
+					where TYPE = '2'"
 	cursor.execute(statement)
 	log_manual = cursor.fetchall()
 
@@ -95,7 +99,7 @@ def ReadTableManualMap(connect, path_data, date):
 	list_out = []
 	#------------- Check manual map change --------------------
 	# print (log_manual)
-	print ("Length log manual: ", len(log_manual))
+	print ("So luong log un map: ", len(log_manual))
 	for data in log_manual:
 		if data[0] != None and data[1] != None \
 		and data[2] != None and data[3] != None \
@@ -120,9 +124,8 @@ def ReadTableManualMap(connect, path_data, date):
 				# print (temp)
 				list_diff.append(temp)
 				# print ("--------------- Da add them ---------------")
-	print (len(list_diff))
-	print (len(list_out))
-	
+	# print (list_diff)
+
 	#--------------- Write file manual log -------------------
 	data_manual_map['LOG'] = list_out
 	with open (path_data_total_map,'w') as f:
@@ -133,8 +136,6 @@ def ReadTableManualMap(connect, path_data, date):
 	# mapping.ReadPlanFromTable(connect, path_data, str(date))
 	# mapping.ReadProductAlias(connect, path_data, str(date))
 	# nru.Add_NRU_into_plan(connect, path_data, date)  
-	mapping.ReadProductAlias(connect, path_data, date)
-	list_plan = mapping.ReadPlanFromTable(connect, path_data, date)
 	list_plan = mapping.ReadPlan(path_data, str(date))
 
 
@@ -183,11 +184,8 @@ def ReadTableManualMap(connect, path_data, date):
 		# 	temp['STATUS'] = 'USER'
 		# 	list_plan_diff.append(temp)
 		# 	list_plan_new.append(temp)
-
-	# Update log
-	UpdateListLog(connect, list_plan_diff, 1)
-
-	print ("Length plan diff : ", len(list_plan_diff))
+	# UpdateListLog(connect, list_plan_diff, 2)
+	print ("Plan diff : ", len(list_plan_diff))
 	return (list_plan_diff)
 
 
@@ -223,47 +221,58 @@ def ChooseTimeManualMap(plan):
 	return (start, end)
 
 #-------- Vào data unmap sum các camp cho một plan ----------
-def GetCampaignUnMapForPlan(plan, data_total):
-	import time
-	# start_time = time.time()
-	# # with open (path_data_total_map,'r') as f:
-	# # 	data_total = json.load(f)
-	# print ("Time load file : ", (time.time() - start_time))
+def DeleteUnMapPlan(plan, data_total):
 
 	list_campaign = data_total['UN_CAMP']
-	start, end = ChooseTimeManualMap(plan)
+	start = datetime.strptime(plan['CAMPAIGN_MANUAL_MAP'][0]['START_DATE_MANUAL_MAP'], '%Y-%m-%d').date()
+	end = datetime.strptime(plan['CAMPAIGN_MANUAL_MAP'][0]['END_DATE_MANUAL_MAP'], '%Y-%m-%d').date()
+	number = 0
+	list_camp_map_need_remove = []
+	list_plan_insert_un_map = []
 	# print (start)
 	# print (end)
-	list_map = []
-	plan['CAMPAIGN'] = []
-	list_camp_need_remove = []
 	# print (len(list_campaign))
-	for camp in list_campaign:
-		d = datetime.strptime(camp['Date'], '%Y-%m-%d').date()
-		if str(plan['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID']) == str(camp['Campaign ID']) \
-		and d >= start and d <= end:
-			# --------- Data map ----------
-			z = camp.copy()
-			z.update(plan)
-			list_map.append(z)
-			# list_map.append(camp)
+	for plan_total in data_total['TOTAL']:
+		if str(plan['PRODUCT_CODE']) == str(plan_total['PRODUCT_CODE']) \
+			and str(plan['REASON_CODE_ORACLE']) == str(plan_total['REASON_CODE_ORACLE']) \
+			and str(plan['FORM_TYPE']) == str(plan_total['FORM_TYPE']) \
+			and str(plan['START_DAY']) == str(plan_total['START_DAY']) \
+			and str(plan['END_DAY_ESTIMATE']) == str(plan_total['END_DAY_ESTIMATE']):
+			# print (plan_total)
+			# print (len(plan_total['CAMPAIGN']))
+			for camp in plan_total['CAMPAIGN']:
+				if str(plan['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID']) == str(camp['Campaign ID']):
+					# print (plan['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID'])
+					# print (camp)
+					d = datetime.strptime(camp['Date'], '%Y-%m-%d').date()
+					if d >= start and d <= end:
+						# plan_total['CAMPAIGN'].remove(camp)
+						data_total['UN_CAMP'].append(camp)  
+						number += 1
+						# print (number)
+						list_camp_map_need_remove.append(camp)
+						# print (camp)
+			for camp_ in list_camp_map_need_remove:
+				for camp in plan_total['CAMPAIGN']:
+					if str(camp_['Campaign ID']) == str(camp['Campaign ID']) and str(camp_['Date']) == str(camp['Date']):
+						plan_total['CAMPAIGN'].remove(camp)
+			if len(plan_total['CAMPAIGN']) == 0:
+				list_plan_insert_un_map.append(plan_total)
+			
 
-			campaign = camp.copy()
-			plan['CAMPAIGN'].append(campaign)
-	return (plan, list_map)
+	return (data_total, list_camp_map_need_remove, list_plan_insert_un_map)
 
 
-def ManualMap(connect, path_data, date):
+def UnMapManual(connect, path_data, date):
 	# # ------------- Get manual map from table log ----------------
 	# list_diff = ReadTableManualMap(connect, path_data, date)
 	path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
 	path_data_un_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'un_map_camp' + '.json')
 	
 	list_map_all = []
-	list_plan_remove_unmap = []
+	list_plan_insert_un_map = []
 	list_plan_update = []
 	list_camp_remove_unmap = []
-	list_plan_insert_temp = []
 	if not os.path.exists(path_data_total_map):
 		i = 0
 		find = True
@@ -291,47 +300,25 @@ def ManualMap(connect, path_data, date):
 		with open (path_data_un_map,'r') as f:
 			data_total['UN_CAMP'] = json.load(f)
 
-		list_plan = ReadTableManualMap(connect, path_data, date)
-		# print (len(list_plan))
+		is_un_map = True
+		list_plan = ReadTableManualMap(connect, path_data, date, is_un_map)
+		print ("Data un map : ", len(data_total['UN_CAMP']))
+
+		# print (list_plan)
 		if len(list_plan) > 0:
 
-			list_map_all = []
-			list_plan_remove_unmap = []
-			# print (len(data_total['UN_CAMPAIGN']))
-
-			# for plan_total in list_plan:
-			# 	if str(plan_total['REASON_CODE_ORACLE']) == '1708007':
-			# 		print (plan_total)
-
-
+			list_camp_all_plan = []
 			import time
 			start_time = time.time()
 			for plan in list_plan:
-				plan, list_map = GetCampaignUnMapForPlan(plan, data_total)
-
-				list_map_all.extend(list_map)
+				data_total, list_camp, list_plan_insert = DeleteUnMapPlan(plan, data_total)
+				# print (len(list_camp))
+				list_plan_insert_un_map.extend(list_plan_insert)
+				list_camp_all_plan.extend(list_camp)
 				# print (len(list_map))
-			# print ("Time get camp map : ", (time.time() - start_time))
-			#----------- Remove unmap ---------------------
-			for camp in list_map_all:
-				for campaign in data_total['UN_CAMP']:
-					if camp['Campaign ID'] == campaign['Campaign ID'] \
-						and camp['Date'] == campaign['Date']:
-						data_total['UN_CAMP'].remove(campaign)
-
-			# Check lai xem cac plan mapping duoc moi add to total
-			list_temp = []
-			for plan in list_plan:
-				if 'CAMPAIGN' in plan:
-					if len(plan['CAMPAIGN']) > 0:
-						list_temp.append(plan)
-
-			print ("So luong plan map : ", len(list_temp))
-			data_date = {}
-			data_date['PLAN'] = list_temp
-			start_time = time.time()
-			data_total, list_plan_insert, list_plan_remove = insert_data.AddToTotal (data_total, data_date, date)
-			# print ("Add data to total : ", (time.time() - start_time))
+			# print ("Time get un camp : ", (time.time() - start_time))
+			# print (len(data_total['UN_CAMP']))
+			
 			data_total['TOTAL'] = insert_data.CaculatorForPlan(data_total['TOTAL'])
 
 			import time
@@ -340,20 +327,13 @@ def ManualMap(connect, path_data, date):
 			data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
 			# print ("Insert install: ", (time.time() - start))
 
-			# Get plan insert
-			list_plan_insert_temp = []
-			for plan in list_plan_insert:
-				for plan_total in data_total['TOTAL']:
-					if str(plan['PRODUCT_CODE']) == str(plan_total['PRODUCT_CODE']) \
-						and str(plan['REASON_CODE_ORACLE']) == str(plan_total['REASON_CODE_ORACLE']) \
-						and str(plan['FORM_TYPE']) == str(plan_total['FORM_TYPE']) \
-						and str(plan['START_DAY']) == str(plan_total['START_DAY']) \
-						and str(plan['END_DAY_ESTIMATE']) == str(plan_total['END_DAY_ESTIMATE']):
-						list_plan_insert_temp.append(plan_total)
+			# print (len(list_camp_all_plan))
+			# print (len(list_plan_insert))
+			# for plan_total in data_total['TOTAL']:
+			# 	if str(plan_total['REASON_CODE_ORACLE']) == '1708008':
+			# 		print (plan_total)
 
-
-			list_plan_remove_unmap = list_plan_remove
-			list_camp_remove_unmap = list_map_all
+			list_camp_remove_unmap = list_camp_all_plan
 			list_plan_update = data_total['TOTAL']
 
 			path_data_total_map = os.path.join(path_data + '/' + str(date) + '/DATA_MAPPING', 'total_mapping' + '.json')
@@ -364,10 +344,16 @@ def ManualMap(connect, path_data, date):
 			with open (path_data_un_map,'w') as f:
 				json.dump(data_total['UN_CAMP'], f)
 
-			print ("So luong data un map: ", len(data_total['UN_CAMP']))
-			print ("Plan duoc map:", len(list_plan_remove_unmap))
-			print ("Camp moi duoc map: ", len(list_camp_remove_unmap))
-			# print (list_map_all[0]['CYEAR'])
+			print ("Data unmap: ", len(data_total['UN_CAMP']))
+			print ("Plan insert: ", len(list_plan_insert_un_map))
+			print ("Camp un map", len(list_camp_remove_unmap))
 
-	return (list_map_all, list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_plan_insert_temp)
+	return (list_plan_insert_un_map, list_camp_remove_unmap, list_plan_update)
 
+
+date = '2017-10-31'
+# path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA'
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
+connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
+
+# UnMapManual(connect, path_data, date)
