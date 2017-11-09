@@ -174,9 +174,9 @@ def ConvertPlan(plan):
 
 
 def GetListDiff(connect, path_data, date, path_log = None):
-	# fi = open(path_log, 'r')
-	# final_log = fi.read()
-	final_log = '11/06/2017 03:46:00'
+	fi = open(path_log, 'r')
+	final_log = fi.read()
+	# final_log = '11/06/2017 03:46:00'
 	
 	list_plan_diff, final_log = GetListPlanChangeFromTable(connect, final_log)
 
