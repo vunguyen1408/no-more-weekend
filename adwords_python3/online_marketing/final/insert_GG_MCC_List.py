@@ -82,7 +82,6 @@ def InsertMCCListToDatabase(path_data, connect):
 			InsertMCCList(value, cursor)
 
 
-
 	conn.commit()
 	print("Committed!.......")
 	cursor.close()
