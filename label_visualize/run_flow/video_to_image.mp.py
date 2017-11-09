@@ -126,6 +126,7 @@ def run_hash_video_image(p_base_dir,p_date,p_process_num):
 
     file_source = os.path.join(folder_date, 'video_hash_' + str(p_date) + '.json')
     file_dest = os.path.join(folder_date, 'video_image_hash_' + str(p_date) + '.json')
+    file_dest_test = os.path.join(folder_date, 'test_video_image_hash_' + str(p_date) + '.json')
 
 
     if os.path.exists(file_source):
@@ -142,6 +143,7 @@ def run_hash_video_image(p_base_dir,p_date,p_process_num):
 
         for _json in source_json['hash_md5']:
 
+            #append all file available
             file_image_check=folder_source+ '/' + _json['hash_md5']+'.*' + '.png'
             list_image = glob.glob(file_image_check)
             for _file in list_image:
@@ -160,19 +162,23 @@ def run_hash_video_image(p_base_dir,p_date,p_process_num):
         with open (file_dest,'r') as _file:
             dest_json = json.load(_file)
 
+
+
         for _json in source_json['hash_md5']:
 
-            found=-1
+            #print(_json)
+            found=[]
             for _i,_dest_json in enumerate(dest_json['hash_md5']):
-                if _dest_json['video_hash_md5']==_json['hash_md5'] and 'video_image_hash_md5' in _json:
-                    found=_i
-                    break
+                #print(_dest_json)
+                if _dest_json['video_hash_md5']==_json['hash_md5'] and 'video_image_hash_md5' in _dest_json:
+                    found.append(_i)
 
-            if found < 0 :
+            if len(found) ==  0 :
 
                 # add all file
                 file_image_check=folder_dest+ '/' + _json['hash_md5']+'.*' + '.png'
                 list_image = glob.glob(file_image_check)
+
                 for _file in list_image:
                     file_json={
                         'video_hash_md5':_json['hash_md5'],
@@ -182,21 +188,15 @@ def run_hash_video_image(p_base_dir,p_date,p_process_num):
                     if os.path.exists(file_json['full_name']) and os.path.getsize(file_json['full_name']) >0:
                         list_file.append(file_json)
 
+
             else:
-                #skip
-                file_json = {
-                    'video_hash_md5':dest_json[found]['video_hash_md5'],
-                    'video_image_hash_md5':dest_json[found]['video_image_hash_md5']
-                }
-                if 'video_image_name' in dest_json[found]:
-                    file_json['video_image_name']=dest_json[found]['video_image_name']
-                if 'image_text' in dest_json[found]:
-                    file_json['image_text']=_dest_json[found]['image_text']
-                if 'image_local_label' in dest_json[found]:
-                    file_json['image_local_label']=_dest_json[found]['image_local_label']
-                if 'image_local_text' in dest_json[found]:
-                    file_json['image_local_text']=_dest_json[found]['image_local_text']
-                list_file.append(file_json)
+
+                #skip all data
+
+                for _i in found:
+                    file_json=dest_json['hash_md5'][_i]
+                    list_file.append(file_json)
+
 
 
     #multiprocessing
@@ -229,49 +229,47 @@ def run_hash_video_image(p_base_dir,p_date,p_process_num):
 
     list_result = []
 
-    for _json in results:
-        #print(_json)
+    #
+    print(len(results))
 
-        temp_video_hash=_json[1]['video_hash_md5']
-        temp_video_image_hash=_json[1]['video_image_hash_md5']
-        temp_file=_json[1]['video_image_name']
+    for _json in results:
+
+        temp_json=_json[1]
 
         find_hash = -1
+        #group by video_image_hash_md5
         for _i,_hash in enumerate(list_result):
             #print(_i)
-            if _hash['video_image_hash_md5']==temp_video_image_hash:
 
-                #print(list_result[_i]['file_name'])
+            #group by video_image_hash_md5
+            if _hash['video_image_hash_md5']==temp_json['video_image_hash_md5']:
+
+                #file exist then stop  looking
                 find_file=-1
                 for _file  in list_result[_i].get('video_image_name',[]):
-                    if _file==temp_file:
+                    if _file==temp_json['video_image_name']:
                         find_file=1
                         break
 
+                #file not exist then add to list_result
                 if find_file < 0:
                 #append
-                    list_result[_i]['video_image_name'].append(temp_file)
-                    if 'image_text' in _json:
-                        list_result[_i]['image_text']=_json['image_text']
-                    if 'image_local_text' in _json:
-                        list_result[_i]['image_local_text']=_json['image_local_text']
-                    if 'image_local_label' in _json:
-                        list_result[_i]['image_local_label']=_json['image_local_label']
+                    list_result[_i]['video_image_name'].append(temp_json['video_image_name'])
 
                 find_hash=_i
                 break
 
         if find_hash <0:
-            new_hash={}
-            new_hash['video_hash_md5']=temp_video_hash
-            new_hash['video_image_hash_md5']=temp_video_image_hash
-            new_hash['video_image_name']=[]
-            new_hash['video_image_name'].append(temp_file)
+
+            new_hash=temp_json
+            #remove key unnecessary
+            new_hash.pop('full_name', None)
             list_result.append(new_hash)
 
 
     return_json['hash_md5']=list_result
 
+    #print(return_json)
     with open (file_dest,'w') as _file:
             json.dump(return_json, _file)
 
