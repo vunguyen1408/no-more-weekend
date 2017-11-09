@@ -13,7 +13,7 @@ import insert_data_map as detail_map
 
 
 
-def merger_data_for_plan(path_data, date, list_camp_remove_unmap, list_camp_insert_unmap, \
+def merger_data_for_plan(connect, path_data, date, list_camp_remove_unmap, list_camp_insert_unmap, \
 						list_plan_insert_total, list_plan_update_total, \
 						list_plan_remove_total, list_data_insert_map, \
 						list_remove_manual):
