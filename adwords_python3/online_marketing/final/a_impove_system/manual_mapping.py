@@ -120,8 +120,9 @@ def ReadTableManualMap(connect, path_data, date):
 				# print (temp)
 				list_diff.append(temp)
 				# print ("--------------- Da add them ---------------")
-	# print (list_diff)
-
+	print (len(list_diff))
+	print (len(list_out))
+	
 	#--------------- Write file manual log -------------------
 	data_manual_map['LOG'] = list_out
 	with open (path_data_total_map,'w') as f:
