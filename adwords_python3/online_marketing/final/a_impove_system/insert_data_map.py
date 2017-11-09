@@ -385,6 +385,7 @@ def CreateDataMap(data_total):
 	list_map = []
 	list_plan_un = []
 	list_map_ = []
+	number = 0
 	for plan in data_total:
 		if len(plan['CAMPAIGN']) > 0:
 			for camp in plan['CAMPAIGN']:
@@ -394,10 +395,11 @@ def CreateDataMap(data_total):
 				list_map_.append(z)
 				json_ = ConvertJsonMap(z)
 				list_map.append(json_)
+				number += 1
 		else:
 			json_ = ConvertJsonPlan(plan)
 			list_plan_un.append(json_)
-
+	print ("========== ", number)
 	return (list_map, list_plan_un, list_map_)
 
 def CreateDataUnMap(data_camp):
