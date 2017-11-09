@@ -70,7 +70,7 @@ with open(path_total, 'r') as fi:
 
 for plan in data_total:
 	if str(plan['REASON_CODE_ORACLE']) == '1708008':
-		print (name)
+		print (plan)
 
 # for plan_total in data_alias['ALIAS']:
 # 	if  str(plan_total['PRODUCT_ID']) == '193':
