@@ -65,12 +65,12 @@ for m in month:
 	print (m['month'].strftime('%Y-%m-%d') + '  ' + str(m['number']))
 
 
-# with open(path_total, 'r') as fi:
-# 	data_total = json.load(fi)
+with open(path_total, 'r') as fi:
+	data_total = json.load(fi)
 
-# for plan in data_total:
-# 	if plan:
-# 		print (name)
+for plan in data_total:
+	if plan['REASON_CODE_ORACLE'] == '1708008':
+		print (name)
 
 # for plan_total in data_alias['ALIAS']:
 # 	if  str(plan_total['PRODUCT_ID']) == '193':
