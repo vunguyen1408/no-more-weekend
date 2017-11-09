@@ -478,6 +478,12 @@ def CacualatorChange(connect, path_data, list_diff, date):
     # data_map['PLAN'] = []
     #####################
 
+      ############################## Check code
+    for camp in data_map['UN_CAMP']:
+      if camp['Mapping'] == True:
+        print ("1")
+    ################################################3
+
     start = time.time()
     data_total['TOTAL'], list_plan_insert, list_plan_remove = insert_to_total.AddToTotal (data_total['TOTAL'], data_map['PLAN'], date)
     print ("add to total: ", (time.time() - start))
