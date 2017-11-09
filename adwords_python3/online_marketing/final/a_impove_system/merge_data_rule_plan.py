@@ -7,7 +7,7 @@ import insert_data_map as detail_map
 
 
 
-def merger_data_for_plan(list_camp_remove_unmap, list_camp_insert_unmap, \
+def merger_data_for_plan(path_data, date, list_camp_remove_unmap, list_camp_insert_unmap, \
 						list_plan_insert_total, list_plan_update_total, \
 						list_plan_remove_total, list_data_insert_map, \
 						list_remove_manual):
@@ -81,8 +81,8 @@ def merger_data_for_plan(list_camp_remove_unmap, list_camp_insert_unmap, \
 	print ("Time insert for list_data_insert_map : ", (time.time() - start))
 	
 	#=================== Commit and close connect =================
-	conn.commit()
-	print("Committed!.......")
+	# conn.commit()
+	# print("Committed!.......")
 	cursor.close()
 
 	#=================== List log remove from log manual =====================
