@@ -27,7 +27,7 @@ from datetime import datetime , timedelta, date
 
 
 import rule_plan_file as plan_file
-import merger_data_rule_plan as merger_data
+import merge_data_rule_plan as merge_data
 
 # import plan_change as plan_change
 # import merge_data_manual_mapping as merge_data_manual_mapping
@@ -51,7 +51,7 @@ def ChangePlan(connect, path_data, date):
 	list_plan_remove_total != [] or list_data_insert_map != [] or \
 	list_remove_manual != [] :
 		merger = time.time()
-		merger_data.merger_data_for_plan(path_data, date, list_camp_remove_unmap, list_camp_insert_unmap, \
+		merge_data.merger_data_for_plan(path_data, date, list_camp_remove_unmap, list_camp_insert_unmap, \
 						list_plan_insert_total, list_plan_update_total, \
 						list_plan_remove_total, list_data_insert_map, \
 						list_remove_manual)
