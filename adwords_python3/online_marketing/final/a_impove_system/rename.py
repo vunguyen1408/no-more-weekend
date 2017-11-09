@@ -458,7 +458,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
 
     print (len(list_camp_find))
     # list_camp_find = list_camp_find[:500]
-    print (len(data_map))
+    # print (len(data_map))
 
     print("MAP")
     start = time.time()
