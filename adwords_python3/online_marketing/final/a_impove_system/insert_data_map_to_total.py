@@ -416,33 +416,35 @@ def AddToTotal (data_total, data_date, date):
 	list_plan_insert = []
 	list_plan_remove = []
 	# Merge plan cua ngay voi total
+	print (data_date[0])
+	print (data_total[0])
 	for plan_date in data_date:
 		flag = False
 		for plan in data_total:
-			try:
-				if str(plan['PRODUCT_CODE']) == str(plan_date['PRODUCT_CODE']) \
-					and str(plan['REASON_CODE_ORACLE']) == str(plan_date['REASON_CODE_ORACLE']) \
-					and str(plan['FORM_TYPE']) == str(plan_date['FORM_TYPE']) \
-					and str(plan['UNIT_OPTION']) == str(plan_date['UNIT_OPTION']) \
-					and str(plan['START_DAY']) == str(plan_date['START_DAY']) \
-					and str(plan['END_DAY_ESTIMATE']) == str(plan_date['END_DAY_ESTIMATE']):
+			# try:
+			if str(plan['PRODUCT_CODE']) == str(plan_date['PRODUCT_CODE']) \
+				and str(plan['REASON_CODE_ORACLE']) == str(plan_date['REASON_CODE_ORACLE']) \
+				and str(plan['FORM_TYPE']) == str(plan_date['FORM_TYPE']) \
+				and str(plan['UNIT_OPTION']) == str(plan_date['UNIT_OPTION']) \
+				and str(plan['START_DAY']) == str(plan_date['START_DAY']) \
+				and str(plan['END_DAY_ESTIMATE']) == str(plan_date['END_DAY_ESTIMATE']):
 
-					if len(plan_date['CAMPAIGN']) > 0 and len(plan['CAMPAIGN']) == 0:
-						list_plan_remove.append(plan_date)
+				if len(plan_date['CAMPAIGN']) > 0 and len(plan['CAMPAIGN']) == 0:
+					list_plan_remove.append(plan_date)
 
-					# Cap nhat real date
-					plan['REAL_START_DATE'] = plan_date['REAL_START_DATE']
-					plan['REAL_END_DATE'] = plan_date['REAL_END_DATE']
+				# Cap nhat real date
+				plan['REAL_START_DATE'] = plan_date['REAL_START_DATE']
+				plan['REAL_END_DATE'] = plan_date['REAL_END_DATE']
 
-					# Chuyen campaign maping duoc cua plan
-					temp_date = plan_date['CAMPAIGN']
-					temp = plan['CAMPAIGN']
-					temp.extend(temp_date)
-					plan['CAMPAIGN'] = temp
-					flag = True
-			except:
-				print (plan_date)
-				print (plan)
+				# Chuyen campaign maping duoc cua plan
+				temp_date = plan_date['CAMPAIGN']
+				temp = plan['CAMPAIGN']
+				temp.extend(temp_date)
+				plan['CAMPAIGN'] = temp
+				flag = True
+			# except:
+			# 	print (plan_date)
+			# 	print (plan)
 
 		# Plan moi
 		if flag == False:
