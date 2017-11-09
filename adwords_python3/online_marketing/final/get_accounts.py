@@ -141,7 +141,7 @@ def GetAllAcount(path_config):
 # path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_MCC.yaml'
 # file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/MCC.json'
 path_config = 'D:/WorkSpace/Adwords/Finanlly/AdWords/adwords_python3/googleads_MCC.yaml'
-file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/MCC_8-11.json'
+file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/MCC.json'
 root_note, list_acc = GetAllAcount(path_config)
 with open(file_json, 'w') as fo:
   json.dump(root_note[1], fo)
@@ -149,7 +149,7 @@ with open(file_json, 'w') as fo:
 # path_config = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/googleads_WPL.yaml'
 # file_json = '/home/marketingtool/Workspace/Python/no-more-weekend/adwords_python3/online_marketing/final/LIST_ACCOUNT/WPL.json'
 path_config = 'D:/WorkSpace/Adwords/Finanlly/AdWords/adwords_python3/googleads_WPL.yaml'
-file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/WPL_8-11.json'
+file_json = 'D:/WorkSpace/Adwords/Finanlly/AdWords/FULL_DATA/WPL.json'
 root_note, list_acc = GetAllAcount(path_config) 
 with open(file_json, 'w') as fo:
   json.dump(root_note[1], fo)
