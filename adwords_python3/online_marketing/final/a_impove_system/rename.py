@@ -386,6 +386,10 @@ def Map(path_folder, list_plan, list_campaign, date):
   data_map = {}
   data_map['UN_CAMP'] = list_un_campaign
   data_map['PLAN'] = list_plan
+  so = 0
+  for plan in list_plan:
+    so += plan['CAMPAIGN']
+  print (so)
   print(" -------------- Mapping------ ", number)
   print(" -------------- Un mapping------ ", len(list_un_campaign))
   return data_map
