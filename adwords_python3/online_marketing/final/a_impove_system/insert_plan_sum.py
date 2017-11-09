@@ -96,13 +96,26 @@ def ConvertJsonPlanSum(value):
 	json_['EVENT_ID'] = value['REASON_CODE_ORACLE'] 
 	json_['PRODUCT_ID'] = value['PRODUCT'] 
 
-	json_['NET_ACTUAL'] = value['TOTAL_CAMPAIGN']['COST']	 
-	json_['VOLUMN_ACTUAL'] = value['TOTAL_CAMPAIGN']['VOLUME_ACTUAL']
+	if ('TOTAL_CAMPAIGN' in value):
+		json_['NET_ACTUAL'] = value['TOTAL_CAMPAIGN']['COST']	 
+	else:
+		json_['NET_ACTUAL'] = 0
+
+	if ('TOTAL_CAMPAIGN' in value):
+		json_['VOLUMN_ACTUAL'] = value['TOTAL_CAMPAIGN']['VOLUME_ACTUAL']	 
+	else:
+		json_['VOLUMN_ACTUAL'] = 0
+	
 	if (json_['VOLUMN_ACTUAL'] == 0):
 		json_['UNIT_COST_ACTUAL'] = None
 	else:
 		json_['UNIT_COST_ACTUAL'] = float(json_['NET_ACTUAL']) / json_['VOLUMN_ACTUAL']
-	json_['APPSFLYER_INSTALL'] = value['TOTAL_CAMPAIGN']['INSTALL_CAMP']
+
+	if ('TOTAL_CAMPAIGN' in value):
+		json_['APPSFLYER_INSTALL'] = value['TOTAL_CAMPAIGN']['INSTALL_CAMP']	 
+	else:
+		json_['APPSFLYER_INSTALL'] = 0
+	
 
 	return json_
 
