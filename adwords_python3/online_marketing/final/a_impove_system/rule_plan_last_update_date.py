@@ -341,11 +341,11 @@ def AddToTotal (data_total, data_date):
 	return data_total
 
 
-def merger_data_map(data_map_all, data_map_GS5, data_map_WPL):
+def merger_data_map(data_map_all, data_map_GS5, data_map_WPL, date):
 	#============= Merger Plan ==================	
 	list_plan = data_map_all['PLAN'].copy()
-	list_plan = AddToTotal (list_plan, data_map_GS5['PLAN'])
-	list_plan = AddToTotal (list_plan, data_map_WPL['PLAN'])
+	list_plan, list_plan_insert, list_plan_remove = insert_to_total.AddToTotal (list_plan, data_map_GS5['PLAN'], date)
+	list_plan, list_plan_insert, list_plan_remove = insert_to_total.AddToTotal (list_plan, data_map_WPL['PLAN'], date)
 
 
 	#============= Merger Campaign ==============
@@ -402,7 +402,7 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 
 
 
-	list_plan, list_un_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL)
+	list_plan, list_un_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL, date)
 
 	return list_plan, list_un_camp
 
@@ -435,7 +435,7 @@ def NewPlan(path_data, date, list_plan, data_total):
 
 	#===================== CASE MAP AND UN_MAP===================
 	#---------- Insert data total ------------------
-	data_total['TOTAL'] = AddToTotal (data_total['TOTAL'], list_plan_total)
+	data_total['TOTAL'], list_plan_insert, list_plan_remove = insert_to_total.AddToTotal (data_total['TOTAL'], list_plan_total, date)
 	list_plan_insert_total.extend(list_plan_total)   
 			
 	
@@ -481,7 +481,7 @@ def ChangeRealDatePlanToMap(path_data, date, list_plan_change, data_total):
 	
 
 	#------------- Insert total ------------
-	data_total['TOTAL'] = AddToTotal (data_total['TOTAL'], list_plan_total)
+	data_total['TOTAL'], list_plan_insert, list_plan_remove = insert_to_total.AddToTotal (data_total['TOTAL'], list_plan_total, date)
 
 	for plan in list_plan_total:
 		if len(plan['CAMPAIGN']):
