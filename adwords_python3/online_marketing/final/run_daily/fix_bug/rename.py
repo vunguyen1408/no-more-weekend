@@ -479,6 +479,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
     #####################
 
       ############################## Check code
+    print (len(data_map['UN_CAMP']))
     for camp in data_map['UN_CAMP']:
       if camp['Mapping'] == True:
         print ("1")
@@ -500,13 +501,13 @@ def CacualatorChange(connect, path_data, list_diff, date):
 
     data_total['TOTAL'] = insert_to_total.CaculatorForPlan(data_total['TOTAL'])
 
-    import time
-    start = time.time()
-    data_total['TOTAL'] = insert_install.InsertInstallToPlan(data_total['TOTAL'], connect, date)
-    print ("Insert install: ", (time.time() - start))
-    start = time.time()
-    data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
-    print ("Insert install GPS: ", (time.time() - start))
+    # import time
+    # start = time.time()
+    # data_total['TOTAL'] = insert_install.InsertInstallToPlan(data_total['TOTAL'], connect, date)
+    # print ("Insert install: ", (time.time() - start))
+    # start = time.time()
+    # data_total['TOTAL'] = insert_install_brandingGPS.AddBrandingGPSToPlan(data_total['TOTAL'], connect, date)
+    # print ("Insert install GPS: ", (time.time() - start))
 
     
 
