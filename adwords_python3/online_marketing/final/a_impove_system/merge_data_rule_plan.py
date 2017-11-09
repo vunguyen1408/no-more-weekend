@@ -78,13 +78,13 @@ def merger_data_for_plan(connect, path_data, date, list_camp_remove_unmap, list_
 			detail_map.DeletePlan(plan, cursor)
 	
 
-	start = time.time()
+	
 	#=================== List data insert into detail_unmap =====================
 	if (len(list_data_insert_map) > 0):
 		for plan in list_data_insert_map:
 			value = detail_map.ConvertJsonMap(plan)
 			detail_map.InsertDetailUnmap(value, cursor)
-	print ("Time insert for list_data_insert_map : ", (time.time() - start))
+	
 	
 	#=================== Commit and close connect =================
 	# conn.commit()
