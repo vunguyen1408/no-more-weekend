@@ -18,6 +18,8 @@ import insert_install_brandingGPS_to_plan as insert_install_brandingGPS
 import insert_install as insert_install
 import insert_data_map as detail_map
 
+import rule_plan_file as rule_plan_file
+
 logging.basicConfig(level=logging.INFO)
 logging.getLogger('suds.transport').setLevel(logging.DEBUG)
 
@@ -256,12 +258,17 @@ def Map(path_folder, list_plan, list_campaign, date):
   # for j, camp in enumerate(list_campaign):
   #   if (camp['Cost'] > 0) and camp['Campaign state'] != 'Total':
   #     list_campaign_map.append(camp)
+  k = 0
+  for camp in list_campaign:
+    if camp['Mapping'] == True:
+      camp['Mapping'] == False
+      k += 1
+  print (k)
+
 
   # print(len(list_campaign))
   for j, camp in enumerate(list_campaign):
-    # print (camp)
-    t = False
-    # print ("==========================================")
+    map_ = False
     camp['Advertising Channel'] = mapping.ChangeCampaignType(camp['Advertising Channel'])
     if 'Plan' not in camp:
       camp['Plan'] = None
@@ -269,8 +276,7 @@ def Map(path_folder, list_plan, list_campaign, date):
 
     date_ = datetime.strptime(camp['Date'], '%Y-%m-%d')
 
-    for i, eform in enumerate(list_plan): 
-      flag = True 
+    for i, eform in enumerate(list_plan):  
       if 'CAMPAIGN' not in eform:
         eform['CAMPAIGN'] = []
         eform['STATUS'] = None
@@ -280,17 +286,14 @@ def Map(path_folder, list_plan, list_campaign, date):
       start = datetime.strptime(start, '%Y-%m-%d')
       end = datetime.strptime(end, '%Y-%m-%d')
 
-      t = True
-
       # Duonglt check mapping auto
       # if str(eform['REASON_CODE_ORACLE']) == '1710027' and str(camp['Campaign ID']) == '952021132':
       #   print (camp)
       #   print (eform)
 
       if (camp['Mapping'] == False): 
-        flag = False
         if mapping.LogManualMap(data_manual, camp, eform, date, 1) == 1 and (date_ >= start) and (date_ <= end):
-          flag = True
+          map_ = True
         else:
           #============= WPL -================
           if camp['Dept'] != None:
@@ -302,7 +305,7 @@ def Map(path_folder, list_plan, list_campaign, date):
                 and (date_ >= start) \
                 and (date_ <= end) ) \
                 and  ( mapping.LogManualMap(data_un_map, camp, eform, date, 2) == 1):
-                flag = True
+                map_ = True
                 # print("mapping WPL")
             else:
               # ============= GS5 ================
@@ -315,7 +318,7 @@ def Map(path_folder, list_plan, list_campaign, date):
                   and (date_ >= start) \
                   and (date_ <= end) ) \
                   and  ( mapping.LogManualMap(data_un_map, camp, eform, date, 2) ):
-                  flag = True
+                  map_ = True
                   # print("mapping GS5")
 
               else:
@@ -337,10 +340,10 @@ def Map(path_folder, list_plan, list_campaign, date):
                   and (date_ >= start) 
                   and (date_ <= end) ) \
                   and ( mapping.LogManualMap(data_un_map, camp, eform, date, 2) == 1): 
-                  flag = True
+                  map_ = True
                   # if t:
                   #   print("mapping =====================================\n\n\n")
-        if flag:
+        if map_:
           camp['Mapping'] = True
           camp['STATUS'] = 'SYS'
           
@@ -386,6 +389,10 @@ def Map(path_folder, list_plan, list_campaign, date):
   data_map = {}
   data_map['UN_CAMP'] = list_un_campaign
   data_map['PLAN'] = list_plan
+  so = 0
+  for plan in list_plan:
+    so += len(plan['CAMPAIGN'])
+  print (so)
   print(" -------------- Mapping------ ", number)
   print(" -------------- Un mapping------ ", len(list_un_campaign))
   return data_map
@@ -451,19 +458,22 @@ def CacualatorChange(connect, path_data, list_diff, date):
 
     print (len(list_camp_find))
     # list_camp_find = list_camp_find[:500]
+    # print (len(data_map))
 
     print("MAP")
     start = time.time()
     # data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
-    print ("Mapping: ", (time.time() - start))
-
-    ############## check code
     data_map = {}
-    data_map['PLAN'] = []
+    data_map['PLAN'], data_map['UN_CAMP'] = rule_plan_file.Mapping_Auto(path_data, date, list_plan['plan'], list_camp_find)
+    print ("Mapping: ", (time.time() - start))
+    # print (len(data_map['PLAN']))
+    ############## check code
+    # data_map = {}
+    # data_map['PLAN'] = []
     #####################
 
     start = time.time()
-    data_total, list_plan_insert, list_plan_remove = insert_to_total.AddToTotal (data_total, data_map, date)
+    data_total['TOTAL'], list_plan_insert, list_plan_remove = insert_to_total.AddToTotal (data_total['TOTAL'], data_map['PLAN'], date)
     print ("add to total: ", (time.time() - start))
     print (len(list_plan_remove))
 

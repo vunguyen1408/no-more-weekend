@@ -416,22 +416,20 @@ def AddToTotal (data_total, data_date, date):
 	list_plan_insert = []
 	list_plan_remove = []
 	# Merge plan cua ngay voi total
-	for plan_date in data_date['PLAN']:
+	# print (data_date[0])
+	# print (data_total[0])
+	for plan_date in data_date:
 		flag = False
-		for plan in data_total['TOTAL']:
-			# print (plan)
-			# print (plan_date)
-			if plan['PRODUCT_CODE'] == plan_date['PRODUCT_CODE'] \
-				and plan['REASON_CODE_ORACLE'] == plan_date['REASON_CODE_ORACLE'] \
-				and plan['FORM_TYPE'] == plan_date['FORM_TYPE'] \
-				and plan['UNIT_OPTION'] == plan_date['UNIT_OPTION'] \
-				and plan['START_DAY'] == plan_date['START_DAY'] \
-				and plan['END_DAY_ESTIMATE'] == plan_date['END_DAY_ESTIMATE']:
+		for plan in data_total:
+			# try:
+			if str(plan['PRODUCT_CODE']) == str(plan_date['PRODUCT_CODE']) \
+				and str(plan['REASON_CODE_ORACLE']) == str(plan_date['REASON_CODE_ORACLE']) \
+				and str(plan['FORM_TYPE']) == str(plan_date['FORM_TYPE']) \
+				and str(plan['UNIT_OPTION']) == str(plan_date['UNIT_OPTION']) \
+				and str(plan['START_DAY']) == str(plan_date['START_DAY']) \
+				and str(plan['END_DAY_ESTIMATE']) == str(plan_date['END_DAY_ESTIMATE']):
 
 				if len(plan_date['CAMPAIGN']) > 0 and len(plan['CAMPAIGN']) == 0:
-					# print (len(plan_date['CAMPAIGN']))
-					# print (len(plan['CAMPAIGN']))
-					# print ("add reomve")
 					list_plan_remove.append(plan_date)
 
 				# Cap nhat real date
@@ -444,10 +442,13 @@ def AddToTotal (data_total, data_date, date):
 				temp.extend(temp_date)
 				plan['CAMPAIGN'] = temp
 				flag = True
+			# except:
+			# 	print (plan_date)
+			# 	print (plan)
 
 		# Plan moi
 		if flag == False:
-			data_total['TOTAL'].append(plan_date)
+			data_total.append(plan_date)
 			# Plan nay, neu unmap (list campaign == 0) se insert vao trong plan un, con neu map se insert vao total.
 			list_plan_insert.append(plan_date)
 
@@ -520,7 +521,8 @@ def MergeDataToTotal(path_data, date):
 		# print (data_date['PLAN'])
 		# print (len(data_date['PLAN']))
 
-		data_total, list_plan_insert, list_plan_remove = AddToTotal (data_total, data_date, date)
+		# data_total, list_plan_insert, list_plan_remove = AddToTotal (data_total, data_date, date)
+		data_total['TOTAL'], list_plan_insert, list_plan_remove = AddToTotal (data_total['TOTAL'], data_date['PLAN'], date)
 		# print (len(data_total['TOTAL']))
 
 		data_total['TOTAL'] = CaculatorForPlan(data_total['TOTAL'])

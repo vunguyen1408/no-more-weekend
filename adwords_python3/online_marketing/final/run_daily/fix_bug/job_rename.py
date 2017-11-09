@@ -15,44 +15,44 @@ import history_name as history_name
 import merge_data_manual_mapping as merge_data_manual_mapping
 
 def Rename (connect, path_data, list_customer_id, date):
-	# =============================== Manual mapping =========================================
-	print ("\n\n============= RUN RENAME WITH DATE : " + str(datetime.now()) + " =================")
-	caculator_manual = time.time()
+     # =============================== Manual mapping =========================================
+     print ("\n\n============= RUN RENAME WITH DATE : " + str(datetime.now()) + " =================")
+     caculator_manual = time.time()
 
-	list_diff, data_total = rename.CheckNameChange(path_data, list_customer_id, date)
-	list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_camp_update = rename.CacualatorChange(connect, path_data, list_diff, date)
+     list_diff, data_total = rename.CheckNameChange(path_data, list_customer_id, date)
+     list_plan_remove_unmap, list_camp_remove_unmap, list_plan_update, list_camp_update = rename.CacualatorChange(connect, path_data, list_diff, date)
 
-	time_caculator_manual = time.time() - caculator_manual
-	print ("---------- Time caculator rename : ", time_caculator_manual)
+     time_caculator_manual = time.time() - caculator_manual
+     print ("---------- Time caculator rename : ", time_caculator_manual)
 
-	# --------------- 
-	# print (len(list_plan_remove_unmap))
-	# print (len(list_camp_remove_unmap))
-	# print (len(list_plan_update))
-	# print (len(list_camp_update))
+     # --------------- 
+     # print (len(list_plan_remove_unmap))
+     # print (len(list_camp_remove_unmap))
+     # print (len(list_plan_update))
+     # print (len(list_camp_update))
 
 
-	# print (list_camp_remove_unmap != [])
-	# print (len(list_camp_remove_unmap))
-	if list_camp_remove_unmap != [] or list_camp_update != []:
-		update_manual = time.time()
-		print ("insert data")
-		list_plan_insert_un_map = []
-		list_plan_insert_sum = []
-		# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
-		# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
-		is_manual_map = 1
-		# merge_data_manual_mapping.UpdateRename(connect, list_camp_update, data_total)
-		# merge_data_manual_mapping.merger_data_manual_mapping(connect, list_camp_remove_unmap, list_plan_remove_unmap,\
-  #                         list_camp_remove_unmap, list_plan_update, list_plan_insert_un_map, list_plan_insert_sum, is_manual_map)
-		time_update_manual = time.time() - update_manual
-		print ("---------- Time update rename to total : ", time_update_manual)
-	else:
-		print (" Not change")
-		# monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
-		# monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
-		# plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
-		# detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+     # print (list_camp_remove_unmap != [])
+     # print (len(list_camp_remove_unmap))
+     if list_camp_remove_unmap != [] or list_camp_update != []:
+          update_manual = time.time()
+          print ("insert data")
+          list_plan_insert_un_map = []
+          list_plan_insert_sum = []
+          # monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+          # plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+          is_manual_map = 1
+          merge_data_manual_mapping.UpdateRename(connect, list_camp_update, data_total)
+          merge_data_manual_mapping.merger_data_manual_mapping(connect, list_camp_remove_unmap, list_plan_remove_unmap,\
+                          list_camp_remove_unmap, list_plan_update, list_plan_insert_un_map, list_plan_insert_sum, is_manual_map)
+          time_update_manual = time.time() - update_manual
+          print ("---------- Time update rename to total : ", time_update_manual)
+     else:
+          print (" Not change")
+          # monthly_detail.InsertMonthlyDetailToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+          # monthly_sum.InsertMonthlySumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+          # plan_sum.InsertPlanSumToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
+          # detail_map.InsertDataMapToDatabase(path_data, connect, list_map, list_plan_remove_unmap, list_camp_remove_unmap, date)
 
 
 
@@ -99,6 +99,6 @@ list_customer_id = [
 
 
 date = '2017-10-31'
-path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/DATA_GG'
+path_data = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA'
 connect = 'MARKETING_TOOL_01/MARKETING_TOOL_01_9999@10.60.1.42:1521/APEX42DEV'
 Rename (connect, path_data, list_customer_id, date)
