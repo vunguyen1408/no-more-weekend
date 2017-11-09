@@ -69,7 +69,7 @@ with open(path_total, 'r') as fi:
 	data_total = json.load(fi)
 
 for plan in data_total:
-	if plan['REASON_CODE_ORACLE'] == '1708008':
+	if str(plan['REASON_CODE_ORACLE']) == '1708008':
 		print (name)
 
 # for plan_total in data_alias['ALIAS']:
