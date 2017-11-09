@@ -25,11 +25,12 @@ def ParseFormatDate(data):
 	return d
 
 def UpdateLog(cursor, value, type_):
-	statement = "delete from ODS_CAMP_FA_MAPPING_GG \
+	statement = "update ODS_CAMP_FA_MAPPING_GG \
+	set STATUS_2 = :1\
 	where PRODUCT = :2 and REASON_CODE_ORACLE = :3 and EFORM_TYPE = :4 \
 	and UNIT_OPTION = :5 and CAMPAIGN_ID = :6 and START_DATE = :7 and END_DATE = :8 and TYPE = :9"
 
-	cursor.execute(statement, (value['PRODUCT'], value['REASON_CODE_ORACLE'], value['FORM_TYPE'], value['UNIT_OPTION'], \
+	cursor.execute(statement, (0 , value['PRODUCT'], value['REASON_CODE_ORACLE'], value['FORM_TYPE'], value['UNIT_OPTION'], \
 		value['CAMPAIGN_MANUAL_MAP'][0]['CAMPAIGN_ID'] , datetime.strptime(value['CAMPAIGN_MANUAL_MAP'][0]['START_DATE_MANUAL_MAP'], '%Y-%m-%d'), \
 		datetime.strptime(value['CAMPAIGN_MANUAL_MAP'][0]['END_DATE_MANUAL_MAP'], '%Y-%m-%d'), type_))	
 
