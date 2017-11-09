@@ -419,8 +419,7 @@ def AddToTotal (data_total, data_date, date):
 	for plan_date in data_date:
 		flag = False
 		for plan in data_total:
-			print (plan_date)
-			print (plan)
+			try:
 			if str(plan['PRODUCT_CODE']) == str(plan_date['PRODUCT_CODE']) \
 				and str(plan['REASON_CODE_ORACLE']) == str(plan_date['REASON_CODE_ORACLE']) \
 				and str(plan['FORM_TYPE']) == str(plan_date['FORM_TYPE']) \
@@ -441,6 +440,9 @@ def AddToTotal (data_total, data_date, date):
 				temp.extend(temp_date)
 				plan['CAMPAIGN'] = temp
 				flag = True
+			except:
+				print (plan_date)
+				print (plan)
 
 		# Plan moi
 		if flag == False:
