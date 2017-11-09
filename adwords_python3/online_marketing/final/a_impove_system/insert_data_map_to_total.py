@@ -416,8 +416,8 @@ def AddToTotal (data_total, data_date, date):
 	list_plan_insert = []
 	list_plan_remove = []
 	# Merge plan cua ngay voi total
-	print (data_date[0])
-	print (data_total[0])
+	# print (data_date[0])
+	# print (data_total[0])
 	for plan_date in data_date:
 		flag = False
 		for plan in data_total:

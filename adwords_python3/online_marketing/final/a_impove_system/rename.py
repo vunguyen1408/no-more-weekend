@@ -464,7 +464,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
     # data_map = Map(path_data, list_plan['plan'], list_camp_find, date)
     data_map = rule_plan_file.Mapping_Auto(path_data, date, list_plan['plan'], list_camp_find)
     print ("Mapping: ", (time.time() - start))
-
+    print (len(data_map))
     ############## check code
     # data_map = {}
     # data_map['PLAN'] = []
