@@ -94,6 +94,7 @@ def GetListDiff(connect, path_data, date):
 	list_plan_new = []
 	list_plan_only_update = []
 	list_plan_change_real = []
+	list_plan_modified = []
 
 
 	for new_plan in list_new_plan:
