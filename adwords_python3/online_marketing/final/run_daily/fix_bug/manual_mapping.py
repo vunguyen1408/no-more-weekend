@@ -185,7 +185,7 @@ def ReadTableManualMap(connect, path_data, date):
 		# 	list_plan_new.append(temp)
 
 	# Update log
-	UpdateListLog(connect, list_plan_diff, 1)
+	# UpdateListLog(connect, list_plan_diff, 1)
 
 	print ("Length plan diff : ", len(list_plan_diff))
 	return (list_plan_diff)

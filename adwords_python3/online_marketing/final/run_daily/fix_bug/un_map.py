@@ -184,7 +184,7 @@ def ReadTableManualMap(connect, path_data, date, is_un_map):
 		# 	temp['STATUS'] = 'USER'
 		# 	list_plan_diff.append(temp)
 		# 	list_plan_new.append(temp)
-	UpdateListLog(connect, list_plan_diff, 2)
+	# UpdateListLog(connect, list_plan_diff, 2)
 	print ("Plan diff : ", len(list_plan_diff))
 	return (list_plan_diff)
 
