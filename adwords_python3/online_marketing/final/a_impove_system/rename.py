@@ -471,7 +471,7 @@ def CacualatorChange(connect, path_data, list_diff, date):
     #####################
 
     start = time.time()
-    data_total, list_plan_insert, list_plan_remove = insert_to_total.AddToTotal (data_total, data_map, date)
+    data_total['TOTAL'], list_plan_insert, list_plan_remove = insert_to_total.AddToTotal (data_total['TOTAL'], data_map, date)
     print ("add to total: ", (time.time() - start))
     print (len(list_plan_remove))
 
