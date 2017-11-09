@@ -375,7 +375,7 @@ path_alias = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-08-3
 path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-10-31/DATA_MAPPING/un_map_camp.json'
 path_plan = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-08-31/PLAN/plan.json'
 # file_product = os.path.join(path_data, str(date) + '/PLAN/product_alias.json')
-path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-10-31/DATA_MAPPING/history_name.json'
+# path_total = '/u01/app/oracle/oradata/APEX/MARKETING_TOOL_GG/TEMP_DATA/2017-10-31/DATA_MAPPING/history_name.json'
 
 import insert_data_map_to_total as insert_to_total
 
@@ -387,15 +387,14 @@ with open(path_plan, 'r') as fi:
 	data_plan = json.load(fi)
 
 with open(path_total, 'r') as fi:
-	data_total = json.load(fi)
+	list_campaign = json.load(fi)
 
 for name in data_total['HISTORY']:
 	if name['CAMPAIGN_ID'] == '953916682':
 		print (name)
 
-# for plan_total in data_alias['ALIAS']:
-# 	if  str(plan_total['PRODUCT_ID']) == '193':
-# 		print (plan_total)
+for camp in list_campaign:
+	camp['Mapping'] == False
 
 # for plan_total in data_plan['plan']:
 # 	if  str(plan_total['PRODUCT']) == '193':
