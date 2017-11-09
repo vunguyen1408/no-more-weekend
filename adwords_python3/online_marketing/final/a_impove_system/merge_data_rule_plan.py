@@ -56,15 +56,15 @@ def merger_data_for_plan(connect, path_data, date, list_camp_remove_unmap, list_
 	if (len(list_plan_update_total) > 0):
 		for plan in list_plan_update_total:
 			json_ = plan_sum.ConvertJsonPlanSum(plan)
-			plan_sum.UpdatePlanPlanSum(json_, cursor)
+			plan_sum.UpdatePlanSum(json_, cursor)
 
 			if ('MONTHLY' in plan):
 				for i in range(len(plan['MONTHLY'])):
 					json_ = monthly_sum.ConvertJsonMonthlySum(i, plan)
-					monthly_sum.UpdatePlanMonthlySum(json_, cursor)
+					monthly_sum.UpdateMonthlySum(json_, cursor)
 
 					json_ = monthly_detail.ConvertJsonMonthlyDetail(i, plan)
-					monthly_detail.UpdatePlanMonthlyDetail(json_, cursor)
+					monthly_detail.UpdateMonthlyDetail(json_, cursor)
 	
 
 
