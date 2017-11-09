@@ -419,12 +419,12 @@ def AddToTotal (data_total, data_date, date):
 	for plan_date in data_date:
 		flag = False
 		for plan in data_total:
-			if plan['PRODUCT_CODE'] == plan_date['PRODUCT_CODE'] \
-				and plan['REASON_CODE_ORACLE'] == plan_date['REASON_CODE_ORACLE'] \
-				and plan['FORM_TYPE'] == plan_date['FORM_TYPE'] \
-				and plan['UNIT_OPTION'] == plan_date['UNIT_OPTION'] \
-				and plan['START_DAY'] == plan_date['START_DAY'] \
-				and plan['END_DAY_ESTIMATE'] == plan_date['END_DAY_ESTIMATE']:
+			if str(plan['PRODUCT_CODE']) == str(plan_date['PRODUCT_CODE']) \
+				and str(plan['REASON_CODE_ORACLE']) == str(plan_date['REASON_CODE_ORACLE']) \
+				and str(plan['FORM_TYPE']) == str(plan_date['FORM_TYPE']) \
+				and str(plan['UNIT_OPTION']) == str(plan_date['UNIT_OPTION']) \
+				and str(plan['START_DAY']) == str(plan_date['START_DAY']) \
+				and str(plan['END_DAY_ESTIMATE']) == str(plan_date['END_DAY_ESTIMATE']):
 
 				if len(plan_date['CAMPAIGN']) > 0 and len(plan['CAMPAIGN']) == 0:
 					list_plan_remove.append(plan_date)
