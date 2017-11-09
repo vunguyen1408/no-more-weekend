@@ -46,7 +46,7 @@ def InsertMCCListToDatabase(path_data, connect):
 	cursor = conn.cursor()
 
 	# ================ Get account from database =================
-	statement = 'select * from ODS_GG_ACCOUNT_LIST'	
+	statement = 'select MCC, MCC_ID, ENTITY, DEPT, STATUS, CONTACT_POINT from ODS_GG_ACCOUNT_LIST'	
 		
 	cursor.execute(statement)
 	res = list(cursor.fetchall())
@@ -68,7 +68,7 @@ def InsertMCCListToDatabase(path_data, connect):
 					'STATUS': None, 
 					'CONTACT_POINT': None
 				}
-			else (list_dept[i] is None):
+			else:
 				value = {
 					'MCC': list_acc[i], 
 					'MCC_ID': list_acc_id[i], 
@@ -79,16 +79,12 @@ def InsertMCCListToDatabase(path_data, connect):
 				}
 				
 			print(value)
-			try:
-				InsertMCCList(value, cursor)
-			except UnicodeEncodeError as e:				
-				value['MCC'] = value['MCC'].encode('utf-8')
-				InsertMCCList(value, cursor)
+			InsertMCCList(value, cursor)
 
 
 
-	conn.commit()
-	print("Committed!.......")
+	# conn.commit()
+	# print("Committed!.......")
 	cursor.close()
 
 
