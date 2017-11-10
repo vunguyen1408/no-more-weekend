@@ -100,9 +100,13 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
   number = 0
   # Remove line total in report
   for j, camp in enumerate(list_campaign):
-    if (camp['Cost'] > 0) and ('Campaign state' in camp) and camp['Campaign state'] != 'Total':
-      list_campaign_map.append(camp)
-      print (camp['Mapping'])
+    if (camp['Cost'] > 0):
+      if ('Campaign state' not in camp):
+        list_campaign_map.append(camp)
+      else:
+        if camp['Campaign state'] != 'Total':
+          list_campaign_map.append(camp)
+
 
   for i, eform in enumerate(list_plan):  
     if 'CAMPAIGN' not in eform:
@@ -133,9 +137,9 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
         map_ = False
         print (LogManualMap(path_folder, camp, eform, date, 2) == 2)
         if (LogManualMap(path_folder, camp, eform, date, 1) == 1) and (date_ >= start) and (date_ <= end):
-          print ("mappping log")
-          print (camp)
-          print (eform)
+          # print ("mappping log")
+          # print (camp)
+          # print (eform)
           map_ = True
         elif(  (eform['PRODUCT_CODE'] != [] or eform['CCD_PRODUCT'] != []) and \
           (
@@ -183,8 +187,12 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
   number = 0
   # Remove line total in report
   for j, camp in enumerate(list_campaign):
-    if (camp['Cost'] > 0) and ('Campaign state' in camp) and camp['Campaign state'] != 'Total':
-      list_campaign_map.append(camp)
+    if (camp['Cost'] > 0):
+      if ('Campaign state' not in camp):
+        list_campaign_map.append(camp)
+      else:
+        if camp['Campaign state'] != 'Total':
+          list_campaign_map.append(camp)
 
   for i, eform in enumerate(list_plan):  
     flag = True
@@ -278,9 +286,12 @@ def MapAccountWithCampaignGS5(path_folder, list_plan, list_campaign, date):
   number = 0
   # Remove line total in report
   for j, camp in enumerate(list_campaign):
-    if (camp['Cost'] > 0) and ('Campaign state' in camp) and camp['Campaign state'] != 'Total':
-      list_campaign_map.append(camp)
-
+    if (camp['Cost'] > 0):
+      if ('Campaign state' not in camp):
+        list_campaign_map.append(camp)
+      else:
+        if camp['Campaign state'] != 'Total':
+          list_campaign_map.append(camp)
 
 
   for j, camp in enumerate(list_campaign_map):
