@@ -137,9 +137,9 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, data_manual
         map_ = False
         # print (LogManualMap(path_folder, camp, eform, date, 2) == 2)
         if (LogManualMap(data_manual, camp, eform, date, 1) == 1) and (date_ >= start) and (date_ <= end):
-          print ("mappping log")
-          print (camp)
-          print (eform)
+          # print ("mappping log")
+          # print (camp)
+          # print (eform)
           map_ = True
         elif(  (eform['PRODUCT_CODE'] != [] or eform['CCD_PRODUCT'] != []) and \
           (
@@ -214,9 +214,9 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, data_manual
         # Check log manual mapping
         map_ = False
         if (LogManualMap(data_manual, camp, eform, date, 1) == 1)  and (date_ >= start) and (date_ <= end):
-          print ("mappping log")
-          print (camp)
-          print (eform)
+          # print ("mappping log")
+          # print (camp)
+          # print (eform)
           map_ = True
 
         elif (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
@@ -317,9 +317,9 @@ def MapAccountWithCampaignGS5(path_folder, list_plan, list_campaign, data_manual
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == 'GS5'): 
         map_ = False
         if (LogManualMap(data_manual, camp, eform, date, 1) == 1) and (date_ >= start) and (date_ <= end):
-          print ("mappping log")
-          print (camp)
-          print (eform)
+          # print ("mappping log")
+          # print (camp)
+          # print (eform)
           map_ = True
 
         elif (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
