@@ -124,7 +124,7 @@ def rename_video(p_folder, p_path_folder_work, p_work_json, p_process_num):
 
 
 
-def rename_downloaded_video(p_path, p_from_date = '2016-10-01', p_to_date = '2016-10-01',p_process_num):
+def rename_downloaded_video(p_path='/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON', p_from_date = '2016-10-01', p_to_date = '2016-10-01',p_process_num):
     # Lấy danh sách path của các file json cần tổng hợp data
     list_file = []
     list_folder = next(os.walk(p_path))[1]
