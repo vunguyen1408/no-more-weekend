@@ -77,7 +77,7 @@ for camp in data_un:
 		date_ = datetime.strptime(camp['Date'][:-3], '%Y-%m').date()
 		for m in month:
 			if date_ == m['month']:
-				m['month'] += 1
+				m['number'] += 1
 				if camp['Dept'] == 'WPL':
 					m['wpl'] += 1
 				if camp['Dept'] == 'GS5':
