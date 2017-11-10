@@ -104,7 +104,6 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
       list_campaign_map.append(camp)
 
   for i, eform in enumerate(list_plan):  
-    flag = True
     if 'CAMPAIGN' not in eform:
       eform['CAMPAIGN'] = []
       eform['STATUS'] = None
@@ -131,6 +130,7 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
           product_id = ''
         # Check manual mapping
         map_ = False
+        print (LogManualMap(path_folder, camp, eform, date, 2) == 2)
         if (LogManualMap(path_folder, camp, eform, date, 1) == 1) and (date_ >= start) and (date_ <= end):
           print ("mappping log")
           print (camp)
@@ -147,11 +147,9 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
           and (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) 
           and (date_ >= start) 
           and (date_ <= end) ) \
-          or ( LogManualMap(path_folder, camp, eform, date, 2) == 2):  
+          or (        ):  
           map_ = True
-          # if camp['Campaign ID'] == '699351990':
-          #   print (camp)
-          # print ("===================================== MP ====================================")
+
         if map_:
           camp['Mapping'] = True
           camp['STATUS'] = 'SYS'
