@@ -549,14 +549,14 @@ def MapData(customer, path_folder, list_account_wpl, list_account_gs5, data_manu
       # ------------- Check account ----------------
       if CheckIsAccountWPL(list_account_wpl, customer):
         # print ("================ WPL ======================")
-        data_map = MapAccountWithCampaignWPL(path_folder, list_plan['plan'], list_campaign, data_manual, data_un_map, date)
+        data_map = MapAccountWithCampaignWPL(path_folder, list(list_plan['plan']), list_campaign, data_manual, data_un_map, date)
       else:
         if CheckIsAccountGS5(list_account_gs5, customer): # La account WPL
           # print ("================ GS5 ======================")
-          data_map = MapAccountWithCampaignGS5(path_folder, list_plan['plan'], list_campaign, data_manual, data_un_map, date)
+          data_map = MapAccountWithCampaignGS5(path_folder, list(list_plan['plan']), list_campaign, data_manual, data_un_map, date)
         else:
           # print ("================ ALL ======================")
-          data_map = MapAccountWithCampaignAll(path_folder, list_plan['plan'], list_campaign, data_manual, data_un_map, date)
+          data_map = MapAccountWithCampaignAll(path_folder, list(list_plan['plan']), list_campaign, data_manual, data_un_map, date)
 
       #----------------- Write file map and unmap ------------------
       path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
