@@ -40,7 +40,7 @@ def do_work(list_index,in_queue, out_list):
         #line_no, line = item
         line_no, video = item
 
-        print(video)
+        #print(video)
 
         # exit signal
         if 'None->Exit' in video :
@@ -53,7 +53,7 @@ def do_work(list_index,in_queue, out_list):
 
         for _file in list_index:
 
-            if _file['video_index'] == line_no and 'video_renamed' not in video  and  video['file_name'] :
+            if _file['video_index'] == line_no and  video['file_name'] :
 
                 # link = 'gs://python_video/' + folder + '/' + file_['name']
                 #file_name = p_path_folder_work + '/' + _file['name']
@@ -61,7 +61,6 @@ def do_work(list_index,in_queue, out_list):
                 new_file_name=_file['path'] + '/'+video['file_name']
                 print("mv ", file_name," ",new_file_name)
                 subprocess.call(["mv", file_name,new_file_name])
-                video['video_renamed']=1
 
         result = (line_no, video)
 
