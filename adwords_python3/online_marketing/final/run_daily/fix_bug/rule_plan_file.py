@@ -298,7 +298,7 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 	list_camp_all = []
 	list_camp_GS5 = []
 	list_camp_WPL = []
-	print (len(list_full_uncamp))
+	print ("length un map: ", len(list_full_uncamp))
 
 	for camp in list_full_uncamp:					
 		# if (str(camp['Campaign ID']) == '702245469'):
