@@ -328,7 +328,7 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 	}
 
 	print (len(list_camp_GS5))
-	print (len(list_camp_GS5))
+	print (len(list_camp_WPL))
 	print (len(list_camp_all))
 	
 	auto_mapping  = time.time()
