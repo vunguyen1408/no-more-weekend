@@ -298,6 +298,7 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 	list_camp_all = []
 	list_camp_GS5 = []
 	list_camp_WPL = []
+	print ("length un map: ", len(list_full_uncamp))
 
 	for camp in list_full_uncamp:					
 		# if (str(camp['Campaign ID']) == '702245469'):
@@ -306,7 +307,7 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 		if (camp['Dept'] == 'GS5'):			
 			list_camp_GS5.append(camp)
 		elif (camp['Dept'] == 'WPL'):		
-			list_camp_GS5.append(camp)
+			list_camp_WPL.append(camp)
 		else:
 			list_camp_all.append(camp)	
 
@@ -325,6 +326,10 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 		'PLAN': [],
 		'UN_CAMP': []
 	}
+
+	print (len(list_camp_GS5))
+	print (len(list_camp_GS5))
+	print (len(list_camp_all))
 	
 	auto_mapping  = time.time()
 	if (len(list_camp_all) > 0):
@@ -336,9 +341,12 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 	if (len(list_camp_WPL) > 0):
 		data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
 
-
+	print (len(data_map_all))
+	print (len(data_map_GS5))
+	print (len(data_map_WPL))
 
 	list_plan, list_un_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL, date)
+	print ("Length un map: ", len(list_un_camp))
 
 	return list_plan, list_un_camp
 
