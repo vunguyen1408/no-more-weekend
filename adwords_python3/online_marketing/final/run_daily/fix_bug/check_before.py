@@ -19,34 +19,50 @@ with open(path_un, 'r') as fi:
 
 month = [	{
 			'number': 0,
+			'wpl' : 0,
+			'gs5' : 0,
 			'month': datetime.strptime('2017-03', '%Y-%m').date()
 		},
 		{
 			'number': 0,
+			'wpl' : 0,
+			'gs5' : 0,
 			'month': datetime.strptime('2017-04', '%Y-%m').date()
 		},
 		{
 			'number': 0,
+			'wpl' : 0,
+			'gs5' : 0,
 			'month': datetime.strptime('2017-05', '%Y-%m').date()
 		},
 		{
 			'number': 0,
+			'wpl' : 0,
+			'gs5' : 0,
 			'month': datetime.strptime('2017-06', '%Y-%m').date()
 		},
 		{
 			'number': 0,
+			'wpl' : 0,
+			'gs5' : 0,
 			'month': datetime.strptime('2017-07', '%Y-%m').date()
 		},
 		{
 			'number': 0,
+			'wpl' : 0,
+			'gs5' : 0,
 			'month': datetime.strptime('2017-08', '%Y-%m').date()
 		},
 		{
 			'number': 0,
+			'wpl' : 0,
+			'gs5' : 0,
 			'month': datetime.strptime('2017-09', '%Y-%m').date()
 		},
 		{
 			'number': 0,
+			'wpl' : 0,
+			'gs5' : 0,
 			'month': datetime.strptime('2017-10', '%Y-%m').date()
 		}
 ]
@@ -59,16 +75,18 @@ gs5 = 0
 for camp in data_un:
 	if int(camp['Date'][5:-3]) != 10:
 		date_ = datetime.strptime(camp['Date'][:-3], '%Y-%m').date()
-		if camp['Dept'] == 'WPL':
-			wpl += 1
-		if camp['Dept'] == 'GS5':
-			gs5 += 1
 		for m in month:
 			if date_ == m['month']:
-				m['number'] += 1
+				m['month'] += 1
+				if camp['Dept'] == 'WPL':
+					m['wpl'] += 1
+				if camp['Dept'] == 'GS5':
+					m['gs5'] += 1
 
 for m in month:
 	print (m['month'].strftime('%Y-%m-%d') + '  ' + str(m['number']))
+	print (m['month'].strftime('%Y-%m-%d') + '  ' + str(m['wpl']))
+	print (m['month'].strftime('%Y-%m-%d') + '  ' + str(m['gs5']))
 
 print (wpl)
 print (gs5)
