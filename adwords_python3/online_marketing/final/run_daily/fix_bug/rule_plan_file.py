@@ -363,6 +363,12 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 	print (len(data_map_GS5['UN_CAMP']))
 	print (len(data_map_WPL['UN_CAMP']))
 
+	import insert_data_map as detail_map
+	detail_map.CreateDataMap(data_map_all)
+	detail_map.CreateDataMap(data_map_WPL)
+	# detail_map.CreateDataMap(data_total)
+
+
 	list_plan, list_un_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL, date)
 	print ("Length un map: ", len(list_un_camp))
 
