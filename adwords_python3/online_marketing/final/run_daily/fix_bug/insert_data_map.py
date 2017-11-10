@@ -385,7 +385,9 @@ def CreateDataMap(data_total):
 	list_map = []
 	list_plan_un = []
 	list_map_ = []
+	number = 0
 	for plan in data_total:
+		number +=  len(plan['CAMPAIGN'])
 		if len(plan['CAMPAIGN']) > 0:
 			for camp in plan['CAMPAIGN']:
 				z = camp.copy()
