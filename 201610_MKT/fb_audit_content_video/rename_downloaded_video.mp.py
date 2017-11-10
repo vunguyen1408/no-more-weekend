@@ -40,8 +40,9 @@ def do_work(list_index,in_queue, out_list):
         #line_no, line = item
         line_no, video = item
 
-        # exit signal
+        #print(video)
 
+        # exit signal
         if 'None->Exit' in video :
             #print('exit')
             return
@@ -52,7 +53,7 @@ def do_work(list_index,in_queue, out_list):
 
         for _file in list_index:
 
-            if _file['video_index'] == line_no and 'video_renamed' not in video:
+            if _file['video_index'] == line_no and 'video_renamed' not in video  and  video['file_name'] :
 
                 # link = 'gs://python_video/' + folder + '/' + file_['name']
                 #file_name = p_path_folder_work + '/' + _file['name']
@@ -91,6 +92,8 @@ def run_rename_downloaded_video(p_base_dir,p_date,p_process_num):
     else:
         print('exit')
         return
+
+    #print(len(work_json['my_json']))
 
     list_index = []
     list_file = next(os.walk(folder_source))[2]
