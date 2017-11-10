@@ -357,7 +357,7 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 		data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_GS5, data_manual, data_un_map, date)
 
 	if (len(list_camp_WPL) > 0):
-		data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, data_manual, data_un_map, date)
+		data_map_WPL = mapping.MapAccountWithCampaignWPL(path_data, list_plan, list_camp_WPL, data_manual, data_un_map, date)
 
 	print (len(data_map_all['UN_CAMP']))
 	print (len(data_map_GS5['UN_CAMP']))
