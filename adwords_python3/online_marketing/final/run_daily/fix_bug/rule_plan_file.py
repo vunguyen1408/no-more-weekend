@@ -341,9 +341,9 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 	if (len(list_camp_WPL) > 0):
 		data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
 
-	print (len(data_map_all))
-	print (len(data_map_GS5))
-	print (len(data_map_WPL))
+	print (len(data_map_all['UN_CAMP']))
+	print (len(data_map_GS5['UN_CAMP']))
+	print (len(data_map_WPL['UN_CAMP']))
 
 	list_plan, list_un_camp = merger_data_map(data_map_all, data_map_GS5, data_map_WPL, date)
 	print ("Length un map: ", len(list_un_camp))
