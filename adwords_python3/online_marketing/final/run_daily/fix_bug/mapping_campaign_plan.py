@@ -132,6 +132,9 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
         # Check manual mapping
         map_ = False
         if (LogManualMap(path_folder, camp, eform, date, 1) == 1) and (date_ >= start) and (date_ <= end):
+          print ("mappping log")
+          print (camp)
+          print (eform)
           map_ = True
         elif(  (eform['PRODUCT_CODE'] != [] or eform['CCD_PRODUCT'] != []) and \
           (
