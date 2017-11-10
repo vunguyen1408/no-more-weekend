@@ -366,6 +366,7 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 	import insert_data_map as detail_map
 	print (data_map_all == data_map_WPL)
 	detail_map.CreateDataMap(data_map_all['PLAN'])
+	print ("WPL")
 	detail_map.CreateDataMap(data_map_WPL['PLAN'])
 	# detail_map.CreateDataMap(data_total)
 
