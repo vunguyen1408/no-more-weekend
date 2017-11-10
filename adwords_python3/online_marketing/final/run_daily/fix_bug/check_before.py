@@ -54,9 +54,14 @@ month = [	{
 
 size_un = len(data_un)
 print ("So luong camp un: ", size_un)
-
+wpl = 0
+gs5 = 0
 for camp in data_un:
 	date_ = datetime.strptime(camp['Date'][:-3], '%Y-%m').date()
+	if camp['Dept'] == 'WPL':
+		wpl += 1
+	if camp['Dept'] == 'GS5':
+		gs5 += 1
 	for m in month:
 		if date_ == m['month']:
 			m['number'] += 1
