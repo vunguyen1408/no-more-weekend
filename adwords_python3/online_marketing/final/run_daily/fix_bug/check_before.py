@@ -80,13 +80,15 @@ for camp in data_un:
 				m['number'] += 1
 				if camp['Dept'] == 'WPL':
 					m['wpl'] += 1
+					print (camp)
 				if camp['Dept'] == 'GS5':
 					m['gs5'] += 1
+					print (camp)
 
 for m in month:
 	print (m['month'].strftime('%Y-%m-%d') + '  ' + str(m['number']))
-	print (m['month'].strftime('%Y-%m-%d') + '  ' + str(m['wpl']))
-	print (m['month'].strftime('%Y-%m-%d') + '  ' + str(m['gs5']))
+	print (m['month'].strftime('%Y-%m-%d') + '  wpl  ' + str(m['wpl']))
+	print (m['month'].strftime('%Y-%m-%d') + '  gs5  ' + str(m['gs5']))
 
 print (wpl)
 print (gs5)
