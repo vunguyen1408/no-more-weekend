@@ -298,7 +298,25 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 	list_camp_all = []
 	list_camp_GS5 = []
 	list_camp_WPL = []
+
+
+	# =================== duonglt
 	print ("length un map: ", len(list_full_uncamp))
+	path_folder = os.path.join(path_data, str(date) + '/LOG_MANUAL')
+	path_data_manual = os.path.join(path_folder, 'log_manual.json')
+	path_data_un_map = os.path.join(path_folder, 'log_un_map.json')
+	if os.path.exists(path_data_manual):
+		with open (path_data_manual,'r') as f:
+			data_manual = json.load(f)
+	else:
+		data_manual = []
+
+	if os.path.exists(path_data_manual):
+		with open (path_data_un_map,'r') as f:
+			data_un_map = json.load(f)
+	else:
+		data_un_map = []
+	# ==================== duonglt
 
 	for camp in list_full_uncamp:					
 		# if (str(camp['Campaign ID']) == '702245469'):
@@ -333,13 +351,13 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 	
 	auto_mapping  = time.time()
 	if (len(list_camp_all) > 0):
-		data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, date)
+		data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, data_manual, data_un_map, date)
 
 	if (len(list_camp_GS5) > 0):
-		data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_GS5, date)
+		data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_GS5, data_manual, data_un_map, date)
 
 	if (len(list_camp_WPL) > 0):
-		data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, date)
+		data_map_WPL = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_WPL, data_manual, data_un_map, date)
 
 	print (len(data_map_all['UN_CAMP']))
 	print (len(data_map_GS5['UN_CAMP']))

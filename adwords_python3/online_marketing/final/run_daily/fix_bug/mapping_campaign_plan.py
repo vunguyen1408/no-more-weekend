@@ -94,7 +94,7 @@ def ConvertCampaignToJsonContent(camp):
   return campaign
 
 #================= Mapping campaign and plan all =====================
-def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
+def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, data_manual, data_un_map, date):
   # date_ = datetime.strptime(date, '%Y-%m-%d') 
   list_campaign_map = []
   number = 0
@@ -135,8 +135,8 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
           product_id = ''
         # Check manual mapping
         map_ = False
-        print (LogManualMap(path_folder, camp, eform, date, 2) == 2)
-        if (LogManualMap(path_folder, camp, eform, date, 1) == 1) and (date_ >= start) and (date_ <= end):
+        # print (LogManualMap(path_folder, camp, eform, date, 2) == 2)
+        if (LogManualMap(data_manual, camp, eform, date, 1) == 1) and (date_ >= start) and (date_ <= end):
           # print ("mappping log")
           # print (camp)
           # print (eform)
@@ -152,7 +152,7 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
           and (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) 
           and (date_ >= start) 
           and (date_ <= end) ) \
-          or (        ):  
+          or (  LogManualMap(data_un_map, camp, eform, date, 2) == 2   ):  
           map_ = True
 
         if map_:
@@ -180,7 +180,7 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
   return data_map
 
 #================= Mapping campaign and plan WPL =====================
-def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
+def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, data_manual, data_un_map, date):
   list_campaign_map = []
 
 
@@ -213,7 +213,7 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == 'WPL'): 
         # Check log manual mapping
         map_ = False
-        if (LogManualMap(path_folder, camp, eform, date, 1) == 1)  and (date_ >= start) and (date_ <= end):
+        if (LogManualMap(data_manual, camp, eform, date, 1) == 1)  and (date_ >= start) and (date_ <= end):
           map_ = True
 
         elif (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
@@ -222,7 +222,7 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, date):
           and (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) \
           and (date_ >= start) \
           and (date_ <= end) ) \
-          or  ( LogManualMap(path_folder, camp, eform, date, 2) == 1): 
+          or  ( LogManualMap(data_un_map, camp, eform, date, 2) == 1): 
           map_ = True
         if map_:
           camp['Mapping'] = True
@@ -281,7 +281,7 @@ def GetUnitOptionOfGS5(name_account):
     unit_option = ''
   return unit_option
 #================= Mapping campaign and plan GS5 =====================
-def MapAccountWithCampaignGS5(path_folder, list_plan, list_campaign, date):
+def MapAccountWithCampaignGS5(path_folder, list_plan, list_campaign, data_manual, data_un_map, date):
   list_campaign_map = []
   number = 0
   # Remove line total in report
@@ -313,7 +313,7 @@ def MapAccountWithCampaignGS5(path_folder, list_plan, list_campaign, date):
 
       if (camp['Mapping'] == False and eform['DEPARTMENT_NAME'] == 'GS5'): 
         map_ = False
-        if (LogManualMap(path_folder, camp, eform, date, 1) == 1) and (date_ >= start) and (date_ <= end):
+        if (LogManualMap(data_manual, camp, eform, date, 1) == 1) and (date_ >= start) and (date_ <= end):
           map_ = True
 
         elif (  (eform['CCD_PRODUCT'] != [] or eform['PRODUCT_CODE'] != []) \
@@ -322,7 +322,7 @@ def MapAccountWithCampaignGS5(path_folder, list_plan, list_campaign, date):
           and (eform['FORM_TYPE'].find(type_campaign) >= 0) \
           and (date_ >= start) \
           and (date_ <= end) ) \
-          or  ( LogManualMap(path_folder, camp, eform, date) == 1): 
+          or  ( LogManualMap(data_un_map, camp, eform, date) == 1): 
           map_ = True
         if map_:
           camp['Mapping'] = True
@@ -520,7 +520,7 @@ def CheckIsAccountGS5(list_account, account_id):
   return False
 
 #================= Read list plan, product code, save file mapping =====================
-def MapData(customer, path_folder, list_account_wpl, list_account_gs5, date): 
+def MapData(customer, path_folder, list_account_wpl, list_account_gs5, data_manual, data_un_map, date): 
 
   # =============== List plan code ================
   list_plan = ReadPlan(path_folder, date)
@@ -543,14 +543,14 @@ def MapData(customer, path_folder, list_account_wpl, list_account_gs5, date):
       # ------------- Check account ----------------
       if CheckIsAccountWPL(list_account_wpl, customer):
         # print ("================ WPL ======================")
-        data_map = MapAccountWithCampaignWPL(path_folder, list_plan['plan'], list_campaign, date)
+        data_map = MapAccountWithCampaignWPL(path_folder, list_plan['plan'], list_campaign, data_manual, data_un_map, date)
       else:
         if CheckIsAccountGS5(list_account_gs5, customer): # La account WPL
           # print ("================ GS5 ======================")
-          data_map = MapAccountWithCampaignGS5(path_folder, list_plan['plan'], list_campaign, date)
+          data_map = MapAccountWithCampaignGS5(path_folder, list_plan['plan'], list_campaign, data_manual, data_un_map, date)
         else:
           # print ("================ ALL ======================")
-          data_map = MapAccountWithCampaignAll(path_folder, list_plan['plan'], list_campaign, date)
+          data_map = MapAccountWithCampaignAll(path_folder, list_plan['plan'], list_campaign, data_manual, data_un_map, date)
 
       #----------------- Write file map and unmap ------------------
       path_data_map = os.path.join(path, 'mapping_' + str(date) + '.json')
@@ -588,8 +588,23 @@ def MapDataForAllAccount(connect, list_customer, path_data, date):
   # Read list account WPL and GS5
   list_account_wpl, list_account_gs5 = ReadListAccountGS5AndWPL(path_data)
 
+  path_folder = os.path.join(path_data, str(date) + '/LOG_MANUAL')
+  path_data_manual = os.path.join(path_folder, 'log_manual.json')
+  path_data_un_map = os.path.join(path_folder, 'log_un_map.json')
+  if os.path.exists(path_data_manual):
+    with open (path_data_manual,'r') as f:
+      data_manual = json.load(f)
+  else:
+    data_manual = []
+
+  if os.path.exists(path_data_manual):
+    with open (path_data_un_map,'r') as f:
+      data_un_map = json.load(f)
+  else:
+    data_un_map = []
+
 
   for customer in list_customer:
     path_customer = os.path.join(path_data, str(date) + '/ACCOUNT_ID/' + customer)
     if os.path.exists(path_customer):
-      MapData(customer, path_data, list_account_wpl, list_account_gs5, date)
+      MapData(customer, path_data, list_account_wpl, list_account_gs5, data_manual, data_un_map, date)
