@@ -59,8 +59,14 @@ def do_work(list_index,in_queue, out_list):
                 #file_name = p_path_folder_work + '/' + _file['name']
                 file_name=_file['full_name']
                 new_file_name=_file['path'] + '/'+video['file_name']
-                print("mv ", file_name," ",new_file_name)
-                subprocess.call(["mv", file_name,new_file_name])
+                if not os.path.exists(new_file_name):
+                    print("mv ", file_name," ",new_file_name)
+                    subprocess.call(["mv", file_name,new_file_name])
+                else:
+                    print('file exist',new_file_name)
+                    print("rm -f ", file_name)
+                    #subprocess.call(["rm -f", file_name])
+
 
         result = (line_no, video)
 
