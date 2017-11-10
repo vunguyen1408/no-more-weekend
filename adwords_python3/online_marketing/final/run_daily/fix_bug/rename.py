@@ -461,9 +461,11 @@ def CacualatorChange(connect, path_data, list_diff, date):
     # print (len(data_map))
 
     ############################## Check code
+    i = 0
     for camp in list_camp_find:
-      if camp['Mapping'] == True:
-        print ("1")
+      if camp['Dept'] == 'GS5' or camp['Dept'] == 'WPL':
+        print (i)
+        i += 1
     ################################################3
 
     print("MAP")
