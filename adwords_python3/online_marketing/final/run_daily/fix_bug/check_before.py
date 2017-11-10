@@ -69,13 +69,15 @@ for camp in data_un:
 for m in month:
 	print (m['month'].strftime('%Y-%m-%d') + '  ' + str(m['number']))
 
+print (wpl)
+print (gs5)
 
 with open(path_total, 'r') as fi:
 	data_total = json.load(fi)
 
-for plan in data_total:
-	if str(plan['REASON_CODE_ORACLE']) == '1708008':
-		print (plan)
+# for plan in data_total:
+# 	if str(plan['REASON_CODE_ORACLE']) == '1708008':
+# 		print (plan)
 
 # for plan_total in data_alias['ALIAS']:
 # 	if  str(plan_total['PRODUCT_ID']) == '193':
