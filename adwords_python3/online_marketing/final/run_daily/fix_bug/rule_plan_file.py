@@ -307,7 +307,7 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 		if (camp['Dept'] == 'GS5'):			
 			list_camp_GS5.append(camp)
 		elif (camp['Dept'] == 'WPL'):		
-			list_camp_GS5.append(camp)
+			list_camp_WPL.append(camp)
 		else:
 			list_camp_all.append(camp)	
 
@@ -327,9 +327,9 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 		'UN_CAMP': []
 	}
 
-	print (len(data_map_all))
-	print (len(data_map_GS5))
-	print (len(data_map_WPL))
+	print (len(list_camp_GS5))
+	print (len(list_camp_GS5))
+	print (len(list_camp_all))
 	
 	auto_mapping  = time.time()
 	if (len(list_camp_all) > 0):
