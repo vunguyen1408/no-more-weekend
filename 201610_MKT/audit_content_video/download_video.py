@@ -113,7 +113,7 @@ def download_file(url, filename, size):
 
 
 def check_and_download_file(path_folder, path_file, folder):
-    from pySmartDL import SmartDL
+    #from pySmartDL import SmartDL
 
     with open(path_file, 'r') as f:
         data = json.load(f)
@@ -162,7 +162,7 @@ def check_and_download_file(path_folder, path_file, folder):
                         #Download_Parallel.DownloadFile_Parall(url1, file_name, 4)
                         #obj = SmartDL(url1, file_name)
                         #obj.start()
-                    #                    
+                    #
                     if os.path.exists(file_name) and os.path.getsize(file_name) >0:
                         data['my_json'][i1]['hash_md5']=hash_md5(file_name)
 
