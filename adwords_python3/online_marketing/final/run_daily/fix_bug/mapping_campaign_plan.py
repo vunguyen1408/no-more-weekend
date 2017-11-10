@@ -152,7 +152,7 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, data_manual
           and (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) 
           and (date_ >= start) 
           and (date_ <= end) ) \
-          or (  LogManualMap(data_un_map, camp, eform, date, 2) == 2   ):  
+          and (  LogManualMap(data_un_map, camp, eform, date, 2) == 1   ):  
           map_ = True
 
         if map_:
@@ -222,7 +222,7 @@ def MapAccountWithCampaignWPL(path_folder, list_plan, list_campaign, data_manual
           and (camp['Advertising Channel'].find(str(eform['FORM_TYPE'])) >= 0) \
           and (date_ >= start) \
           and (date_ <= end) ) \
-          or  ( LogManualMap(data_un_map, camp, eform, date, 2) == 1): 
+          and  ( LogManualMap(data_un_map, camp, eform, date, 2) == 1): 
           map_ = True
         if map_:
           camp['Mapping'] = True
@@ -322,7 +322,7 @@ def MapAccountWithCampaignGS5(path_folder, list_plan, list_campaign, data_manual
           and (eform['FORM_TYPE'].find(type_campaign) >= 0) \
           and (date_ >= start) \
           and (date_ <= end) ) \
-          or  ( LogManualMap(data_un_map, camp, eform, date) == 1): 
+          and  ( LogManualMap(data_un_map, camp, eform, date, 2) == 1): 
           map_ = True
         if map_:
           camp['Mapping'] = True
@@ -351,7 +351,7 @@ def MapAccountWithCampaignGS5(path_folder, list_plan, list_campaign, data_manual
             and (eform['UNIT_OPTION'].find(unit_option) >= 0) \
             and (date_ >= start) \
             and (date_ <= end) ) \
-            or  ( LogManualMap(path_folder, camp, eform, date) == 1 ): 
+            and  ( LogManualMap(path_folder, camp, eform, date, 2) == 1 ): 
 
             camp['Mapping'] = True
             camp['STATUS'] = 'SYS'
