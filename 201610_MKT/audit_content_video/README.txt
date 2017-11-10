@@ -7,6 +7,8 @@ Data Source	/u01/oracle/oradata/APEX/MARKETING_TOOL_02
 #Download
 python create_json_video_url.py  2017-06-01 2017-06-01
 python download_video.py 2017-06-01 2017-06-01
+python rename_downloaded_video.multiprocess.py 2017-06-01 2017-06-01 4
+
 
 #Audio
 python video_to_audio_wav.mp.py "/u01/oracle/oradata/APEX/MARKETING_TOOL_02_JSON" 2017-06-01 2017-06-01 4
