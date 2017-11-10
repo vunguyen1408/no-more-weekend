@@ -57,7 +57,7 @@ print ("So luong camp un: ", size_un)
 wpl = 0
 gs5 = 0
 for camp in data_un:
-	int(camp['Date'][5:-3]) != 10:
+	if int(camp['Date'][5:-3]) != 10:
 		date_ = datetime.strptime(camp['Date'][:-3], '%Y-%m').date()
 		if camp['Dept'] == 'WPL':
 			wpl += 1
