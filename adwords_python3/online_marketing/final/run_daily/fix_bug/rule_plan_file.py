@@ -326,6 +326,10 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 		'PLAN': [],
 		'UN_CAMP': []
 	}
+
+	print (len(data_map_all))
+	print (len(data_map_GS5))
+	print (len(data_map_WPL))
 	
 	auto_mapping  = time.time()
 	if (len(list_camp_all) > 0):
