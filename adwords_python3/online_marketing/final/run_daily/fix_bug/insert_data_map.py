@@ -387,6 +387,7 @@ def CreateDataMap(data_total):
 	list_map_ = []
 	number = 0
 	for plan in data_total:
+		print (plan)
 		number +=  len(plan['CAMPAIGN'])
 		if len(plan['CAMPAIGN']) > 0:
 			for camp in plan['CAMPAIGN']:
