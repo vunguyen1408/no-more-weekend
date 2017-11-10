@@ -40,7 +40,7 @@ def do_work(list_index,in_queue, out_list):
         #line_no, line = item
         line_no, video = item
 
-        #print(video)
+        print(video)
 
         # exit signal
         if 'None->Exit' in video :
@@ -83,7 +83,7 @@ def run_rename_downloaded_video(p_base_dir,p_date,p_process_num):
 
 
     file_source = os.path.join(folder_date, 'video_url_' + str(p_date) + '.json')
-    file_dest = os.path.join(folder_date, 'test_video_url_' + str(p_date) + '.json')
+    file_dest = os.path.join(folder_date, 'video_url_' + str(p_date) + '.json')
 
     print(file_source)
     if os.path.exists(file_source):
