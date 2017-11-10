@@ -102,6 +102,7 @@ def MapAccountWithCampaignAll(path_folder, list_plan, list_campaign, date):
   for j, camp in enumerate(list_campaign):
     if (camp['Cost'] > 0) and ('Campaign state' in camp) and camp['Campaign state'] != 'Total':
       list_campaign_map.append(camp)
+      print (camp['Mapping'])
 
   for i, eform in enumerate(list_plan):  
     if 'CAMPAIGN' not in eform:
