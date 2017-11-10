@@ -65,8 +65,9 @@ def do_work(list_index,in_queue, out_list):
                 else:
                     print('file exist',new_file_name)
                     if os.path.exists(file_name):
-                        print("/bin/rm -f ", file_name)
-                        subprocess.call(["/bin/rm -f ", file_name])
+                        print("remove ", file_name)
+                        #subprocess.call(["/bin/rm -f ", file_name])
+                        os.remove(file_name)
 
 
         result = (line_no, video)
