@@ -479,6 +479,8 @@ def CacualatorChange(connect, path_data, list_diff, date):
     # data_map = {}
     # data_map['PLAN'] = []
     #####################
+    list_map_all, list_plan_un, list_map_ = detail_map.CreateDataMap(data_map['PLAN'])
+    print (len(list_map_))
 
       ############################## Check code
     print (len(data_map['UN_CAMP']))
