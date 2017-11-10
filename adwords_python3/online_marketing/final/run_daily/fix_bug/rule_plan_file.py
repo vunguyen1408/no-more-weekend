@@ -351,19 +351,20 @@ def Mapping_Auto(path_data, date, list_plan, list_full_uncamp):
 	
 	auto_mapping  = time.time()
 	if (len(list_camp_all) > 0):
-		data_map_all = mapping.MapAccountWithCampaignAll(path_data, list_plan, list_camp_all, data_manual, data_un_map, date)
+		data_map_all = mapping.MapAccountWithCampaignAll(path_data, list(list_plan), list_camp_all, data_manual, data_un_map, date)
 
 	if (len(list_camp_GS5) > 0):
-		data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list_plan, list_camp_GS5, data_manual, data_un_map, date)
+		data_map_GS5 = mapping.MapAccountWithCampaignGS5(path_data, list(list_plan), list_camp_GS5, data_manual, data_un_map, date)
 
 	if (len(list_camp_WPL) > 0):
-		data_map_WPL = mapping.MapAccountWithCampaignWPL(path_data, list_plan, list_camp_WPL, data_manual, data_un_map, date)
+		data_map_WPL = mapping.MapAccountWithCampaignWPL(path_data, list(list_plan), list_camp_WPL, data_manual, data_un_map, date)
 
 	print (len(data_map_all['UN_CAMP']))
 	print (len(data_map_GS5['UN_CAMP']))
 	print (len(data_map_WPL['UN_CAMP']))
 
 	import insert_data_map as detail_map
+	print (data_map_all == data_map_WPL)
 	detail_map.CreateDataMap(data_map_all['PLAN'])
 	detail_map.CreateDataMap(data_map_WPL['PLAN'])
 	# detail_map.CreateDataMap(data_total)
