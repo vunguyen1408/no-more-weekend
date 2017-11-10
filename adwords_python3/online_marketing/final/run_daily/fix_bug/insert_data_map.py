@@ -399,7 +399,7 @@ def CreateDataMap(data_total):
 		else:
 			json_ = ConvertJsonPlan(plan)
 			list_plan_un.append(json_)
-
+	print ("map ", number)
 	return (list_map, list_plan_un, list_map_)
 
 def CreateDataUnMap(data_camp):

@@ -603,7 +603,7 @@ def MapDataForAllAccount(connect, list_customer, path_data, date):
   else:
     data_manual = []
 
-  if os.path.exists(path_data_manual):
+  if os.path.exists(path_data_un_map):
     with open (path_data_un_map,'r') as f:
       data_un_map = json.load(f)
   else:
